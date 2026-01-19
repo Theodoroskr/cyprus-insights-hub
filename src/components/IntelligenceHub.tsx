@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Clock, TrendingUp, BadgeCheck, Building2, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -117,8 +118,9 @@ export function IntelligenceHub() {
             </div>
             <div className="space-y-4">
               {trendingPeople.map((person) => (
-                <div
+                <Link
                   key={person.id}
+                  to={`/profile/${person.id}`}
                   className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors cursor-pointer group"
                 >
                   <img
@@ -149,7 +151,7 @@ export function IntelligenceHub() {
                       </div>
                     )}
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
             <Button variant="ghost" className="w-full mt-4 text-secondary hover:text-secondary hover:bg-secondary/10">
