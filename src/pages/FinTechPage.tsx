@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark } from "lucide-react";
+import { NativeAdCard } from "@/components/banners/NativeAdCard";
 
 const stats = [
   { label: "Licensed EMIs", value: "45+", icon: Building2 },
@@ -101,6 +102,16 @@ export default function FinTechPage() {
           </div>
         </div>
       </section>
+
+      {/* Sponsored RegTech */}
+      <div className="container mx-auto px-4 py-8">
+        <NativeAdCard
+          title="Next-Generation RegTech Solutions"
+          description="Automate your compliance workflows with AI-powered monitoring, reporting, and regulatory change management."
+          sponsor="RegTech Solutions Ltd"
+          ctaText="Request Demo"
+        />
+      </div>
 
       {/* Regulation Snapshot */}
       <section id="regulations" className="py-12 md:py-16 bg-muted/30">
