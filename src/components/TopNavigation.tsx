@@ -13,6 +13,8 @@ const navItems = [
   { label: "WhoIsWho", href: "#whoiswho" },
   { label: "EU Funding", href: "#funding" },
   { label: "Compliance", href: "#compliance" },
+  { label: "FinTech", href: "/fintech" },
+  { label: "Resources", href: "/resources" },
 ];
 
 export function TopNavigation({ onSearch }: TopNavigationProps) {
