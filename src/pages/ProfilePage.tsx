@@ -25,6 +25,7 @@ import { ProfileTimeline } from "@/components/profile/ProfileTimeline";
 import { BusinessTicker } from "@/components/BusinessTicker";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SidebarBanner } from "@/components/banners/SidebarBanner";
 
 const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -267,6 +268,14 @@ const ProfilePage = () => {
                     </a>
                   </CardContent>
                 </Card>
+
+                {/* Sidebar Ad */}
+                <SidebarBanner
+                  title="Featured Advisors"
+                  description="Connect with top industry advisors specializing in Cyprus fintech regulations"
+                  ctaText="View Advisors"
+                  variant="advisors"
+                />
               </div>
             </div>
           </TabsContent>

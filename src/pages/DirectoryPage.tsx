@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Building2, MapPin } from "lucide-react";
+import { NativeAdCard } from "@/components/banners/NativeAdCard";
 
 const categoryFilters = [
   "FinTech",
@@ -89,28 +90,39 @@ export default function DirectoryPage() {
         <div className="container mx-auto px-4">
           <div className="grid gap-4">
             {directoryEntries.map((entry, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-2">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
-                        <Building2 className="h-5 w-5 text-secondary" />
+              <>
+                <Card key={index} className="hover:shadow-md transition-shadow">
+                  <CardHeader className="pb-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
+                          <Building2 className="h-5 w-5 text-secondary" />
+                        </div>
+                        <CardTitle className="text-lg text-foreground">{entry.name}</CardTitle>
                       </div>
-                      <CardTitle className="text-lg text-foreground">{entry.name}</CardTitle>
+                      <Badge variant="secondary" className="w-fit bg-secondary/10 text-secondary">
+                        {entry.category}
+                      </Badge>
                     </div>
-                    <Badge variant="secondary" className="w-fit bg-secondary/10 text-secondary">
-                      {entry.category}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-                    <MapPin className="h-4 w-4" />
-                    <span>{entry.jurisdiction}</span>
-                  </div>
-                  <p className="text-muted-foreground">{entry.description}</p>
-                </CardContent>
-              </Card>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
+                      <MapPin className="h-4 w-4" />
+                      <span>{entry.jurisdiction}</span>
+                    </div>
+                    <p className="text-muted-foreground">{entry.description}</p>
+                  </CardContent>
+                </Card>
+                {/* Promoted listing after 2nd entry */}
+                {index === 1 && (
+                  <NativeAdCard
+                    title="Premium Partner: Cyprus Legal Associates"
+                    description="Leading law firm specializing in fintech licensing, EMI applications, and regulatory compliance across the EU."
+                    sponsor="Cyprus Legal Associates"
+                    variant="compact"
+                  />
+                )}
+              </>
             ))}
           </div>
         </div>
