@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
-import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
+import { BrandConfig, hubLinks, brands } from "@/config/brands";
 
-export function Footer() {
+interface HubFooterProps {
+  brand: BrandConfig;
+}
+
+export function HubFooter({ brand }: HubFooterProps) {
+  const LogoIcon = brand.icon;
+
   return (
     <footer className="navy-gradient text-primary-foreground py-12">
       <div className="container mx-auto px-4">
@@ -10,16 +17,27 @@ export function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
-                <span className="font-bold text-lg text-secondary-foreground">B</span>
+                <span className="font-bold text-sm text-secondary-foreground">{brand.logoLetter}</span>
               </div>
               <div>
-                <h3 className="font-bold text-lg">BusinessHub<span className="text-secondary">.cy</span></h3>
+                <h3 className="font-bold text-lg">
+                  {brand.name}<span className="text-secondary">{brand.domain}</span>
+                </h3>
               </div>
             </div>
             <p className="text-sm text-primary-foreground/70 mb-4">
-              Your comprehensive platform for Cyprus business intelligence, regulatory compliance, and EU funding opportunities.
+              {brand.tagline}
             </p>
-            <div className="flex gap-3">
+            {brand.parentBadge && (
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors text-xs mb-4"
+              >
+                <Building2 className="h-3 w-3" />
+                Part of BusinessHub.cy Group
+              </Link>
+            )}
+            <div className="flex gap-3 mt-4">
               <a href="#" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
                 <Linkedin className="h-4 w-4" />
               </a>
@@ -33,36 +51,31 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4 text-secondary">Quick Links</h4>
             <ul className="space-y-2 text-sm text-primary-foreground/70">
-              <li><a href="#" className="hover:text-secondary transition-colors">Latest News</a></li>
-              <li><Link to="/directory" className="hover:text-secondary transition-colors">Business Directory</Link></li>
-              <li><Link to="/resources" className="hover:text-secondary transition-colors">EU Funding</Link></li>
-              <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Reports & Analysis</a></li>
+              {brand.navItems.map((item) => (
+                <li key={item.href}>
+                  <Link to={item.href} className="hover:text-secondary transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* BusinessHub.cy Group */}
+          {/* Hub Network */}
           <div>
             <h4 className="font-semibold mb-4 text-secondary">BusinessHub.cy Group</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/70">
-              <li>
-                <Link to="/" className="flex items-center gap-2 hover:text-secondary transition-colors">
-                  <Building2 className="h-4 w-4 text-secondary" />
-                  <span>BusinessHub.cy</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/fintech" className="flex items-center gap-2 hover:text-secondary transition-colors">
-                  <Landmark className="h-4 w-4 text-secondary" />
-                  <span>FinTechHub.cy</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/compliance" className="flex items-center gap-2 hover:text-secondary transition-colors">
-                  <Shield className="h-4 w-4 text-secondary" />
-                  <span>ComplianceHub.cy</span>
-                </Link>
-              </li>
+              {hubLinks.map((hub) => (
+                <li key={hub.href}>
+                  <Link
+                    to={hub.href}
+                    className="flex items-center gap-2 hover:text-secondary transition-colors"
+                  >
+                    <hub.brand.icon className="h-4 w-4 text-secondary" />
+                    <span>{hub.brand.name}{hub.brand.domain}</span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -80,8 +93,8 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-secondary" />
-                <a href="mailto:info@businesshub.cy" className="hover:text-secondary transition-colors">
-                  info@businesshub.cy
+                <a href={`mailto:info@${brand.name.toLowerCase()}.cy`} className="hover:text-secondary transition-colors">
+                  info@{brand.name.toLowerCase()}.cy
                 </a>
               </li>
               <li className="flex items-center gap-2">
@@ -93,7 +106,11 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
-          <p>© 2024 BusinessHub.cy. All rights reserved. | <a href="#" className="hover:text-secondary">Privacy Policy</a> | <a href="#" className="hover:text-secondary">Terms of Service</a></p>
+          <p>
+            © 2024 {brand.name}{brand.domain}. All rights reserved. | 
+            <a href="#" className="hover:text-secondary"> Privacy Policy</a> | 
+            <a href="#" className="hover:text-secondary"> Terms of Service</a>
+          </p>
         </div>
       </div>
     </footer>
