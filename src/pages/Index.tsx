@@ -3,6 +3,7 @@ import { BusinessTicker } from "@/components/BusinessTicker";
 import { TopNavigation } from "@/components/TopNavigation";
 import { IntelligenceHub } from "@/components/IntelligenceHub";
 import { VerticalConnection } from "@/components/VerticalConnection";
+import { FinTechSpotlight } from "@/components/FinTechSpotlight";
 import { EUFundingMatchmaker } from "@/components/EUFundingMatchmaker";
 import { ComplianceDashboard } from "@/components/ComplianceDashboard";
 import { SearchResults } from "@/components/SearchResults";
@@ -34,6 +35,9 @@ const Index = () => {
         
         {/* Vertical Connection - News linked to Profiles */}
         <VerticalConnection />
+        
+        {/* FinTech Spotlight */}
+        <FinTechSpotlight />
         
         {/* EU Funding Matchmaker */}
         <EUFundingMatchmaker />
