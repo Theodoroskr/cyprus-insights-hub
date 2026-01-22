@@ -28,6 +28,14 @@ export default {
           light: "hsl(var(--gold-light))",
           muted: "hsl(var(--gold-muted))",
         },
+        fintech: {
+          DEFAULT: "hsl(var(--fintech))",
+          light: "hsl(var(--fintech-light))",
+        },
+        compliance: {
+          DEFAULT: "hsl(var(--compliance))",
+          light: "hsl(var(--compliance-light))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
