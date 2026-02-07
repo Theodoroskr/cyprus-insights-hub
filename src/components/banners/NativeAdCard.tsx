@@ -15,7 +15,7 @@ export function NativeAdCard({
   title,
   description,
   sponsor,
-  ctaText = "Learn More",
+  ctaText = "Explore solution",
   onCtaClick,
   variant = "default",
 }: NativeAdCardProps) {

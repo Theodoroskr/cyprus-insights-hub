@@ -25,7 +25,7 @@ import { ProfileTimeline } from "@/components/profile/ProfileTimeline";
 import { BusinessTicker } from "@/components/BusinessTicker";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
-import { SidebarBanner } from "@/components/banners/SidebarBanner";
+import { InsightBanner } from "@/components/banners/InsightBanner";
 
 const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -269,12 +269,12 @@ const ProfilePage = () => {
                   </CardContent>
                 </Card>
 
-                {/* Sidebar Ad */}
-                <SidebarBanner
-                  title="Featured Advisors"
-                  description="Connect with top industry advisors specializing in Cyprus fintech regulations"
-                  ctaText="View Advisors"
-                  variant="advisors"
+                {/* Contextual Insight Banner */}
+                <InsightBanner
+                  text="Compliance obligations typically apply to firms operating in this sector. Explore how regulated entities manage AML, KYB, and reporting requirements."
+                  ctaText="View compliance approach"
+                  href="/compliance"
+                  variant="default"
                 />
               </div>
             </div>

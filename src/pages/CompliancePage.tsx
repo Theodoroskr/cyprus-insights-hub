@@ -15,7 +15,7 @@ import {
   Globe,
   TrendingUp
 } from "lucide-react";
-import { NativeAdCard } from "@/components/banners/NativeAdCard";
+import { OperationaliseBanner } from "@/components/banners/OperationaliseBanner";
 
 const stats = [
   { label: "Active Regulations", value: "25+", icon: Scale },
@@ -228,14 +228,9 @@ export default function CompliancePage() {
         </div>
       </section>
 
-      {/* Sponsored Training */}
+      {/* Operationalise Compliance Banner */}
       <div className="container mx-auto px-4 py-8">
-        <NativeAdCard
-          title="Professional Compliance Certification Programs"
-          description="Elevate your team's expertise with accredited AML, GDPR, and financial crime prevention training courses."
-          sponsor="Cyprus Business Academy"
-          ctaText="View Courses"
-        />
+        <OperationaliseBanner />
       </div>
 
       {/* Country Risk Tracker */}
