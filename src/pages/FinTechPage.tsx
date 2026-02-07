@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark } from "lucide-react";
-import { NativeAdCard } from "@/components/banners/NativeAdCard";
+import { InsightBanner } from "@/components/banners/InsightBanner";
 
 const stats = [
   { label: "Licensed EMIs", value: "45+", icon: Building2 },
@@ -103,13 +103,12 @@ export default function FinTechPage() {
         </div>
       </section>
 
-      {/* Sponsored RegTech */}
+      {/* Inline Insight Banner */}
       <div className="container mx-auto px-4 py-8">
-        <NativeAdCard
-          title="Next-Generation RegTech Solutions"
-          description="Automate your compliance workflows with AI-powered monitoring, reporting, and regulatory change management."
-          sponsor="RegTech Solutions Ltd"
-          ctaText="Request Demo"
+        <InsightBanner
+          text="Fintech firms operating across jurisdictions often adopt unified compliance and onboarding platforms to support growth and licensing. Solutions like ComplianceSuite help streamline regulatory workflows across multiple EU frameworks."
+          ctaText="See how this is operationalised"
+          href="/compliance"
         />
       </div>
 
