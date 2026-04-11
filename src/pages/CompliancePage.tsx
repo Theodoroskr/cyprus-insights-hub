@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import complianceSuiteLogo from "@/assets/compliance-suite-logo.png";
+import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
 import { Link } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -172,24 +172,7 @@ export default function CompliancePage() {
         </div>
       </section>
 
-      {/* Section Sponsor Strip */}
-      <div className="border-b border-border bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-3 py-2.5">
-            <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/50">
-              Section powered by
-            </span>
-            <a
-              href="https://compliancesuite.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity"
-            >
-              <img src={complianceSuiteLogo} alt="ComplianceSuite" className="h-5 object-contain" />
-            </a>
-          </div>
-        </div>
-      </div>
+      <SectionSponsorStrip sectionKey="compliancehub" />
 
       <div className="border-b border-border bg-card sticky top-14 z-40">
         <div className="container mx-auto px-4">
