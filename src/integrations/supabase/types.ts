@@ -14,6 +14,35 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_views: {
+        Row: {
+          article_id: string
+          created_at: string
+          id: string
+          viewer_hash: string | null
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          id?: string
+          viewer_hash?: string | null
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          id?: string
+          viewer_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_views_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "cna_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cna_articles: {
         Row: {
           body_markdown: string | null
@@ -223,6 +252,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_most_read_articles: {
+        Args: { _limit?: number }
+        Returns: {
+          article_id: string
+          title: string
+          vertical: string
+          view_count: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
