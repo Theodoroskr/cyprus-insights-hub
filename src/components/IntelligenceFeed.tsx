@@ -162,6 +162,7 @@ export function IntelligenceFeed() {
             hub={verticalToHub(article.vertical)}
             imageUrl={article.image_url}
             articleId={article.id}
+            isLead={index === 0}
           />
           {index === 2 && (
             <div className="py-4">
@@ -195,6 +196,7 @@ export function IntelligenceFeed() {
                 ? { name: person.name, title: `${person.title}, ${person.company}`, image: person.image }
                 : undefined
             }
+            isLead={index === 0}
           />
           {index === 2 && (
             <div className="py-4">
