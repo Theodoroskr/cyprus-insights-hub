@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Zap, Target, Lightbulb, Bookmark } from "lucide-react";
+import { ArrowRight, Zap, Target, Lightbulb, Bookmark, Clock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+import { estimateReadingTime } from "@/lib/readingTime";
 
 interface IntelligenceListItemProps {
   category: string;
@@ -21,6 +22,7 @@ interface IntelligenceListItemProps {
   href?: string;
   articleId?: string;
   isLead?: boolean;
+  bodyMarkdown?: string | null;
 }
 
 const hubColors: Record<string, { badge: string; accent: string; border: string }> = {
@@ -41,7 +43,9 @@ export function IntelligenceListItem({
   href = "#",
   articleId,
   isLead = false,
+  bodyMarkdown,
 }: IntelligenceListItemProps) {
+  const readTime = estimateReadingTime(whatHappened, whyItMatters, whatToDo, bodyMarkdown);
   const colors = hubColors[hub];
   const itemId = articleId || category + date;
   const { user } = useAuth();
@@ -82,6 +86,7 @@ export function IntelligenceListItem({
                 {category}
               </Badge>
               <span className="text-xs text-white/80">{date}</span>
+              <span className="text-xs text-white/60 flex items-center gap-1"><Clock className="h-3 w-3" />{readTime}</span>
             </div>
             <h3 className="font-serif font-bold text-2xl md:text-3xl text-white leading-tight mb-2 drop-shadow-lg">
               {whatHappened}
@@ -158,6 +163,7 @@ export function IntelligenceListItem({
             {category}
           </Badge>
           <span className="text-xs text-muted-foreground">{date}</span>
+          <span className="text-xs text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" />{readTime}</span>
           <div className="flex-1" />
           {user && (
             <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors opacity-0 group-hover:opacity-100">
