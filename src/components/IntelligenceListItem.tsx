@@ -20,6 +20,7 @@ interface IntelligenceListItemProps {
   };
   href?: string;
   articleId?: string;
+  isLead?: boolean;
 }
 
 const hubColors: Record<string, { badge: string; accent: string; border: string }> = {
@@ -39,6 +40,7 @@ export function IntelligenceListItem({
   linkedPerson,
   href = "#",
   articleId,
+  isLead = false,
 }: IntelligenceListItemProps) {
   const colors = hubColors[hub];
   const itemId = articleId || category + date;
