@@ -65,7 +65,7 @@ export default function RegistryDirectoryPage() {
         <div className="container mx-auto px-4 py-16 md:py-24 text-center">
           <Badge className="bg-white/15 text-white border-white/20 mb-4 text-sm px-4 py-1.5 rounded-full">
             <Building2 className="h-3.5 w-3.5 mr-1.5" />
-            {totalCompanies.toLocaleString()}+ Registered Companies
+            60,000+ Registered Companies
           </Badge>
           <h1 className="text-3xl md:text-5xl font-serif font-bold mb-4">Cyprus Company Directory</h1>
           <p className="text-white/70 max-w-xl mx-auto mb-8">
