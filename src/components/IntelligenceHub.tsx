@@ -109,6 +109,8 @@ export function IntelligenceHub() {
 
   const displayMostRead = mostRead;
 
+  if (!lead && displayMostRead.length === 0) return null;
+
   return (
     <section id="news" className="section-rule section-rule-thick">
       <div className="container mx-auto px-4">
@@ -119,6 +121,7 @@ export function IntelligenceHub() {
           <span className="text-xs text-muted-foreground">Latest from Cyprus</span>
         </div>
 
+        {lead ? (
         {/* Fast Company-style 3-column layout */}
         <div className="grid lg:grid-cols-12 gap-0">
 
