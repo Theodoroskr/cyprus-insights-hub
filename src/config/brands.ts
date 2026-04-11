@@ -1,6 +1,6 @@
-import { Landmark, Shield, Building2 } from "lucide-react";
+import { Landmark, Shield, Building2, Briefcase } from "lucide-react";
 
-export type BrandId = "businesshub" | "fintechhub" | "compliancehub";
+export type BrandId = "businesshub" | "fintechhub" | "compliancehub" | "smehub";
 
 export interface BrandConfig {
   id: BrandId;
@@ -34,6 +34,7 @@ export const brands: Record<BrandId, BrandConfig> = {
       { label: "Directory", href: "/directory" },
       { label: "FinTech", href: "/fintech" },
       { label: "Compliance", href: "/compliance" },
+      { label: "SME", href: "/sme" },
       { label: "Resources", href: "/resources" },
     ],
     parentBadge: false,
@@ -76,10 +77,31 @@ export const brands: Record<BrandId, BrandConfig> = {
     ],
     parentBadge: true,
   },
+  smehub: {
+    id: "smehub",
+    name: "SMEHub",
+    domain: ".cy",
+    tagline: "Tools & Intelligence for Cyprus SMEs",
+    logoLetter: "S",
+    icon: Briefcase,
+    colors: {
+      primary: "sme",
+      accent: "secondary",
+    },
+    navItems: [
+      { label: "Funding", href: "/sme#funding" },
+      { label: "Checklists", href: "/sme#checklists" },
+      { label: "EU Tools", href: "/sme#eu-tools" },
+      { label: "Directory", href: "/sme#directory" },
+      { label: "Resources", href: "/resources" },
+    ],
+    parentBadge: true,
+  },
 };
 
 export const hubLinks = [
   { brand: brands.businesshub, href: "/" },
   { brand: brands.fintechhub, href: "/fintech" },
   { brand: brands.compliancehub, href: "/compliance" },
+  { brand: brands.smehub, href: "/sme" },
 ];
