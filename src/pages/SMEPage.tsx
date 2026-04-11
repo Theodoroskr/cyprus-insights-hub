@@ -11,6 +11,7 @@ import { CyprusVATCalculator } from "@/components/sme/CyprusVATCalculator";
 import { EUFundingEligibility } from "@/components/sme/EUFundingEligibility";
 import { GDPRComplianceChecker } from "@/components/sme/GDPRComplianceChecker";
 import { ToolResultGate } from "@/components/auth/ToolResultGate";
+import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
 import {
   Calendar,
   ArrowRight,
@@ -349,6 +350,8 @@ export default function SMEPage() {
           </div>
         </div>
       </section>
+
+      <SectionSponsorStrip sectionKey="smehub" />
 
       {/* Sticky Section Navigation */}
       <div className="border-b border-border bg-card sticky top-14 z-40">

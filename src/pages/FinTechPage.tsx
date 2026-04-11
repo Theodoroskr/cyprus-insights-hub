@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar } from "lucide-react";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
+import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 
@@ -91,6 +92,8 @@ export default function FinTechPage() {
           </div>
         </div>
       </section>
+
+      <SectionSponsorStrip sectionKey="fintechhub" />
 
       {/* Featured FinTech Intelligence — newspaper grid */}
       <section className="section-rule">
