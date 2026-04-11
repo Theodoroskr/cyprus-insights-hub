@@ -87,7 +87,7 @@ const EditorialDashboard = () => {
   // Status mutation
   const statusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: string; status: ArticleStatus }) => {
-      const updates: Record<string, unknown> = { status };
+      const updates: { status: ArticleStatus; published_at?: string } = { status };
       if (status === "published") updates.published_at = new Date().toISOString();
       const { error } = await supabase.from("cna_articles").update(updates).eq("id", id);
       if (error) throw error;
