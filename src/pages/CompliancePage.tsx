@@ -196,18 +196,22 @@ export default function CompliancePage() {
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {alerts.map((alert) => (
-              <article key={alert.id} className="border-b border-border pb-5 group cursor-pointer">
-                <div className="flex items-start justify-between gap-4 mb-2">
-                  <Badge className={`rounded-none text-[10px] uppercase tracking-wider ${getSeverityColor(alert.severity)}`}>
+              <article key={alert.id} className="border border-border rounded-lg overflow-hidden group cursor-pointer hover:border-secondary/40 transition-colors">
+                <div className="relative h-40 overflow-hidden">
+                  <img src={alert.image} alt={alert.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent" />
+                  <Badge className={`absolute top-3 left-3 rounded-none text-[10px] uppercase tracking-wider ${getSeverityColor(alert.severity)}`}>
                     {alert.severity}
                   </Badge>
-                  <span className="text-xs text-muted-foreground">{alert.date}</span>
+                  <span className="absolute top-3 right-3 text-xs text-white/80 drop-shadow">{alert.date}</span>
                 </div>
-                <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors">
-                  {alert.title}
-                </h3>
-                <p className="article-body text-muted-foreground mb-2">{alert.description}</p>
-                <p className="byline">Source: {alert.source}</p>
+                <div className="p-4">
+                  <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors">
+                    {alert.title}
+                  </h3>
+                  <p className="article-body text-muted-foreground mb-2">{alert.description}</p>
+                  <p className="byline">Source: {alert.source}</p>
+                </div>
               </article>
             ))}
           </div>
