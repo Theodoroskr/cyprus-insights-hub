@@ -13,38 +13,8 @@ interface SponsoredItem {
   href: string;
 }
 
-const fallbackItems: SponsoredItem[] = [
-  {
-    id: "sp1",
-    title: "How Cyprus Banks Are Leading the Green Finance Transition",
-    summary: "Sustainable lending products are reshaping the island's financial landscape, with ESG-linked loans growing 140% year-over-year.",
-    image_url: "https://images.unsplash.com/photo-1473186578172-c141e6798cf4?w=600&q=80",
-    category: "Green Finance",
-    sponsor_name: "Bank of Cyprus",
-    href: "#",
-  },
-  {
-    id: "sp2",
-    title: "Digital Transformation Roadmap for Cyprus SMEs in 2026",
-    summary: "A practical guide to leveraging EU-funded digitalisation programmes and emerging tech adoption strategies.",
-    image_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-    category: "Digital Strategy",
-    sponsor_name: "PwC Cyprus",
-    href: "#",
-  },
-  {
-    id: "sp3",
-    title: "Navigating the New Cyprus IP Box Regime: What CFOs Need to Know",
-    summary: "Expert analysis of the revised intellectual property tax framework and its impact on holding structures.",
-    image_url: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
-    category: "Tax & Legal",
-    sponsor_name: "Deloitte Cyprus",
-    href: "#",
-  },
-];
-
 export function SponsoredStudio() {
-  const [items, setItems] = useState<SponsoredItem[]>(fallbackItems);
+  const [items, setItems] = useState<SponsoredItem[]>([]);
 
   useEffect(() => {
     supabase
@@ -64,12 +34,12 @@ export function SponsoredStudio() {
       });
   }, []);
 
+  // Don't render if no real sponsored content exists
   if (items.length === 0) return null;
 
   return (
     <section className="py-8 bg-muted/30 border-y border-border">
       <div className="container mx-auto px-4">
-        {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
             Custom Studio
@@ -80,7 +50,6 @@ export function SponsoredStudio() {
           </Badge>
         </div>
 
-        {/* 3-column grid */}
         <div className="grid md:grid-cols-3 gap-6">
           {items.map((item) => (
             <a
@@ -88,7 +57,6 @@ export function SponsoredStudio() {
               href={item.href}
               className="group block rounded-xl overflow-hidden bg-card border border-border hover:border-secondary/30 transition-all hover:shadow-md"
             >
-              {/* Image */}
               <div className="relative h-44 overflow-hidden">
                 <img
                   src={item.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80"}
@@ -106,7 +74,6 @@ export function SponsoredStudio() {
                 </div>
               </div>
 
-              {/* Content */}
               <div className="p-4">
                 <h3 className="font-serif font-bold text-sm text-foreground leading-snug line-clamp-2 mb-2 group-hover:text-secondary transition-colors">
                   {item.title}
@@ -115,7 +82,6 @@ export function SponsoredStudio() {
                   {item.summary}
                 </p>
 
-                {/* Presented by */}
                 <div className="flex items-center gap-2 pt-3 border-t border-border">
                   <span className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground/50 font-medium">
                     Presented by

@@ -1,70 +1,56 @@
-import { Link2, ArrowRight, Newspaper, User, BadgeCheck } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Link2, ArrowRight, Newspaper, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Connection {
-  news: {
-    title: string;
-    category: string;
-    date: string;
-  };
-  person: {
-    name: string;
-    title: string;
-    company: string;
-    image: string;
-    badge?: string;
-  };
-  context: string;
+  articleId: string;
+  articleTitle: string;
+  articleVertical: string;
+  articleDate: string;
+  personName: string;
+  personTitle: string | null;
+  personSlug: string;
+  personPhoto: string | null;
+  personIsWhoiswho: boolean;
 }
 
-const connections: Connection[] = [
-  {
-    news: {
-      title: "New Energy Law Amendments Approved by Parliament",
-      category: "Energy",
-      date: "Today",
-    },
-    person: {
-      name: "George Papanastasiou",
-      title: "Minister of Energy",
-      company: "Ministry of Energy, Commerce & Industry",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80",
-    },
-    context: "Led the parliamentary approval of the landmark energy legislation",
-  },
-  {
-    news: {
-      title: "Cyprus Banks Report Record Q3 Profits",
-      category: "Finance",
-      date: "Yesterday",
-    },
-    person: {
-      name: "Panicos Nicolaou",
-      title: "CEO",
-      company: "Bank of Cyprus",
-      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&q=80",
-      badge: "CBA",
-    },
-    context: "Announced 23% YoY profit increase in quarterly earnings",
-  },
-  {
-    news: {
-      title: "EU Approves €150M Infrastructure Grant for Cyprus",
-      category: "EU Funding",
-      date: "3 days ago",
-    },
-    person: {
-      name: "Marina Hadjimanolis",
-      title: "Deputy Minister",
-      company: "EU Affairs",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80",
-    },
-    context: "Successfully negotiated the largest infrastructure grant in Cyprus history",
-  },
-];
-
 export function VerticalConnection() {
+  const [connections, setConnections] = useState<Connection[]>([]);
+
+  useEffect(() => {
+    // Fetch articles with linked people via article_people junction
+    supabase
+      .from("article_people")
+      .select("article_id, person_id, people(name, title, slug, photo, is_whoiswho), directory_articles(id, title, article_type, published_at)")
+      .limit(20)
+      .then(({ data }) => {
+        if (!data || data.length === 0) return;
+        const mapped: Connection[] = [];
+        for (const row of data as any[]) {
+          if (row.directory_articles && row.people) {
+            mapped.push({
+              articleId: row.directory_articles.id,
+              articleTitle: row.directory_articles.title,
+              articleVertical: row.directory_articles.article_type || "news",
+              articleDate: row.directory_articles.published_at
+                ? new Date(row.directory_articles.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })
+                : "",
+              personName: row.people.name,
+              personTitle: row.people.title,
+              personSlug: row.people.slug,
+              personPhoto: row.people.photo,
+              personIsWhoiswho: row.people.is_whoiswho,
+            });
+          }
+        }
+        setConnections(mapped.slice(0, 6));
+      });
+  }, []);
+
+  if (connections.length === 0) return null;
+
   return (
     <section className="py-8 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -79,25 +65,17 @@ export function VerticalConnection() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {connections.map((connection, index) => (
-            <div
-              key={index}
-              className="bento-card group hover:border-secondary/40 animate-fade-in"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
+          {connections.map((c, index) => (
+            <div key={index} className="bento-card group hover:border-secondary/40 animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
               {/* News Part */}
               <div className="flex items-start gap-3 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <Newspaper className="h-4 w-4 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <Badge variant="secondary" className="mb-2 text-xs">
-                    {connection.news.category}
-                  </Badge>
-                  <h4 className="font-medium text-sm text-primary leading-tight line-clamp-2">
-                    {connection.news.title}
-                  </h4>
-                  <p className="text-xs text-muted-foreground mt-1">{connection.news.date}</p>
+                  <Badge variant="secondary" className="mb-2 text-xs">{c.articleVertical}</Badge>
+                  <h4 className="font-medium text-sm text-primary leading-tight line-clamp-2">{c.articleTitle}</h4>
+                  {c.articleDate && <p className="text-xs text-muted-foreground mt-1">{c.articleDate}</p>}
                 </div>
               </div>
 
@@ -113,45 +91,13 @@ export function VerticalConnection() {
               </div>
 
               {/* Person Part */}
-              <div className="flex items-center gap-3 mt-4">
-                <div className="relative">
-                  <img
-                    src={connection.person.image}
-                    alt={connection.person.name}
-                    className="w-12 h-12 rounded-full object-cover ring-2 ring-secondary/30"
-                  />
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-secondary flex items-center justify-center">
-                    <User className="h-3 w-3 text-secondary-foreground" />
-                  </div>
-                </div>
+              <Link to={c.personIsWhoiswho ? `/whoiswho/${c.personSlug}` : `/people/${c.personSlug}`} className="flex items-center gap-3 mt-4">
+                <img src={c.personPhoto || "/placeholder.svg"} alt={c.personName} className="w-12 h-12 rounded-full object-cover ring-2 ring-secondary/30" />
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium text-sm text-primary">{connection.person.name}</p>
-                    {connection.person.badge && (
-                      <span className="badge-cysec">
-                        <BadgeCheck className="h-3 w-3" />
-                        {connection.person.badge}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs text-muted-foreground">{connection.person.title}</p>
-                  <p className="text-xs text-muted-foreground/70">{connection.person.company}</p>
+                  <p className="font-medium text-sm text-primary">{c.personName}</p>
+                  {c.personTitle && <p className="text-xs text-muted-foreground">{c.personTitle}</p>}
                 </div>
-              </div>
-
-              {/* Context */}
-              <div className="mt-4 pt-4 border-t border-border">
-                <p className="text-xs text-muted-foreground italic">"{connection.context}"</p>
-              </div>
-
-              {/* Hover Action */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full mt-4 opacity-0 group-hover:opacity-100 transition-opacity text-secondary hover:text-secondary hover:bg-secondary/10"
-              >
-                Explore Connection
-              </Button>
+              </Link>
             </div>
           ))}
         </div>
