@@ -53,6 +53,9 @@ const Index = () => {
         {/* Secondary Section Banners — Compliance, FinTech, Risk */}
         <SectionBanners />
 
+        {/* Leaderboard Ad — after hero section */}
+        <LeaderboardAdSlot />
+
         {/* Intelligence Hub - Featured News & Trending People */}
         <IntelligenceHub />
 
