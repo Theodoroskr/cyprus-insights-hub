@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProfileById } from "@/data/profilesData";
+import { getArticlesForPerson, getCoMentioned } from "@/data/knowledgeGraph";
 import { ProfileConnectionCard } from "@/components/profile/ProfileConnectionCard";
 import { ProfileNewsCard } from "@/components/profile/ProfileNewsCard";
 import { ProfileTimeline } from "@/components/profile/ProfileTimeline";
