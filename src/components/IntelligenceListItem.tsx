@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, Zap, Target, Lightbulb, Bookmark } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -46,8 +46,10 @@ export function IntelligenceListItem({
   const itemId = articleId || category + date;
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleBookmark = async () => {
+  const toggleBookmark = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!user) return;
     if (bookmarked) {
       await supabase.from("saved_items").delete().match({ user_id: user.id, item_type: "article", item_id: itemId });
@@ -57,12 +59,15 @@ export function IntelligenceListItem({
     setBookmarked(!bookmarked);
   };
 
+  const handleClick = () => {
+    if (href && href !== "#") navigate(href);
+  };
+
   const fallbackImage = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80";
 
   if (isLead) {
     return (
-      <Link to={href} className="block">
-      <article className="group pb-6 mb-6 border-b border-border">
+      <article className="group pb-6 mb-6 border-b border-border cursor-pointer" onClick={handleClick}>
         {/* Large hero image */}
         <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-5">
           <img
@@ -123,23 +128,18 @@ export function IntelligenceListItem({
                 <Bookmark className={`h-4 w-4 ${bookmarked ? "fill-secondary text-secondary" : ""}`} />
               </button>
             )}
-            <Link
-              to={href}
-              className={`inline-flex items-center gap-1 text-sm font-medium ${colors.accent} hover:opacity-80 transition-opacity group/link`}
-            >
+            <span className={`inline-flex items-center gap-1 text-sm font-medium ${colors.accent} hover:opacity-80 transition-opacity group/link`}>
               Read full analysis
               <ArrowRight className="h-3.5 w-3.5 group-hover/link:translate-x-0.5 transition-transform" />
-            </Link>
+            </span>
           </div>
         </div>
       </article>
-      </Link>
     );
   }
 
   return (
-    <Link to={href} className="block">
-    <article className={`group flex gap-5 py-5 border-b border-border last:border-b-0 hover:bg-muted/20 transition-colors px-2 -mx-2 rounded-lg`}>
+    <article className={`group flex gap-5 py-5 border-b border-border last:border-b-0 hover:bg-muted/20 transition-colors px-2 -mx-2 rounded-lg cursor-pointer`} onClick={handleClick}>
       {/* Image — left side */}
       <div className="flex-shrink-0 w-[200px] h-[140px] rounded-lg overflow-hidden relative">
         <img
@@ -202,16 +202,12 @@ export function IntelligenceListItem({
             </div>
           </div>
 
-          <Link
-            to={href}
-            className={`inline-flex items-center gap-1 text-xs font-medium ${colors.accent} hover:opacity-80 transition-opacity group/link opacity-0 group-hover:opacity-100`}
-          >
+          <span className={`inline-flex items-center gap-1 text-xs font-medium ${colors.accent} hover:opacity-80 transition-opacity group/link opacity-0 group-hover:opacity-100`}>
             Read full analysis
             <ArrowRight className="h-3 w-3 group-hover/link:translate-x-0.5 transition-transform" />
-          </Link>
+          </span>
         </div>
       </div>
     </article>
-    </Link>
   );
 }
