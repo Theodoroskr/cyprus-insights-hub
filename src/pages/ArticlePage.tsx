@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Share2, Bookmark } from "lucide-react";
+import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -160,14 +160,39 @@ export default function ArticlePage() {
             <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ArrowLeft className="h-4 w-4" /> Back
             </Link>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {user && (
-                <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors">
+                <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors" title="Bookmark">
                   <Bookmark className={`h-5 w-5 ${bookmarked ? "fill-secondary text-secondary" : ""}`} />
                 </button>
               )}
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent((article.what_happened || article.title))}&url=${encodeURIComponent(window.location.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-[#1DA1F2] transition-colors"
+                title="Share on X"
+              >
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-[#0A66C2] transition-colors"
+                title="Share on LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a
+                href={`mailto:?subject=${encodeURIComponent((article.what_happened || article.title))}&body=${encodeURIComponent(`Read this article: ${window.location.href}`)}`}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                title="Share via Email"
+              >
+                <Mail className="h-5 w-5" />
+              </a>
               {article.source_url && (
-                <a href={article.source_url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href={article.source_url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" title="View original source">
                   <ExternalLink className="h-5 w-5" />
                 </a>
               )}
