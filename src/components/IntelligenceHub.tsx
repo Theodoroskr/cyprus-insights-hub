@@ -168,7 +168,7 @@ export function IntelligenceHub() {
                     <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans border-muted-foreground/30">
                       {article.category}
                     </Badge>
-                    {index % 3 === 0 && (
+                    {idx === 0 && (
                       <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-secondary">
                         <span className="w-1.5 h-1.5 rounded-full bg-secondary inline-block" />
                         Premium
