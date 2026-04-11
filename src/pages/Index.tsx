@@ -18,6 +18,7 @@ import { Footer } from "@/components/Footer";
 import { PartnerStrip } from "@/components/banners/PartnerStrip";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { ArticleCounter } from "@/components/auth/ArticleCounter";
+import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,6 +53,9 @@ const Index = () => {
         {/* Secondary Section Banners — Compliance, FinTech, Risk */}
         <SectionBanners />
 
+        {/* Leaderboard Ad — after hero section */}
+        <LeaderboardAdSlot />
+
         {/* Intelligence Hub - Featured News & Trending People */}
         <IntelligenceHub />
 
@@ -82,6 +86,9 @@ const Index = () => {
       {/* Premium CTA Banner */}
       <PremiumCTABanner />
       
+      {/* Leaderboard Ad — above footer */}
+      <LeaderboardAdSlot />
+
       {/* Partner Strip */}
       <PartnerStrip />
       
