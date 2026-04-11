@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { Crown, ArrowRight, Building2, Users, Briefcase } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { IntelligenceListItem } from "@/components/IntelligenceListItem";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { getIntelligenceBriefings, getPersonById } from "@/data/knowledgeGraph";
@@ -14,6 +17,95 @@ interface DBArticle {
   published_at: string;
   image_url: string | null;
   tags: string[];
+}
+
+function StickySidebar() {
+  return (
+    <div className="space-y-5">
+      {/* Primary Ad */}
+      <div className="rounded-xl border border-border bg-card p-5 relative overflow-hidden">
+        <Badge
+          variant="outline"
+          className="absolute top-3 right-3 text-[9px] text-muted-foreground/50 border-muted-foreground/20 font-normal"
+        >
+          Ad
+        </Badge>
+        <div className="absolute -bottom-6 -right-6 w-28 h-28 bg-secondary/5 rounded-full blur-2xl" />
+
+        <div className="relative">
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/5 flex items-center justify-center mb-3">
+            <Building2 className="h-5 w-5 text-secondary" />
+          </div>
+          <h4 className="font-semibold text-foreground text-sm mb-1">Cyprus Investment Outlook 2026</h4>
+          <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+            Download the comprehensive report on foreign direct investment trends, key sectors, and regulatory developments.
+          </p>
+          <Button size="sm" variant="outline" className="w-full text-xs gap-1 group">
+            Download Report
+            <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Premium upsell */}
+      <div className="rounded-xl bg-gradient-to-b from-primary to-[hsl(213,80%,10%)] p-5 text-primary-foreground border border-secondary/10">
+        <div className="flex items-center gap-2 mb-3">
+          <Crown className="h-4 w-4 text-secondary" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-secondary">Premium</span>
+        </div>
+        <h4 className="font-serif font-bold text-sm mb-2">Unlock Full Intelligence</h4>
+        <p className="text-xs text-primary-foreground/60 leading-relaxed mb-4">
+          Daily briefings, PDF exports, and white-label reports for your team.
+        </p>
+        <Button size="sm" className="w-full text-xs bg-secondary text-primary hover:bg-secondary/90 gap-1">
+          Upgrade Now
+        </Button>
+      </div>
+
+      {/* Secondary Ad */}
+      <div className="rounded-xl border border-border bg-card p-5 relative overflow-hidden">
+        <Badge
+          variant="outline"
+          className="absolute top-3 right-3 text-[9px] text-muted-foreground/50 border-muted-foreground/20 font-normal"
+        >
+          Ad
+        </Badge>
+        <div className="absolute -bottom-6 -right-6 w-28 h-28 bg-fintech/5 rounded-full blur-2xl" />
+
+        <div className="relative">
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-fintech/20 to-fintech/5 flex items-center justify-center mb-3">
+            <Users className="h-5 w-5 text-fintech" />
+          </div>
+          <h4 className="font-semibold text-foreground text-sm mb-1">Featured Advisors</h4>
+          <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+            Connect with top industry advisors specializing in Cyprus fintech and compliance.
+          </p>
+          <Button size="sm" variant="outline" className="w-full text-xs gap-1 group">
+            View Directory
+            <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Third Ad */}
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80"
+          alt="Office spaces"
+          className="w-full h-32 object-cover"
+        />
+        <div className="p-4">
+          <Badge variant="outline" className="text-[9px] text-muted-foreground/50 border-muted-foreground/20 font-normal mb-2">
+            Sponsored
+          </Badge>
+          <h4 className="font-semibold text-foreground text-sm mb-1">Premium Office Spaces in Limassol</h4>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Grade A offices starting from €18/m². Move-in ready.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function IntelligenceFeed() {
@@ -57,6 +149,67 @@ export function IntelligenceFeed() {
 
   const hasDBArticles = dbArticles.length > 0;
 
+  const renderArticles = () => {
+    if (hasDBArticles) {
+      return dbArticles.map((article, index) => (
+        <div key={article.id}>
+          <IntelligenceListItem
+            category={verticalLabel(article.vertical)}
+            date={new Date(article.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+            whatHappened={article.what_happened}
+            whyItMatters={article.why_it_matters}
+            whatToDo={article.what_to_do}
+            hub={verticalToHub(article.vertical)}
+            imageUrl={article.image_url}
+            articleId={article.id}
+          />
+          {index === 2 && (
+            <div className="py-4">
+              <InsightBanner
+                text="Get daily intelligence briefings delivered to your inbox — curated for Cyprus business professionals."
+                ctaText="Register free for daily updates"
+                href="/dashboard"
+              />
+            </div>
+          )}
+        </div>
+      ));
+    }
+
+    return staticBriefings.map((article, index) => {
+      const person = article.personIds[0]
+        ? getPersonById(article.personIds[0])
+        : undefined;
+
+      return (
+        <div key={article.id}>
+          <IntelligenceListItem
+            category={article.category}
+            date={article.date}
+            whatHappened={article.intelligence!.whatHappened}
+            whyItMatters={article.intelligence!.whyItMatters}
+            whatToDo={article.intelligence!.whatToDo}
+            hub={article.hub}
+            linkedPerson={
+              person
+                ? { name: person.name, title: `${person.title}, ${person.company}`, image: person.image }
+                : undefined
+            }
+          />
+          {index === 2 && (
+            <div className="py-4">
+              <InsightBanner
+                text="Get daily intelligence briefings delivered to your inbox — curated for Cyprus business professionals."
+                ctaText="Register free for daily updates"
+                href="/dashboard"
+              />
+            </div>
+          )}
+        </div>
+      );
+    });
+  };
+
   return (
     <section className="section-rule section-rule-thick">
       <div className="container mx-auto px-4">
@@ -68,63 +221,19 @@ export function IntelligenceFeed() {
           </span>
         </div>
 
-        <div className="divide-y-0">
-          {hasDBArticles
-            ? dbArticles.map((article, index) => (
-                <div key={article.id}>
-                  <IntelligenceListItem
-                    category={verticalLabel(article.vertical)}
-                    date={new Date(article.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
-                    whatHappened={article.what_happened}
-                    whyItMatters={article.why_it_matters}
-                    whatToDo={article.what_to_do}
-                    hub={verticalToHub(article.vertical)}
-                    imageUrl={article.image_url}
-                    articleId={article.id}
-                  />
-                  {index === 2 && (
-                    <div className="py-4">
-                      <InsightBanner
-                        text="Get daily intelligence briefings delivered to your inbox — curated for Cyprus business professionals."
-                        ctaText="Register free for daily updates"
-                        href="/dashboard"
-                      />
-                    </div>
-                  )}
-                </div>
-              ))
-            : staticBriefings.map((article, index) => {
-                const person = article.personIds[0]
-                  ? getPersonById(article.personIds[0])
-                  : undefined;
+        {/* 2-column: feed + sticky sidebar */}
+        <div className="flex gap-8">
+          {/* Main feed */}
+          <div className="flex-1 min-w-0">
+            {renderArticles()}
+          </div>
 
-                return (
-                  <div key={article.id}>
-                    <IntelligenceListItem
-                      category={article.category}
-                      date={article.date}
-                      whatHappened={article.intelligence!.whatHappened}
-                      whyItMatters={article.intelligence!.whyItMatters}
-                      whatToDo={article.intelligence!.whatToDo}
-                      hub={article.hub}
-                      linkedPerson={
-                        person
-                          ? { name: person.name, title: `${person.title}, ${person.company}`, image: person.image }
-                          : undefined
-                      }
-                    />
-                    {index === 2 && (
-                      <div className="py-4">
-                        <InsightBanner
-                          text="Get daily intelligence briefings delivered to your inbox — curated for Cyprus business professionals."
-                          ctaText="Register free for daily updates"
-                          href="/dashboard"
-                        />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+          {/* Sticky sidebar — hidden on mobile */}
+          <aside className="hidden lg:block w-[280px] flex-shrink-0">
+            <div className="sticky top-24">
+              <StickySidebar />
+            </div>
+          </aside>
         </div>
       </div>
     </section>
