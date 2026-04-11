@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, User, Newspaper, PenTool } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,12 +15,13 @@ interface TopNavigationProps {
 }
 
 const navItems = [
-  { label: "News", href: "/" },
-  { label: "WhoIsWho", href: "/directory" },
+  { label: "News", href: "/news" },
+  { label: "Directory", href: "/directory" },
+  { label: "Who's Who", href: "/whoiswho" },
+  { label: "Interviews", href: "/interviews" },
   { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },
   { label: "SME", href: "/sme" },
-  { label: "Resources", href: "/resources" },
 ];
 
 export function TopNavigation({ onSearch }: TopNavigationProps) {
@@ -27,6 +29,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showLogin, setShowLogin] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
   const { user, profile, signOut } = useAuth();
 
@@ -48,6 +51,11 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
     onSearch(searchQuery);
   };
 
