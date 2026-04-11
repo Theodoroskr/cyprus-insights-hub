@@ -3,11 +3,9 @@ import {
   Building2,
   Landmark,
   Shield,
-  TrendingUp,
-  Coins,
   AlertTriangle,
+  Coins,
   Cpu,
-  ArrowRight,
 } from "lucide-react";
 
 interface Vertical {
@@ -15,76 +13,17 @@ interface Vertical {
   label: string;
   icon: typeof Building2;
   href: string;
-  color: string;
-  bgColor: string;
-  borderColor: string;
   count: number;
   trending?: boolean;
 }
 
 const verticals: Vertical[] = [
-  {
-    id: "intelligence",
-    label: "Intelligence",
-    icon: Building2,
-    href: "/",
-    color: "text-secondary",
-    bgColor: "bg-secondary/10",
-    borderColor: "border-secondary/30",
-    count: 24,
-    trending: true,
-  },
-  {
-    id: "compliance",
-    label: "Compliance",
-    icon: Shield,
-    href: "/compliance",
-    color: "text-compliance",
-    bgColor: "bg-compliance/10",
-    borderColor: "border-compliance/30",
-    count: 18,
-  },
-  {
-    id: "fintech",
-    label: "FinTech",
-    icon: Landmark,
-    href: "/fintech",
-    color: "text-fintech",
-    bgColor: "bg-fintech/10",
-    borderColor: "border-fintech/30",
-    count: 12,
-    trending: true,
-  },
-  {
-    id: "risk",
-    label: "Risk",
-    icon: AlertTriangle,
-    href: "/compliance#risk",
-    color: "text-destructive",
-    bgColor: "bg-destructive/10",
-    borderColor: "border-destructive/30",
-    count: 9,
-  },
-  {
-    id: "funding",
-    label: "EU Funding",
-    icon: Coins,
-    href: "/resources#funding",
-    color: "text-success",
-    bgColor: "bg-success/10",
-    borderColor: "border-success/30",
-    count: 7,
-  },
-  {
-    id: "technology",
-    label: "Technology",
-    icon: Cpu,
-    href: "/fintech#tech",
-    color: "text-primary",
-    bgColor: "bg-primary/10",
-    borderColor: "border-primary/30",
-    count: 15,
-  },
+  { id: "intelligence", label: "Intelligence", icon: Building2, href: "/", count: 24, trending: true },
+  { id: "compliance", label: "Compliance", icon: Shield, href: "/compliance", count: 18 },
+  { id: "fintech", label: "FinTech", icon: Landmark, href: "/fintech", count: 12, trending: true },
+  { id: "risk", label: "Risk", icon: AlertTriangle, href: "/compliance#risk", count: 9 },
+  { id: "funding", label: "EU Funding", icon: Coins, href: "/resources#funding", count: 7 },
+  { id: "technology", label: "Technology", icon: Cpu, href: "/fintech#tech", count: 15 },
 ];
 
 export function VerticalNavigator() {
@@ -97,16 +36,9 @@ export function VerticalNavigator() {
   };
 
   return (
-    <section className="py-6 border-b border-border bg-card/50">
+    <nav className="border-b border-border bg-card">
       <div className="container mx-auto px-4">
-        <div className="flex items-center gap-3 mb-4">
-          <TrendingUp className="h-4 w-4 text-secondary" />
-          <h2 className="text-sm font-semibold text-foreground tracking-wide uppercase">
-            Explore Verticals
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="flex items-center gap-0 overflow-x-auto scrollbar-hide">
           {verticals.map((v) => {
             const active = isActive(v.href);
             return (
@@ -114,39 +46,24 @@ export function VerticalNavigator() {
                 key={v.id}
                 onClick={() => navigate(v.href)}
                 className={`
-                  relative flex flex-col items-center gap-2.5 p-4 rounded-xl border transition-all duration-200
+                  relative flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2
                   ${active
-                    ? `${v.borderColor} ${v.bgColor} shadow-sm`
-                    : "border-border hover:border-secondary/20 hover:bg-muted/50"
+                    ? "border-secondary text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30"
                   }
                 `}
               >
-                {/* Trending dot */}
+                <v.icon className="h-3.5 w-3.5" />
+                <span className="tracking-wide uppercase text-[11px] font-semibold">{v.label}</span>
+                <span className="text-[10px] text-muted-foreground font-normal">{v.count}</span>
                 {v.trending && (
-                  <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-secondary animate-pulse" />
-                )}
-
-                <div className={`w-10 h-10 rounded-lg ${v.bgColor} flex items-center justify-center`}>
-                  <v.icon className={`h-5 w-5 ${v.color}`} />
-                </div>
-
-                <div className="text-center">
-                  <p className={`text-xs font-semibold ${active ? v.color : "text-foreground"}`}>
-                    {v.label}
-                  </p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">
-                    {v.count} articles
-                  </p>
-                </div>
-
-                {active && (
-                  <ArrowRight className={`h-3 w-3 ${v.color} absolute bottom-2 right-2`} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
                 )}
               </button>
             );
           })}
         </div>
       </div>
-    </section>
+    </nav>
   );
 }

@@ -90,6 +90,8 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Playfair Display', 'Georgia', 'serif'],
+        'source-serif': ['Source Serif 4', 'Georgia', 'serif'],
       },
       keyframes: {
         "accordion-down": {
