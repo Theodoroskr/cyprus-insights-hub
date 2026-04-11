@@ -143,9 +143,54 @@ function getViewerHash(): string {
 }
 
 export function IntelligenceHub() {
-  const [lead, ...secondary] = featuredArticles;
+  const [dbArticles, setDbArticles] = useState<any[]>([]);
   const [mostRead, setMostRead] = useState<MostReadItem[]>([]);
   const [viewsLoaded, setViewsLoaded] = useState(false);
+
+  // Fetch latest published articles from DB (skip the first one used by HeroBanner)
+  useEffect(() => {
+    supabase
+      .from("cna_articles")
+      .select("id, title, summary, image_url, vertical, published_at, what_happened")
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+      .range(1, 5) // skip index 0 (hero lead), get next 5
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setDbArticles(data);
+        }
+      });
+  }, []);
+
+  const verticalLabel = (v: string) => {
+    const map: Record<string, string> = {
+      compliance: "Compliance",
+      fintech: "FinTech",
+      sme: "SME",
+      general: "Business",
+    };
+    return map[v] || v;
+  };
+
+  // Map DB articles to display format, fall back to static data
+  const featuredArticles = useMemo(() => {
+    if (dbArticles.length > 0) {
+      return dbArticles.map((a) => ({
+        id: a.id,
+        title: a.what_happened || a.title,
+        summary: a.summary || "",
+        image: a.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+        category: verticalLabel(a.vertical),
+        date: a.published_at
+          ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
+          : "",
+        author: "Editorial",
+      }));
+    }
+    return fallbackArticles;
+  }, [dbArticles]);
+
+  const [lead, ...secondary] = featuredArticles;
 
   // Fetch most-read articles from DB
   useEffect(() => {
@@ -169,10 +214,9 @@ export function IntelligenceHub() {
 
   // Record a view for published articles shown on this page
   useEffect(() => {
+    if (featuredArticles.length === 0) return;
     const viewerHash = getViewerHash();
-    // Record views for featured articles (fire-and-forget)
     featuredArticles.forEach((article) => {
-      // Only record if it looks like a real DB uuid (static IDs are short)
       if (article.id.length > 10) {
         supabase
           .from("article_views")
@@ -180,17 +224,7 @@ export function IntelligenceHub() {
           .then(() => {});
       }
     });
-  }, []);
-
-  const verticalLabel = (v: string) => {
-    const map: Record<string, string> = {
-      compliance: "Compliance",
-      fintech: "FinTech",
-      sme: "SME",
-      general: "Business",
-    };
-    return map[v] || v;
-  };
+  }, [featuredArticles]);
 
   // Use real data if available, otherwise fall back to static
   const displayMostRead = mostRead.length > 0
