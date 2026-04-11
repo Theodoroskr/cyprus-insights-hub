@@ -256,6 +256,7 @@ export type Database = {
         Args: { _limit?: number }
         Returns: {
           article_id: string
+          image_url: string
           title: string
           vertical: string
           view_count: number
