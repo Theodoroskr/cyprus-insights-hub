@@ -1,0 +1,17 @@
+UPDATE directory_companies SET activity_description = 'Wholesale of hides, skins and leather' WHERE activity_description LIKE 'Χονδρικό εμπόριο δερμάτων%';
+UPDATE directory_companies SET activity_description = 'Wholesale of china and glassware and cleaning materials' WHERE activity_description LIKE 'Χονδρικό εμπόριο ειδών πορσελάνης%';
+UPDATE directory_companies SET activity_description = 'Wholesale of office furniture' WHERE activity_description LIKE 'Χονδρικό εμπόριο επίπλων γραφείου';
+UPDATE directory_companies SET activity_description = 'Wholesale of furniture, carpets and lighting equipment' WHERE activity_description LIKE 'Χονδρικό εμπόριο επίπλων, χαλιών%';
+UPDATE directory_companies SET activity_description = 'Wholesale of live animals' WHERE activity_description LIKE 'Χονδρικό εμπόριο ζώντων ζώων';
+UPDATE directory_companies SET activity_description = 'Wholesale of electrical household appliances' WHERE activity_description LIKE 'Χονδρικό εμπόριο ηλεκτρικών οικιακών%';
+UPDATE directory_companies SET activity_description = 'Wholesale of coffee, tea, cocoa and spices' WHERE activity_description LIKE 'Χονδρικό εμπόριο καφέ%';
+UPDATE directory_companies SET activity_description = 'Wholesale of textile products' WHERE activity_description LIKE 'Χονδρικό εμπόριο κλωστοϋφαντουργικών%';
+UPDATE directory_companies SET activity_description = 'Wholesale of motor vehicle parts and accessories' WHERE activity_description LIKE 'Χονδρικό εμπόριο μερών, εξαρτημάτων%';
+UPDATE directory_companies SET activity_description = 'Wholesale of metals and metal ores' WHERE activity_description LIKE 'Χονδρικό εμπόριο μετάλλων%';
+UPDATE directory_companies SET activity_description = 'Wholesale of beverages' WHERE activity_description = 'Χονδρικό εμπόριο ποτών';
+UPDATE directory_companies SET activity_description = 'Wholesale of tobacco products' WHERE activity_description LIKE 'Χονδρικό εμπόριο προϊόντων καπνού';
+UPDATE directory_companies SET activity_description = 'Wholesale of hardware, plumbing and heating equipment and supplies' WHERE activity_description LIKE 'Χονδρικό εμπόριο σιδηρικών, υδραυλικών%';
+UPDATE directory_companies SET activity_description = 'Wholesale of grain, unmanufactured tobacco, seeds and animal feeds' WHERE activity_description LIKE 'Χονδρικό εμπόριο σιτηρών%';
+UPDATE directory_companies SET activity_description = 'Wholesale of solid, liquid and gaseous fuels and related products' WHERE activity_description LIKE 'Χονδρικό εμπόριο στερεών, υγρών και αέριων%';
+UPDATE directory_companies SET activity_description = 'Painting and glazing' WHERE activity_description LIKE 'Χρωματισμοί και τοποθέτηση%';
+UPDATE directory_companies SET activity_description = 'Camping grounds, recreational vehicle parks and trailer parks' WHERE activity_description LIKE 'Χώροι κατασκήνωσης%';
