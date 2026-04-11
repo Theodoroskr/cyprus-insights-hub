@@ -118,7 +118,6 @@ export default function TradePage() {
           </h1>
           <p className="text-primary-foreground/70 max-w-2xl text-base md:text-lg font-light">
             Executive-level insights into Cyprus trade flows, import trends, and partner analysis. 
-            Powered by CYSTAT official data, updated monthly.
           </p>
           <div className="flex items-center gap-4 mt-6">
             <Select value={selectedYear} onValueChange={setSelectedYear}>
@@ -179,6 +178,13 @@ export default function TradePage() {
           <TradeExecutiveInsight insight={insight} />
         </ContentGate>
       </section>
+
+      {/* Data disclaimer */}
+      <div className="max-w-7xl mx-auto px-4 pb-4">
+        <p className="text-[11px] text-muted-foreground/60 text-center">
+          Powered by CYSTAT official data, updated monthly.
+        </p>
+      </div>
 
       {/* CTA */}
       <section className="bg-primary text-primary-foreground">
