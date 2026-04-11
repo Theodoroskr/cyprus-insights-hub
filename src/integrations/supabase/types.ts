@@ -199,6 +199,48 @@ export type Database = {
         }
         Relationships: []
       }
+      sponsored_content: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          href: string
+          id: string
+          image_url: string | null
+          sort_order: number
+          sponsor_name: string
+          summary: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          href?: string
+          id?: string
+          image_url?: string | null
+          sort_order?: number
+          sponsor_name: string
+          summary?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          href?: string
+          id?: string
+          image_url?: string | null
+          sort_order?: number
+          sponsor_name?: string
+          summary?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_preferences: {
         Row: {
           alert_types: string[]

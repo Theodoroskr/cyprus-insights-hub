@@ -1,48 +1,71 @@
+import { useEffect, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SponsoredItem {
   id: string;
   title: string;
-  summary: string;
-  image: string;
-  sponsor: string;
-  sponsorLogo?: string;
-  href: string;
+  summary: string | null;
+  image_url: string | null;
   category: string;
+  sponsor_name: string;
+  href: string;
 }
 
-const sponsoredContent: SponsoredItem[] = [
+const fallbackItems: SponsoredItem[] = [
   {
     id: "sp1",
     title: "How Cyprus Banks Are Leading the Green Finance Transition",
     summary: "Sustainable lending products are reshaping the island's financial landscape, with ESG-linked loans growing 140% year-over-year.",
-    image: "https://images.unsplash.com/photo-1473186578172-c141e6798cf4?w=600&q=80",
-    sponsor: "Bank of Cyprus",
-    href: "#",
+    image_url: "https://images.unsplash.com/photo-1473186578172-c141e6798cf4?w=600&q=80",
     category: "Green Finance",
+    sponsor_name: "Bank of Cyprus",
+    href: "#",
   },
   {
     id: "sp2",
     title: "Digital Transformation Roadmap for Cyprus SMEs in 2026",
     summary: "A practical guide to leveraging EU-funded digitalisation programmes and emerging tech adoption strategies.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-    sponsor: "PwC Cyprus",
-    href: "#",
+    image_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
     category: "Digital Strategy",
+    sponsor_name: "PwC Cyprus",
+    href: "#",
   },
   {
     id: "sp3",
     title: "Navigating the New Cyprus IP Box Regime: What CFOs Need to Know",
     summary: "Expert analysis of the revised intellectual property tax framework and its impact on holding structures.",
-    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
-    sponsor: "Deloitte Cyprus",
-    href: "#",
+    image_url: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
     category: "Tax & Legal",
+    sponsor_name: "Deloitte Cyprus",
+    href: "#",
   },
 ];
 
 export function SponsoredStudio() {
+  const [items, setItems] = useState<SponsoredItem[]>(fallbackItems);
+
+  useEffect(() => {
+    supabase
+      .from("sponsored_content")
+      .select("id, title, summary, image_url, category, sponsor_name, href")
+      .eq("active", true)
+      .order("sort_order", { ascending: true })
+      .limit(3)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Sponsored content fetch error:", error);
+          return;
+        }
+        if (data && data.length > 0) {
+          setItems(data);
+        }
+      });
+  }, []);
+
+  if (items.length === 0) return null;
+
   return (
     <section className="py-8 bg-muted/30 border-y border-border">
       <div className="container mx-auto px-4">
@@ -59,7 +82,7 @@ export function SponsoredStudio() {
 
         {/* 3-column grid */}
         <div className="grid md:grid-cols-3 gap-6">
-          {sponsoredContent.map((item) => (
+          {items.map((item) => (
             <a
               key={item.id}
               href={item.href}
@@ -68,7 +91,7 @@ export function SponsoredStudio() {
               {/* Image */}
               <div className="relative h-44 overflow-hidden">
                 <img
-                  src={item.image}
+                  src={item.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80"}
                   alt={item.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -98,7 +121,7 @@ export function SponsoredStudio() {
                     Presented by
                   </span>
                   <span className="text-xs font-semibold text-foreground/70">
-                    {item.sponsor}
+                    {item.sponsor_name}
                   </span>
                 </div>
               </div>
