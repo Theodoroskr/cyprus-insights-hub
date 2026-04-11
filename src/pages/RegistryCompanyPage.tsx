@@ -1,0 +1,183 @@
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { LoginModal } from "@/components/auth/LoginModal";
+import { TopNavigation } from "@/components/TopNavigation";
+import { Footer } from "@/components/Footer";
+
+export default function RegistryCompanyPage() {
+  const { companyId } = useParams<{ companyId: string }>();
+  const { user, profile } = useAuth();
+  const [company, setCompany] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
+
+  const isPremium = profile?.tier === "premium";
+
+  useEffect(() => {
+    if (!companyId) return;
+    supabase
+      .from("directory_companies")
+      .select("*")
+      .eq("id", companyId)
+      .single()
+      .then(({ data }) => {
+        setCompany(data);
+        setLoading(false);
+      });
+  }, [companyId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <TopNavigation onSearch={() => {}} />
+        <div className="container mx-auto px-4 py-20 text-center text-muted-foreground">Loading...</div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!company) {
+    return (
+      <div className="min-h-screen bg-background">
+        <TopNavigation onSearch={() => {}} />
+        <div className="container mx-auto px-4 py-20 text-center">
+          <Building2 className="h-16 w-16 mx-auto mb-4 text-muted-foreground/30" />
+          <h1 className="text-2xl font-serif font-bold text-foreground mb-2">Company not found</h1>
+          <Link to="/registry"><Button variant="outline">Back to Registry</Button></Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const isActive = company.organisation_status === "Εγγεγραμμένη";
+  const citySlug = company.city_slug;
+
+  const CITY_LABELS: Record<string, string> = {
+    nicosia: "Nicosia", limassol: "Limassol", larnaca: "Larnaca",
+    paphos: "Paphos", famagusta: "Famagusta",
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <TopNavigation onSearch={() => {}} />
+
+      {/* Breadcrumb */}
+      <div className="bg-card border-b border-border">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Link to="/registry" className="hover:text-secondary transition-colors">Registry</Link>
+            <ChevronRight className="h-3 w-3" />
+            {citySlug && CITY_LABELS[citySlug] && (
+              <>
+                <Link to={`/registry/city/${citySlug}`} className="hover:text-secondary transition-colors">
+                  {CITY_LABELS[citySlug]}
+                </Link>
+                <ChevronRight className="h-3 w-3" />
+              </>
+            )}
+            <span className="text-foreground font-medium truncate max-w-xs">{company.company_name}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="flex items-start gap-5 mb-8">
+            <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Building2 className="h-8 w-8 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
+              <div className="flex items-center gap-3 mt-2 flex-wrap">
+                {isActive ? (
+                  <Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>
+                ) : (
+                  <Badge className="bg-red-100 text-red-800 border-red-200">Dissolved</Badge>
+                )}
+                {company.organisation_type && <Badge variant="outline">{company.organisation_type}</Badge>}
+                {company.organisation_sub_type && <Badge variant="secondary">{company.organisation_sub_type}</Badge>}
+              </div>
+            </div>
+          </div>
+
+          {/* Public Info */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <InfoCard icon={MapPin} label="City" value={company.city || "—"} />
+            <InfoCard icon={Briefcase} label="Activity" value={company.activity_description || "—"} />
+            <InfoCard icon={Tag} label="Organisation Type" value={company.organisation_type || "—"} />
+            {company.nace_code && <InfoCard icon={Hash} label="NACE Code" value={company.nace_code} />}
+          </div>
+
+          {/* Premium Section */}
+          <div className="border border-border rounded-xl overflow-hidden">
+            <div className="bg-muted/40 px-6 py-4 border-b border-border flex items-center justify-between">
+              <h2 className="font-serif font-bold text-foreground flex items-center gap-2">
+                <FileText className="h-5 w-5 text-secondary" />
+                Full Company Details
+              </h2>
+              {!isPremium && <Badge className="bg-secondary/10 text-secondary border-secondary/20">Premium</Badge>}
+            </div>
+
+            {isPremium ? (
+              <div className="p-6 grid md:grid-cols-2 gap-6">
+                <InfoCard icon={Hash} label="Registration No." value={company.registration_no || "—"} />
+                <InfoCard icon={Calendar} label="Registration Date" value={company.registration_date ? new Date(company.registration_date).toLocaleDateString("en-GB") : "—"} />
+                <div className="md:col-span-2">
+                  <InfoCard icon={MapPin} label="Full Address" value={company.address || "—"} />
+                </div>
+              </div>
+            ) : (
+              <div className="relative">
+                <div className="p-6 grid md:grid-cols-2 gap-6 blur-sm opacity-40 pointer-events-none select-none">
+                  <InfoCard icon={Hash} label="Registration No." value="HE ••••••" />
+                  <InfoCard icon={Calendar} label="Registration Date" value="••/••/••••" />
+                  <div className="md:col-span-2">
+                    <InfoCard icon={MapPin} label="Full Address" value="•••••••••••••••••••••" />
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-card via-card/80 to-transparent">
+                  <div className="text-center">
+                    <Lock className="h-8 w-8 text-secondary mx-auto mb-3" />
+                    <p className="font-serif font-semibold text-foreground mb-1">Premium Access Required</p>
+                    <p className="text-sm text-muted-foreground mb-4">Registration details, addresses, and full records</p>
+                    {!user ? (
+                      <Button onClick={() => setShowLogin(true)} className="rounded-full px-6">
+                        Register Free to Start
+                      </Button>
+                    ) : (
+                      <Button className="rounded-full px-6 bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                        Upgrade to Premium
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} defaultTab="register" />
+      <Footer />
+    </div>
+  );
+}
+
+function InfoCard({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <Icon className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+      <div>
+        <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{label}</p>
+        <p className="text-foreground mt-0.5">{value}</p>
+      </div>
+    </div>
+  );
+}
