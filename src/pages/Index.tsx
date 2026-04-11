@@ -21,6 +21,7 @@ import { ArticleCounter } from "@/components/auth/ArticleCounter";
 import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
 import { ComplianceSuiteBanner } from "@/components/banners/ComplianceSuiteBanner";
 import { DirectoryPreview } from "@/components/DirectoryPreview";
+import { FeaturedCompaniesSection } from "@/components/FeaturedCompaniesSection";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,6 +67,9 @@ const Index = () => {
 
         {/* Intelligence Directory Preview */}
         <DirectoryPreview />
+
+        {/* Featured Companies by City */}
+        <FeaturedCompaniesSection compact />
 
         {/* Custom Studio — Sponsored Content */}
         <SponsoredStudio />

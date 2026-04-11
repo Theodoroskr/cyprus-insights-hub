@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Building2, MapPin, Star, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { FeaturedCompaniesSection } from "@/components/FeaturedCompaniesSection";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -59,7 +60,7 @@ export default function RegistryDirectoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
       <TopNavigation onSearch={() => {}} />
 
       {/* Hero */}
@@ -158,6 +159,9 @@ export default function RegistryDirectoryPage() {
             </div>
           </div>
         )}
+
+        {/* Featured Companies Tabs */}
+        <FeaturedCompaniesSection />
       </div>
 
       <Footer />
