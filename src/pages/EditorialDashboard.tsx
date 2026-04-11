@@ -256,6 +256,41 @@ const EditorialDashboard = () => {
           </Select>
         </div>
 
+        {/* Bulk Action Bar */}
+        {selectedIds.size > 0 && (
+          <div className="flex items-center gap-3 mb-4 p-3 rounded-lg border border-secondary/30 bg-secondary/5">
+            <span className="text-sm font-medium text-foreground">{selectedIds.size} selected</span>
+            <div className="flex-1" />
+            <Button
+              size="sm"
+              className="bg-emerald-600 hover:bg-emerald-700 text-primary-foreground"
+              onClick={() => bulkStatusMutation.mutate({ ids: [...selectedIds], status: "published" })}
+              disabled={bulkStatusMutation.isPending}
+            >
+              <CheckCircle className="w-4 h-4 mr-1" /> Publish All
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => bulkStatusMutation.mutate({ ids: [...selectedIds], status: "archived" })}
+              disabled={bulkStatusMutation.isPending}
+            >
+              <Archive className="w-4 h-4 mr-1" /> Archive All
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => bulkStatusMutation.mutate({ ids: [...selectedIds], status: "draft" })}
+              disabled={bulkStatusMutation.isPending}
+            >
+              <Eye className="w-4 h-4 mr-1" /> Restore All
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => setSelectedIds(new Set())}>
+              Clear
+            </Button>
+          </div>
+        )}
+
         {/* Articles List */}
         {isLoading ? (
           <div className="flex justify-center py-16">
@@ -267,12 +302,26 @@ const EditorialDashboard = () => {
           </div>
         ) : (
           <div className="space-y-3">
+            {/* Select All */}
+            <div className="flex items-center gap-3 px-2">
+              <Checkbox
+                checked={articles.length > 0 && selectedIds.size === articles.length}
+                onCheckedChange={toggleSelectAll}
+              />
+              <span className="text-xs text-muted-foreground font-medium">Select all</span>
+            </div>
             {articles.map((article) => {
               const vCfg = VERTICAL_CONFIG[article.vertical];
               const sCfg = STATUS_CONFIG[article.status];
               const VIcon = vCfg.icon;
+              const isSelected = selectedIds.has(article.id);
               return (
-                <div key={article.id} className="bento-card flex flex-col sm:flex-row sm:items-center gap-4">
+                <div key={article.id} className={`bento-card flex flex-col sm:flex-row sm:items-center gap-4 ${isSelected ? "ring-2 ring-secondary/50" : ""}`}>
+                  <Checkbox
+                    checked={isSelected}
+                    onCheckedChange={() => toggleSelect(article.id)}
+                    className="shrink-0"
+                  />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <Badge variant="outline" className={`text-[10px] ${vCfg.color}`}>
