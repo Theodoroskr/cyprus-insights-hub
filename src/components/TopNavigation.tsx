@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Menu, X, Bell, User } from "lucide-react";
+import { Search, Menu, X, Bell, User, Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -34,20 +34,50 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-14">
-          {/* Logo — editorial masthead style */}
-          <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-8 h-8 bg-foreground flex items-center justify-center">
-              <span className="text-background font-serif font-bold text-sm">B</span>
-            </div>
-            <div className="hidden sm:block">
-              <h1 className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                BusinessHub<span className="text-secondary">.cy</span>
-              </h1>
-            </div>
-          </Link>
+    <>
+      {/* Financial Mirror Group Strip */}
+      <div className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase font-sans">
+        <div className="container mx-auto px-4 flex items-center justify-between h-7">
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.financialmirror.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold hover:text-secondary transition-colors"
+            >
+              Financial Mirror Group
+            </a>
+            <span className="w-px h-3 bg-background/30" />
+            <Link to="/" className="text-secondary font-semibold">BusinessHub.cy</Link>
+            <Link to="/fintech" className="hover:text-secondary transition-colors hidden sm:inline">FinTechHub.cy</Link>
+            <Link to="/compliance" className="hover:text-secondary transition-colors hidden sm:inline">ComplianceHub.cy</Link>
+          </div>
+          <a
+            href="https://www.financialmirror.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:flex items-center gap-1.5 hover:text-secondary transition-colors"
+          >
+            <Newspaper className="h-3 w-3" />
+            financialmirror.com
+          </a>
+        </div>
+      </div>
+
+      <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-14">
+            {/* Logo — editorial masthead style */}
+            <Link to="/" className="flex items-center gap-2.5 shrink-0">
+              <div className="w-8 h-8 bg-foreground flex items-center justify-center">
+                <span className="text-background font-serif font-bold text-sm">B</span>
+              </div>
+              <div className="hidden sm:block">
+                <h1 className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                  BusinessHub<span className="text-secondary">.cy</span>
+                </h1>
+              </div>
+            </Link>
 
           {/* Desktop Navigation — clean horizontal links */}
           <nav className="hidden lg:flex items-center">
@@ -137,6 +167,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
           </nav>
         )}
       </div>
-    </header>
+      </header>
+    </>
   );
 }

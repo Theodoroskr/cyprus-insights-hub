@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper } from "lucide-react";
 
 export function Footer() {
   return (
@@ -41,10 +41,16 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* BusinessHub.cy Group */}
+          {/* Financial Mirror Group */}
           <div>
-            <h4 className="font-semibold mb-4 text-secondary">BusinessHub.cy Group</h4>
+            <h4 className="font-semibold mb-4 text-secondary">Financial Mirror Group</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/70">
+              <li>
+                <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-secondary transition-colors">
+                  <Newspaper className="h-4 w-4 text-secondary" />
+                  <span>Financial Mirror</span>
+                </a>
+              </li>
               <li>
                 <Link to="/" className="flex items-center gap-2 hover:text-secondary transition-colors">
                   <Building2 className="h-4 w-4 text-secondary" />
@@ -93,7 +99,12 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
-          <p>© {new Date().getFullYear()} BusinessHub.cy. All rights reserved. | <Link to="/resources" className="hover:text-secondary transition-colors">Privacy Policy</Link> | <Link to="/resources" className="hover:text-secondary transition-colors">Terms of Service</Link></p>
+          <p className="mb-1">© {new Date().getFullYear()} BusinessHub.cy — A <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Financial Mirror Group</a> Publication</p>
+          <p>
+            <Link to="/resources" className="hover:text-secondary transition-colors">Privacy Policy</Link>
+            {" | "}
+            <Link to="/resources" className="hover:text-secondary transition-colors">Terms of Service</Link>
+          </p>
         </div>
       </div>
     </footer>
