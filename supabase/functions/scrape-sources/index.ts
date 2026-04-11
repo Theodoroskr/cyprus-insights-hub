@@ -132,13 +132,14 @@ async function extractArticles(
   sourceName: string,
   sourceUrl: string,
   apiKey: string
-): Promise<Array<{ title: string; body: string; source_url: string }>> {
+): Promise<Array<{ title: string; body: string; source_url: string; image_url?: string }>> {
   const systemPrompt = `You are a content extraction system. Given scraped markdown from the website "${sourceName}" (${sourceUrl}), extract distinct news articles, press releases, or announcements.
 
 For each item, extract:
 - title: The headline or title
 - body: The full text content (or summary if full text isn't available)
 - url: The full URL to the original article (construct from relative links if needed, base: ${sourceUrl})
+- image_url: Any associated image URL found near the article (look for markdown image syntax ![](url) or linked images). Must be an absolute URL. If no image found, omit this field.
 
 Return ONLY articles from the last 7 days if dates are visible. Skip navigation, footer, cookie notices, etc.
 If no distinct articles can be identified, return an empty array.`;
@@ -172,6 +173,7 @@ If no distinct articles can be identified, return an empty array.`;
                       title: { type: "string" },
                       body: { type: "string" },
                       url: { type: "string" },
+                      image_url: { type: "string" },
                     },
                     required: ["title", "body"],
                   },
@@ -267,7 +269,7 @@ Deno.serve(async (req) => {
           },
           body: JSON.stringify({
             url: scrapeUrl,
-            formats: ["markdown"],
+            formats: ["markdown", "links"],
             onlyMainContent: true,
             waitFor: 3000,
           }),
@@ -323,6 +325,7 @@ Deno.serve(async (req) => {
               body_markdown: article.body,
               source_url: article.url || `${source.url}${source.scrape_path}`,
               source_id: sourceId,
+              image_url: article.image_url || null,
               vertical,
               summary: intelligence.summary,
               what_happened: intelligence.what_happened,
