@@ -1,8 +1,16 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=80";
+const FALLBACK_HEADLINE = "Independent Analysis, Regulatory Insight & Professional Intelligence for the Cyprus Market";
+const FALLBACK_SUMMARY = "Helping businesses navigate the Cyprus and EU landscape with clarity — from compliance and fintech to funding and risk intelligence.";
 
 export function HeroBanner() {
+  const [lead, setLead] = useState<{ image: string; headline: string; summary: string } | null>(null);
+
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-GB", {
     weekday: "long",
@@ -11,11 +19,32 @@ export function HeroBanner() {
     day: "numeric",
   });
 
+  useEffect(() => {
+    supabase
+      .from("cna_articles")
+      .select("image_url, title, summary, what_happened")
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+      .limit(1)
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          const a = data[0];
+          setLead({
+            image: a.image_url || FALLBACK_IMAGE,
+            headline: a.what_happened || a.title,
+            summary: a.summary || FALLBACK_SUMMARY,
+          });
+        }
+      });
+  }, []);
+
+  const heroImage = lead?.image || FALLBACK_IMAGE;
+  const heroHeadline = lead?.headline || FALLBACK_HEADLINE;
+  const heroSummary = lead?.summary || FALLBACK_SUMMARY;
+
   return (
     <section className="relative border-b border-border bg-card">
-      {/* Masthead */}
       <div className="container mx-auto px-4">
-        {/* Top rule */}
         <div className="h-[3px] bg-foreground" />
 
         <div className="py-6 text-center border-b border-border">
@@ -35,22 +64,22 @@ export function HeroBanner() {
           </div>
         </div>
 
-        {/* Lead headline with hero image */}
+        {/* Lead headline with dynamic hero image */}
         <div className="relative -mx-4 overflow-hidden">
           <div className="relative aspect-[21/9] md:aspect-[3/1] w-full">
             <img
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=80"
-              alt="Cyprus business skyline"
+              src={heroImage}
+              alt={heroHeadline}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-primary/10" />
             <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
               <p className="section-label mb-4 text-white/80">Lead Story</p>
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-white leading-tight mb-4 max-w-4xl text-center drop-shadow-lg">
-                Independent Analysis, Regulatory Insight &amp; Professional Intelligence for the Cyprus Market
+                {heroHeadline}
               </h2>
               <p className="text-white/75 max-w-2xl mx-auto mb-6 text-base text-center font-source-serif">
-                Helping businesses navigate the Cyprus and EU landscape with clarity — from compliance and fintech to funding and risk intelligence.
+                {heroSummary}
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <Link to="/#news">
