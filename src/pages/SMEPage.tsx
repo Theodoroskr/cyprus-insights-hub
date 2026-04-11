@@ -4,6 +4,10 @@ import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DigitalMaturityAssessment } from "@/components/sme/DigitalMaturityAssessment";
+import { CyprusVATCalculator } from "@/components/sme/CyprusVATCalculator";
+import { EUFundingEligibility } from "@/components/sme/EUFundingEligibility";
+import { GDPRComplianceChecker } from "@/components/sme/GDPRComplianceChecker";
 import {
   Calendar,
   ArrowRight,
@@ -336,7 +340,8 @@ export default function SMEPage() {
             {[
               { label: "Funding", href: "#funding" },
               { label: "Checklists", href: "#checklists" },
-              { label: "EU Tools", href: "#eu-tools" },
+              { label: "Interactive Tools", href: "#tools" },
+              { label: "EU Resources", href: "#eu-tools" },
               { label: "Readiness", href: "#readiness" },
               { label: "Directory", href: "#directory" },
             ].map((item, i) => (
@@ -517,7 +522,33 @@ export default function SMEPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════
-          SECTION 3: EU SUPPORT TOOLS DIRECTORY
+          SECTION 3: INTERACTIVE TOOLS
+          ═══════════════════════════════════════════════ */}
+      <section id="tools" className="section-rule bg-muted/30">
+        <div className="container mx-auto px-4 pb-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="section-label text-foreground text-sm">Interactive Business Tools</h2>
+            <span className="section-label text-secondary">4 tools</span>
+          </div>
+
+          <div className="space-y-8">
+            {/* Row 1: Digital Maturity + VAT Calculator */}
+            <div className="grid lg:grid-cols-2 gap-6">
+              <DigitalMaturityAssessment />
+              <CyprusVATCalculator />
+            </div>
+
+            {/* Row 2: Funding Eligibility */}
+            <EUFundingEligibility />
+
+            {/* Row 3: GDPR Checker */}
+            <GDPRComplianceChecker />
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION 4: EU SUPPORT TOOLS DIRECTORY
           ═══════════════════════════════════════════════ */}
       <section id="eu-tools" className="section-rule">
         <div className="container mx-auto px-4 pb-8">
