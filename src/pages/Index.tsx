@@ -35,6 +35,9 @@ const Index = () => {
 
       {/* Hero Banner — Business Intelligence Positioning */}
       <HeroBanner />
+
+      {/* Interactive Vertical Navigator */}
+      <VerticalNavigator />
       
       {/* Main Content */}
       <main>
@@ -43,6 +46,9 @@ const Index = () => {
 
         {/* Intelligence Hub - Featured News & Trending People */}
         <IntelligenceHub />
+
+        {/* Intelligence Briefings — Semafor-style Cards */}
+        <IntelligenceFeed />
         
         {/* Vertical Connection - News linked to Profiles */}
         <VerticalConnection />
