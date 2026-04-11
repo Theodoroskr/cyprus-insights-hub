@@ -937,6 +937,7 @@ export type Database = {
         Row: {
           active: boolean
           category: string
+          content: string | null
           created_at: string
           href: string
           id: string
@@ -950,6 +951,7 @@ export type Database = {
         Insert: {
           active?: boolean
           category?: string
+          content?: string | null
           created_at?: string
           href?: string
           id?: string
@@ -963,6 +965,7 @@ export type Database = {
         Update: {
           active?: boolean
           category?: string
+          content?: string | null
           created_at?: string
           href?: string
           id?: string

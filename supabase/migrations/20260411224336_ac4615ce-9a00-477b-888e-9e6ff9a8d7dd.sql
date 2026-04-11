@@ -1,0 +1,1 @@
+ALTER TABLE public.sponsored_content ADD COLUMN IF NOT EXISTS content text;
