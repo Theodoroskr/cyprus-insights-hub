@@ -53,7 +53,7 @@ export const brands: Record<BrandId, BrandConfig> = {
     navItems: [
       { label: "Intelligence", href: "/fintech" },
       { label: "Regulations", href: "/fintech#regulations" },
-      { label: "Directory", href: "/fintech/directory" },
+      { label: "Directory", href: "/directory" },
       { label: "Resources", href: "/resources" },
     ],
     parentBadge: true,

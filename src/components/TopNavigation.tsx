@@ -19,10 +19,8 @@ const navItems = [
   { label: "Directory", href: "/directory" },
   { label: "Trade", href: "/trade" },
   { label: "Who's Who", href: "/whoiswho" },
-  { label: "Interviews", href: "/interviews" },
   { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },
-  { label: "SME", href: "/sme" },
 ];
 
 export function TopNavigation({ onSearch }: TopNavigationProps) {
