@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { ContentGate } from "@/components/auth/ContentGate";
 import { FileText, Shield, Globe, Euro, Building, Clock, ArrowRight, BookOpen, Download, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
