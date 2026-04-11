@@ -18,6 +18,7 @@ interface IntelligenceCardProps {
     image: string;
   };
   href?: string;
+  articleId?: string;
 }
 
 const hubColors: Record<string, { badge: string; accent: string }> = {
