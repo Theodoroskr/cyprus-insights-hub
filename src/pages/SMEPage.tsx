@@ -522,7 +522,33 @@ export default function SMEPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════
-          SECTION 3: EU SUPPORT TOOLS DIRECTORY
+          SECTION 3: INTERACTIVE TOOLS
+          ═══════════════════════════════════════════════ */}
+      <section id="tools" className="section-rule bg-muted/30">
+        <div className="container mx-auto px-4 pb-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="section-label text-foreground text-sm">Interactive Business Tools</h2>
+            <span className="section-label text-secondary">4 tools</span>
+          </div>
+
+          <div className="space-y-8">
+            {/* Row 1: Digital Maturity + VAT Calculator */}
+            <div className="grid lg:grid-cols-2 gap-6">
+              <DigitalMaturityAssessment />
+              <CyprusVATCalculator />
+            </div>
+
+            {/* Row 2: Funding Eligibility */}
+            <EUFundingEligibility />
+
+            {/* Row 3: GDPR Checker */}
+            <GDPRComplianceChecker />
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION 4: EU SUPPORT TOOLS DIRECTORY
           ═══════════════════════════════════════════════ */}
       <section id="eu-tools" className="section-rule">
         <div className="container mx-auto px-4 pb-8">
