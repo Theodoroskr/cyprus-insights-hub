@@ -19,6 +19,7 @@ const CITY_LABELS: Record<string, string> = {
 export default function RegistryCompanyPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const { user, profile } = useAuth();
+  const { isWatching, toggleWatch } = useWatchlist();
   const [company, setCompany] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
