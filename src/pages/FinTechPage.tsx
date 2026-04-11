@@ -111,20 +111,20 @@ export default function FinTechPage() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {featuredCards.map((card, index) => (
-              <article key={index} className="group border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
+              <Link to={`/news?vertical=fintech`} key={index} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
                 <div className="relative h-44 overflow-hidden">
                   <img src={card.image} alt={card.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
                   <span className="absolute top-3 left-3 section-label text-white drop-shadow bg-primary/40 backdrop-blur-sm px-2 py-0.5">{card.tag}</span>
                 </div>
                 <div className="p-4">
-                  <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors cursor-pointer leading-tight">
+                  <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors leading-tight">
                     {card.title}
                   </h3>
                   <p className="article-body text-muted-foreground mb-3">{card.excerpt}</p>
                   <p className="byline">By {card.author} · {card.time}</p>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>
