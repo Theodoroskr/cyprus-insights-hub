@@ -27,7 +27,8 @@ export function IntelligenceFeed() {
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .limit(12)
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) console.error("CNA fetch error:", error);
         if (data && data.length > 0) setDbArticles(data as DBArticle[]);
       });
   }, []);
