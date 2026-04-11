@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Building2, MapPin, Globe, Users, ExternalLink, Lock, Shield, FileText, BarChart3, UserCheck, AlertTriangle } from "lucide-react";
+import { Building2, MapPin, Globe, Users, ExternalLink, Lock, Shield, FileText, BarChart3, UserCheck, AlertTriangle, Eye, EyeOff } from "lucide-react";
+import { useWatchlist } from "@/hooks/useWatchlist";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
