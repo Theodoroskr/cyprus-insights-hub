@@ -193,43 +193,38 @@ export function IntelligenceHub() {
             </div>
           </div>
 
-          {/* COLUMN 3: Most Read — numbered sidebar */}
+          {/* COLUMN 3: Most Read — FC-style numbered sidebar with thumbnails */}
           <div className="lg:col-span-3 lg:pl-6 pt-6 lg:pt-0 border-t lg:border-t-0">
             <div className="flex items-center gap-2 mb-5">
               <Flame className="h-4 w-4 text-destructive" />
               <span className="section-label">Most Read</span>
+              <span className="text-[10px] text-muted-foreground ml-auto">↓</span>
             </div>
             <div className="space-y-0">
               {displayMostRead.map((article, index) => (
                 <Link
                   to={`/article/${article.id}`}
                   key={article.id}
-                  className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0 transition-all duration-200 hover:bg-muted/40 -mx-2 px-2 rounded-sm"
+                  className="group cursor-pointer flex items-start gap-3 py-3 border-b border-border last:border-b-0 transition-all duration-200 hover:bg-muted/40 -mx-2 px-2 rounded-sm"
                 >
-                  <span className="text-3xl font-serif font-black text-muted-foreground/20 leading-none select-none min-w-[2rem] text-right transition-all duration-300 group-hover:text-secondary group-hover:scale-110 origin-right">
-                    {String(index + 1).padStart(2, "0")}
+                  <span className="text-2xl font-serif font-black text-muted-foreground/15 leading-none select-none min-w-[1.5rem] text-right pt-1 transition-all duration-300 group-hover:text-secondary">
+                    {index + 1}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <Badge variant="outline" className="rounded-none text-[9px] uppercase tracking-wider font-sans mb-1.5 border-muted-foreground/20 px-1.5 py-0">
+                    <Badge variant="outline" className="rounded-none text-[9px] uppercase tracking-wider font-sans mb-1 border-muted-foreground/20 px-1.5 py-0">
                       {article.category}
                     </Badge>
-                    <h5 className="font-serif text-sm font-bold text-foreground leading-snug group-hover:text-secondary transition-colors duration-200 line-clamp-2">
+                    <h5 className="font-serif text-[13px] font-bold text-foreground leading-snug group-hover:text-secondary transition-colors duration-200 line-clamp-3">
                       {article.title}
                     </h5>
-                    {article.view_count > 0 && (
-                      <span className="text-[11px] text-muted-foreground mt-1 inline-block">{article.view_count.toLocaleString()} views</span>
-                    )}
                   </div>
-                  {article.image && (
-                    <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden rounded-sm">
-                      <img
-                        src={article.image}
-                        alt=""
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-foreground/5 group-hover:bg-transparent transition-colors duration-300" />
-                    </div>
-                  )}
+                  <div className="relative w-[72px] h-[72px] flex-shrink-0 overflow-hidden rounded">
+                    <img
+                      src={article.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=200&q=60"}
+                      alt=""
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
                 </Link>
               ))}
             </div>
