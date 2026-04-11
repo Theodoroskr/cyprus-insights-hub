@@ -59,7 +59,7 @@ export function HeroBanner() {
               {formattedDate}
             </span>
             <span className="w-1 h-1 rounded-full bg-border" />
-            <span>Nicosia Edition</span>
+            <span><span>Cyprus Edition</span></span>
             <span className="w-1 h-1 rounded-full bg-border" />
             <span className="text-secondary font-medium">LIVE</span>
           </div>
