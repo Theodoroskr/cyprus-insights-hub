@@ -304,6 +304,72 @@ export type Database = {
         }
         Relationships: []
       }
+      dashboard_settings: {
+        Row: {
+          id: string
+          key: string
+          updated_at: string
+          value_json: Json
+        }
+        Insert: {
+          id?: string
+          key: string
+          updated_at?: string
+          value_json?: Json
+        }
+        Update: {
+          id?: string
+          key?: string
+          updated_at?: string
+          value_json?: Json
+        }
+        Relationships: []
+      }
+      data_import_batches: {
+        Row: {
+          batch_id: string
+          error_log: string | null
+          finished_at: string | null
+          id: string
+          import_type: string
+          records_inserted: number
+          records_received: number
+          records_updated: number
+          source_name: string
+          source_url: string | null
+          started_at: string
+          status: string
+        }
+        Insert: {
+          batch_id: string
+          error_log?: string | null
+          finished_at?: string | null
+          id?: string
+          import_type?: string
+          records_inserted?: number
+          records_received?: number
+          records_updated?: number
+          source_name: string
+          source_url?: string | null
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          batch_id?: string
+          error_log?: string | null
+          finished_at?: string | null
+          id?: string
+          import_type?: string
+          records_inserted?: number
+          records_received?: number
+          records_updated?: number
+          source_name?: string
+          source_url?: string | null
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
       directory_articles: {
         Row: {
           article_type: Database["public"]["Enums"]["directory_article_type"]
@@ -343,6 +409,33 @@ export type Database = {
           slug?: string
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      hs_sector_mapping: {
+        Row: {
+          display_order: number
+          hs_code_prefix: string
+          id: string
+          is_active: boolean
+          sector_group: string
+          sector_name: string
+        }
+        Insert: {
+          display_order?: number
+          hs_code_prefix: string
+          id?: string
+          is_active?: boolean
+          sector_group: string
+          sector_name: string
+        }
+        Update: {
+          display_order?: number
+          hs_code_prefix?: string
+          id?: string
+          is_active?: boolean
+          sector_group?: string
+          sector_name?: string
         }
         Relationships: []
       }
@@ -499,6 +592,63 @@ export type Database = {
         }
         Relationships: []
       }
+      raw_trade_imports: {
+        Row: {
+          batch_id: string | null
+          country_code: string | null
+          country_name: string | null
+          hs_code: string | null
+          hs_description: string | null
+          id: string
+          import_value_eur: number
+          imported_at: string
+          month: number
+          period_label: string | null
+          quantity: number | null
+          source_dataset_code: string | null
+          source_dataset_name: string | null
+          source_url: string | null
+          unit: string | null
+          year: number
+        }
+        Insert: {
+          batch_id?: string | null
+          country_code?: string | null
+          country_name?: string | null
+          hs_code?: string | null
+          hs_description?: string | null
+          id?: string
+          import_value_eur?: number
+          imported_at?: string
+          month: number
+          period_label?: string | null
+          quantity?: number | null
+          source_dataset_code?: string | null
+          source_dataset_name?: string | null
+          source_url?: string | null
+          unit?: string | null
+          year: number
+        }
+        Update: {
+          batch_id?: string | null
+          country_code?: string | null
+          country_name?: string | null
+          hs_code?: string | null
+          hs_description?: string | null
+          id?: string
+          import_value_eur?: number
+          imported_at?: string
+          month?: number
+          period_label?: string | null
+          quantity?: number | null
+          source_dataset_code?: string | null
+          source_dataset_name?: string | null
+          source_url?: string | null
+          unit?: string | null
+          year?: number
+        }
+        Relationships: []
+      }
       relationships: {
         Row: {
           company_id: string
@@ -648,6 +798,322 @@ export type Database = {
           summary?: string | null
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      trade_ai_insights: {
+        Row: {
+          created_at: string
+          date_month: string
+          id: string
+          insight_type: string
+          is_published: boolean
+          summary_text: string
+          supporting_metrics_json: Json | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          date_month: string
+          id?: string
+          insight_type: string
+          is_published?: boolean
+          summary_text: string
+          supporting_metrics_json?: Json | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          date_month?: string
+          id?: string
+          insight_type?: string
+          is_published?: boolean
+          summary_text?: string
+          supporting_metrics_json?: Json | null
+          title?: string
+        }
+        Relationships: []
+      }
+      trade_countries: {
+        Row: {
+          country_code: string
+          country_name: string
+          eu_member: boolean
+          id: string
+          priority_country: boolean
+          region_name: string | null
+          slug: string
+        }
+        Insert: {
+          country_code: string
+          country_name: string
+          eu_member?: boolean
+          id?: string
+          priority_country?: boolean
+          region_name?: string | null
+          slug: string
+        }
+        Update: {
+          country_code?: string
+          country_name?: string
+          eu_member?: boolean
+          id?: string
+          priority_country?: boolean
+          region_name?: string | null
+          slug?: string
+        }
+        Relationships: []
+      }
+      trade_country_monthly: {
+        Row: {
+          country_id: string | null
+          country_share_pct: number | null
+          created_at: string
+          date_month: string
+          id: string
+          month: number
+          rank_position: number | null
+          total_imports_eur: number
+          year: number
+        }
+        Insert: {
+          country_id?: string | null
+          country_share_pct?: number | null
+          created_at?: string
+          date_month: string
+          id?: string
+          month: number
+          rank_position?: number | null
+          total_imports_eur?: number
+          year: number
+        }
+        Update: {
+          country_id?: string | null
+          country_share_pct?: number | null
+          created_at?: string
+          date_month?: string
+          id?: string
+          month?: number
+          rank_position?: number | null
+          total_imports_eur?: number
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trade_country_monthly_country_id_fkey"
+            columns: ["country_id"]
+            isOneToOne: false
+            referencedRelation: "trade_countries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trade_imports_clean: {
+        Row: {
+          country_id: string | null
+          created_at: string
+          date_month: string
+          hs_code: string | null
+          hs_description: string | null
+          id: string
+          import_value_eur: number
+          month: number
+          period_label: string | null
+          quantity: number | null
+          raw_id: string | null
+          sector_group: string | null
+          sector_name: string | null
+          unit: string | null
+          year: number
+        }
+        Insert: {
+          country_id?: string | null
+          created_at?: string
+          date_month: string
+          hs_code?: string | null
+          hs_description?: string | null
+          id?: string
+          import_value_eur?: number
+          month: number
+          period_label?: string | null
+          quantity?: number | null
+          raw_id?: string | null
+          sector_group?: string | null
+          sector_name?: string | null
+          unit?: string | null
+          year: number
+        }
+        Update: {
+          country_id?: string | null
+          created_at?: string
+          date_month?: string
+          hs_code?: string | null
+          hs_description?: string | null
+          id?: string
+          import_value_eur?: number
+          month?: number
+          period_label?: string | null
+          quantity?: number | null
+          raw_id?: string | null
+          sector_group?: string | null
+          sector_name?: string | null
+          unit?: string | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trade_imports_clean_country_id_fkey"
+            columns: ["country_id"]
+            isOneToOne: false
+            referencedRelation: "trade_countries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trade_imports_clean_raw_id_fkey"
+            columns: ["raw_id"]
+            isOneToOne: false
+            referencedRelation: "raw_trade_imports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trade_kpi_snapshots: {
+        Row: {
+          created_at: string
+          date_month: string
+          eu_share_pct: number | null
+          id: string
+          import_concentration_pct: number | null
+          mom_growth_pct: number | null
+          non_eu_share_pct: number | null
+          top_3_sectors_share_pct: number | null
+          top_5_countries_share_pct: number | null
+          top_import_country_id: string | null
+          top_import_country_value_eur: number | null
+          top_import_sector: string | null
+          top_import_sector_value_eur: number | null
+          total_imports_eur: number
+          yoy_growth_pct: number | null
+        }
+        Insert: {
+          created_at?: string
+          date_month: string
+          eu_share_pct?: number | null
+          id?: string
+          import_concentration_pct?: number | null
+          mom_growth_pct?: number | null
+          non_eu_share_pct?: number | null
+          top_3_sectors_share_pct?: number | null
+          top_5_countries_share_pct?: number | null
+          top_import_country_id?: string | null
+          top_import_country_value_eur?: number | null
+          top_import_sector?: string | null
+          top_import_sector_value_eur?: number | null
+          total_imports_eur?: number
+          yoy_growth_pct?: number | null
+        }
+        Update: {
+          created_at?: string
+          date_month?: string
+          eu_share_pct?: number | null
+          id?: string
+          import_concentration_pct?: number | null
+          mom_growth_pct?: number | null
+          non_eu_share_pct?: number | null
+          top_3_sectors_share_pct?: number | null
+          top_5_countries_share_pct?: number | null
+          top_import_country_id?: string | null
+          top_import_country_value_eur?: number | null
+          top_import_sector?: string | null
+          top_import_sector_value_eur?: number | null
+          total_imports_eur?: number
+          yoy_growth_pct?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trade_kpi_snapshots_top_import_country_id_fkey"
+            columns: ["top_import_country_id"]
+            isOneToOne: false
+            referencedRelation: "trade_countries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trade_monthly_totals: {
+        Row: {
+          created_at: string
+          date_month: string
+          id: string
+          mom_growth_pct: number | null
+          month: number
+          total_imports_eur: number
+          year: number
+          yoy_growth_pct: number | null
+        }
+        Insert: {
+          created_at?: string
+          date_month: string
+          id?: string
+          mom_growth_pct?: number | null
+          month: number
+          total_imports_eur?: number
+          year: number
+          yoy_growth_pct?: number | null
+        }
+        Update: {
+          created_at?: string
+          date_month?: string
+          id?: string
+          mom_growth_pct?: number | null
+          month?: number
+          total_imports_eur?: number
+          year?: number
+          yoy_growth_pct?: number | null
+        }
+        Relationships: []
+      }
+      trade_sector_monthly: {
+        Row: {
+          created_at: string
+          date_month: string
+          id: string
+          mom_growth_pct: number | null
+          month: number
+          rank_position: number | null
+          sector_group: string | null
+          sector_name: string
+          sector_share_pct: number | null
+          total_imports_eur: number
+          year: number
+          yoy_growth_pct: number | null
+        }
+        Insert: {
+          created_at?: string
+          date_month: string
+          id?: string
+          mom_growth_pct?: number | null
+          month: number
+          rank_position?: number | null
+          sector_group?: string | null
+          sector_name: string
+          sector_share_pct?: number | null
+          total_imports_eur?: number
+          year: number
+          yoy_growth_pct?: number | null
+        }
+        Update: {
+          created_at?: string
+          date_month?: string
+          id?: string
+          mom_growth_pct?: number | null
+          month?: number
+          rank_position?: number | null
+          sector_group?: string | null
+          sector_name?: string
+          sector_share_pct?: number | null
+          total_imports_eur?: number
+          year?: number
+          yoy_growth_pct?: number | null
         }
         Relationships: []
       }
