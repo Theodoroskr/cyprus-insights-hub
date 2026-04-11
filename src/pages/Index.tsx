@@ -86,6 +86,9 @@ const Index = () => {
       {/* Premium CTA Banner */}
       <PremiumCTABanner />
       
+      {/* Leaderboard Ad — above footer */}
+      <LeaderboardAdSlot />
+
       {/* Partner Strip */}
       <PartnerStrip />
       
