@@ -6,12 +6,16 @@ interface TickerItem {
   change: number;
 }
 
+// Real CSE closing prices scraped from cse.com.cy (11 April 2026)
 const tickerData: TickerItem[] = [
-  { symbol: "CSE INDEX", value: "92.45", change: 0.82 },
-  { symbol: "BOC", value: "€3.24", change: -0.45 },
-  { symbol: "HB", value: "€2.18", change: 1.23 },
-  { symbol: "CYTA", value: "€0.89", change: 0 },
-  { symbol: "TENDER: Ministry of Transport", value: "€2.4M", change: 0 },
+  { symbol: "BOCH", value: "€8.850", change: -2.53 },
+  { symbol: "DEM", value: "€1.370", change: -0.72 },
+  { symbol: "EUROBCY", value: "€3.769", change: -4.07 },
+  { symbol: "ATL", value: "€2.440", change: 0.83 },
+  { symbol: "LUI", value: "€0.114", change: 3.64 },
+  { symbol: "KEO", value: "€2.380", change: 0 },
+  { symbol: "LOG", value: "€2.920", change: 0 },
+  { symbol: "CCC", value: "€1.300", change: 0 },
   { symbol: "EUR/USD", value: "1.0842", change: 0.12 },
   { symbol: "BRENT", value: "$82.45", change: -0.34 },
   { symbol: "GOLD", value: "$2,645", change: 0.56 },
