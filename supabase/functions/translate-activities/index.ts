@@ -14,146 +14,96 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceKey);
+    const gatewayUrl = Deno.env.get("LOVABLE_AI_GATEWAY_URL")!;
+    const gatewayKey = Deno.env.get("LOVABLE_AI_GATEWAY_API_KEY")!;
 
-    // Get all distinct Greek activity descriptions
-    const { data: rows, error: fetchErr } = await supabase
-      .from("directory_companies")
-      .select("activity_description")
-      .filter("activity_description", "neq", null)
-      .limit(1000);
+    const { offset = 0, batch_size = 60 } = await req.json().catch(() => ({}));
 
-    if (fetchErr) throw fetchErr;
+    // Get distinct Greek activities
+    const { data: rows, error } = await supabase
+      .rpc("get_greek_activities", { _offset: offset, _limit: batch_size });
 
-    // Deduplicate and filter Greek-only
-    const greekRegex = /[α-ωά-ώΑ-ΩΆ-Ώ]/;
-    const uniqueGreek = [...new Set(
-      (rows || [])
-        .map((r: any) => r.activity_description as string)
-        .filter((d: string) => greekRegex.test(d))
-    )];
-
-    // Actually get ALL distinct Greek activities
-    const { data: allRows, error: allErr } = await supabase
-      .rpc("get_distinct_greek_activities");
-
-    // Fallback: query directly
-    let activities: string[] = uniqueGreek;
-
-    // We need all distinct values. Let's paginate.
-    const allActivities = new Set<string>();
-    let offset = 0;
-    const pageSize = 1000;
-    while (true) {
-      const { data: page } = await supabase
+    // Fallback: raw SQL via a simple query
+    let activities: string[] = [];
+    if (error || !rows) {
+      // Use direct query approach
+      const { data: fallback } = await supabase
         .from("directory_companies")
         .select("activity_description")
         .not("activity_description", "is", null)
-        .range(offset, offset + pageSize - 1);
-      if (!page || page.length === 0) break;
-      for (const r of page) {
-        const desc = r.activity_description as string;
-        if (greekRegex.test(desc)) allActivities.add(desc);
+        .limit(50000);
+      
+      if (fallback) {
+        const greekRegex = /[α-ωά-ώΑ-ΩΆ-Ώ]/;
+        const unique = [...new Set(
+          fallback.map((r: any) => r.activity_description as string).filter((d: string) => greekRegex.test(d))
+        )];
+        activities = unique.slice(offset, offset + batch_size);
       }
-      offset += pageSize;
-      if (page.length < pageSize) break;
+    } else {
+      activities = rows.map((r: any) => r.activity_description);
     }
 
-    activities = [...allActivities];
-    console.log(`Found ${activities.length} unique Greek activities to translate`);
-
     if (activities.length === 0) {
-      return new Response(JSON.stringify({ message: "No Greek activities found" }), {
+      return new Response(JSON.stringify({ done: true, message: "No more Greek activities" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // Translate in batches of ~50 using Gemini via Lovable AI Gateway
-    const BATCH_SIZE = 50;
-    const translations: Record<string, string> = {};
-    const gatewayUrl = Deno.env.get("LOVABLE_AI_GATEWAY_URL");
-    const gatewayKey = Deno.env.get("LOVABLE_AI_GATEWAY_API_KEY");
+    console.log(`Translating ${activities.length} activities (offset ${offset})`);
 
-    if (!gatewayUrl || !gatewayKey) {
-      throw new Error("AI Gateway not configured");
-    }
+    // Translate via AI
+    const numbered = activities.map((a, i) => `${i + 1}. ${a}`).join("\n");
+    const aiResp = await fetch(`${gatewayUrl}/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${gatewayKey}`,
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          {
+            role: "system",
+            content: `You translate Greek business activity descriptions to English. Return ONLY a JSON object where keys are the exact Greek text and values are English translations. No markdown fences.`,
+          },
+          { role: "user", content: `Translate:\n${numbered}` },
+        ],
+        temperature: 0.1,
+      }),
+    });
 
-    for (let i = 0; i < activities.length; i += BATCH_SIZE) {
-      const batch = activities.slice(i, i + BATCH_SIZE);
-      const numbered = batch.map((a, idx) => `${idx + 1}. ${a}`).join("\n");
+    if (!aiResp.ok) throw new Error(`AI error: ${await aiResp.text()}`);
 
-      const aiResp = await fetch(`${gatewayUrl}/chat/completions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${gatewayKey}`,
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [
-            {
-              role: "system",
-              content: "You are a professional translator. Translate Greek business activity descriptions to English. Return ONLY a JSON object mapping the original Greek text to the English translation. No markdown, no code blocks, just pure JSON.",
-            },
-            {
-              role: "user",
-              content: `Translate these Greek business activity descriptions to English:\n\n${numbered}`,
-            },
-          ],
-          temperature: 0.1,
-        }),
-      });
+    const aiData = await aiResp.json();
+    let content = aiData.choices?.[0]?.message?.content || "";
+    content = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
 
-      if (!aiResp.ok) {
-        const errText = await aiResp.text();
-        console.error(`AI error batch ${i}: ${errText}`);
-        continue;
-      }
+    const translations: Record<string, string> = JSON.parse(content);
+    console.log(`Got ${Object.keys(translations).length} translations`);
 
-      const aiData = await aiResp.json();
-      let content = aiData.choices?.[0]?.message?.content || "";
-      
-      // Clean markdown code blocks if present
-      content = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
-
-      try {
-        const parsed = JSON.parse(content);
-        for (const [greek, english] of Object.entries(parsed)) {
-          translations[greek] = english as string;
-        }
-      } catch (parseErr) {
-        console.error(`Parse error batch ${i}:`, parseErr, content.substring(0, 200));
-      }
-
-      console.log(`Translated batch ${i / BATCH_SIZE + 1}/${Math.ceil(activities.length / BATCH_SIZE)}`);
-    }
-
-    console.log(`Total translations: ${Object.keys(translations).length}`);
-
-    // Apply translations to database
+    // Apply updates
     let updated = 0;
     for (const [greek, english] of Object.entries(translations)) {
-      const { count, error: upErr } = await supabase
+      const { count } = await supabase
         .from("directory_companies")
-        .update({ activity_description: english })
+        .update({ activity_description: english as string })
         .eq("activity_description", greek)
         .select("id", { count: "exact", head: true });
-
-      if (upErr) {
-        console.error(`Update error for "${greek}":`, upErr);
-      } else {
-        updated += count || 0;
-      }
+      updated += count || 0;
     }
 
     return new Response(
       JSON.stringify({
-        unique_activities: activities.length,
+        batch_offset: offset,
+        activities_in_batch: activities.length,
         translated: Object.keys(translations).length,
         rows_updated: updated,
+        next_offset: offset + batch_size,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
-  } catch (err) {
+  } catch (err: any) {
     console.error("Error:", err);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
