@@ -137,15 +137,15 @@ export default function ArticlePage() {
 
       {/* Hero image */}
       {article.image_url && (
-        <div className="relative w-full h-[300px] md:h-[420px] overflow-hidden">
-          <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/30 to-transparent" />
+        <div className="relative w-full overflow-hidden">
+          <img src={article.image_url} alt={article.title} className="w-full h-[300px] md:h-[420px] object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-            <div className="container mx-auto">
+            <div className="container mx-auto max-w-4xl">
               <Badge variant="outline" className={`mb-3 ${verticalColor[article.vertical] || verticalColor.general}`}>
                 {verticalLabel[article.vertical] || article.vertical}
               </Badge>
-              <h1 className="text-2xl md:text-4xl font-serif font-bold text-white leading-tight max-w-4xl drop-shadow-lg">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-white leading-snug drop-shadow-lg">
                 {article.what_happened || article.title}
               </h1>
             </div>
