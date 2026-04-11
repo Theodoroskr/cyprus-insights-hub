@@ -39,7 +39,8 @@ const INDUSTRY_FILTERS: { code: string; label: string }[] = [
 
 export default function RegistryDirectoryPage() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("q") || "");
   const [cityCounts, setCityCounts] = useState<Record<string, number>>({});
   const [totalCompanies, setTotalCompanies] = useState(0);
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
