@@ -14,6 +14,7 @@ import DirectoryPage from "./pages/DirectoryPage";
 import SMEPage from "./pages/SMEPage";
 import DashboardPage from "./pages/DashboardPage";
 import EditorialDashboard from "./pages/EditorialDashboard";
+import ContentSourcesPage from "./pages/ContentSourcesPage";
 import NotFound from "./pages/NotFound";
 
 // Intelligence Directory pages
@@ -50,6 +51,7 @@ const App = () => (
               <Route path="/sme" element={<SMEPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/editorial" element={<EditorialDashboard />} />
+              <Route path="/admin/sources" element={<ContentSourcesPage />} />
 
               {/* Intelligence Directory routes */}
               <Route path="/directory" element={<CompanyDirectoryPage />} />
