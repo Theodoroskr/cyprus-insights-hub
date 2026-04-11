@@ -19,6 +19,7 @@ import { PartnerStrip } from "@/components/banners/PartnerStrip";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { ArticleCounter } from "@/components/auth/ArticleCounter";
 import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
+import { DirectoryPreview } from "@/components/DirectoryPreview";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,6 +59,9 @@ const Index = () => {
 
         {/* Intelligence Hub - Featured News & Trending People */}
         <IntelligenceHub />
+
+        {/* Intelligence Directory Preview */}
+        <DirectoryPreview />
 
         {/* Custom Studio — Sponsored Content */}
         <SponsoredStudio />

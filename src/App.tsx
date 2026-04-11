@@ -42,8 +42,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               {/* Original routes */}
-              <Route path="/" element={<DirectoryHomePage />} />
-              <Route path="/home" element={<Index />} />
+              <Route path="/" element={<Index />} />
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/fintech" element={<FinTechPage />} />
               <Route path="/compliance" element={<CompliancePage />} />
