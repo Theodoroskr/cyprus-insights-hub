@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { ContentGate } from "@/components/auth/ContentGate";
 import { FileText, Shield, Globe, Euro, Building, Clock, ArrowRight, BookOpen, Download, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -166,7 +167,7 @@ export default function ResourcesPage() {
       <main className="container mx-auto px-4 py-8">
         {featured && (
           <>
-            {/* Featured article — newspaper lead */}
+            {/* Featured article — newspaper lead (always visible as teaser) */}
             <div className="grid lg:grid-cols-12 gap-0 mb-8">
               <div className="lg:col-span-7 lg:pr-6 lg:border-r border-border">
                 <article className="group cursor-pointer">
@@ -202,77 +203,81 @@ export default function ResourcesPage() {
                   <TrendingUp className="h-4 w-4 text-secondary" />
                   <span className="section-label">Most Read</span>
                 </div>
-                <div className="divide-y divide-border">
-                  {rest.slice(0, 4).map((r, i) => {
-                    const TypeIcon = typeIcons[r.type] || FileText;
-                    return (
-                      <article key={r.id} className="py-4 first:pt-0 group cursor-pointer">
-                        <div className="flex items-start gap-3">
-                          <span className="text-2xl font-serif font-bold text-muted-foreground/30 leading-none">{String(i + 1).padStart(2, "0")}</span>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-serif font-bold text-sm text-foreground leading-snug mb-1 group-hover:text-secondary transition-colors">
-                              {r.title}
-                            </h4>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                              <TypeIcon className="h-3 w-3" />
-                              <span>{r.readTime}</span>
-                              <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
-                              <span>{r.category}</span>
+                <ContentGate message="Register free to access all guides and resources">
+                  <div className="divide-y divide-border">
+                    {rest.slice(0, 4).map((r, i) => {
+                      const TypeIcon = typeIcons[r.type] || FileText;
+                      return (
+                        <article key={r.id} className="py-4 first:pt-0 group cursor-pointer">
+                          <div className="flex items-start gap-3">
+                            <span className="text-2xl font-serif font-bold text-muted-foreground/30 leading-none">{String(i + 1).padStart(2, "0")}</span>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-serif font-bold text-sm text-foreground leading-snug mb-1 group-hover:text-secondary transition-colors">
+                                {r.title}
+                              </h4>
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <TypeIcon className="h-3 w-3" />
+                                <span>{r.readTime}</span>
+                                <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
+                                <span>{r.category}</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </ContentGate>
               </div>
             </div>
           </>
         )}
 
-        {/* Article grid */}
-        <div className="border-t border-foreground pt-6">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="section-label">All Resources</span>
-            <div className="flex-1 h-px bg-border" />
-            <span className="text-xs text-muted-foreground">{filtered.length} items</span>
-          </div>
+        {/* Article grid — gated for anonymous, free for registered */}
+        <ContentGate message="Register free to browse the full Resource Hub">
+          <div className="border-t border-foreground pt-6">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="section-label">All Resources</span>
+              <div className="flex-1 h-px bg-border" />
+              <span className="text-xs text-muted-foreground">{filtered.length} items</span>
+            </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0">
-            {rest.map((r, i) => {
-              const TypeIcon = typeIcons[r.type] || FileText;
-              return (
-                <article
-                  key={r.id}
-                  className={`py-5 px-4 group cursor-pointer hover:bg-muted/30 transition-colors
-                    ${i % 3 !== 2 ? "lg:border-r border-border" : ""}
-                    ${i >= 3 ? "border-t border-border" : ""}
-                    ${i % 2 !== 0 && i < 3 ? "md:border-r" : ""}
-                  `}
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans border-muted-foreground/30">
-                      {r.category}
-                    </Badge>
-                    <TypeIcon className="h-3 w-3 text-muted-foreground" />
-                  </div>
-                  <h3 className="font-serif font-bold text-foreground leading-snug mb-2 group-hover:text-secondary transition-colors">
-                    {r.title}
-                  </h3>
-                  <p className="article-body text-sm line-clamp-2 mb-3">{r.summary}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span>{r.date}</span>
-                      <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
-                      <span>{r.readTime}</span>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0">
+              {rest.map((r, i) => {
+                const TypeIcon = typeIcons[r.type] || FileText;
+                return (
+                  <article
+                    key={r.id}
+                    className={`py-5 px-4 group cursor-pointer hover:bg-muted/30 transition-colors
+                      ${i % 3 !== 2 ? "lg:border-r border-border" : ""}
+                      ${i >= 3 ? "border-t border-border" : ""}
+                      ${i % 2 !== 0 && i < 3 ? "md:border-r" : ""}
+                    `}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans border-muted-foreground/30">
+                        {r.category}
+                      </Badge>
+                      <TypeIcon className="h-3 w-3 text-muted-foreground" />
                     </div>
-                    <ArrowRight className="h-3 w-3 text-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                </article>
-              );
-            })}
+                    <h3 className="font-serif font-bold text-foreground leading-snug mb-2 group-hover:text-secondary transition-colors">
+                      {r.title}
+                    </h3>
+                    <p className="article-body text-sm line-clamp-2 mb-3">{r.summary}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span>{r.date}</span>
+                        <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
+                        <span>{r.readTime}</span>
+                      </div>
+                      <ArrowRight className="h-3 w-3 text-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </ContentGate>
       </main>
 
       {/* Disclaimer */}
