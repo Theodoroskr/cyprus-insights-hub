@@ -261,6 +261,20 @@ export default function SMEPage() {
   const [readinessAnswers, setReadinessAnswers] = useState<Record<string, boolean>>({});
   const [showReadinessResult, setShowReadinessResult] = useState(false);
   const [fundingFilter, setFundingFilter] = useState<string>("All");
+  const [smeArticles, setSmeArticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("cna_articles")
+      .select("id, title, summary, image_url, published_at")
+      .eq("status", "published")
+      .eq("vertical", "sme")
+      .order("published_at", { ascending: false })
+      .limit(4)
+      .then(({ data }) => {
+        if (data) setSmeArticles(data);
+      });
+  }, []);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
