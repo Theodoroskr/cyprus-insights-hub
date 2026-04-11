@@ -130,10 +130,6 @@ export default function TradePage() {
                 ))}
               </SelectContent>
             </Select>
-            <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">
-              <Download className="h-4 w-4 mr-2" />
-              Export CSV
-            </Button>
           </div>
         </div>
       </section>
