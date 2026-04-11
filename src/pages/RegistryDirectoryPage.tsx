@@ -68,6 +68,29 @@ export default function RegistryDirectoryPage() {
     fetchCounts();
   }, []);
 
+  // Auto-search if ?q= param is present
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q && q.trim()) {
+      setSearch(q);
+      const doSearch = async () => {
+        setSearching(true);
+        setSelectedIndustry(null);
+        setSelectedCity(null);
+        setFilterResults(null);
+        const term = `%${q.trim()}%`;
+        const { data } = await supabase
+          .from("directory_companies")
+          .select("id, company_name, city, city_slug, activity_description, organisation_type")
+          .or(`company_name.ilike.${term},activity_description.ilike.${term},city.ilike.${term}`)
+          .limit(50);
+        setSearchResults(data || []);
+        setSearching(false);
+      };
+      doSearch();
+    }
+  }, [searchParams]);
+
   // Run combined filter whenever city or industry changes
   const runFilter = async (city: string | null, industry: string | null) => {
     if (!city && !industry) {
