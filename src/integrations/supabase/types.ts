@@ -729,6 +729,57 @@ export type Database = {
           },
         ]
       }
+      resources: {
+        Row: {
+          category: string
+          content: string | null
+          cover_image: string | null
+          created_at: string
+          description: string | null
+          download_url: string | null
+          featured: boolean
+          id: string
+          is_published: boolean
+          resource_type: string
+          slug: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          content?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          download_url?: string | null
+          featured?: boolean
+          id?: string
+          is_published?: boolean
+          resource_type?: string
+          slug: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          content?: string | null
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          download_url?: string | null
+          featured?: boolean
+          id?: string
+          is_published?: boolean
+          resource_type?: string
+          slug?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       saved_items: {
         Row: {
           created_at: string

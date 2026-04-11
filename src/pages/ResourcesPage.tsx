@@ -1,124 +1,50 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { ContentGate } from "@/components/auth/ContentGate";
-import { FileText, Shield, Globe, Euro, Building, Clock, ArrowRight, BookOpen, Download, TrendingUp } from "lucide-react";
+import { FileText, Clock, ArrowRight, BookOpen, Download, TrendingUp, Library } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const tabs = ["All", "Guides", "Regulatory", "EU Funding", "Reports"] as const;
+const tabs = ["All", "Guides", "Glossaries", "Reports"] as const;
 type Tab = typeof tabs[number];
 
-interface Resource {
-  id: string;
-  title: string;
-  summary: string;
-  category: Tab;
-  date: string;
-  readTime: string;
-  author: string;
-  featured?: boolean;
-  image?: string;
-  type: "article" | "report" | "guide";
-}
-
-const resources: Resource[] = [
-  {
-    id: "1",
-    title: "The Complete Guide to MiCA Compliance for Cyprus-Based Crypto Firms",
-    summary: "A comprehensive walkthrough of the Markets in Crypto-Assets regulation and what it means for firms operating from Cyprus as their EU gateway.",
-    category: "Regulatory",
-    date: "March 28, 2026",
-    readTime: "12 min read",
-    author: "ComplianceHub Editorial",
-    featured: true,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-    type: "guide",
-  },
-  {
-    id: "2",
-    title: "EU Funding Opportunities for Cypriot SMEs: 2026 Edition",
-    summary: "Navigating Horizon Europe, Digital Europe Programme, and structural funds available to small and medium enterprises in Cyprus.",
-    category: "EU Funding",
-    date: "March 25, 2026",
-    readTime: "8 min read",
-    author: "EU Desk",
-    type: "report",
-  },
-  {
-    id: "3",
-    title: "AML/KYC Obligations: A Practical Checklist for New Licensees",
-    summary: "Step-by-step compliance checklist for firms recently licensed by CySEC, covering customer due diligence, transaction monitoring, and reporting.",
-    category: "Regulatory",
-    date: "March 22, 2026",
-    readTime: "6 min read",
-    author: "ComplianceHub Editorial",
-    type: "guide",
-  },
-  {
-    id: "4",
-    title: "Cyprus as a FinTech Hub: Market Entry Strategy",
-    summary: "Why international fintech firms are choosing Cyprus and how to structure operations for maximum regulatory and tax efficiency.",
-    category: "Guides",
-    date: "March 20, 2026",
-    readTime: "10 min read",
-    author: "FinTechHub Editorial",
-    type: "guide",
-  },
-  {
-    id: "5",
-    title: "DORA Implementation Timeline and Key Requirements",
-    summary: "The Digital Operational Resilience Act deadline is approaching. Here's what financial entities in Cyprus need to prepare.",
-    category: "Regulatory",
-    date: "March 18, 2026",
-    readTime: "7 min read",
-    author: "ComplianceHub Editorial",
-    type: "article",
-  },
-  {
-    id: "6",
-    title: "Annual Corporate Governance Report: Best Practices 2026",
-    summary: "Reviewing substance requirements, board composition standards, and governance frameworks for Cyprus-registered companies.",
-    category: "Reports",
-    date: "March 15, 2026",
-    readTime: "15 min read",
-    author: "BusinessHub Research",
-    type: "report",
-  },
-  {
-    id: "7",
-    title: "Horizon Europe: How to Write a Winning Grant Proposal",
-    summary: "Practical tips from successful applicants on structuring proposals, building consortia, and meeting evaluation criteria.",
-    category: "EU Funding",
-    date: "March 12, 2026",
-    readTime: "9 min read",
-    author: "EU Desk",
-    type: "guide",
-  },
-  {
-    id: "8",
-    title: "NIS2 Directive: Cybersecurity Compliance for Financial Services",
-    summary: "Understanding the Network and Information Systems Directive and its impact on Cyprus-based financial services firms.",
-    category: "Regulatory",
-    date: "March 10, 2026",
-    readTime: "8 min read",
-    author: "ComplianceHub Editorial",
-    type: "article",
-  },
-];
-
-const typeIcons: Record<string, typeof FileText> = {
-  article: FileText,
-  report: Download,
-  guide: BookOpen,
+const typeMap: Record<string, { label: Tab; icon: typeof FileText }> = {
+  guide: { label: "Guides", icon: BookOpen },
+  glossary: { label: "Glossaries", icon: Library },
+  report: { label: "Reports", icon: Download },
 };
 
 export default function ResourcesPage() {
   const [activeTab, setActiveTab] = useState<Tab>("All");
   const handleSearch = (query: string) => console.log("Search:", query);
 
-  const filtered = activeTab === "All" ? resources : resources.filter((r) => r.category === activeTab);
+  const { data: resources = [], isLoading } = useQuery({
+    queryKey: ["resources"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("resources")
+        .select("*")
+        .eq("is_published", true)
+        .order("featured", { ascending: false })
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const filtered =
+    activeTab === "All"
+      ? resources
+      : resources.filter((r) => typeMap[r.resource_type]?.label === activeTab);
+
   const featured = filtered.find((r) => r.featured) || filtered[0];
   const rest = filtered.filter((r) => r.id !== featured?.id);
+
+  const categoryLabel = (type: string, category: string) =>
+    category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
     <div className="min-h-screen bg-background">
@@ -134,13 +60,13 @@ export default function ResourcesPage() {
               Resource Hub
             </h1>
             <p className="article-body text-base mt-2 max-w-xl mx-auto">
-              Guides, regulatory explainers &amp; intelligence reports for operating in Cyprus and the EU.
+              Guides, glossaries &amp; intelligence reports for operating in Cyprus and the EU.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Filter tabs — newspaper section tabs */}
+      {/* Filter tabs */}
       <div className="border-b border-border bg-card sticky top-14 z-40">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-0 overflow-x-auto">
@@ -165,34 +91,42 @@ export default function ResourcesPage() {
 
       {/* Content */}
       <main className="container mx-auto px-4 py-8">
-        {featured && (
+        {isLoading ? (
+          <div className="space-y-4">
+            <Skeleton className="h-72 w-full" />
+            <div className="grid md:grid-cols-3 gap-4">
+              {[1, 2, 3].map((i) => <Skeleton key={i} className="h-40" />)}
+            </div>
+          </div>
+        ) : featured ? (
           <>
-            {/* Featured article — newspaper lead (always visible as teaser) */}
+            {/* Featured resource */}
             <div className="grid lg:grid-cols-12 gap-0 mb-8">
               <div className="lg:col-span-7 lg:pr-6 lg:border-r border-border">
                 <article className="group cursor-pointer">
-                  {featured.image && (
+                  {featured.cover_image && (
                     <div className="overflow-hidden mb-4">
                       <img
-                        src={featured.image}
+                        src={featured.cover_image}
                         alt={featured.title}
                         className="w-full h-56 md:h-72 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                       />
                     </div>
                   )}
                   <Badge className="bg-foreground text-background rounded-none text-[10px] uppercase tracking-wider font-sans mb-3">
-                    {featured.category}
+                    {categoryLabel(featured.resource_type, featured.category)}
                   </Badge>
                   <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground leading-tight mb-3 group-hover:text-secondary transition-colors">
                     {featured.title}
                   </h2>
-                  <p className="article-body text-base mb-4">{featured.summary}</p>
+                  <p className="article-body text-base mb-4">{featured.description}</p>
                   <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                    <span className="byline">By {featured.author}</span>
+                    <span className="flex items-center gap-1">
+                      {(() => { const Icon = typeMap[featured.resource_type]?.icon || FileText; return <Icon className="h-3 w-3" />; })()}
+                      {featured.resource_type}
+                    </span>
                     <span className="w-1 h-1 rounded-full bg-border" />
-                    <span>{featured.date}</span>
-                    <span className="w-1 h-1 rounded-full bg-border" />
-                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{featured.readTime}</span>
+                    <span>{new Date(featured.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
                   </div>
                 </article>
               </div>
@@ -201,12 +135,12 @@ export default function ResourcesPage() {
               <div className="lg:col-span-5 lg:pl-6 pt-6 lg:pt-0">
                 <div className="flex items-center gap-2 mb-4">
                   <TrendingUp className="h-4 w-4 text-secondary" />
-                  <span className="section-label">Most Read</span>
+                  <span className="section-label">Featured</span>
                 </div>
                 <ContentGate message="Register free to access all guides and resources">
                   <div className="divide-y divide-border">
                     {rest.slice(0, 4).map((r, i) => {
-                      const TypeIcon = typeIcons[r.type] || FileText;
+                      const TypeIcon = typeMap[r.resource_type]?.icon || FileText;
                       return (
                         <article key={r.id} className="py-4 first:pt-0 group cursor-pointer">
                           <div className="flex items-start gap-3">
@@ -217,9 +151,9 @@ export default function ResourcesPage() {
                               </h4>
                               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                                 <TypeIcon className="h-3 w-3" />
-                                <span>{r.readTime}</span>
+                                <span>{r.resource_type}</span>
                                 <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
-                                <span>{r.category}</span>
+                                <span>{categoryLabel(r.resource_type, r.category)}</span>
                               </div>
                             </div>
                           </div>
@@ -230,57 +164,62 @@ export default function ResourcesPage() {
                 </ContentGate>
               </div>
             </div>
+
+            {/* All resources grid */}
+            <ContentGate message="Register free to browse the full Resource Hub">
+              <div className="border-t border-foreground pt-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="section-label">All Resources</span>
+                  <div className="flex-1 h-px bg-border" />
+                  <span className="text-xs text-muted-foreground">{filtered.length} items</span>
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0">
+                  {rest.map((r, i) => {
+                    const TypeIcon = typeMap[r.resource_type]?.icon || FileText;
+                    return (
+                      <article
+                        key={r.id}
+                        className={`py-5 px-4 group cursor-pointer hover:bg-muted/30 transition-colors
+                          ${i % 3 !== 2 ? "lg:border-r border-border" : ""}
+                          ${i >= 3 ? "border-t border-border" : ""}
+                          ${i % 2 !== 0 && i < 3 ? "md:border-r" : ""}
+                        `}
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans border-muted-foreground/30">
+                            {categoryLabel(r.resource_type, r.category)}
+                          </Badge>
+                          <TypeIcon className="h-3 w-3 text-muted-foreground" />
+                        </div>
+                        <h3 className="font-serif font-bold text-foreground leading-snug mb-2 group-hover:text-secondary transition-colors">
+                          {r.title}
+                        </h3>
+                        <p className="article-body text-sm line-clamp-2 mb-3">{r.description}</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <span>{new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
+                            {r.tags && r.tags.length > 0 && (
+                              <>
+                                <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
+                                <span>{r.tags[0]}</span>
+                              </>
+                            )}
+                          </div>
+                          <ArrowRight className="h-3 w-3 text-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+            </ContentGate>
           </>
+        ) : (
+          <p className="text-center text-muted-foreground py-12">No resources available yet.</p>
         )}
-
-        {/* Article grid — gated for anonymous, free for registered */}
-        <ContentGate message="Register free to browse the full Resource Hub">
-          <div className="border-t border-foreground pt-6">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="section-label">All Resources</span>
-              <div className="flex-1 h-px bg-border" />
-              <span className="text-xs text-muted-foreground">{filtered.length} items</span>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0">
-              {rest.map((r, i) => {
-                const TypeIcon = typeIcons[r.type] || FileText;
-                return (
-                  <article
-                    key={r.id}
-                    className={`py-5 px-4 group cursor-pointer hover:bg-muted/30 transition-colors
-                      ${i % 3 !== 2 ? "lg:border-r border-border" : ""}
-                      ${i >= 3 ? "border-t border-border" : ""}
-                      ${i % 2 !== 0 && i < 3 ? "md:border-r" : ""}
-                    `}
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans border-muted-foreground/30">
-                        {r.category}
-                      </Badge>
-                      <TypeIcon className="h-3 w-3 text-muted-foreground" />
-                    </div>
-                    <h3 className="font-serif font-bold text-foreground leading-snug mb-2 group-hover:text-secondary transition-colors">
-                      {r.title}
-                    </h3>
-                    <p className="article-body text-sm line-clamp-2 mb-3">{r.summary}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <span>{r.date}</span>
-                        <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
-                        <span>{r.readTime}</span>
-                      </div>
-                      <ArrowRight className="h-3 w-3 text-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </ContentGate>
       </main>
 
-      {/* Disclaimer */}
       <section className="py-6 border-t border-border">
         <div className="container mx-auto px-4">
           <p className="text-xs text-muted-foreground text-center italic font-source-serif">
