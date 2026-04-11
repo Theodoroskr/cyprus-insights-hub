@@ -340,7 +340,8 @@ export default function SMEPage() {
             {[
               { label: "Funding", href: "#funding" },
               { label: "Checklists", href: "#checklists" },
-              { label: "EU Tools", href: "#eu-tools" },
+              { label: "Interactive Tools", href: "#tools" },
+              { label: "EU Resources", href: "#eu-tools" },
               { label: "Readiness", href: "#readiness" },
               { label: "Directory", href: "#directory" },
             ].map((item, i) => (
