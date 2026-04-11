@@ -265,7 +265,7 @@ const EditorialDashboard = () => {
                     {article.status === "draft" && (
                       <Button
                         size="sm"
-                        className="bg-green-600 hover:bg-green-700 text-white"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-primary-foreground"
                         onClick={() => statusMutation.mutate({ id: article.id, status: "published" })}
                         disabled={statusMutation.isPending}
                       >
