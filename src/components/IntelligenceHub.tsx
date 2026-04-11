@@ -309,7 +309,7 @@ export function IntelligenceHub() {
               <span className="section-label">Most Read</span>
             </div>
             <div className="space-y-0">
-              {mostReadArticles.map((article, index) => (
+              {displayMostRead.map((article, index) => (
                 <article
                   key={article.id}
                   className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0"
@@ -325,7 +325,9 @@ export function IntelligenceHub() {
                     <h5 className="font-serif text-sm font-bold text-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-2">
                       {article.title}
                     </h5>
-                    <span className="text-[11px] text-muted-foreground mt-1 inline-block">{article.readTime} read</span>
+                    {article.view_count > 0 && (
+                      <span className="text-[11px] text-muted-foreground mt-1 inline-block">{article.view_count.toLocaleString()} views</span>
+                    )}
                   </div>
                 </article>
               ))}
