@@ -407,6 +407,7 @@ export default function SMEPage() {
         </section>
       )}
 
+      {/* ═══════════════════════════════════════════════
           SECTION 1: EU FUNDING MATCHMAKER
           ═══════════════════════════════════════════════ */}
       <section id="funding" className="section-rule">
