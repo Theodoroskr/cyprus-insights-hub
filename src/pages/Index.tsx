@@ -2,8 +2,10 @@ import { useState } from "react";
 import { BusinessTicker } from "@/components/BusinessTicker";
 import { TopNavigation } from "@/components/TopNavigation";
 import { HeroBanner } from "@/components/banners/HeroBanner";
+import { VerticalNavigator } from "@/components/VerticalNavigator";
 import { SectionBanners } from "@/components/banners/SectionBanners";
 import { IntelligenceHub } from "@/components/IntelligenceHub";
+import { IntelligenceFeed } from "@/components/IntelligenceFeed";
 import { VerticalConnection } from "@/components/VerticalConnection";
 import { FinTechSpotlight } from "@/components/FinTechSpotlight";
 import { EUFundingMatchmaker } from "@/components/EUFundingMatchmaker";
@@ -33,6 +35,9 @@ const Index = () => {
 
       {/* Hero Banner — Business Intelligence Positioning */}
       <HeroBanner />
+
+      {/* Interactive Vertical Navigator */}
+      <VerticalNavigator />
       
       {/* Main Content */}
       <main>
@@ -41,6 +46,9 @@ const Index = () => {
 
         {/* Intelligence Hub - Featured News & Trending People */}
         <IntelligenceHub />
+
+        {/* Intelligence Briefings — Semafor-style Cards */}
+        <IntelligenceFeed />
         
         {/* Vertical Connection - News linked to Profiles */}
         <VerticalConnection />
