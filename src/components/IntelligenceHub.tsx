@@ -58,20 +58,17 @@ export function IntelligenceHub() {
 
   // Map DB articles to display format, fall back to static data
   const featuredArticles = useMemo(() => {
-    if (dbArticles.length > 0) {
-      return dbArticles.map((a) => ({
-        id: a.id,
-        title: a.what_happened || a.title,
-        summary: a.summary || "",
-        image: a.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-        category: verticalLabel(a.vertical),
-        date: a.published_at
-          ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
-          : "",
-        author: "Editorial",
-      }));
-    }
-    return fallbackArticles;
+    return dbArticles.map((a) => ({
+      id: a.id,
+      title: a.what_happened || a.title,
+      summary: a.summary || "",
+      image: a.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      category: verticalLabel(a.vertical),
+      date: a.published_at
+        ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
+        : "",
+      author: "Editorial",
+    }));
   }, [dbArticles]);
 
   const [lead, ...secondary] = featuredArticles;
@@ -110,10 +107,7 @@ export function IntelligenceHub() {
     });
   }, [featuredArticles]);
 
-  // Use real data if available, otherwise fall back to static
-  const displayMostRead = mostRead.length > 0
-    ? mostRead
-    : mostReadArticles.map((a) => ({ ...a, view_count: 0 }));
+  const displayMostRead = mostRead;
 
   return (
     <section id="news" className="section-rule section-rule-thick">
