@@ -1,79 +1,66 @@
-import { X, Newspaper, User, Euro, BadgeCheck, Building2, Calendar } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { X, Newspaper, User, BadgeCheck, Building2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SearchResultsProps {
   query: string;
   onClose: () => void;
 }
 
-const mockNews = [
-  {
-    id: "1",
-    title: "Cyprus Tech Sector Sees 45% Growth in Foreign Investment",
-    category: "Technology",
-    date: "2 hours ago",
-    snippet: "Foreign direct investment in Cyprus's technology sector has surged by 45% compared to last year...",
-  },
-  {
-    id: "2",
-    title: "New Energy Legislation Passed by Parliament",
-    category: "Energy",
-    date: "1 day ago",
-    snippet: "Parliament has approved landmark legislation aimed at accelerating the transition to renewable energy...",
-  },
-];
-
-const mockPeople = [
-  {
-    id: "1",
-    name: "Elena Konstantinou",
-    title: "Director of Investment",
-    company: "Cyprus Investment Promotion Agency",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80",
-    badges: ["CySEC"],
-  },
-  {
-    id: "2",
-    name: "Andreas Philippou",
-    title: "Managing Partner",
-    company: "PwC Cyprus",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80",
-    badges: ["ICPAC"],
-  },
-];
-
-const mockGrants = [
-  {
-    id: "1",
-    name: "Tech Innovation Fund 2024",
-    amount: "€50,000 - €150,000",
-    deadline: "March 15, 2024",
-    matchScore: 92,
-  },
-  {
-    id: "2",
-    name: "Green Transition Grant",
-    amount: "€100,000 - €300,000",
-    deadline: "April 30, 2024",
-    matchScore: 78,
-  },
-];
-
 export function SearchResults({ query, onClose }: SearchResultsProps) {
+  const [news, setNews] = useState<any[]>([]);
+  const [people, setPeople] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!query) return;
+    setLoading(true);
+    const q = `%${query}%`;
+
+    Promise.all([
+      supabase
+        .from("cna_articles")
+        .select("id, title, summary, vertical, published_at")
+        .eq("status", "published")
+        .or(`title.ilike.${q},summary.ilike.${q}`)
+        .order("published_at", { ascending: false })
+        .limit(10),
+      supabase
+        .from("people")
+        .select("id, name, slug, title, photo, is_whoiswho")
+        .or(`name.ilike.${q},title.ilike.${q}`)
+        .order("name")
+        .limit(10),
+    ]).then(([newsRes, peopleRes]) => {
+      if (newsRes.data) setNews(newsRes.data);
+      if (peopleRes.data) setPeople(peopleRes.data);
+      setLoading(false);
+    });
+  }, [query]);
+
   if (!query) return null;
+
+  const verticalLabel = (v: string) => {
+    const map: Record<string, string> = { compliance: "Compliance", fintech: "FinTech", sme: "SME", general: "Business" };
+    return map[v] || v;
+  };
+
+  const totalResults = news.length + people.length;
 
   return (
     <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-fade-in">
       <div className="container mx-auto px-4 py-8 h-full overflow-y-auto">
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-2xl font-bold text-primary">Search Results</h2>
               <p className="text-muted-foreground">
-                Showing results for "<span className="text-secondary font-medium">{query}</span>"
+                {loading ? "Searching…" : `${totalResults} results for `}
+                "<span className="text-secondary font-medium">{query}</span>"
               </p>
             </div>
             <Button variant="ghost" size="icon" onClick={onClose}>
@@ -81,169 +68,94 @@ export function SearchResults({ query, onClose }: SearchResultsProps) {
             </Button>
           </div>
 
-          {/* Tabbed Results */}
-          <Tabs defaultValue="all" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-6">
-              <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="news">News</TabsTrigger>
-              <TabsTrigger value="people">People</TabsTrigger>
-              <TabsTrigger value="grants">Grants</TabsTrigger>
-            </TabsList>
+          {loading ? (
+            <div className="py-16 text-center text-muted-foreground">Searching…</div>
+          ) : totalResults === 0 ? (
+            <div className="py-16 text-center text-muted-foreground">
+              <p className="text-lg">No results found.</p>
+              <p className="text-sm mt-2">Try a different search term.</p>
+            </div>
+          ) : (
+            <Tabs defaultValue="all" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-6">
+                <TabsTrigger value="all">All ({totalResults})</TabsTrigger>
+                <TabsTrigger value="news">News ({news.length})</TabsTrigger>
+                <TabsTrigger value="people">People ({people.length})</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="all" className="space-y-6">
-              {/* News Section */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Newspaper className="h-4 w-4 text-secondary" />
-                  <h3 className="font-semibold text-primary">News</h3>
-                  <Badge variant="secondary" className="text-xs">{mockNews.length}</Badge>
-                </div>
-                <div className="space-y-3">
-                  {mockNews.map((item) => (
-                    <div key={item.id} className="bento-card p-4 hover:border-secondary/40 cursor-pointer">
-                      <Badge variant="outline" className="mb-2">{item.category}</Badge>
-                      <h4 className="font-medium text-primary mb-1">{item.title}</h4>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{item.snippet}</p>
-                      <p className="text-xs text-muted-foreground mt-2">{item.date}</p>
+              <TabsContent value="all" className="space-y-6">
+                {news.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Newspaper className="h-4 w-4 text-secondary" />
+                      <h3 className="font-semibold text-primary">News</h3>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* People Section */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <User className="h-4 w-4 text-secondary" />
-                  <h3 className="font-semibold text-primary">People</h3>
-                  <Badge variant="secondary" className="text-xs">{mockPeople.length}</Badge>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {mockPeople.map((person) => (
-                    <div key={person.id} className="bento-card p-4 hover:border-secondary/40 cursor-pointer">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={person.image}
-                          alt={person.name}
-                          className="w-12 h-12 rounded-full object-cover ring-2 ring-secondary/30"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="font-medium text-primary truncate">{person.name}</p>
-                            {person.badges.map((badge) => (
-                              <span key={badge} className="badge-cysec">
-                                <BadgeCheck className="h-3 w-3" />
-                                {badge}
-                              </span>
-                            ))}
-                          </div>
-                          <p className="text-xs text-muted-foreground">{person.title}</p>
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <Building2 className="h-3 w-3" />
-                            {person.company}
-                          </div>
-                        </div>
-                      </div>
+                    <div className="space-y-3">
+                      {news.map((item) => (
+                        <Link key={item.id} to={`/article/${item.id}`} className="block bento-card p-4 hover:border-secondary/40 cursor-pointer">
+                          <Badge variant="outline" className="mb-2">{verticalLabel(item.vertical)}</Badge>
+                          <h4 className="font-medium text-primary mb-1">{item.title}</h4>
+                          {item.summary && <p className="text-sm text-muted-foreground line-clamp-2">{item.summary}</p>}
+                          {item.published_at && (
+                            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              {new Date(item.published_at).toLocaleDateString("en-GB")}
+                            </p>
+                          )}
+                        </Link>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
+                )}
 
-              {/* Grants Section */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Euro className="h-4 w-4 text-secondary" />
-                  <h3 className="font-semibold text-primary">Grants</h3>
-                  <Badge variant="secondary" className="text-xs">{mockGrants.length}</Badge>
-                </div>
-                <div className="space-y-3">
-                  {mockGrants.map((grant) => (
-                    <div key={grant.id} className="bento-card p-4 hover:border-secondary/40 cursor-pointer">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-medium text-primary">{grant.name}</h4>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <Euro className="h-3 w-3" />
-                              {grant.amount}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Calendar className="h-3 w-3" />
-                              {grant.deadline}
-                            </span>
-                          </div>
-                        </div>
-                        <Badge className="bg-success text-success-foreground">{grant.matchScore}% Match</Badge>
-                      </div>
+                {people.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <User className="h-4 w-4 text-secondary" />
+                      <h3 className="font-semibold text-primary">People</h3>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {people.map((person) => (
+                        <Link key={person.id} to={person.is_whoiswho ? `/whoiswho/${person.slug}` : `/people/${person.slug}`} className="block bento-card p-4 hover:border-secondary/40 cursor-pointer">
+                          <div className="flex items-center gap-3">
+                            <img src={person.photo || "/placeholder.svg"} alt={person.name} className="w-12 h-12 rounded-full object-cover ring-2 ring-secondary/30" />
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-primary truncate">{person.name}</p>
+                              {person.title && <p className="text-xs text-muted-foreground">{person.title}</p>}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
 
-            <TabsContent value="news" className="space-y-3">
-              {mockNews.map((item) => (
-                <div key={item.id} className="bento-card p-4 hover:border-secondary/40 cursor-pointer">
-                  <Badge variant="outline" className="mb-2">{item.category}</Badge>
-                  <h4 className="font-medium text-primary mb-1">{item.title}</h4>
-                  <p className="text-sm text-muted-foreground">{item.snippet}</p>
-                  <p className="text-xs text-muted-foreground mt-2">{item.date}</p>
-                </div>
-              ))}
-            </TabsContent>
+              <TabsContent value="news" className="space-y-3">
+                {news.map((item) => (
+                  <Link key={item.id} to={`/article/${item.id}`} className="block bento-card p-4 hover:border-secondary/40 cursor-pointer">
+                    <Badge variant="outline" className="mb-2">{verticalLabel(item.vertical)}</Badge>
+                    <h4 className="font-medium text-primary mb-1">{item.title}</h4>
+                    {item.summary && <p className="text-sm text-muted-foreground">{item.summary}</p>}
+                  </Link>
+                ))}
+              </TabsContent>
 
-            <TabsContent value="people" className="grid sm:grid-cols-2 gap-3">
-              {mockPeople.map((person) => (
-                <div key={person.id} className="bento-card p-4 hover:border-secondary/40 cursor-pointer">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={person.image}
-                      alt={person.name}
-                      className="w-12 h-12 rounded-full object-cover ring-2 ring-secondary/30"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
+              <TabsContent value="people" className="grid sm:grid-cols-2 gap-3">
+                {people.map((person) => (
+                  <Link key={person.id} to={person.is_whoiswho ? `/whoiswho/${person.slug}` : `/people/${person.slug}`} className="block bento-card p-4 hover:border-secondary/40 cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <img src={person.photo || "/placeholder.svg"} alt={person.name} className="w-12 h-12 rounded-full object-cover ring-2 ring-secondary/30" />
+                      <div className="flex-1 min-w-0">
                         <p className="font-medium text-primary truncate">{person.name}</p>
-                        {person.badges.map((badge) => (
-                          <span key={badge} className="badge-cysec">
-                            <BadgeCheck className="h-3 w-3" />
-                            {badge}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="text-xs text-muted-foreground">{person.title}</p>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Building2 className="h-3 w-3" />
-                        {person.company}
+                        {person.title && <p className="text-xs text-muted-foreground">{person.title}</p>}
                       </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </TabsContent>
-
-            <TabsContent value="grants" className="space-y-3">
-              {mockGrants.map((grant) => (
-                <div key={grant.id} className="bento-card p-4 hover:border-secondary/40 cursor-pointer">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-medium text-primary">{grant.name}</h4>
-                      <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Euro className="h-3 w-3" />
-                          {grant.amount}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {grant.deadline}
-                        </span>
-                      </div>
-                    </div>
-                    <Badge className="bg-success text-success-foreground">{grant.matchScore}% Match</Badge>
-                  </div>
-                </div>
-              ))}
-            </TabsContent>
-          </Tabs>
+                  </Link>
+                ))}
+              </TabsContent>
+            </Tabs>
+          )}
         </div>
       </div>
     </div>

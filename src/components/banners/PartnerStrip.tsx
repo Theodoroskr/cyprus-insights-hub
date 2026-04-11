@@ -1,13 +1,5 @@
 import { Building2 } from "lucide-react";
 
-const placeholderPartners = [
-  { name: "Premier Advisory" },
-  { name: "Cyprus Legal LLP" },
-  { name: "RegTech Solutions" },
-  { name: "EU Compliance Group" },
-  { name: "FinServ Partners" },
-];
-
 interface PartnerStripProps {
   title?: string;
   partners?: { name: string; logo?: string }[];
@@ -15,8 +7,11 @@ interface PartnerStripProps {
 
 export function PartnerStrip({
   title = "Our Partners",
-  partners = placeholderPartners,
+  partners,
 }: PartnerStripProps) {
+  // Don't render if no real partners are provided
+  if (!partners || partners.length === 0) return null;
+
   return (
     <div className="w-full py-8 bg-muted/30 border-y border-border">
       <div className="container mx-auto px-4">
