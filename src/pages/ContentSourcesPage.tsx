@@ -116,6 +116,7 @@ const ContentSourcesPage = () => {
 
   const cyprusSources = sources?.filter((s) => s.category === "cyprus") || [];
   const euSources = sources?.filter((s) => s.category === "eu") || [];
+  const globalSources = sources?.filter((s) => s.category === "global") || [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -127,7 +128,7 @@ const ContentSourcesPage = () => {
           <div>
             <h1 className="text-3xl font-serif font-bold text-foreground">Content Sources</h1>
             <p className="text-muted-foreground mt-1">
-              Manage automated content ingestion from Cyprus and EU sources
+              Manage automated content ingestion from Cyprus, EU and global sources
             </p>
           </div>
           <Button
@@ -176,19 +177,23 @@ const ContentSourcesPage = () => {
           <div className="text-center py-12 text-muted-foreground">Loading sources…</div>
         ) : (
           <>
-            {/* Cyprus Sources */}
             <SourceGroup
-              title="🇨🇾 Cyprus — Primary Trust Layer"
+              title="🏛 Cyprus — Regulators & Government"
               sources={cyprusSources}
               scrapingSlug={scrapingSlug}
               onToggle={(id, active) => toggleActive.mutate({ id, active })}
               onScrape={triggerScrape}
             />
-
-            {/* EU Sources */}
             <SourceGroup
-              title="🇪🇺 EU-Level Sources"
+              title="🇪🇺 EU — Strategic Layer"
               sources={euSources}
+              scrapingSlug={scrapingSlug}
+              onToggle={(id, active) => toggleActive.mutate({ id, active })}
+              onScrape={triggerScrape}
+            />
+            <SourceGroup
+              title="🌍 Global Institutional"
+              sources={globalSources}
               scrapingSlug={scrapingSlug}
               onToggle={(id, active) => toggleActive.mutate({ id, active })}
               onScrape={triggerScrape}
