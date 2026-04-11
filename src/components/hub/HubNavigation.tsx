@@ -193,6 +193,7 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
           )}
         </div>
       </header>
+      <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </>
   );
 }
