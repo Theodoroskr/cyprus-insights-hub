@@ -120,6 +120,7 @@ const EditorialDashboard = () => {
       title: article.title,
       summary: article.summary,
       vertical: article.vertical,
+      image_url: article.image_url,
       what_happened: article.what_happened,
       why_it_matters: article.why_it_matters,
       what_to_do: article.what_to_do,
