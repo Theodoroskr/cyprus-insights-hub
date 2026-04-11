@@ -116,7 +116,38 @@ const EditorialDashboard = () => {
     onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
   });
 
-  const openEditor = (article: Article) => {
+  // Bulk status mutation
+  const bulkStatusMutation = useMutation({
+    mutationFn: async ({ ids, status }: { ids: string[]; status: ArticleStatus }) => {
+      const updates: { status: ArticleStatus; published_at?: string } = { status };
+      if (status === "published") updates.published_at = new Date().toISOString();
+      const { error } = await supabase.from("cna_articles").update(updates).in("id", ids);
+      if (error) throw error;
+    },
+    onSuccess: (_, { ids, status }) => {
+      queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
+      setSelectedIds(new Set());
+      toast({ title: "Bulk update", description: `${ids.length} article(s) ${status} successfully.` });
+    },
+    onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
+  });
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === articles.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(articles.map((a) => a.id)));
+    }
+  };
+
     setEditingArticle(article);
     setEditForm({
       title: article.title,
