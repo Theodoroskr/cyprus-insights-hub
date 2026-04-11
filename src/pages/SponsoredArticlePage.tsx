@@ -80,15 +80,28 @@ export default function SponsoredArticlePage() {
           </div>
 
           {/* Content */}
-          <div className="prose prose-lg max-w-none text-foreground">
-            {item.content ? (
-              <div className="whitespace-pre-line leading-relaxed">{item.content}</div>
-            ) : item.summary ? (
-              <p className="text-lg text-muted-foreground leading-relaxed">{item.summary}</p>
-            ) : (
-              <p className="text-muted-foreground italic">Full article content coming soon.</p>
-            )}
-          </div>
+          <Tabs defaultValue="summary" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger value="summary">Summary</TabsTrigger>
+              <TabsTrigger value="full">Full Article</TabsTrigger>
+            </TabsList>
+            <TabsContent value="summary">
+              {item.summary ? (
+                <p className="text-lg text-muted-foreground leading-relaxed">{item.summary}</p>
+              ) : (
+                <p className="text-muted-foreground italic">No summary available.</p>
+              )}
+            </TabsContent>
+            <TabsContent value="full">
+              <div className="prose prose-lg max-w-none text-foreground">
+                {item.content ? (
+                  <div className="whitespace-pre-line leading-relaxed">{item.content}</div>
+                ) : (
+                  <p className="text-muted-foreground italic">Full article content coming soon.</p>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
 
           {/* Sponsor footer */}
           <div className="mt-12 pt-6 border-t border-border">
