@@ -198,6 +198,40 @@
   .gold-gradient {
     background: var(--gradient-gold);
   }
+
+  /* Newspaper editorial styles */
+  .section-rule {
+    @apply relative py-6;
+  }
+
+  .section-rule::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-px bg-border;
+  }
+
+  .section-rule-thick::before {
+    @apply h-[3px] bg-foreground;
+  }
+
+  .section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .byline {
+    @apply text-xs text-muted-foreground;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-style: italic;
+  }
+
+  .article-body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    @apply text-sm leading-relaxed text-foreground/90;
+  }
+
+  .newspaper-divider {
+    @apply border-l border-border;
+  }
 }
 
 @layer utilities {
