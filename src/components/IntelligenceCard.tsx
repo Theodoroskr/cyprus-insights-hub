@@ -64,12 +64,14 @@ export function IntelligenceCard({
   linkedPerson,
   href = "#",
   articleId,
+  tags,
 }: IntelligenceCardProps) {
   const colors = hubColors[hub];
   const content: Record<string, string> = { whatHappened, whyItMatters, whatToDo };
   const itemId = articleId || category + date;
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
+  const originTags = getOriginTags(tags, whatHappened);
 
   const toggleBookmark = async () => {
     if (!user) return;
