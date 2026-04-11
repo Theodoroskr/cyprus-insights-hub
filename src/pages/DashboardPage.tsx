@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { toast } from "sonner";
 import {
   Bookmark, Bell, Settings, Crown, User, Building2, Mail,
-  Trash2, ExternalLink, FileText
+  Trash2, ExternalLink, FileText, Save, Send
 } from "lucide-react";
 
 interface SavedItem {
@@ -59,6 +60,38 @@ export default function DashboardPage() {
   const removeSavedItem = async (id: string) => {
     await supabase.from("saved_items").delete().eq("id", id);
     setSavedItems((prev) => prev.filter((i) => i.id !== id));
+  };
+
+  const [savingPrefs, setSavingPrefs] = useState(false);
+
+  const savePreferences = async () => {
+    if (!user) return;
+    setSavingPrefs(true);
+    try {
+      const payload = {
+        user_id: user.id,
+        digest_frequency: digestFreq,
+        verticals: verticals.map((v) => v.toLowerCase()),
+      };
+      const { data: existing } = await supabase
+        .from("user_preferences")
+        .select("id")
+        .eq("user_id", user.id)
+        .single();
+      if (existing) {
+        await supabase.from("user_preferences").update(payload).eq("user_id", user.id);
+      } else {
+        await supabase.from("user_preferences").insert(payload);
+      }
+    } finally {
+      setSavingPrefs(false);
+    }
+  };
+
+  const sendTestDigest = async () => {
+    await supabase.functions.invoke("send-digest", {
+      body: { frequency: digestFreq },
+    });
   };
 
   const handleSearch = (q: string) => console.log("Search:", q);
@@ -184,9 +217,10 @@ export default function DashboardPage() {
         {activeTab === "settings" && (
           <div className="border border-border bg-card p-6 space-y-6">
             <div>
-              <h3 className="font-serif font-bold text-foreground mb-3">Email Digest</h3>
+              <h3 className="font-serif font-bold text-foreground mb-3">Email Digest Frequency</h3>
+              <p className="text-xs text-muted-foreground mb-3">Choose how often you receive your personalised intelligence briefing.</p>
               <div className="flex gap-2">
-                {["daily", "weekly", "monthly", "none"].map((freq) => (
+                {["daily", "weekly", "none"].map((freq) => (
                   <button
                     key={freq}
                     onClick={() => setDigestFreq(freq)}
@@ -196,29 +230,69 @@ export default function DashboardPage() {
                         : "bg-transparent text-muted-foreground border-border hover:border-foreground"
                     }`}
                   >
-                    {freq}
+                    {freq === "none" ? "Off" : freq}
+                  </button>
+                ))}
+              </div>
+              {digestFreq === "daily" && profile?.tier !== "premium" && (
+                <p className="text-xs text-secondary mt-2 flex items-center gap-1">
+                  <Crown className="h-3 w-3" /> Daily digest is a Premium feature
+                </p>
+              )}
+            </div>
+
+            <div>
+              <h3 className="font-serif font-bold text-foreground mb-3">Verticals of Interest</h3>
+              <p className="text-xs text-muted-foreground mb-3">Select the sectors you want covered in your digest.</p>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { label: "Compliance", value: "compliance" },
+                  { label: "FinTech", value: "fintech" },
+                  { label: "SME", value: "sme" },
+                  { label: "General / Economy", value: "general" },
+                ].map((v) => (
+                  <button
+                    key={v.value}
+                    onClick={() => setVerticals((prev) => prev.includes(v.value) ? prev.filter((x) => x !== v.value) : [...prev, v.value])}
+                    className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold border transition-colors ${
+                      verticals.includes(v.value)
+                        ? "bg-foreground text-background border-foreground"
+                        : "bg-transparent text-muted-foreground border-border hover:border-foreground"
+                    }`}
+                  >
+                    {v.label}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div>
-              <h3 className="font-serif font-bold text-foreground mb-3">Verticals of Interest</h3>
-              <div className="flex flex-wrap gap-2">
-                {["Compliance", "FinTech", "SME", "Economy"].map((v) => (
-                  <button
-                    key={v}
-                    onClick={() => setVerticals((prev) => prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v])}
-                    className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold border transition-colors ${
-                      verticals.includes(v)
-                        ? "bg-foreground text-background border-foreground"
-                        : "bg-transparent text-muted-foreground border-border hover:border-foreground"
-                    }`}
-                  >
-                    {v}
-                  </button>
-                ))}
-              </div>
+            <div className="flex items-center gap-3 pt-2">
+              <Button
+                onClick={async () => {
+                  await savePreferences();
+                  toast.success("Preferences saved");
+                }}
+                disabled={savingPrefs}
+                className="rounded-none text-xs uppercase tracking-wider font-semibold"
+              >
+                <Save className="h-3.5 w-3.5 mr-1.5" />
+                {savingPrefs ? "Saving…" : "Save Preferences"}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={async () => {
+                  toast.info("Sending test digest…");
+                  const { error } = await supabase.functions.invoke("send-digest", {
+                    body: { frequency: digestFreq === "none" ? "weekly" : digestFreq },
+                  });
+                  if (error) toast.error("Failed to send digest");
+                  else toast.success("Digest sent — check Notifications tab");
+                }}
+                className="rounded-none text-xs uppercase tracking-wider font-semibold"
+              >
+                <Send className="h-3.5 w-3.5 mr-1.5" />
+                Send Test Digest
+              </Button>
             </div>
 
             {profile?.tier !== "premium" && (
