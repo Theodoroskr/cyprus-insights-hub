@@ -346,6 +346,17 @@ const EditorialDashboard = () => {
               </Select>
             </div>
             <div>
+              <label className="section-label">Image URL</label>
+              <Input
+                placeholder="https://images.unsplash.com/..."
+                value={editForm.image_url ?? ""}
+                onChange={(e) => setEditForm({ ...editForm, image_url: e.target.value })}
+              />
+              {editForm.image_url && (
+                <img src={editForm.image_url} alt="Preview" className="mt-2 h-32 w-full object-cover rounded-lg border border-border" />
+              )}
+            </div>
+            <div>
               <label className="section-label">Summary</label>
               <Textarea
                 rows={2}
