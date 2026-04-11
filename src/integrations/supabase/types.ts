@@ -250,6 +250,39 @@ export type Database = {
           },
         ]
       }
+      company_watchlist: {
+        Row: {
+          company_id: string
+          company_name: string
+          company_slug: string | null
+          company_type: string
+          created_at: string
+          id: string
+          notes: string | null
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          company_name: string
+          company_slug?: string | null
+          company_type?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          company_name?: string
+          company_slug?: string | null
+          company_type?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       content_sources: {
         Row: {
           active: boolean
