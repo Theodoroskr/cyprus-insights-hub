@@ -337,6 +337,51 @@ export type Database = {
         }
         Relationships: []
       }
+      country_risk_scores: {
+        Row: {
+          country_code: string
+          country_name: string
+          created_at: string
+          fatf_status: string | null
+          id: string
+          is_active: boolean
+          key_concerns: string[] | null
+          last_updated: string | null
+          region: string | null
+          risk_level: string
+          risk_score: number
+          updated_at: string
+        }
+        Insert: {
+          country_code: string
+          country_name: string
+          created_at?: string
+          fatf_status?: string | null
+          id?: string
+          is_active?: boolean
+          key_concerns?: string[] | null
+          last_updated?: string | null
+          region?: string | null
+          risk_level?: string
+          risk_score?: number
+          updated_at?: string
+        }
+        Update: {
+          country_code?: string
+          country_name?: string
+          created_at?: string
+          fatf_status?: string | null
+          id?: string
+          is_active?: boolean
+          key_concerns?: string[] | null
+          last_updated?: string | null
+          region?: string | null
+          risk_level?: string
+          risk_score?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       dashboard_settings: {
         Row: {
           id: string
