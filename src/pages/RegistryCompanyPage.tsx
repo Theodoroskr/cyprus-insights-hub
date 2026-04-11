@@ -95,7 +95,23 @@ export default function RegistryCompanyPage() {
               <Building2 className="h-8 w-8 text-primary" />
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
+              <div className="flex items-start justify-between gap-4">
+                <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
+                {user && companyId && (
+                  <Button
+                    variant={isWatching(companyId) ? "default" : "outline"}
+                    size="sm"
+                    className="gap-1.5 flex-shrink-0"
+                    onClick={async () => {
+                      const added = await toggleWatch(companyId, company.company_name, "directory");
+                      toast.success(added ? `Monitoring ${company.company_name}` : `Removed from watchlist`);
+                    }}
+                  >
+                    {isWatching(companyId) ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                    {isWatching(companyId) ? "Watching" : "Watch"}
+                  </Button>
+                )}
+              </div>
               <div className="flex items-center gap-3 mt-2 flex-wrap">
                 {isActive ? (
                   <Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>
