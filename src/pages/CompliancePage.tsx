@@ -17,6 +17,7 @@ import {
   Calendar
 } from "lucide-react";
 import { OperationaliseBanner } from "@/components/banners/OperationaliseBanner";
+import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 
 const stats = [
   { label: "Active Regulations", value: "25+", icon: Scale },
@@ -311,6 +312,9 @@ export default function CompliancePage() {
           </div>
         </div>
       </section>
+
+      {/* Premium CTA */}
+      <PremiumCTABanner />
 
       {/* Disclaimer */}
       <section className="py-8 border-t border-border">

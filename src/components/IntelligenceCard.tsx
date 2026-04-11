@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Zap, Target, Lightbulb } from "lucide-react";
+import { ArrowRight, Zap, Target, Lightbulb, Bookmark } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 
 interface IntelligenceCardProps {
@@ -41,6 +44,18 @@ export function IntelligenceCard({
 }: IntelligenceCardProps) {
   const colors = hubColors[hub];
   const content: Record<string, string> = { whatHappened, whyItMatters, whatToDo };
+  const { user } = useAuth();
+  const [bookmarked, setBookmarked] = useState(false);
+
+  const toggleBookmark = async () => {
+    if (!user) return;
+    if (bookmarked) {
+      await supabase.from("saved_items").delete().match({ user_id: user.id, item_type: "article", item_id: category + date });
+    } else {
+      await supabase.from("saved_items").insert({ user_id: user.id, item_type: "article", item_id: category + date, item_title: whatHappened.slice(0, 80) });
+    }
+    setBookmarked(!bookmarked);
+  };
 
   return (
     <article className="rounded-xl border border-border bg-card overflow-hidden group hover:border-secondary/40 transition-colors">
@@ -49,7 +64,14 @@ export function IntelligenceCard({
         <Badge variant="outline" className={`text-xs font-medium ${colors.badge}`}>
           {category}
         </Badge>
-        <span className="text-xs text-muted-foreground">{date}</span>
+        <div className="flex items-center gap-2">
+          {user && (
+            <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors">
+              <Bookmark className={`h-3.5 w-3.5 ${bookmarked ? "fill-secondary text-secondary" : ""}`} />
+            </button>
+          )}
+          <span className="text-xs text-muted-foreground">{date}</span>
+        </div>
       </div>
 
       {/* Intelligence Sections */}

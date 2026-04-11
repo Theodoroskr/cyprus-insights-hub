@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Search, Bell, User, Newspaper } from "lucide-react";
+import { Menu, X, Search, User, Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BrandConfig, hubLinks } from "@/config/brands";
+import { useAuth } from "@/contexts/AuthContext";
+import { LoginModal } from "@/components/auth/LoginModal";
+import { NotificationDropdown } from "@/components/notifications/NotificationDropdown";
 
 interface HubNavigationProps {
   brand: BrandConfig;
@@ -14,7 +17,9 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showLogin, setShowLogin] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,16 +67,29 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-14">
             {/* Logo — editorial masthead style */}
-            <Link to={brand.id === "businesshub" ? "/" : `/${brand.id.replace("hub", "")}`} className="flex items-center gap-2.5 shrink-0">
-              <div className="w-8 h-8 bg-foreground flex items-center justify-center">
-                <span className="text-background font-serif font-bold text-sm">{brand.logoLetter}</span>
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                  {brand.name}<span className="text-secondary">{brand.domain}</span>
-                </h1>
-              </div>
-            </Link>
+            <div className="flex items-center gap-2.5 shrink-0">
+              <Link to="/" className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-foreground flex items-center justify-center">
+                  <span className="text-background font-serif font-bold text-sm">B</span>
+                </div>
+                <div className="hidden sm:block">
+                  <span className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                    BusinessHub<span className="text-secondary">.cy</span>
+                  </span>
+                </div>
+              </Link>
+              {brand.id !== "businesshub" && (
+                <>
+                  <span className="hidden sm:block w-px h-5 bg-border mx-1" />
+                  <Link
+                    to={`/${brand.id.replace("hub", "")}`}
+                    className="hidden sm:block text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {brand.name}{brand.domain}
+                  </Link>
+                </>
+              )}
+            </div>
 
             {/* Desktop Navigation — clean horizontal links */}
             <nav className="hidden lg:flex items-center">
@@ -114,12 +132,25 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
                   <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex" onClick={() => setIsSearchOpen(true)}>
                     <Search className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
-                    <Bell className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
-                    <User className="h-4 w-4" />
-                  </Button>
+                  <div className="hidden sm:flex">
+                    <NotificationDropdown />
+                  </div>
+                  {user ? (
+                    <Link to="/dashboard">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
+                        <User className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="hidden sm:flex h-8 text-xs font-semibold uppercase tracking-wider"
+                      onClick={() => setShowLogin(true)}
+                    >
+                      Sign In
+                    </Button>
+                  )}
                 </>
               )}
               <Button variant="ghost" size="icon" className="lg:hidden h-8 w-8" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -162,6 +193,7 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
           )}
         </div>
       </header>
+      <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </>
   );
 }

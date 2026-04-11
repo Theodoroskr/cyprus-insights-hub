@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar } from "lucide-react";
 import { InsightBanner } from "@/components/banners/InsightBanner";
+import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 
 const stats = [
   { label: "Licensed EMIs", value: "45+", icon: Building2 },
@@ -168,6 +169,9 @@ export default function FinTechPage() {
           </div>
         </div>
       </section>
+
+      {/* Premium CTA */}
+      <PremiumCTABanner />
 
       {/* Disclaimer */}
       <section className="py-8 border-t border-border">
