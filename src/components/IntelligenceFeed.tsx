@@ -95,6 +95,13 @@ export function IntelligenceFeed() {
           <div className="flex-1 min-w-0">
             {dbArticles.map((article, index) => (
               <div key={article.id}>
+                {/* Premium label for every 4th article — FC style inline indicator */}
+                {index > 0 && index % 4 === 0 && (
+                  <div className="flex items-center gap-2 mb-1 pt-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-secondary">Premium</span>
+                  </div>
+                )}
                 <IntelligenceListItem
                   category={verticalLabel(article.vertical)}
                   date={new Date(article.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
