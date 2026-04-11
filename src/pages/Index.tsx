@@ -7,6 +7,7 @@ import { SectionBanners } from "@/components/banners/SectionBanners";
 import { IntelligenceHub } from "@/components/IntelligenceHub";
 import { IntelligenceFeed } from "@/components/IntelligenceFeed";
 import { PremiumCarousel } from "@/components/PremiumCarousel";
+import { SponsoredStudio } from "@/components/SponsoredStudio";
 import { VerticalConnection } from "@/components/VerticalConnection";
 import { KnowledgeGraph } from "@/components/KnowledgeGraph";
 import { FinTechSpotlight } from "@/components/FinTechSpotlight";
