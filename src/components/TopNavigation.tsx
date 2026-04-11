@@ -129,11 +129,20 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                   <NotificationDropdown />
                 </div>
                 {user ? (
-                  <Link to="/dashboard">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
-                      <User className="h-4 w-4" />
-                    </Button>
-                  </Link>
+                  <>
+                    {isAdmin && (
+                      <Link to="/editorial">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex" title="Editorial Dashboard">
+                          <PenTool className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                    )}
+                    <Link to="/dashboard">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
+                        <User className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </>
                 ) : (
                   <Button
                     variant="ghost"
