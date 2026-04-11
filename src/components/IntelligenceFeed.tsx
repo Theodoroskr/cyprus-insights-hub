@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { IntelligenceListItem } from "@/components/IntelligenceListItem";
 import { InsightBanner } from "@/components/banners/InsightBanner";
+import { AdSlot } from "@/components/banners/AdSlot";
 import { supabase } from "@/integrations/supabase/client";
 
 interface DBArticle {
@@ -36,6 +37,12 @@ function StickySidebar() {
           Upgrade Now
         </Button>
       </div>
+
+      {/* Ad: MREC 300×250 */}
+      <AdSlot size="mrec" label="300 × 250 — Sidebar" />
+
+      {/* Ad: Second MREC */}
+      <AdSlot size="mrec" label="300 × 250 — Sidebar 2" />
     </div>
   );
 }
