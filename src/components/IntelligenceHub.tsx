@@ -187,7 +187,8 @@ export function IntelligenceHub() {
             </div>
             <div className="space-y-0">
               {displayMostRead.map((article, index) => (
-                <article
+                <Link
+                  to={`/article/${article.id}`}
                   key={article.id}
                   className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0 transition-all duration-200 hover:bg-muted/40 -mx-2 px-2 rounded-sm"
                 >
@@ -215,7 +216,7 @@ export function IntelligenceHub() {
                       <div className="absolute inset-0 bg-foreground/5 group-hover:bg-transparent transition-colors duration-300" />
                     </div>
                   )}
-                </article>
+                </Link>
               ))}
             </div>
           </div>
