@@ -4,6 +4,10 @@ import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DigitalMaturityAssessment } from "@/components/sme/DigitalMaturityAssessment";
+import { CyprusVATCalculator } from "@/components/sme/CyprusVATCalculator";
+import { EUFundingEligibility } from "@/components/sme/EUFundingEligibility";
+import { GDPRComplianceChecker } from "@/components/sme/GDPRComplianceChecker";
 import {
   Calendar,
   ArrowRight,
