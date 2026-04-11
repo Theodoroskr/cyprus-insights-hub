@@ -45,6 +45,7 @@ export function IntelligenceListItem({
   isLead = false,
   bodyMarkdown,
 }: IntelligenceListItemProps) {
+  const readTime = estimateReadingTime(whatHappened, whyItMatters, whatToDo, bodyMarkdown);
   const colors = hubColors[hub];
   const itemId = articleId || category + date;
   const { user } = useAuth();
