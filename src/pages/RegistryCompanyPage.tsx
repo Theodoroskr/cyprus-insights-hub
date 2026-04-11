@@ -64,7 +64,7 @@ export default function RegistryCompanyPage() {
   const citySlug = company.city_slug;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">

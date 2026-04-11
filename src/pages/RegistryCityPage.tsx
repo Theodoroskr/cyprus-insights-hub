@@ -77,7 +77,7 @@ export default function RegistryCityPage() {
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">
