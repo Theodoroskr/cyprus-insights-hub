@@ -73,17 +73,17 @@ export function IntelligenceCard({
       )}
 
       {/* Header */}
-      <div className="px-5 pt-5 pb-3 flex items-center justify-between">
-        <Badge variant="outline" className={`text-xs font-medium ${colors.badge}`}>
+      <div className="px-5 pt-5 pb-3 flex items-start justify-between gap-2">
+        <Badge variant="outline" className={`text-xs font-medium whitespace-nowrap shrink-0 ${colors.badge}`}>
           {category}
         </Badge>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {user && (
             <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors">
               <Bookmark className={`h-3.5 w-3.5 ${bookmarked ? "fill-secondary text-secondary" : ""}`} />
             </button>
           )}
-          <span className="text-xs text-muted-foreground">{date}</span>
+          <span className="text-xs text-muted-foreground whitespace-nowrap">{date}</span>
         </div>
       </div>
 
