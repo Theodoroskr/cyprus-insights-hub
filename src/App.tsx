@@ -32,6 +32,7 @@ import SearchPage from "./pages/SearchPage";
 import IndustryPage from "./pages/IndustryPage";
 import ArticlePage from "./pages/ArticlePage";
 import TradePage from "./pages/TradePage";
+import SponsoredArticlePage from "./pages/SponsoredArticlePage";
 
 // Registry Directory pages (55K+ companies)
 import RegistryDirectoryPage from "./pages/RegistryDirectoryPage";
@@ -78,6 +79,7 @@ const App = () => (
               <Route path="/interviews/:slug" element={<InterviewArticlePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/industries/:slug" element={<IndustryPage />} />
+              <Route path="/sponsored/:id" element={<SponsoredArticlePage />} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
