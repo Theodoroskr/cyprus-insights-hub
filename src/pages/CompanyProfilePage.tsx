@@ -58,7 +58,23 @@ export default function CompanyProfilePage() {
           <div className="flex flex-col md:flex-row items-start gap-6">
             <img src={company.logo || "/placeholder.svg"} alt={company.name} className="w-20 h-20 rounded-xl object-cover border border-border" />
             <div className="flex-1">
-              <h1 className="text-3xl font-serif font-bold text-foreground">{company.name}</h1>
+              <div className="flex items-start justify-between gap-4">
+                <h1 className="text-3xl font-serif font-bold text-foreground">{company.name}</h1>
+                {user && (
+                  <Button
+                    variant={isWatching(company.id) ? "default" : "outline"}
+                    size="sm"
+                    className="gap-1.5 flex-shrink-0"
+                    onClick={async () => {
+                      const added = await toggleWatch(company.id, company.name, "editorial", company.slug);
+                      toast.success(added ? `Monitoring ${company.name}` : `Removed ${company.name} from watchlist`);
+                    }}
+                  >
+                    {isWatching(company.id) ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                    {isWatching(company.id) ? "Watching" : "Watch"}
+                  </Button>
+                )}
+              </div>
               <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-muted-foreground">
                 {company.industry && <span className="flex items-center gap-1"><Building2 className="h-3.5 w-3.5" />{(company as any).industry.name}</span>}
                 {company.location && <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{(company as any).location.name}</span>}
