@@ -12,6 +12,7 @@ import ResourcesPage from "./pages/ResourcesPage";
 import DirectoryPage from "./pages/DirectoryPage";
 import SMEPage from "./pages/SMEPage";
 import DashboardPage from "./pages/DashboardPage";
+import EditorialDashboard from "./pages/EditorialDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
