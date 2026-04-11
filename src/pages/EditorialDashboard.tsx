@@ -17,6 +17,7 @@ import {
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
   AlertTriangle
 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
 type Article = Database["public"]["Tables"]["cna_articles"]["Row"];
@@ -48,6 +49,7 @@ const EditorialDashboard = () => {
   const [page, setPage] = useState(0);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [editForm, setEditForm] = useState<Partial<Article>>({});
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   // Check admin role
   const { data: isAdmin, isLoading: roleLoading } = useQuery({
@@ -113,6 +115,38 @@ const EditorialDashboard = () => {
     },
     onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
   });
+
+  // Bulk status mutation
+  const bulkStatusMutation = useMutation({
+    mutationFn: async ({ ids, status }: { ids: string[]; status: ArticleStatus }) => {
+      const updates: { status: ArticleStatus; published_at?: string } = { status };
+      if (status === "published") updates.published_at = new Date().toISOString();
+      const { error } = await supabase.from("cna_articles").update(updates).in("id", ids);
+      if (error) throw error;
+    },
+    onSuccess: (_, { ids, status }) => {
+      queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
+      setSelectedIds(new Set());
+      toast({ title: "Bulk update", description: `${ids.length} article(s) ${status} successfully.` });
+    },
+    onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
+  });
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === articles.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(articles.map((a) => a.id)));
+    }
+  };
 
   const openEditor = (article: Article) => {
     setEditingArticle(article);
@@ -222,6 +256,41 @@ const EditorialDashboard = () => {
           </Select>
         </div>
 
+        {/* Bulk Action Bar */}
+        {selectedIds.size > 0 && (
+          <div className="flex items-center gap-3 mb-4 p-3 rounded-lg border border-secondary/30 bg-secondary/5">
+            <span className="text-sm font-medium text-foreground">{selectedIds.size} selected</span>
+            <div className="flex-1" />
+            <Button
+              size="sm"
+              className="bg-emerald-600 hover:bg-emerald-700 text-primary-foreground"
+              onClick={() => bulkStatusMutation.mutate({ ids: [...selectedIds], status: "published" })}
+              disabled={bulkStatusMutation.isPending}
+            >
+              <CheckCircle className="w-4 h-4 mr-1" /> Publish All
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => bulkStatusMutation.mutate({ ids: [...selectedIds], status: "archived" })}
+              disabled={bulkStatusMutation.isPending}
+            >
+              <Archive className="w-4 h-4 mr-1" /> Archive All
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => bulkStatusMutation.mutate({ ids: [...selectedIds], status: "draft" })}
+              disabled={bulkStatusMutation.isPending}
+            >
+              <Eye className="w-4 h-4 mr-1" /> Restore All
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => setSelectedIds(new Set())}>
+              Clear
+            </Button>
+          </div>
+        )}
+
         {/* Articles List */}
         {isLoading ? (
           <div className="flex justify-center py-16">
@@ -233,12 +302,26 @@ const EditorialDashboard = () => {
           </div>
         ) : (
           <div className="space-y-3">
+            {/* Select All */}
+            <div className="flex items-center gap-3 px-2">
+              <Checkbox
+                checked={articles.length > 0 && selectedIds.size === articles.length}
+                onCheckedChange={toggleSelectAll}
+              />
+              <span className="text-xs text-muted-foreground font-medium">Select all</span>
+            </div>
             {articles.map((article) => {
               const vCfg = VERTICAL_CONFIG[article.vertical];
               const sCfg = STATUS_CONFIG[article.status];
               const VIcon = vCfg.icon;
+              const isSelected = selectedIds.has(article.id);
               return (
-                <div key={article.id} className="bento-card flex flex-col sm:flex-row sm:items-center gap-4">
+                <div key={article.id} className={`bento-card flex flex-col sm:flex-row sm:items-center gap-4 ${isSelected ? "ring-2 ring-secondary/50" : ""}`}>
+                  <Checkbox
+                    checked={isSelected}
+                    onCheckedChange={() => toggleSelect(article.id)}
+                    className="shrink-0"
+                  />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <Badge variant="outline" className={`text-[10px] ${vCfg.color}`}>
