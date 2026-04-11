@@ -45,8 +45,9 @@ export default function RegistryDirectoryPage() {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [searching, setSearching] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
-  const [industryResults, setIndustryResults] = useState<any[] | null>(null);
-  const [industryLoading, setIndustryLoading] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [filterResults, setFilterResults] = useState<any[] | null>(null);
+  const [filterLoading, setFilterLoading] = useState(false);
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -66,12 +67,34 @@ export default function RegistryDirectoryPage() {
     fetchCounts();
   }, []);
 
+  // Run combined filter whenever city or industry changes
+  const runFilter = async (city: string | null, industry: string | null) => {
+    if (!city && !industry) {
+      setFilterResults(null);
+      return;
+    }
+    setFilterLoading(true);
+    setSearchResults(null);
+    setSearch("");
+    let query = supabase
+      .from("directory_companies")
+      .select("id, company_name, city, city_slug, activity_description, nace_code")
+      .order("company_name")
+      .limit(50);
+    if (city) query = query.eq("city_slug", city);
+    if (industry) query = query.like("nace_code", `${industry}%`);
+    const { data } = await query;
+    setFilterResults(data || []);
+    setFilterLoading(false);
+  };
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!search.trim()) return;
     setSearching(true);
     setSelectedIndustry(null);
-    setIndustryResults(null);
+    setSelectedCity(null);
+    setFilterResults(null);
     const term = `%${search.trim()}%`;
     const { data } = await supabase
       .from("directory_companies")
@@ -82,31 +105,29 @@ export default function RegistryDirectoryPage() {
     setSearching(false);
   };
 
-  const handleIndustryClick = async (code: string) => {
-    if (selectedIndustry === code) {
-      setSelectedIndustry(null);
-      setIndustryResults(null);
-      return;
-    }
-    setSelectedIndustry(code);
-    setIndustryLoading(true);
-    setSearchResults(null);
-    setSearch("");
-    const { data } = await supabase
-      .from("directory_companies")
-      .select("id, company_name, city, city_slug, activity_description, nace_code")
-      .like("nace_code", `${code}%`)
-      .order("company_name")
-      .limit(50);
-    setIndustryResults(data || []);
-    setIndustryLoading(false);
+  const handleCityClick = (slug: string) => {
+    const next = selectedCity === slug ? null : slug;
+    setSelectedCity(next);
+    runFilter(next, selectedIndustry);
   };
 
-  const showingResults = searchResults !== null || industryResults !== null;
-  const resultsToShow = searchResults || industryResults || [];
-  const resultsLabel = searchResults
-    ? `${searchResults.length} results for "${search}"`
-    : `${industryResults?.length || 0} companies in ${INDUSTRY_FILTERS.find(i => i.code === selectedIndustry)?.label || ""}`;
+  const handleIndustryClick = (code: string) => {
+    const next = selectedIndustry === code ? null : code;
+    setSelectedIndustry(next);
+    runFilter(selectedCity, next);
+  };
+
+  const showingResults = searchResults !== null || filterResults !== null;
+  const resultsToShow = searchResults || filterResults || [];
+
+  const buildLabel = () => {
+    if (searchResults) return `${searchResults.length} results for "${search}"`;
+    const parts: string[] = [];
+    if (selectedIndustry) parts.push(INDUSTRY_FILTERS.find(i => i.code === selectedIndustry)?.label || "");
+    if (selectedCity) parts.push(`in ${CITY_META[selectedCity]?.label || selectedCity}`);
+    return `${filterResults?.length || 0} ${parts.length ? parts.join(" ") : ""} companies`;
+  };
+  const resultsLabel = buildLabel();
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
