@@ -81,7 +81,7 @@ export default function DirectoryHomePage() {
 
             {/* Quick links */}
             <div className="flex flex-wrap justify-center gap-3 mt-8">
-              {["Bank of Cyprus", "eToro", "CySEC", "Deloitte Cyprus"].map((q) => (
+              {["KPMG Cyprus", "PwC Cyprus", "Professional Services", "Audit & Consulting"].map((q) => (
                 <Link key={q} to={`/search?q=${encodeURIComponent(q)}`} className="text-sm text-white/60 hover:text-white border border-white/20 rounded-full px-4 py-1.5 transition-colors hover:border-white/40">
                   {q}
                 </Link>
