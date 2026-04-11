@@ -20,10 +20,10 @@ export function Footer() {
               Your comprehensive platform for Cyprus business intelligence, regulatory compliance, and EU funding opportunities.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
                 <Linkedin className="h-4 w-4" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
+              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
                 <Twitter className="h-4 w-4" />
               </a>
             </div>
