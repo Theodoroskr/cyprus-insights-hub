@@ -19,7 +19,7 @@ import NotFound from "./pages/NotFound";
 
 // Intelligence Directory pages
 import DirectoryHomePage from "./pages/DirectoryHomePage";
-import CompanyDirectoryPage from "./pages/CompanyDirectoryPage";
+// CompanyDirectoryPage replaced by RegistryDirectoryPage (unified)
 import CompanyProfilePage from "./pages/CompanyProfilePage";
 import PeopleProfilePage from "./pages/PeopleProfilePage";
 import WhoIsWhoPage from "./pages/WhoIsWhoPage";
