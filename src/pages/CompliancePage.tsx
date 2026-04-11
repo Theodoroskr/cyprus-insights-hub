@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import complianceSuiteLogo from "@/assets/compliance-suite-logo.png";
 import { Link } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent } from "@/components/ui/card";
