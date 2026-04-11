@@ -32,7 +32,8 @@ interface Notification {
 
 export default function DashboardPage() {
   const { user, profile, loading, signOut } = useAuth();
-  const [activeTab, setActiveTab] = useState<"bookmarks" | "notifications" | "settings">("bookmarks");
+  const [activeTab, setActiveTab] = useState<"watchlist" | "bookmarks" | "notifications" | "settings">("watchlist");
+  const { items: watchlistItems, toggleWatch, loading: watchlistLoading } = useWatchlist();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [digestFreq, setDigestFreq] = useState("weekly");
