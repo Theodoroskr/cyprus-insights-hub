@@ -33,6 +33,10 @@ import IndustryPage from "./pages/IndustryPage";
 import ArticlePage from "./pages/ArticlePage";
 import TradePage from "./pages/TradePage";
 import SponsoredArticlePage from "./pages/SponsoredArticlePage";
+import CookiePolicyPage from "./pages/CookiePolicyPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsOfServicePage from "./pages/TermsOfServicePage";
+import { CookieConsent } from "./components/CookieConsent";
 
 // Registry Directory pages (55K+ companies)
 import RegistryDirectoryPage from "./pages/RegistryDirectoryPage";
@@ -80,10 +84,14 @@ const App = () => (
               <Route path="/search" element={<SearchPage />} />
               <Route path="/industries/:slug" element={<IndustryPage />} />
               <Route path="/sponsored/:id" element={<SponsoredArticlePage />} />
+              <Route path="/cookies" element={<CookiePolicyPage />} />
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsOfServicePage />} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <CookieConsent />
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
