@@ -74,7 +74,6 @@ const Index = () => {
 
       {/* Premium CTA Banner */}
       <PremiumCTABanner />
-      </main>
       
       {/* Partner Strip */}
       <PartnerStrip />
