@@ -17,32 +17,6 @@ const stats = [
   { label: "Industry Jobs", value: "5,000+", icon: Users },
 ];
 
-const featuredCards = [
-  {
-    title: "Cyprus as an EU FinTech Gateway",
-    excerpt: "Why Cyprus is emerging as a compliance-first entry point for EU fintech operations.",
-    tag: "FinTech Intelligence",
-    author: "Editorial Desk",
-    time: "6 hours ago",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-  },
-  {
-    title: "EU Regulation Snapshot for FinTechs",
-    excerpt: "What MiCA, AML, and DORA mean in practice for fintechs operating from Cyprus.",
-    tag: "Regulation",
-    author: "Andreas Georgiou",
-    time: "1 day ago",
-    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80",
-  },
-  {
-    title: "Digital Assets Licensing in Cyprus",
-    excerpt: "Complete guide to obtaining CASP registration and operating under MiCA framework.",
-    tag: "Licensing",
-    author: "Maria Ioannou",
-    time: "2 days ago",
-    image: "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=600&q=80",
-  },
-];
 
 const regulations = [
   { name: "MiCA", icon: FileText, description: "Markets in Crypto-Assets Regulation" },
