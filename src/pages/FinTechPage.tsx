@@ -4,7 +4,7 @@ import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar } from "lucide-react";
+import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar, Globe, Lock, Cpu, Gavel, type LucideIcon } from "lucide-react";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
@@ -18,57 +18,33 @@ const stats = [
   { label: "Industry Jobs", value: "5,000+", icon: Users },
 ];
 
+const iconMap: Record<string, LucideIcon> = {
+  FileText, Shield, Scale, Server, Globe, Lock, Cpu, Gavel, Landmark, Building2, TrendingUp,
+};
 
-const regulations = [
-  {
-    name: "MiCA",
-    icon: FileText,
-    description: "Markets in Crypto-Assets Regulation",
-    status: "In Force",
-    statusColor: "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30",
-    effectiveDate: "30 Dec 2024",
-    impact: "CASPs must obtain CySEC authorisation. Stablecoin issuers face reserve and disclosure requirements. Transitional period ends June 2025.",
-    appliesTo: ["Crypto Exchanges", "Wallet Providers", "Token Issuers", "Stablecoin Issuers"],
-    keyBody: "CySEC / ESMA",
-  },
-  {
-    name: "EU AML Package",
-    icon: Shield,
-    description: "6th Anti-Money Laundering Directive + AMLA",
-    status: "Transposing",
-    statusColor: "text-amber-600 bg-amber-100 dark:bg-amber-900/30",
-    effectiveDate: "Jul 2025 (AMLA operational)",
-    impact: "New EU-wide AML Authority (AMLA) in Frankfurt. Harmonised CDD rules, beneficial ownership registers, and €10K cash payment cap across the EU.",
-    appliesTo: ["Banks", "Payment Firms", "CASPs", "Lawyers & Accountants"],
-    keyBody: "AMLA / CBC / MOKAS",
-  },
-  {
-    name: "DORA",
-    icon: Server,
-    description: "Digital Operational Resilience Act",
-    status: "In Force",
-    statusColor: "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30",
-    effectiveDate: "17 Jan 2025",
-    impact: "Financial entities must implement ICT risk management frameworks, incident reporting, digital resilience testing, and third-party risk oversight for critical ICT providers.",
-    appliesTo: ["Banks", "Insurers", "Investment Firms", "ICT Providers"],
-    keyBody: "CySEC / CBC / EBA",
-  },
-  {
-    name: "NIS2",
-    icon: Scale,
-    description: "Network and Information Security Directive",
-    status: "Transposing",
-    statusColor: "text-amber-600 bg-amber-100 dark:bg-amber-900/30",
-    effectiveDate: "17 Oct 2024 (deadline passed)",
-    impact: "Expanded scope covers financial services, cloud providers, and digital infrastructure. Mandatory incident reporting within 24h, board-level accountability for cybersecurity.",
-    appliesTo: ["Essential Services", "Digital Infrastructure", "Cloud/DNS Providers", "Financial Sector"],
-    keyBody: "DIPA / DSA Cyprus",
-  },
-];
+const statusColorMap: Record<string, string> = {
+  emerald: "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30",
+  amber: "text-amber-600 bg-amber-100 dark:bg-amber-900/30",
+  red: "text-red-600 bg-red-100 dark:bg-red-900/30",
+  blue: "text-blue-600 bg-blue-100 dark:bg-blue-900/30",
+};
 
+interface Regulation {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+  status: string;
+  status_color: string;
+  effective_date: string;
+  impact: string;
+  applies_to: string[];
+  key_body: string;
+}
 export default function FinTechPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
+  const [regulations, setRegulations] = useState<Regulation[]>([]);
 
   useEffect(() => {
     supabase
@@ -80,6 +56,16 @@ export default function FinTechPage() {
       .limit(3)
       .then(({ data }) => {
         if (data) setFeaturedArticles(data);
+      });
+
+    supabase
+      .from("regulations")
+      .select("*")
+      .eq("active", true)
+      .eq("hub_section", "fintech")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (data) setRegulations(data as Regulation[]);
       });
   }, []);
 
@@ -189,49 +175,50 @@ export default function FinTechPage() {
             </Badge>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
-            {regulations.map((reg, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all hover:border-secondary/50 cursor-pointer rounded-none border-border group">
-                <CardContent className="pt-5 pb-4 px-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-none bg-foreground/5 flex items-center justify-center shrink-0">
-                        <reg.icon className="h-5 w-5 text-foreground" />
+            {regulations.map((reg) => {
+              const IconComponent = iconMap[reg.icon] || FileText;
+              const colorClass = statusColorMap[reg.status_color] || statusColorMap.emerald;
+              return (
+                <Card key={reg.id} className="hover:shadow-lg transition-all hover:border-secondary/50 cursor-pointer rounded-none border-border group">
+                  <CardContent className="pt-5 pb-4 px-5">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-none bg-foreground/5 flex items-center justify-center shrink-0">
+                          <IconComponent className="h-5 w-5 text-foreground" />
+                        </div>
+                        <div>
+                          <h3 className="font-serif font-bold text-foreground text-base">{reg.name}</h3>
+                          <p className="text-xs text-muted-foreground">{reg.description}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-serif font-bold text-foreground text-base">{reg.name}</h3>
-                        <p className="text-xs text-muted-foreground">{reg.description}</p>
-                      </div>
+                      <Badge className={`text-[9px] border-0 shrink-0 ${colorClass}`}>
+                        {reg.status}
+                      </Badge>
                     </div>
-                    <Badge className={`text-[9px] border-0 shrink-0 ${reg.statusColor}`}>
-                      {reg.status}
-                    </Badge>
-                  </div>
-
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                    {reg.impact}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {reg.appliesTo.map((entity) => (
-                      <span key={entity} className="text-[10px] bg-muted px-2 py-0.5 rounded text-muted-foreground">
-                        {entity}
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                      {reg.impact}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {reg.applies_to.map((entity) => (
+                        <span key={entity} className="text-[10px] bg-muted px-2 py-0.5 rounded text-muted-foreground">
+                          {entity}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] text-muted-foreground/70 border-t border-border pt-2">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        Effective: {reg.effective_date}
                       </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between text-[10px] text-muted-foreground/70 border-t border-border pt-2">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      Effective: {reg.effectiveDate}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Landmark className="h-3 w-3" />
-                      {reg.keyBody}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                      <span className="flex items-center gap-1">
+                        <Landmark className="h-3 w-3" />
+                        {reg.key_body}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>

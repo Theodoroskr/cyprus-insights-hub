@@ -817,6 +817,60 @@ export type Database = {
         }
         Relationships: []
       }
+      regulations: {
+        Row: {
+          active: boolean
+          applies_to: string[]
+          created_at: string
+          description: string
+          effective_date: string
+          hub_section: string
+          icon: string
+          id: string
+          impact: string
+          key_body: string
+          name: string
+          sort_order: number
+          status: string
+          status_color: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          applies_to?: string[]
+          created_at?: string
+          description: string
+          effective_date: string
+          hub_section?: string
+          icon?: string
+          id?: string
+          impact: string
+          key_body: string
+          name: string
+          sort_order?: number
+          status?: string
+          status_color?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          applies_to?: string[]
+          created_at?: string
+          description?: string
+          effective_date?: string
+          hub_section?: string
+          icon?: string
+          id?: string
+          impact?: string
+          key_body?: string
+          name?: string
+          sort_order?: number
+          status?: string
+          status_color?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       relationships: {
         Row: {
           company_id: string
