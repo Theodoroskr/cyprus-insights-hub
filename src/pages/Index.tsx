@@ -7,6 +7,7 @@ import { SectionBanners } from "@/components/banners/SectionBanners";
 import { IntelligenceHub } from "@/components/IntelligenceHub";
 import { IntelligenceFeed } from "@/components/IntelligenceFeed";
 import { PremiumCarousel } from "@/components/PremiumCarousel";
+import { SponsoredStudio } from "@/components/SponsoredStudio";
 import { VerticalConnection } from "@/components/VerticalConnection";
 import { KnowledgeGraph } from "@/components/KnowledgeGraph";
 import { FinTechSpotlight } from "@/components/FinTechSpotlight";
@@ -54,7 +55,9 @@ const Index = () => {
         {/* Intelligence Hub - Featured News & Trending People */}
         <IntelligenceHub />
 
-        {/* Premium Members Carousel */}
+        {/* Custom Studio — Sponsored Content */}
+        <SponsoredStudio />
+
         <PremiumCarousel />
 
         {/* Intelligence Briefings — Semafor-style Cards */}
