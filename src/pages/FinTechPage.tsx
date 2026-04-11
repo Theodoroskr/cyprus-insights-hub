@@ -99,24 +99,28 @@ export default function FinTechPage() {
             <h2 className="section-label text-foreground text-sm">Featured Intelligence</h2>
             <span className="section-label text-secondary">Latest from Cyprus FinTech</span>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {featuredCards.map((card, index) => (
-              <Link to={`/news?vertical=fintech`} key={index} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
-                <div className="relative h-44 overflow-hidden">
-                  <img src={card.image} alt={card.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
-                  <span className="absolute top-3 left-3 section-label text-white drop-shadow bg-primary/40 backdrop-blur-sm px-2 py-0.5">{card.tag}</span>
-                </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors leading-tight">
-                    {card.title}
-                  </h3>
-                  <p className="article-body text-muted-foreground mb-3">{card.excerpt}</p>
-                  <p className="byline">By {card.author} · {card.time}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {featuredArticles.length > 0 ? (
+            <div className="grid md:grid-cols-3 gap-6">
+              {featuredArticles.map((article) => (
+                <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
+                  <div className="relative h-44 overflow-hidden">
+                    <img src={article.image_url || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80"} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
+                    <span className="absolute top-3 left-3 section-label text-white drop-shadow bg-primary/40 backdrop-blur-sm px-2 py-0.5">FinTech</span>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors leading-tight">
+                      {article.title}
+                    </h3>
+                    <p className="article-body text-muted-foreground mb-3 line-clamp-2">{article.summary}</p>
+                    <p className="byline">{article.published_at ? formatDistanceToNow(new Date(article.published_at), { addSuffix: true }) : ""}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted-foreground text-sm">No fintech articles published yet.</p>
+          )}
         </div>
       </section>
 
