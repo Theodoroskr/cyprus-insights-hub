@@ -6,7 +6,6 @@ import { VerticalNavigator } from "@/components/VerticalNavigator";
 import { SectionBanners } from "@/components/banners/SectionBanners";
 import { IntelligenceHub } from "@/components/IntelligenceHub";
 import { IntelligenceFeed } from "@/components/IntelligenceFeed";
-import { PremiumCarousel } from "@/components/PremiumCarousel";
 import { SponsoredStudio } from "@/components/SponsoredStudio";
 import { VerticalConnection } from "@/components/VerticalConnection";
 import { KnowledgeGraph } from "@/components/KnowledgeGraph";
@@ -19,7 +18,6 @@ import { PartnerStrip } from "@/components/banners/PartnerStrip";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { ArticleCounter } from "@/components/auth/ArticleCounter";
 import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
-import { ComplianceSuiteBanner } from "@/components/banners/ComplianceSuiteBanner";
 import { DirectoryPreview } from "@/components/DirectoryPreview";
 import { FeaturedCompaniesSection } from "@/components/FeaturedCompaniesSection";
 
@@ -45,39 +43,34 @@ const Index = () => {
       {/* Top Navigation */}
       <TopNavigation onSearch={handleSearch} />
 
-      {/* Hero Banner — Business Intelligence Positioning */}
+      {/* Compact Masthead + Trending Topics — FC style */}
       <HeroBanner />
 
-      {/* Interactive Vertical Navigator */}
+      {/* Vertical Navigator — category tabs */}
       <VerticalNavigator />
 
-      {/* Compliance Suite Banner — 728×90 below verticals */}
-      <ComplianceSuiteBanner />
-
-      {/* Main Content */}
+      {/* Main Content — content-first, FC-inspired density */}
       <main>
-        {/* Secondary Section Banners — Compliance, FinTech, Risk */}
-        <SectionBanners />
+        {/* Intelligence Hub — 3-column hero layout (Lead + Secondary + Most Read) */}
+        <IntelligenceHub />
 
         {/* Leaderboard Ad — after hero section */}
         <LeaderboardAdSlot />
 
-        {/* Intelligence Hub - Featured News & Trending People */}
-        <IntelligenceHub />
+        {/* Custom Studio — Sponsored Content (FC "Custom Studio" pattern) */}
+        <SponsoredStudio />
+
+        {/* Latest Stories Feed — with inline Premium indicators */}
+        <IntelligenceFeed />
+
+        {/* Verticals strip — Compliance, FinTech, Risk */}
+        <SectionBanners />
 
         {/* Intelligence Directory Preview */}
         <DirectoryPreview />
 
         {/* Featured Companies by City */}
         <FeaturedCompaniesSection compact />
-
-        {/* Custom Studio — Sponsored Content */}
-        <SponsoredStudio />
-
-        <PremiumCarousel />
-
-        {/* Intelligence Briefings — Semafor-style Cards */}
-        <IntelligenceFeed />
         
         {/* Vertical Connection - News linked to Profiles */}
         <VerticalConnection />
