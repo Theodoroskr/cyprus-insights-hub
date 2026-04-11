@@ -315,11 +315,52 @@ const ProfilePage = () => {
               <h3 className="text-lg font-semibold text-primary mb-2">Recent News & Mentions</h3>
               <p className="text-muted-foreground text-sm">Articles featuring or related to {profile.name}</p>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {profile.relatedNews.map((article) => (
-                <ProfileNewsCard key={article.id} article={article} />
-              ))}
-            </div>
+
+            {/* Knowledge Graph connections */}
+            {(() => {
+              const graphArticles = getArticlesForPerson(profile.id);
+              const coMentioned = getCoMentioned(profile.id);
+              return (
+                <>
+                  {coMentioned.length > 0 && (
+                    <div className="mb-6 p-4 rounded-xl border border-secondary/20 bg-secondary/5">
+                      <p className="text-sm text-muted-foreground">
+                        <span className="font-medium text-secondary">Knowledge Graph:</span>{" "}
+                        {profile.name} is co-mentioned with{" "}
+                        {coMentioned.map((cm, i) => (
+                          <span key={cm.person.id}>
+                            <Link to={`/profile/${cm.person.id}`} className="font-medium text-foreground hover:text-secondary transition-colors">
+                              {cm.person.name}
+                            </Link>
+                            {" "}({cm.sharedArticles} shared articles)
+                            {i < coMentioned.length - 1 ? ", " : ""}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  )}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {graphArticles.length > 0
+                      ? graphArticles.map((article) => (
+                          <ProfileNewsCard
+                            key={article.id}
+                            article={{
+                              id: article.id,
+                              title: article.title,
+                              summary: article.summary,
+                              date: article.date,
+                              category: article.category,
+                              image: article.image,
+                            }}
+                          />
+                        ))
+                      : profile.relatedNews.map((article) => (
+                          <ProfileNewsCard key={article.id} article={article} />
+                        ))}
+                  </div>
+                </>
+              );
+            })()}
           </TabsContent>
         </Tabs>
       </div>
