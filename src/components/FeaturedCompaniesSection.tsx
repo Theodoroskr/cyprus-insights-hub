@@ -83,15 +83,10 @@ export function FeaturedCompaniesSection({ compact = false }: Props) {
                 <p className="text-sm text-muted-foreground py-6 text-center">No featured companies yet for {city}.</p>
               ) : (
                 <div className={`grid gap-4 ${compact ? "md:grid-cols-2 lg:grid-cols-3" : "md:grid-cols-2 lg:grid-cols-3"}`}>
-                  {grouped[city]?.map((f, i) => {
-                    const primaryHref = f.website || f.linkedin || "#";
-                    const isExternal = primaryHref !== "#";
-                    return (
-                      <a
+                  {grouped[city]?.map((f, i) => (
+                      <Link
                         key={f.id}
-                        href={primaryHref}
-                        target={isExternal ? "_blank" : undefined}
-                        rel={isExternal ? "noopener noreferrer" : undefined}
+                        to={`/directory?q=${encodeURIComponent(f.company_name)}`}
                         className="border border-border rounded-lg p-5 bg-card hover:shadow-lg hover:border-secondary/30 transition-all relative overflow-hidden group cursor-pointer block"
                       >
                         <div className="absolute top-3 right-3">
@@ -112,25 +107,24 @@ export function FeaturedCompaniesSection({ compact = false }: Props) {
                         </div>
                         <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border">
                           {f.website && (
-                            <span className="text-secondary text-xs flex items-center gap-1">
+                            <a href={f.website} target="_blank" rel="noopener noreferrer" className="text-secondary text-xs flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                               <Globe className="h-3 w-3" /> Website
-                            </span>
+                            </a>
                           )}
                           {f.linkedin && (
-                            <span className="text-secondary text-xs flex items-center gap-1">
+                            <a href={f.linkedin} target="_blank" rel="noopener noreferrer" className="text-secondary text-xs flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                               <Linkedin className="h-3 w-3" /> LinkedIn
-                            </span>
+                            </a>
                           )}
                           {!f.website && !f.linkedin && (
                             <span className="text-xs text-muted-foreground">No links available</span>
                           )}
                           <span className="ml-auto text-xs text-secondary font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                            More info <ArrowRight className="h-3 w-3" />
+                            View in Directory <ArrowRight className="h-3 w-3" />
                           </span>
                         </div>
-                      </a>
-                    );
-                  })}
+                      </Link>
+                    ))}
                 </div>
               )}
             </TabsContent>
