@@ -60,6 +60,9 @@ const Index = () => {
         {/* Intelligence Hub - Featured News & Trending People */}
         <IntelligenceHub />
 
+        {/* Intelligence Directory Preview */}
+        <DirectoryPreview />
+
         {/* Custom Studio — Sponsored Content */}
         <SponsoredStudio />
 
