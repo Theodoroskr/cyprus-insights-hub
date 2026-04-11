@@ -86,6 +86,7 @@ export function IntelligenceListItem({
                 {category}
               </Badge>
               <span className="text-xs text-white/80">{date}</span>
+              <span className="text-xs text-white/60 flex items-center gap-1"><Clock className="h-3 w-3" />{readTime}</span>
             </div>
             <h3 className="font-serif font-bold text-2xl md:text-3xl text-white leading-tight mb-2 drop-shadow-lg">
               {whatHappened}
@@ -162,6 +163,7 @@ export function IntelligenceListItem({
             {category}
           </Badge>
           <span className="text-xs text-muted-foreground">{date}</span>
+          <span className="text-xs text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" />{readTime}</span>
           <div className="flex-1" />
           {user && (
             <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors opacity-0 group-hover:opacity-100">
