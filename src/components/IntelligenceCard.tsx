@@ -53,9 +53,9 @@ export function IntelligenceCard({
   const toggleBookmark = async () => {
     if (!user) return;
     if (bookmarked) {
-      await supabase.from("saved_items").delete().match({ user_id: user.id, item_type: "article", item_id: category + date });
+      await supabase.from("saved_items").delete().match({ user_id: user.id, item_type: "article", item_id: itemId });
     } else {
-      await supabase.from("saved_items").insert({ user_id: user.id, item_type: "article", item_id: category + date, item_title: whatHappened.slice(0, 80) });
+      await supabase.from("saved_items").insert({ user_id: user.id, item_type: "article", item_id: itemId, item_title: whatHappened.slice(0, 80) });
     }
     setBookmarked(!bookmarked);
   };
