@@ -121,8 +121,8 @@ export function IntelligenceHub() {
           <span className="text-xs text-muted-foreground">Latest from Cyprus</span>
         </div>
 
-        {lead ? (
         {/* Fast Company-style 3-column layout */}
+        {lead ? (
         <div className="grid lg:grid-cols-12 gap-0">
 
           {/* COLUMN 1: Lead Story (wide) */}
@@ -153,7 +153,6 @@ export function IntelligenceHub() {
                 </span>
               </div>
             </article>
-
           </div>
 
           {/* COLUMN 2: Secondary Stories (middle) */}
@@ -192,7 +191,6 @@ export function IntelligenceHub() {
                   key={article.id}
                   className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0 transition-all duration-200 hover:bg-muted/40 -mx-2 px-2 rounded-sm"
                 >
-                  {/* Large number with scale animation */}
                   <span className="text-3xl font-serif font-black text-muted-foreground/20 leading-none select-none min-w-[2rem] text-right transition-all duration-300 group-hover:text-secondary group-hover:scale-110 origin-right">
                     {String(index + 1).padStart(2, "0")}
                   </span>
@@ -207,7 +205,6 @@ export function IntelligenceHub() {
                       <span className="text-[11px] text-muted-foreground mt-1 inline-block">{article.view_count.toLocaleString()} views</span>
                     )}
                   </div>
-                  {/* Thumbnail */}
                   {article.image && (
                     <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden rounded-sm">
                       <img
@@ -223,6 +220,9 @@ export function IntelligenceHub() {
             </div>
           </div>
         </div>
+        ) : (
+          <p className="text-muted-foreground text-sm py-8 text-center">Loading intelligence briefings…</p>
+        )}
       </div>
     </section>
   );
