@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import ReactMarkdown from "react-markdown";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail, FileText, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -253,46 +254,44 @@ export default function ArticlePage() {
           </div>
 
           {/* Tabbed: Summary / Full Article */}
-          {(article.summary || article.body_markdown) && (
-            <Tabs defaultValue="summary" className="mb-10">
-              <TabsList className="w-full justify-start bg-muted/50 h-auto p-1 rounded-lg">
-                {article.summary && (
-                  <TabsTrigger
-                    value="summary"
-                    className="text-sm px-5 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm rounded-md gap-2"
-                  >
-                    <FileText className="h-4 w-4" />
-                    Summary
-                  </TabsTrigger>
-                )}
-                {article.body_markdown && (
-                  <TabsTrigger
-                    value="full"
-                    className="text-sm px-5 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm rounded-md gap-2"
-                  >
-                    <BookOpen className="h-4 w-4" />
-                    Full Article
-                  </TabsTrigger>
-                )}
-              </TabsList>
-
-              {article.summary && (
-                <TabsContent value="summary" className="mt-4">
-                  <div className="bg-muted/30 rounded-xl p-6 border border-border">
-                    <p className="text-muted-foreground leading-relaxed">{article.summary}</p>
-                  </div>
-                </TabsContent>
-              )}
-
-              {article.body_markdown && (
-                <TabsContent value="full" className="mt-4">
-                  <div className="prose prose-lg max-w-none text-foreground">
-                    {article.body_markdown.split("\n").map((p, i) => p.trim() ? <p key={i}>{p}</p> : null)}
-                  </div>
-                </TabsContent>
-              )}
-            </Tabs>
-          )}
+          {(() => {
+            const hasDistinctBody = article.body_markdown && article.body_markdown.trim() !== (article.summary || "").trim();
+            if (hasDistinctBody) {
+              return (
+                <Tabs defaultValue="summary" className="mb-10">
+                  <TabsList className="w-full justify-start bg-muted/50 h-auto p-1 rounded-lg">
+                    {article.summary && (
+                      <TabsTrigger value="summary" className="text-sm px-5 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm rounded-md gap-2">
+                        <FileText className="h-4 w-4" /> Summary
+                      </TabsTrigger>
+                    )}
+                    <TabsTrigger value="full" className="text-sm px-5 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm rounded-md gap-2">
+                      <BookOpen className="h-4 w-4" /> Full Article
+                    </TabsTrigger>
+                  </TabsList>
+                  {article.summary && (
+                    <TabsContent value="summary" className="mt-4">
+                      <div className="bg-muted/30 rounded-xl p-6 border border-border">
+                        <p className="text-muted-foreground leading-relaxed">{article.summary}</p>
+                      </div>
+                    </TabsContent>
+                  )}
+                  <TabsContent value="full" className="mt-4">
+                    <div className="prose prose-lg max-w-none text-foreground prose-headings:font-serif prose-a:text-secondary">
+                      <ReactMarkdown>{article.body_markdown!}</ReactMarkdown>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              );
+            } else if (article.summary) {
+              return (
+                <div className="bg-muted/30 rounded-xl p-6 border border-border mb-10">
+                  <p className="text-muted-foreground leading-relaxed">{article.summary}</p>
+                </div>
+              );
+            }
+            return null;
+          })()}
 
           {/* Tags */}
           {article.tags && article.tags.length > 0 && (
