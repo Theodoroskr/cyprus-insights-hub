@@ -6,75 +6,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 
 
-// Static fallback featured articles
-const fallbackArticles = [
-  {
-    id: "1",
-    title: "Cyprus Introduces New Corporate Tax Incentives for Tech Startups",
-    summary: "The Ministry of Finance announces a comprehensive package of tax incentives aimed at attracting tech companies to establish their European headquarters in Cyprus.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-    category: "Policy",
-    date: "2 hours ago",
-    author: "Maria Constantinou",
-  },
-  {
-    id: "2",
-    title: "CySEC Publishes Updated Guidelines on Crypto-Asset Service Providers",
-    summary: "New regulatory framework aligns with MiCA requirements, setting clearer boundaries for crypto firms operating from Cyprus.",
-    category: "Regulation",
-    date: "4 hours ago",
-    author: "Andreas Georgiou",
-  },
-  {
-    id: "3",
-    title: "Bank of Cyprus Reports Record Q3 Profits Amid Rising Interest Rates",
-    summary: "The island's largest lender sees net interest income surge 34% as the ECB rate environment continues to benefit Cypriot banks.",
-    category: "Banking",
-    date: "6 hours ago",
-    author: "Elena Papas",
-  },
-  {
-    id: "4",
-    title: "EU Digital Identity Wallet Rollout: What Cyprus Businesses Need to Know",
-    summary: "The upcoming eIDAS 2.0 regulation will require businesses to accept the EU Digital Identity Wallet by 2026.",
-    category: "Digital",
-    date: "8 hours ago",
-    author: "Nikos Ioannou",
-  },
-];
-
-const mostReadArticles = [
-  {
-    id: "mr1",
-    title: "AML Directive 6: Cyprus Implementation Timeline and Key Changes",
-    category: "Compliance",
-    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=200&q=60",
-  },
-  {
-    id: "mr2",
-    title: "Top 10 FinTech Companies Licensed by CySEC in 2025",
-    category: "FinTech",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=200&q=60",
-  },
-  {
-    id: "mr3",
-    title: "Cyprus Real Estate Market: Foreign Investment Surges 28%",
-    category: "Property",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&q=60",
-  },
-  {
-    id: "mr4",
-    title: "How the New Transfer Pricing Rules Affect SMEs in Cyprus",
-    category: "Tax",
-    image: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=200&q=60",
-  },
-  {
-    id: "mr5",
-    title: "Central Bank of Cyprus: Digital Euro Pilot Update",
-    category: "Banking",
-    image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=200&q=60",
-  },
-];
 
 
 interface MostReadItem {
@@ -127,20 +58,17 @@ export function IntelligenceHub() {
 
   // Map DB articles to display format, fall back to static data
   const featuredArticles = useMemo(() => {
-    if (dbArticles.length > 0) {
-      return dbArticles.map((a) => ({
-        id: a.id,
-        title: a.what_happened || a.title,
-        summary: a.summary || "",
-        image: a.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-        category: verticalLabel(a.vertical),
-        date: a.published_at
-          ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
-          : "",
-        author: "Editorial",
-      }));
-    }
-    return fallbackArticles;
+    return dbArticles.map((a) => ({
+      id: a.id,
+      title: a.what_happened || a.title,
+      summary: a.summary || "",
+      image: a.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      category: verticalLabel(a.vertical),
+      date: a.published_at
+        ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
+        : "",
+      author: "Editorial",
+    }));
   }, [dbArticles]);
 
   const [lead, ...secondary] = featuredArticles;
@@ -179,10 +107,9 @@ export function IntelligenceHub() {
     });
   }, [featuredArticles]);
 
-  // Use real data if available, otherwise fall back to static
-  const displayMostRead = mostRead.length > 0
-    ? mostRead
-    : mostReadArticles.map((a) => ({ ...a, view_count: 0 }));
+  const displayMostRead = mostRead;
+
+  if (!lead && displayMostRead.length === 0) return null;
 
   return (
     <section id="news" className="section-rule section-rule-thick">
@@ -195,6 +122,7 @@ export function IntelligenceHub() {
         </div>
 
         {/* Fast Company-style 3-column layout */}
+        {lead ? (
         <div className="grid lg:grid-cols-12 gap-0">
 
           {/* COLUMN 1: Lead Story (wide) */}
@@ -225,7 +153,6 @@ export function IntelligenceHub() {
                 </span>
               </div>
             </article>
-
           </div>
 
           {/* COLUMN 2: Secondary Stories (middle) */}
@@ -264,7 +191,6 @@ export function IntelligenceHub() {
                   key={article.id}
                   className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0 transition-all duration-200 hover:bg-muted/40 -mx-2 px-2 rounded-sm"
                 >
-                  {/* Large number with scale animation */}
                   <span className="text-3xl font-serif font-black text-muted-foreground/20 leading-none select-none min-w-[2rem] text-right transition-all duration-300 group-hover:text-secondary group-hover:scale-110 origin-right">
                     {String(index + 1).padStart(2, "0")}
                   </span>
@@ -279,7 +205,6 @@ export function IntelligenceHub() {
                       <span className="text-[11px] text-muted-foreground mt-1 inline-block">{article.view_count.toLocaleString()} views</span>
                     )}
                   </div>
-                  {/* Thumbnail */}
                   {article.image && (
                     <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden rounded-sm">
                       <img
@@ -295,6 +220,9 @@ export function IntelligenceHub() {
             </div>
           </div>
         </div>
+        ) : (
+          <p className="text-muted-foreground text-sm py-8 text-center">Loading intelligence briefings…</p>
+        )}
       </div>
     </section>
   );
