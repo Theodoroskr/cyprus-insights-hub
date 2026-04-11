@@ -14,6 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_companies: {
+        Row: {
+          article_id: string
+          company_id: string
+        }
+        Insert: {
+          article_id: string
+          company_id: string
+        }
+        Update: {
+          article_id?: string
+          company_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_companies_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "directory_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "article_companies_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      article_industries: {
+        Row: {
+          article_id: string
+          industry_id: string
+        }
+        Insert: {
+          article_id: string
+          industry_id: string
+        }
+        Update: {
+          article_id?: string
+          industry_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_industries_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "directory_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "article_industries_industry_id_fkey"
+            columns: ["industry_id"]
+            isOneToOne: false
+            referencedRelation: "industries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      article_people: {
+        Row: {
+          article_id: string
+          person_id: string
+        }
+        Insert: {
+          article_id: string
+          person_id: string
+        }
+        Update: {
+          article_id?: string
+          person_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_people_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "directory_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "article_people_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       article_views: {
         Row: {
           article_id: string
@@ -100,6 +190,153 @@ export type Database = {
         }
         Relationships: []
       }
+      companies: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          industry_id: string | null
+          location_id: string | null
+          logo: string | null
+          name: string
+          size: string | null
+          slug: string
+          tags: string[] | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          industry_id?: string | null
+          location_id?: string | null
+          logo?: string | null
+          name: string
+          size?: string | null
+          slug: string
+          tags?: string[] | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          industry_id?: string | null
+          location_id?: string | null
+          logo?: string | null
+          name?: string
+          size?: string | null
+          slug?: string
+          tags?: string[] | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "companies_industry_id_fkey"
+            columns: ["industry_id"]
+            isOneToOne: false
+            referencedRelation: "industries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "companies_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      directory_articles: {
+        Row: {
+          article_type: Database["public"]["Enums"]["directory_article_type"]
+          content: string | null
+          cover_image: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          is_published: boolean
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          article_type?: Database["public"]["Enums"]["directory_article_type"]
+          content?: string | null
+          cover_image?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          article_type?: Database["public"]["Enums"]["directory_article_type"]
+          content?: string | null
+          cover_image?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      industries: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      locations: {
+        Row: {
+          country: string
+          created_at: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          country?: string
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string | null
@@ -130,6 +367,45 @@ export type Database = {
           title?: string
           type?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      people: {
+        Row: {
+          bio: string | null
+          created_at: string
+          id: string
+          is_whoiswho: boolean
+          name: string
+          photo: string | null
+          slug: string
+          title: string | null
+          updated_at: string
+          whoiswho_quote: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          id?: string
+          is_whoiswho?: boolean
+          name: string
+          photo?: string | null
+          slug: string
+          title?: string | null
+          updated_at?: string
+          whoiswho_quote?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          id?: string
+          is_whoiswho?: boolean
+          name?: string
+          photo?: string | null
+          slug?: string
+          title?: string | null
+          updated_at?: string
+          whoiswho_quote?: string | null
         }
         Relationships: []
       }
@@ -168,6 +444,86 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      relationships: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          is_current: boolean
+          person_id: string
+          role: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          is_current?: boolean
+          person_id: string
+          role: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          is_current?: boolean
+          person_id?: string
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationships_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationships_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reports: {
+        Row: {
+          api_reference: string | null
+          company_id: string
+          created_at: string
+          id: string
+          price: number
+          report_type: string
+          updated_at: string
+        }
+        Insert: {
+          api_reference?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          price?: number
+          report_type?: string
+          updated_at?: string
+        }
+        Update: {
+          api_reference?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          price?: number
+          report_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       saved_items: {
         Row: {
@@ -316,6 +672,7 @@ export type Database = {
       app_role: "admin" | "moderator" | "user"
       article_status: "draft" | "published" | "archived"
       article_vertical: "compliance" | "fintech" | "sme" | "general"
+      directory_article_type: "news" | "interview" | "insight" | "whoiswho"
       user_tier: "free" | "premium"
     }
     CompositeTypes: {
@@ -447,6 +804,7 @@ export const Constants = {
       app_role: ["admin", "moderator", "user"],
       article_status: ["draft", "published", "archived"],
       article_vertical: ["compliance", "fintech", "sme", "general"],
+      directory_article_type: ["news", "interview", "insight", "whoiswho"],
       user_tier: ["free", "premium"],
     },
   },

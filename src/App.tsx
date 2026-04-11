@@ -16,6 +16,20 @@ import DashboardPage from "./pages/DashboardPage";
 import EditorialDashboard from "./pages/EditorialDashboard";
 import NotFound from "./pages/NotFound";
 
+// Intelligence Directory pages
+import DirectoryHomePage from "./pages/DirectoryHomePage";
+import CompanyDirectoryPage from "./pages/CompanyDirectoryPage";
+import CompanyProfilePage from "./pages/CompanyProfilePage";
+import PeopleProfilePage from "./pages/PeopleProfilePage";
+import WhoIsWhoPage from "./pages/WhoIsWhoPage";
+import WhoIsWhoProfilePage from "./pages/WhoIsWhoProfilePage";
+import NewsListPage from "./pages/NewsListPage";
+import NewsArticlePage from "./pages/NewsArticlePage";
+import InterviewsPage from "./pages/InterviewsPage";
+import InterviewArticlePage from "./pages/InterviewArticlePage";
+import SearchPage from "./pages/SearchPage";
+import IndustryPage from "./pages/IndustryPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -27,15 +41,30 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
+              {/* Original routes */}
+              <Route path="/" element={<DirectoryHomePage />} />
+              <Route path="/home" element={<Index />} />
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/fintech" element={<FinTechPage />} />
               <Route path="/compliance" element={<CompliancePage />} />
               <Route path="/resources" element={<ResourcesPage />} />
-              <Route path="/directory" element={<DirectoryPage />} />
               <Route path="/sme" element={<SMEPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/editorial" element={<EditorialDashboard />} />
+
+              {/* Intelligence Directory routes */}
+              <Route path="/directory" element={<CompanyDirectoryPage />} />
+              <Route path="/companies/:slug" element={<CompanyProfilePage />} />
+              <Route path="/people/:slug" element={<PeopleProfilePage />} />
+              <Route path="/whoiswho" element={<WhoIsWhoPage />} />
+              <Route path="/whoiswho/:slug" element={<WhoIsWhoProfilePage />} />
+              <Route path="/news" element={<NewsListPage />} />
+              <Route path="/news/:slug" element={<NewsArticlePage />} />
+              <Route path="/interviews" element={<InterviewsPage />} />
+              <Route path="/interviews/:slug" element={<InterviewArticlePage />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/industries/:slug" element={<IndustryPage />} />
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
