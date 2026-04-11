@@ -36,6 +36,10 @@ export default {
           DEFAULT: "hsl(var(--compliance))",
           light: "hsl(var(--compliance-light))",
         },
+        sme: {
+          DEFAULT: "hsl(var(--sme))",
+          light: "hsl(var(--sme-light))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

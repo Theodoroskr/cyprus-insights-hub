@@ -13,6 +13,7 @@ const navItems = [
   { label: "WhoIsWho", href: "/directory" },
   { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },
+  { label: "SME", href: "/sme" },
   { label: "Resources", href: "/resources" },
 ];
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase } from "lucide-react";
 
 export function Footer() {
   return (
@@ -67,6 +67,12 @@ export function Footer() {
                 <Link to="/compliance" className="flex items-center gap-2 hover:text-secondary transition-colors">
                   <Shield className="h-4 w-4 text-secondary" />
                   <span>ComplianceHub.cy</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/sme" className="flex items-center gap-2 hover:text-secondary transition-colors">
+                  <Briefcase className="h-4 w-4 text-secondary" />
+                  <span>SMEHub.cy</span>
                 </Link>
               </li>
             </ul>
