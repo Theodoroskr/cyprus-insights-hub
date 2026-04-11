@@ -6,56 +6,114 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const PXWEB_API_URL =
-  "https://cystatdb23px.cystat.gov.cy/pxweb/api/v1/en/8.CYSTAT-DB/8.CYSTAT-DB__External%20Trade__Foreign%20Trade%20Detailed%20Data__Imports/1041137G.px";
+// Summary table: has monthly time series with EU/Non-EU split
+const SUMMARY_API_URL =
+  "https://cystatdb23px.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/8.CYSTAT-DB__External%20Trade";
 
-/**
- * Build a PXWeb JSON-stat query to fetch all products × all countries
- * for a specific year-month period like "2026M01".
- */
-function buildQuery(periodCode: string) {
-  return {
-    query: [
-      {
-        code: "ΠΡΟΪΟΝ",
-        selection: { filter: "item", values: ["Σύνολο"] }, // Total (all products)
-      },
-      {
-        code: "ΧΩΡΑ",
-        selection: { filter: "all", values: ["*"] }, // All countries
-      },
-      {
-        code: "ΔΕΙΚΤΗΣ",
-        selection: { filter: "item", values: ["Αξία CIF (€)"] }, // CIF Value in EUR
-      },
-      {
-        code: "ΠΕΡΙΟΔΟΣ",
-        selection: { filter: "item", values: [periodCode] },
-      },
-    ],
-    response: { format: "json" },
-  };
-}
-
-/**
- * Determine the latest period code to fetch.
- * CYSTAT publishes data ~2 months after the reference month.
- * So for April 2026 we fetch February 2026 = "2026M02".
- */
-function getLatestPeriodCode(): { code: string; year: number; month: number } {
-  const now = new Date();
-  // Go back 2 months for the likely latest available data
-  const target = new Date(now.getFullYear(), now.getMonth() - 2, 1);
-  const year = target.getFullYear();
-  const month = target.getMonth() + 1;
-  const code = `${year}M${String(month).padStart(2, "0")}`;
-  return { code, year, month };
-}
+// Detailed table: country-level breakdown (single latest month)
+const DETAILED_API_URL =
+  "https://cystatdb23px.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/8.CYSTAT-DB__External%20Trade__Foreign%20Trade%20Detailed%20Data__Imports";
 
 const MONTH_NAMES = [
   "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
+
+/**
+ * Discover available months from the summary table metadata,
+ * then return the index and period code for the target month.
+ */
+async function discoverMonths(): Promise<{
+  monthMap: Map<string, string>; // periodCode -> index
+  allMonths: string[];
+}> {
+  const resp = await fetch(SUMMARY_API_URL);
+  if (!resp.ok) throw new Error(`Summary metadata fetch failed: ${resp.status}`);
+  const meta = await resp.json();
+  const monthVar = meta.variables?.find((v: any) => v.code === "MONTH");
+  if (!monthVar) throw new Error("MONTH variable not found in summary table");
+
+  const monthMap = new Map<string, string>();
+  const allMonths: string[] = [];
+  for (let i = 0; i < monthVar.values.length; i++) {
+    monthMap.set(monthVar.valueTexts[i], monthVar.values[i]);
+    allMonths.push(monthVar.valueTexts[i]);
+  }
+  return { monthMap, allMonths };
+}
+
+/**
+ * Fetch summary data (total, EU, Non-EU imports in thousands EUR) for given month indices.
+ */
+async function fetchSummaryData(monthIndices: string[]) {
+  const query = {
+    query: [
+      { code: "MONTH", selection: { filter: "item", values: monthIndices } },
+      { code: "MEASURE", selection: { filter: "item", values: ["0"] } }, // Thousand euro
+      { code: "REFERENCE PEIROD", selection: { filter: "item", values: ["0"] } }, // Monthly data
+      { code: "TYPE OF GOODS", selection: { filter: "item", values: ["0"] } }, // Total goods
+      { code: "PARTNER COUNTRY", selection: { filter: "all", values: ["*"] } }, // Total, Extra-EU, Intra-EU
+      { code: "TYPE OF TRADE", selection: { filter: "item", values: ["0"] } }, // Imports
+    ],
+    response: { format: "json" },
+  };
+
+  const resp = await fetch(SUMMARY_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(query),
+  });
+
+  if (!resp.ok) {
+    const errText = await resp.text();
+    throw new Error(`Summary API error ${resp.status}: ${errText.slice(0, 300)}`);
+  }
+  return resp.json();
+}
+
+/**
+ * Fetch country-level detailed import data (latest available month).
+ */
+async function fetchDetailedData() {
+  // Discover available countries
+  const metaResp = await fetch(DETAILED_API_URL);
+  if (!metaResp.ok) {
+    const t = await metaResp.text();
+    throw new Error(`Detailed metadata error: ${metaResp.status} ${t.slice(0, 200)}`);
+  }
+  const meta = await metaResp.json();
+  const countryVar = meta.variables?.find((v: any) => v.code === "PARTNER COUNTRY");
+
+  const query = {
+    query: [
+      { code: "PRODUCT", selection: { filter: "top", values: ["1"] } }, // Total (first product = grand total)
+      { code: "INDICATORS", selection: { filter: "item", values: ["0"] } }, // Value (€)
+      { code: "PARTNER COUNTRY", selection: { filter: "all", values: ["*"] } },
+    ],
+    response: { format: "json" },
+  };
+
+  const resp = await fetch(DETAILED_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(query),
+  });
+
+  if (!resp.ok) {
+    const t = await resp.text();
+    throw new Error(`Detailed API error: ${resp.status} ${t.slice(0, 200)}`);
+  }
+
+  const result = await resp.json();
+  // Enrich with country names from metadata
+  const countryTexts = countryVar?.valueTexts || [];
+  return { data: result, countryTexts };
+}
+
+function parsePeriod(code: string): { year: number; month: number } {
+  const [y, m] = code.split("M");
+  return { year: parseInt(y), month: parseInt(m) };
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -67,331 +125,306 @@ Deno.serve(async (req) => {
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    // Allow manual override via request body
-    let periodOverride: string | null = null;
+    // Allow manual override: { months: 12 } to fetch last N months, or { period: "2026M01" }
+    let requestedMonths = 6;
+    let specificPeriod: string | null = null;
     try {
       const body = await req.json();
-      periodOverride = body?.period || null;
-    } catch {
-      // No body or invalid JSON — use auto-detect
+      if (body?.months) requestedMonths = body.months;
+      if (body?.period) specificPeriod = body.period;
+    } catch { /* no body */ }
+
+    const batchId = `cystat-trade-${Date.now()}`;
+
+    console.log("Discovering available months from CYSTAT...");
+    const { monthMap, allMonths } = await discoverMonths();
+    console.log(`Found ${allMonths.length} months, latest: ${allMonths[allMonths.length - 1]}`);
+
+    // Determine which months to fetch
+    let targetPeriods: string[];
+    if (specificPeriod) {
+      targetPeriods = [specificPeriod];
+    } else {
+      targetPeriods = allMonths.slice(-requestedMonths);
     }
 
-    const period = periodOverride
-      ? {
-          code: periodOverride,
-          year: parseInt(periodOverride.split("M")[0]),
-          month: parseInt(periodOverride.split("M")[1]),
-        }
-      : getLatestPeriodCode();
+    // Filter out months we already have
+    const newPeriods: string[] = [];
+    for (const p of targetPeriods) {
+      const { year, month } = parsePeriod(p);
+      const { data: existing } = await supabase
+        .from("trade_monthly_totals")
+        .select("id")
+        .eq("year", year)
+        .eq("month", month)
+        .limit(1);
 
-    const batchId = `cystat-imports-${period.code}-${Date.now()}`;
-    const periodLabel = `${MONTH_NAMES[period.month]} ${period.year}`;
+      if (!existing || existing.length === 0) {
+        newPeriods.push(p);
+      }
+    }
 
-    console.log(`Fetching CYSTAT imports for ${period.code}...`);
+    if (newPeriods.length === 0) {
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: `All requested periods already exist. Latest: ${targetPeriods[targetPeriods.length - 1]}`,
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
-    // Log batch start
+    console.log(`Fetching ${newPeriods.length} new periods: ${newPeriods.join(", ")}`);
+
+    // Log batch
     await supabase.from("data_import_batches").insert({
       batch_id: batchId,
       source_name: "CYSTAT PXWeb",
-      source_url: PXWEB_API_URL,
-      import_type: "raw_import",
+      source_url: SUMMARY_API_URL,
+      import_type: "summary_import",
       status: "pending",
       records_received: 0,
       records_inserted: 0,
       records_updated: 0,
     });
 
-    // Check if we already have data for this period
-    const { data: existing } = await supabase
-      .from("raw_trade_imports")
-      .select("id")
-      .eq("year", period.year)
-      .eq("month", period.month)
-      .limit(1);
+    // Resolve month indices
+    const monthIndices = newPeriods
+      .map((p) => monthMap.get(p))
+      .filter(Boolean) as string[];
 
-    if (existing && existing.length > 0) {
-      // Update batch as skipped
-      await supabase
-        .from("data_import_batches")
-        .update({
-          status: "success",
-          error_log: `Skipped: data already exists for ${period.code}`,
-          finished_at: new Date().toISOString(),
-        })
-        .eq("batch_id", batchId);
-
-      return new Response(
-        JSON.stringify({
-          success: true,
-          message: `Data for ${period.code} already exists. Skipping.`,
-        }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (monthIndices.length === 0) {
+      throw new Error("Could not resolve month indices for requested periods");
     }
 
-    // Fetch from PXWeb API
-    const query = buildQuery(period.code);
-    const pxResponse = await fetch(PXWEB_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query),
-    });
+    // Fetch summary data
+    const summaryResult = await fetchSummaryData(monthIndices);
+    const summaryRows = summaryResult.data || [];
 
-    if (!pxResponse.ok) {
-      const errText = await pxResponse.text();
-      console.error("PXWeb API error:", pxResponse.status, errText);
-
-      await supabase
-        .from("data_import_batches")
-        .update({
-          status: "failed",
-          error_log: `PXWeb API returned ${pxResponse.status}: ${errText.slice(0, 500)}`,
-          finished_at: new Date().toISOString(),
-        })
-        .eq("batch_id", batchId);
-
-      return new Response(
-        JSON.stringify({ success: false, error: `PXWeb API error: ${pxResponse.status}` }),
-        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    // Build month index-to-period lookup
+    const indexToPeriod = new Map<string, string>();
+    for (const [period, idx] of monthMap.entries()) {
+      indexToPeriod.set(idx, period);
     }
 
-    const pxData = await pxResponse.json();
+    // Parse summary: group by month, partner country index
+    // Partner: 0 = Total, 1 = Extra-EU, 2 = Intra-EU
+    const monthlyData = new Map<string, { total: number; extraEu: number; intraEu: number }>();
 
-    // Parse PXWeb JSON response
-    // PXWeb JSON format: { columns: [...], data: [{ key: [...], values: [...] }, ...] }
-    // or JSON-stat format depending on version
-    const records: Array<{
-      country_name: string;
-      import_value_eur: number;
-    }> = [];
+    for (const row of summaryRows) {
+      const monthIdx = row.key[0];
+      const partnerIdx = row.key[4]; // PARTNER COUNTRY position
+      const valueThousands = parseFloat(row.values[0]) || 0;
+      const valueEur = valueThousands * 1000;
 
-    if (pxData.data && Array.isArray(pxData.data)) {
-      // PXWeb JSON format
-      for (const row of pxData.data) {
-        const countryName = row.key?.[1] || row.key?.[0] || "Unknown";
-        const value = parseFloat(row.values?.[0] || "0");
-        if (value > 0 && countryName !== "Σύνολο" && countryName !== "Total") {
-          records.push({
-            country_name: countryName,
-            import_value_eur: value,
-          });
-        }
+      const periodCode = indexToPeriod.get(monthIdx);
+      if (!periodCode) continue;
+
+      if (!monthlyData.has(periodCode)) {
+        monthlyData.set(periodCode, { total: 0, extraEu: 0, intraEu: 0 });
       }
+
+      const entry = monthlyData.get(periodCode)!;
+      if (partnerIdx === "0") entry.total = valueEur;
+      else if (partnerIdx === "1") entry.extraEu = valueEur;
+      else if (partnerIdx === "2") entry.intraEu = valueEur;
     }
 
-    console.log(`Parsed ${records.length} country records for ${period.code}`);
+    console.log(`Parsed ${monthlyData.size} months of summary data`);
 
-    if (records.length === 0) {
-      await supabase
-        .from("data_import_batches")
-        .update({
-          status: "failed",
-          error_log: "No records parsed from PXWeb response",
-          finished_at: new Date().toISOString(),
-        })
-        .eq("batch_id", batchId);
+    // Insert monthly totals and KPI snapshots
+    let totalRecords = 0;
+    const sortedPeriods = [...monthlyData.keys()].sort();
 
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: "No records parsed. The period may not be available yet.",
-          period: period.code,
-        }),
-        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
+    for (const periodCode of sortedPeriods) {
+      const { year, month } = parsePeriod(periodCode);
+      const dateMonth = `${year}-${String(month).padStart(2, "0")}-01`;
+      const entry = monthlyData.get(periodCode)!;
+      const periodLabel = `${MONTH_NAMES[month]} ${year}`;
 
-    // Insert into raw_trade_imports
-    const rawRows = records.map((r) => ({
-      source_dataset_code: "1041137G",
-      source_dataset_name: "Imports by Commodity and Country",
-      year: period.year,
-      month: period.month,
-      period_label: periodLabel,
-      country_name: r.country_name,
-      import_value_eur: r.import_value_eur,
-      source_url: PXWEB_API_URL,
-      batch_id: batchId,
-    }));
+      // Get previous month & year for growth calculations
+      const prevMonth = month === 1 ? 12 : month - 1;
+      const prevYear = month === 1 ? year - 1 : year;
+      const { data: prevMonthData } = await supabase
+        .from("trade_monthly_totals")
+        .select("total_imports_eur")
+        .eq("year", prevYear)
+        .eq("month", prevMonth)
+        .maybeSingle();
 
-    const { error: insertError } = await supabase
-      .from("raw_trade_imports")
-      .insert(rawRows);
+      const { data: prevYearData } = await supabase
+        .from("trade_monthly_totals")
+        .select("total_imports_eur")
+        .eq("year", year - 1)
+        .eq("month", month)
+        .maybeSingle();
 
-    if (insertError) {
-      console.error("Insert error:", insertError);
-      await supabase
-        .from("data_import_batches")
-        .update({
-          status: "failed",
-          error_log: insertError.message,
-          finished_at: new Date().toISOString(),
-        })
-        .eq("batch_id", batchId);
+      const momGrowth = prevMonthData?.total_imports_eur
+        ? Math.round(((entry.total - prevMonthData.total_imports_eur) / prevMonthData.total_imports_eur) * 10000) / 100
+        : null;
 
-      return new Response(
-        JSON.stringify({ success: false, error: insertError.message }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
+      const yoyGrowth = prevYearData?.total_imports_eur
+        ? Math.round(((entry.total - prevYearData.total_imports_eur) / prevYearData.total_imports_eur) * 10000) / 100
+        : null;
 
-    // Now normalize into trade_imports_clean and aggregate
+      const euSharePct = entry.total > 0 ? Math.round((entry.intraEu / entry.total) * 10000) / 100 : 0;
+      const nonEuSharePct = entry.total > 0 ? Math.round((entry.extraEu / entry.total) * 10000) / 100 : 0;
 
-    // 1. Match countries to trade_countries table
-    const { data: tradeCountries } = await supabase
-      .from("trade_countries")
-      .select("id, country_name, country_code, eu_member");
-
-    const countryMap = new Map(
-      (tradeCountries || []).map((c) => [c.country_name.toLowerCase(), c])
-    );
-
-    // 2. Calculate total for share percentages
-    const totalValue = records.reduce((sum, r) => sum + r.import_value_eur, 0);
-
-    // 3. Insert clean records
-    const cleanRows = records.map((r) => {
-      const matched = countryMap.get(r.country_name.toLowerCase());
-      return {
-        year: period.year,
-        month: period.month,
-        date_month: `${period.year}-${String(period.month).padStart(2, "0")}-01`,
+      // Insert raw record
+      await supabase.from("raw_trade_imports").insert({
+        source_dataset_code: "CYSTAT_SUMMARY",
+        source_dataset_name: "Foreign Trade Summary Data, Monthly",
+        year,
+        month,
         period_label: periodLabel,
-        country_id: matched?.id || null,
-        hs_code: null,
-        hs_description: "Total Imports",
-        sector_name: "Total",
-        sector_group: "Total",
-        import_value_eur: r.import_value_eur,
-      };
-    });
+        country_name: "Cyprus Total",
+        import_value_eur: entry.total,
+        source_url: SUMMARY_API_URL,
+        batch_id: batchId,
+      });
 
-    await supabase.from("trade_imports_clean").insert(cleanRows);
+      // Insert monthly total
+      await supabase.from("trade_monthly_totals").insert({
+        year,
+        month,
+        date_month: dateMonth,
+        total_imports_eur: entry.total,
+        mom_growth_pct: momGrowth,
+        yoy_growth_pct: yoyGrowth,
+      });
 
-    // 4. Insert country monthly aggregates
-    const sortedByValue = [...records].sort(
-      (a, b) => b.import_value_eur - a.import_value_eur
-    );
+      // Insert KPI snapshot
+      await supabase.from("trade_kpi_snapshots").insert({
+        date_month: dateMonth,
+        total_imports_eur: entry.total,
+        mom_growth_pct: momGrowth,
+        yoy_growth_pct: yoyGrowth,
+        eu_share_pct: euSharePct,
+        non_eu_share_pct: nonEuSharePct,
+      });
 
-    const countryMonthlyRows = sortedByValue.map((r, i) => {
-      const matched = countryMap.get(r.country_name.toLowerCase());
-      return {
-        year: period.year,
-        month: period.month,
-        date_month: `${period.year}-${String(period.month).padStart(2, "0")}-01`,
-        country_id: matched?.id || null,
-        total_imports_eur: r.import_value_eur,
+      totalRecords++;
+    }
+
+    // Now fetch detailed country-level data for the latest month
+    try {
+      console.log("Fetching detailed country-level data...");
+      const { data: detailedResult, countryTexts } = await fetchDetailedData();
+      const detailedRows = detailedResult.data || [];
+
+      // Get title to determine which month this is for
+      const detailedTitle = detailedResult.metadata?.[0]?.label || "";
+      console.log(`Detailed data: ${detailedTitle}, ${detailedRows.length} rows`);
+
+      // Load trade_countries for matching
+      const { data: tradeCountries } = await supabase
+        .from("trade_countries")
+        .select("id, country_name, country_code, eu_member");
+
+      const countryByCode = new Map(
+        (tradeCountries || []).map((c) => [c.country_code?.toUpperCase(), c])
+      );
+      const countryByName = new Map(
+        (tradeCountries || []).map((c) => [c.country_name.toLowerCase(), c])
+      );
+
+      // Parse country data
+      const countryRecords: Array<{
+        name: string;
+        code: string;
+        value: number;
+        matched_id: string | null;
+        eu_member: boolean;
+      }> = [];
+
+      for (const row of detailedRows) {
+        const countryIdx = parseInt(row.key[2] || "0");
+        const value = parseFloat(row.values[0]) || 0;
+        if (value <= 0 || countryIdx === 0) continue; // Skip total and zero values
+
+        const countryText = countryTexts[countryIdx] || "Unknown";
+        // Country text format: "GR Greece" or "AE United Arab Emirates"
+        const codeMatch = countryText.match(/^([A-Z]{2})\s+(.+)$/);
+        const code = codeMatch?.[1] || "";
+        const name = codeMatch?.[2] || countryText;
+
+        const matched = countryByCode.get(code) || countryByName.get(name.toLowerCase());
+
+        countryRecords.push({
+          name,
+          code,
+          value,
+          matched_id: matched?.id || null,
+          eu_member: matched?.eu_member || false,
+        });
+      }
+
+      // Sort by value descending
+      countryRecords.sort((a, b) => b.value - a.value);
+      const totalValue = countryRecords.reduce((s, r) => s + r.value, 0);
+
+      // Use the latest period from our summary data for the date_month
+      const latestPeriod = sortedPeriods[sortedPeriods.length - 1] || allMonths[allMonths.length - 1];
+      const { year: cYear, month: cMonth } = parsePeriod(latestPeriod);
+      const cDateMonth = `${cYear}-${String(cMonth).padStart(2, "0")}-01`;
+
+      // Insert country monthly records
+      const countryMonthlyRows = countryRecords.map((r, i) => ({
+        year: cYear,
+        month: cMonth,
+        date_month: cDateMonth,
+        country_id: r.matched_id,
+        total_imports_eur: r.value,
         country_share_pct: totalValue > 0
-          ? Math.round((r.import_value_eur / totalValue) * 10000) / 100
+          ? Math.round((r.value / totalValue) * 10000) / 100
           : 0,
         rank_position: i + 1,
-      };
-    });
+      }));
 
-    await supabase.from("trade_country_monthly").insert(countryMonthlyRows);
+      // Insert in batches of 50
+      for (let i = 0; i < countryMonthlyRows.length; i += 50) {
+        await supabase.from("trade_country_monthly").insert(countryMonthlyRows.slice(i, i + 50));
+      }
 
-    // 5. Insert monthly total
-    // Get previous month for MoM growth
-    const prevMonth = period.month === 1 ? 12 : period.month - 1;
-    const prevYear = period.month === 1 ? period.year - 1 : period.year;
-    const { data: prevMonthData } = await supabase
-      .from("trade_monthly_totals")
-      .select("total_imports_eur")
-      .eq("year", prevYear)
-      .eq("month", prevMonth)
-      .maybeSingle();
+      console.log(`Inserted ${countryRecords.length} country records`);
 
-    const { data: prevYearData } = await supabase
-      .from("trade_monthly_totals")
-      .select("total_imports_eur")
-      .eq("year", period.year - 1)
-      .eq("month", period.month)
-      .maybeSingle();
+      // Update the latest KPI snapshot with country details
+      const top5Value = countryRecords.slice(0, 5).reduce((s, r) => s + r.value, 0);
+      const topCountry = countryRecords[0];
 
-    const momGrowth = prevMonthData?.total_imports_eur
-      ? Math.round(
-          ((totalValue - prevMonthData.total_imports_eur) /
-            prevMonthData.total_imports_eur) *
-            10000
-        ) / 100
-      : null;
+      await supabase
+        .from("trade_kpi_snapshots")
+        .update({
+          top_import_country_id: topCountry?.matched_id || null,
+          top_import_country_value_eur: topCountry?.value || 0,
+          top_5_countries_share_pct: totalValue > 0
+            ? Math.round((top5Value / totalValue) * 10000) / 100
+            : 0,
+        })
+        .eq("date_month", cDateMonth);
 
-    const yoyGrowth = prevYearData?.total_imports_eur
-      ? Math.round(
-          ((totalValue - prevYearData.total_imports_eur) /
-            prevYearData.total_imports_eur) *
-            10000
-        ) / 100
-      : null;
-
-    await supabase.from("trade_monthly_totals").insert({
-      year: period.year,
-      month: period.month,
-      date_month: `${period.year}-${String(period.month).padStart(2, "0")}-01`,
-      total_imports_eur: totalValue,
-      mom_growth_pct: momGrowth,
-      yoy_growth_pct: yoyGrowth,
-    });
-
-    // 6. Build KPI snapshot
-    const top5Share = sortedByValue
-      .slice(0, 5)
-      .reduce((sum, r) => sum + r.import_value_eur, 0);
-
-    const euTotal = records
-      .filter((r) => {
-        const matched = countryMap.get(r.country_name.toLowerCase());
-        return matched?.eu_member;
-      })
-      .reduce((sum, r) => sum + r.import_value_eur, 0);
-
-    const topCountryMatch = countryMap.get(
-      sortedByValue[0]?.country_name.toLowerCase()
-    );
-
-    await supabase.from("trade_kpi_snapshots").insert({
-      date_month: `${period.year}-${String(period.month).padStart(2, "0")}-01`,
-      total_imports_eur: totalValue,
-      mom_growth_pct: momGrowth,
-      yoy_growth_pct: yoyGrowth,
-      top_import_country_id: topCountryMatch?.id || null,
-      top_import_country_value_eur: sortedByValue[0]?.import_value_eur || 0,
-      top_5_countries_share_pct:
-        totalValue > 0
-          ? Math.round((top5Share / totalValue) * 10000) / 100
-          : 0,
-      eu_share_pct:
-        totalValue > 0
-          ? Math.round((euTotal / totalValue) * 10000) / 100
-          : 0,
-      non_eu_share_pct:
-        totalValue > 0
-          ? Math.round(((totalValue - euTotal) / totalValue) * 10000) / 100
-          : 0,
-    });
+    } catch (detailErr) {
+      console.warn("Detailed country data fetch failed (non-fatal):", detailErr);
+    }
 
     // Update batch status
     await supabase
       .from("data_import_batches")
       .update({
         status: "success",
-        records_received: records.length,
-        records_inserted: records.length,
+        records_received: totalRecords,
+        records_inserted: totalRecords,
         finished_at: new Date().toISOString(),
       })
       .eq("batch_id", batchId);
 
-    console.log(
-      `Successfully imported ${records.length} records for ${period.code}`
-    );
+    console.log(`Successfully imported ${totalRecords} monthly periods`);
 
     return new Response(
       JSON.stringify({
         success: true,
-        period: period.code,
-        records_imported: records.length,
-        total_imports_eur: totalValue,
+        periods_imported: totalRecords,
+        periods: [...monthlyData.keys()].sort(),
         batch_id: batchId,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -399,13 +432,8 @@ Deno.serve(async (req) => {
   } catch (e) {
     console.error("CYSTAT ingestion error:", e);
     return new Response(
-      JSON.stringify({
-        error: e instanceof Error ? e.message : "Unknown error",
-      }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
