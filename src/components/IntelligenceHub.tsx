@@ -127,7 +127,7 @@ export function IntelligenceHub() {
 
           {/* COLUMN 1: Lead Story (wide) */}
           <div className="lg:col-span-5 lg:pr-6 lg:border-r border-border pb-6 lg:pb-0">
-            <article className="group cursor-pointer">
+            <Link to={`/article/${lead.id}`} className="block group cursor-pointer">
               <div className="relative overflow-hidden mb-4">
                 <img
                   src={lead.image}
@@ -152,14 +152,14 @@ export function IntelligenceHub() {
                   {lead.date}
                 </span>
               </div>
-            </article>
+            </Link>
           </div>
 
           {/* COLUMN 2: Secondary Stories (middle) */}
           <div className="lg:col-span-4 lg:px-6 lg:border-r border-border py-6 lg:py-0 border-t lg:border-t-0">
             <div className="divide-y divide-border">
               {secondary.map((article) => (
-                <article key={article.id} className="py-4 first:pt-0 group cursor-pointer">
+                <Link to={`/article/${article.id}`} key={article.id} className="block py-4 first:pt-0 group cursor-pointer">
                   <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans mb-2 border-muted-foreground/30">
                     {article.category}
                   </Badge>
@@ -174,7 +174,7 @@ export function IntelligenceHub() {
                     <span className="w-1 h-1 rounded-full bg-border" />
                     <span>{article.date}</span>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           </div>
@@ -187,7 +187,8 @@ export function IntelligenceHub() {
             </div>
             <div className="space-y-0">
               {displayMostRead.map((article, index) => (
-                <article
+                <Link
+                  to={`/article/${article.id}`}
                   key={article.id}
                   className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0 transition-all duration-200 hover:bg-muted/40 -mx-2 px-2 rounded-sm"
                 >
@@ -215,7 +216,7 @@ export function IntelligenceHub() {
                       <div className="absolute inset-0 bg-foreground/5 group-hover:bg-transparent transition-colors duration-300" />
                     </div>
                   )}
-                </article>
+                </Link>
               ))}
             </div>
           </div>

@@ -61,6 +61,7 @@ export function IntelligenceListItem({
 
   if (isLead) {
     return (
+      <Link to={href} className="block">
       <article className="group pb-6 mb-6 border-b border-border">
         {/* Large hero image */}
         <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-5">
@@ -132,10 +133,12 @@ export function IntelligenceListItem({
           </div>
         </div>
       </article>
+      </Link>
     );
   }
 
   return (
+    <Link to={href} className="block">
     <article className={`group flex gap-5 py-5 border-b border-border last:border-b-0 hover:bg-muted/20 transition-colors px-2 -mx-2 rounded-lg`}>
       {/* Image — left side */}
       <div className="flex-shrink-0 w-[200px] h-[140px] rounded-lg overflow-hidden relative">
@@ -209,5 +212,6 @@ export function IntelligenceListItem({
         </div>
       </div>
     </article>
+    </Link>
   );
 }
