@@ -312,9 +312,51 @@ Deno.serve(async (req) => {
 
           if (existing) continue;
 
-          // Classify and enrich
-          const vertical = classifyVertical(article.title, article.body, source.target_vertical);
-          const intelligence = await enrichWithAI(article.title, article.body, vertical, LOVABLE_API_KEY);
+          // --- Deep scrape: fetch the full article page ---
+          let fullBody = article.body || "";
+          let articleImageUrl = article.image_url || null;
+
+          if (article.url && article.url.startsWith("http")) {
+            try {
+              console.log(`  Deep-scraping article: ${article.url}`);
+              const articleScrape = await fetch("https://api.firecrawl.dev/v1/scrape", {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${FIRECRAWL_API_KEY}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  url: article.url,
+                  formats: ["markdown"],
+                  onlyMainContent: true,
+                  waitFor: 3000,
+                }),
+              });
+
+              if (articleScrape.ok) {
+                const articleData = await articleScrape.json();
+                const articleMarkdown = articleData.data?.markdown || articleData.markdown || "";
+                // Only use the deep-scraped content if it's meaningfully longer than the snippet
+                if (articleMarkdown.length > fullBody.length + 50) {
+                  fullBody = articleMarkdown;
+                  console.log(`  Got full article: ${articleMarkdown.length} chars`);
+                }
+                // Try to grab the article image from metadata if we don't have one
+                if (!articleImageUrl) {
+                  const meta = articleData.data?.metadata || articleData.metadata;
+                  articleImageUrl = meta?.ogImage || meta?.image || null;
+                }
+              } else {
+                console.warn(`  Deep-scrape failed [${articleScrape.status}] for ${article.url}`);
+              }
+            } catch (deepErr) {
+              console.warn(`  Deep-scrape error for ${article.url}:`, deepErr);
+            }
+          }
+
+          // Classify and enrich using the full body
+          const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
+          const intelligence = await enrichWithAI(article.title, fullBody, vertical, LOVABLE_API_KEY);
 
           // Determine publish status based on trust level
           const status = source.auto_publish ? "published" : "draft";
@@ -323,10 +365,10 @@ Deno.serve(async (req) => {
             .from("cna_articles")
             .insert({
               title: article.title,
-              body_markdown: article.body,
+              body_markdown: fullBody,
               source_url: article.url || `${source.url}${source.scrape_path}`,
               source_id: sourceId,
-              image_url: article.image_url || null,
+              image_url: articleImageUrl,
               vertical,
               summary: intelligence.summary,
               what_happened: intelligence.what_happened,
