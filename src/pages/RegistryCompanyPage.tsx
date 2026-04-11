@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown } from "lucide-react";
+import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useWatchlist } from "@/hooks/useWatchlist";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { toast } from "sonner";
 
 const CITY_LABELS: Record<string, string> = {
   nicosia: "Nicosia", limassol: "Limassol", larnaca: "Larnaca",
@@ -17,6 +19,7 @@ const CITY_LABELS: Record<string, string> = {
 export default function RegistryCompanyPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const { user, profile } = useAuth();
+  const { isWatching, toggleWatch } = useWatchlist();
   const [company, setCompany] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
@@ -92,7 +95,23 @@ export default function RegistryCompanyPage() {
               <Building2 className="h-8 w-8 text-primary" />
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
+              <div className="flex items-start justify-between gap-4">
+                <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
+                {user && companyId && (
+                  <Button
+                    variant={isWatching(companyId) ? "default" : "outline"}
+                    size="sm"
+                    className="gap-1.5 flex-shrink-0"
+                    onClick={async () => {
+                      const added = await toggleWatch(companyId, company.company_name, "directory");
+                      toast.success(added ? `Monitoring ${company.company_name}` : `Removed from watchlist`);
+                    }}
+                  >
+                    {isWatching(companyId) ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                    {isWatching(companyId) ? "Watching" : "Watch"}
+                  </Button>
+                )}
+              </div>
               <div className="flex items-center gap-3 mt-2 flex-wrap">
                 {isActive ? (
                   <Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>

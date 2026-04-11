@@ -9,8 +9,9 @@ import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
 import {
   Bookmark, Bell, Settings, Crown, User, Building2, Mail,
-  Trash2, ExternalLink, FileText, Save, Send
+  Trash2, ExternalLink, FileText, Save, Send, Eye
 } from "lucide-react";
+import { useWatchlist, WatchlistItem } from "@/hooks/useWatchlist";
 
 interface SavedItem {
   id: string;
@@ -31,7 +32,8 @@ interface Notification {
 
 export default function DashboardPage() {
   const { user, profile, loading, signOut } = useAuth();
-  const [activeTab, setActiveTab] = useState<"bookmarks" | "notifications" | "settings">("bookmarks");
+  const [activeTab, setActiveTab] = useState<"watchlist" | "bookmarks" | "notifications" | "settings">("watchlist");
+  const { items: watchlistItems, toggleWatch, loading: watchlistLoading } = useWatchlist();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [digestFreq, setDigestFreq] = useState("weekly");
@@ -100,6 +102,7 @@ export default function DashboardPage() {
   if (!user) return <Navigate to="/" replace />;
 
   const tabs = [
+    { id: "watchlist" as const, label: "Watchlist", icon: Eye, count: watchlistItems.length },
     { id: "bookmarks" as const, label: "Saved Items", icon: Bookmark, count: savedItems.length },
     { id: "notifications" as const, label: "Notifications", icon: Bell, count: notifications.filter((n) => !n.read).length },
     { id: "settings" as const, label: "Preferences", icon: Settings },
@@ -162,6 +165,52 @@ export default function DashboardPage() {
             </button>
           ))}
         </div>
+
+        {/* Watchlist */}
+        {activeTab === "watchlist" && (
+          <div className="space-y-0 divide-y divide-border border border-border bg-card">
+            {watchlistItems.length === 0 ? (
+              <div className="py-12 text-center">
+                <Eye className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">No companies in your watchlist</p>
+                <p className="text-xs text-muted-foreground mt-1">Visit a company profile and click "Watch" to monitor it</p>
+                <Link to="/directory">
+                  <Button variant="outline" size="sm" className="mt-4 gap-1.5">
+                    <Building2 className="h-3.5 w-3.5" /> Browse Directory
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              watchlistItems.map((item) => (
+                <div key={item.id} className="flex items-center justify-between px-5 py-4 hover:bg-muted/30 transition-colors">
+                  <Link
+                    to={item.company_type === "editorial" ? `/companies/${item.company_slug}` : `/directory/${item.company_id}`}
+                    className="flex items-center gap-3 flex-1 min-w-0"
+                  >
+                    <Building2 className="h-4 w-4 text-secondary flex-shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-foreground hover:text-secondary transition-colors truncate">{item.company_name}</p>
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                        {item.company_type === "editorial" ? "Editorial Directory" : "Registry"} · Added {new Date(item.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+                      </p>
+                    </div>
+                  </Link>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7"
+                    onClick={async () => {
+                      await toggleWatch(item.company_id, item.company_name, item.company_type, item.company_slug || undefined);
+                      toast.success(`Removed ${item.company_name} from watchlist`);
+                    }}
+                  >
+                    <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                  </Button>
+                </div>
+              ))
+            )}
+          </div>
+        )}
 
         {/* Content */}
         {activeTab === "bookmarks" && (
