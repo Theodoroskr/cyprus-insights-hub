@@ -13,7 +13,8 @@ import {
   FileSearch,
   Scale,
   Globe,
-  TrendingUp
+  TrendingUp,
+  Calendar
 } from "lucide-react";
 import { OperationaliseBanner } from "@/components/banners/OperationaliseBanner";
 
@@ -133,88 +134,99 @@ export default function CompliancePage() {
     console.log("Search:", query);
   };
 
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("en-GB", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <HubLayout brand="compliancehub" onSearch={handleSearch}>
-      {/* Hero Section */}
-      <section className="relative py-16 md:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-compliance to-compliance-light" />
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-14 h-14 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
-              <Shield className="h-7 w-7 text-white" />
+      {/* Editorial Masthead Hero */}
+      <section className="relative border-b border-border bg-card">
+        <div className="container mx-auto px-4">
+          <div className="h-[3px] bg-foreground" />
+
+          <div className="py-6 text-center border-b border-border">
+            <p className="section-label mb-2 text-secondary">Regulatory Intelligence & Risk Management</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-serif tracking-tight">
+              ComplianceHub<span className="text-secondary">.cy</span>
+            </h1>
+            <div className="flex items-center justify-center gap-4 mt-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <Calendar className="h-3 w-3" />
+                {formattedDate}
+              </span>
+              <span className="w-1 h-1 rounded-full bg-border" />
+              <span>Cyprus Edition</span>
+              <span className="w-1 h-1 rounded-full bg-border" />
+              <span className="text-secondary font-medium">LIVE</span>
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            ComplianceHub<span className="text-secondary">.cy</span>
-          </h1>
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8">
-            Regulatory intelligence and risk management for Cyprus businesses.
-          </p>
-          
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mt-12">
+
+          {/* Quick Stats — editorial row */}
+          <div className="py-6 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto border-b border-border">
             {stats.map((stat, index) => (
-              <div key={index} className="bg-white/10 backdrop-blur rounded-lg p-4">
-                <stat.icon className="h-5 w-5 text-secondary mx-auto mb-2" />
-                <p className="text-2xl font-bold text-white">{stat.value}</p>
-                <p className="text-xs text-white/70">{stat.label}</p>
+              <div key={index} className="text-center">
+                <stat.icon className="h-4 w-4 text-secondary mx-auto mb-1.5" />
+                <p className="text-2xl font-bold text-foreground font-serif">{stat.value}</p>
+                <p className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Latest Regulatory Alerts */}
-      <section id="alerts" className="py-12 md:py-16">
+      {/* Latest Regulatory Alerts — newspaper style */}
+      <section id="alerts" className="section-rule">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-foreground">Latest Regulatory Alerts</h2>
-            <Badge variant="outline" className="gap-1">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="section-label text-foreground text-sm">Latest Regulatory Alerts</h2>
+            <Badge variant="outline" className="gap-1 rounded-none text-[10px] uppercase tracking-wider">
               <Clock className="h-3 w-3" />
               Live Updates
             </Badge>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-6">
             {alerts.map((alert) => (
-              <Card key={alert.id} className="hover:shadow-lg transition-shadow border-border">
-                <CardHeader className="pb-2">
-                  <div className="flex items-start justify-between gap-4">
-                    <Badge className={getSeverityColor(alert.severity)}>
-                      {alert.severity.toUpperCase()}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">{alert.date}</span>
-                  </div>
-                  <CardTitle className="text-lg text-foreground mt-2">{alert.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-2">{alert.description}</p>
-                  <p className="text-xs text-muted-foreground">Source: {alert.source}</p>
-                </CardContent>
-              </Card>
+              <article key={alert.id} className="border-b border-border pb-5 group cursor-pointer">
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <Badge className={`rounded-none text-[10px] uppercase tracking-wider ${getSeverityColor(alert.severity)}`}>
+                    {alert.severity}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground">{alert.date}</span>
+                </div>
+                <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors">
+                  {alert.title}
+                </h3>
+                <p className="article-body text-muted-foreground mb-2">{alert.description}</p>
+                <p className="byline">Source: {alert.source}</p>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Compliance Areas */}
-      <section id="aml" className="py-12 md:py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold text-foreground mb-8">Compliance Areas</h2>
+      {/* Compliance Areas — editorial cards */}
+      <section id="aml" className="section-rule bg-muted/30">
+        <div className="container mx-auto px-4 pb-8">
+          <h2 className="section-label text-foreground text-sm mb-6">Compliance Areas</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {complianceAreas.map((area, index) => (
               <Link to="/resources" key={index}>
-                <Card className="hover:shadow-lg transition-all hover:border-compliance/50 cursor-pointer h-full">
+                <Card className="hover:shadow-lg transition-all hover:border-secondary/50 cursor-pointer h-full rounded-none border-border">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-full bg-compliance/10 flex items-center justify-center">
-                        <area.icon className="h-6 w-6 text-compliance" />
+                      <div className="w-12 h-12 rounded-none bg-foreground/5 flex items-center justify-center">
+                        <area.icon className="h-6 w-6 text-foreground" />
                       </div>
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className="text-[10px] rounded-none uppercase tracking-wider">
                         {area.updates} updates
                       </Badge>
                     </div>
-                    <h3 className="font-semibold text-foreground mb-1">{area.name}</h3>
+                    <h3 className="font-serif font-semibold text-foreground mb-1">{area.name}</h3>
                     <p className="text-sm text-muted-foreground">{area.description}</p>
                     <div className="flex items-center gap-1 mt-3">
                       <CheckCircle2 className="h-3 w-3 text-success" />
@@ -233,74 +245,70 @@ export default function CompliancePage() {
         <OperationaliseBanner />
       </div>
 
-      {/* Country Risk Tracker */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold text-foreground mb-8">Country Risk Tracker</h2>
-          <Card>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-border">
-                      <th className="text-left p-4 font-medium text-muted-foreground">Country</th>
-                      <th className="text-left p-4 font-medium text-muted-foreground">Risk Level</th>
-                      <th className="text-left p-4 font-medium text-muted-foreground">Score</th>
-                      <th className="text-left p-4 font-medium text-muted-foreground">Trend</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {countryRisks.map((item, index) => (
-                      <tr key={index} className="border-b border-border last:border-0 hover:bg-muted/50">
-                        <td className="p-4 font-medium text-foreground">{item.country}</td>
-                        <td className={`p-4 font-semibold ${getRiskColor(item.risk)}`}>{item.risk}</td>
-                        <td className="p-4">
-                          <div className="flex items-center gap-2">
-                            <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
-                              <div 
-                                className={`h-full ${item.score > 80 ? 'bg-destructive' : item.score > 60 ? 'bg-warning' : 'bg-success'}`}
-                                style={{ width: `${item.score}%` }}
-                              />
-                            </div>
-                            <span className="text-sm text-muted-foreground">{item.score}</span>
+      {/* Country Risk Tracker — editorial table */}
+      <section className="section-rule">
+        <div className="container mx-auto px-4 pb-8">
+          <h2 className="section-label text-foreground text-sm mb-6">Country Risk Tracker</h2>
+          <div className="border border-border">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b-2 border-foreground">
+                    <th className="text-left p-4 text-[10px] uppercase tracking-[0.1em] font-semibold text-muted-foreground">Country</th>
+                    <th className="text-left p-4 text-[10px] uppercase tracking-[0.1em] font-semibold text-muted-foreground">Risk Level</th>
+                    <th className="text-left p-4 text-[10px] uppercase tracking-[0.1em] font-semibold text-muted-foreground">Score</th>
+                    <th className="text-left p-4 text-[10px] uppercase tracking-[0.1em] font-semibold text-muted-foreground">Trend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {countryRisks.map((item, index) => (
+                    <tr key={index} className="border-b border-border last:border-0 hover:bg-muted/50">
+                      <td className="p-4 font-serif font-medium text-foreground">{item.country}</td>
+                      <td className={`p-4 font-semibold ${getRiskColor(item.risk)}`}>{item.risk}</td>
+                      <td className="p-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-24 h-2 bg-muted overflow-hidden">
+                            <div 
+                              className={`h-full ${item.score > 80 ? 'bg-destructive' : item.score > 60 ? 'bg-warning' : 'bg-success'}`}
+                              style={{ width: `${item.score}%` }}
+                            />
                           </div>
-                        </td>
-                        <td className="p-4">
-                          <Badge variant="outline" className={
-                            item.trend === "improving" ? "text-success border-success/30" :
-                            item.trend === "worsening" ? "text-destructive border-destructive/30" :
-                            "text-muted-foreground"
-                          }>
-                            {item.trend}
-                          </Badge>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+                          <span className="text-sm text-muted-foreground">{item.score}</span>
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <Badge variant="outline" className={`rounded-none text-[10px] uppercase tracking-wider ${
+                          item.trend === "improving" ? "text-success border-success/30" :
+                          item.trend === "worsening" ? "text-destructive border-destructive/30" :
+                          "text-muted-foreground"
+                        }`}>
+                          {item.trend}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <Card className="bg-compliance text-white border-0">
-            <CardContent className="py-10 text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Full Compliance Dashboard</h2>
-              <p className="text-white/80 mb-6 max-w-xl mx-auto">
-                Access comprehensive compliance tools, document templates, and regulatory guidance.
-              </p>
-              <Link to="/resources">
-                <Button variant="secondary" size="lg" className="gap-2">
-                  Explore Resources
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+      {/* CTA Section — editorial */}
+      <section className="section-rule">
+        <div className="container mx-auto px-4 pb-8">
+          <div className="navy-gradient text-primary-foreground py-10 px-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4">Full Compliance Dashboard</h2>
+            <p className="text-primary-foreground/70 mb-6 max-w-xl mx-auto article-body text-base">
+              Access comprehensive compliance tools, document templates, and regulatory guidance.
+            </p>
+            <Link to="/resources">
+              <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 gap-2 rounded-none font-sans text-sm font-semibold tracking-wide uppercase">
+                Explore Resources
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
