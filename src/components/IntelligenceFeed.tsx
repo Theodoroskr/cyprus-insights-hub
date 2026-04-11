@@ -29,7 +29,14 @@ export function IntelligenceFeed() {
       .limit(12)
       .then(({ data, error }) => {
         if (error) console.error("CNA fetch error:", error);
-        if (data && data.length > 0) setDbArticles(data as DBArticle[]);
+        if (data && data.length > 0) {
+          setDbArticles(data as DBArticle[]);
+          // Record views for displayed articles
+          const viewerHash = sessionStorage.getItem("bh_viewer") || Math.random().toString(36).slice(2) + Date.now().toString(36);
+          if (!sessionStorage.getItem("bh_viewer")) sessionStorage.setItem("bh_viewer", viewerHash);
+          const viewInserts = data.map((a: any) => ({ article_id: a.id, viewer_hash: viewerHash }));
+          supabase.from("article_views").insert(viewInserts).then(() => {});
+        }
       });
   }, []);
 
