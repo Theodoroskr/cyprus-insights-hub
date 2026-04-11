@@ -34,6 +34,7 @@ const alerts = [
     date: "2024-01-15",
     severity: "high" as const,
     description: "Updated requirements for customer due diligence procedures.",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
   },
   {
     id: 2,
@@ -42,6 +43,7 @@ const alerts = [
     date: "2024-01-12",
     severity: "medium" as const,
     description: "Guidance on MiCA transitional arrangements for Cyprus-based CASPs.",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80",
   },
   {
     id: 3,
@@ -50,6 +52,7 @@ const alerts = [
     date: "2024-01-10",
     severity: "high" as const,
     description: "Changes to jurisdictions under increased monitoring.",
+    image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&q=80",
   },
   {
     id: 4,
@@ -58,6 +61,7 @@ const alerts = [
     date: "2024-01-08",
     severity: "low" as const,
     description: "New sustainability disclosure standards for financial entities.",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80",
   },
 ];
 
