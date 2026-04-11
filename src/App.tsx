@@ -31,6 +31,7 @@ import InterviewArticlePage from "./pages/InterviewArticlePage";
 import SearchPage from "./pages/SearchPage";
 import IndustryPage from "./pages/IndustryPage";
 import ArticlePage from "./pages/ArticlePage";
+import TradePage from "./pages/TradePage";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,7 @@ const App = () => (
               <Route path="/editorial" element={<EditorialDashboard />} />
               <Route path="/admin/sources" element={<ContentSourcesPage />} />
               <Route path="/article/:id" element={<ArticlePage />} />
+              <Route path="/trade" element={<TradePage />} />
 
               {/* Intelligence Directory routes */}
               <Route path="/directory" element={<CompanyDirectoryPage />} />

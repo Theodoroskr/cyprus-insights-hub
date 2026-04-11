@@ -17,6 +17,7 @@ interface TopNavigationProps {
 const navItems = [
   { label: "News", href: "/news" },
   { label: "Directory", href: "/directory" },
+  { label: "Trade", href: "/trade" },
   { label: "Who's Who", href: "/whoiswho" },
   { label: "Interviews", href: "/interviews" },
   { label: "Compliance", href: "/compliance" },
