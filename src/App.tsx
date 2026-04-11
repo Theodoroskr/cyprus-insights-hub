@@ -33,6 +33,11 @@ import IndustryPage from "./pages/IndustryPage";
 import ArticlePage from "./pages/ArticlePage";
 import TradePage from "./pages/TradePage";
 
+// Registry Directory pages (55K+ companies)
+import RegistryDirectoryPage from "./pages/RegistryDirectoryPage";
+import RegistryCityPage from "./pages/RegistryCityPage";
+import RegistryCompanyPage from "./pages/RegistryCompanyPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -69,6 +74,11 @@ const App = () => (
               <Route path="/interviews/:slug" element={<InterviewArticlePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/industries/:slug" element={<IndustryPage />} />
+
+              {/* Registry Directory (55K+ companies) */}
+              <Route path="/registry" element={<RegistryDirectoryPage />} />
+              <Route path="/registry/city/:citySlug" element={<RegistryCityPage />} />
+              <Route path="/registry/:companyId" element={<RegistryCompanyPage />} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
