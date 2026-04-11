@@ -20,6 +20,25 @@ interface IntelligenceCardProps {
   };
   href?: string;
   articleId?: string;
+  tags?: string[] | null;
+}
+
+const ORIGIN_KEYWORDS: Record<string, { label: string; className: string }> = {
+  cyprus: { label: "Cyprus", className: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" },
+  eu: { label: "EU", className: "bg-blue-500/15 text-blue-700 dark:text-blue-400 border-blue-500/20" },
+  global: { label: "Global", className: "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/20" },
+};
+
+function getOriginTags(tags: string[] | null | undefined, title: string): { label: string; className: string }[] {
+  const text = `${(tags || []).join(" ")} ${title}`.toLowerCase();
+  const results: { label: string; className: string }[] = [];
+  if (text.includes("cyprus") || text.includes("cypriot") || text.includes("nicosia") || text.includes("limassol") || text.includes("cysec") || text.includes("cbcyprus"))
+    results.push(ORIGIN_KEYWORDS.cyprus);
+  if (text.includes("eu ") || text.includes("european") || text.includes("brussels") || text.includes("directive") || text.includes("mica") || text.includes("psd") || text.includes("amla"))
+    results.push(ORIGIN_KEYWORDS.eu);
+  if (text.includes("global") || text.includes("international") || text.includes("world") || text.includes("imf") || text.includes("oecd") || text.includes("fatf"))
+    results.push(ORIGIN_KEYWORDS.global);
+  return results;
 }
 
 const hubColors: Record<string, { badge: string; accent: string }> = {
@@ -45,12 +64,14 @@ export function IntelligenceCard({
   linkedPerson,
   href = "#",
   articleId,
+  tags,
 }: IntelligenceCardProps) {
   const colors = hubColors[hub];
   const content: Record<string, string> = { whatHappened, whyItMatters, whatToDo };
   const itemId = articleId || category + date;
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
+  const originTags = getOriginTags(tags, whatHappened);
 
   const toggleBookmark = async () => {
     if (!user) return;
@@ -74,9 +95,16 @@ export function IntelligenceCard({
 
       {/* Header */}
       <div className="px-5 pt-5 pb-3 flex items-start justify-between gap-2">
-        <Badge variant="outline" className={`text-xs font-medium whitespace-nowrap shrink-0 ${colors.badge}`}>
-          {category}
-        </Badge>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <Badge variant="outline" className={`text-xs font-medium whitespace-nowrap shrink-0 ${colors.badge}`}>
+            {category}
+          </Badge>
+          {originTags.map(t => (
+            <Badge key={t.label} variant="outline" className={`text-[10px] font-medium whitespace-nowrap shrink-0 ${t.className}`}>
+              {t.label}
+            </Badge>
+          ))}
+        </div>
         <div className="flex items-center gap-2 shrink-0">
           {user && (
             <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors">

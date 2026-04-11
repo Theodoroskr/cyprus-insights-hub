@@ -121,6 +121,7 @@ export function IntelligenceFeed() {
                   href={`/article/${article.id}`}
                   isLead={index === 0}
                   bodyMarkdown={article.body_markdown}
+                  tags={article.tags}
                 />
                 {index === 2 && (
                   <div className="py-4">

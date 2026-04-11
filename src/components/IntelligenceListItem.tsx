@@ -23,6 +23,25 @@ interface IntelligenceListItemProps {
   articleId?: string;
   isLead?: boolean;
   bodyMarkdown?: string | null;
+  tags?: string[] | null;
+}
+
+const ORIGIN_KEYWORDS: Record<string, { label: string; className: string }> = {
+  cyprus: { label: "Cyprus", className: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" },
+  eu: { label: "EU", className: "bg-blue-500/15 text-blue-700 dark:text-blue-400 border-blue-500/20" },
+  global: { label: "Global", className: "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/20" },
+};
+
+function getOriginTags(tags: string[] | null | undefined, title: string): { label: string; className: string }[] {
+  const text = `${(tags || []).join(" ")} ${title}`.toLowerCase();
+  const results: { label: string; className: string }[] = [];
+  if (text.includes("cyprus") || text.includes("cypriot") || text.includes("nicosia") || text.includes("limassol") || text.includes("cysec") || text.includes("cbcyprus"))
+    results.push(ORIGIN_KEYWORDS.cyprus);
+  if (text.includes("eu ") || text.includes("european") || text.includes("brussels") || text.includes("directive") || text.includes("mica") || text.includes("psd") || text.includes("amla"))
+    results.push(ORIGIN_KEYWORDS.eu);
+  if (text.includes("global") || text.includes("international") || text.includes("world") || text.includes("imf") || text.includes("oecd") || text.includes("fatf"))
+    results.push(ORIGIN_KEYWORDS.global);
+  return results;
 }
 
 const hubColors: Record<string, { badge: string; accent: string; border: string }> = {
@@ -44,7 +63,9 @@ export function IntelligenceListItem({
   articleId,
   isLead = false,
   bodyMarkdown,
+  tags,
 }: IntelligenceListItemProps) {
+  const originTags = getOriginTags(tags, whatHappened);
   const readTime = estimateReadingTime(whatHappened, whyItMatters, whatToDo, bodyMarkdown);
   const colors = hubColors[hub];
   const itemId = articleId || category + date;
@@ -81,10 +102,15 @@ export function IntelligenceListItem({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/10 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
               <Badge variant="outline" className={`text-[10px] font-semibold backdrop-blur-sm bg-background/20 border-white/30 text-white`}>
                 {category}
               </Badge>
+              {originTags.map(t => (
+                <Badge key={t.label} variant="outline" className={`text-[10px] font-semibold backdrop-blur-sm ${t.className}`}>
+                  {t.label}
+                </Badge>
+              ))}
               <span className="text-xs text-white/80">{date}</span>
               <span className="text-xs text-white/60 flex items-center gap-1"><Clock className="h-3 w-3" />{readTime}</span>
             </div>
@@ -158,10 +184,15 @@ export function IntelligenceListItem({
       {/* Content — right side */}
       <div className="flex-1 min-w-0 flex flex-col justify-between">
         {/* Top: category + date + bookmark */}
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
           <Badge variant="outline" className={`text-[10px] font-semibold whitespace-nowrap shrink-0 ${colors.badge}`}>
             {category}
           </Badge>
+          {originTags.map(t => (
+            <Badge key={t.label} variant="outline" className={`text-[10px] font-semibold whitespace-nowrap shrink-0 ${t.className}`}>
+              {t.label}
+            </Badge>
+          ))}
           <span className="text-xs text-muted-foreground">{date}</span>
           <span className="text-xs text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" />{readTime}</span>
           <div className="flex-1" />
