@@ -45,8 +45,9 @@ export default function RegistryDirectoryPage() {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [searching, setSearching] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
-  const [industryResults, setIndustryResults] = useState<any[] | null>(null);
-  const [industryLoading, setIndustryLoading] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [filterResults, setFilterResults] = useState<any[] | null>(null);
+  const [filterLoading, setFilterLoading] = useState(false);
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -66,12 +67,34 @@ export default function RegistryDirectoryPage() {
     fetchCounts();
   }, []);
 
+  // Run combined filter whenever city or industry changes
+  const runFilter = async (city: string | null, industry: string | null) => {
+    if (!city && !industry) {
+      setFilterResults(null);
+      return;
+    }
+    setFilterLoading(true);
+    setSearchResults(null);
+    setSearch("");
+    let query = supabase
+      .from("directory_companies")
+      .select("id, company_name, city, city_slug, activity_description, nace_code")
+      .order("company_name")
+      .limit(50);
+    if (city) query = query.eq("city_slug", city);
+    if (industry) query = query.like("nace_code", `${industry}%`);
+    const { data } = await query;
+    setFilterResults(data || []);
+    setFilterLoading(false);
+  };
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!search.trim()) return;
     setSearching(true);
     setSelectedIndustry(null);
-    setIndustryResults(null);
+    setSelectedCity(null);
+    setFilterResults(null);
     const term = `%${search.trim()}%`;
     const { data } = await supabase
       .from("directory_companies")
@@ -82,31 +105,29 @@ export default function RegistryDirectoryPage() {
     setSearching(false);
   };
 
-  const handleIndustryClick = async (code: string) => {
-    if (selectedIndustry === code) {
-      setSelectedIndustry(null);
-      setIndustryResults(null);
-      return;
-    }
-    setSelectedIndustry(code);
-    setIndustryLoading(true);
-    setSearchResults(null);
-    setSearch("");
-    const { data } = await supabase
-      .from("directory_companies")
-      .select("id, company_name, city, city_slug, activity_description, nace_code")
-      .like("nace_code", `${code}%`)
-      .order("company_name")
-      .limit(50);
-    setIndustryResults(data || []);
-    setIndustryLoading(false);
+  const handleCityClick = (slug: string) => {
+    const next = selectedCity === slug ? null : slug;
+    setSelectedCity(next);
+    runFilter(next, selectedIndustry);
   };
 
-  const showingResults = searchResults !== null || industryResults !== null;
-  const resultsToShow = searchResults || industryResults || [];
-  const resultsLabel = searchResults
-    ? `${searchResults.length} results for "${search}"`
-    : `${industryResults?.length || 0} companies in ${INDUSTRY_FILTERS.find(i => i.code === selectedIndustry)?.label || ""}`;
+  const handleIndustryClick = (code: string) => {
+    const next = selectedIndustry === code ? null : code;
+    setSelectedIndustry(next);
+    runFilter(selectedCity, next);
+  };
+
+  const showingResults = searchResults !== null || filterResults !== null;
+  const resultsToShow = searchResults || filterResults || [];
+
+  const buildLabel = () => {
+    if (searchResults) return `${searchResults.length} results for "${search}"`;
+    const parts: string[] = [];
+    if (selectedIndustry) parts.push(INDUSTRY_FILTERS.find(i => i.code === selectedIndustry)?.label || "");
+    if (selectedCity) parts.push(`in ${CITY_META[selectedCity]?.label || selectedCity}`);
+    return `${filterResults?.length || 0} ${parts.length ? parts.join(" ") : ""} companies`;
+  };
+  const resultsLabel = buildLabel();
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
@@ -141,64 +162,88 @@ export default function RegistryDirectoryPage() {
       </section>
 
       <div className="container mx-auto px-4 py-10">
-        {/* Browse by City — inline chips */}
-        <div className="mb-8">
-          <h2 className="text-lg font-serif font-bold text-foreground mb-3 flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-secondary" />
-            Browse by City
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            {MAIN_SLUGS.map((slug) => {
-              const meta = CITY_META[slug];
-              const count = cityCounts[slug] || 0;
-              return (
-                <Link
-                  key={slug}
-                  to={`/directory/city/${slug}`}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card hover:bg-secondary/10 hover:border-secondary/40 transition-all group"
+        {/* Combined Filter Bar */}
+        <div className="mb-8 space-y-4">
+          <div>
+            <h2 className="text-lg font-serif font-bold text-foreground mb-3 flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-secondary" />
+              Browse by City
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {MAIN_SLUGS.map((slug) => {
+                const meta = CITY_META[slug];
+                const count = cityCounts[slug] || 0;
+                return (
+                  <button
+                    key={slug}
+                    onClick={() => handleCityClick(slug)}
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${
+                      selectedCity === slug
+                        ? "bg-secondary text-secondary-foreground border-secondary"
+                        : "border-border bg-card hover:bg-secondary/10 hover:border-secondary/40 text-foreground"
+                    }`}
+                  >
+                    <MapPin className="h-3.5 w-3.5" />
+                    <span className="font-medium text-sm">{meta.label}</span>
+                    <Badge variant="secondary" className="text-[10px] h-5 px-1.5 rounded-full">
+                      {count.toLocaleString()}
+                    </Badge>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-serif font-bold text-foreground mb-3 flex items-center gap-2">
+              <Factory className="h-4 w-4 text-secondary" />
+              Filter by Industry
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {INDUSTRY_FILTERS.map((ind) => (
+                <button
+                  key={ind.code}
+                  onClick={() => handleIndustryClick(ind.code)}
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-sm transition-all ${
+                    selectedIndustry === ind.code
+                      ? "bg-secondary text-secondary-foreground border-secondary"
+                      : "border-border bg-card hover:bg-secondary/10 hover:border-secondary/40 text-foreground"
+                  }`}
                 >
-                  <MapPin className="h-3.5 w-3.5 text-muted-foreground group-hover:text-secondary transition-colors" />
-                  <span className="font-medium text-sm text-foreground group-hover:text-secondary transition-colors">{meta.label}</span>
-                  <Badge variant="secondary" className="text-[10px] h-5 px-1.5 rounded-full">
-                    {count.toLocaleString()}
-                  </Badge>
-                </Link>
-              );
-            })}
+                  {ind.label}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {/* Active filter summary */}
+          {(selectedCity || selectedIndustry) && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground pt-1">
+              <span>Showing:</span>
+              {selectedIndustry && (
+                <Badge variant="outline" className="gap-1">
+                  {INDUSTRY_FILTERS.find(i => i.code === selectedIndustry)?.label}
+                  <button onClick={() => handleIndustryClick(selectedIndustry)} className="ml-1 hover:text-destructive">×</button>
+                </Badge>
+              )}
+              {selectedCity && (
+                <Badge variant="outline" className="gap-1">
+                  {CITY_META[selectedCity]?.label}
+                  <button onClick={() => handleCityClick(selectedCity)} className="ml-1 hover:text-destructive">×</button>
+                </Badge>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Industry Filters */}
-        <div className="mb-8">
-          <h2 className="text-lg font-serif font-bold text-foreground mb-3 flex items-center gap-2">
-            <Factory className="h-4 w-4 text-secondary" />
-            Filter by Industry
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            {INDUSTRY_FILTERS.map((ind) => (
-              <button
-                key={ind.code}
-                onClick={() => handleIndustryClick(ind.code)}
-                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-sm transition-all ${
-                  selectedIndustry === ind.code
-                    ? "bg-secondary text-secondary-foreground border-secondary"
-                    : "border-border bg-card hover:bg-secondary/10 hover:border-secondary/40 text-foreground"
-                }`}
-              >
-                {ind.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Results (search or industry) */}
+        {/* Results (search or filter) */}
         {showingResults ? (
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-serif font-bold text-foreground">
-                {industryLoading ? "Loading..." : resultsLabel}
+                {filterLoading ? "Loading..." : resultsLabel}
               </h2>
-              <Button variant="ghost" size="sm" onClick={() => { setSearchResults(null); setIndustryResults(null); setSearch(""); setSelectedIndustry(null); }}>
+              <Button variant="ghost" size="sm" onClick={() => { setSearchResults(null); setFilterResults(null); setSearch(""); setSelectedIndustry(null); setSelectedCity(null); }}>
                 Clear
               </Button>
             </div>
@@ -219,7 +264,7 @@ export default function RegistryDirectoryPage() {
                   </div>
                 </Link>
               ))}
-              {resultsToShow.length === 0 && !industryLoading && (
+              {resultsToShow.length === 0 && !filterLoading && (
                 <div className="text-center py-16 text-muted-foreground">
                   <Building2 className="h-12 w-12 mx-auto mb-4 opacity-30" />
                   <p>No companies found.</p>
