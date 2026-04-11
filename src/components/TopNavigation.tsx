@@ -14,12 +14,13 @@ interface TopNavigationProps {
 }
 
 const navItems = [
-  { label: "News", href: "/" },
-  { label: "WhoIsWho", href: "/directory" },
+  { label: "News", href: "/news" },
+  { label: "Directory", href: "/directory" },
+  { label: "Who's Who", href: "/whoiswho" },
+  { label: "Interviews", href: "/interviews" },
   { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },
   { label: "SME", href: "/sme" },
-  { label: "Resources", href: "/resources" },
 ];
 
 export function TopNavigation({ onSearch }: TopNavigationProps) {
