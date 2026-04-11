@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Landmark, Euro, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { InlineAdSlot } from "@/components/banners/AdSlot";
 import { BusinessTicker } from "@/components/BusinessTicker";
 import { TopNavigation } from "@/components/TopNavigation";
 import { HeroBanner } from "@/components/banners/HeroBanner";
@@ -115,31 +116,43 @@ const Index = () => {
 
       {/* Main Content — content-first, FC-inspired density */}
       <main>
-        {/* Intelligence Hub — 3-column hero layout (Lead + Secondary + Most Read) */}
+        {/* Intelligence Hub — 3-column hero layout */}
         <IntelligenceHub />
 
-        {/* Leaderboard Ad — after hero section */}
+        {/* Ad: Leaderboard after hero */}
         <LeaderboardAdSlot />
 
-        {/* Custom Studio — Sponsored Content (FC "Custom Studio" pattern) */}
+        {/* Custom Studio — Sponsored Content */}
         <SponsoredStudio />
 
-        {/* Latest Stories Feed — with inline Premium indicators */}
+        {/* Ad: Billboard mid-page */}
+        <InlineAdSlot size="billboard" label="970 × 250 — Billboard" />
+
+        {/* Latest Stories Feed — with inline Premium indicators + sidebar ads */}
         <IntelligenceFeed />
 
-        {/* Verticals strip — Compliance, FinTech, Risk */}
+        {/* Ad: Leaderboard mid-feed */}
+        <InlineAdSlot size="leaderboard" label="728 × 90 — Mid-Page" />
+
+        {/* Verticals strip */}
         <SectionBanners />
 
         {/* Intelligence Directory Preview */}
         <DirectoryPreview />
 
+        {/* Ad: Banner between directory and featured */}
+        <InlineAdSlot size="banner" label="468 × 60 — Banner" />
+
         {/* Featured Companies by City */}
         <FeaturedCompaniesSection compact />
         
-        {/* Vertical Connection - News linked to Profiles */}
+        {/* Vertical Connection */}
         <VerticalConnection />
 
-        {/* Knowledge Graph — Person ↔ Article connections */}
+        {/* Ad: Leaderboard before knowledge graph */}
+        <InlineAdSlot size="leaderboard" label="728 × 90 — Lower" />
+
+        {/* Knowledge Graph */}
         <KnowledgeGraph />
         
         {/* FinTech · EU Funding · Compliance — 3-column row */}
