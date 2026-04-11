@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IntelligenceCard } from "@/components/IntelligenceCard";
+import { IntelligenceListItem } from "@/components/IntelligenceListItem";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { getIntelligenceBriefings, getPersonById } from "@/data/knowledgeGraph";
 import { supabase } from "@/integrations/supabase/client";
@@ -31,7 +31,6 @@ export function IntelligenceFeed() {
         if (error) console.error("CNA fetch error:", error);
         if (data && data.length > 0) {
           setDbArticles(data as DBArticle[]);
-          // Record views for displayed articles
           const viewerHash = sessionStorage.getItem("bh_viewer") || Math.random().toString(36).slice(2) + Date.now().toString(36);
           if (!sessionStorage.getItem("bh_viewer")) sessionStorage.setItem("bh_viewer", viewerHash);
           const viewInserts = data.map((a: any) => ({ article_id: a.id, viewer_hash: viewerHash }));
@@ -56,26 +55,24 @@ export function IntelligenceFeed() {
     return map[v] || "Business Intelligence";
   };
 
-  // Use DB articles if available, otherwise fall back to static data
   const hasDBArticles = dbArticles.length > 0;
 
   return (
     <section className="section-rule section-rule-thick">
       <div className="container mx-auto px-4">
         <div className="flex items-center gap-3 mb-6">
-          <span className="section-label">Intelligence Briefings</span>
+          <span className="section-label">Latest Stories</span>
           <div className="flex-1 h-px bg-border" />
           <span className="text-xs text-muted-foreground italic font-source-serif">
             What happened · Why it matters · What to do
           </span>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="divide-y-0">
           {hasDBArticles
             ? dbArticles.map((article, index) => (
-                <>
-                  <IntelligenceCard
-                    key={article.id}
+                <div key={article.id}>
+                  <IntelligenceListItem
                     category={verticalLabel(article.vertical)}
                     date={new Date(article.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                     whatHappened={article.what_happened}
@@ -85,8 +82,8 @@ export function IntelligenceFeed() {
                     imageUrl={article.image_url}
                     articleId={article.id}
                   />
-                  {index === 1 && (
-                    <div key="upsell-banner" className="md:col-span-2 lg:col-span-3">
+                  {index === 2 && (
+                    <div className="py-4">
                       <InsightBanner
                         text="Get daily intelligence briefings delivered to your inbox — curated for Cyprus business professionals."
                         ctaText="Register free for daily updates"
@@ -94,7 +91,7 @@ export function IntelligenceFeed() {
                       />
                     </div>
                   )}
-                </>
+                </div>
               ))
             : staticBriefings.map((article, index) => {
                 const person = article.personIds[0]
@@ -102,9 +99,8 @@ export function IntelligenceFeed() {
                   : undefined;
 
                 return (
-                  <>
-                    <IntelligenceCard
-                      key={article.id}
+                  <div key={article.id}>
+                    <IntelligenceListItem
                       category={article.category}
                       date={article.date}
                       whatHappened={article.intelligence!.whatHappened}
@@ -117,8 +113,8 @@ export function IntelligenceFeed() {
                           : undefined
                       }
                     />
-                    {index === 1 && (
-                      <div key="upsell-banner" className="md:col-span-2 lg:col-span-3">
+                    {index === 2 && (
+                      <div className="py-4">
                         <InsightBanner
                           text="Get daily intelligence briefings delivered to your inbox — curated for Cyprus business professionals."
                           ctaText="Register free for daily updates"
@@ -126,7 +122,7 @@ export function IntelligenceFeed() {
                         />
                       </div>
                     )}
-                  </>
+                  </div>
                 );
               })}
         </div>
