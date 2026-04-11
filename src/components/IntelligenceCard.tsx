@@ -18,6 +18,7 @@ interface IntelligenceCardProps {
     image: string;
   };
   href?: string;
+  articleId?: string;
 }
 
 const hubColors: Record<string, { badge: string; accent: string }> = {
@@ -41,18 +42,20 @@ export function IntelligenceCard({
   hub = "businesshub",
   linkedPerson,
   href = "#",
+  articleId,
 }: IntelligenceCardProps) {
   const colors = hubColors[hub];
   const content: Record<string, string> = { whatHappened, whyItMatters, whatToDo };
+  const itemId = articleId || category + date;
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
 
   const toggleBookmark = async () => {
     if (!user) return;
     if (bookmarked) {
-      await supabase.from("saved_items").delete().match({ user_id: user.id, item_type: "article", item_id: category + date });
+      await supabase.from("saved_items").delete().match({ user_id: user.id, item_type: "article", item_id: itemId });
     } else {
-      await supabase.from("saved_items").insert({ user_id: user.id, item_type: "article", item_id: category + date, item_title: whatHappened.slice(0, 80) });
+      await supabase.from("saved_items").insert({ user_id: user.id, item_type: "article", item_id: itemId, item_title: whatHappened.slice(0, 80) });
     }
     setBookmarked(!bookmarked);
   };

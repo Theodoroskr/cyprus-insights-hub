@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      cna_articles: {
+        Row: {
+          body_markdown: string | null
+          created_at: string
+          id: string
+          image_url: string | null
+          published_at: string | null
+          source_id: string | null
+          source_url: string | null
+          status: Database["public"]["Enums"]["article_status"]
+          summary: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          vertical: Database["public"]["Enums"]["article_vertical"]
+          what_happened: string | null
+          what_to_do: string | null
+          why_it_matters: string | null
+        }
+        Insert: {
+          body_markdown?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          source_id?: string | null
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["article_status"]
+          summary?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          vertical?: Database["public"]["Enums"]["article_vertical"]
+          what_happened?: string | null
+          what_to_do?: string | null
+          why_it_matters?: string | null
+        }
+        Update: {
+          body_markdown?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          source_id?: string | null
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["article_status"]
+          summary?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          vertical?: Database["public"]["Enums"]["article_vertical"]
+          what_happened?: string | null
+          what_to_do?: string | null
+          why_it_matters?: string | null
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string | null
@@ -176,6 +233,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      article_status: "draft" | "published" | "archived"
+      article_vertical: "compliance" | "fintech" | "sme" | "general"
       user_tier: "free" | "premium"
     }
     CompositeTypes: {
@@ -305,6 +364,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      article_status: ["draft", "published", "archived"],
+      article_vertical: ["compliance", "fintech", "sme", "general"],
       user_tier: ["free", "premium"],
     },
   },
