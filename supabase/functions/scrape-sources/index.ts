@@ -133,15 +133,16 @@ async function extractArticles(
   sourceUrl: string,
   apiKey: string
 ): Promise<Array<{ title: string; body: string; source_url: string; image_url?: string }>> {
-  const systemPrompt = `You are a content extraction system. Given scraped markdown from the website "${sourceName}" (${sourceUrl}), extract distinct news articles, press releases, or announcements.
+  const systemPrompt = `You are a content extraction system. Given scraped markdown from the website "${sourceName}" (${sourceUrl}), extract distinct news articles, press releases, announcements, or publications.
 
 For each item, extract:
-- title: The headline or title
-- body: The full text content (or summary if full text isn't available)
+- title: The headline or title (clean it up if needed)
+- body: The full text content, summary, or description
 - url: The full URL to the original article (construct from relative links if needed, base: ${sourceUrl})
-- image_url: Any associated image URL found near the article (look for markdown image syntax ![](url) or linked images). Must be an absolute URL. If no image found, omit this field.
+- image_url: Any associated image URL found near the article (look for markdown image syntax ![](url) or linked images). Must be an absolute URL starting with http. If no image found, omit this field.
 
-Return ONLY articles from the last 7 days if dates are visible. Skip navigation, footer, cookie notices, etc.
+Extract the most recent items visible on the page. If dates are visible, prefer recent ones, but DO NOT skip items just because you can't confirm their date — extract them anyway.
+Skip navigation elements, footers, cookie banners, sidebar widgets, and repeated boilerplate.
 If no distinct articles can be identified, return an empty array.`;
 
   try {
@@ -270,8 +271,8 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             url: scrapeUrl,
             formats: ["markdown", "links"],
-            onlyMainContent: true,
-            waitFor: 3000,
+            onlyMainContent: false,
+            waitFor: 5000,
           }),
         });
 
