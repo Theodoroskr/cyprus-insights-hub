@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -52,9 +53,9 @@ export function SponsoredStudio() {
 
         <div className="grid md:grid-cols-3 gap-6">
           {items.map((item) => (
-            <a
+            <Link
               key={item.id}
-              href={item.href}
+              to={`/sponsored/${item.id}`}
               className="group block rounded-xl overflow-hidden bg-card border border-border hover:border-secondary/30 transition-all hover:shadow-md"
             >
               <div className="relative h-44 overflow-hidden">
@@ -91,7 +92,7 @@ export function SponsoredStudio() {
                   </span>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
