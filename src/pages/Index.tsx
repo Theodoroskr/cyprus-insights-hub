@@ -7,6 +7,7 @@ import { SectionBanners } from "@/components/banners/SectionBanners";
 import { IntelligenceHub } from "@/components/IntelligenceHub";
 import { IntelligenceFeed } from "@/components/IntelligenceFeed";
 import { VerticalConnection } from "@/components/VerticalConnection";
+import { KnowledgeGraph } from "@/components/KnowledgeGraph";
 import { FinTechSpotlight } from "@/components/FinTechSpotlight";
 import { EUFundingMatchmaker } from "@/components/EUFundingMatchmaker";
 import { ComplianceDashboard } from "@/components/ComplianceDashboard";
@@ -52,6 +53,9 @@ const Index = () => {
         
         {/* Vertical Connection - News linked to Profiles */}
         <VerticalConnection />
+
+        {/* Knowledge Graph — Person ↔ Article connections */}
+        <KnowledgeGraph />
         
         {/* FinTech Spotlight */}
         <FinTechSpotlight />
