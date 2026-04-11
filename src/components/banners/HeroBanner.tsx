@@ -19,14 +19,7 @@ export function HeroBanner() {
         <div className="h-[3px] bg-foreground" />
 
         <div className="py-6 text-center border-b border-border">
-          <a
-            href="https://www.financialmirror.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-muted-foreground hover:text-secondary transition-colors mb-3"
-          >
-            A Financial Mirror Group Publication
-          </a>
+          <p className="section-label mb-2 text-secondary">Cyprus Business Intelligence Platform</p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-serif tracking-tight">
             BusinessHub<span className="text-secondary">.cy</span>
           </h1>

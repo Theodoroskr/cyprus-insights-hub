@@ -41,9 +41,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Financial Mirror Group */}
+          {/* BusinessHub.cy Group */}
           <div>
-            <h4 className="font-semibold mb-4 text-secondary">Financial Mirror Group</h4>
+            <h4 className="font-semibold mb-4 text-secondary">BusinessHub.cy Group</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/70">
               <li>
                 <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-secondary transition-colors">
@@ -99,12 +99,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
-          <p className="mb-1">© {new Date().getFullYear()} BusinessHub.cy — A <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Financial Mirror Group</a> Publication</p>
-          <p>
-            <Link to="/resources" className="hover:text-secondary transition-colors">Privacy Policy</Link>
-            {" | "}
-            <Link to="/resources" className="hover:text-secondary transition-colors">Terms of Service</Link>
-          </p>
+          <p>© {new Date().getFullYear()} BusinessHub.cy Group. All rights reserved. | <Link to="/resources" className="hover:text-secondary transition-colors">Privacy Policy</Link> | <Link to="/resources" className="hover:text-secondary transition-colors">Terms of Service</Link></p>
         </div>
       </div>
     </footer>
