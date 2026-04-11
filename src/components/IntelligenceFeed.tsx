@@ -75,6 +75,7 @@ export function IntelligenceFeed() {
                     whyItMatters={article.why_it_matters}
                     whatToDo={article.what_to_do}
                     hub={verticalToHub(article.vertical)}
+                    imageUrl={article.image_url}
                     articleId={article.id}
                   />
                   {index === 1 && (
