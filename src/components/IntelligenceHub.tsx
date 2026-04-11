@@ -156,6 +156,7 @@ export function IntelligenceHub() {
               id: d.article_id,
               title: d.title,
               category: verticalLabel(d.vertical),
+              image: d.image_url,
               view_count: Number(d.view_count),
             }))
           );
