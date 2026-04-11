@@ -122,8 +122,76 @@ const trendingPeople: Person[] = [
   },
 ];
 
+interface MostReadItem {
+  id: string;
+  title: string;
+  category: string;
+  view_count: number;
+}
+
+// Generate a simple anonymous viewer hash (session-based)
+function getViewerHash(): string {
+  let hash = sessionStorage.getItem("bh_viewer");
+  if (!hash) {
+    hash = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    sessionStorage.setItem("bh_viewer", hash);
+  }
+  return hash;
+}
+
 export function IntelligenceHub() {
   const [lead, ...secondary] = featuredArticles;
+  const [mostRead, setMostRead] = useState<MostReadItem[]>([]);
+  const [viewsLoaded, setViewsLoaded] = useState(false);
+
+  // Fetch most-read articles from DB
+  useEffect(() => {
+    supabase
+      .rpc("get_most_read_articles", { _limit: 5 })
+      .then(({ data, error }) => {
+        if (!error && data && data.length > 0) {
+          setMostRead(
+            data.map((d: any) => ({
+              id: d.article_id,
+              title: d.title,
+              category: verticalLabel(d.vertical),
+              view_count: Number(d.view_count),
+            }))
+          );
+        }
+        setViewsLoaded(true);
+      });
+  }, []);
+
+  // Record a view for published articles shown on this page
+  useEffect(() => {
+    const viewerHash = getViewerHash();
+    // Record views for featured articles (fire-and-forget)
+    featuredArticles.forEach((article) => {
+      // Only record if it looks like a real DB uuid (static IDs are short)
+      if (article.id.length > 10) {
+        supabase
+          .from("article_views")
+          .insert({ article_id: article.id, viewer_hash: viewerHash })
+          .then(() => {});
+      }
+    });
+  }, []);
+
+  const verticalLabel = (v: string) => {
+    const map: Record<string, string> = {
+      compliance: "Compliance",
+      fintech: "FinTech",
+      sme: "SME",
+      general: "Business",
+    };
+    return map[v] || v;
+  };
+
+  // Use real data if available, otherwise fall back to static
+  const displayMostRead = mostRead.length > 0
+    ? mostRead
+    : mostReadArticles.map((a) => ({ ...a, view_count: 0 }));
 
   return (
     <section id="news" className="section-rule section-rule-thick">
