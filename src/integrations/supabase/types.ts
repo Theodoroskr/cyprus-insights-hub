@@ -978,6 +978,45 @@ export type Database = {
         }
         Relationships: []
       }
+      section_sponsors: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          label: string
+          logo_url: string | null
+          section_key: string
+          sort_order: number
+          sponsor_name: string
+          sponsor_url: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          label?: string
+          logo_url?: string | null
+          section_key: string
+          sort_order?: number
+          sponsor_name: string
+          sponsor_url: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          label?: string
+          logo_url?: string | null
+          section_key?: string
+          sort_order?: number
+          sponsor_name?: string
+          sponsor_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sponsored_content: {
         Row: {
           active: boolean
