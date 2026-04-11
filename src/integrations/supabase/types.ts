@@ -250,6 +250,60 @@ export type Database = {
           },
         ]
       }
+      content_sources: {
+        Row: {
+          active: boolean
+          auto_publish: boolean
+          category: string
+          created_at: string
+          id: string
+          last_scraped_at: string | null
+          name: string
+          scrape_interval_hours: number
+          scrape_path: string
+          slug: string
+          target_section: string | null
+          target_vertical: string
+          trust_level: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          active?: boolean
+          auto_publish?: boolean
+          category?: string
+          created_at?: string
+          id?: string
+          last_scraped_at?: string | null
+          name: string
+          scrape_interval_hours?: number
+          scrape_path?: string
+          slug: string
+          target_section?: string | null
+          target_vertical?: string
+          trust_level?: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          active?: boolean
+          auto_publish?: boolean
+          category?: string
+          created_at?: string
+          id?: string
+          last_scraped_at?: string | null
+          name?: string
+          scrape_interval_hours?: number
+          scrape_path?: string
+          slug?: string
+          target_section?: string | null
+          target_vertical?: string
+          trust_level?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       directory_articles: {
         Row: {
           article_type: Database["public"]["Enums"]["directory_article_type"]
