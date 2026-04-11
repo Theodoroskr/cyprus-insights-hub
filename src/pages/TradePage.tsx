@@ -179,6 +179,13 @@ export default function TradePage() {
         </ContentGate>
       </section>
 
+      {/* Data disclaimer */}
+      <div className="max-w-7xl mx-auto px-4 pb-4">
+        <p className="text-[11px] text-muted-foreground/60 text-center">
+          Powered by CYSTAT official data, updated monthly.
+        </p>
+      </div>
+
       {/* CTA */}
       <section className="bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-4 py-12 text-center">
