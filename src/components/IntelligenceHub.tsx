@@ -14,7 +14,8 @@ interface Person {
   trending: boolean;
 }
 
-const featuredArticles = [
+// Static fallback featured articles
+const fallbackArticles = [
   {
     id: "1",
     title: "Cyprus Introduces New Corporate Tax Incentives for Tech Startups",
