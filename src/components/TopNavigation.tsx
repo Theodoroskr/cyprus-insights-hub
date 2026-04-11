@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Menu, X, Bell, User, Newspaper } from "lucide-react";
+import { Search, Menu, X, User, Newspaper } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { LoginModal } from "@/components/auth/LoginModal";
+import { NotificationDropdown } from "@/components/notifications/NotificationDropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -21,7 +24,9 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showLogin, setShowLogin] = useState(false);
   const location = useLocation();
+  const { user, profile, signOut } = useAuth();
 
   const isActive = (href: string) => {
     const path = href.split("#")[0];
@@ -108,12 +113,25 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                 <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex" onClick={() => setIsSearchOpen(true)}>
                   <Search className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
-                  <Bell className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
-                  <User className="h-4 w-4" />
-                </Button>
+                <div className="hidden sm:flex">
+                  <NotificationDropdown />
+                </div>
+                {user ? (
+                  <Link to="/dashboard">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
+                      <User className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="hidden sm:flex h-8 text-xs font-semibold uppercase tracking-wider"
+                    onClick={() => setShowLogin(true)}
+                  >
+                    Sign In
+                  </Button>
+                )}
               </>
             )}
             <Button variant="ghost" size="icon" className="lg:hidden h-8 w-8" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -156,6 +174,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
         )}
       </div>
       </header>
+      <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </>
   );
 }
