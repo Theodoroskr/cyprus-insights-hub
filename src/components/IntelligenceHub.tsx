@@ -55,31 +55,31 @@ const mostReadArticles = [
     id: "mr1",
     title: "AML Directive 6: Cyprus Implementation Timeline and Key Changes",
     category: "Compliance",
-    readTime: "5 min",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=200&q=60",
   },
   {
     id: "mr2",
     title: "Top 10 FinTech Companies Licensed by CySEC in 2025",
     category: "FinTech",
-    readTime: "4 min",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=200&q=60",
   },
   {
     id: "mr3",
     title: "Cyprus Real Estate Market: Foreign Investment Surges 28%",
     category: "Property",
-    readTime: "3 min",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&q=60",
   },
   {
     id: "mr4",
     title: "How the New Transfer Pricing Rules Affect SMEs in Cyprus",
     category: "Tax",
-    readTime: "6 min",
+    image: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=200&q=60",
   },
   {
     id: "mr5",
     title: "Central Bank of Cyprus: Digital Euro Pilot Update",
     category: "Banking",
-    readTime: "4 min",
+    image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=200&q=60",
   },
 ];
 
