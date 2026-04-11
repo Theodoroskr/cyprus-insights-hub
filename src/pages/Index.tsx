@@ -78,14 +78,8 @@ const Index = () => {
         {/* Knowledge Graph — Person ↔ Article connections */}
         <KnowledgeGraph />
         
-        {/* FinTech Spotlight */}
-        <FinTechSpotlight />
-        
-        {/* EU Funding Matchmaker */}
-        <EUFundingMatchmaker />
-        
-        {/* Compliance & Risk Dashboard */}
-        <ComplianceDashboard />
+        {/* FinTech · EU Funding · Compliance — 3-column row */}
+        <HubTripleRow />
       </main>
 
       {/* Premium CTA Banner */}
