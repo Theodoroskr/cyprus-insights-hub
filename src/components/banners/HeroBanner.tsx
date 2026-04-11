@@ -92,7 +92,7 @@ export function HeroBanner() {
                   </Button>
                 </Link>
                 <Link to="/directory">
-                  <Button size="lg" variant="outline" className="gap-2 rounded-none border-white text-white hover:bg-white hover:text-primary font-sans text-sm font-semibold tracking-wide uppercase">
+                  <Button size="lg" variant="outline" className="gap-2 rounded-none border-white/80 text-white bg-white/15 hover:bg-white hover:text-primary font-sans text-sm font-semibold tracking-wide uppercase backdrop-blur-sm">
                     Who Is Who Directory
                   </Button>
                 </Link>
