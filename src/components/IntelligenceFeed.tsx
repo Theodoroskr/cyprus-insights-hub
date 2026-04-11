@@ -115,7 +115,7 @@ export function IntelligenceFeed() {
   useEffect(() => {
     supabase
       .from("cna_articles")
-      .select("id, title, vertical, what_happened, why_it_matters, what_to_do, published_at, image_url, tags")
+      .select("id, title, vertical, what_happened, why_it_matters, what_to_do, published_at, image_url, tags, body_markdown")
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .limit(12)
@@ -164,6 +164,7 @@ export function IntelligenceFeed() {
             articleId={article.id}
             href={`/article/${article.id}`}
             isLead={index === 0}
+            bodyMarkdown={article.body_markdown}
           />
           {index === 2 && (
             <div className="py-4">
