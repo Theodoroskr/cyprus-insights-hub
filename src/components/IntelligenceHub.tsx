@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Clock, TrendingUp, BadgeCheck, Building2 } from "lucide-react";
+import { Clock, TrendingUp, BadgeCheck, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface Person {
@@ -37,6 +37,47 @@ const featuredArticles = [
     category: "Banking",
     date: "6 hours ago",
     author: "Elena Papas",
+  },
+  {
+    id: "4",
+    title: "EU Digital Identity Wallet Rollout: What Cyprus Businesses Need to Know",
+    summary: "The upcoming eIDAS 2.0 regulation will require businesses to accept the EU Digital Identity Wallet by 2026.",
+    category: "Digital",
+    date: "8 hours ago",
+    author: "Nikos Ioannou",
+  },
+];
+
+const mostReadArticles = [
+  {
+    id: "mr1",
+    title: "AML Directive 6: Cyprus Implementation Timeline and Key Changes",
+    category: "Compliance",
+    readTime: "5 min",
+  },
+  {
+    id: "mr2",
+    title: "Top 10 FinTech Companies Licensed by CySEC in 2025",
+    category: "FinTech",
+    readTime: "4 min",
+  },
+  {
+    id: "mr3",
+    title: "Cyprus Real Estate Market: Foreign Investment Surges 28%",
+    category: "Property",
+    readTime: "3 min",
+  },
+  {
+    id: "mr4",
+    title: "How the New Transfer Pricing Rules Affect SMEs in Cyprus",
+    category: "Tax",
+    readTime: "6 min",
+  },
+  {
+    id: "mr5",
+    title: "Central Bank of Cyprus: Digital Euro Pilot Update",
+    category: "Banking",
+    readTime: "4 min",
   },
 ];
 
@@ -92,10 +133,11 @@ export function IntelligenceHub() {
           <span className="text-xs text-muted-foreground">Latest from Cyprus</span>
         </div>
 
-        {/* Newspaper 3-column grid */}
+        {/* Fast Company-style 3-column layout */}
         <div className="grid lg:grid-cols-12 gap-0">
-          {/* Lead story — col 1-7 */}
-          <div className="lg:col-span-7 lg:pr-6 lg:border-r border-border pb-6 lg:pb-0">
+
+          {/* COLUMN 1: Lead Story (wide) */}
+          <div className="lg:col-span-5 lg:pr-6 lg:border-r border-border pb-6 lg:pb-0">
             <article className="group cursor-pointer">
               <div className="relative overflow-hidden mb-4">
                 <img
@@ -122,34 +164,9 @@ export function IntelligenceHub() {
                 </span>
               </div>
             </article>
-          </div>
 
-          {/* Secondary stories + Trending — col 8-12 */}
-          <div className="lg:col-span-5 lg:pl-6">
-            {/* Secondary stories */}
-            <div className="divide-y divide-border">
-              {secondary.map((article) => (
-                <article key={article.id} className="py-4 first:pt-0 group cursor-pointer">
-                  <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans mb-2 border-muted-foreground/30">
-                    {article.category}
-                  </Badge>
-                  <h4 className="font-serif text-lg font-bold text-foreground leading-snug mb-2 group-hover:text-secondary transition-colors">
-                    {article.title}
-                  </h4>
-                  <p className="article-body text-sm line-clamp-2 mb-2">
-                    {article.summary}
-                  </p>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <span className="byline">By {article.author}</span>
-                    <span className="w-1 h-1 rounded-full bg-border" />
-                    <span>{article.date}</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            {/* Trending People — below secondary stories */}
-            <div className="border-t border-border pt-5 mt-2">
+            {/* Trending People — below lead on desktop */}
+            <div className="border-t border-border pt-5 mt-6">
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="h-4 w-4 text-secondary" />
                 <span className="section-label">Trending People</span>
@@ -188,6 +205,60 @@ export function IntelligenceHub() {
                   </Link>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* COLUMN 2: Secondary Stories (middle) */}
+          <div className="lg:col-span-4 lg:px-6 lg:border-r border-border py-6 lg:py-0 border-t lg:border-t-0">
+            <div className="divide-y divide-border">
+              {secondary.map((article) => (
+                <article key={article.id} className="py-4 first:pt-0 group cursor-pointer">
+                  <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans mb-2 border-muted-foreground/30">
+                    {article.category}
+                  </Badge>
+                  <h4 className="font-serif text-lg font-bold text-foreground leading-snug mb-2 group-hover:text-secondary transition-colors">
+                    {article.title}
+                  </h4>
+                  <p className="article-body text-sm line-clamp-2 mb-2">
+                    {article.summary}
+                  </p>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="byline">By {article.author}</span>
+                    <span className="w-1 h-1 rounded-full bg-border" />
+                    <span>{article.date}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {/* COLUMN 3: Most Read — numbered sidebar */}
+          <div className="lg:col-span-3 lg:pl-6 pt-6 lg:pt-0 border-t lg:border-t-0">
+            <div className="flex items-center gap-2 mb-5">
+              <Flame className="h-4 w-4 text-destructive" />
+              <span className="section-label">Most Read</span>
+            </div>
+            <div className="space-y-0">
+              {mostReadArticles.map((article, index) => (
+                <article
+                  key={article.id}
+                  className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0"
+                >
+                  {/* Large number */}
+                  <span className="text-3xl font-serif font-black text-muted-foreground/25 leading-none select-none group-hover:text-secondary/40 transition-colors min-w-[2rem] text-right">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <Badge variant="outline" className="rounded-none text-[9px] uppercase tracking-wider font-sans mb-1.5 border-muted-foreground/20 px-1.5 py-0">
+                      {article.category}
+                    </Badge>
+                    <h5 className="font-serif text-sm font-bold text-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-2">
+                      {article.title}
+                    </h5>
+                    <span className="text-[11px] text-muted-foreground mt-1 inline-block">{article.readTime} read</span>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </div>
