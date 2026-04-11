@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Zap, Target, Lightbulb, Bookmark } from "lucide-react";
+import { ArrowRight, Zap, Target, Lightbulb, Bookmark, Clock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+import { estimateReadingTime } from "@/lib/readingTime";
 
 interface IntelligenceListItemProps {
   category: string;
@@ -21,6 +22,7 @@ interface IntelligenceListItemProps {
   href?: string;
   articleId?: string;
   isLead?: boolean;
+  bodyMarkdown?: string | null;
 }
 
 const hubColors: Record<string, { badge: string; accent: string; border: string }> = {
@@ -41,6 +43,7 @@ export function IntelligenceListItem({
   href = "#",
   articleId,
   isLead = false,
+  bodyMarkdown,
 }: IntelligenceListItemProps) {
   const colors = hubColors[hub];
   const itemId = articleId || category + date;

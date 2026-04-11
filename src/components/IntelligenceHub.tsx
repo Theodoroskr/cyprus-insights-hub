@@ -4,6 +4,7 @@ import { Clock, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
+import { estimateReadingTime } from "@/lib/readingTime";
 
 
 
@@ -35,7 +36,7 @@ export function IntelligenceHub() {
   useEffect(() => {
     supabase
       .from("cna_articles")
-      .select("id, title, summary, image_url, vertical, published_at, what_happened")
+      .select("id, title, summary, image_url, vertical, published_at, what_happened, body_markdown, why_it_matters, what_to_do")
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .range(1, 5) // skip index 0 (hero lead), get next 5
@@ -68,6 +69,7 @@ export function IntelligenceHub() {
         ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
         : "",
       author: "Editorial",
+      readTime: estimateReadingTime(a.what_happened, a.why_it_matters, a.what_to_do, a.summary, a.body_markdown),
     }));
   }, [dbArticles]);
 
@@ -151,6 +153,8 @@ export function IntelligenceHub() {
                   <Clock className="h-3 w-3" />
                   {lead.date}
                 </span>
+                <span className="w-1 h-1 rounded-full bg-border" />
+                <span>{lead.readTime}</span>
               </div>
             </Link>
           </div>
@@ -173,6 +177,8 @@ export function IntelligenceHub() {
                     <span className="byline">By {article.author}</span>
                     <span className="w-1 h-1 rounded-full bg-border" />
                     <span>{article.date}</span>
+                    <span className="w-1 h-1 rounded-full bg-border" />
+                    <span>{article.readTime}</span>
                   </div>
                 </Link>
               ))}
