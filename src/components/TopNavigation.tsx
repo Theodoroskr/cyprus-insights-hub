@@ -29,6 +29,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showLogin, setShowLogin] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
   const { user, profile, signOut } = useAuth();
 
