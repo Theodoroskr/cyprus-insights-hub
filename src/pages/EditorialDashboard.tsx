@@ -148,6 +148,7 @@ const EditorialDashboard = () => {
     }
   };
 
+  const openEditor = (article: Article) => {
     setEditingArticle(article);
     setEditForm({
       title: article.title,
