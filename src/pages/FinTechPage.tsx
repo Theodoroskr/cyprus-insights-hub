@@ -22,6 +22,7 @@ const featuredCards = [
     tag: "FinTech Intelligence",
     author: "Editorial Desk",
     time: "6 hours ago",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
   },
   {
     title: "EU Regulation Snapshot for FinTechs",
@@ -29,6 +30,7 @@ const featuredCards = [
     tag: "Regulation",
     author: "Andreas Georgiou",
     time: "1 day ago",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80",
   },
   {
     title: "Digital Assets Licensing in Cyprus",
@@ -36,6 +38,7 @@ const featuredCards = [
     tag: "Licensing",
     author: "Maria Ioannou",
     time: "2 days ago",
+    image: "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=600&q=80",
   },
 ];
 
