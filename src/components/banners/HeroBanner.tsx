@@ -1,41 +1,59 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { BarChart3, ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 
 export function HeroBanner() {
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("en-GB", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
-    <section className="relative py-16 md:py-20 overflow-hidden">
-      <div className="absolute inset-0 navy-gradient" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <BarChart3 className="h-6 w-6 text-secondary" />
-            </div>
-          </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4 text-balance">
-            Business Intelligence for the Cyprus Market
+    <section className="relative border-b border-border bg-card">
+      {/* Masthead */}
+      <div className="container mx-auto px-4">
+        {/* Top rule */}
+        <div className="h-[3px] bg-foreground" />
+
+        <div className="py-6 text-center border-b border-border">
+          <p className="section-label mb-2 text-secondary">Cyprus Business Intelligence Platform</p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-serif tracking-tight">
+            BusinessHub<span className="text-secondary">.cy</span>
           </h1>
-          <p className="text-base md:text-lg text-primary-foreground/75 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Independent analysis, regulatory insight, and professional intelligence — helping businesses navigate the Cyprus and EU landscape with clarity.
+          <div className="flex items-center justify-center gap-4 mt-3 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <Calendar className="h-3 w-3" />
+              {formattedDate}
+            </span>
+            <span className="w-1 h-1 rounded-full bg-border" />
+            <span>Nicosia Edition</span>
+            <span className="w-1 h-1 rounded-full bg-border" />
+            <span className="text-secondary font-medium">LIVE</span>
+          </div>
+        </div>
+
+        {/* Lead headline */}
+        <div className="py-8 md:py-10 max-w-4xl mx-auto text-center">
+          <p className="section-label mb-4">Lead Story</p>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-foreground leading-tight mb-4">
+            Independent Analysis, Regulatory Insight &amp; Professional Intelligence for the Cyprus Market
+          </h2>
+          <p className="article-body max-w-2xl mx-auto mb-6 text-base">
+            Helping businesses navigate the Cyprus and EU landscape with clarity — from compliance and fintech to funding and risk intelligence.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link to="/#news">
-              <Button
-                size="lg"
-                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 gap-2"
-              >
-                Explore Intelligence
+              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 gap-2 rounded-none font-sans text-sm font-semibold tracking-wide uppercase">
+                Read Intelligence
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
             <Link to="/directory">
-              <Button
-                size="lg"
-                className="bg-primary-foreground/15 text-primary-foreground border border-primary-foreground/30 hover:bg-primary-foreground/25 gap-2"
-              >
-                Browse Directory
+              <Button size="lg" variant="outline" className="gap-2 rounded-none border-foreground text-foreground hover:bg-foreground hover:text-background font-sans text-sm font-semibold tracking-wide uppercase">
+                Who Is Who Directory
               </Button>
             </Link>
           </div>

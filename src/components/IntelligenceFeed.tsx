@@ -1,25 +1,18 @@
 import { IntelligenceCard } from "@/components/IntelligenceCard";
-import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
 import { getIntelligenceBriefings, getPersonById } from "@/data/knowledgeGraph";
 
 export function IntelligenceFeed() {
   const briefings = getIntelligenceBriefings();
 
   return (
-    <section className="py-8">
+    <section className="section-rule section-rule-thick">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-primary">Intelligence Briefings</h2>
-            <p className="text-muted-foreground text-sm">
-              Structured analysis — what happened, why it matters, what to do
-            </p>
-          </div>
-          <Button variant="outline" size="sm" className="hidden sm:flex">
-            All Briefings
-            <ExternalLink className="ml-2 h-3 w-3" />
-          </Button>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="section-label">Intelligence Briefings</span>
+          <div className="flex-1 h-px bg-border" />
+          <span className="text-xs text-muted-foreground italic font-source-serif">
+            What happened · Why it matters · What to do
+          </span>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">

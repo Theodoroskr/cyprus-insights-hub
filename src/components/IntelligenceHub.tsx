@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { Clock, TrendingUp, BadgeCheck, Building2, ExternalLink } from "lucide-react";
+import { Clock, TrendingUp, BadgeCheck, Building2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 interface Person {
   id: string;
@@ -13,15 +12,33 @@ interface Person {
   trending: boolean;
 }
 
-const featuredArticle = {
-  id: "1",
-  title: "Cyprus Introduces New Corporate Tax Incentives for Tech Startups",
-  summary: "The Ministry of Finance announces a comprehensive package of tax incentives aimed at attracting tech companies to establish their European headquarters in Cyprus.",
-  image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-  category: "Policy",
-  date: "2 hours ago",
-  author: "Maria Constantinou",
-};
+const featuredArticles = [
+  {
+    id: "1",
+    title: "Cyprus Introduces New Corporate Tax Incentives for Tech Startups",
+    summary: "The Ministry of Finance announces a comprehensive package of tax incentives aimed at attracting tech companies to establish their European headquarters in Cyprus.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+    category: "Policy",
+    date: "2 hours ago",
+    author: "Maria Constantinou",
+  },
+  {
+    id: "2",
+    title: "CySEC Publishes Updated Guidelines on Crypto-Asset Service Providers",
+    summary: "New regulatory framework aligns with MiCA requirements, setting clearer boundaries for crypto firms operating from Cyprus.",
+    category: "Regulation",
+    date: "4 hours ago",
+    author: "Andreas Georgiou",
+  },
+  {
+    id: "3",
+    title: "Bank of Cyprus Reports Record Q3 Profits Amid Rising Interest Rates",
+    summary: "The island's largest lender sees net interest income surge 34% as the ECB rate environment continues to benefit Cypriot banks.",
+    category: "Banking",
+    date: "6 hours ago",
+    author: "Elena Papas",
+  },
+];
 
 const trendingPeople: Person[] = [
   {
@@ -63,100 +80,115 @@ const trendingPeople: Person[] = [
 ];
 
 export function IntelligenceHub() {
+  const [lead, ...secondary] = featuredArticles;
+
   return (
-    <section id="news" className="py-8">
+    <section id="news" className="section-rule section-rule-thick">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-primary">Intelligence Hub</h2>
-            <p className="text-muted-foreground text-sm">Latest business intelligence from Cyprus</p>
-          </div>
-          <Button variant="outline" size="sm" className="hidden sm:flex">
-            View All News
-            <ExternalLink className="ml-2 h-3 w-3" />
-          </Button>
+        {/* Section header */}
+        <div className="flex items-center gap-3 mb-6">
+          <span className="section-label">Intelligence Hub</span>
+          <div className="flex-1 h-px bg-border" />
+          <span className="text-xs text-muted-foreground">Latest from Cyprus</span>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Featured Article */}
-          <div className="lg:col-span-2">
-            <article className="bento-card-highlight group overflow-hidden p-0">
-              <div className="relative h-64 overflow-hidden">
+        {/* Newspaper 3-column grid */}
+        <div className="grid lg:grid-cols-12 gap-0">
+          {/* Lead story — col 1-7 */}
+          <div className="lg:col-span-7 lg:pr-6 lg:border-r border-border pb-6 lg:pb-0">
+            <article className="group cursor-pointer">
+              <div className="relative overflow-hidden mb-4">
                 <img
-                  src={featuredArticle.image}
-                  alt={featuredArticle.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  src={lead.image}
+                  alt={lead.title}
+                  className="w-full h-64 md:h-80 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent" />
-                <div className="absolute top-4 left-4">
-                  <Badge className="bg-secondary text-secondary-foreground">{featuredArticle.category}</Badge>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">
-                    {featuredArticle.title}
-                  </h3>
-                  <p className="text-white/80 text-sm mb-4 line-clamp-2">
-                    {featuredArticle.summary}
-                  </p>
-                  <div className="flex items-center gap-4 text-white/70 text-xs">
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {featuredArticle.date}
-                    </span>
-                    <span>By {featuredArticle.author}</span>
-                  </div>
-                </div>
+                <Badge className="absolute top-3 left-3 bg-foreground text-background rounded-none text-[10px] uppercase tracking-wider font-sans">
+                  {lead.category}
+                </Badge>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground leading-tight mb-3 group-hover:text-secondary transition-colors">
+                {lead.title}
+              </h3>
+              <p className="article-body text-base mb-3">
+                {lead.summary}
+              </p>
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <span className="byline">By {lead.author}</span>
+                <span className="w-1 h-1 rounded-full bg-border" />
+                <span className="flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  {lead.date}
+                </span>
               </div>
             </article>
           </div>
 
-          {/* Trending People Sidebar */}
-          <div className="bento-card">
-            <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="h-5 w-5 text-secondary" />
-              <h3 className="font-semibold text-primary">Trending People</h3>
-            </div>
-            <div className="space-y-4">
-              {trendingPeople.map((person) => (
-                <Link
-                  key={person.id}
-                  to={`/profile/${person.id}`}
-                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors cursor-pointer group"
-                >
-                  <img
-                    src={person.image}
-                    alt={person.name}
-                    className="w-12 h-12 rounded-full object-cover ring-2 ring-border group-hover:ring-secondary transition-all"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="font-medium text-sm text-primary truncate">{person.name}</p>
-                      {person.trending && (
-                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-secondary animate-pulse-gold" />
-                      )}
-                    </div>
-                    <p className="text-xs text-muted-foreground truncate">{person.title}</p>
-                    <div className="flex items-center gap-1 mt-1">
-                      <Building2 className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-xs text-muted-foreground truncate">{person.company}</span>
-                    </div>
-                    {person.badges.length > 0 && (
-                      <div className="flex gap-1 mt-1">
-                        {person.badges.map((badge) => (
-                          <span key={badge} className="badge-cysec">
-                            <BadgeCheck className="h-3 w-3" />
-                            {badge}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+          {/* Secondary stories + Trending — col 8-12 */}
+          <div className="lg:col-span-5 lg:pl-6">
+            {/* Secondary stories */}
+            <div className="divide-y divide-border">
+              {secondary.map((article) => (
+                <article key={article.id} className="py-4 first:pt-0 group cursor-pointer">
+                  <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans mb-2 border-muted-foreground/30">
+                    {article.category}
+                  </Badge>
+                  <h4 className="font-serif text-lg font-bold text-foreground leading-snug mb-2 group-hover:text-secondary transition-colors">
+                    {article.title}
+                  </h4>
+                  <p className="article-body text-sm line-clamp-2 mb-2">
+                    {article.summary}
+                  </p>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="byline">By {article.author}</span>
+                    <span className="w-1 h-1 rounded-full bg-border" />
+                    <span>{article.date}</span>
                   </div>
-                </Link>
+                </article>
               ))}
             </div>
-            <Button variant="ghost" className="w-full mt-4 text-secondary hover:text-secondary hover:bg-secondary/10">
-              View All Directory
-            </Button>
+
+            {/* Trending People — below secondary stories */}
+            <div className="border-t border-border pt-5 mt-2">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="h-4 w-4 text-secondary" />
+                <span className="section-label">Trending People</span>
+              </div>
+              <div className="space-y-3">
+                {trendingPeople.map((person) => (
+                  <Link
+                    key={person.id}
+                    to={`/profile/${person.id}`}
+                    className="flex items-center gap-3 p-2 -mx-2 rounded hover:bg-muted/50 transition-colors group"
+                  >
+                    <img
+                      src={person.image}
+                      alt={person.name}
+                      className="w-10 h-10 rounded-full object-cover ring-1 ring-border group-hover:ring-secondary transition-all"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium text-sm text-foreground truncate">{person.name}</p>
+                        {person.trending && (
+                          <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-secondary animate-pulse-gold" />
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <span className="truncate">{person.title}</span>
+                        <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50 flex-shrink-0" />
+                        <span className="truncate">{person.company}</span>
+                      </div>
+                    </div>
+                    {person.badges.length > 0 && (
+                      <span className="badge-cysec flex-shrink-0">
+                        <BadgeCheck className="h-3 w-3" />
+                        {person.badges[0]}
+                      </span>
+                    )}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
