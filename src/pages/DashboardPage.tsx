@@ -9,8 +9,9 @@ import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
 import {
   Bookmark, Bell, Settings, Crown, User, Building2, Mail,
-  Trash2, ExternalLink, FileText, Save, Send
+  Trash2, ExternalLink, FileText, Save, Send, Eye
 } from "lucide-react";
+import { useWatchlist, WatchlistItem } from "@/hooks/useWatchlist";
 
 interface SavedItem {
   id: string;
