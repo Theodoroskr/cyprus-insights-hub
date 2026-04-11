@@ -4,7 +4,7 @@ import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark } from "lucide-react";
+import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar } from "lucide-react";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 
 const stats = [
@@ -19,16 +19,22 @@ const featuredCards = [
     title: "Cyprus as an EU FinTech Gateway",
     excerpt: "Why Cyprus is emerging as a compliance-first entry point for EU fintech operations.",
     tag: "FinTech Intelligence",
+    author: "Editorial Desk",
+    time: "6 hours ago",
   },
   {
     title: "EU Regulation Snapshot for FinTechs",
     excerpt: "What MiCA, AML, and DORA mean in practice for fintechs operating from Cyprus.",
     tag: "Regulation",
+    author: "Andreas Georgiou",
+    time: "1 day ago",
   },
   {
     title: "Digital Assets Licensing in Cyprus",
     excerpt: "Complete guide to obtaining CASP registration and operating under MiCA framework.",
     tag: "Licensing",
+    author: "Maria Ioannou",
+    time: "2 days ago",
   },
 ];
 
@@ -47,57 +53,68 @@ export default function FinTechPage() {
     console.log("Search:", query);
   };
 
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("en-GB", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <HubLayout brand="fintechhub" onSearch={handleSearch}>
-      {/* Hero Section */}
-      <section className="relative py-16 md:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-fintech to-fintech-light" />
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-14 h-14 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
-              <Landmark className="h-7 w-7 text-white" />
+      {/* Editorial Masthead Hero */}
+      <section className="relative border-b border-border bg-card">
+        <div className="container mx-auto px-4">
+          <div className="h-[3px] bg-foreground" />
+
+          <div className="py-6 text-center border-b border-border">
+            <p className="section-label mb-2 text-secondary">Digital Finance Intelligence for Cyprus</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-serif tracking-tight">
+              FinTechHub<span className="text-secondary">.cy</span>
+            </h1>
+            <div className="flex items-center justify-center gap-4 mt-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <Calendar className="h-3 w-3" />
+                {formattedDate}
+              </span>
+              <span className="w-1 h-1 rounded-full bg-border" />
+              <span>Cyprus Edition</span>
+              <span className="w-1 h-1 rounded-full bg-border" />
+              <span className="text-secondary font-medium">LIVE</span>
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            FinTechHub<span className="text-secondary">.cy</span>
-          </h1>
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8">
-            Independent intelligence on FinTech, RegTech, and digital finance in Cyprus.
-          </p>
-          
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mt-12">
+
+          {/* Quick Stats — editorial row */}
+          <div className="py-6 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto border-b border-border">
             {stats.map((stat, index) => (
-              <div key={index} className="bg-white/10 backdrop-blur rounded-lg p-4">
-                <stat.icon className="h-5 w-5 text-secondary mx-auto mb-2" />
-                <p className="text-2xl font-bold text-white">{stat.value}</p>
-                <p className="text-xs text-white/70">{stat.label}</p>
+              <div key={index} className="text-center">
+                <stat.icon className="h-4 w-4 text-secondary mx-auto mb-1.5" />
+                <p className="text-2xl font-bold text-foreground font-serif">{stat.value}</p>
+                <p className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured FinTech Intelligence */}
-      <section className="py-12 md:py-16">
+      {/* Featured FinTech Intelligence — newspaper grid */}
+      <section className="section-rule">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold text-foreground mb-8">Featured FinTech Intelligence</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="section-label text-foreground text-sm">Featured Intelligence</h2>
+            <span className="section-label text-secondary">Latest from Cyprus FinTech</span>
+          </div>
           <div className="grid md:grid-cols-3 gap-6">
             {featuredCards.map((card, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow border-border group">
-                <CardHeader>
-                  <Badge variant="secondary" className="w-fit mb-2 bg-fintech/10 text-fintech">
-                    {card.tag}
-                  </Badge>
-                  <CardTitle className="text-xl text-foreground group-hover:text-fintech transition-colors">
-                    {card.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{card.excerpt}</p>
-                </CardContent>
-              </Card>
+              <article key={index} className={`group ${index > 0 ? "md:border-l md:border-border md:pl-6" : ""}`}>
+                <span className="section-label text-secondary">{card.tag}</span>
+                <h3 className="text-xl font-serif font-bold text-foreground mt-2 mb-3 group-hover:text-secondary transition-colors cursor-pointer leading-tight">
+                  {card.title}
+                </h3>
+                <p className="article-body text-muted-foreground mb-3">{card.excerpt}</p>
+                <p className="byline">By {card.author} · {card.time}</p>
+              </article>
             ))}
           </div>
         </div>
@@ -112,19 +129,19 @@ export default function FinTechPage() {
         />
       </div>
 
-      {/* Regulation Snapshot */}
-      <section id="regulations" className="py-12 md:py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold text-foreground mb-8">Regulation Snapshot</h2>
+      {/* Regulation Snapshot — editorial cards */}
+      <section id="regulations" className="section-rule bg-muted/30">
+        <div className="container mx-auto px-4 pb-8">
+          <h2 className="section-label text-foreground text-sm mb-6">Regulation Snapshot</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {regulations.map((reg, index) => (
               <Link to="/resources" key={index}>
-                <Card className="hover:shadow-lg transition-all hover:border-fintech/50 cursor-pointer h-full">
+                <Card className="hover:shadow-lg transition-all hover:border-secondary/50 cursor-pointer h-full rounded-none border-border">
                   <CardContent className="pt-6 text-center">
-                    <div className="w-12 h-12 rounded-full bg-fintech/10 flex items-center justify-center mx-auto mb-4">
-                      <reg.icon className="h-6 w-6 text-fintech" />
+                    <div className="w-12 h-12 rounded-none bg-foreground/5 flex items-center justify-center mx-auto mb-4">
+                      <reg.icon className="h-6 w-6 text-foreground" />
                     </div>
-                    <h3 className="font-semibold text-foreground mb-1">{reg.name}</h3>
+                    <h3 className="font-serif font-semibold text-foreground mb-1">{reg.name}</h3>
                     <p className="text-sm text-muted-foreground">{reg.description}</p>
                   </CardContent>
                 </Card>
@@ -134,23 +151,21 @@ export default function FinTechPage() {
         </div>
       </section>
 
-      {/* Ecosystem Preview */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <Card className="bg-fintech text-white border-0">
-            <CardContent className="py-10 text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Cyprus FinTech Ecosystem</h2>
-              <p className="text-white/80 mb-6 max-w-xl mx-auto">
-                Explore fintech, RegTech, and financial services participants active in Cyprus.
-              </p>
-              <Link to="/directory">
-                <Button variant="secondary" size="lg" className="gap-2">
-                  View FinTech Directory
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+      {/* Ecosystem Preview — editorial CTA */}
+      <section className="section-rule">
+        <div className="container mx-auto px-4 pb-8">
+          <div className="navy-gradient text-primary-foreground py-10 px-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4">Cyprus FinTech Ecosystem</h2>
+            <p className="text-primary-foreground/70 mb-6 max-w-xl mx-auto article-body text-base">
+              Explore fintech, RegTech, and financial services participants active in Cyprus.
+            </p>
+            <Link to="/directory">
+              <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 gap-2 rounded-none font-sans text-sm font-semibold tracking-wide uppercase">
+                View FinTech Directory
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
