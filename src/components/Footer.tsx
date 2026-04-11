@@ -93,7 +93,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
-          <p>© 2024 BusinessHub.cy. All rights reserved. | <a href="#" className="hover:text-secondary">Privacy Policy</a> | <a href="#" className="hover:text-secondary">Terms of Service</a></p>
+          <p>© {new Date().getFullYear()} BusinessHub.cy. All rights reserved. | <Link to="/resources" className="hover:text-secondary transition-colors">Privacy Policy</Link> | <Link to="/resources" className="hover:text-secondary transition-colors">Terms of Service</Link></p>
         </div>
       </div>
     </footer>

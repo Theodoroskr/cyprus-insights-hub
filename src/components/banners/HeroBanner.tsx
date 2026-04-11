@@ -21,7 +21,7 @@ export function HeroBanner() {
             Independent analysis, regulatory insight, and professional intelligence — helping businesses navigate the Cyprus and EU landscape with clarity.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="#news">
+            <Link to="/#news">
               <Button
                 size="lg"
                 className="bg-secondary text-secondary-foreground hover:bg-secondary/90 gap-2"
@@ -33,8 +33,7 @@ export function HeroBanner() {
             <Link to="/directory">
               <Button
                 size="lg"
-                variant="outline"
-                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 gap-2"
+                className="bg-primary-foreground/15 text-primary-foreground border border-primary-foreground/30 hover:bg-primary-foreground/25 gap-2"
               >
                 Browse Directory
               </Button>
