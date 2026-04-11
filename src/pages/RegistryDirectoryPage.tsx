@@ -27,19 +27,21 @@ export default function RegistryDirectoryPage() {
   const [searching, setSearching] = useState(false);
 
   useEffect(() => {
-    supabase
-      .from("directory_companies")
-      .select("city_slug", { count: "exact", head: false })
-      .in("city_slug", MAIN_SLUGS)
-      .then(({ data }) => {
-        if (!data) return;
-        const counts: Record<string, number> = {};
-        data.forEach((r: any) => {
-          counts[r.city_slug] = (counts[r.city_slug] || 0) + 1;
-        });
-        setCityCounts(counts);
-        setTotalCompanies(Object.values(counts).reduce((a, b) => a + b, 0));
-      });
+    const fetchCounts = async () => {
+      const counts: Record<string, number> = {};
+      await Promise.all(
+        MAIN_SLUGS.map(async (slug) => {
+          const { count } = await supabase
+            .from("directory_companies")
+            .select("id", { count: "exact", head: true })
+            .eq("city_slug", slug);
+          counts[slug] = count || 0;
+        })
+      );
+      setCityCounts(counts);
+      setTotalCompanies(Object.values(counts).reduce((a, b) => a + b, 0));
+    };
+    fetchCounts();
   }, []);
 
   const handleSearch = async (e: React.FormEvent) => {
