@@ -19,6 +19,7 @@ import { PartnerStrip } from "@/components/banners/PartnerStrip";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { ArticleCounter } from "@/components/auth/ArticleCounter";
 import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
+import { ComplianceSuiteBanner } from "@/components/banners/ComplianceSuiteBanner";
 import { DirectoryPreview } from "@/components/DirectoryPreview";
 
 const Index = () => {
@@ -48,7 +49,10 @@ const Index = () => {
 
       {/* Interactive Vertical Navigator */}
       <VerticalNavigator />
-      
+
+      {/* Compliance Suite Banner — 728×90 below verticals */}
+      <ComplianceSuiteBanner />
+
       {/* Main Content */}
       <main>
         {/* Secondary Section Banners — Compliance, FinTech, Risk */}
