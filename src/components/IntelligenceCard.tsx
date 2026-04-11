@@ -42,9 +42,11 @@ export function IntelligenceCard({
   hub = "businesshub",
   linkedPerson,
   href = "#",
+  articleId,
 }: IntelligenceCardProps) {
   const colors = hubColors[hub];
   const content: Record<string, string> = { whatHappened, whyItMatters, whatToDo };
+  const itemId = articleId || category + date;
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
 
