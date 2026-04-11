@@ -14,6 +14,8 @@ import { ComplianceDashboard } from "@/components/ComplianceDashboard";
 import { SearchResults } from "@/components/SearchResults";
 import { Footer } from "@/components/Footer";
 import { PartnerStrip } from "@/components/banners/PartnerStrip";
+import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
+import { ArticleCounter } from "@/components/auth/ArticleCounter";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,6 +33,9 @@ const Index = () => {
       {/* Live Business Ticker */}
       <BusinessTicker />
       
+      {/* Article Limit Counter */}
+      <ArticleCounter />
+
       {/* Top Navigation */}
       <TopNavigation onSearch={handleSearch} />
 
@@ -65,6 +70,10 @@ const Index = () => {
         
         {/* Compliance & Risk Dashboard */}
         <ComplianceDashboard />
+      </main>
+
+      {/* Premium CTA Banner */}
+      <PremiumCTABanner />
       </main>
       
       {/* Partner Strip */}

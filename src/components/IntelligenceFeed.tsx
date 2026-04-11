@@ -1,4 +1,5 @@
 import { IntelligenceCard } from "@/components/IntelligenceCard";
+import { InsightBanner } from "@/components/banners/InsightBanner";
 import { getIntelligenceBriefings, getPersonById } from "@/data/knowledgeGraph";
 
 export function IntelligenceFeed() {
@@ -16,26 +17,37 @@ export function IntelligenceFeed() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {briefings.map((article) => {
+          {briefings.map((article, index) => {
             const person = article.personIds[0]
               ? getPersonById(article.personIds[0])
               : undefined;
 
             return (
-              <IntelligenceCard
-                key={article.id}
-                category={article.category}
-                date={article.date}
-                whatHappened={article.intelligence!.whatHappened}
-                whyItMatters={article.intelligence!.whyItMatters}
-                whatToDo={article.intelligence!.whatToDo}
-                hub={article.hub}
-                linkedPerson={
-                  person
-                    ? { name: person.name, title: `${person.title}, ${person.company}`, image: person.image }
-                    : undefined
-                }
-              />
+              <>
+                <IntelligenceCard
+                  key={article.id}
+                  category={article.category}
+                  date={article.date}
+                  whatHappened={article.intelligence!.whatHappened}
+                  whyItMatters={article.intelligence!.whyItMatters}
+                  whatToDo={article.intelligence!.whatToDo}
+                  hub={article.hub}
+                  linkedPerson={
+                    person
+                      ? { name: person.name, title: `${person.title}, ${person.company}`, image: person.image }
+                      : undefined
+                  }
+                />
+                {index === 1 && (
+                  <div key="upsell-banner" className="md:col-span-2 lg:col-span-3">
+                    <InsightBanner
+                      text="Get daily intelligence briefings delivered to your inbox — curated for Cyprus business professionals."
+                      ctaText="Register free for daily updates"
+                      href="/dashboard"
+                    />
+                  </div>
+                )}
+              </>
             );
           })}
         </div>
