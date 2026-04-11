@@ -53,6 +53,9 @@ const Index = () => {
         
         {/* Vertical Connection - News linked to Profiles */}
         <VerticalConnection />
+
+        {/* Knowledge Graph — Person ↔ Article connections */}
+        <KnowledgeGraph />
         
         {/* FinTech Spotlight */}
         <FinTechSpotlight />
