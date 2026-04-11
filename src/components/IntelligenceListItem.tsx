@@ -102,10 +102,15 @@ export function IntelligenceListItem({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/10 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
               <Badge variant="outline" className={`text-[10px] font-semibold backdrop-blur-sm bg-background/20 border-white/30 text-white`}>
                 {category}
               </Badge>
+              {originTags.map(t => (
+                <Badge key={t.label} variant="outline" className={`text-[10px] font-semibold backdrop-blur-sm ${t.className}`}>
+                  {t.label}
+                </Badge>
+              ))}
               <span className="text-xs text-white/80">{date}</span>
               <span className="text-xs text-white/60 flex items-center gap-1"><Clock className="h-3 w-3" />{readTime}</span>
             </div>
@@ -179,10 +184,15 @@ export function IntelligenceListItem({
       {/* Content — right side */}
       <div className="flex-1 min-w-0 flex flex-col justify-between">
         {/* Top: category + date + bookmark */}
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
           <Badge variant="outline" className={`text-[10px] font-semibold whitespace-nowrap shrink-0 ${colors.badge}`}>
             {category}
           </Badge>
+          {originTags.map(t => (
+            <Badge key={t.label} variant="outline" className={`text-[10px] font-semibold whitespace-nowrap shrink-0 ${t.className}`}>
+              {t.label}
+            </Badge>
+          ))}
           <span className="text-xs text-muted-foreground">{date}</span>
           <span className="text-xs text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" />{readTime}</span>
           <div className="flex-1" />
