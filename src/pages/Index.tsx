@@ -55,7 +55,9 @@ const Index = () => {
         {/* Intelligence Hub - Featured News & Trending People */}
         <IntelligenceHub />
 
-        {/* Premium Members Carousel */}
+        {/* Custom Studio — Sponsored Content */}
+        <SponsoredStudio />
+
         <PremiumCarousel />
 
         {/* Intelligence Briefings — Semafor-style Cards */}
