@@ -30,6 +30,16 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
   const location = useLocation();
   const { user, profile, signOut } = useAuth();
 
+  const { data: isAdmin } = useQuery({
+    queryKey: ["admin-check", user?.id],
+    queryFn: async () => {
+      if (!user) return false;
+      const { data } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+      return !!data;
+    },
+    enabled: !!user,
+  });
+
   const isActive = (href: string) => {
     const path = href.split("#")[0];
     if (path === "/") return location.pathname === "/";
