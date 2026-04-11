@@ -9,6 +9,7 @@ import { TradeTopSectors } from "@/components/trade/TradeTopSectors";
 import { TradeEUSplit } from "@/components/trade/TradeEUSplit";
 import { TradeExecutiveInsight } from "@/components/trade/TradeExecutiveInsight";
 import { ContentGate } from "@/components/auth/ContentGate";
+import { PremiumGate } from "@/components/auth/PremiumGate";
 import { TrendingUp, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -145,34 +146,34 @@ export default function TradePage() {
       {/* Gated detailed sections */}
       <section className="max-w-7xl mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Top Countries - GATED */}
+          {/* Top Countries - PREMIUM */}
           <div className="lg:col-span-2">
-            <ContentGate message="Register free to unlock detailed country breakdowns">
+            <PremiumGate message="Unlock detailed country breakdowns" blurHeight="320px">
               <TradeTopCountries data={topCountries ?? []} />
-            </ContentGate>
+            </PremiumGate>
           </div>
 
-          {/* EU vs Non-EU Split - GATED */}
+          {/* EU vs Non-EU Split - PREMIUM */}
           <div>
-            <ContentGate message="Register to view EU trade analysis">
+            <PremiumGate message="Unlock EU trade analysis" blurHeight="320px">
               <TradeEUSplit snapshot={kpiSnapshot} />
-            </ContentGate>
+            </PremiumGate>
           </div>
         </div>
       </section>
 
-      {/* Top Sectors - GATED */}
+      {/* Top Sectors - PREMIUM */}
       <section className="max-w-7xl mx-auto px-4 pb-8">
-        <ContentGate message="Register free to explore sector intelligence">
+        <PremiumGate message="Unlock sector intelligence" blurHeight="300px">
           <TradeTopSectors data={topSectors ?? []} />
-        </ContentGate>
+        </PremiumGate>
       </section>
 
-      {/* Executive Insight - GATED */}
+      {/* Executive Insight - PREMIUM */}
       <section className="max-w-7xl mx-auto px-4 pb-8">
-        <ContentGate message="Register to read executive trade summaries">
+        <PremiumGate message="Unlock executive trade summaries" blurHeight="250px">
           <TradeExecutiveInsight insight={insight} />
-        </ContentGate>
+        </PremiumGate>
       </section>
 
       {/* Data disclaimer */}
