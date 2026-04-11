@@ -120,6 +120,7 @@ const EditorialDashboard = () => {
       title: article.title,
       summary: article.summary,
       vertical: article.vertical,
+      image_url: article.image_url,
       what_happened: article.what_happened,
       why_it_matters: article.why_it_matters,
       what_to_do: article.what_to_do,
@@ -343,6 +344,17 @@ const EditorialDashboard = () => {
                   <SelectItem value="general">General</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+            <div>
+              <label className="section-label">Image URL</label>
+              <Input
+                placeholder="https://images.unsplash.com/..."
+                value={editForm.image_url ?? ""}
+                onChange={(e) => setEditForm({ ...editForm, image_url: e.target.value })}
+              />
+              {editForm.image_url && (
+                <img src={editForm.image_url} alt="Preview" className="mt-2 h-32 w-full object-cover rounded-lg border border-border" />
+              )}
             </div>
             <div>
               <label className="section-label">Summary</label>
