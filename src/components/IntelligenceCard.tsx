@@ -12,6 +12,7 @@ interface IntelligenceCardProps {
   whyItMatters: string;
   whatToDo: string;
   hub?: "businesshub" | "fintechhub" | "compliancehub";
+  imageUrl?: string | null;
   linkedPerson?: {
     name: string;
     title: string;
@@ -40,6 +41,7 @@ export function IntelligenceCard({
   whyItMatters,
   whatToDo,
   hub = "businesshub",
+  imageUrl,
   linkedPerson,
   href = "#",
   articleId,
@@ -62,6 +64,14 @@ export function IntelligenceCard({
 
   return (
     <article className="rounded-xl border border-border bg-card overflow-hidden group hover:border-secondary/40 transition-colors">
+      {/* Image */}
+      {imageUrl && (
+        <div className="relative h-40 overflow-hidden">
+          <img src={imageUrl} alt={whatHappened} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
+        </div>
+      )}
+
       {/* Header */}
       <div className="px-5 pt-5 pb-3 flex items-center justify-between">
         <Badge variant="outline" className={`text-xs font-medium ${colors.badge}`}>
