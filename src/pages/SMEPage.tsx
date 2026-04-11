@@ -8,6 +8,7 @@ import { DigitalMaturityAssessment } from "@/components/sme/DigitalMaturityAsses
 import { CyprusVATCalculator } from "@/components/sme/CyprusVATCalculator";
 import { EUFundingEligibility } from "@/components/sme/EUFundingEligibility";
 import { GDPRComplianceChecker } from "@/components/sme/GDPRComplianceChecker";
+import { ToolResultGate } from "@/components/auth/ToolResultGate";
 import {
   Calendar,
   ArrowRight,
@@ -534,15 +535,23 @@ export default function SMEPage() {
           <div className="space-y-8">
             {/* Row 1: Digital Maturity + VAT Calculator */}
             <div className="grid lg:grid-cols-2 gap-6">
-              <DigitalMaturityAssessment />
-              <CyprusVATCalculator />
+              <ToolResultGate toolName="Digital Maturity Assessment">
+                <DigitalMaturityAssessment />
+              </ToolResultGate>
+              <ToolResultGate toolName="VAT Calculator">
+                <CyprusVATCalculator />
+              </ToolResultGate>
             </div>
 
             {/* Row 2: Funding Eligibility */}
-            <EUFundingEligibility />
+            <ToolResultGate toolName="EU Funding Eligibility">
+              <EUFundingEligibility />
+            </ToolResultGate>
 
             {/* Row 3: GDPR Checker */}
-            <GDPRComplianceChecker />
+            <ToolResultGate toolName="GDPR Compliance">
+              <GDPRComplianceChecker />
+            </ToolResultGate>
           </div>
         </div>
       </section>
