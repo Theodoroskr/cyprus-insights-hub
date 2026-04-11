@@ -62,8 +62,12 @@ const App = () => (
               <Route path="/article/:id" element={<ArticlePage />} />
               <Route path="/trade" element={<TradePage />} />
 
+              {/* Company Directory (55K+ companies) */}
+              <Route path="/directory" element={<RegistryDirectoryPage />} />
+              <Route path="/directory/city/:citySlug" element={<RegistryCityPage />} />
+              <Route path="/directory/:companyId" element={<RegistryCompanyPage />} />
+
               {/* Intelligence Directory routes */}
-              <Route path="/directory" element={<CompanyDirectoryPage />} />
               <Route path="/companies/:slug" element={<CompanyProfilePage />} />
               <Route path="/people/:slug" element={<PeopleProfilePage />} />
               <Route path="/whoiswho" element={<WhoIsWhoPage />} />
@@ -74,11 +78,6 @@ const App = () => (
               <Route path="/interviews/:slug" element={<InterviewArticlePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/industries/:slug" element={<IndustryPage />} />
-
-              {/* Registry Directory (55K+ companies) */}
-              <Route path="/registry" element={<RegistryDirectoryPage />} />
-              <Route path="/registry/city/:citySlug" element={<RegistryCityPage />} />
-              <Route path="/registry/:companyId" element={<RegistryCompanyPage />} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
