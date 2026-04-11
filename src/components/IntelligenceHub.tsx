@@ -126,6 +126,7 @@ interface MostReadItem {
   id: string;
   title: string;
   category: string;
+  image?: string | null;
   view_count: number;
 }
 
