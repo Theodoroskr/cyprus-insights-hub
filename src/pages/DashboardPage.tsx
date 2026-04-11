@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { toast } from "sonner";
 import {
   Bookmark, Bell, Settings, Crown, User, Building2, Mail,
-  Trash2, ExternalLink, FileText
+  Trash2, ExternalLink, FileText, Save, Send
 } from "lucide-react";
 
 interface SavedItem {
