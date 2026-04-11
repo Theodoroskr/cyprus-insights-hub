@@ -4,7 +4,7 @@ import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar } from "lucide-react";
+import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar, Globe, Lock, Cpu, Gavel, type LucideIcon } from "lucide-react";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
@@ -18,54 +18,29 @@ const stats = [
   { label: "Industry Jobs", value: "5,000+", icon: Users },
 ];
 
+const iconMap: Record<string, LucideIcon> = {
+  FileText, Shield, Scale, Server, Globe, Lock, Cpu, Gavel, Landmark, Building2, TrendingUp,
+};
 
-const regulations = [
-  {
-    name: "MiCA",
-    icon: FileText,
-    description: "Markets in Crypto-Assets Regulation",
-    status: "In Force",
-    statusColor: "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30",
-    effectiveDate: "30 Dec 2024",
-    impact: "CASPs must obtain CySEC authorisation. Stablecoin issuers face reserve and disclosure requirements. Transitional period ends June 2025.",
-    appliesTo: ["Crypto Exchanges", "Wallet Providers", "Token Issuers", "Stablecoin Issuers"],
-    keyBody: "CySEC / ESMA",
-  },
-  {
-    name: "EU AML Package",
-    icon: Shield,
-    description: "6th Anti-Money Laundering Directive + AMLA",
-    status: "Transposing",
-    statusColor: "text-amber-600 bg-amber-100 dark:bg-amber-900/30",
-    effectiveDate: "Jul 2025 (AMLA operational)",
-    impact: "New EU-wide AML Authority (AMLA) in Frankfurt. Harmonised CDD rules, beneficial ownership registers, and €10K cash payment cap across the EU.",
-    appliesTo: ["Banks", "Payment Firms", "CASPs", "Lawyers & Accountants"],
-    keyBody: "AMLA / CBC / MOKAS",
-  },
-  {
-    name: "DORA",
-    icon: Server,
-    description: "Digital Operational Resilience Act",
-    status: "In Force",
-    statusColor: "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30",
-    effectiveDate: "17 Jan 2025",
-    impact: "Financial entities must implement ICT risk management frameworks, incident reporting, digital resilience testing, and third-party risk oversight for critical ICT providers.",
-    appliesTo: ["Banks", "Insurers", "Investment Firms", "ICT Providers"],
-    keyBody: "CySEC / CBC / EBA",
-  },
-  {
-    name: "NIS2",
-    icon: Scale,
-    description: "Network and Information Security Directive",
-    status: "Transposing",
-    statusColor: "text-amber-600 bg-amber-100 dark:bg-amber-900/30",
-    effectiveDate: "17 Oct 2024 (deadline passed)",
-    impact: "Expanded scope covers financial services, cloud providers, and digital infrastructure. Mandatory incident reporting within 24h, board-level accountability for cybersecurity.",
-    appliesTo: ["Essential Services", "Digital Infrastructure", "Cloud/DNS Providers", "Financial Sector"],
-    keyBody: "DIPA / DSA Cyprus",
-  },
-];
+const statusColorMap: Record<string, string> = {
+  emerald: "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30",
+  amber: "text-amber-600 bg-amber-100 dark:bg-amber-900/30",
+  red: "text-red-600 bg-red-100 dark:bg-red-900/30",
+  blue: "text-blue-600 bg-blue-100 dark:bg-blue-900/30",
+};
 
+interface Regulation {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+  status: string;
+  status_color: string;
+  effective_date: string;
+  impact: string;
+  applies_to: string[];
+  key_body: string;
+}
 export default function FinTechPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
