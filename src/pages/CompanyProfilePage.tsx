@@ -14,6 +14,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 
 export default function CompanyProfilePage() {
   const { slug } = useParams();
+  const { user } = useAuth();
+  const { isWatching, toggleWatch } = useWatchlist();
   const [company, setCompany] = useState<any>(null);
   const [people, setPeople] = useState<any[]>([]);
   const [articles, setArticles] = useState<any[]>([]);
