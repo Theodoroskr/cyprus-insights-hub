@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Search, Building2, MapPin, Star, ArrowRight, Factory } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { FeaturedCompaniesSection } from "@/components/FeaturedCompaniesSection";
