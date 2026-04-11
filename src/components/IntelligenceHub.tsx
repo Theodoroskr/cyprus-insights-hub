@@ -1,19 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Clock, TrendingUp, BadgeCheck, Flame } from "lucide-react";
+import { Clock, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 
-interface Person {
-  id: string;
-  name: string;
-  title: string;
-  company: string;
-  image: string;
-  badges: string[];
-  trending: boolean;
-}
 
 // Static fallback featured articles
 const fallbackArticles = [
@@ -85,44 +76,6 @@ const mostReadArticles = [
   },
 ];
 
-const trendingPeople: Person[] = [
-  {
-    id: "1",
-    name: "Christos Patsalides",
-    title: "Governor",
-    company: "Central Bank of Cyprus",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&q=80",
-    badges: ["CBA"],
-    trending: true,
-  },
-  {
-    id: "2",
-    name: "George Campanellas",
-    title: "Minister of Energy",
-    company: "Government of Cyprus",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80",
-    badges: [],
-    trending: true,
-  },
-  {
-    id: "3",
-    name: "Elena Papadopoulou",
-    title: "CEO",
-    company: "CySEC",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80",
-    badges: ["CySEC"],
-    trending: false,
-  },
-  {
-    id: "4",
-    name: "Andreas Michaelides",
-    title: "Partner",
-    company: "KPMG Cyprus",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80",
-    badges: ["ICPAC"],
-    trending: false,
-  },
-];
 
 interface MostReadItem {
   id: string;
@@ -273,47 +226,6 @@ export function IntelligenceHub() {
               </div>
             </article>
 
-            {/* Trending People — below lead on desktop */}
-            <div className="border-t border-border pt-5 mt-6">
-              <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="h-4 w-4 text-secondary" />
-                <span className="section-label">Trending People</span>
-              </div>
-              <div className="space-y-3">
-                {trendingPeople.map((person) => (
-                  <Link
-                    key={person.id}
-                    to={`/profile/${person.id}`}
-                    className="flex items-center gap-3 p-2 -mx-2 rounded hover:bg-muted/50 transition-colors group"
-                  >
-                    <img
-                      src={person.image}
-                      alt={person.name}
-                      className="w-10 h-10 rounded-full object-cover ring-1 ring-border group-hover:ring-secondary transition-all"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="font-medium text-sm text-foreground truncate">{person.name}</p>
-                        {person.trending && (
-                          <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-secondary animate-pulse-gold" />
-                        )}
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <span className="truncate">{person.title}</span>
-                        <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50 flex-shrink-0" />
-                        <span className="truncate">{person.company}</span>
-                      </div>
-                    </div>
-                    {person.badges.length > 0 && (
-                      <span className="badge-cysec flex-shrink-0">
-                        <BadgeCheck className="h-3 w-3" />
-                        {person.badges[0]}
-                      </span>
-                    )}
-                  </Link>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* COLUMN 2: Secondary Stories (middle) */}
