@@ -15,8 +15,9 @@ import {
   Shield, TrendingUp, Building2, Globe,
   CheckCircle, Archive, FileEdit, Eye, Clock,
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
-  AlertTriangle
+  AlertTriangle, Square, CheckSquare
 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
 type Article = Database["public"]["Tables"]["cna_articles"]["Row"];
