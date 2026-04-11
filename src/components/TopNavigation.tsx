@@ -179,6 +179,20 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                   {item.label}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link
+                  to="/editorial"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`px-4 py-2.5 text-sm font-medium uppercase tracking-wider transition-colors flex items-center gap-2 ${
+                    isActive("/editorial")
+                      ? "text-foreground bg-muted"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <PenTool className="h-3.5 w-3.5" />
+                  Editorial
+                </Link>
+              )}
             </div>
             <div className="mt-4 px-4">
               <form onSubmit={handleSearch}>
