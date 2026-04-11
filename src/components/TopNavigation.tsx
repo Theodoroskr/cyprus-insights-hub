@@ -51,6 +51,11 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
     onSearch(searchQuery);
   };
 
