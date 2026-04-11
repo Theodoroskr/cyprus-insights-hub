@@ -9,7 +9,7 @@ import { TradeTopSectors } from "@/components/trade/TradeTopSectors";
 import { TradeEUSplit } from "@/components/trade/TradeEUSplit";
 import { TradeExecutiveInsight } from "@/components/trade/TradeExecutiveInsight";
 import { ContentGate } from "@/components/auth/ContentGate";
-import { TrendingUp, BarChart3, Download } from "lucide-react";
+import { TrendingUp, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
