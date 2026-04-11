@@ -1,12 +1,30 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { ContentGate } from "@/components/auth/ContentGate";
-import { FileText, Clock, ArrowRight, BookOpen, Download, TrendingUp, Library } from "lucide-react";
+import {
+  FileText,
+  Clock,
+  ArrowRight,
+  BookOpen,
+  Download,
+  TrendingUp,
+  Library,
+  Search,
+  Shield,
+  Calculator,
+  Globe,
+  ClipboardCheck,
+  ExternalLink,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
 
 const tabs = ["All", "Guides", "Glossaries", "Reports"] as const;
 type Tab = typeof tabs[number];
@@ -17,8 +35,47 @@ const typeMap: Record<string, { label: Tab; icon: typeof FileText }> = {
   report: { label: "Reports", icon: Download },
 };
 
+const quickTools = [
+  {
+    name: "GDPR Compliance Checker",
+    description: "22-point self-assessment tailored for Cyprus SMEs",
+    icon: Shield,
+    href: "/compliance",
+    badge: "Interactive",
+  },
+  {
+    name: "Cyprus VAT Calculator",
+    description: "Calculate VAT across all Cyprus rate tiers including MOSS",
+    icon: Calculator,
+    href: "/sme",
+    badge: "Calculator",
+  },
+  {
+    name: "EU Funding Eligibility",
+    description: "Check if your business qualifies for EU & national grants",
+    icon: Globe,
+    href: "/sme",
+    badge: "Diagnostic",
+  },
+  {
+    name: "Digital Maturity Assessment",
+    description: "Evaluate your digital readiness across 5 dimensions",
+    icon: ClipboardCheck,
+    href: "/sme",
+    badge: "Assessment",
+  },
+];
+
+const externalResources = [
+  { name: "CySEC Circulars", url: "https://www.cysec.gov.cy/en-GB/legislation/circulars/", description: "Latest regulatory circulars" },
+  { name: "EU Official Journal", url: "https://eur-lex.europa.eu/oj/direct-access.html", description: "New EU legislation" },
+  { name: "CBC Directives", url: "https://www.centralbank.cy/en/licensing-supervision/banks", description: "Banking supervision directives" },
+  { name: "GDPR.eu", url: "https://gdpr.eu/", description: "GDPR compliance resources" },
+];
+
 export default function ResourcesPage() {
   const [activeTab, setActiveTab] = useState<Tab>("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const handleSearch = (query: string) => console.log("Search:", query);
 
   const { data: resources = [], isLoading } = useQuery({
@@ -35,10 +92,13 @@ export default function ResourcesPage() {
     },
   });
 
-  const filtered =
-    activeTab === "All"
-      ? resources
-      : resources.filter((r) => typeMap[r.resource_type]?.label === activeTab);
+  const filtered = (activeTab === "All" ? resources : resources.filter((r) => typeMap[r.resource_type]?.label === activeTab))
+    .filter((r) =>
+      !searchQuery ||
+      r.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      r.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      r.tags?.some((t: string) => t.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
 
   const featured = filtered.find((r) => r.featured) || filtered[0];
   const rest = filtered.filter((r) => r.id !== featured?.id);
@@ -60,31 +120,42 @@ export default function ResourcesPage() {
               Resource Hub
             </h1>
             <p className="article-body text-base mt-2 max-w-xl mx-auto">
-              Guides, glossaries &amp; intelligence reports for operating in Cyprus and the EU.
+              Guides, glossaries, compliance tools &amp; intelligence reports for operating in Cyprus and the EU.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Filter tabs */}
+      {/* Search + Filter tabs */}
       <div className="border-b border-border bg-card sticky top-14 z-40">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-0 overflow-x-auto">
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`
-                  px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] whitespace-nowrap transition-colors border-b-2
-                  ${activeTab === tab
-                    ? "border-secondary text-foreground"
-                    : "border-transparent text-muted-foreground hover:text-foreground"
-                  }
-                `}
-              >
-                {tab}
-              </button>
-            ))}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-0 overflow-x-auto flex-1">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`
+                    px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] whitespace-nowrap transition-colors border-b-2
+                    ${activeTab === tab
+                      ? "border-secondary text-foreground"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
+                    }
+                  `}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+            <div className="relative hidden sm:block w-52">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+              <Input
+                placeholder="Search resources..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-8 h-8 text-xs rounded-none border-muted-foreground/30"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -98,7 +169,7 @@ export default function ResourcesPage() {
               {[1, 2, 3].map((i) => <Skeleton key={i} className="h-40" />)}
             </div>
           </div>
-        ) : featured ? (
+        ) : filtered.length > 0 && featured ? (
           <>
             {/* Featured resource */}
             <div className="grid lg:grid-cols-12 gap-0 mb-8">
@@ -216,7 +287,80 @@ export default function ResourcesPage() {
             </ContentGate>
           </>
         ) : (
-          <p className="text-center text-muted-foreground py-12">No resources available yet.</p>
+          /* Enhanced empty state with tools and external links */
+          <div className="space-y-10">
+            <div className="text-center py-8">
+              <Library className="h-12 w-12 mx-auto text-muted-foreground/30 mb-4" />
+              <h2 className="text-xl font-serif font-bold text-foreground mb-2">
+                {searchQuery ? "No resources match your search" : "Resource library coming soon"}
+              </h2>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                {searchQuery
+                  ? "Try adjusting your search terms or browse a different category."
+                  : "In the meantime, explore our interactive compliance and business tools below."
+                }
+              </p>
+              {searchQuery && (
+                <Button variant="outline" className="rounded-none mt-4 text-xs" onClick={() => setSearchQuery("")}>
+                  Clear Search
+                </Button>
+              )}
+            </div>
+
+            {/* Quick Tools */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="section-label">Interactive Tools</span>
+                <div className="flex-1 h-px bg-border" />
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {quickTools.map((tool) => (
+                  <Link to={tool.href} key={tool.name}>
+                    <Card className="rounded-none border-border hover:border-secondary/50 transition-colors cursor-pointer h-full">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start justify-between mb-3">
+                          <tool.icon className="h-8 w-8 text-foreground" />
+                          <Badge variant="outline" className="rounded-none text-[9px] uppercase tracking-wider border-secondary/30 text-secondary">
+                            {tool.badge}
+                          </Badge>
+                        </div>
+                        <h3 className="font-serif font-bold text-foreground mb-1">{tool.name}</h3>
+                        <p className="text-xs text-muted-foreground mb-3">{tool.description}</p>
+                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-secondary font-semibold">
+                          Open Tool <ArrowRight className="h-3 w-3" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* External Resources */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="section-label">External Regulatory Sources</span>
+                <div className="flex-1 h-px bg-border" />
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {externalResources.map((res) => (
+                  <a
+                    key={res.name}
+                    href={res.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="border border-border p-4 hover:border-secondary/50 transition-colors group"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-serif font-bold text-sm text-foreground group-hover:text-secondary transition-colors">{res.name}</h4>
+                      <ExternalLink className="h-3 w-3 text-muted-foreground group-hover:text-secondary transition-colors" />
+                    </div>
+                    <p className="text-xs text-muted-foreground">{res.description}</p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
       </main>
 
