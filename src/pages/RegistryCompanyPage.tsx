@@ -9,6 +9,11 @@ import { LoginModal } from "@/components/auth/LoginModal";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 
+const CITY_LABELS: Record<string, string> = {
+  nicosia: "Nicosia", limassol: "Limassol", larnaca: "Larnaca",
+  paphos: "Paphos", famagusta: "Famagusta",
+};
+
 export default function RegistryCompanyPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const { user, profile } = useAuth();
@@ -48,34 +53,28 @@ export default function RegistryCompanyPage() {
         <div className="container mx-auto px-4 py-20 text-center">
           <Building2 className="h-16 w-16 mx-auto mb-4 text-muted-foreground/30" />
           <h1 className="text-2xl font-serif font-bold text-foreground mb-2">Company not found</h1>
-          <Link to="/registry"><Button variant="outline">Back to Registry</Button></Link>
+          <Link to="/directory"><Button variant="outline">Back to Directory</Button></Link>
         </div>
         <Footer />
       </div>
     );
   }
 
-  const isActive = company.organisation_status === "Εγγεγραμμένη";
+  const isActive = company.organisation_status === "Active";
   const citySlug = company.city_slug;
-
-  const CITY_LABELS: Record<string, string> = {
-    nicosia: "Nicosia", limassol: "Limassol", larnaca: "Larnaca",
-    paphos: "Paphos", famagusta: "Famagusta",
-  };
 
   return (
     <div className="min-h-screen bg-background">
       <TopNavigation onSearch={() => {}} />
 
-      {/* Breadcrumb */}
       <div className="bg-card border-b border-border">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link to="/registry" className="hover:text-secondary transition-colors">Registry</Link>
+            <Link to="/directory" className="hover:text-secondary transition-colors">Directory</Link>
             <ChevronRight className="h-3 w-3" />
             {citySlug && CITY_LABELS[citySlug] && (
               <>
-                <Link to={`/registry/city/${citySlug}`} className="hover:text-secondary transition-colors">
+                <Link to={`/directory/city/${citySlug}`} className="hover:text-secondary transition-colors">
                   {CITY_LABELS[citySlug]}
                 </Link>
                 <ChevronRight className="h-3 w-3" />
@@ -88,7 +87,6 @@ export default function RegistryCompanyPage() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
           <div className="flex items-start gap-5 mb-8">
             <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
               <Building2 className="h-8 w-8 text-primary" />
@@ -99,7 +97,7 @@ export default function RegistryCompanyPage() {
                 {isActive ? (
                   <Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>
                 ) : (
-                  <Badge className="bg-red-100 text-red-800 border-red-200">Dissolved</Badge>
+                  <Badge className="bg-red-100 text-red-800 border-red-200">{company.organisation_status || "Dissolved"}</Badge>
                 )}
                 {company.organisation_type && <Badge variant="outline">{company.organisation_type}</Badge>}
                 {company.organisation_sub_type && <Badge variant="secondary">{company.organisation_sub_type}</Badge>}
@@ -107,7 +105,6 @@ export default function RegistryCompanyPage() {
             </div>
           </div>
 
-          {/* Public Info */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <InfoCard icon={MapPin} label="City" value={company.city || "—"} />
             <InfoCard icon={Briefcase} label="Activity" value={company.activity_description || "—"} />
@@ -115,7 +112,6 @@ export default function RegistryCompanyPage() {
             {company.nace_code && <InfoCard icon={Hash} label="NACE Code" value={company.nace_code} />}
           </div>
 
-          {/* Premium Section */}
           <div className="border border-border rounded-xl overflow-hidden">
             <div className="bg-muted/40 px-6 py-4 border-b border-border flex items-center justify-between">
               <h2 className="font-serif font-bold text-foreground flex items-center gap-2">

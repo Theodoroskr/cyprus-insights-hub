@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Search, Building2, MapPin, Star, ChevronLeft, ChevronRight, Filter, X, Globe, Linkedin } from "lucide-react";
+import { Search, Building2, MapPin, Star, ChevronLeft, ChevronRight, Globe, Linkedin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,11 +10,11 @@ import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 
 const CITY_LABELS: Record<string, string> = {
-  nicosia: "Nicosia (Λευκωσία)",
-  limassol: "Limassol (Λεμεσός)",
-  larnaca: "Larnaca (Λάρνακα)",
-  paphos: "Paphos (Πάφος)",
-  famagusta: "Famagusta (Αμμόχωστος)",
+  nicosia: "Nicosia",
+  limassol: "Limassol",
+  larnaca: "Larnaca",
+  paphos: "Paphos",
+  famagusta: "Famagusta",
 };
 
 const PAGE_SIZE = 25;
@@ -34,16 +34,12 @@ export default function RegistryCityPage() {
   // Fetch featured
   useEffect(() => {
     if (!citySlug) return;
-    const cityGreek = Object.entries({
-      nicosia: "Λευκωσία", limassol: "Λεμεσός", larnaca: "Λάρνακα",
-      paphos: "Πάφος", famagusta: "Αμμόχωστος",
-    }).find(([k]) => k === citySlug)?.[1];
-
-    if (cityGreek) {
+    const cityEnglish = CITY_LABELS[citySlug];
+    if (cityEnglish) {
       supabase
         .from("featured_companies")
         .select("*")
-        .eq("city", cityGreek)
+        .eq("city", cityEnglish)
         .eq("is_featured", true)
         .order("featured_city_rank")
         .then(({ data }) => setFeatured(data || []));
@@ -76,7 +72,6 @@ export default function RegistryCityPage() {
       });
   }, [citySlug, page, search, statusFilter]);
 
-  // Reset page on filter change
   useEffect(() => { setPage(0); }, [search, statusFilter]);
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
@@ -85,11 +80,10 @@ export default function RegistryCityPage() {
     <div className="min-h-screen bg-background">
       <TopNavigation onSearch={() => {}} />
 
-      {/* Header */}
       <div className="bg-card border-b border-border">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <Link to="/registry" className="hover:text-secondary transition-colors">Registry</Link>
+            <Link to="/directory" className="hover:text-secondary transition-colors">Directory</Link>
             <ChevronRight className="h-3 w-3" />
             <span className="text-foreground font-medium">{cityLabel}</span>
           </div>
@@ -99,7 +93,6 @@ export default function RegistryCityPage() {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Featured Companies */}
         {featured.length > 0 && (
           <div className="mb-10">
             <div className="flex items-center gap-2 mb-4">
@@ -130,17 +123,11 @@ export default function RegistryCityPage() {
         )}
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
           <aside className="lg:w-64 flex-shrink-0">
             <div className="sticky top-4 space-y-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Filter companies..."
-                  className="pl-10"
-                />
+                <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Filter companies..." className="pl-10" />
               </div>
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Status</label>
@@ -148,15 +135,15 @@ export default function RegistryCityPage() {
                   <SelectTrigger><SelectValue placeholder="All Statuses" /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Statuses</SelectItem>
-                    <SelectItem value="Εγγεγραμμένη">Active (Εγγεγραμμένη)</SelectItem>
-                    <SelectItem value="Διαγραμμένη">Dissolved (Διαγραμμένη)</SelectItem>
+                    <SelectItem value="Active">Active</SelectItem>
+                    <SelectItem value="Dissolved">Dissolved</SelectItem>
+                    <SelectItem value="Reminder Letter Sent">Reminder Letter Sent</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
           </aside>
 
-          {/* Main List */}
           <main className="flex-1">
             <p className="text-sm text-muted-foreground mb-4">
               Showing {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, total)} of {total.toLocaleString()}
@@ -165,7 +152,7 @@ export default function RegistryCityPage() {
               {companies.map((c) => (
                 <Link
                   key={c.id}
-                  to={`/registry/${c.id}`}
+                  to={`/directory/${c.id}`}
                   className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card hover:shadow-md hover:border-secondary/30 transition-all"
                 >
                   <Building2 className="h-7 w-7 text-muted-foreground flex-shrink-0" />
@@ -174,8 +161,8 @@ export default function RegistryCityPage() {
                     <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{c.activity_description}</p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    {c.organisation_status === "Εγγεγραμμένη" && <Badge variant="outline" className="text-xs border-green-300 text-green-700">Active</Badge>}
-                    {c.organisation_status === "Διαγραμμένη" && <Badge variant="outline" className="text-xs border-red-300 text-red-600">Dissolved</Badge>}
+                    {c.organisation_status === "Active" && <Badge variant="outline" className="text-xs border-green-300 text-green-700">Active</Badge>}
+                    {c.organisation_status === "Dissolved" && <Badge variant="outline" className="text-xs border-red-300 text-red-600">Dissolved</Badge>}
                     {c.organisation_type && <Badge variant="secondary" className="text-xs hidden md:inline-flex">{c.organisation_type}</Badge>}
                   </div>
                 </Link>
@@ -189,7 +176,6 @@ export default function RegistryCityPage() {
               )}
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage(page - 1)}>

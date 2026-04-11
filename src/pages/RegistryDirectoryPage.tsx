@@ -9,11 +9,11 @@ import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 
 const CITY_META: Record<string, { label: string; lat: number; lng: number }> = {
-  nicosia: { label: "Nicosia (Λευκωσία)", lat: 35.1856, lng: 33.3823 },
-  limassol: { label: "Limassol (Λεμεσός)", lat: 34.6786, lng: 33.0413 },
-  larnaca: { label: "Larnaca (Λάρνακα)", lat: 34.9229, lng: 33.6233 },
-  paphos: { label: "Paphos (Πάφος)", lat: 34.7754, lng: 32.4218 },
-  famagusta: { label: "Famagusta (Αμμόχωστος)", lat: 35.1174, lng: 33.9413 },
+  nicosia: { label: "Nicosia", lat: 35.1856, lng: 33.3823 },
+  limassol: { label: "Limassol", lat: 34.6786, lng: 33.0413 },
+  larnaca: { label: "Larnaca", lat: 34.9229, lng: 33.6233 },
+  paphos: { label: "Paphos", lat: 34.7754, lng: 32.4218 },
+  famagusta: { label: "Famagusta", lat: 35.1174, lng: 33.9413 },
 };
 
 const MAIN_SLUGS = ["nicosia", "limassol", "larnaca", "paphos", "famagusta"];
@@ -67,7 +67,7 @@ export default function RegistryDirectoryPage() {
             <Building2 className="h-3.5 w-3.5 mr-1.5" />
             {totalCompanies.toLocaleString()}+ Registered Companies
           </Badge>
-          <h1 className="text-3xl md:text-5xl font-serif font-bold mb-4">Cyprus Company Registry</h1>
+          <h1 className="text-3xl md:text-5xl font-serif font-bold mb-4">Cyprus Company Directory</h1>
           <p className="text-white/70 max-w-xl mx-auto mb-8">
             Search the most comprehensive database of registered companies in Cyprus.
           </p>
@@ -104,7 +104,7 @@ export default function RegistryDirectoryPage() {
               {searchResults.map((c) => (
                 <Link
                   key={c.id}
-                  to={`/registry/${c.id}`}
+                  to={`/directory/${c.id}`}
                   className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card hover:shadow-md hover:border-secondary/30 transition-all"
                 >
                   <Building2 className="h-8 w-8 text-muted-foreground flex-shrink-0" />
@@ -137,7 +137,7 @@ export default function RegistryDirectoryPage() {
                 return (
                   <Link
                     key={slug}
-                    to={`/registry/city/${slug}`}
+                    to={`/directory/city/${slug}`}
                     className="group relative border border-border rounded-xl p-8 bg-card hover:shadow-xl hover:border-secondary/40 transition-all overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-secondary/10 transition-colors" />
