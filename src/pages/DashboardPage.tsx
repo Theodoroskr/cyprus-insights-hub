@@ -102,6 +102,7 @@ export default function DashboardPage() {
   if (!user) return <Navigate to="/" replace />;
 
   const tabs = [
+    { id: "watchlist" as const, label: "Watchlist", icon: Eye, count: watchlistItems.length },
     { id: "bookmarks" as const, label: "Saved Items", icon: Bookmark, count: savedItems.length },
     { id: "notifications" as const, label: "Notifications", icon: Bell, count: notifications.filter((n) => !n.read).length },
     { id: "settings" as const, label: "Preferences", icon: Settings },
