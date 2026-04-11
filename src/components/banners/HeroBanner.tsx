@@ -9,7 +9,7 @@ const FALLBACK_HEADLINE = "Independent Analysis, Regulatory Insight & Profession
 const FALLBACK_SUMMARY = "Helping businesses navigate the Cyprus and EU landscape with clarity — from compliance and fintech to funding and risk intelligence.";
 
 export function HeroBanner() {
-  const [lead, setLead] = useState<{ image: string; headline: string; summary: string } | null>(null);
+  const [lead, setLead] = useState<{ id: string; image: string; headline: string; summary: string } | null>(null);
 
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-GB", {
@@ -22,7 +22,7 @@ export function HeroBanner() {
   useEffect(() => {
     supabase
       .from("cna_articles")
-      .select("image_url, title, summary, what_happened")
+      .select("id, image_url, title, summary, what_happened")
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .limit(1)
@@ -30,6 +30,7 @@ export function HeroBanner() {
         if (data && data.length > 0) {
           const a = data[0];
           setLead({
+            id: a.id,
             image: a.image_url || FALLBACK_IMAGE,
             headline: a.what_happened || a.title,
             summary: a.summary || FALLBACK_SUMMARY,
@@ -75,9 +76,11 @@ export function HeroBanner() {
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-primary/10" />
             <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
               <p className="section-label mb-4 text-white/80">Lead Story</p>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-white leading-tight mb-4 max-w-4xl text-center drop-shadow-lg">
-                {heroHeadline}
-              </h2>
+              <Link to={lead?.id ? `/article/${lead.id}` : "/#news"}>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-white leading-tight mb-4 max-w-4xl text-center drop-shadow-lg hover:underline decoration-white/40 underline-offset-4 transition-all">
+                  {heroHeadline}
+                </h2>
+              </Link>
               <p className="text-white/75 max-w-2xl mx-auto mb-6 text-base text-center font-source-serif">
                 {heroSummary}
               </p>
