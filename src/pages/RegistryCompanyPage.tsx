@@ -130,7 +130,7 @@ export default function RegistryCompanyPage() {
                 </div>
               </div>
             ) : (
-              <div className="relative">
+              <div className="relative min-h-[320px]">
                 <div className="p-6 grid md:grid-cols-2 gap-6 blur-[6px] opacity-30 pointer-events-none select-none">
                   <InfoCard icon={Hash} label="Registration No." value="HE ••••••" />
                   <InfoCard icon={Calendar} label="Registration Date" value="••/••/••••" />
@@ -138,7 +138,7 @@ export default function RegistryCompanyPage() {
                     <InfoCard icon={MapPin} label="Full Address" value="•••••••••••••••••••••" />
                   </div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-card via-card/80 to-transparent">
+                <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center max-w-sm px-4">
                     <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center mx-auto mb-4">
                       <Crown className="h-7 w-7 text-secondary" />
