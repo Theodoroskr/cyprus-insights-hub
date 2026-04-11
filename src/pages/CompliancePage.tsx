@@ -3,6 +3,7 @@ import complianceSuiteLogo from "@/assets/compliance-suite-logo.png";
 import { Link } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent } from "@/components/ui/card";
+import { CountryRiskTable } from "@/components/compliance/CountryRiskTable";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
@@ -250,6 +251,20 @@ export default function CompliancePage() {
               </div>
             </section>
           )}
+
+          {/* Country Risk Index */}
+          <section className="section-rule">
+            <div className="container mx-auto px-4 pb-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="section-label text-foreground text-sm">Basel AML Country Risk Index</h2>
+                <Badge variant="outline" className="gap-1 rounded-none text-[10px] uppercase tracking-wider">
+                  <AlertTriangle className="h-3 w-3" />
+                  25 Countries
+                </Badge>
+              </div>
+              <CountryRiskTable />
+            </div>
+          </section>
 
           {/* Compliance Areas — Enhanced */}
           <section id="aml" className="section-rule bg-muted/30">
