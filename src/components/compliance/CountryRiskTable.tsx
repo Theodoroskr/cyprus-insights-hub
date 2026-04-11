@@ -189,7 +189,7 @@ export function CountryRiskTable() {
         Based on Basel AML Index methodology · Updated periodically · For informational purposes only
       </p>
 
-      <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
     </>
   );
 }
