@@ -55,31 +55,31 @@ const mostReadArticles = [
     id: "mr1",
     title: "AML Directive 6: Cyprus Implementation Timeline and Key Changes",
     category: "Compliance",
-    readTime: "5 min",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=200&q=60",
   },
   {
     id: "mr2",
     title: "Top 10 FinTech Companies Licensed by CySEC in 2025",
     category: "FinTech",
-    readTime: "4 min",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=200&q=60",
   },
   {
     id: "mr3",
     title: "Cyprus Real Estate Market: Foreign Investment Surges 28%",
     category: "Property",
-    readTime: "3 min",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&q=60",
   },
   {
     id: "mr4",
     title: "How the New Transfer Pricing Rules Affect SMEs in Cyprus",
     category: "Tax",
-    readTime: "6 min",
+    image: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=200&q=60",
   },
   {
     id: "mr5",
     title: "Central Bank of Cyprus: Digital Euro Pilot Update",
     category: "Banking",
-    readTime: "4 min",
+    image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=200&q=60",
   },
 ];
 
@@ -126,6 +126,7 @@ interface MostReadItem {
   id: string;
   title: string;
   category: string;
+  image?: string | null;
   view_count: number;
 }
 
@@ -155,6 +156,7 @@ export function IntelligenceHub() {
               id: d.article_id,
               title: d.title,
               category: verticalLabel(d.vertical),
+              image: d.image_url,
               view_count: Number(d.view_count),
             }))
           );
@@ -312,23 +314,34 @@ export function IntelligenceHub() {
               {displayMostRead.map((article, index) => (
                 <article
                   key={article.id}
-                  className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0"
+                  className="group cursor-pointer flex items-start gap-3 py-3.5 border-b border-border last:border-b-0 transition-all duration-200 hover:bg-muted/40 -mx-2 px-2 rounded-sm"
                 >
-                  {/* Large number */}
-                  <span className="text-3xl font-serif font-black text-muted-foreground/25 leading-none select-none group-hover:text-secondary/40 transition-colors min-w-[2rem] text-right">
+                  {/* Large number with scale animation */}
+                  <span className="text-3xl font-serif font-black text-muted-foreground/20 leading-none select-none min-w-[2rem] text-right transition-all duration-300 group-hover:text-secondary group-hover:scale-110 origin-right">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <div className="flex-1 min-w-0">
                     <Badge variant="outline" className="rounded-none text-[9px] uppercase tracking-wider font-sans mb-1.5 border-muted-foreground/20 px-1.5 py-0">
                       {article.category}
                     </Badge>
-                    <h5 className="font-serif text-sm font-bold text-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-2">
+                    <h5 className="font-serif text-sm font-bold text-foreground leading-snug group-hover:text-secondary transition-colors duration-200 line-clamp-2">
                       {article.title}
                     </h5>
                     {article.view_count > 0 && (
                       <span className="text-[11px] text-muted-foreground mt-1 inline-block">{article.view_count.toLocaleString()} views</span>
                     )}
                   </div>
+                  {/* Thumbnail */}
+                  {article.image && (
+                    <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden rounded-sm">
+                      <img
+                        src={article.image}
+                        alt=""
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-foreground/5 group-hover:bg-transparent transition-colors duration-300" />
+                    </div>
+                  )}
                 </article>
               ))}
             </div>
