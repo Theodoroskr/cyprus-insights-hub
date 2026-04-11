@@ -61,17 +61,9 @@ export function HubFooter({ brand }: HubFooterProps) {
             </ul>
           </div>
 
-          {/* Financial Mirror Group */}
+          {/* BusinessHub.cy Group */}
           <div>
-            <h4 className="font-semibold mb-4 text-secondary">Financial Mirror Group</h4>
-            <a
-              href="https://www.financialmirror.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-primary-foreground/70 hover:text-secondary transition-colors mb-3"
-            >
-              <span>financialmirror.com</span>
-            </a>
+            <h4 className="font-semibold mb-4 text-secondary">BusinessHub.cy Group</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/70">
               {hubLinks.map((hub) => (
                 <li key={hub.href}>
@@ -114,10 +106,8 @@ export function HubFooter({ brand }: HubFooterProps) {
         </div>
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
-          <p className="mb-1">
-            © {new Date().getFullYear()} {brand.name}{brand.domain} — A <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Financial Mirror Group</a> Publication
-          </p>
           <p>
+            © {new Date().getFullYear()} {brand.name}{brand.domain} — Part of <Link to="/" className="text-secondary hover:underline">BusinessHub.cy Group</Link>. All rights reserved. | 
             <a href="#" className="hover:text-secondary"> Privacy Policy</a> | 
             <a href="#" className="hover:text-secondary"> Terms of Service</a>
           </p>

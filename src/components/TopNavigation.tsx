@@ -35,32 +35,19 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
   return (
     <>
-      {/* Financial Mirror Group Strip */}
+      {/* BusinessHub.cy Group Strip */}
       <div className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase font-sans">
         <div className="container mx-auto px-4 flex items-center justify-between h-7">
           <div className="flex items-center gap-3">
-            <a
-              href="https://www.financialmirror.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold hover:text-secondary transition-colors"
-            >
-              Financial Mirror Group
-            </a>
+            <Link to="/" className="font-semibold text-secondary">
+              BusinessHub.cy Group
+            </Link>
             <span className="w-px h-3 bg-background/30" />
-            <Link to="/" className="text-secondary font-semibold">BusinessHub.cy</Link>
+            <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">Financial Mirror</a>
             <Link to="/fintech" className="hover:text-secondary transition-colors hidden sm:inline">FinTechHub.cy</Link>
             <Link to="/compliance" className="hover:text-secondary transition-colors hidden sm:inline">ComplianceHub.cy</Link>
           </div>
-          <a
-            href="https://www.financialmirror.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:flex items-center gap-1.5 hover:text-secondary transition-colors"
-          >
-            <Newspaper className="h-3 w-3" />
-            financialmirror.com
-          </a>
+          <span className="hidden md:inline text-background/50">Est. Nicosia, Cyprus</span>
         </div>
       </div>
 
