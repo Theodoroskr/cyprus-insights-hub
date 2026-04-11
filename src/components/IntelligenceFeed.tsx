@@ -17,6 +17,7 @@ interface DBArticle {
   published_at: string;
   image_url: string | null;
   tags: string[];
+  body_markdown: string | null;
 }
 
 function StickySidebar() {
