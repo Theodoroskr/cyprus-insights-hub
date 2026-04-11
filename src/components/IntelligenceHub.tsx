@@ -162,7 +162,7 @@ export function IntelligenceHub() {
           {/* COLUMN 2: Secondary Stories (middle) */}
           <div className="lg:col-span-4 lg:px-6 lg:border-r border-border py-6 lg:py-0 border-t lg:border-t-0">
             <div className="divide-y divide-border">
-              {secondary.map((article) => (
+              {secondary.map((article, idx) => (
                 <Link to={`/article/${article.id}`} key={article.id} className="block py-4 first:pt-0 group cursor-pointer">
                   <div className="flex items-center gap-2 mb-2">
                     <Badge variant="outline" className="rounded-none text-[10px] uppercase tracking-wider font-sans border-muted-foreground/30">
