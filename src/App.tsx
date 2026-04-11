@@ -33,6 +33,11 @@ import IndustryPage from "./pages/IndustryPage";
 import ArticlePage from "./pages/ArticlePage";
 import TradePage from "./pages/TradePage";
 
+// Registry Directory pages (55K+ companies)
+import RegistryDirectoryPage from "./pages/RegistryDirectoryPage";
+import RegistryCityPage from "./pages/RegistryCityPage";
+import RegistryCompanyPage from "./pages/RegistryCompanyPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
