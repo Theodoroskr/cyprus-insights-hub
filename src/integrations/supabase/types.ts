@@ -412,6 +412,96 @@ export type Database = {
         }
         Relationships: []
       }
+      directory_companies: {
+        Row: {
+          activity_description: string | null
+          address: string | null
+          city: string | null
+          city_slug: string | null
+          company_name: string
+          created_at: string
+          id: string
+          map_lat: number | null
+          map_lng: number | null
+          nace_code: string | null
+          organisation_status: string | null
+          organisation_sub_type: string | null
+          organisation_type: string | null
+          registration_date: string | null
+          registration_no: string | null
+        }
+        Insert: {
+          activity_description?: string | null
+          address?: string | null
+          city?: string | null
+          city_slug?: string | null
+          company_name: string
+          created_at?: string
+          id?: string
+          map_lat?: number | null
+          map_lng?: number | null
+          nace_code?: string | null
+          organisation_status?: string | null
+          organisation_sub_type?: string | null
+          organisation_type?: string | null
+          registration_date?: string | null
+          registration_no?: string | null
+        }
+        Update: {
+          activity_description?: string | null
+          address?: string | null
+          city?: string | null
+          city_slug?: string | null
+          company_name?: string
+          created_at?: string
+          id?: string
+          map_lat?: number | null
+          map_lng?: number | null
+          nace_code?: string | null
+          organisation_status?: string | null
+          organisation_sub_type?: string | null
+          organisation_type?: string | null
+          registration_date?: string | null
+          registration_no?: string | null
+        }
+        Relationships: []
+      }
+      featured_companies: {
+        Row: {
+          city: string | null
+          company_name: string
+          created_at: string
+          featured_city_rank: number | null
+          featured_reason: string | null
+          id: string
+          is_featured: boolean
+          linkedin: string | null
+          website: string | null
+        }
+        Insert: {
+          city?: string | null
+          company_name: string
+          created_at?: string
+          featured_city_rank?: number | null
+          featured_reason?: string | null
+          id?: string
+          is_featured?: boolean
+          linkedin?: string | null
+          website?: string | null
+        }
+        Update: {
+          city?: string | null
+          company_name?: string
+          created_at?: string
+          featured_city_rank?: number | null
+          featured_reason?: string | null
+          id?: string
+          is_featured?: boolean
+          linkedin?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       hs_sector_mapping: {
         Row: {
           display_order: number
