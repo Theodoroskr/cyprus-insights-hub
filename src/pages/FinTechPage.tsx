@@ -44,6 +44,7 @@ interface Regulation {
 export default function FinTechPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
+  const [regulations, setRegulations] = useState<Regulation[]>([]);
 
   useEffect(() => {
     supabase
@@ -55,6 +56,16 @@ export default function FinTechPage() {
       .limit(3)
       .then(({ data }) => {
         if (data) setFeaturedArticles(data);
+      });
+
+    supabase
+      .from("regulations")
+      .select("*")
+      .eq("active", true)
+      .eq("hub_section", "fintech")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (data) setRegulations(data as Regulation[]);
       });
   }, []);
 
