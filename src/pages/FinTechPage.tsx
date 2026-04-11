@@ -27,6 +27,20 @@ const regulations = [
 
 export default function FinTechPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("cna_articles")
+      .select("id, title, summary, image_url, tags, published_at")
+      .eq("status", "published")
+      .eq("vertical", "fintech")
+      .order("published_at", { ascending: false })
+      .limit(3)
+      .then(({ data }) => {
+        if (data) setFeaturedArticles(data);
+      });
+  }, []);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
