@@ -335,7 +335,9 @@ Deno.serve(async (req) => {
 
               if (articleScrape.ok) {
                 const articleData = await articleScrape.json();
-                const articleMarkdown = articleData.data?.markdown || articleData.markdown || "";
+                let articleMarkdown = articleData.data?.markdown || articleData.markdown || "";
+                // Clean boilerplate from scraped content
+                articleMarkdown = cleanBoilerplate(articleMarkdown);
                 // Only use the deep-scraped content if it's meaningfully longer than the snippet
                 if (articleMarkdown.length > fullBody.length + 50) {
                   fullBody = articleMarkdown;
@@ -353,6 +355,9 @@ Deno.serve(async (req) => {
               console.warn(`  Deep-scrape error for ${article.url}:`, deepErr);
             }
           }
+
+          // Clean the final body content
+          fullBody = cleanBoilerplate(fullBody);
 
           // Classify and enrich using the full body
           const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
