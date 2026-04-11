@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag } from "lucide-react";
+import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -131,7 +131,7 @@ export default function RegistryCompanyPage() {
               </div>
             ) : (
               <div className="relative">
-                <div className="p-6 grid md:grid-cols-2 gap-6 blur-sm opacity-40 pointer-events-none select-none">
+                <div className="p-6 grid md:grid-cols-2 gap-6 blur-[6px] opacity-30 pointer-events-none select-none">
                   <InfoCard icon={Hash} label="Registration No." value="HE ••••••" />
                   <InfoCard icon={Calendar} label="Registration Date" value="••/••/••••" />
                   <div className="md:col-span-2">
@@ -139,17 +139,25 @@ export default function RegistryCompanyPage() {
                   </div>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-card via-card/80 to-transparent">
-                  <div className="text-center">
-                    <Lock className="h-8 w-8 text-secondary mx-auto mb-3" />
-                    <p className="font-serif font-semibold text-foreground mb-1">Premium Access Required</p>
-                    <p className="text-sm text-muted-foreground mb-4">Registration details, addresses, and full records</p>
+                  <div className="text-center max-w-sm px-4">
+                    <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center mx-auto mb-4">
+                      <Crown className="h-7 w-7 text-secondary" />
+                    </div>
+                    <Badge className="bg-secondary/10 text-secondary border-secondary/20 mb-3">Premium</Badge>
+                    <p className="font-serif font-bold text-foreground text-lg mb-1">Unlock Full Company Record</p>
+                    <p className="text-sm text-muted-foreground mb-5">
+                      Registration numbers, dates, full addresses, and corporate filings.
+                    </p>
                     {!user ? (
-                      <Button onClick={() => setShowLogin(true)} className="rounded-full px-6">
-                        Register Free to Start
-                      </Button>
+                      <div className="flex flex-col gap-2 items-center">
+                        <Button onClick={() => setShowLogin(true)} className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                          Register Free to Start
+                        </Button>
+                        <span className="text-xs text-muted-foreground">Then upgrade for €29/month</span>
+                      </div>
                     ) : (
-                      <Button className="rounded-full px-6 bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                        Upgrade to Premium
+                      <Button className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                        Upgrade to Premium — €29/mo
                       </Button>
                     )}
                   </div>
