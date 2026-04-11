@@ -20,10 +20,50 @@ const stats = [
 
 
 const regulations = [
-  { name: "MiCA", icon: FileText, description: "Markets in Crypto-Assets Regulation" },
-  { name: "EU AML Package", icon: Shield, description: "Anti-Money Laundering Framework" },
-  { name: "DORA", icon: Server, description: "Digital Operational Resilience Act" },
-  { name: "NIS2", icon: Scale, description: "Network and Information Security" },
+  {
+    name: "MiCA",
+    icon: FileText,
+    description: "Markets in Crypto-Assets Regulation",
+    status: "In Force",
+    statusColor: "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30",
+    effectiveDate: "30 Dec 2024",
+    impact: "CASPs must obtain CySEC authorisation. Stablecoin issuers face reserve and disclosure requirements. Transitional period ends June 2025.",
+    appliesTo: ["Crypto Exchanges", "Wallet Providers", "Token Issuers", "Stablecoin Issuers"],
+    keyBody: "CySEC / ESMA",
+  },
+  {
+    name: "EU AML Package",
+    icon: Shield,
+    description: "6th Anti-Money Laundering Directive + AMLA",
+    status: "Transposing",
+    statusColor: "text-amber-600 bg-amber-100 dark:bg-amber-900/30",
+    effectiveDate: "Jul 2025 (AMLA operational)",
+    impact: "New EU-wide AML Authority (AMLA) in Frankfurt. Harmonised CDD rules, beneficial ownership registers, and €10K cash payment cap across the EU.",
+    appliesTo: ["Banks", "Payment Firms", "CASPs", "Lawyers & Accountants"],
+    keyBody: "AMLA / CBC / MOKAS",
+  },
+  {
+    name: "DORA",
+    icon: Server,
+    description: "Digital Operational Resilience Act",
+    status: "In Force",
+    statusColor: "text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30",
+    effectiveDate: "17 Jan 2025",
+    impact: "Financial entities must implement ICT risk management frameworks, incident reporting, digital resilience testing, and third-party risk oversight for critical ICT providers.",
+    appliesTo: ["Banks", "Insurers", "Investment Firms", "ICT Providers"],
+    keyBody: "CySEC / CBC / EBA",
+  },
+  {
+    name: "NIS2",
+    icon: Scale,
+    description: "Network and Information Security Directive",
+    status: "Transposing",
+    statusColor: "text-amber-600 bg-amber-100 dark:bg-amber-900/30",
+    effectiveDate: "17 Oct 2024 (deadline passed)",
+    impact: "Expanded scope covers financial services, cloud providers, and digital infrastructure. Mandatory incident reporting within 24h, board-level accountability for cybersecurity.",
+    appliesTo: ["Essential Services", "Digital Infrastructure", "Cloud/DNS Providers", "Financial Sector"],
+    keyBody: "DIPA / DSA Cyprus",
+  },
 ];
 
 export default function FinTechPage() {
