@@ -44,7 +44,14 @@ export default function NewsListPage() {
                 <Badge variant="outline" className="w-fit mb-3">{featured.article_type}</Badge>
                 <h2 className="text-2xl font-serif font-bold text-foreground group-hover:text-secondary transition-colors leading-snug">{featured.title}</h2>
                 <p className="text-muted-foreground mt-3">{featured.excerpt}</p>
-                {featured.published_at && <p className="text-xs text-muted-foreground mt-4">{formatDistanceToNow(new Date(featured.published_at), { addSuffix: true })}</p>}
+                {featured.published_at && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-4">
+                    <Calendar className="h-3 w-3" />
+                    <span>{format(new Date(featured.published_at), "d MMM yyyy, HH:mm")}</span>
+                    <span className="w-1 h-1 rounded-full bg-muted-foreground/40" />
+                    <span>{formatDistanceToNow(new Date(featured.published_at), { addSuffix: true })}</span>
+                  </div>
+                )}
               </div>
             </div>
           </Link>
@@ -61,7 +68,14 @@ export default function NewsListPage() {
               <div className="p-4">
                 <h3 className="font-serif font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-2">{a.title}</h3>
                 <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{a.excerpt}</p>
-                {a.published_at && <p className="text-xs text-muted-foreground mt-3">{formatDistanceToNow(new Date(a.published_at), { addSuffix: true })}</p>}
+                {a.published_at && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-3">
+                    <Calendar className="h-3 w-3" />
+                    <span>{format(new Date(a.published_at), "d MMM yyyy")}</span>
+                    <span className="w-1 h-1 rounded-full bg-muted-foreground/40" />
+                    <span>{formatDistanceToNow(new Date(a.published_at), { addSuffix: true })}</span>
+                  </div>
+                )}
               </div>
             </Link>
           ))}
