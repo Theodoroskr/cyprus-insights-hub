@@ -61,6 +61,38 @@ export default function DashboardPage() {
     setSavedItems((prev) => prev.filter((i) => i.id !== id));
   };
 
+  const [savingPrefs, setSavingPrefs] = useState(false);
+
+  const savePreferences = async () => {
+    if (!user) return;
+    setSavingPrefs(true);
+    try {
+      const payload = {
+        user_id: user.id,
+        digest_frequency: digestFreq,
+        verticals: verticals.map((v) => v.toLowerCase()),
+      };
+      const { data: existing } = await supabase
+        .from("user_preferences")
+        .select("id")
+        .eq("user_id", user.id)
+        .single();
+      if (existing) {
+        await supabase.from("user_preferences").update(payload).eq("user_id", user.id);
+      } else {
+        await supabase.from("user_preferences").insert(payload);
+      }
+    } finally {
+      setSavingPrefs(false);
+    }
+  };
+
+  const sendTestDigest = async () => {
+    await supabase.functions.invoke("send-digest", {
+      body: { frequency: digestFreq },
+    });
+  };
+
   const handleSearch = (q: string) => console.log("Search:", q);
 
   if (loading) return null;
