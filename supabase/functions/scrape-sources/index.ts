@@ -208,6 +208,39 @@ If no distinct articles can be identified, return an empty array.`;
   }
 }
 
+// Strip common boilerplate patterns from scraped markdown
+function cleanBoilerplate(text: string): string {
+  // Remove "Skip to main content" links
+  let cleaned = text.replace(/\[Skip to main content\]\([^)]+\)\s*/gi, "");
+  
+  // Remove cookie consent / privacy blocks
+  cleaned = cleaned.replace(/(?:^|\n).*(?:cookie|privacy settings|accept all cookies|withdraw consent|essential|analytics|save preferences|more info).*(?:\n|$)/gi, "");
+  
+  // Remove "Share this page" blocks with social links
+  cleaned = cleaned.replace(/(?:^|\n)\s*Share this page\s*\n(?:\s*(?:Twitter|Facebook|LinkedIn|Email|Close)\s*\n)*/gi, "\n");
+  
+  // Remove disclaimer/translation blocks
+  cleaned = cleaned.replace(/(?:^|\n)\s*Disclaimer\s*\n.*?(?:machine translation|eTranslation).*?(?:\n\n|\n$)/gis, "\n");
+  cleaned = cleaned.replace(/(?:^|\n)\s*Select language below\s*\n.*?(?:Accept and continue|Save preferences)/gis, "");
+  
+  // Remove "You may also be interested in" sections and everything after
+  cleaned = cleaned.replace(/\n\s*(?:You may also be interested in|Related (?:articles|content|stories))[\s\S]*$/i, "");
+  
+  // Remove "About this page" metadata blocks
+  cleaned = cleaned.replace(/\n\s*About this page\s*\n[\s\S]*?(?=\n##|\n#[^#]|$)/i, "");
+  
+  // Remove "Read the factsheet / Read the full report / Press Release" link lines
+  cleaned = cleaned.replace(/(?:^|\n)\s*(?:Read the (?:factsheet|full report)|Press Release)\s*(?:\n|$)/gi, "\n");
+  
+  // Remove lines that are just "Subject" or "Audience" or "Tags" followed by single-word lines
+  cleaned = cleaned.replace(/\n\s*(?:Subject|Audience|Tags)\s*\n(?:\s*\w[\w\s]*\n)*/gi, "\n");
+  
+  // Collapse excessive blank lines
+  cleaned = cleaned.replace(/\n{4,}/g, "\n\n\n");
+  
+  return cleaned.trim();
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
