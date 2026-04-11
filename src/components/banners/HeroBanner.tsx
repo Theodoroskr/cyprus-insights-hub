@@ -35,27 +35,37 @@ export function HeroBanner() {
           </div>
         </div>
 
-        {/* Lead headline */}
-        <div className="py-8 md:py-10 max-w-4xl mx-auto text-center">
-          <p className="section-label mb-4">Lead Story</p>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-foreground leading-tight mb-4">
-            Independent Analysis, Regulatory Insight &amp; Professional Intelligence for the Cyprus Market
-          </h2>
-          <p className="article-body max-w-2xl mx-auto mb-6 text-base">
-            Helping businesses navigate the Cyprus and EU landscape with clarity — from compliance and fintech to funding and risk intelligence.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/#news">
-              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 gap-2 rounded-none font-sans text-sm font-semibold tracking-wide uppercase">
-                Read Intelligence
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Link to="/directory">
-              <Button size="lg" variant="outline" className="gap-2 rounded-none border-foreground text-foreground hover:bg-foreground hover:text-background font-sans text-sm font-semibold tracking-wide uppercase">
-                Who Is Who Directory
-              </Button>
-            </Link>
+        {/* Lead headline with hero image */}
+        <div className="relative -mx-4 overflow-hidden">
+          <div className="relative aspect-[21/9] md:aspect-[3/1] w-full">
+            <img
+              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=80"
+              alt="Cyprus business skyline"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-primary/10" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
+              <p className="section-label mb-4 text-white/80">Lead Story</p>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-white leading-tight mb-4 max-w-4xl text-center drop-shadow-lg">
+                Independent Analysis, Regulatory Insight &amp; Professional Intelligence for the Cyprus Market
+              </h2>
+              <p className="text-white/75 max-w-2xl mx-auto mb-6 text-base text-center font-source-serif">
+                Helping businesses navigate the Cyprus and EU landscape with clarity — from compliance and fintech to funding and risk intelligence.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <Link to="/#news">
+                  <Button size="lg" className="bg-white text-primary hover:bg-white/90 gap-2 rounded-none font-sans text-sm font-semibold tracking-wide uppercase">
+                    Read Intelligence
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link to="/directory">
+                  <Button size="lg" variant="outline" className="gap-2 rounded-none border-white text-white hover:bg-white hover:text-primary font-sans text-sm font-semibold tracking-wide uppercase">
+                    Who Is Who Directory
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
