@@ -175,49 +175,50 @@ export default function FinTechPage() {
             </Badge>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
-            {regulations.map((reg, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all hover:border-secondary/50 cursor-pointer rounded-none border-border group">
-                <CardContent className="pt-5 pb-4 px-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-none bg-foreground/5 flex items-center justify-center shrink-0">
-                        <reg.icon className="h-5 w-5 text-foreground" />
+            {regulations.map((reg) => {
+              const IconComponent = iconMap[reg.icon] || FileText;
+              const colorClass = statusColorMap[reg.status_color] || statusColorMap.emerald;
+              return (
+                <Card key={reg.id} className="hover:shadow-lg transition-all hover:border-secondary/50 cursor-pointer rounded-none border-border group">
+                  <CardContent className="pt-5 pb-4 px-5">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-none bg-foreground/5 flex items-center justify-center shrink-0">
+                          <IconComponent className="h-5 w-5 text-foreground" />
+                        </div>
+                        <div>
+                          <h3 className="font-serif font-bold text-foreground text-base">{reg.name}</h3>
+                          <p className="text-xs text-muted-foreground">{reg.description}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-serif font-bold text-foreground text-base">{reg.name}</h3>
-                        <p className="text-xs text-muted-foreground">{reg.description}</p>
-                      </div>
+                      <Badge className={`text-[9px] border-0 shrink-0 ${colorClass}`}>
+                        {reg.status}
+                      </Badge>
                     </div>
-                    <Badge className={`text-[9px] border-0 shrink-0 ${reg.statusColor}`}>
-                      {reg.status}
-                    </Badge>
-                  </div>
-
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                    {reg.impact}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {reg.appliesTo.map((entity) => (
-                      <span key={entity} className="text-[10px] bg-muted px-2 py-0.5 rounded text-muted-foreground">
-                        {entity}
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                      {reg.impact}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {reg.applies_to.map((entity) => (
+                        <span key={entity} className="text-[10px] bg-muted px-2 py-0.5 rounded text-muted-foreground">
+                          {entity}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] text-muted-foreground/70 border-t border-border pt-2">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        Effective: {reg.effective_date}
                       </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between text-[10px] text-muted-foreground/70 border-t border-border pt-2">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      Effective: {reg.effectiveDate}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Landmark className="h-3 w-3" />
-                      {reg.keyBody}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                      <span className="flex items-center gap-1">
+                        <Landmark className="h-3 w-3" />
+                        {reg.key_body}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
