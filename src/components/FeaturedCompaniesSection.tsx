@@ -83,44 +83,54 @@ export function FeaturedCompaniesSection({ compact = false }: Props) {
                 <p className="text-sm text-muted-foreground py-6 text-center">No featured companies yet for {city}.</p>
               ) : (
                 <div className={`grid gap-4 ${compact ? "md:grid-cols-2 lg:grid-cols-3" : "md:grid-cols-2 lg:grid-cols-3"}`}>
-                  {grouped[city]?.map((f, i) => (
-                    <div
-                      key={f.id}
-                      className="border border-border rounded-lg p-5 bg-card hover:shadow-md hover:border-secondary/30 transition-all relative overflow-hidden"
-                    >
-                      <div className="absolute top-3 right-3">
-                        <Badge className="bg-secondary/10 text-secondary border-secondary/20 text-xs font-bold">
-                          #{f.featured_city_rank || i + 1}
-                        </Badge>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">
-                          <Building2 className="h-5 w-5 text-secondary" />
+                  {grouped[city]?.map((f, i) => {
+                    const primaryHref = f.website || f.linkedin || "#";
+                    const isExternal = primaryHref !== "#";
+                    return (
+                      <a
+                        key={f.id}
+                        href={primaryHref}
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                        className="border border-border rounded-lg p-5 bg-card hover:shadow-lg hover:border-secondary/30 transition-all relative overflow-hidden group cursor-pointer block"
+                      >
+                        <div className="absolute top-3 right-3">
+                          <Badge className="bg-secondary/10 text-secondary border-secondary/20 text-xs font-bold">
+                            #{f.featured_city_rank || i + 1}
+                          </Badge>
                         </div>
-                        <div className="flex-1 min-w-0 pr-8">
-                          <h3 className="font-semibold text-foreground text-sm">{f.company_name}</h3>
-                          {f.featured_reason && (
-                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{f.featured_reason}</p>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
+                            <Building2 className="h-5 w-5 text-secondary" />
+                          </div>
+                          <div className="flex-1 min-w-0 pr-8">
+                            <h3 className="font-semibold text-foreground text-sm group-hover:text-secondary transition-colors">{f.company_name}</h3>
+                            {f.featured_reason && (
+                              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{f.featured_reason}</p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border">
+                          {f.website && (
+                            <span className="text-secondary text-xs flex items-center gap-1">
+                              <Globe className="h-3 w-3" /> Website
+                            </span>
                           )}
+                          {f.linkedin && (
+                            <span className="text-secondary text-xs flex items-center gap-1">
+                              <Linkedin className="h-3 w-3" /> LinkedIn
+                            </span>
+                          )}
+                          {!f.website && !f.linkedin && (
+                            <span className="text-xs text-muted-foreground">No links available</span>
+                          )}
+                          <span className="ml-auto text-xs text-secondary font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            More info <ArrowRight className="h-3 w-3" />
+                          </span>
                         </div>
-                      </div>
-                      <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border">
-                        {f.website && (
-                          <a href={f.website} target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline text-xs flex items-center gap-1">
-                            <Globe className="h-3 w-3" /> Website
-                          </a>
-                        )}
-                        {f.linkedin && (
-                          <a href={f.linkedin} target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline text-xs flex items-center gap-1">
-                            <Linkedin className="h-3 w-3" /> LinkedIn
-                          </a>
-                        )}
-                        {!f.website && !f.linkedin && (
-                          <span className="text-xs text-muted-foreground">No links available</span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </TabsContent>

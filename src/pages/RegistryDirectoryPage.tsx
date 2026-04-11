@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Building2, MapPin, Star, ArrowRight } from "lucide-react";
+import { Search, Building2, MapPin, Star, ArrowRight, Factory } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { FeaturedCompaniesSection } from "@/components/FeaturedCompaniesSection";
 import { Button } from "@/components/ui/button";
@@ -9,15 +9,33 @@ import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 
-const CITY_META: Record<string, { label: string; lat: number; lng: number }> = {
-  nicosia: { label: "Nicosia", lat: 35.1856, lng: 33.3823 },
-  limassol: { label: "Limassol", lat: 34.6786, lng: 33.0413 },
-  larnaca: { label: "Larnaca", lat: 34.9229, lng: 33.6233 },
-  paphos: { label: "Paphos", lat: 34.7754, lng: 32.4218 },
-  famagusta: { label: "Famagusta", lat: 35.1174, lng: 33.9413 },
+const CITY_META: Record<string, { label: string }> = {
+  nicosia: { label: "Nicosia" },
+  limassol: { label: "Limassol" },
+  larnaca: { label: "Larnaca" },
+  paphos: { label: "Paphos" },
+  famagusta: { label: "Famagusta" },
 };
 
 const MAIN_SLUGS = ["nicosia", "limassol", "larnaca", "paphos", "famagusta"];
+
+const INDUSTRY_FILTERS: { code: string; label: string }[] = [
+  { code: "47", label: "Retail Trade" },
+  { code: "70", label: "Management Consulting" },
+  { code: "46", label: "Wholesale Trade" },
+  { code: "43", label: "Construction" },
+  { code: "56", label: "Food & Beverage" },
+  { code: "62", label: "IT & Software" },
+  { code: "41", label: "Building Development" },
+  { code: "64", label: "Financial Services" },
+  { code: "86", label: "Healthcare" },
+  { code: "69", label: "Legal & Accounting" },
+  { code: "68", label: "Real Estate" },
+  { code: "71", label: "Architecture & Engineering" },
+  { code: "85", label: "Education" },
+  { code: "96", label: "Personal Services" },
+  { code: "45", label: "Motor Vehicles" },
+];
 
 export default function RegistryDirectoryPage() {
   const navigate = useNavigate();
@@ -26,6 +44,9 @@ export default function RegistryDirectoryPage() {
   const [totalCompanies, setTotalCompanies] = useState(0);
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [searching, setSearching] = useState(false);
+  const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
+  const [industryResults, setIndustryResults] = useState<any[] | null>(null);
+  const [industryLoading, setIndustryLoading] = useState(false);
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -49,6 +70,8 @@ export default function RegistryDirectoryPage() {
     e.preventDefault();
     if (!search.trim()) return;
     setSearching(true);
+    setSelectedIndustry(null);
+    setIndustryResults(null);
     const term = `%${search.trim()}%`;
     const { data } = await supabase
       .from("directory_companies")
@@ -58,6 +81,32 @@ export default function RegistryDirectoryPage() {
     setSearchResults(data || []);
     setSearching(false);
   };
+
+  const handleIndustryClick = async (code: string) => {
+    if (selectedIndustry === code) {
+      setSelectedIndustry(null);
+      setIndustryResults(null);
+      return;
+    }
+    setSelectedIndustry(code);
+    setIndustryLoading(true);
+    setSearchResults(null);
+    setSearch("");
+    const { data } = await supabase
+      .from("directory_companies")
+      .select("id, company_name, city, city_slug, activity_description, nace_code")
+      .like("nace_code", `${code}%`)
+      .order("company_name")
+      .limit(50);
+    setIndustryResults(data || []);
+    setIndustryLoading(false);
+  };
+
+  const showingResults = searchResults !== null || industryResults !== null;
+  const resultsToShow = searchResults || industryResults || [];
+  const resultsLabel = searchResults
+    ? `${searchResults.length} results for "${search}"`
+    : `${industryResults?.length || 0} companies in ${INDUSTRY_FILTERS.find(i => i.code === selectedIndustry)?.label || ""}`;
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
@@ -79,7 +128,7 @@ export default function RegistryDirectoryPage() {
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 value={search}
-                onChange={(e) => { setSearch(e.target.value); if (!e.target.value) setSearchResults(null); }}
+                onChange={(e) => { setSearch(e.target.value); if (!e.target.value) { setSearchResults(null); } }}
                 placeholder="Search by company name, activity, or city..."
                 className="pl-14 pr-32 h-14 text-base bg-white text-foreground border-0 rounded-full shadow-2xl"
               />
@@ -92,19 +141,69 @@ export default function RegistryDirectoryPage() {
       </section>
 
       <div className="container mx-auto px-4 py-10">
-        {/* Search Results */}
-        {searchResults !== null ? (
+        {/* Browse by City — inline chips */}
+        <div className="mb-8">
+          <h2 className="text-lg font-serif font-bold text-foreground mb-3 flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-secondary" />
+            Browse by City
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {MAIN_SLUGS.map((slug) => {
+              const meta = CITY_META[slug];
+              const count = cityCounts[slug] || 0;
+              return (
+                <Link
+                  key={slug}
+                  to={`/directory/city/${slug}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card hover:bg-secondary/10 hover:border-secondary/40 transition-all group"
+                >
+                  <MapPin className="h-3.5 w-3.5 text-muted-foreground group-hover:text-secondary transition-colors" />
+                  <span className="font-medium text-sm text-foreground group-hover:text-secondary transition-colors">{meta.label}</span>
+                  <Badge variant="secondary" className="text-[10px] h-5 px-1.5 rounded-full">
+                    {count.toLocaleString()}
+                  </Badge>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Industry Filters */}
+        <div className="mb-8">
+          <h2 className="text-lg font-serif font-bold text-foreground mb-3 flex items-center gap-2">
+            <Factory className="h-4 w-4 text-secondary" />
+            Filter by Industry
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {INDUSTRY_FILTERS.map((ind) => (
+              <button
+                key={ind.code}
+                onClick={() => handleIndustryClick(ind.code)}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-sm transition-all ${
+                  selectedIndustry === ind.code
+                    ? "bg-secondary text-secondary-foreground border-secondary"
+                    : "border-border bg-card hover:bg-secondary/10 hover:border-secondary/40 text-foreground"
+                }`}
+              >
+                {ind.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Results (search or industry) */}
+        {showingResults ? (
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-serif font-bold text-foreground">
-                {searchResults.length} results for "{search}"
+                {industryLoading ? "Loading..." : resultsLabel}
               </h2>
-              <Button variant="ghost" size="sm" onClick={() => { setSearchResults(null); setSearch(""); }}>
-                Clear search
+              <Button variant="ghost" size="sm" onClick={() => { setSearchResults(null); setIndustryResults(null); setSearch(""); setSelectedIndustry(null); }}>
+                Clear
               </Button>
             </div>
             <div className="space-y-2">
-              {searchResults.map((c) => (
+              {resultsToShow.map((c) => (
                 <Link
                   key={c.id}
                   to={`/directory/${c.id}`}
@@ -120,47 +219,17 @@ export default function RegistryDirectoryPage() {
                   </div>
                 </Link>
               ))}
-              {searchResults.length === 0 && (
+              {resultsToShow.length === 0 && !industryLoading && (
                 <div className="text-center py-16 text-muted-foreground">
                   <Building2 className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>No companies found. Try a different search term.</p>
+                  <p>No companies found.</p>
                 </div>
               )}
             </div>
           </div>
-        ) : (
-          /* City Grid */
-          <div>
-            <h2 className="text-2xl font-serif font-bold text-foreground mb-2">Browse by City</h2>
-            <p className="text-muted-foreground mb-8">Select a city to explore its registered companies</p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {MAIN_SLUGS.map((slug) => {
-                const meta = CITY_META[slug];
-                const count = cityCounts[slug] || 0;
-                return (
-                  <Link
-                    key={slug}
-                    to={`/directory/city/${slug}`}
-                    className="group relative border border-border rounded-xl p-8 bg-card hover:shadow-xl hover:border-secondary/40 transition-all overflow-hidden"
-                  >
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-secondary/10 transition-colors" />
-                    <MapPin className="h-8 w-8 text-secondary mb-4" />
-                    <h3 className="text-xl font-serif font-bold text-foreground group-hover:text-secondary transition-colors">
-                      {meta.label}
-                    </h3>
-                    <p className="text-3xl font-bold text-secondary mt-2">{count.toLocaleString()}</p>
-                    <p className="text-sm text-muted-foreground">registered companies</p>
-                    <div className="flex items-center gap-1 mt-4 text-sm text-secondary font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                      Browse companies <ArrowRight className="h-4 w-4" />
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        ) : null}
 
-        {/* Featured Companies Tabs */}
+        {/* Featured Companies */}
         <FeaturedCompaniesSection />
       </div>
 
