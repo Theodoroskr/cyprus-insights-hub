@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Menu, X, User, Newspaper } from "lucide-react";
+import { Search, Menu, X, User, Newspaper, PenTool } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { NotificationDropdown } from "@/components/notifications/NotificationDropdown";
 import { Button } from "@/components/ui/button";
@@ -27,6 +29,16 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
   const [showLogin, setShowLogin] = useState(false);
   const location = useLocation();
   const { user, profile, signOut } = useAuth();
+
+  const { data: isAdmin } = useQuery({
+    queryKey: ["admin-check", user?.id],
+    queryFn: async () => {
+      if (!user) return false;
+      const { data } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+      return !!data;
+    },
+    enabled: !!user,
+  });
 
   const isActive = (href: string) => {
     const path = href.split("#")[0];
@@ -117,11 +129,20 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                   <NotificationDropdown />
                 </div>
                 {user ? (
-                  <Link to="/dashboard">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
-                      <User className="h-4 w-4" />
-                    </Button>
-                  </Link>
+                  <>
+                    {isAdmin && (
+                      <Link to="/editorial">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex" title="Editorial Dashboard">
+                          <PenTool className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                    )}
+                    <Link to="/dashboard">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
+                        <User className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </>
                 ) : (
                   <Button
                     variant="ghost"
@@ -158,6 +179,20 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                   {item.label}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link
+                  to="/editorial"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`px-4 py-2.5 text-sm font-medium uppercase tracking-wider transition-colors flex items-center gap-2 ${
+                    isActive("/editorial")
+                      ? "text-foreground bg-muted"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <PenTool className="h-3.5 w-3.5" />
+                  Editorial
+                </Link>
+              )}
             </div>
             <div className="mt-4 px-4">
               <form onSubmit={handleSearch}>
