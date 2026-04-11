@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown } from "lucide-react";
+import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useWatchlist } from "@/hooks/useWatchlist";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { toast } from "sonner";
 
 const CITY_LABELS: Record<string, string> = {
   nicosia: "Nicosia", limassol: "Limassol", larnaca: "Larnaca",
