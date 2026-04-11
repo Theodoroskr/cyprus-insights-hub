@@ -33,11 +33,11 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4 text-secondary">Quick Links</h4>
             <ul className="space-y-2 text-sm text-primary-foreground/70">
-              <li><a href="#" className="hover:text-secondary transition-colors">Latest News</a></li>
+              <li><Link to="/" className="hover:text-secondary transition-colors">Latest News</Link></li>
               <li><Link to="/directory" className="hover:text-secondary transition-colors">Business Directory</Link></li>
               <li><Link to="/resources" className="hover:text-secondary transition-colors">EU Funding</Link></li>
               <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Reports & Analysis</a></li>
+              <li><Link to="/resources" className="hover:text-secondary transition-colors">Reports & Analysis</Link></li>
             </ul>
           </div>
 
