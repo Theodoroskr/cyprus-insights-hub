@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail } from "lucide-react";
+import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail, FileText, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
@@ -251,19 +252,46 @@ export default function ArticlePage() {
             )}
           </div>
 
-          {/* Summary */}
-          {article.summary && (
-            <div className="bg-muted/30 rounded-xl p-6 mb-10 border border-border">
-              <h3 className="font-serif font-bold text-lg mb-3 text-foreground">Summary</h3>
-              <p className="text-muted-foreground leading-relaxed">{article.summary}</p>
-            </div>
-          )}
+          {/* Tabbed: Summary / Full Article */}
+          {(article.summary || article.body_markdown) && (
+            <Tabs defaultValue="summary" className="mb-10">
+              <TabsList className="w-full justify-start bg-muted/50 h-auto p-1 rounded-lg">
+                {article.summary && (
+                  <TabsTrigger
+                    value="summary"
+                    className="text-sm px-5 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm rounded-md gap-2"
+                  >
+                    <FileText className="h-4 w-4" />
+                    Summary
+                  </TabsTrigger>
+                )}
+                {article.body_markdown && (
+                  <TabsTrigger
+                    value="full"
+                    className="text-sm px-5 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm rounded-md gap-2"
+                  >
+                    <BookOpen className="h-4 w-4" />
+                    Full Article
+                  </TabsTrigger>
+                )}
+              </TabsList>
 
-          {/* Body */}
-          {article.body_markdown && (
-            <div className="prose prose-lg max-w-none mb-10 text-foreground">
-              {article.body_markdown.split("\n").map((p, i) => p.trim() ? <p key={i}>{p}</p> : null)}
-            </div>
+              {article.summary && (
+                <TabsContent value="summary" className="mt-4">
+                  <div className="bg-muted/30 rounded-xl p-6 border border-border">
+                    <p className="text-muted-foreground leading-relaxed">{article.summary}</p>
+                  </div>
+                </TabsContent>
+              )}
+
+              {article.body_markdown && (
+                <TabsContent value="full" className="mt-4">
+                  <div className="prose prose-lg max-w-none text-foreground">
+                    {article.body_markdown.split("\n").map((p, i) => p.trim() ? <p key={i}>{p}</p> : null)}
+                  </div>
+                </TabsContent>
+              )}
+            </Tabs>
           )}
 
           {/* Tags */}
