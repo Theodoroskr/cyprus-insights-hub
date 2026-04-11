@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -259,6 +261,20 @@ export default function SMEPage() {
   const [readinessAnswers, setReadinessAnswers] = useState<Record<string, boolean>>({});
   const [showReadinessResult, setShowReadinessResult] = useState(false);
   const [fundingFilter, setFundingFilter] = useState<string>("All");
+  const [smeArticles, setSmeArticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("cna_articles")
+      .select("id, title, summary, image_url, published_at")
+      .eq("status", "published")
+      .eq("vertical", "sme")
+      .order("published_at", { ascending: false })
+      .limit(4)
+      .then(({ data }) => {
+        if (data) setSmeArticles(data);
+      });
+  }, []);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -357,6 +373,39 @@ export default function SMEPage() {
           </div>
         </div>
       </div>
+
+      {/* Latest SME Intelligence */}
+      {smeArticles.length > 0 && (
+        <section className="section-rule">
+          <div className="container mx-auto px-4 pb-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="section-label text-foreground text-sm">Latest SME Intelligence</h2>
+              <Link to="/news?vertical=sme" className="section-label text-secondary flex items-center gap-1 hover:underline">
+                View all <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+              {smeArticles.map((article) => (
+                <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
+                  {article.image_url && (
+                    <div className="relative h-36 overflow-hidden">
+                      <img src={article.image_url} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    <h3 className="text-sm font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors leading-tight line-clamp-2">
+                      {article.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{article.summary}</p>
+                    <p className="byline text-xs">{article.published_at ? formatDistanceToNow(new Date(article.published_at), { addSuffix: true }) : ""}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ═══════════════════════════════════════════════
           SECTION 1: EU FUNDING MATCHMAKER
