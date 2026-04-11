@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, Bell, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,11 +9,11 @@ interface TopNavigationProps {
 }
 
 const navItems = [
-  { label: "News", href: "#news" },
-  { label: "Reports", href: "#reports" },
-  { label: "WhoIsWho", href: "#whoiswho" },
-  { label: "EU Funding", href: "#funding" },
-  { label: "Compliance", href: "#compliance" },
+  { label: "News", href: "/" },
+  { label: "Reports", href: "/resources" },
+  { label: "WhoIsWho", href: "/directory" },
+  { label: "EU Funding", href: "/resources#funding" },
+  { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },
   { label: "Resources", href: "/resources" },
 ];
@@ -21,7 +22,13 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeNav, setActiveNav] = useState("News");
+  const location = useLocation();
+
+  const isActive = (href: string) => {
+    const path = href.split("#")[0];
+    if (path === "/") return location.pathname === "/";
+    return location.pathname.startsWith(path);
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,34 +40,40 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 shrink-0">
             <div className="w-10 h-10 rounded-lg navy-gradient flex items-center justify-center">
               <span className="text-secondary font-bold text-lg">B</span>
             </div>
             <div className="hidden sm:block">
-              <h1 className="font-bold text-lg text-primary">BusinessHub<span className="text-secondary">.cy</span></h1>
-              <p className="text-xs text-muted-foreground">Cyprus Business Intelligence</p>
+              <h1 className="font-bold text-lg text-primary leading-tight">
+                BusinessHub<span className="text-secondary">.cy</span>
+              </h1>
+              <p className="text-[11px] text-muted-foreground leading-none">
+                Cyprus Business Intelligence
+              </p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
-                onClick={() => setActiveNav(item.label)}
-                className={`nav-link ${activeNav === item.label ? 'active' : ''}`}
+                to={item.href}
+                className={`nav-link ${isActive(item.href) ? "active" : ""}`}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Search & Actions */}
           <div className="flex items-center gap-2">
             {isSearchOpen ? (
-              <form onSubmit={handleSearch} className="flex items-center gap-2 animate-slide-in-right">
+              <form
+                onSubmit={handleSearch}
+                className="flex items-center gap-2 animate-slide-in-right"
+              >
                 <Input
                   type="search"
                   placeholder="Search news, people, grants..."
@@ -104,7 +117,11 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
               className="lg:hidden"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
@@ -112,23 +129,20 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <nav className="lg:hidden py-4 border-t border-border animate-slide-in-up">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
-                  onClick={() => {
-                    setActiveNav(item.label);
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    activeNav === item.label 
-                      ? 'bg-secondary/10 text-secondary font-medium' 
-                      : 'text-muted-foreground hover:bg-muted'
+                  to={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`px-4 py-2.5 rounded-lg transition-colors text-sm ${
+                    isActive(item.href)
+                      ? "bg-secondary/10 text-secondary font-medium"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   }`}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
             <div className="mt-4 px-4">
