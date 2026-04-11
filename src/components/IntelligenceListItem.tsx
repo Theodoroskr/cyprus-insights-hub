@@ -59,6 +59,82 @@ export function IntelligenceListItem({
 
   const fallbackImage = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80";
 
+  if (isLead) {
+    return (
+      <article className="group pb-6 mb-6 border-b border-border">
+        {/* Large hero image */}
+        <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-5">
+          <img
+            src={imageUrl || fallbackImage}
+            alt={whatHappened}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/10 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Badge variant="outline" className={`text-[10px] font-semibold backdrop-blur-sm bg-background/20 border-white/30 text-white`}>
+                {category}
+              </Badge>
+              <span className="text-xs text-white/80">{date}</span>
+            </div>
+            <h3 className="font-serif font-bold text-2xl md:text-3xl text-white leading-tight mb-2 drop-shadow-lg">
+              {whatHappened}
+            </h3>
+          </div>
+        </div>
+
+        {/* Content below image */}
+        <p className="text-base text-muted-foreground leading-relaxed mb-4 line-clamp-3">
+          {whyItMatters}
+        </p>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            {linkedPerson && (
+              <div className="flex items-center gap-2">
+                <img
+                  src={linkedPerson.image}
+                  alt={linkedPerson.name}
+                  className="w-7 h-7 rounded-full object-cover ring-1 ring-border"
+                />
+                <div>
+                  <span className="text-xs font-medium text-foreground">{linkedPerson.name}</span>
+                  <span className="text-[10px] text-muted-foreground ml-1">· {linkedPerson.title}</span>
+                </div>
+              </div>
+            )}
+            <div className="flex items-center gap-3 text-[10px] uppercase tracking-wider font-semibold">
+              <span className="flex items-center gap-1 text-secondary">
+                <Zap className="h-3 w-3" /> What
+              </span>
+              <span className="flex items-center gap-1 text-destructive">
+                <Target className="h-3 w-3" /> Why
+              </span>
+              <span className="flex items-center gap-1 text-success">
+                <Lightbulb className="h-3 w-3" /> Action
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {user && (
+              <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors">
+                <Bookmark className={`h-4 w-4 ${bookmarked ? "fill-secondary text-secondary" : ""}`} />
+              </button>
+            )}
+            <Link
+              to={href}
+              className={`inline-flex items-center gap-1 text-sm font-medium ${colors.accent} hover:opacity-80 transition-opacity group/link`}
+            >
+              Read full analysis
+              <ArrowRight className="h-3.5 w-3.5 group-hover/link:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
   return (
     <article className={`group flex gap-5 py-5 border-b border-border last:border-b-0 hover:bg-muted/20 transition-colors px-2 -mx-2 rounded-lg`}>
       {/* Image — left side */}
