@@ -49,6 +49,7 @@ const EditorialDashboard = () => {
   const [page, setPage] = useState(0);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [editForm, setEditForm] = useState<Partial<Article>>({});
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   // Check admin role
   const { data: isAdmin, isLoading: roleLoading } = useQuery({
