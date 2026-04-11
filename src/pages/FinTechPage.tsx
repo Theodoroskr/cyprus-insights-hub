@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar } from "lucide-react";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
+import { supabase } from "@/integrations/supabase/client";
+import { formatDistanceToNow } from "date-fns";
 
 const stats = [
   { label: "Licensed EMIs", value: "45+", icon: Building2 },
@@ -15,32 +17,6 @@ const stats = [
   { label: "Industry Jobs", value: "5,000+", icon: Users },
 ];
 
-const featuredCards = [
-  {
-    title: "Cyprus as an EU FinTech Gateway",
-    excerpt: "Why Cyprus is emerging as a compliance-first entry point for EU fintech operations.",
-    tag: "FinTech Intelligence",
-    author: "Editorial Desk",
-    time: "6 hours ago",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-  },
-  {
-    title: "EU Regulation Snapshot for FinTechs",
-    excerpt: "What MiCA, AML, and DORA mean in practice for fintechs operating from Cyprus.",
-    tag: "Regulation",
-    author: "Andreas Georgiou",
-    time: "1 day ago",
-    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80",
-  },
-  {
-    title: "Digital Assets Licensing in Cyprus",
-    excerpt: "Complete guide to obtaining CASP registration and operating under MiCA framework.",
-    tag: "Licensing",
-    author: "Maria Ioannou",
-    time: "2 days ago",
-    image: "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?w=600&q=80",
-  },
-];
 
 const regulations = [
   { name: "MiCA", icon: FileText, description: "Markets in Crypto-Assets Regulation" },
@@ -51,6 +27,20 @@ const regulations = [
 
 export default function FinTechPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("cna_articles")
+      .select("id, title, summary, image_url, tags, published_at")
+      .eq("status", "published")
+      .eq("vertical", "fintech")
+      .order("published_at", { ascending: false })
+      .limit(3)
+      .then(({ data }) => {
+        if (data) setFeaturedArticles(data);
+      });
+  }, []);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -109,24 +99,28 @@ export default function FinTechPage() {
             <h2 className="section-label text-foreground text-sm">Featured Intelligence</h2>
             <span className="section-label text-secondary">Latest from Cyprus FinTech</span>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {featuredCards.map((card, index) => (
-              <Link to={`/news?vertical=fintech`} key={index} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
-                <div className="relative h-44 overflow-hidden">
-                  <img src={card.image} alt={card.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
-                  <span className="absolute top-3 left-3 section-label text-white drop-shadow bg-primary/40 backdrop-blur-sm px-2 py-0.5">{card.tag}</span>
-                </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors leading-tight">
-                    {card.title}
-                  </h3>
-                  <p className="article-body text-muted-foreground mb-3">{card.excerpt}</p>
-                  <p className="byline">By {card.author} · {card.time}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {featuredArticles.length > 0 ? (
+            <div className="grid md:grid-cols-3 gap-6">
+              {featuredArticles.map((article) => (
+                <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
+                  <div className="relative h-44 overflow-hidden">
+                    <img src={article.image_url || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80"} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
+                    <span className="absolute top-3 left-3 section-label text-white drop-shadow bg-primary/40 backdrop-blur-sm px-2 py-0.5">FinTech</span>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors leading-tight">
+                      {article.title}
+                    </h3>
+                    <p className="article-body text-muted-foreground mb-3 line-clamp-2">{article.summary}</p>
+                    <p className="byline">{article.published_at ? formatDistanceToNow(new Date(article.published_at), { addSuffix: true }) : ""}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted-foreground text-sm">No fintech articles published yet.</p>
+          )}
         </div>
       </section>
 
