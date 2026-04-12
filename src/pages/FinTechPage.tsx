@@ -55,10 +55,13 @@ interface Regulation {
   key_body: string;
 }
 export default function FinTechPage() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
   const [regulations, setRegulations] = useState<Regulation[]>([]);
-
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+  const [categoryCompanies, setCategoryCompanies] = useState<Record<string, any[]>>({});
+  const [activeCategory, setActiveCategory] = useState(FINTECH_CATEGORIES[0].nace);
   useEffect(() => {
     supabase
       .from("cna_articles")
