@@ -84,6 +84,7 @@ export default function FinTechPage() {
 
   return (
     <HubLayout brand="fintechhub" onSearch={handleSearch}>
+      <SEOHead title="FinTech Hub" description="MiCA, DORA, AML & digital finance regulatory intelligence for Cyprus fintech." path="/fintech" />
       {/* Editorial Masthead Hero */}
       <section className="relative border-b border-border bg-card">
         <div className="container mx-auto px-4">
