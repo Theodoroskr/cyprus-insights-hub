@@ -10,7 +10,7 @@ import { LoginModal } from "@/components/auth/LoginModal";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
-import { Helmet } from "react-helmet-async";
+
 import { toast } from "sonner";
 
 const CITY_LABELS: Record<string, string> = {
