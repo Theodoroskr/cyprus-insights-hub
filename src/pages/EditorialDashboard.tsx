@@ -424,7 +424,7 @@ const EditorialDashboard = () => {
             </Button>
           </div>
         )}
-      </div>
+        </div>
         </>
         )}
       </div>
