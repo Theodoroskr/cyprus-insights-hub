@@ -289,7 +289,11 @@ export default function ArticlePage() {
                   )}
                   <TabsContent value="full" className="mt-4">
                     <div className="prose prose-lg max-w-none text-foreground prose-headings:font-serif prose-a:text-secondary">
-                      <ReactMarkdown>{article.body_markdown!}</ReactMarkdown>
+                      <ReactMarkdown>{article.body_markdown!
+                        .replace(/(?:^|\n)\s*Print\s*(?:\n|$)/gi, "\n")
+                        .replace(/(?:^|\n)\s*For the analytical data,?\s*(?:please\s+)?click here\.?\s*(?:\n|$)/gi, "\n")
+                        .replace(/\[For the analytical data,?\s*(?:please\s+)?click here\.?\]\([^)]*\)/gi, "")
+                      }</ReactMarkdown>
                     </div>
                   </TabsContent>
                 </Tabs>

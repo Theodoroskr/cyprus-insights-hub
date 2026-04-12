@@ -246,6 +246,11 @@ function cleanBoilerplate(text: string): string {
   // Remove "Read the factsheet / Read the full report / Press Release" link lines
   cleaned = cleaned.replace(/(?:^|\n)\s*(?:Read the (?:factsheet|full report)|Press Release)\s*(?:\n|$)/gi, "\n");
 
+  // Remove "Print" standalone lines and "For the analytical data, please click here" links
+  cleaned = cleaned.replace(/(?:^|\n)\s*Print\s*(?:\n|$)/gi, "\n");
+  cleaned = cleaned.replace(/(?:^|\n)\s*For the analytical data,?\s*(?:please\s+)?click here\.?\s*(?:\n|$)/gi, "\n");
+  cleaned = cleaned.replace(/\[For the analytical data,?\s*(?:please\s+)?click here\.?\]\([^)]*\)\s*/gi, "");
+
   // Remove lines that are just "Subject" or "Audience" or "Tags" followed by single-word lines
   cleaned = cleaned.replace(/\n\s*(?:Subject|Audience|Tags)\s*\n(?:\s*\w[\w\s]*\n)*/gi, "\n");
 
