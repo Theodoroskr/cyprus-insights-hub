@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import {
   Globe, RefreshCw, CheckCircle, Clock, AlertTriangle,
   ExternalLink, Rss, Shield, TrendingUp, Building2, Zap,

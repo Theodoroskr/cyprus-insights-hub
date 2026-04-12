@@ -3,7 +3,7 @@ import { X, Mail, Lock, User as UserIcon, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface LoginModalProps {
   isOpen: boolean;
