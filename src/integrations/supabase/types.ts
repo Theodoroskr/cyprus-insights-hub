@@ -539,10 +539,18 @@ export type Database = {
         Row: {
           activity_description: string | null
           address: string | null
+          bar_member: boolean | null
+          cbc_supervised: boolean | null
+          cifa_member: boolean | null
           city: string | null
           city_slug: string | null
           company_name: string
           created_at: string
+          cysec_license_number: string | null
+          cysec_license_type: string | null
+          cysec_licensed: boolean | null
+          cysec_status: string | null
+          icpac_registered: boolean | null
           id: string
           map_lat: number | null
           map_lng: number | null
@@ -552,15 +560,24 @@ export type Database = {
           organisation_type: string | null
           registration_date: string | null
           registration_no: string | null
+          regulatory_flags_updated_at: string | null
           slug: string
         }
         Insert: {
           activity_description?: string | null
           address?: string | null
+          bar_member?: boolean | null
+          cbc_supervised?: boolean | null
+          cifa_member?: boolean | null
           city?: string | null
           city_slug?: string | null
           company_name: string
           created_at?: string
+          cysec_license_number?: string | null
+          cysec_license_type?: string | null
+          cysec_licensed?: boolean | null
+          cysec_status?: string | null
+          icpac_registered?: boolean | null
           id?: string
           map_lat?: number | null
           map_lng?: number | null
@@ -570,15 +587,24 @@ export type Database = {
           organisation_type?: string | null
           registration_date?: string | null
           registration_no?: string | null
+          regulatory_flags_updated_at?: string | null
           slug: string
         }
         Update: {
           activity_description?: string | null
           address?: string | null
+          bar_member?: boolean | null
+          cbc_supervised?: boolean | null
+          cifa_member?: boolean | null
           city?: string | null
           city_slug?: string | null
           company_name?: string
           created_at?: string
+          cysec_license_number?: string | null
+          cysec_license_type?: string | null
+          cysec_licensed?: boolean | null
+          cysec_status?: string | null
+          icpac_registered?: boolean | null
           id?: string
           map_lat?: number | null
           map_lng?: number | null
@@ -588,6 +614,7 @@ export type Database = {
           organisation_type?: string | null
           registration_date?: string | null
           registration_no?: string | null
+          regulatory_flags_updated_at?: string | null
           slug?: string
         }
         Relationships: []
@@ -906,6 +933,65 @@ export type Database = {
           year?: number
         }
         Relationships: []
+      }
+      regulated_entities: {
+        Row: {
+          address: string | null
+          contact_email: string | null
+          created_at: string | null
+          entity_name: string
+          id: string
+          license_number: string | null
+          license_type: string | null
+          match_confidence: number | null
+          matched_company_id: string | null
+          raw_data: Json | null
+          source: string
+          status: string | null
+          updated_at: string | null
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          contact_email?: string | null
+          created_at?: string | null
+          entity_name: string
+          id?: string
+          license_number?: string | null
+          license_type?: string | null
+          match_confidence?: number | null
+          matched_company_id?: string | null
+          raw_data?: Json | null
+          source: string
+          status?: string | null
+          updated_at?: string | null
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          contact_email?: string | null
+          created_at?: string | null
+          entity_name?: string
+          id?: string
+          license_number?: string | null
+          license_type?: string | null
+          match_confidence?: number | null
+          matched_company_id?: string | null
+          raw_data?: Json | null
+          source?: string
+          status?: string | null
+          updated_at?: string | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "regulated_entities_matched_company_id_fkey"
+            columns: ["matched_company_id"]
+            isOneToOne: false
+            referencedRelation: "directory_companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       regulations: {
         Row: {
