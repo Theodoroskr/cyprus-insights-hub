@@ -515,6 +515,10 @@ const EditorialDashboard = () => {
         </DialogContent>
       </Dialog>
 
+        </>
+        )}
+      </div>
+
       <Footer />
     </div>
   );
