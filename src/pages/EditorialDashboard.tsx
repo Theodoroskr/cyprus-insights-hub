@@ -42,6 +42,125 @@ const STATUS_CONFIG: Record<ArticleStatus, { label: string; icon: typeof Clock; 
 
 const PAGE_SIZE = 12;
 
+const REG_SOURCES = ["cysec", "cbc", "icpac", "bar", "cifa"] as const;
+
+function RegulatoryPanel() {
+  const [syncing, setSyncing] = useState<string | null>(null);
+
+  const { data: stats, isLoading, refetch } = useQuery({
+    queryKey: ["regulatory-stats"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("regulated_entities")
+        .select("source, status, matched_company_id");
+      if (error) throw error;
+      const bySource: Record<string, { total: number; matched: number; active: number }> = {};
+      for (const row of data || []) {
+        if (!bySource[row.source]) bySource[row.source] = { total: 0, matched: 0, active: 0 };
+        bySource[row.source].total++;
+        if (row.matched_company_id) bySource[row.source].matched++;
+        if (row.status === "active") bySource[row.source].active++;
+      }
+      return bySource;
+    },
+  });
+
+  const { data: recentEntities } = useQuery({
+    queryKey: ["regulatory-recent"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("regulated_entities")
+        .select("id, source, entity_name, license_type, status, matched_company_id, updated_at")
+        .order("updated_at", { ascending: false })
+        .limit(20);
+      return data || [];
+    },
+  });
+
+  const triggerScrape = async (source: string) => {
+    setSyncing(source);
+    try {
+      const { data, error } = await supabase.functions.invoke("scrape-regulators", {
+        body: { source },
+      });
+      if (error) throw error;
+      toast.success(`Sync complete: ${JSON.stringify(data?.results || {})}`);
+      refetch();
+    } catch (err) {
+      toast.error(`Sync failed: ${(err as Error).message}`);
+    } finally {
+      setSyncing(null);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-xl font-serif font-bold text-foreground mb-1">Regulated Entity Registry</h2>
+        <p className="text-sm text-muted-foreground">Scraped from CySEC, CBC, ICPAC, Bar Association, and CIFA public registers</p>
+      </div>
+
+      {/* Source Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        {REG_SOURCES.map((src) => {
+          const s = stats?.[src];
+          return (
+            <div key={src} className="bento-card text-center">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium mb-1">{src.toUpperCase()}</p>
+              <p className="text-2xl font-bold text-foreground">{s?.total || 0}</p>
+              <p className="text-[10px] text-muted-foreground">
+                {s?.matched || 0} matched · {s?.active || 0} active
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Sync Buttons */}
+      <div className="flex flex-wrap gap-2">
+        {[...REG_SOURCES, "all" as const].map((source) => (
+          <Button
+            key={source}
+            size="sm"
+            variant="outline"
+            onClick={() => triggerScrape(source)}
+            disabled={syncing !== null}
+            className="gap-1.5"
+          >
+            {syncing === source && <RefreshCw className="h-3.5 w-3.5 animate-spin" />}
+            Sync {source === "all" ? "All Sources" : source.toUpperCase()}
+          </Button>
+        ))}
+      </div>
+
+      {/* Recent Entities */}
+      <div>
+        <h3 className="font-semibold text-foreground mb-3">Recent Entities</h3>
+        <div className="space-y-2">
+          {(recentEntities || []).map((e: any) => (
+            <div key={e.id} className="flex items-center gap-3 p-3 border border-border rounded-lg bg-card">
+              <Badge variant="outline" className="text-[10px] uppercase">{e.source}</Badge>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-foreground text-sm truncate">{e.entity_name}</p>
+                <p className="text-[10px] text-muted-foreground">{e.license_type}</p>
+              </div>
+              <Badge variant="outline" className={`text-[10px] ${e.status === "active" ? "border-emerald-300 text-emerald-700" : "border-amber-300 text-amber-700"}`}>
+                {e.status}
+              </Badge>
+              {e.matched_company_id && (
+                <Badge variant="secondary" className="text-[10px]">Matched</Badge>
+              )}
+            </div>
+          ))}
+          {(!recentEntities || recentEntities.length === 0) && !isLoading && (
+            <p className="text-sm text-muted-foreground text-center py-8">No regulated entities yet. Run a sync to populate.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
