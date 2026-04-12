@@ -60,6 +60,7 @@ Given a news article, produce a structured intelligence card with EXACTLY these 
 4. summary — A 1-sentence executive summary (max 30 words)
 5. tags — 3-5 keyword tags relevant to the article
 
+IMPORTANT: Ignore any cookie banners, privacy notices, navigation menus, "you may also like" sections, language selectors, feedback widgets, or other website boilerplate in the input. Focus ONLY on the actual article content.
 Write in a professional, authoritative tone. Be specific about Cyprus implications.`;
 
   try {
