@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function DirectoryHomePage() {
   const navigate = useNavigate();
@@ -41,6 +42,11 @@ export default function DirectoryHomePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Business Directory"
+        description="Explore 60,000+ registered Cyprus companies — search by city, industry, and company name. Full registry data."
+        path="/directory-home"
+      />
       <TopNavigation onSearch={() => {}} />
 
       {/* Hero */}
