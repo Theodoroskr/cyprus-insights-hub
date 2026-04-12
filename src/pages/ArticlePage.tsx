@@ -59,10 +59,6 @@ export default function ArticlePage() {
       .then(({ data, error }) => {
         if (data) {
           setArticle(data as Article);
-          // View tracking deferred to actual page visit (not batch on load)
-          const hash = sessionStorage.getItem("bh_viewer") || Math.random().toString(36).slice(2);
-          if (!sessionStorage.getItem("bh_viewer")) sessionStorage.setItem("bh_viewer", hash);
-          supabase.from("article_views").insert({ article_id: data.id, viewer_hash: hash }).then(() => {});
           // Fetch related
           supabase
             .from("cna_articles")

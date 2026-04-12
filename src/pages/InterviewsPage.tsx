@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { formatDistanceToNow } from "date-fns";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function InterviewsPage() {
   const [interviews, setInterviews] = useState<any[]>([]);

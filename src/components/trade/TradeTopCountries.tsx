@@ -30,8 +30,8 @@ const VISIBLE_FREE = 3;
 const ROTATE_INTERVAL = 4000;
 
 export function TradeTopCountries({ data }: TradeTopCountriesProps) {
-  const { user } = useAuth();
-  const isPremium = false; // TODO: check profile tier
+  const { profile } = useAuth();
+  const isPremium = profile?.tier === "premium";
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Auto-rotate for non-premium users
