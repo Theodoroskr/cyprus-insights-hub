@@ -18,7 +18,14 @@ const VERTICAL_KEYWORDS: Record<string, string[]> = {
     "fintech", "blockchain", "cryptocurrency", "crypto", "digital payments",
     "neobank", "digital banking", "startup", "venture capital", "innovation",
     "technology", "open banking", "e-money", "digital wallet", "defi",
-    "tokenization", "regtech", "crowdfunding", "digital assets",
+    "tokenization", "crowdfunding", "digital assets",
+  ],
+  regtech: [
+    "regtech", "dora", "nis2", "cyber", "ict risk", "digital operational resilience",
+    "threat-led penetration", "tlpt", "incident reporting", "cybersecurity",
+    "enisa", "information security", "data breach", "ransomware", "supply chain risk",
+    "third-party risk", "outsourcing", "cloud risk", "mastercard", "fraud detection",
+    "ai surveillance", "machine learning monitoring",
   ],
   sme: [
     "sme", "small business", "entrepreneurship", "vat", "tax", "gdpr",

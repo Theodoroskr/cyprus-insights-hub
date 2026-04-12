@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase, Cpu } from "lucide-react";
 
 export function Footer() {
   return (
@@ -33,11 +33,14 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4 text-secondary">Quick Links</h4>
             <ul className="space-y-2 text-sm text-primary-foreground/70">
-              <li><Link to="/" className="hover:text-secondary transition-colors">Latest News</Link></li>
+              <li><Link to="/news" className="hover:text-secondary transition-colors">Latest News</Link></li>
               <li><Link to="/directory" className="hover:text-secondary transition-colors">Business Directory</Link></li>
-              <li><Link to="/resources" className="hover:text-secondary transition-colors">EU Funding</Link></li>
+              <li><Link to="/trade" className="hover:text-secondary transition-colors">Trade Intelligence</Link></li>
+              <li><Link to="/whoiswho" className="hover:text-secondary transition-colors">Who's Who</Link></li>
               <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
-              <li><Link to="/resources" className="hover:text-secondary transition-colors">Reports & Analysis</Link></li>
+              <li><Link to="/regtech" className="hover:text-secondary transition-colors">RegTech & ICT Risk</Link></li>
+              <li><Link to="/interviews" className="hover:text-secondary transition-colors">Interviews</Link></li>
+              <li><Link to="/resources" className="hover:text-secondary transition-colors">Resources</Link></li>
             </ul>
           </div>
 
@@ -73,6 +76,12 @@ export function Footer() {
                 <Link to="/sme" className="flex items-center gap-2 hover:text-secondary transition-colors">
                   <Briefcase className="h-4 w-4 text-secondary" />
                   <span>SMEHub.cy</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/regtech" className="flex items-center gap-2 hover:text-secondary transition-colors">
+                  <Cpu className="h-4 w-4 text-secondary" />
+                  <span>RegTechHub.cy</span>
                 </Link>
               </li>
             </ul>
