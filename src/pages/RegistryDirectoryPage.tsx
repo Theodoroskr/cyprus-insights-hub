@@ -160,6 +160,10 @@ export default function RegistryDirectoryPage() {
         title="Cyprus Company Registry Directory"
         description={`Search ${totalCompanies.toLocaleString()}+ registered companies in Cyprus by city, industry, and name. Official registry data.`}
         path="/directory"
+        breadcrumbs={[
+          { name: "Home", href: "/" },
+          { name: "Directory", href: "/directory" },
+        ]}
       />
       <TopNavigation onSearch={() => {}} />
 

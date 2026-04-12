@@ -77,13 +77,17 @@ export default function RegistryCompanyPage() {
         title={`${company.company_name} — Cyprus Company Profile`}
         description={`${company.company_name}${company.city ? ` in ${company.city}` : ""} — ${company.activity_description || "Registered company in Cyprus"}. Registration, NACE code, and business details.`}
         path={`/directory/company/${company.slug || companyId}`}
-      />
-      {/* JSON-LD Structured Data */}
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify({
+        breadcrumbs={[
+          { name: "Home", href: "/" },
+          { name: "Directory", href: "/directory" },
+          ...(citySlug && CITY_LABELS[citySlug] ? [{ name: CITY_LABELS[citySlug], href: `/directory/city/${citySlug}` }] : []),
+          { name: company.company_name, href: `/directory/company/${company.slug || companyId}` },
+        ]}
+        jsonLd={{
           "@context": "https://schema.org",
           "@type": "Organization",
           name: company.company_name,
+          url: `https://businesshub.cy/directory/company/${company.slug || companyId}`,
           ...(company.address && { address: {
             "@type": "PostalAddress",
             streetAddress: company.address,
@@ -93,8 +97,8 @@ export default function RegistryCompanyPage() {
           ...(company.registration_no && { taxID: company.registration_no }),
           ...(company.activity_description && { description: company.activity_description }),
           ...(company.registration_date && { foundingDate: company.registration_date }),
-        })}</script>
-      </Helmet>
+        }}
+      />
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">
