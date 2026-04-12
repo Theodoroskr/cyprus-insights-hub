@@ -76,7 +76,7 @@ const externalResources = [
 export default function ResourcesPage() {
   const [activeTab, setActiveTab] = useState<Tab>("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const handleSearch = (query: string) => console.log("Search:", query);
+  const handleSearch = (query: string) => { if (query.trim()) window.location.href = `/search?q=${encodeURIComponent(query)}`; };
 
   const { data: resources = [], isLoading } = useQuery({
     queryKey: ["resources"],

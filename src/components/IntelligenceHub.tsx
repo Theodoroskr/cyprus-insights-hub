@@ -95,19 +95,7 @@ export function IntelligenceHub() {
       });
   }, []);
 
-  // Record a view for published articles shown on this page
-  useEffect(() => {
-    if (featuredArticles.length === 0) return;
-    const viewerHash = getViewerHash();
-    featuredArticles.forEach((article) => {
-      if (article.id.length > 10) {
-        supabase
-          .from("article_views")
-          .insert({ article_id: article.id, viewer_hash: viewerHash })
-          .then(() => {});
-      }
-    });
-  }, [featuredArticles]);
+  // Views are now tracked on article click, not on load
 
   const displayMostRead = mostRead;
 

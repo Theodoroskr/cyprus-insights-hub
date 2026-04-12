@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { Landmark, Euro, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -99,6 +100,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Cyprus Business Intelligence" description="Real-time business intelligence for Cyprus — compliance, fintech, trade data, company directory, and SME tools." path="/" />
       {/* Live Business Ticker */}
       <BusinessTicker />
       

@@ -61,10 +61,7 @@ export function IntelligenceFeed() {
         if (error) console.error("CNA fetch error:", error);
         if (data && data.length > 0) {
           setDbArticles(data as DBArticle[]);
-          const viewerHash = sessionStorage.getItem("bh_viewer") || Math.random().toString(36).slice(2) + Date.now().toString(36);
-          if (!sessionStorage.getItem("bh_viewer")) sessionStorage.setItem("bh_viewer", viewerHash);
-          const viewInserts = data.map((a: any) => ({ article_id: a.id, viewer_hash: viewerHash }));
-          supabase.from("article_views").insert(viewInserts).then(() => {});
+          // Views are now tracked on click, not on load
         }
       });
   }, []);

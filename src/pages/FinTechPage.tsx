@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -71,7 +72,6 @@ export default function FinTechPage() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    console.log("Search:", query);
   };
 
   const today = new Date();
@@ -84,6 +84,7 @@ export default function FinTechPage() {
 
   return (
     <HubLayout brand="fintechhub" onSearch={handleSearch}>
+      <SEOHead title="FinTech Hub" description="MiCA, DORA, AML & digital finance regulatory intelligence for Cyprus fintech." path="/fintech" />
       {/* Editorial Masthead Hero */}
       <section className="relative border-b border-border bg-card">
         <div className="container mx-auto px-4">

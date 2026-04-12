@@ -279,7 +279,6 @@ export default function SMEPage() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    console.log("Search:", query);
   };
 
   const today = new Date();

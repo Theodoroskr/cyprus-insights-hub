@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import { BrandId, brands } from "@/config/brands";
 import { HubNavigation } from "@/components/hub/HubNavigation";
 import { HubFooter } from "@/components/hub/HubFooter";
@@ -11,12 +12,12 @@ interface HubLayoutProps {
 
 export function HubLayout({ brand, children, onSearch }: HubLayoutProps) {
   const brandConfig = brands[brand];
+  const navigate = useNavigate();
 
   const handleSearch = (query: string) => {
-    if (onSearch) {
-      onSearch(query);
-    } else {
-      console.log(`Search in ${brandConfig.name}:`, query);
+    if (onSearch) onSearch(query);
+    if (query.trim()) {
+      navigate(`/search?q=${encodeURIComponent(query)}`);
     }
   };
 

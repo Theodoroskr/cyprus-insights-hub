@@ -25,6 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
+        // Defer to avoid Supabase client deadlock
         setTimeout(() => fetchProfile(session.user.id), 0);
       } else {
         setProfile(null);
@@ -42,12 +43,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchProfile = async (userId: string) => {
-    const { data } = await supabase
-      .from("profiles")
-      .select("display_name, company, tier")
-      .eq("user_id", userId)
-      .single();
-    if (data) setProfile(data);
+    // Retry up to 3 times with backoff to handle race with DB trigger
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const { data } = await supabase
+        .from("profiles")
+        .select("display_name, company, tier")
+        .eq("user_id", userId)
+        .single();
+      if (data) {
+        setProfile(data);
+        return;
+      }
+      if (attempt < 2) {
+        await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+      }
+    }
   };
 
   const signUp = async (email: string, password: string, meta?: { full_name?: string; company?: string }) => {
@@ -55,20 +65,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email,
       password,
       options: {
-        data: { full_name: meta?.full_name },
+        data: { full_name: meta?.full_name, company: meta?.company },
         emailRedirectTo: window.location.origin,
       },
     });
     if (error) throw error;
-    if (meta?.company) {
-      // Will be updated after profile is auto-created
-      setTimeout(async () => {
-        const { data: { user: u } } = await supabase.auth.getUser();
-        if (u) {
-          await supabase.from("profiles").update({ company: meta.company }).eq("user_id", u.id);
-        }
-      }, 1000);
-    }
+    // Profile is auto-created by DB trigger; company is set via metadata
+    // After auth state change fires, fetchProfile will pick it up
   };
 
   const signIn = async (email: string, password: string) => {

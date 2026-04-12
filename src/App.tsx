@@ -1,101 +1,122 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import Index from "./pages/Index";
-import ProfilePage from "./pages/ProfilePage";
-import FinTechPage from "./pages/FinTechPage";
-import CompliancePage from "./pages/CompliancePage";
-import ResourcesPage from "./pages/ResourcesPage";
-import DirectoryPage from "./pages/DirectoryPage";
-import SMEPage from "./pages/SMEPage";
-import DashboardPage from "./pages/DashboardPage";
-import EditorialDashboard from "./pages/EditorialDashboard";
-import ContentSourcesPage from "./pages/ContentSourcesPage";
-import NotFound from "./pages/NotFound";
-
-// Intelligence Directory pages
-import DirectoryHomePage from "./pages/DirectoryHomePage";
-// CompanyDirectoryPage replaced by RegistryDirectoryPage (unified)
-import CompanyProfilePage from "./pages/CompanyProfilePage";
-import PeopleProfilePage from "./pages/PeopleProfilePage";
-import WhoIsWhoPage from "./pages/WhoIsWhoPage";
-import WhoIsWhoProfilePage from "./pages/WhoIsWhoProfilePage";
-import NewsListPage from "./pages/NewsListPage";
-import NewsArticlePage from "./pages/NewsArticlePage";
-import InterviewsPage from "./pages/InterviewsPage";
-import InterviewArticlePage from "./pages/InterviewArticlePage";
-import SearchPage from "./pages/SearchPage";
-import IndustryPage from "./pages/IndustryPage";
-import ArticlePage from "./pages/ArticlePage";
-import TradePage from "./pages/TradePage";
-import SponsoredArticlePage from "./pages/SponsoredArticlePage";
-import CookiePolicyPage from "./pages/CookiePolicyPage";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import TermsOfServicePage from "./pages/TermsOfServicePage";
 import { CookieConsent } from "./components/CookieConsent";
 
-// Registry Directory pages (55K+ companies)
-import RegistryDirectoryPage from "./pages/RegistryDirectoryPage";
-import RegistryCityPage from "./pages/RegistryCityPage";
-import RegistryCompanyPage from "./pages/RegistryCompanyPage";
+// Lazy-loaded route components
+const Index = lazy(() => import("./pages/Index"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const FinTechPage = lazy(() => import("./pages/FinTechPage"));
+const CompliancePage = lazy(() => import("./pages/CompliancePage"));
+const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
+const DirectoryPage = lazy(() => import("./pages/DirectoryPage"));
+const SMEPage = lazy(() => import("./pages/SMEPage"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const EditorialDashboard = lazy(() => import("./pages/EditorialDashboard"));
+const ContentSourcesPage = lazy(() => import("./pages/ContentSourcesPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const DirectoryHomePage = lazy(() => import("./pages/DirectoryHomePage"));
+const CompanyProfilePage = lazy(() => import("./pages/CompanyProfilePage"));
+const PeopleProfilePage = lazy(() => import("./pages/PeopleProfilePage"));
+const WhoIsWhoPage = lazy(() => import("./pages/WhoIsWhoPage"));
+const WhoIsWhoProfilePage = lazy(() => import("./pages/WhoIsWhoProfilePage"));
+const NewsListPage = lazy(() => import("./pages/NewsListPage"));
+const NewsArticlePage = lazy(() => import("./pages/NewsArticlePage"));
+const InterviewsPage = lazy(() => import("./pages/InterviewsPage"));
+const InterviewArticlePage = lazy(() => import("./pages/InterviewArticlePage"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
+const IndustryPage = lazy(() => import("./pages/IndustryPage"));
+const ArticlePage = lazy(() => import("./pages/ArticlePage"));
+const TradePage = lazy(() => import("./pages/TradePage"));
+const SponsoredArticlePage = lazy(() => import("./pages/SponsoredArticlePage"));
+const CookiePolicyPage = lazy(() => import("./pages/CookiePolicyPage"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const TermsOfServicePage = lazy(() => import("./pages/TermsOfServicePage"));
+const RegistryDirectoryPage = lazy(() => import("./pages/RegistryDirectoryPage"));
+const RegistryCityPage = lazy(() => import("./pages/RegistryCityPage"));
+const RegistryCompanyPage = lazy(() => import("./pages/RegistryCompanyPage"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000,   // 10 minutes
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+function RouteLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="text-center">
+        <div className="w-8 h-8 border-2 border-secondary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-sm text-muted-foreground">Loading…</p>
+      </div>
+    </div>
+  );
+}
 
 const App = () => (
   <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              {/* Original routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/profile/:id" element={<ProfilePage />} />
-              <Route path="/fintech" element={<FinTechPage />} />
-              <Route path="/compliance" element={<CompliancePage />} />
-              <Route path="/resources" element={<ResourcesPage />} />
-              <Route path="/sme" element={<SMEPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/editorial" element={<EditorialDashboard />} />
-              <Route path="/admin/sources" element={<ContentSourcesPage />} />
-              <Route path="/article/:id" element={<ArticlePage />} />
-              <Route path="/trade" element={<TradePage />} />
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Suspense fallback={<RouteLoader />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/profile/:id" element={<ProfilePage />} />
+                  <Route path="/fintech" element={<FinTechPage />} />
+                  <Route path="/compliance" element={<CompliancePage />} />
+                  <Route path="/resources" element={<ResourcesPage />} />
+                  <Route path="/sme" element={<SMEPage />} />
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/editorial" element={<EditorialDashboard />} />
+                  <Route path="/admin/sources" element={<ContentSourcesPage />} />
+                  <Route path="/article/:id" element={<ArticlePage />} />
+                  <Route path="/trade" element={<TradePage />} />
 
-              {/* Company Directory (55K+ companies) */}
-              <Route path="/directory" element={<RegistryDirectoryPage />} />
-              <Route path="/directory/city/:citySlug" element={<RegistryCityPage />} />
-              <Route path="/directory/:companyId" element={<RegistryCompanyPage />} />
+                  {/* Company Directory (55K+ companies) */}
+                  <Route path="/directory" element={<RegistryDirectoryPage />} />
+                  <Route path="/directory/city/:citySlug" element={<RegistryCityPage />} />
+                  <Route path="/directory/:companyId" element={<RegistryCompanyPage />} />
 
-              {/* Intelligence Directory routes */}
-              <Route path="/companies/:slug" element={<CompanyProfilePage />} />
-              <Route path="/people/:slug" element={<PeopleProfilePage />} />
-              <Route path="/whoiswho" element={<WhoIsWhoPage />} />
-              <Route path="/whoiswho/:slug" element={<WhoIsWhoProfilePage />} />
-              <Route path="/news" element={<NewsListPage />} />
-              <Route path="/news/:slug" element={<NewsArticlePage />} />
-              <Route path="/interviews" element={<InterviewsPage />} />
-              <Route path="/interviews/:slug" element={<InterviewArticlePage />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/industries/:slug" element={<IndustryPage />} />
-              <Route path="/sponsored/:id" element={<SponsoredArticlePage />} />
-              <Route path="/cookies" element={<CookiePolicyPage />} />
-              <Route path="/privacy" element={<PrivacyPolicyPage />} />
-              <Route path="/terms" element={<TermsOfServicePage />} />
+                  {/* Intelligence Directory routes */}
+                  <Route path="/companies/:slug" element={<CompanyProfilePage />} />
+                  <Route path="/people/:slug" element={<PeopleProfilePage />} />
+                  <Route path="/whoiswho" element={<WhoIsWhoPage />} />
+                  <Route path="/whoiswho/:slug" element={<WhoIsWhoProfilePage />} />
+                  <Route path="/news" element={<NewsListPage />} />
+                  <Route path="/news/:slug" element={<NewsArticlePage />} />
+                  <Route path="/interviews" element={<InterviewsPage />} />
+                  <Route path="/interviews/:slug" element={<InterviewArticlePage />} />
+                  <Route path="/search" element={<SearchPage />} />
+                  <Route path="/industries/:slug" element={<IndustryPage />} />
+                  <Route path="/sponsored/:id" element={<SponsoredArticlePage />} />
+                  <Route path="/cookies" element={<CookiePolicyPage />} />
+                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                  <Route path="/terms" element={<TermsOfServicePage />} />
 
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <CookieConsent />
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+              <CookieConsent />
+            </BrowserRouter>
+          </TooltipProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   </ErrorBoundary>
 );
 
