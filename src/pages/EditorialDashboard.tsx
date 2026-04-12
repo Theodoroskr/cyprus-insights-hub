@@ -291,11 +291,11 @@ function SourcesPanel() {
   );
 }
 
-
+const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory">("articles");
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources">("articles");
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
