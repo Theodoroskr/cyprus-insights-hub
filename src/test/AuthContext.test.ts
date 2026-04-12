@@ -15,10 +15,10 @@ const mockSignOut = vi.fn(() => Promise.resolve({}));
 vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
     auth: {
-      onAuthStateChange: (...args: any[]) => mockOnAuthStateChange(...args),
+      onAuthStateChange: (cb: any) => mockOnAuthStateChange(cb),
       getSession: () => mockGetSession(),
-      signUp: (...args: any[]) => mockSignUp(...args),
-      signInWithPassword: (...args: any[]) => mockSignInWithPassword(...args),
+      signUp: (opts: any) => mockSignUp(opts),
+      signInWithPassword: (opts: any) => mockSignInWithPassword(opts),
       signOut: () => mockSignOut(),
       getUser: vi.fn(() => Promise.resolve({ data: { user: { id: "u1" } } })),
     },
