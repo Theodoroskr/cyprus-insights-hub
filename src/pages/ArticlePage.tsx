@@ -184,7 +184,7 @@ export default function ArticlePage() {
       )}
 
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto" ref={articleRef}>
           {/* Back + meta */}
           <div className="flex items-center justify-between mb-6">
             <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
