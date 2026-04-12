@@ -133,6 +133,51 @@ export type Database = {
           },
         ]
       }
+      banner_placements: {
+        Row: {
+          click_url: string
+          clicks: number
+          created_at: string
+          ends_at: string | null
+          id: string
+          image_url: string | null
+          impressions: number
+          is_active: boolean
+          name: string
+          slot_id: string
+          starts_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          click_url?: string
+          clicks?: number
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          impressions?: number
+          is_active?: boolean
+          name: string
+          slot_id?: string
+          starts_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          click_url?: string
+          clicks?: number
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          impressions?: number
+          is_active?: boolean
+          name?: string
+          slot_id?: string
+          starts_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cna_articles: {
         Row: {
           body_markdown: string | null
