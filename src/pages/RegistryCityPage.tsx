@@ -79,6 +79,11 @@ export default function RegistryCityPage() {
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
+      <SEOHead
+        title={`Companies in ${cityLabel}, Cyprus`}
+        description={`Browse ${total.toLocaleString()} registered companies in ${cityLabel}, Cyprus. Filter by industry and status.`}
+        path={`/directory/${citySlug}`}
+      />
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">
