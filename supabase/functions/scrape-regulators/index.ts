@@ -34,7 +34,7 @@ const SOURCES = [
   {
     key: "cbc",
     name: "CBC — Credit Institutions",
-    url: "https://www.centralbank.cy/en/supervision/supervised-entities",
+    url: "https://www.centralbank.cy/en/licensing-supervision/banks/register-of-credit-institutions-operating-in-cyprus",
     license_type: "Credit Institution",
   },
   {
@@ -46,14 +46,20 @@ const SOURCES = [
   {
     key: "cifa",
     name: "CIFA — Members",
-    url: "https://www.cifacyprus.org/members",
+    url: "https://www.cifacyprus.org/en/members",
     license_type: "Fund Administrator / Investment Manager",
   },
   {
     key: "bar",
     name: "Cyprus Bar Association — Law Firms",
-    url: "https://www.cybar.org.cy/en/members",
+    url: "https://www.cyprusbar.org/CypriotAdvocateMembersPage.aspx",
     license_type: "Law Firm",
+  },
+  {
+    key: "bar",
+    name: "Cyprus Bar Association — Partnerships",
+    url: "https://www.cyprusbar.org/DepePage.aspx",
+    license_type: "Law Firm / Partnership",
   },
 ];
 
