@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
