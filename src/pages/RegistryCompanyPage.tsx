@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown, Eye, EyeOff } from "lucide-react";
+import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown, Eye, EyeOff, ShieldCheck, Scale, BookOpen, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -18,6 +18,46 @@ const CITY_LABELS: Record<string, string> = {
   paphos: "Paphos", famagusta: "Famagusta",
 };
 
+interface RegulatoryBadgeProps {
+  show: boolean;
+  label: string;
+  detail?: string | null;
+  status?: string | null;
+  href: string;
+  icon: React.ReactNode;
+}
+
+function RegulatoryBadge({ show, label, detail, status, href, icon }: RegulatoryBadgeProps) {
+  if (!show) return null;
+  const isActive = !status || status.toLowerCase() === "active";
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`flex items-start gap-3 p-3 border hover:border-secondary/50 transition-colors group ${
+        isActive ? "border-emerald-200 bg-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/30" : "border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/30"
+      }`}
+    >
+      <div className="w-8 h-8 rounded flex items-center justify-center bg-muted shrink-0">
+        {icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-sm text-foreground">{label}</span>
+          <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+        </div>
+        {detail && <p className="text-xs text-muted-foreground mt-0.5">{detail}</p>}
+        {status && (
+          <Badge variant="outline" className={`mt-1 text-[10px] ${isActive ? "border-emerald-300 text-emerald-700" : "border-amber-300 text-amber-700"}`}>
+            {status}
+          </Badge>
+        )}
+      </div>
+    </a>
+  );
+}
+
 export default function RegistryCompanyPage() {
   const { slug, companyId } = useParams<{ slug?: string; companyId?: string }>();
   const { user, profile } = useAuth();
@@ -31,7 +71,6 @@ export default function RegistryCompanyPage() {
   useEffect(() => {
     const identifier = slug || companyId;
     if (!identifier) return;
-    // Try slug first, fall back to id for legacy UUID URLs
     const col = slug ? "slug" : "id";
     supabase
       .from("directory_companies")
@@ -70,6 +109,7 @@ export default function RegistryCompanyPage() {
 
   const isActive = company.organisation_status === "Active";
   const citySlug = company.city_slug;
+  const hasRegulatory = company.cysec_licensed || company.cbc_supervised || company.icpac_registered || company.bar_member || company.cifa_member;
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
@@ -154,6 +194,58 @@ export default function RegistryCompanyPage() {
               </div>
             </div>
           </div>
+
+          {/* Regulatory Status */}
+          {hasRegulatory && (
+            <div className="mb-8">
+              <h2 className="font-serif font-bold text-foreground mb-4 flex items-center gap-2">
+                <ShieldCheck className="h-5 w-5 text-secondary" />
+                Regulatory Status
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <RegulatoryBadge
+                  show={company.cysec_licensed}
+                  label="CySEC Licensed"
+                  detail={[company.cysec_license_type, company.cysec_license_number].filter(Boolean).join(" — ") || null}
+                  status={company.cysec_status}
+                  href="https://www.cysec.gov.cy/en-GB/entities/"
+                  icon={<ShieldCheck className="h-4 w-4 text-emerald-600" />}
+                />
+                <RegulatoryBadge
+                  show={company.cbc_supervised}
+                  label="CBC Supervised"
+                  detail="Central Bank of Cyprus"
+                  status="Active"
+                  href="https://www.centralbank.cy/en/supervision/supervised-entities"
+                  icon={<Building2 className="h-4 w-4 text-emerald-600" />}
+                />
+                <RegulatoryBadge
+                  show={company.icpac_registered}
+                  label="ICPAC Registered"
+                  detail="Institute of Certified Public Accountants"
+                  status="Active"
+                  href="https://www.icpac.org.cy"
+                  icon={<BookOpen className="h-4 w-4 text-emerald-600" />}
+                />
+                <RegulatoryBadge
+                  show={company.bar_member}
+                  label="Bar Association Member"
+                  detail="Cyprus Bar Association"
+                  status="Active"
+                  href="https://www.cybar.org.cy"
+                  icon={<Scale className="h-4 w-4 text-emerald-600" />}
+                />
+                <RegulatoryBadge
+                  show={company.cifa_member}
+                  label="CIFA Member"
+                  detail="Cyprus Investment Funds Association"
+                  status="Active"
+                  href="https://www.cifacyprus.org"
+                  icon={<Briefcase className="h-4 w-4 text-emerald-600" />}
+                />
+              </div>
+            </div>
+          )}
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <InfoCard icon={MapPin} label="City" value={company.city || "—"} />
