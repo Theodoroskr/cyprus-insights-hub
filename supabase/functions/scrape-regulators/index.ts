@@ -259,7 +259,12 @@ Deno.serve(async (req) => {
         for (const entity of entities) {
           if (!entity.entity_name || entity.entity_name.length < 3) continue;
 
-          const match = await matchToDirectory(entity.entity_name, supabase);
+          const match = await matchOrCreateInDirectory(entity.entity_name, entity, src.key, src.license_type, supabase);
+
+          if (!match.id) {
+            console.warn(`Skipping ${entity.entity_name} — no match and creation failed`);
+            continue;
+          }
 
           const { error } = await supabase.from("regulated_entities").upsert({
             source: src.key,
@@ -270,8 +275,8 @@ Deno.serve(async (req) => {
             address: entity.address || null,
             website: entity.website || null,
             raw_data: entity,
-            matched_company_id: match?.id || null,
-            match_confidence: match?.confidence || null,
+            matched_company_id: match.id,
+            match_confidence: match.confidence,
             updated_at: new Date().toISOString(),
           }, { onConflict: "source,entity_name" });
 
@@ -280,8 +285,8 @@ Deno.serve(async (req) => {
             continue;
           }
 
-          // Update directory company flags if matched with high confidence
-          if (match && match.confidence >= 0.75) {
+          // Update directory company flags if matched (not created — created already has flags)
+          if (!match.created && match.confidence >= 0.75) {
             const updates: Record<string, any> = {
               regulatory_flags_updated_at: new Date().toISOString(),
             };
