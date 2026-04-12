@@ -272,20 +272,93 @@ export default function FinTechPage() {
         </div>
       </section>
 
-      {/* Ecosystem Preview — editorial CTA */}
+      {/* FinTech Directory — live from registry */}
       <section className="section-rule">
         <div className="container mx-auto px-4 pb-8">
-          <div className="navy-gradient text-primary-foreground py-10 px-8 text-center">
-            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4">Cyprus FinTech Ecosystem</h2>
-            <p className="text-primary-foreground/70 mb-6 max-w-xl mx-auto article-body text-base">
-              Explore fintech, RegTech, and financial services participants active in Cyprus.
-            </p>
-            <Link to="/directory">
-              <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 gap-2 rounded-none font-sans text-sm font-semibold tracking-wide uppercase">
-                View FinTech Directory
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="section-label text-foreground text-sm">FinTech & Financial Services Directory</h2>
+              <p className="text-xs text-muted-foreground mt-1">
+                {Object.values(categoryCounts).reduce((a, b) => a + b, 0).toLocaleString()}+ companies from the Cyprus Registry
+              </p>
+            </div>
+            <Link to="/directory" className="text-xs text-secondary font-semibold uppercase tracking-wider hover:underline flex items-center gap-1">
+              Full Directory <ArrowRight className="h-3 w-3" />
             </Link>
+          </div>
+
+          {/* Category tabs */}
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-6 pb-1">
+            {FINTECH_CATEGORIES.map((cat) => (
+              <button
+                key={cat.nace}
+                onClick={() => setActiveCategory(cat.nace)}
+                className={`flex items-center gap-1.5 px-3 py-2 text-xs font-medium whitespace-nowrap border transition-colors ${
+                  activeCategory === cat.nace
+                    ? "border-secondary bg-secondary/10 text-secondary"
+                    : "border-border text-muted-foreground hover:border-foreground/30"
+                }`}
+              >
+                <span>{cat.icon}</span>
+                {cat.label}
+                {categoryCounts[cat.nace] != null && (
+                  <Badge variant="outline" className="text-[9px] ml-1 px-1.5 py-0">
+                    {categoryCounts[cat.nace].toLocaleString()}
+                  </Badge>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Companies grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {(categoryCompanies[activeCategory] ?? []).map((company) => (
+              <Link
+                key={company.id}
+                to={`/directory/company/${company.id}`}
+                className="border border-border p-4 hover:border-secondary/40 transition-colors group"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-muted flex items-center justify-center shrink-0">
+                    <Building2 className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-secondary transition-colors">
+                      {company.company_name}
+                    </h4>
+                    {company.city && (
+                      <p className="text-[10px] text-muted-foreground mt-0.5">{company.city}</p>
+                    )}
+                    <Badge
+                      variant="outline"
+                      className={`text-[9px] mt-1.5 ${
+                        company.organisation_status === "Active"
+                          ? "text-emerald-600 border-emerald-200"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {company.organisation_status ?? "Registered"}
+                    </Badge>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* View more CTA */}
+          <div className="mt-4 text-center">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 rounded-none text-xs uppercase tracking-wider"
+              onClick={() => {
+                const cat = FINTECH_CATEGORIES.find((c) => c.nace === activeCategory);
+                navigate(`/directory?q=${encodeURIComponent(cat?.label ?? "financial")}`);
+              }}
+            >
+              View all {FINTECH_CATEGORIES.find((c) => c.nace === activeCategory)?.label} companies
+              <ChevronRight className="h-3.5 w-3.5" />
+            </Button>
           </div>
         </div>
       </section>
