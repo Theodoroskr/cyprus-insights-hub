@@ -286,9 +286,11 @@ export default function ArticlePage() {
           {/* Tabbed: Summary / Full Article */}
           {(() => {
             // body_markdown is "distinct" only if it's long enough to be real content (not just a date)
-            const hasDistinctBody = article.body_markdown
-              && article.body_markdown.trim().length > 80
-              && article.body_markdown.trim() !== (article.summary || "").trim();
+            const normalizedBody = article.body_markdown
+              ? article.body_markdown.replace(/\\n/g, "\n").trim()
+              : "";
+            const hasDistinctBody = normalizedBody.length > 80
+              && normalizedBody !== (article.summary || "").trim();
             if (hasDistinctBody) {
               return (
                 <Tabs defaultValue="summary" className="mb-10">
