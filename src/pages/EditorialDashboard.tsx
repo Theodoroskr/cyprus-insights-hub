@@ -425,6 +425,9 @@ const EditorialDashboard = () => {
           </div>
         )}
       </div>
+        </>
+        )}
+      </div>
 
       {/* Edit Dialog */}
       <Dialog open={!!editingArticle} onOpenChange={(o) => !o && setEditingArticle(null)}>
@@ -514,10 +517,6 @@ const EditorialDashboard = () => {
           </div>
         </DialogContent>
       </Dialog>
-
-        </>
-        )}
-      </div>
 
       <Footer />
     </div>
