@@ -83,7 +83,40 @@ export default function FinTechPage() {
       .then(({ data }) => {
         if (data) setRegulations(data as Regulation[]);
       });
+
+
+    // Fetch fintech directory counts and sample companies per category
+    const nacePrefixes = FINTECH_CATEGORIES.map((c) => c.nace);
+    Promise.all(
+      nacePrefixes.map(async (nace) => {
+        const { count } = await supabase
+          .from("directory_companies")
+          .select("id", { count: "exact", head: true })
+          .eq("nace_code", nace);
+        return { nace, count: count ?? 0 };
+      })
+    ).then((results) => {
+      const counts: Record<string, number> = {};
+      results.forEach((r) => (counts[r.nace] = r.count));
+      setCategoryCounts(counts);
+    });
+
+    // Fetch top 6 companies for the active category
   }, []);
+
+  useEffect(() => {
+    supabase
+      .from("directory_companies")
+      .select("id, company_name, city, organisation_status, activity_description")
+      .eq("nace_code", activeCategory)
+      .order("company_name", { ascending: true })
+      .limit(8)
+      .then(({ data }) => {
+        if (data) {
+          setCategoryCompanies((prev) => ({ ...prev, [activeCategory]: data }));
+        }
+      });
+  }, [activeCategory]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
