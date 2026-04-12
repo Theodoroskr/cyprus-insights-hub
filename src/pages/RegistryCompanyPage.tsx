@@ -19,7 +19,7 @@ const CITY_LABELS: Record<string, string> = {
 };
 
 export default function RegistryCompanyPage() {
-  const { companyId } = useParams<{ companyId: string }>();
+  const { slug, companyId } = useParams<{ slug?: string; companyId?: string }>();
   const { user, profile } = useAuth();
   const { isWatching, toggleWatch } = useWatchlist();
   const [company, setCompany] = useState<any>(null);
@@ -29,17 +29,20 @@ export default function RegistryCompanyPage() {
   const isPremium = profile?.tier === "premium";
 
   useEffect(() => {
-    if (!companyId) return;
+    const identifier = slug || companyId;
+    if (!identifier) return;
+    // Try slug first, fall back to id for legacy UUID URLs
+    const col = slug ? "slug" : "id";
     supabase
       .from("directory_companies")
       .select("*")
-      .eq("id", companyId)
+      .eq(col, identifier)
       .single()
       .then(({ data }) => {
         setCompany(data);
         setLoading(false);
       });
-  }, [companyId]);
+  }, [slug, companyId]);
 
   if (loading) {
     return (
@@ -73,7 +76,7 @@ export default function RegistryCompanyPage() {
       <SEOHead
         title={`${company.company_name} — Cyprus Company Profile`}
         description={`${company.company_name}${company.city ? ` in ${company.city}` : ""} — ${company.activity_description || "Registered company in Cyprus"}. Registration, NACE code, and business details.`}
-        path={`/directory/company/${companyId}`}
+        path={`/directory/company/${company.slug || companyId}`}
       />
       {/* JSON-LD Structured Data */}
       <Helmet>
@@ -121,18 +124,18 @@ export default function RegistryCompanyPage() {
             <div className="flex-1">
               <div className="flex items-start justify-between gap-4">
                 <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
-                {user && companyId && (
+                {user && company?.id && (
                   <Button
-                    variant={isWatching(companyId) ? "default" : "outline"}
+                    variant={isWatching(company.id) ? "default" : "outline"}
                     size="sm"
                     className="gap-1.5 flex-shrink-0"
                     onClick={async () => {
-                      const added = await toggleWatch(companyId, company.company_name, "directory");
+                      const added = await toggleWatch(company.id, company.company_name, "directory");
                       toast.success(added ? `Monitoring ${company.company_name}` : `Removed from watchlist`);
                     }}
                   >
-                    {isWatching(companyId) ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
-                    {isWatching(companyId) ? "Watching" : "Watch"}
+                    {isWatching(company.id) ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                    {isWatching(company.id) ? "Watching" : "Watch"}
                   </Button>
                 )}
               </div>

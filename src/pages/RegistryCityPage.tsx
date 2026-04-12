@@ -53,7 +53,7 @@ export default function RegistryCityPage() {
     setLoading(true);
     let query = supabase
       .from("directory_companies")
-      .select("id, company_name, city, city_slug, activity_description, organisation_type, organisation_status", { count: "exact" })
+      .select("id, slug, company_name, city, city_slug, activity_description, organisation_type, organisation_status", { count: "exact" })
       .eq("city_slug", citySlug);
 
     if (search) {
@@ -158,7 +158,7 @@ export default function RegistryCityPage() {
               {companies.map((c) => (
                 <Link
                   key={c.id}
-                  to={`/directory/${c.id}`}
+                  to={`/directory/company/${c.slug || c.id}`}
                   className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card hover:shadow-md hover:border-secondary/30 transition-all"
                 >
                   <Building2 className="h-7 w-7 text-muted-foreground flex-shrink-0" />

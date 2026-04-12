@@ -184,7 +184,7 @@ export default function DashboardPage() {
               watchlistItems.map((item) => (
                 <div key={item.id} className="flex items-center justify-between px-5 py-4 hover:bg-muted/30 transition-colors">
                   <Link
-                    to={item.company_type === "editorial" ? `/companies/${item.company_slug}` : `/directory/${item.company_id}`}
+                    to={item.company_type === "editorial" ? `/companies/${item.company_slug}` : `/directory/company/${item.company_slug || item.company_id}`}
                     className="flex items-center gap-3 flex-1 min-w-0"
                   >
                     <Building2 className="h-4 w-4 text-secondary flex-shrink-0" />

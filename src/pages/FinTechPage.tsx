@@ -315,7 +315,7 @@ export default function FinTechPage() {
             {(categoryCompanies[activeCategory] ?? []).map((company) => (
               <Link
                 key={company.id}
-                to={`/directory/company/${company.id}`}
+                to={`/directory/company/${company.slug || company.id}`}
                 className="border border-border p-4 hover:border-secondary/40 transition-colors group"
               >
                 <div className="flex items-start gap-3">

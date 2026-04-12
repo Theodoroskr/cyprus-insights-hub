@@ -89,6 +89,8 @@ const App = () => (
                   {/* Company Directory (55K+ companies) */}
                   <Route path="/directory" element={<RegistryDirectoryPage />} />
                   <Route path="/directory/city/:citySlug" element={<RegistryCityPage />} />
+                  <Route path="/directory/company/:slug" element={<RegistryCompanyPage />} />
+                  {/* Legacy UUID fallback */}
                   <Route path="/directory/:companyId" element={<RegistryCompanyPage />} />
 
                   {/* Intelligence Directory routes */}
