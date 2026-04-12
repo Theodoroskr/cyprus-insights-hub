@@ -128,7 +128,7 @@ interface Regulation {
 /* ─── Component ────────────────────────────────────────── */
 
 export default function RegTechPage() {
-  const [activeTab, setActiveTab] = useState<"overview" | "vendors" | "dora" | "frameworks">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "vendors" | "dora" | "frameworks" | "cyber">("overview");
   const [articles, setArticles] = useState<any[]>([]);
   const [regulations, setRegulations] = useState<Regulation[]>([]);
   const [doraCompleted, setDoraCompleted] = useState<Set<number>>(new Set());
@@ -187,6 +187,7 @@ export default function RegTechPage() {
     { id: "overview" as const, label: "Overview" },
     { id: "vendors" as const, label: "Vendor Landscape" },
     { id: "dora" as const, label: "DORA Readiness" },
+    { id: "cyber" as const, label: "Cyber & ICT Risk" },
     { id: "frameworks" as const, label: "Frameworks" },
   ];
 
@@ -548,6 +549,112 @@ export default function RegTechPage() {
                   </a>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ═══════════════════ TAB 5: CYBER & ICT RISK ═══════════════════ */}
+      {activeTab === "cyber" && (
+        <section className="section-rule">
+          <div className="container mx-auto px-4 pb-8">
+            <div className="mb-6">
+              <h2 className="section-label text-foreground text-sm mb-1">Cyber & ICT Risk Intelligence</h2>
+              <p className="text-xs text-muted-foreground">Threat landscape, incident reporting, and ICT resilience for Cyprus-regulated entities</p>
+            </div>
+
+            {/* Threat landscape overview */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+              {[
+                {
+                  title: "ICT Incident Reporting",
+                  description: "DORA mandates classification and reporting of major ICT incidents to CySEC within 4 hours of detection. Establish clear escalation paths and templates.",
+                  icon: Shield,
+                  tag: "DORA Art. 19",
+                },
+                {
+                  title: "Third-Party ICT Risk",
+                  description: "Maintain a register of all ICT third-party providers with risk tiering. Critical providers face direct ESA oversight under the DORA oversight framework.",
+                  icon: Server,
+                  tag: "DORA Art. 28-30",
+                },
+                {
+                  title: "Threat-Led Penetration Testing",
+                  description: "Significant financial entities must conduct TLPT at least every 3 years using qualified external testers following the TIBER-EU framework.",
+                  icon: Lock,
+                  tag: "DORA Art. 26-27",
+                },
+                {
+                  title: "NIS2 Directive Impact",
+                  description: "Cyprus transposition of NIS2 extends cybersecurity obligations to essential and important entities including certain financial infrastructure providers.",
+                  icon: Globe,
+                  tag: "NIS2",
+                },
+                {
+                  title: "Cyber Threat Intelligence",
+                  description: "Voluntary information-sharing arrangements with peers and authorities are encouraged under DORA to improve collective cyber resilience.",
+                  icon: Cpu,
+                  tag: "DORA Art. 45",
+                },
+                {
+                  title: "Business Continuity",
+                  description: "ICT business continuity policies must be tested annually, with recovery time objectives aligned to the criticality of business functions.",
+                  icon: FileText,
+                  tag: "DORA Art. 11-12",
+                },
+              ].map((item, i) => (
+                <Card key={i} className="rounded-none border-border hover:border-regtech/50 transition-colors">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="w-10 h-10 rounded-none bg-regtech/10 flex items-center justify-center">
+                        <item.icon className="h-5 w-5 text-regtech" />
+                      </div>
+                      <Badge variant="outline" className="rounded-none text-[9px] uppercase tracking-wider border-regtech/30 text-regtech">
+                        {item.tag}
+                      </Badge>
+                    </div>
+                    <h3 className="font-serif font-semibold text-foreground mb-2">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Key deadlines */}
+            <div className="border border-border bg-card p-5 mb-6">
+              <h3 className="font-serif font-bold text-foreground mb-4 flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-regtech" /> Key Cyber Compliance Deadlines
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { date: "17 Jan 2025", event: "DORA applies to all financial entities in the EU", status: "In Force" },
+                  { date: "17 Jul 2025", event: "First DORA incident reports due to national competent authorities", status: "Upcoming" },
+                  { date: "17 Oct 2025", event: "NIS2 national transposition deadline for Cyprus", status: "Upcoming" },
+                  { date: "17 Jan 2026", event: "Register of ICT third-party providers submitted to ESAs", status: "Upcoming" },
+                ].map((dl, i) => (
+                  <div key={i} className="flex items-center gap-4 py-2 border-b border-border last:border-0">
+                    <span className="text-xs font-mono text-muted-foreground w-24 shrink-0">{dl.date}</span>
+                    <span className="text-sm text-foreground flex-1">{dl.event}</span>
+                    <Badge variant="outline" className={`text-[9px] rounded-none ${dl.status === "In Force" ? "text-emerald-600 border-emerald-300" : "text-amber-600 border-amber-300"}`}>
+                      {dl.status}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Cross-link */}
+            <div className="flex flex-wrap gap-3">
+              <Link to="/compliance">
+                <Button variant="outline" className="rounded-none text-xs uppercase tracking-wider font-semibold gap-1.5">
+                  <Shield className="h-3.5 w-3.5" /> Compliance Hub
+                </Button>
+              </Link>
+              <Link to="/resources">
+                <Button variant="outline" className="rounded-none text-xs uppercase tracking-wider font-semibold gap-1.5">
+                  <FileText className="h-3.5 w-3.5" /> Cyber Resources
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
