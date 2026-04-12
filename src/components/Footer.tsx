@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase, Cpu } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="navy-gradient text-primary-foreground py-12">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
@@ -85,6 +85,26 @@ export function Footer() {
                 </Link>
               </li>
             </ul>
+          </div>
+
+          {/* Advertise */}
+          <div>
+            <h4 className="font-semibold mb-4 text-secondary">Advertise</h4>
+            <p className="text-xs text-primary-foreground/60 mb-3">
+              Reach compliance officers, FinTech founders, lawyers, and business leaders across Cyprus.
+            </p>
+            <ul className="space-y-1.5 text-xs text-primary-foreground/70 mb-3">
+              <li className="flex items-center gap-1.5"><Megaphone className="h-3 w-3 text-secondary" />Hub sponsor strips</li>
+              <li className="flex items-center gap-1.5"><Mail className="h-3 w-3 text-secondary" />Newsletter placements</li>
+              <li className="flex items-center gap-1.5"><Newspaper className="h-3 w-3 text-secondary" />Sponsored articles</li>
+              <li className="flex items-center gap-1.5"><Building2 className="h-3 w-3 text-secondary" />Featured listings</li>
+            </ul>
+            <a
+              href="mailto:advertise@businesshub.cy"
+              className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-secondary hover:opacity-80 transition-opacity"
+            >
+              Get media kit <ArrowRight className="h-3 w-3" />
+            </a>
           </div>
 
           {/* Contact */}

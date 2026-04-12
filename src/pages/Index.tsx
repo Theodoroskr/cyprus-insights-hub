@@ -114,6 +114,14 @@ const Index = () => {
       {/* Compact Masthead + Trending Topics — FC style */}
       <HeroBanner />
 
+      {/* Free Beta Banner */}
+      <div className="bg-secondary/10 border-b border-secondary/20 py-2.5 text-center text-sm">
+        <span className="text-foreground">🎉 Free during beta — full access, no credit card required.{" "}</span>
+        <Link to="/dashboard" className="text-secondary font-semibold hover:underline">
+          Create free account →
+        </Link>
+      </div>
+
       {/* Vertical Navigator — category tabs */}
       <VerticalNavigator />
 
