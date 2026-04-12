@@ -15,8 +15,9 @@ import {
   Shield, TrendingUp, Building2, Globe,
   CheckCircle, Archive, FileEdit, Eye, Clock,
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
-  AlertTriangle
+  AlertTriangle, Users
 } from "lucide-react";
+import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
