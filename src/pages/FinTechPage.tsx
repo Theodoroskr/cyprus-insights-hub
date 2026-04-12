@@ -71,7 +71,6 @@ export default function FinTechPage() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    console.log("Search:", query);
   };
 
   const today = new Date();
