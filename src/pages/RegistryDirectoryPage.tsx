@@ -103,7 +103,7 @@ export default function RegistryDirectoryPage() {
     setSearch("");
     let query = supabase
       .from("directory_companies")
-      .select("id, company_name, city, city_slug, activity_description, nace_code")
+      .select("id, slug, company_name, city, city_slug, activity_description, nace_code")
       .order("company_name")
       .limit(50);
     if (city) query = query.eq("city_slug", city);
@@ -123,7 +123,7 @@ export default function RegistryDirectoryPage() {
     const term = `%${search.trim()}%`;
     const { data } = await supabase
       .from("directory_companies")
-      .select("id, company_name, city, city_slug, activity_description, organisation_type")
+      .select("id, slug, company_name, city, city_slug, activity_description, organisation_type")
       .or(`company_name.ilike.${term},activity_description.ilike.${term},city.ilike.${term}`)
       .limit(50);
     setSearchResults(data || []);
@@ -281,7 +281,7 @@ export default function RegistryDirectoryPage() {
               {resultsToShow.map((c) => (
                 <Link
                   key={c.id}
-                  to={`/directory/${c.id}`}
+                  to={`/directory/company/${c.slug || c.id}`}
                   className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card hover:shadow-md hover:border-secondary/30 transition-all"
                 >
                   <Building2 className="h-8 w-8 text-muted-foreground flex-shrink-0" />

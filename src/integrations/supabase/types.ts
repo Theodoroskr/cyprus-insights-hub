@@ -507,6 +507,7 @@ export type Database = {
           organisation_type: string | null
           registration_date: string | null
           registration_no: string | null
+          slug: string
         }
         Insert: {
           activity_description?: string | null
@@ -524,6 +525,7 @@ export type Database = {
           organisation_type?: string | null
           registration_date?: string | null
           registration_no?: string | null
+          slug: string
         }
         Update: {
           activity_description?: string | null
@@ -541,6 +543,7 @@ export type Database = {
           organisation_type?: string | null
           registration_date?: string | null
           registration_no?: string | null
+          slug?: string
         }
         Relationships: []
       }
@@ -1527,6 +1530,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_company_slug: {
+        Args: { city: string; company_name: string }
+        Returns: string
+      }
       get_most_read_articles: {
         Args: { _limit?: number }
         Returns: {

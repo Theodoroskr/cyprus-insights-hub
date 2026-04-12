@@ -107,7 +107,7 @@ export default function FinTechPage() {
   useEffect(() => {
     supabase
       .from("directory_companies")
-      .select("id, company_name, city, organisation_status, activity_description")
+      .select("id, slug, company_name, city, organisation_status, activity_description")
       .eq("nace_code", activeCategory)
       .order("company_name", { ascending: true })
       .limit(8)
@@ -315,7 +315,7 @@ export default function FinTechPage() {
             {(categoryCompanies[activeCategory] ?? []).map((company) => (
               <Link
                 key={company.id}
-                to={`/directory/company/${company.id}`}
+                to={`/directory/company/${company.slug || company.id}`}
                 className="border border-border p-4 hover:border-secondary/40 transition-colors group"
               >
                 <div className="flex items-start gap-3">
