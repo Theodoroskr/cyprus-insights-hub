@@ -86,12 +86,12 @@ ${entries.join("\n")}
     const PAGE_SIZE = 20000;
     const { data: companies } = await supabase
       .from("directory_companies")
-      .select("id")
+      .select("slug")
       .order("company_name")
       .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
     const entries = (companies || []).map(
-      (c) => `  <url><loc>${BASE_URL}/directory/company/${c.id}</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>`
+      (c) => `  <url><loc>${BASE_URL}/directory/company/${escapeXml(c.slug)}</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>`
     );
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

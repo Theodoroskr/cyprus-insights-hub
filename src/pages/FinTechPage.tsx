@@ -107,7 +107,7 @@ export default function FinTechPage() {
   useEffect(() => {
     supabase
       .from("directory_companies")
-      .select("id, company_name, city, organisation_status, activity_description")
+      .select("id, slug, company_name, city, organisation_status, activity_description")
       .eq("nace_code", activeCategory)
       .order("company_name", { ascending: true })
       .limit(8)
