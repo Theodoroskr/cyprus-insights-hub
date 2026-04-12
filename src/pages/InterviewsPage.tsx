@@ -18,6 +18,7 @@ export default function InterviewsPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Interviews — Cyprus Business Leaders | Cyprus Intelligence" description="Exclusive interviews with Cyprus' business leaders and decision-makers." />
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">
