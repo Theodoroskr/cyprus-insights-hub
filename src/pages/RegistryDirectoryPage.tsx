@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Search, Building2, MapPin, Star, ArrowRight, Factory } from "lucide-react";
+import { Search, Building2, MapPin, Star, ArrowRight, Factory, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { FeaturedCompaniesSection } from "@/components/FeaturedCompaniesSection";
 import { Button } from "@/components/ui/button";
@@ -50,6 +50,13 @@ export default function RegistryDirectoryPage() {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [filterResults, setFilterResults] = useState<any[] | null>(null);
   const [filterLoading, setFilterLoading] = useState(false);
+  const [regFilters, setRegFilters] = useState({
+    cysec: false,
+    cbc: false,
+    icpac: false,
+    bar: false,
+    cifa: false,
+  });
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -93,8 +100,9 @@ export default function RegistryDirectoryPage() {
   }, [searchParams]);
 
   // Run combined filter whenever city or industry changes
-  const runFilter = async (city: string | null, industry: string | null) => {
-    if (!city && !industry) {
+  const runFilter = async (city: string | null, industry: string | null, reg = regFilters) => {
+    const hasReg = Object.values(reg).some(Boolean);
+    if (!city && !industry && !hasReg) {
       setFilterResults(null);
       return;
     }
@@ -103,11 +111,16 @@ export default function RegistryDirectoryPage() {
     setSearch("");
     let query = supabase
       .from("directory_companies")
-      .select("id, slug, company_name, city, city_slug, activity_description, nace_code")
+      .select("id, slug, company_name, city, city_slug, activity_description, nace_code, cysec_licensed, cbc_supervised, icpac_registered, bar_member, cifa_member")
       .order("company_name")
       .limit(50);
     if (city) query = query.eq("city_slug", city);
     if (industry) query = query.like("nace_code", `${industry}%`);
+    if (reg.cysec) query = query.eq("cysec_licensed", true);
+    if (reg.cbc) query = query.eq("cbc_supervised", true);
+    if (reg.icpac) query = query.eq("icpac_registered", true);
+    if (reg.bar) query = query.eq("bar_member", true);
+    if (reg.cifa) query = query.eq("cifa_member", true);
     const { data } = await query;
     setFilterResults(data || []);
     setFilterLoading(false);
@@ -133,13 +146,19 @@ export default function RegistryDirectoryPage() {
   const handleCityClick = (slug: string) => {
     const next = selectedCity === slug ? null : slug;
     setSelectedCity(next);
-    runFilter(next, selectedIndustry);
+    runFilter(next, selectedIndustry, regFilters);
   };
 
   const handleIndustryClick = (code: string) => {
     const next = selectedIndustry === code ? null : code;
     setSelectedIndustry(next);
-    runFilter(selectedCity, next);
+    runFilter(selectedCity, next, regFilters);
+  };
+
+  const handleRegFilterClick = (key: keyof typeof regFilters) => {
+    const next = { ...regFilters, [key]: !regFilters[key] };
+    setRegFilters(next);
+    runFilter(selectedCity, selectedIndustry, next);
   };
 
   const showingResults = searchResults !== null || filterResults !== null;
