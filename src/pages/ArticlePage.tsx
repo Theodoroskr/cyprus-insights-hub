@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import ReactMarkdown from "react-markdown";
 import { useParams, Link } from "react-router-dom";
@@ -47,6 +47,29 @@ export default function ArticlePage() {
   const [related, setRelated] = useState<Article[]>([]);
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
+  const viewTracked = useRef(false);
+  const articleRef = useRef<HTMLDivElement>(null);
+
+  // Track view via IntersectionObserver — fires once when article content is visible
+  useEffect(() => {
+    if (!article || viewTracked.current) return;
+    const el = articleRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !viewTracked.current) {
+          viewTracked.current = true;
+          const hash = sessionStorage.getItem("bh_viewer") || Math.random().toString(36).slice(2);
+          if (!sessionStorage.getItem("bh_viewer")) sessionStorage.setItem("bh_viewer", hash);
+          supabase.from("article_views").insert({ article_id: article.id, viewer_hash: hash }).then(() => {});
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [article]);
 
   useEffect(() => {
     if (!id) return;
