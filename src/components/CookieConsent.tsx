@@ -17,6 +17,8 @@ export function CookieConsent() {
   const accept = (level: "all" | "essential") => {
     localStorage.setItem("cookie_consent", level);
     setVisible(false);
+    // Dispatch event so analytics scripts can react
+    window.dispatchEvent(new CustomEvent("cookie_consent_change", { detail: { level } }));
   };
 
   if (!visible) return null;

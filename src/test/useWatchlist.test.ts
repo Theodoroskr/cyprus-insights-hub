@@ -1,13 +1,17 @@
 import { describe, it, expect, vi } from "vitest";
-import { renderHook } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 
 vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
     from: vi.fn(() => ({
       select: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
-          order: vi.fn().mockReturnValue(Promise.resolve({ data: [] })),
+          order: vi.fn().mockReturnValue(Promise.resolve({ data: [{ id: "w1", company_id: "c1", company_name: "Test Co", company_slug: "test-co", company_type: "directory", user_id: "user-1", created_at: new Date().toISOString(), notes: null }] })),
         }),
+      }),
+      insert: vi.fn().mockReturnValue(Promise.resolve({ error: null })),
+      delete: vi.fn().mockReturnValue({
+        match: vi.fn().mockReturnValue(Promise.resolve({ error: null })),
       }),
     })),
     auth: {
@@ -30,8 +34,19 @@ describe("useWatchlist", () => {
     expect(result.current.items).toEqual([]);
   });
 
-  it("isWatching returns false for unwatched company", () => {
+  it("loads items and resolves loading to false", async () => {
     const { result } = renderHook(() => useWatchlist());
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+    expect(result.current.items).toHaveLength(1);
+    expect(result.current.items[0].company_name).toBe("Test Co");
+  });
+
+  it("isWatching returns true for watched company after load", async () => {
+    const { result } = renderHook(() => useWatchlist());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.isWatching("c1")).toBe(true);
     expect(result.current.isWatching("unknown-id")).toBe(false);
   });
 
