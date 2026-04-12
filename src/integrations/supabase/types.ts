@@ -703,6 +703,74 @@ export type Database = {
         }
         Relationships: []
       }
+      kyb_reports: {
+        Row: {
+          amount_eur: number | null
+          buyer_company: string | null
+          buyer_email: string
+          buyer_name: string | null
+          company_id: string | null
+          company_name: string
+          company_reg_number: string | null
+          created_at: string | null
+          generated_at: string | null
+          id: string
+          paid_at: string | null
+          report_data: Json | null
+          report_url: string | null
+          status: string
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount_eur?: number | null
+          buyer_company?: string | null
+          buyer_email: string
+          buyer_name?: string | null
+          company_id?: string | null
+          company_name: string
+          company_reg_number?: string | null
+          created_at?: string | null
+          generated_at?: string | null
+          id?: string
+          paid_at?: string | null
+          report_data?: Json | null
+          report_url?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount_eur?: number | null
+          buyer_company?: string | null
+          buyer_email?: string
+          buyer_name?: string | null
+          company_id?: string | null
+          company_name?: string
+          company_reg_number?: string | null
+          created_at?: string | null
+          generated_at?: string | null
+          id?: string
+          paid_at?: string | null
+          report_data?: Json | null
+          report_url?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kyb_reports_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "directory_companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       locations: {
         Row: {
           country: string
