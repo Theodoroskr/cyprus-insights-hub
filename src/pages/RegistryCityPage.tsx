@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 const CITY_LABELS: Record<string, string> = {
   nicosia: "Nicosia",
@@ -78,6 +79,11 @@ export default function RegistryCityPage() {
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
+      <SEOHead
+        title={`Companies in ${cityLabel}, Cyprus`}
+        description={`Browse ${total.toLocaleString()} registered companies in ${cityLabel}, Cyprus. Filter by industry and status.`}
+        path={`/directory/${citySlug}`}
+      />
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 const CITY_META: Record<string, { label: string }> = {
   nicosia: { label: "Nicosia" },
@@ -155,6 +156,11 @@ export default function RegistryDirectoryPage() {
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
+      <SEOHead
+        title="Cyprus Company Registry Directory"
+        description={`Search ${totalCompanies.toLocaleString()}+ registered companies in Cyprus by city, industry, and name. Official registry data.`}
+        path="/directory"
+      />
       <TopNavigation onSearch={() => {}} />
 
       {/* Hero */}

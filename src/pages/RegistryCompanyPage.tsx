@@ -9,6 +9,8 @@ import { useWatchlist } from "@/hooks/useWatchlist";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
+import { Helmet } from "react-helmet-async";
 import { toast } from "sonner";
 
 const CITY_LABELS: Record<string, string> = {
@@ -68,6 +70,28 @@ export default function RegistryCompanyPage() {
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
+      <SEOHead
+        title={`${company.company_name} — Cyprus Company Profile`}
+        description={`${company.company_name}${company.city ? ` in ${company.city}` : ""} — ${company.activity_description || "Registered company in Cyprus"}. Registration, NACE code, and business details.`}
+        path={`/directory/company/${companyId}`}
+      />
+      {/* JSON-LD Structured Data */}
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: company.company_name,
+          ...(company.address && { address: {
+            "@type": "PostalAddress",
+            streetAddress: company.address,
+            ...(company.city && { addressLocality: company.city }),
+            addressCountry: "CY",
+          }}),
+          ...(company.registration_no && { taxID: company.registration_no }),
+          ...(company.activity_description && { description: company.activity_description }),
+          ...(company.registration_date && { foundingDate: company.registration_date }),
+        })}</script>
+      </Helmet>
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">
