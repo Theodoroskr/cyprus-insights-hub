@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { SEOHead } from "@/components/SEOHead";
 import ReactMarkdown from "react-markdown";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail, FileText, BookOpen } from "lucide-react";
@@ -135,6 +136,13 @@ export default function ArticlePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={article.what_happened || article.title}
+        description={article.summary || article.why_it_matters || ""}
+        path={`/article/${article.id}`}
+        image={article.image_url || undefined}
+        type="article"
+      />
       <TopNavigation onSearch={() => {}} />
 
       {/* Hero image */}
