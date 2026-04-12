@@ -53,6 +53,7 @@ export function IntelligenceHub() {
       fintech: "FinTech",
       sme: "SME",
       general: "Business",
+      regtech: "RegTech",
     };
     return map[v] || v;
   };
