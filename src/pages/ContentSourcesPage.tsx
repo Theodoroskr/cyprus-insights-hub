@@ -50,7 +50,7 @@ const ContentSourcesPage = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["content-sources"] });
-      toast({ title: "Source updated" });
+      toast.success("Source updated");
     },
   });
 
@@ -61,17 +61,10 @@ const ContentSourcesPage = () => {
         body: { slug },
       });
       if (error) throw error;
-      toast({
-        title: "Scrape complete",
-        description: `Found ${data.total_found} articles, ingested ${data.total_ingested} new.`,
-      });
+      toast.success(`Found ${data.total_found} articles, ingested ${data.total_ingested} new.`);
       queryClient.invalidateQueries({ queryKey: ["content-sources"] });
     } catch (e: any) {
-      toast({
-        title: "Scrape failed",
-        description: e.message || "Unknown error",
-        variant: "destructive",
-      });
+      toast.error(e.message || "Unknown error");
     } finally {
       setScrapingSlug(null);
     }
@@ -84,17 +77,10 @@ const ContentSourcesPage = () => {
         body: {},
       });
       if (error) throw error;
-      toast({
-        title: "Full scrape complete",
-        description: `${data.sources_scraped} sources scraped. ${data.total_found} found, ${data.total_ingested} ingested.`,
-      });
+      toast.success(`${data.sources_scraped} sources scraped. ${data.total_found} found, ${data.total_ingested} ingested.`);
       queryClient.invalidateQueries({ queryKey: ["content-sources"] });
     } catch (e: any) {
-      toast({
-        title: "Scrape failed",
-        description: e.message || "Unknown error",
-        variant: "destructive",
-      });
+      toast.error(e.message || "Unknown error");
     } finally {
       setScrapingSlug(null);
     }

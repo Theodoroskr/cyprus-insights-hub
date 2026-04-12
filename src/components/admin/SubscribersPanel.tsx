@@ -64,7 +64,7 @@ export function SubscribersPanel() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["newsletter-subscribers"] });
-      toast({ title: "Updated", description: "Subscriber status updated." });
+      toast.success("Subscriber status updated.");
     },
   });
 
@@ -78,7 +78,7 @@ export function SubscribersPanel() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["newsletter-subscribers"] });
-      toast({ title: "Deleted", description: "Subscriber removed." });
+      toast.success("Subscriber removed.");
     },
   });
 

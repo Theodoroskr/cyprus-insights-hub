@@ -101,9 +101,9 @@ const EditorialDashboard = () => {
     },
     onSuccess: (_, { status }) => {
       queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
-      toast({ title: `Article ${status}`, description: `Article has been ${status} successfully.` });
+      toast.success(`Article has been ${status} successfully.`);
     },
-    onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
+    onError: (err) => toast.error((err as Error).message),
   });
 
   // Edit mutation
@@ -116,9 +116,9 @@ const EditorialDashboard = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
       setEditingArticle(null);
-      toast({ title: "Saved", description: "Article updated successfully." });
+      toast.success("Article updated successfully.");
     },
-    onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
+    onError: (err) => toast.error((err as Error).message),
   });
 
   // Bulk status mutation
@@ -132,9 +132,9 @@ const EditorialDashboard = () => {
     onSuccess: (_, { ids, status }) => {
       queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
       setSelectedIds(new Set());
-      toast({ title: "Bulk update", description: `${ids.length} article(s) ${status} successfully.` });
+      toast.success(`${ids.length} article(s) ${status} successfully.`);
     },
-    onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
+    onError: (err) => toast.error((err as Error).message),
   });
 
   const toggleSelect = (id: string) => {

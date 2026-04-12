@@ -95,9 +95,9 @@ export function BannersPanel() {
       queryClient.invalidateQueries({ queryKey: ["admin-banners"] });
       setDialogOpen(false);
       setEditingId(null);
-      toast({ title: "Saved", description: "Banner placement saved successfully." });
+      toast.success("Banner placement saved successfully.");
     },
-    onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
+    onError: (err) => toast.error((err as Error).message),
   });
 
   const deleteMutation = useMutation({
@@ -107,9 +107,9 @@ export function BannersPanel() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-banners"] });
-      toast({ title: "Deleted", description: "Banner removed." });
+      toast.success("Banner removed.");
     },
-    onError: (err) => toast({ title: "Error", description: (err as Error).message, variant: "destructive" }),
+    onError: (err) => toast.error((err as Error).message),
   });
 
   const toggleMutation = useMutation({
@@ -151,9 +151,9 @@ export function BannersPanel() {
       if (error) throw error;
       const { data: urlData } = supabase.storage.from("banner-images").getPublicUrl(path);
       setForm((f) => ({ ...f, image_url: urlData.publicUrl }));
-      toast({ title: "Uploaded", description: "Image uploaded successfully." });
+      toast.success("Image uploaded successfully.");
     } catch (err) {
-      toast({ title: "Upload failed", description: (err as Error).message, variant: "destructive" });
+      toast.error((err as Error).message);
     } finally {
       setUploading(false);
     }
@@ -161,7 +161,7 @@ export function BannersPanel() {
 
   const handleSave = () => {
     if (!form.name.trim()) {
-      toast({ title: "Validation", description: "Name is required.", variant: "destructive" });
+      toast.error("Name is required.");
       return;
     }
     saveMutation.mutate({ ...form, id: editingId ?? undefined });
