@@ -96,7 +96,7 @@ export default function DashboardPage() {
     });
   };
 
-  const handleSearch = (q: string) => console.log("Search:", q);
+  const handleSearch = (q: string) => { if (q.trim()) window.location.href = `/search?q=${encodeURIComponent(q)}`; };
 
   if (loading) return null;
   if (!user) return <Navigate to="/" replace />;
