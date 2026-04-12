@@ -456,6 +456,7 @@ const EditorialDashboard = () => {
                   <SelectItem value="fintech">FinTech</SelectItem>
                   <SelectItem value="sme">SME</SelectItem>
                   <SelectItem value="general">General</SelectItem>
+                  <SelectItem value="regtech">RegTech</SelectItem>
                 </SelectContent>
               </Select>
             </div>
