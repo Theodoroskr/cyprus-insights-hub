@@ -42,6 +42,8 @@ const RegistryDirectoryPage = lazy(() => import("./pages/RegistryDirectoryPage")
 const RegistryCityPage = lazy(() => import("./pages/RegistryCityPage"));
 const RegistryCompanyPage = lazy(() => import("./pages/RegistryCompanyPage"));
 const RegTechPage = lazy(() => import("./pages/RegTechPage"));
+const KYBSuccessPage = lazy(() => import("./pages/KYBSuccessPage"));
+const KYBCancelledPage = lazy(() => import("./pages/KYBCancelledPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -107,6 +109,8 @@ const App = () => (
                   <Route path="/search" element={<SearchPage />} />
                   <Route path="/industries/:slug" element={<IndustryPage />} />
                   <Route path="/sponsored/:id" element={<SponsoredArticlePage />} />
+                  <Route path="/kyb/success" element={<KYBSuccessPage />} />
+                  <Route path="/kyb/cancelled" element={<KYBCancelledPage />} />
                   <Route path="/cookies" element={<CookiePolicyPage />} />
                   <Route path="/privacy" element={<PrivacyPolicyPage />} />
                   <Route path="/terms" element={<TermsOfServicePage />} />

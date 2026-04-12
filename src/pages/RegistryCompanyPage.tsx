@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown, Eye, EyeOff, ShieldCheck, Scale, BookOpen, ExternalLink } from "lucide-react";
+import { Building2, MapPin, Calendar, FileText, Lock, ChevronRight, Hash, Briefcase, Tag, Crown, Eye, EyeOff, ShieldCheck, Scale, BookOpen, ExternalLink, ShoppingCart, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -195,6 +195,9 @@ export default function RegistryCompanyPage() {
             </div>
           </div>
 
+          {/* KYB Report Card */}
+          <KYBReportCard company={company} />
+
           {/* Regulatory Status */}
           {hasRegulatory && (
             <div className="mb-8">
@@ -312,6 +315,198 @@ export default function RegistryCompanyPage() {
 
       <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} defaultTab="register" />
       <Footer />
+    </div>
+  );
+}
+
+function KYBReportCard({ company }: { company: any }) {
+  const [showModal, setShowModal] = useState(false);
+  const { user } = useAuth();
+
+  const reportFeatures = [
+    "Directors & shareholders on record",
+    "Share capital & ownership structure",
+    "Registered charges & mortgages",
+    "CySEC / CBC / ICPAC regulatory status",
+    "Related intelligence articles",
+    "Auto-generated risk summary",
+    "PDF download — instant delivery",
+  ];
+
+  return (
+    <>
+      <div className="border border-secondary/30 bg-secondary/5 p-6 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center gap-6">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2">
+              <FileText className="h-5 w-5 text-secondary" />
+              <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-secondary">KYB Report</span>
+            </div>
+            <h3 className="font-serif font-bold text-foreground text-lg mb-1">Know Your Business Report</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Full company intelligence report including directors, shareholders, charges, and regulatory status. PDF delivered instantly.
+            </p>
+            <ul className="space-y-1.5">
+              {reportFeatures.map((f, i) => (
+                <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-secondary shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-[10px] text-muted-foreground mt-3 flex items-center gap-1">
+              <Lock className="h-3 w-3" />
+              Secure payment via Stripe · Instant PDF delivery · No subscription
+            </p>
+          </div>
+          <div className="text-center md:text-right flex flex-col items-center md:items-end gap-2">
+            <p className="text-3xl font-bold text-foreground">€45</p>
+            <p className="text-xs text-muted-foreground">one-time</p>
+            <Button
+              onClick={() => setShowModal(true)}
+              className="bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none gap-2 text-xs font-semibold uppercase tracking-wider w-full md:w-auto"
+            >
+              <ShoppingCart className="h-3.5 w-3.5" />
+              Buy Report
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {showModal && (
+        <KYBPurchaseModal company={company} user={user} onClose={() => setShowModal(false)} />
+      )}
+    </>
+  );
+}
+
+function KYBPurchaseModal({ company, user, onClose }: { company: any; user: any; onClose: () => void }) {
+  const [email, setEmail] = useState(user?.email || "");
+  const [name, setName] = useState("");
+  const [buyerCompany, setBuyerCompany] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleCheckout = async () => {
+    if (!email.trim()) { setError("Email is required"); return; }
+    setLoading(true);
+    setError("");
+
+    try {
+      const { data: report, error: dbErr } = await supabase
+        .from("kyb_reports")
+        .insert({
+          company_id: company.id,
+          company_name: company.company_name,
+          company_reg_number: company.registration_no,
+          buyer_email: email.trim().toLowerCase(),
+          buyer_name: name.trim() || null,
+          buyer_company: buyerCompany.trim() || null,
+          status: "pending",
+          user_id: user?.id || null,
+        })
+        .select()
+        .single();
+
+      if (dbErr) throw dbErr;
+
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-kyb-checkout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({
+            report_id: report.id,
+            company_name: company.company_name,
+            buyer_email: email.trim().toLowerCase(),
+          }),
+        }
+      );
+
+      const { url, error: fnErr } = await res.json();
+      if (fnErr) throw new Error(fnErr);
+      window.location.href = url;
+    } catch (err: any) {
+      setError(err.message || "Something went wrong. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-foreground/50 flex items-center justify-center p-4"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div className="bg-card border border-border w-full max-w-md p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-serif font-bold text-lg text-foreground">Order KYB Report</h2>
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground text-xl">✕</button>
+        </div>
+
+        <div className="bg-muted/40 p-3 mb-4">
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Report for:</p>
+          <p className="font-semibold text-foreground">{company.company_name}</p>
+          {company.registration_no && (
+            <p className="text-xs text-muted-foreground">Reg. {company.registration_no}</p>
+          )}
+        </div>
+
+        <div className="space-y-3 mb-4">
+          <div>
+            <label className="text-xs font-medium text-foreground">Email for delivery *</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              className="w-full mt-1 px-3 py-2 border border-border bg-background text-foreground text-sm"
+            />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-foreground">Your name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Full name"
+              className="w-full mt-1 px-3 py-2 border border-border bg-background text-foreground text-sm"
+            />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-foreground">Your company</label>
+            <input
+              type="text"
+              value={buyerCompany}
+              onChange={(e) => setBuyerCompany(e.target.value)}
+              placeholder="Company name (optional)"
+              className="w-full mt-1 px-3 py-2 border border-border bg-background text-foreground text-sm"
+            />
+          </div>
+        </div>
+
+        {error && <p className="text-sm text-destructive mb-3">{error}</p>}
+
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <span className="text-2xl font-bold text-foreground">€45</span>
+            <span className="text-xs text-muted-foreground ml-1">+ VAT if applicable</span>
+          </div>
+          <Button
+            onClick={handleCheckout}
+            disabled={loading}
+            className="bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none text-xs font-semibold uppercase tracking-wider"
+          >
+            {loading ? "Redirecting..." : "Pay with Stripe →"}
+          </Button>
+        </div>
+
+        <p className="text-[10px] text-muted-foreground text-center">
+          Secure payment via Stripe. PDF report delivered to your email instantly after payment.
+        </p>
+      </div>
     </div>
   );
 }

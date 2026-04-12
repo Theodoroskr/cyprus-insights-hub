@@ -32,7 +32,8 @@ interface Notification {
 
 export default function DashboardPage() {
   const { user, profile, loading, signOut } = useAuth();
-  const [activeTab, setActiveTab] = useState<"watchlist" | "bookmarks" | "notifications" | "settings">("watchlist");
+  const [activeTab, setActiveTab] = useState<"watchlist" | "bookmarks" | "reports" | "notifications" | "settings">("watchlist");
+  const [reports, setReports] = useState<any[]>([]);
   const { items: watchlistItems, toggleWatch, loading: watchlistLoading } = useWatchlist();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -46,13 +47,15 @@ export default function DashboardPage() {
 
   const fetchData = async () => {
     if (!user) return;
-    const [itemsRes, notifsRes, prefsRes] = await Promise.all([
+    const [itemsRes, notifsRes, prefsRes, reportsRes] = await Promise.all([
       supabase.from("saved_items").select("*").eq("user_id", user.id).order("created_at", { ascending: false }),
       supabase.from("notifications").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(20),
       supabase.from("user_preferences").select("*").eq("user_id", user.id).single(),
+      supabase.from("kyb_reports").select("*").order("created_at", { ascending: false }),
     ]);
     if (itemsRes.data) setSavedItems(itemsRes.data as SavedItem[]);
     if (notifsRes.data) setNotifications(notifsRes.data as Notification[]);
+    if (reportsRes.data) setReports(reportsRes.data);
     if (prefsRes.data) {
       setDigestFreq((prefsRes.data as any).digest_frequency || "weekly");
       setVerticals((prefsRes.data as any).verticals || []);
@@ -104,6 +107,7 @@ export default function DashboardPage() {
   const tabs = [
     { id: "watchlist" as const, label: "Watchlist", icon: Eye, count: watchlistItems.length },
     { id: "bookmarks" as const, label: "Saved Items", icon: Bookmark, count: savedItems.length },
+    { id: "reports" as const, label: "My Reports", icon: FileText, count: reports.length },
     { id: "notifications" as const, label: "Notifications", icon: Bell, count: notifications.filter((n) => !n.read).length },
     { id: "settings" as const, label: "Preferences", icon: Settings },
   ];
@@ -206,6 +210,47 @@ export default function DashboardPage() {
                   >
                     <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
                   </Button>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* Reports */}
+        {activeTab === "reports" && (
+          <div className="space-y-0 divide-y divide-border border border-border bg-card">
+            {reports.length === 0 ? (
+              <div className="py-12 text-center">
+                <FileText className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">No KYB reports purchased yet</p>
+                <p className="text-xs text-muted-foreground mt-1">Buy a KYB report from any company profile in the directory</p>
+                <Link to="/directory">
+                  <Button variant="outline" size="sm" className="mt-4 gap-1.5">
+                    <Building2 className="h-3.5 w-3.5" /> Browse Directory
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              reports.map((r) => (
+                <div key={r.id} className="flex items-center justify-between px-5 py-4 hover:bg-muted/30 transition-colors">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <FileText className="h-4 w-4 text-secondary flex-shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">{r.company_name}</p>
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                        €{r.amount_eur} · {new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                      </p>
+                    </div>
+                  </div>
+                  <Badge className={`rounded-none text-[10px] uppercase tracking-wider ${
+                    r.status === "generated"
+                      ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                      : r.status === "failed"
+                      ? "bg-destructive/10 text-destructive border-destructive/20"
+                      : "bg-secondary/10 text-secondary border-secondary/20"
+                  }`}>
+                    {r.status === "generated" ? "Ready" : r.status === "paid" ? "Generating…" : r.status}
+                  </Badge>
                 </div>
               ))
             )}
