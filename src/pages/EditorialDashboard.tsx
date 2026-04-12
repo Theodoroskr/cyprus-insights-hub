@@ -494,6 +494,14 @@ const EditorialDashboard = () => {
             >
               <ShieldCheck className="h-3.5 w-3.5" /> Regulatory
             </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "sources" ? "default" : "ghost"}
+              onClick={() => setActivePanel("sources")}
+              className="gap-1.5"
+            >
+              <Rss className="h-3.5 w-3.5" /> Sources
+            </Button>
           </div>
         </div>
 
@@ -503,6 +511,8 @@ const EditorialDashboard = () => {
           <BannersPanel />
         ) : activePanel === "regulatory" ? (
           <RegulatoryPanel />
+        ) : activePanel === "sources" ? (
+          <SourcesPanel />
         ) : (
         <>
 
