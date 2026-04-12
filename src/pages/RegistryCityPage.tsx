@@ -82,7 +82,12 @@ export default function RegistryCityPage() {
       <SEOHead
         title={`Companies in ${cityLabel}, Cyprus`}
         description={`Browse ${total.toLocaleString()} registered companies in ${cityLabel}, Cyprus. Filter by industry and status.`}
-        path={`/directory/${citySlug}`}
+        path={`/directory/city/${citySlug}`}
+        breadcrumbs={[
+          { name: "Home", href: "/" },
+          { name: "Directory", href: "/directory" },
+          { name: cityLabel, href: `/directory/city/${citySlug}` },
+        ]}
       />
       <TopNavigation onSearch={() => {}} />
 

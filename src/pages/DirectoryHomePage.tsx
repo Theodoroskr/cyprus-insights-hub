@@ -46,6 +46,10 @@ export default function DirectoryHomePage() {
         title="Business Directory"
         description="Explore 60,000+ registered Cyprus companies — search by city, industry, and company name. Full registry data."
         path="/directory-home"
+        breadcrumbs={[
+          { name: "Home", href: "/" },
+          { name: "Business Directory", href: "/directory-home" },
+        ]}
       />
       <TopNavigation onSearch={() => {}} />
 
