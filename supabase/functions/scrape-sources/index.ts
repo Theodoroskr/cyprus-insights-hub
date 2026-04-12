@@ -210,34 +210,53 @@ If no distinct articles can be identified, return an empty array.`;
 
 // Strip common boilerplate patterns from scraped markdown
 function cleanBoilerplate(text: string): string {
+  let cleaned = text;
+
   // Remove "Skip to main content" links
-  let cleaned = text.replace(/\[Skip to main content\]\([^)]+\)\s*/gi, "");
-  
-  // Remove cookie consent / privacy blocks
-  cleaned = cleaned.replace(/(?:^|\n).*(?:cookie|privacy settings|accept all cookies|withdraw consent|essential|analytics|save preferences|more info).*(?:\n|$)/gi, "");
-  
+  cleaned = cleaned.replace(/\[Skip to main content\]\([^)]+\)\s*/gi, "");
+
+  // Remove cookie consent / privacy blocks (multi-line)
+  cleaned = cleaned.replace(/(?:^|\n).*?(?:We (?:use|may place) some (?:essential )?cookies)[\s\S]*?(?:Accept|Reject|Adjust)\s*(?:\n|$)/gi, "\n");
+  cleaned = cleaned.replace(/(?:^|\n).*?(?:Cookies on [\w.]+)[\s\S]*?(?:Accept|Reject|Adjust)\s*(?:\n|$)/gi, "\n");
+  cleaned = cleaned.replace(/(?:^|\n).*?(?:cookie|privacy settings|accept all cookies|withdraw consent|save preferences|more info).*(?:\n|$)/gi, "");
+
+  // Remove gov.cy / EU site chrome: "From:" attribution blocks
+  cleaned = cleaned.replace(/\n\s*From:\s*\n[\s\S]*?(?=\n##|\n#[^#]|\n\n[A-Z])/i, "\n");
+
   // Remove "Share this page" blocks with social links
-  cleaned = cleaned.replace(/(?:^|\n)\s*Share this page\s*\n(?:\s*(?:Twitter|Facebook|LinkedIn|Email|Close)\s*\n)*/gi, "\n");
-  
+  cleaned = cleaned.replace(/(?:^|\n)\s*Share this page\s*\n(?:\s*(?:Twitter|Facebook|LinkedIn|Email|Close|X)\s*\n)*/gi, "\n");
+
   // Remove disclaimer/translation blocks
   cleaned = cleaned.replace(/(?:^|\n)\s*Disclaimer\s*\n.*?(?:machine translation|eTranslation).*?(?:\n\n|\n$)/gis, "\n");
   cleaned = cleaned.replace(/(?:^|\n)\s*Select language below\s*\n.*?(?:Accept and continue|Save preferences)/gis, "");
-  
-  // Remove "You may also be interested in" sections and everything after
-  cleaned = cleaned.replace(/\n\s*(?:You may also be interested in|Related (?:articles|content|stories))[\s\S]*$/i, "");
-  
+
+  // Remove language selector lists (long lists of European language names)
+  cleaned = cleaned.replace(/(?:^|\n)(?:\s*(?:български|español|čeština|dansk|Deutsch|eesti|ελληνικά|English|français|Gaeilge|hrvatski|italiano|latviešu|lietuvių|magyar|Malti|Nederlands|polski|português|română|slovenčina|slovenščina|suomi|svenska|русский|Українська)[\s|—]*)+(?:\n|$)/gi, "\n");
+
+  // Remove "You may also like/be interested in" sections and everything after
+  cleaned = cleaned.replace(/\n\s*(?:You may (?:also (?:like|be interested in))|Related (?:articles|content|stories))[\s\S]*$/i, "");
+
   // Remove "About this page" metadata blocks
   cleaned = cleaned.replace(/\n\s*About this page\s*\n[\s\S]*?(?=\n##|\n#[^#]|$)/i, "");
-  
+
+  // Remove "Is this page helpful" feedback widgets
+  cleaned = cleaned.replace(/\n\s*Is this page helpful\s*\??\s*\n(?:\s*(?:Yes|No|Thank you)\s*!?\s*\n?)*/gi, "\n");
+
   // Remove "Read the factsheet / Read the full report / Press Release" link lines
   cleaned = cleaned.replace(/(?:^|\n)\s*(?:Read the (?:factsheet|full report)|Press Release)\s*(?:\n|$)/gi, "\n");
-  
+
   // Remove lines that are just "Subject" or "Audience" or "Tags" followed by single-word lines
   cleaned = cleaned.replace(/\n\s*(?:Subject|Audience|Tags)\s*\n(?:\s*\w[\w\s]*\n)*/gi, "\n");
-  
+
+  // Remove navigation breadcrumbs (e.g. "Home > News > ...")
+  cleaned = cleaned.replace(/(?:^|\n)\s*(?:Home\s*[>›»][\s\S]*?)(?:\n\n)/gi, "\n");
+
+  // Remove footer-like blocks
+  cleaned = cleaned.replace(/\n\s*(?:©|Copyright|All rights reserved)[\s\S]*$/i, "");
+
   // Collapse excessive blank lines
   cleaned = cleaned.replace(/\n{4,}/g, "\n\n\n");
-  
+
   return cleaned.trim();
 }
 
