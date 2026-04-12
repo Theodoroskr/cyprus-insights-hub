@@ -1,30 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 
-// Mock supabase
-const mockSelect = vi.fn();
-const mockInsert = vi.fn();
-const mockDelete = vi.fn();
-const mockFrom = vi.fn();
-const mockAuth = { onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })), getSession: vi.fn(() => Promise.resolve({ data: { session: null } })) };
-
+// Mocks must be declared inline inside vi.mock factories (hoisted)
 vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
-    from: (...args: any[]) => mockFrom(...args),
-    auth: mockAuth,
-  },
-}));
-
-vi.mock("@/contexts/AuthContext", () => ({
-  useAuth: () => ({ user: { id: "user-1" }, session: null, loading: false, profile: null, signUp: vi.fn(), signIn: vi.fn(), signOut: vi.fn() }),
-}));
-
-import { useWatchlist } from "@/hooks/useWatchlist";
-
-describe("useWatchlist", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    mockFrom.mockReturnValue({
+    from: vi.fn(() => ({
       select: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
           order: vi.fn().mockReturnValue(
@@ -44,9 +24,21 @@ describe("useWatchlist", () => {
       delete: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue(Promise.resolve({})),
       }),
-    });
-  });
+    })),
+    auth: {
+      onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
+      getSession: vi.fn(() => Promise.resolve({ data: { session: null } })),
+    },
+  },
+}));
 
+vi.mock("@/contexts/AuthContext", () => ({
+  useAuth: () => ({ user: { id: "user-1" }, session: null, loading: false, profile: null, signUp: vi.fn(), signIn: vi.fn(), signOut: vi.fn() }),
+}));
+
+import { useWatchlist } from "@/hooks/useWatchlist";
+
+describe("useWatchlist", () => {
   it("returns loading=true initially", () => {
     const { result } = renderHook(() => useWatchlist());
     expect(result.current.loading).toBe(true);
