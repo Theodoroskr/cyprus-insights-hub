@@ -12,6 +12,18 @@ import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 
+const FINTECH_CATEGORIES = [
+  { nace: "6499", label: "Financial Services", icon: "💳" },
+  { nace: "6420", label: "Holding Companies", icon: "🏦" },
+  { nace: "6622", label: "Insurance Brokers", icon: "🛡️" },
+  { nace: "6619", label: "Auxiliary Financial", icon: "⚙️" },
+  { nace: "6612", label: "Securities & Trading", icon: "📈" },
+  { nace: "6492", label: "Credit & Lending", icon: "💰" },
+  { nace: "6630", label: "Fund Management", icon: "📊" },
+  { nace: "6430", label: "Trusts & Funds", icon: "🏛️" },
+  { nace: "6419", label: "Banking & Intermediation", icon: "🏧" },
+];
+
 const stats = [
   { label: "Licensed EMIs", value: "45+", icon: Building2 },
   { label: "CySEC Regulated", value: "120+", icon: Shield },
