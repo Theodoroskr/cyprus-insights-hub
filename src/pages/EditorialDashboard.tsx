@@ -163,7 +163,135 @@ function RegulatoryPanel() {
   );
 }
 
-const EditorialDashboard = () => {
+function SourcesPanel() {
+  const queryClient = useQueryClient();
+  const [scrapingSlug, setScrapingSlug] = useState<string | null>(null);
+
+  const { data: sources, isLoading } = useQuery({
+    queryKey: ["content-sources"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("content_sources")
+        .select("*")
+        .order("category", { ascending: true })
+        .order("name", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const triggerScrape = async (slug: string) => {
+    setScrapingSlug(slug);
+    try {
+      const { data, error } = await supabase.functions.invoke("scrape-sources", { body: { slug } });
+      if (error) throw error;
+      toast.success(`Found ${data.total_found} articles, ingested ${data.total_ingested} new.`);
+      queryClient.invalidateQueries({ queryKey: ["content-sources"] });
+    } catch (e: any) {
+      toast.error(e.message || "Scrape failed");
+    } finally {
+      setScrapingSlug(null);
+    }
+  };
+
+  const triggerAll = async () => {
+    setScrapingSlug("__all__");
+    try {
+      const { data, error } = await supabase.functions.invoke("scrape-sources", { body: {} });
+      if (error) throw error;
+      toast.success(`${data.sources_scraped} sources scraped. ${data.total_found} found, ${data.total_ingested} ingested.`);
+      queryClient.invalidateQueries({ queryKey: ["content-sources"] });
+    } catch (e: any) {
+      toast.error(e.message || "Scrape failed");
+    } finally {
+      setScrapingSlug(null);
+    }
+  };
+
+  const groups = [
+    { key: "cyprus", title: "🏛 Cyprus — Regulators & Government" },
+    { key: "eu", title: "🇪🇺 EU — Strategic Layer" },
+    { key: "global", title: "🌍 Global Institutional" },
+  ];
+
+  const neverScraped = sources?.filter((s) => s.active && !s.last_scraped_at).length || 0;
+  const stale = sources?.filter((s) => {
+    if (!s.active || !s.last_scraped_at) return false;
+    return Date.now() - new Date(s.last_scraped_at).getTime() > s.scrape_interval_hours * 60 * 60 * 1000 * 2;
+  }).length || 0;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-serif font-bold text-foreground mb-1">Content Sources</h2>
+          <p className="text-sm text-muted-foreground">
+            {sources?.length || 0} sources · {neverScraped > 0 && <span className="text-amber-600">{neverScraped} never scraped · </span>}
+            {stale > 0 && <span className="text-amber-600">{stale} overdue</span>}
+          </p>
+        </div>
+        <Button size="sm" onClick={triggerAll} disabled={!!scrapingSlug} className="gap-1.5">
+          {scrapingSlug === "__all__" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+          Scrape All
+        </Button>
+      </div>
+
+      {isLoading ? (
+        <p className="text-sm text-muted-foreground text-center py-8">Loading sources…</p>
+      ) : (
+        groups.map(({ key, title }) => {
+          const group = sources?.filter((s) => s.category === key) || [];
+          if (group.length === 0) return null;
+          return (
+            <div key={key}>
+              <h3 className="font-semibold text-foreground mb-3 text-sm">{title}</h3>
+              <div className="border border-border rounded-lg overflow-hidden divide-y divide-border">
+                {group.map((source) => {
+                  const isOverdue = source.active && source.last_scraped_at &&
+                    Date.now() - new Date(source.last_scraped_at).getTime() > source.scrape_interval_hours * 60 * 60 * 1000 * 2;
+                  return (
+                    <div key={source.id} className={`flex items-center gap-3 px-4 py-3 bg-card ${!source.active ? "opacity-50" : ""}`}>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-sm text-foreground truncate">{source.name}</span>
+                          <Badge variant="outline" className="text-[10px] uppercase tracking-wider shrink-0">{source.target_vertical}</Badge>
+                          {!source.active && <Badge variant="secondary" className="text-[10px]">Paused</Badge>}
+                        </div>
+                        <a href={`${source.url}${source.scrape_path}`} target="_blank" rel="noopener noreferrer"
+                          className="text-[11px] text-muted-foreground hover:text-foreground flex items-center gap-1 mt-0.5">
+                          <ExternalLink className="h-2.5 w-2.5" />{source.url}{source.scrape_path}
+                        </a>
+                      </div>
+                      <div className="text-right shrink-0">
+                        {source.last_scraped_at ? (
+                          <span className={`text-[11px] flex items-center gap-1 ${isOverdue ? "text-amber-600" : "text-muted-foreground"}`}>
+                            {isOverdue ? <AlertTriangle className="h-3 w-3" /> : <CheckCircle className="h-3 w-3 text-green-600" />}
+                            {formatDistanceToNow(new Date(source.last_scraped_at), { addSuffix: true })}
+                          </span>
+                        ) : (
+                          <span className="text-[11px] text-amber-600 flex items-center gap-1">
+                            <AlertTriangle className="h-3 w-3" /> Never scraped
+                          </span>
+                        )}
+                      </div>
+                      <Button size="sm" variant="ghost" className="h-7 w-7 p-0 shrink-0"
+                        disabled={!!scrapingSlug || !source.active}
+                        onClick={() => triggerScrape(source.slug)}>
+                        {scrapingSlug === source.slug ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+                      </Button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })
+      )}
+    </div>
+  );
+}
+
+
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
