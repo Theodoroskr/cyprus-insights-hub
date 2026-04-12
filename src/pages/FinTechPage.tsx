@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { SEOHead } from "@/components/SEOHead";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar, Globe, Lock, Cpu, Gavel, type LucideIcon } from "lucide-react";
+import { FileText, Shield, Scale, Server, ArrowRight, TrendingUp, Building2, Users, Landmark, Calendar, Globe, Lock, Cpu, Gavel, ChevronRight, type LucideIcon } from "lucide-react";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
