@@ -140,34 +140,85 @@ async function extractEntities(
   return [];
 }
 
-async function matchToDirectory(
+function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 80);
+}
+
+async function matchOrCreateInDirectory(
   entityName: string,
+  entity: { address?: string; website?: string; license_number?: string; status?: string },
+  sourceKey: string,
+  licenseType: string,
   supabase: any
-): Promise<{ id: string; confidence: number } | null> {
-  // Fuzzy match using first word of company name
+): Promise<{ id: string; confidence: number; created: boolean }> {
+  // Try fuzzy match first
   const firstWord = entityName.split(" ")[0];
-  if (!firstWord || firstWord.length < 2) return null;
+  if (firstWord && firstWord.length >= 2) {
+    const { data } = await supabase
+      .from("directory_companies")
+      .select("id, company_name")
+      .ilike("company_name", `%${firstWord}%`)
+      .limit(10);
 
-  const { data } = await supabase
-    .from("directory_companies")
-    .select("id, company_name")
-    .ilike("company_name", `%${firstWord}%`)
-    .limit(10);
+    if (data && data.length > 0) {
+      const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const target = normalize(entityName);
 
-  if (!data || data.length === 0) return null;
-
-  const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
-  const target = normalize(entityName);
-
-  for (const company of data) {
-    const candidate = normalize(company.company_name);
-    if (candidate === target) return { id: company.id, confidence: 1.0 };
-    if (candidate.includes(target) || target.includes(candidate)) {
-      return { id: company.id, confidence: 0.75 };
+      for (const company of data) {
+        const candidate = normalize(company.company_name);
+        if (candidate === target) return { id: company.id, confidence: 1.0, created: false };
+        if (candidate.includes(target) || target.includes(candidate)) {
+          return { id: company.id, confidence: 0.75, created: false };
+        }
+      }
     }
   }
 
-  return null;
+  // No match found — create new directory entry
+  const slug = generateSlug(entityName) + "-" + Date.now().toString(36);
+  const regulatoryFlags: Record<string, any> = {
+    regulatory_flags_updated_at: new Date().toISOString(),
+  };
+  if (sourceKey === "cysec") {
+    regulatoryFlags.cysec_licensed = true;
+    regulatoryFlags.cysec_license_type = licenseType;
+    regulatoryFlags.cysec_license_number = entity.license_number || null;
+    regulatoryFlags.cysec_status = entity.status || "active";
+  }
+  if (sourceKey === "cbc") regulatoryFlags.cbc_supervised = true;
+  if (sourceKey === "icpac") regulatoryFlags.icpac_registered = true;
+  if (sourceKey === "bar") regulatoryFlags.bar_member = true;
+  if (sourceKey === "cifa") regulatoryFlags.cifa_member = true;
+
+  const { data: created, error } = await supabase
+    .from("directory_companies")
+    .insert({
+      company_name: entityName,
+      slug,
+      address: entity.address || null,
+      organisation_status: "Active",
+      organisation_type: licenseType,
+      activity_description: licenseType,
+      city: "Nicosia", // default; many regulated entities are Nicosia-based
+      city_slug: "nicosia",
+      ...regulatoryFlags,
+    })
+    .select("id")
+    .single();
+
+  if (error) {
+    console.error(`Failed to create directory entry for ${entityName}:`, error.message);
+    return { id: "", confidence: 0, created: false };
+  }
+
+  console.log(`Created new directory entry for: ${entityName}`);
+  return { id: created.id, confidence: 1.0, created: true };
 }
 
 Deno.serve(async (req) => {
