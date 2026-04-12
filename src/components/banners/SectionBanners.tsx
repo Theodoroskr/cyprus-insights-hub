@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Shield, Landmark, AlertTriangle, ArrowRight } from "lucide-react";
+import { Shield, Landmark, AlertTriangle, Cpu, ArrowRight } from "lucide-react";
 
 interface SectionBannerItemProps {
   icon: React.ReactNode;
@@ -41,7 +41,7 @@ export function SectionBanners() {
           <span className="section-label">Verticals</span>
           <div className="flex-1 h-px bg-border" />
         </div>
-        <div className="grid md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-border">
+        <div className="grid md:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-border">
           <div className="md:pr-6">
             <SectionBannerItem
               icon={<Shield className="h-4 w-4 text-compliance" />}
@@ -58,6 +58,15 @@ export function SectionBanners() {
               description="EU licensing, MiCA, and DORA requirements for fintech firms operating from Cyprus."
               href="/fintech"
               ctaText="FinTech"
+            />
+          </div>
+          <div className="md:px-6">
+            <SectionBannerItem
+              icon={<Cpu className="h-4 w-4 text-primary" />}
+              title="RegTech &amp; ICT Risk"
+              description="DORA readiness, NIS2 compliance, and cyber risk frameworks for regulated entities."
+              href="/regtech"
+              ctaText="RegTech"
             />
           </div>
           <div className="md:pl-6">
