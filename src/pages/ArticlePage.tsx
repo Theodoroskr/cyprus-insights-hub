@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import ReactMarkdown from "react-markdown";
 import { useParams, Link } from "react-router-dom";
@@ -47,6 +47,29 @@ export default function ArticlePage() {
   const [related, setRelated] = useState<Article[]>([]);
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
+  const viewTracked = useRef(false);
+  const articleRef = useRef<HTMLDivElement>(null);
+
+  // Track view via IntersectionObserver — fires once when article content is visible
+  useEffect(() => {
+    if (!article || viewTracked.current) return;
+    const el = articleRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !viewTracked.current) {
+          viewTracked.current = true;
+          const hash = sessionStorage.getItem("bh_viewer") || Math.random().toString(36).slice(2);
+          if (!sessionStorage.getItem("bh_viewer")) sessionStorage.setItem("bh_viewer", hash);
+          supabase.from("article_views").insert({ article_id: article.id, viewer_hash: hash }).then(() => {});
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [article]);
 
   useEffect(() => {
     if (!id) return;
@@ -59,10 +82,7 @@ export default function ArticlePage() {
       .then(({ data, error }) => {
         if (data) {
           setArticle(data as Article);
-          // View tracking deferred to actual page visit (not batch on load)
-          const hash = sessionStorage.getItem("bh_viewer") || Math.random().toString(36).slice(2);
-          if (!sessionStorage.getItem("bh_viewer")) sessionStorage.setItem("bh_viewer", hash);
-          supabase.from("article_views").insert({ article_id: data.id, viewer_hash: hash }).then(() => {});
+          // Track view via IntersectionObserver (fires once when article is visible)
           // Fetch related
           supabase
             .from("cna_articles")
@@ -164,7 +184,7 @@ export default function ArticlePage() {
       )}
 
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto" ref={articleRef}>
           {/* Back + meta */}
           <div className="flex items-center justify-between mb-6">
             <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">

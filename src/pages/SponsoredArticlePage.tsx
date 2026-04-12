@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function SponsoredArticlePage() {
   const { id } = useParams<{ id: string }>();
@@ -47,6 +48,7 @@ export default function SponsoredArticlePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title={`${item.title} — Sponsored | Cyprus Intelligence`} description={item.summary || item.title} />
       <TopNavigation onSearch={() => {}} />
 
       {/* Hero */}

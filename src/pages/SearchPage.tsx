@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,6 +43,7 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title={query ? `Search: ${query} | Cyprus Intelligence` : "Search | Cyprus Intelligence"} description="Search companies, people, and articles in the Cyprus business directory." />
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">

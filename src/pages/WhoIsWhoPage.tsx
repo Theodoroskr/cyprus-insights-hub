@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function WhoIsWhoPage() {
   const [people, setPeople] = useState<any[]>([]);
@@ -63,6 +64,7 @@ export default function WhoIsWhoPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Who is Who — Cyprus Business Leaders | Cyprus Intelligence" description="Discover the key business leaders and decision-makers shaping Cyprus' economy." />
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-gradient-to-br from-primary to-primary/90 text-white">

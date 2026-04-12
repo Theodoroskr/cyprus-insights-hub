@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { formatDistanceToNow } from "date-fns";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function InterviewsPage() {
   const [interviews, setInterviews] = useState<any[]>([]);
@@ -17,6 +18,7 @@ export default function InterviewsPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Interviews — Cyprus Business Leaders | Cyprus Intelligence" description="Exclusive interviews with Cyprus' business leaders and decision-makers." />
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-card border-b border-border">
