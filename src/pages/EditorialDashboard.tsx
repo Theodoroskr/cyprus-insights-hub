@@ -73,6 +73,7 @@ const EditorialDashboard = () => {
       let query = supabase
         .from("cna_articles")
         .select("*", { count: "exact" })
+        .order("published_at", { ascending: false, nullsFirst: false })
         .order("created_at", { ascending: false })
         .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
