@@ -69,6 +69,7 @@ export function IntelligenceFeed() {
   const verticalToHub = (v: string) => {
     if (v === "fintech") return "fintechhub" as const;
     if (v === "compliance") return "compliancehub" as const;
+    if (v === "regtech") return "regtechhub" as const;
     return "businesshub" as const;
   };
 
@@ -78,6 +79,7 @@ export function IntelligenceFeed() {
       fintech: "FinTech & Digital Finance",
       sme: "SME & Business",
       general: "Business Intelligence",
+      regtech: "RegTech & ICT Risk",
     };
     return map[v] || "Business Intelligence";
   };

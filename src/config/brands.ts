@@ -1,6 +1,6 @@
-import { Landmark, Shield, Building2, Briefcase } from "lucide-react";
+import { Landmark, Shield, Building2, Briefcase, Cpu } from "lucide-react";
 
-export type BrandId = "businesshub" | "fintechhub" | "compliancehub" | "smehub";
+export type BrandId = "businesshub" | "fintechhub" | "compliancehub" | "smehub" | "regtechhub";
 
 export interface BrandConfig {
   id: BrandId;
@@ -97,6 +97,26 @@ export const brands: Record<BrandId, BrandConfig> = {
     ],
     parentBadge: true,
   },
+  regtechhub: {
+    id: "regtechhub",
+    name: "RegTechHub",
+    domain: ".cy",
+    tagline: "Regulatory Technology Intelligence for Cyprus",
+    logoLetter: "RT",
+    icon: Cpu,
+    colors: {
+      primary: "regtech",
+      accent: "secondary",
+    },
+    navItems: [
+      { label: "Intelligence", href: "/regtech" },
+      { label: "Vendors", href: "/regtech#vendors" },
+      { label: "DORA", href: "/regtech#dora" },
+      { label: "Directory", href: "/directory" },
+      { label: "Resources", href: "/resources" },
+    ],
+    parentBadge: true,
+  },
 };
 
 export const hubLinks = [
@@ -104,4 +124,5 @@ export const hubLinks = [
   { brand: brands.fintechhub, href: "/fintech" },
   { brand: brands.compliancehub, href: "/compliance" },
   { brand: brands.smehub, href: "/sme" },
+  { brand: brands.regtechhub, href: "/regtech" },
 ];

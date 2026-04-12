@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import {
-  Shield, TrendingUp, Building2, Globe,
+  Shield, TrendingUp, Building2, Globe, Cpu,
   CheckCircle, Archive, FileEdit, Eye, Clock,
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
   AlertTriangle, Users
@@ -30,6 +30,7 @@ const VERTICAL_CONFIG: Record<ArticleVertical, { label: string; icon: typeof Shi
   fintech: { label: "FinTech", icon: TrendingUp, color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
   sme: { label: "SME", icon: Building2, color: "bg-amber-100 text-amber-800 border-amber-200" },
   general: { label: "General", icon: Globe, color: "bg-muted text-muted-foreground border-border" },
+  regtech: { label: "RegTech", icon: Cpu, color: "bg-purple-100 text-purple-800 border-purple-200" },
 };
 
 const STATUS_CONFIG: Record<ArticleStatus, { label: string; icon: typeof Clock; color: string }> = {
@@ -279,6 +280,7 @@ const EditorialDashboard = () => {
               <SelectItem value="fintech">FinTech</SelectItem>
               <SelectItem value="sme">SME</SelectItem>
               <SelectItem value="general">General</SelectItem>
+              <SelectItem value="regtech">RegTech</SelectItem>
             </SelectContent>
           </Select>
         </div>

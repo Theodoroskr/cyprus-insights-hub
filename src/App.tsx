@@ -41,6 +41,7 @@ const TermsOfServicePage = lazy(() => import("./pages/TermsOfServicePage"));
 const RegistryDirectoryPage = lazy(() => import("./pages/RegistryDirectoryPage"));
 const RegistryCityPage = lazy(() => import("./pages/RegistryCityPage"));
 const RegistryCompanyPage = lazy(() => import("./pages/RegistryCompanyPage"));
+const RegTechPage = lazy(() => import("./pages/RegTechPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,6 +81,7 @@ const App = () => (
                   <Route path="/compliance" element={<CompliancePage />} />
                   <Route path="/resources" element={<ResourcesPage />} />
                   <Route path="/sme" element={<SMEPage />} />
+                  <Route path="/regtech" element={<RegTechPage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
                   <Route path="/editorial" element={<EditorialDashboard />} />
                   <Route path="/admin/sources" element={<ContentSourcesPage />} />

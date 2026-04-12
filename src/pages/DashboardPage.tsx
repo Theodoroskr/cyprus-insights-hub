@@ -294,12 +294,13 @@ export default function DashboardPage() {
               <h3 className="font-serif font-bold text-foreground mb-3">Verticals of Interest</h3>
               <p className="text-xs text-muted-foreground mb-3">Select the sectors you want covered in your digest.</p>
               <div className="flex flex-wrap gap-2">
-                {[
-                  { label: "Compliance", value: "compliance" },
-                  { label: "FinTech", value: "fintech" },
-                  { label: "SME", value: "sme" },
-                  { label: "General / Economy", value: "general" },
-                ].map((v) => (
+                 {[
+                   { label: "Compliance", value: "compliance" },
+                   { label: "FinTech", value: "fintech" },
+                   { label: "SME", value: "sme" },
+                   { label: "General / Economy", value: "general" },
+                   { label: "RegTech", value: "regtech" },
+                 ].map((v) => (
                   <button
                     key={v.value}
                     onClick={() => setVerticals((prev) => prev.includes(v.value) ? prev.filter((x) => x !== v.value) : [...prev, v.value])}

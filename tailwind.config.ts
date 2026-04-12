@@ -40,6 +40,10 @@ export default {
           DEFAULT: "hsl(var(--sme))",
           light: "hsl(var(--sme-light))",
         },
+        regtech: {
+          DEFAULT: "hsl(var(--regtech))",
+          light: "hsl(var(--regtech-light))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
