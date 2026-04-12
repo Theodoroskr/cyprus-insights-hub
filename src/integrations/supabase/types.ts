@@ -652,6 +652,48 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_subscribers: {
+        Row: {
+          company: string | null
+          confirmed_at: string | null
+          created_at: string
+          email: string
+          frequency: string
+          id: string
+          is_active: boolean
+          job_title: string | null
+          name: string | null
+          updated_at: string
+          verticals: string[]
+        }
+        Insert: {
+          company?: string | null
+          confirmed_at?: string | null
+          created_at?: string
+          email: string
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          job_title?: string | null
+          name?: string | null
+          updated_at?: string
+          verticals?: string[]
+        }
+        Update: {
+          company?: string | null
+          confirmed_at?: string | null
+          created_at?: string
+          email?: string
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          job_title?: string | null
+          name?: string | null
+          updated_at?: string
+          verticals?: string[]
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string | null

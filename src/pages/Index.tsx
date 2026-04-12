@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SEOHead } from "@/components/SEOHead";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { Link } from "react-router-dom";
 import { Landmark, Euro, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -160,6 +161,9 @@ const Index = () => {
         {/* FinTech · EU Funding · Compliance — 3-column row */}
         <HubTripleRow />
       </main>
+
+      {/* Newsletter Signup */}
+      <NewsletterSignup />
 
       {/* Premium CTA Banner */}
       <PremiumCTABanner />

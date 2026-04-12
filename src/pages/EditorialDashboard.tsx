@@ -15,8 +15,9 @@ import {
   Shield, TrendingUp, Building2, Globe,
   CheckCircle, Archive, FileEdit, Eye, Clock,
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
-  AlertTriangle
+  AlertTriangle, Users
 } from "lucide-react";
+import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -43,6 +44,7 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers">("articles");
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -202,10 +204,35 @@ const EditorialDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Editorial Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Review, edit, and publish CNA intelligence articles</p>
+        <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Editorial Dashboard</h1>
+            <p className="text-muted-foreground mt-1">Review, edit, and publish CNA intelligence articles</p>
+          </div>
+          <div className="flex gap-1 border border-border rounded-lg p-1">
+            <Button
+              size="sm"
+              variant={activePanel === "articles" ? "default" : "ghost"}
+              onClick={() => setActivePanel("articles")}
+              className="gap-1.5"
+            >
+              <FileEdit className="h-3.5 w-3.5" /> Articles
+            </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "subscribers" ? "default" : "ghost"}
+              onClick={() => setActivePanel("subscribers")}
+              className="gap-1.5"
+            >
+              <Users className="h-3.5 w-3.5" /> Subscribers
+            </Button>
+          </div>
         </div>
+
+        {activePanel === "subscribers" ? (
+          <SubscribersPanel />
+        ) : (
+        <>
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
@@ -396,6 +423,8 @@ const EditorialDashboard = () => {
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
+        )}
+        </>
         )}
       </div>
 
