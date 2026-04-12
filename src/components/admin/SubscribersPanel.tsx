@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import {
   Users, Search, Download, UserCheck, UserX,
   Mail, Building2, Briefcase, ChevronLeft, ChevronRight,
@@ -64,7 +64,7 @@ export function SubscribersPanel() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["newsletter-subscribers"] });
-      toast({ title: "Updated", description: "Subscriber status updated." });
+      toast.success("Subscriber status updated.");
     },
   });
 
@@ -78,7 +78,7 @@ export function SubscribersPanel() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["newsletter-subscribers"] });
-      toast({ title: "Deleted", description: "Subscriber removed." });
+      toast.success("Subscriber removed.");
     },
   });
 

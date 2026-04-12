@@ -3,7 +3,7 @@ import { X, Mail, Lock, User as UserIcon, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -19,7 +19,6 @@ export function LoginModal({ isOpen, onClose, defaultTab = "login" }: LoginModal
   const [company, setCompany] = useState("");
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
-  const { toast } = useToast();
 
   if (!isOpen) return null;
 
@@ -29,14 +28,14 @@ export function LoginModal({ isOpen, onClose, defaultTab = "login" }: LoginModal
     try {
       if (tab === "login") {
         await signIn(email, password);
-        toast({ title: "Welcome back!", description: "You've been signed in successfully." });
+        toast.success("Welcome back!");
       } else {
         await signUp(email, password, { full_name: fullName, company });
-        toast({ title: "Account created!", description: "Check your email to verify your account." });
+        toast.success("Account created! Check your email to verify.");
       }
       onClose();
     } catch (err: any) {
-      toast({ title: "Error", description: err.message, variant: "destructive" });
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }

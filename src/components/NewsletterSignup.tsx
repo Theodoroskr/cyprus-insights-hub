@@ -9,6 +9,8 @@ import { toast } from "sonner";
 const VERTICALS = [
   { id: "compliance", label: "Compliance & AML" },
   { id: "fintech", label: "FinTech & Digital Finance" },
+  { id: "regtech", label: "RegTech & ICT Risk" },
+  { id: "cyber", label: "Cyber & DORA" },
   { id: "sme", label: "SME & Entrepreneurship" },
   { id: "general", label: "General Business" },
 ];
