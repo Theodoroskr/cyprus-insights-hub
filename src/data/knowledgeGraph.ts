@@ -6,7 +6,7 @@ export interface KGArticle {
   summary: string;
   date: string;
   category: string;
-  hub: "businesshub" | "fintechhub" | "compliancehub";
+  hub: "businesshub" | "fintechhub" | "compliancehub" | "regtechhub";
   image: string;
   /** Profile IDs mentioned in or related to this article */
   personIds: string[];

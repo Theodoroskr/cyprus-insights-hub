@@ -11,7 +11,7 @@ interface IntelligenceCardProps {
   whatHappened: string;
   whyItMatters: string;
   whatToDo: string;
-  hub?: "businesshub" | "fintechhub" | "compliancehub";
+  hub?: "businesshub" | "fintechhub" | "compliancehub" | "regtechhub";
   imageUrl?: string | null;
   linkedPerson?: {
     name: string;
@@ -45,6 +45,7 @@ const hubColors: Record<string, { badge: string; accent: string }> = {
   businesshub: { badge: "bg-secondary/15 text-secondary border-secondary/20", accent: "text-secondary" },
   fintechhub: { badge: "bg-fintech/15 text-fintech border-fintech/20", accent: "text-fintech" },
   compliancehub: { badge: "bg-compliance/15 text-compliance border-compliance/20", accent: "text-compliance" },
+  regtechhub: { badge: "bg-regtech/15 text-regtech border-regtech/20", accent: "text-regtech" },
 };
 
 const sections = [

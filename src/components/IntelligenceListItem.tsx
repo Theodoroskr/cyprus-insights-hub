@@ -12,7 +12,7 @@ interface IntelligenceListItemProps {
   whatHappened: string;
   whyItMatters: string;
   whatToDo: string;
-  hub?: "businesshub" | "fintechhub" | "compliancehub";
+  hub?: "businesshub" | "fintechhub" | "compliancehub" | "regtechhub";
   imageUrl?: string | null;
   linkedPerson?: {
     name: string;
@@ -48,6 +48,7 @@ const hubColors: Record<string, { badge: string; accent: string; border: string 
   businesshub: { badge: "bg-secondary/15 text-secondary border-secondary/20", accent: "text-secondary", border: "group-hover:border-l-secondary" },
   fintechhub: { badge: "bg-fintech/15 text-fintech border-fintech/20", accent: "text-fintech", border: "group-hover:border-l-fintech" },
   compliancehub: { badge: "bg-compliance/15 text-compliance border-compliance/20", accent: "text-compliance", border: "group-hover:border-l-compliance" },
+  regtechhub: { badge: "bg-regtech/15 text-regtech border-regtech/20", accent: "text-regtech", border: "group-hover:border-l-regtech" },
 };
 
 export function IntelligenceListItem({

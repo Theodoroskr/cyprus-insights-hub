@@ -21,6 +21,7 @@ const navItems = [
   { label: "Who's Who", href: "/whoiswho" },
   { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },
+  { label: "RegTech", href: "/regtech" },
 ];
 
 export function TopNavigation({ onSearch }: TopNavigationProps) {
@@ -71,6 +72,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
             <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">Financial Mirror</a>
             <Link to="/fintech" className="hover:text-secondary transition-colors hidden sm:inline">FinTechHub.cy</Link>
             <Link to="/compliance" className="hover:text-secondary transition-colors hidden sm:inline">ComplianceHub.cy</Link>
+            <Link to="/regtech" className="hover:text-secondary transition-colors hidden md:inline">RegTechHub.cy</Link>
           </div>
           <span className="hidden md:inline text-background/50">Est. Nicosia, Cyprus</span>
         </div>

@@ -22,6 +22,8 @@
     --compliance-light: 215 20% 50%;
     --sme: 25 70% 45%;
     --sme-light: 25 60% 55%;
+    --regtech: 262 45% 38%;
+    --regtech-light: 262 35% 52%;
     
     /* Semantic Colors */
     --background: 0 0% 98%;
@@ -76,6 +78,7 @@
     --gradient-hero: linear-gradient(180deg, hsl(213 100% 14%) 0%, hsl(213 80% 20%) 100%);
     --gradient-fintech: linear-gradient(135deg, hsl(174 62% 32%) 0%, hsl(174 50% 45%) 100%);
     --gradient-compliance: linear-gradient(135deg, hsl(215 25% 35%) 0%, hsl(215 20% 50%) 100%);
+    --gradient-regtech: linear-gradient(135deg, hsl(262 45% 38%) 0%, hsl(262 35% 52%) 100%);
     
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgb(0 33 71 / 0.05);

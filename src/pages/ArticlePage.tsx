@@ -31,6 +31,7 @@ const verticalLabel: Record<string, string> = {
   fintech: "FinTech & Digital Finance",
   sme: "SME & Business",
   general: "Business Intelligence",
+  regtech: "RegTech & ICT Risk",
 };
 
 const verticalColor: Record<string, string> = {
@@ -38,6 +39,7 @@ const verticalColor: Record<string, string> = {
   fintech: "bg-fintech/15 text-fintech border-fintech/20",
   sme: "bg-secondary/15 text-secondary border-secondary/20",
   general: "bg-secondary/15 text-secondary border-secondary/20",
+  regtech: "bg-regtech/15 text-regtech border-regtech/20",
 };
 
 export default function ArticlePage() {
