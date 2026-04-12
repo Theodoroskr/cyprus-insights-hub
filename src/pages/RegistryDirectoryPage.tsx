@@ -269,7 +269,35 @@ export default function RegistryDirectoryPage() {
             </div>
           </div>
 
-          {/* Active filter summary */}
+          {/* Regulatory Filters */}
+          <div>
+            <h2 className="text-lg font-serif font-bold text-foreground mb-3 flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-secondary" />
+              Regulatory Status
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { key: "cysec" as const, label: "CySEC Licensed" },
+                { key: "cbc" as const, label: "CBC Supervised" },
+                { key: "icpac" as const, label: "ICPAC Registered" },
+                { key: "bar" as const, label: "Bar Association" },
+                { key: "cifa" as const, label: "CIFA Member" },
+              ].map((f) => (
+                <button
+                  key={f.key}
+                  onClick={() => handleRegFilterClick(f.key)}
+                  className={`text-[11px] px-3 py-1.5 border font-semibold uppercase tracking-wider transition-colors ${
+                    regFilters[f.key]
+                      ? "border-secondary bg-secondary/10 text-secondary"
+                      : "border-border text-muted-foreground hover:border-secondary/50"
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {(selectedCity || selectedIndustry) && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground pt-1">
               <span>Showing:</span>

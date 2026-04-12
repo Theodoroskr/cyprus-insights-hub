@@ -15,7 +15,7 @@ import {
   Shield, TrendingUp, Building2, Globe, Cpu,
   CheckCircle, Archive, FileEdit, Eye, Clock,
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
-  AlertTriangle, Users, Image
+  AlertTriangle, Users, Image, ShieldCheck
 } from "lucide-react";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
 import { BannersPanel } from "@/components/admin/BannersPanel";
@@ -46,7 +46,7 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners">("articles");
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory">("articles");
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -237,6 +237,14 @@ const EditorialDashboard = () => {
             >
               <Image className="h-3.5 w-3.5" /> Banners
             </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "regulatory" ? "default" : "ghost"}
+              onClick={() => setActivePanel("regulatory")}
+              className="gap-1.5"
+            >
+              <ShieldCheck className="h-3.5 w-3.5" /> Regulatory
+            </Button>
           </div>
         </div>
 
@@ -244,6 +252,8 @@ const EditorialDashboard = () => {
           <SubscribersPanel />
         ) : activePanel === "banners" ? (
           <BannersPanel />
+        ) : activePanel === "regulatory" ? (
+          <RegulatoryPanel />
         ) : (
         <>
 
