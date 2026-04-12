@@ -59,6 +59,7 @@ export default function ArticlePage() {
       .then(({ data, error }) => {
         if (data) {
           setArticle(data as Article);
+          // Track view via IntersectionObserver (fires once when article is visible)
           // Fetch related
           supabase
             .from("cna_articles")

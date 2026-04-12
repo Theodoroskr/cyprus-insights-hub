@@ -64,6 +64,7 @@ export default function WhoIsWhoPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Who is Who — Cyprus Business Leaders | Cyprus Intelligence" description="Discover the key business leaders and decision-makers shaping Cyprus' economy." />
       <TopNavigation onSearch={() => {}} />
 
       <div className="bg-gradient-to-br from-primary to-primary/90 text-white">
