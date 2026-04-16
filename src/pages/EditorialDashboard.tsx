@@ -21,6 +21,7 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
 import { BannersPanel } from "@/components/admin/BannersPanel";
+import { DirectoryArticlesPanel } from "@/components/admin/DirectoryArticlesPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -295,7 +296,7 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources">("articles");
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory">("articles");
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -502,6 +503,14 @@ const EditorialDashboard = () => {
             >
               <Rss className="h-3.5 w-3.5" /> Sources
             </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "directory" ? "default" : "ghost"}
+              onClick={() => setActivePanel("directory")}
+              className="gap-1.5"
+            >
+              <FileEdit className="h-3.5 w-3.5" /> Directory
+            </Button>
           </div>
         </div>
 
@@ -513,6 +522,8 @@ const EditorialDashboard = () => {
           <RegulatoryPanel />
         ) : activePanel === "sources" ? (
           <SourcesPanel />
+        ) : activePanel === "directory" ? (
+          <DirectoryArticlesPanel />
         ) : (
         <>
 
