@@ -115,7 +115,7 @@ export default function UserManagementPage() {
   return (
     <>
       <SEOHead title="User Management — Admin" description="Manage users, tiers and roles" />
-      <TopNavigation />
+      <TopNavigation onSearch={() => {}} />
       <main className="min-h-screen bg-background pt-20">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="flex items-center justify-between mb-6">
