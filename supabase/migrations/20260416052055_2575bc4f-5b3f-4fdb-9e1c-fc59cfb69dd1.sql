@@ -1,0 +1,1 @@
+UPDATE public.profiles SET tier = 'premium' WHERE user_id = '7819b69b-0db2-4602-ad81-da5baac5e0f5';
