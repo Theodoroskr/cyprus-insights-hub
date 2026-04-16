@@ -44,6 +44,7 @@ const RegistryCompanyPage = lazy(() => import("./pages/RegistryCompanyPage"));
 const RegTechPage = lazy(() => import("./pages/RegTechPage"));
 const KYBSuccessPage = lazy(() => import("./pages/KYBSuccessPage"));
 const KYBCancelledPage = lazy(() => import("./pages/KYBCancelledPage"));
+const UserManagementPage = lazy(() => import("./pages/UserManagementPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -87,6 +88,7 @@ const App = () => (
                   <Route path="/dashboard" element={<DashboardPage />} />
                   <Route path="/editorial" element={<EditorialDashboard />} />
                   <Route path="/admin/sources" element={<ContentSourcesPage />} />
+                  <Route path="/admin/users" element={<UserManagementPage />} />
                   <Route path="/article/:id" element={<ArticlePage />} />
                   <Route path="/trade" element={<TradePage />} />
 
