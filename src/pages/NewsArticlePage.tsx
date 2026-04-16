@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Building2, User, Tag } from "lucide-react";
+import { ArrowLeft, Building2, User } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -74,7 +75,9 @@ export default function NewsArticlePage() {
 
             <div className="prose max-w-none mt-8">
               <p className="text-lg font-medium text-foreground mb-4">{article.excerpt}</p>
-              <div className="text-muted-foreground leading-relaxed whitespace-pre-line">{article.content}</div>
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <ReactMarkdown>{article.content || ""}</ReactMarkdown>
+              </div>
             </div>
           </article>
 
