@@ -44,6 +44,7 @@ const RegistryCompanyPage = lazy(() => import("./pages/RegistryCompanyPage"));
 const RegTechPage = lazy(() => import("./pages/RegTechPage"));
 const KYBSuccessPage = lazy(() => import("./pages/KYBSuccessPage"));
 const KYBCancelledPage = lazy(() => import("./pages/KYBCancelledPage"));
+const UserManagementPage = lazy(() => import("./pages/UserManagementPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
