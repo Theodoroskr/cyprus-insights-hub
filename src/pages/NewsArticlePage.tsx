@@ -75,7 +75,9 @@ export default function NewsArticlePage() {
 
             <div className="prose max-w-none mt-8">
               <p className="text-lg font-medium text-foreground mb-4">{article.excerpt}</p>
-              <div className="text-muted-foreground leading-relaxed whitespace-pre-line">{article.content}</div>
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <ReactMarkdown>{article.content || ""}</ReactMarkdown>
+              </div>
             </div>
           </article>
 
