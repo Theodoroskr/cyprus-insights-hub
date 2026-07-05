@@ -158,12 +158,28 @@ export function ContentHealthPanel() {
                         <span className="text-xs text-muted-foreground">—</span>
                       )}
                     </td>
+                    <td className="px-4 py-3 text-right whitespace-nowrap">
+                      <Button
+                        size="sm"
+                        variant={s.last_error ? "default" : "outline"}
+                        className="h-7 gap-1.5"
+                        disabled={!s.active || retrying !== null}
+                        onClick={() => retrySource(s.slug)}
+                      >
+                        {retrying === s.slug ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : (
+                          <RefreshCw className="h-3.5 w-3.5" />
+                        )}
+                        Retry
+                      </Button>
+                    </td>
                   </tr>
                 );
               })}
               {(!sources || sources.length === 0) && (
                 <tr>
-                  <td colSpan={4} className="text-center py-8 text-sm text-muted-foreground">
+                  <td colSpan={5} className="text-center py-8 text-sm text-muted-foreground">
                     No sources configured.
                   </td>
                 </tr>
