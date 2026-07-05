@@ -349,115 +349,108 @@ Deno.serve(async (req) => {
           }),
         });
 
+        let markdown = "";
         if (!scrapeResponse.ok) {
           const errBody = await scrapeResponse.text();
           sourceResult.errors.push(`Scrape failed [${scrapeResponse.status}]: ${errBody.slice(0, 200)}`);
         } else {
           const scrapeData = await scrapeResponse.json();
-          const markdown = scrapeData.data?.markdown || scrapeData.markdown || "";
+          markdown = scrapeData.data?.markdown || scrapeData.markdown || "";
           if (!markdown || markdown.length < 100) {
             sourceResult.errors.push("No meaningful content scraped");
-          } else {
-            await processScrape(markdown, source, sourceResult);
+            markdown = "";
           }
         }
 
-        // Extract articles using AI
-        const articles = await extractArticles(markdown, source.name, source.url, LOVABLE_API_KEY);
-        sourceResult.articles_found = articles.length;
+        if (markdown) {
+          // Extract articles using AI
+          const articles = await extractArticles(markdown, source.name, source.url, LOVABLE_API_KEY);
+          sourceResult.articles_found = articles.length;
 
-        // Ingest each article
-        for (const article of articles) {
-          if (!article.title || article.title.length < 10) continue;
+          // Ingest each article
+          for (const article of articles) {
+            if (!article.title || article.title.length < 10) continue;
 
-          // Generate a source_id from title hash to prevent duplicates
-          const sourceId = `${source.slug}:${article.title.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 60)}`;
+            const sourceId = `${source.slug}:${article.title.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 60)}`;
 
-          // Check for duplicate
-          const { data: existing } = await supabase
-            .from("cna_articles")
-            .select("id")
-            .eq("source_id", sourceId)
-            .maybeSingle();
+            const { data: existing } = await supabase
+              .from("cna_articles")
+              .select("id")
+              .eq("source_id", sourceId)
+              .maybeSingle();
 
-          if (existing) continue;
+            if (existing) continue;
 
-          // --- Deep scrape: fetch the full article page ---
-          let fullBody = article.body || "";
-          let articleImageUrl = article.image_url || null;
+            let fullBody = article.body || "";
+            let articleImageUrl = article.image_url || null;
 
-          if (article.url && article.url.startsWith("http")) {
-            try {
-              console.log(`  Deep-scraping article: ${article.url}`);
-              const articleScrape = await fetch("https://api.firecrawl.dev/v1/scrape", {
-                method: "POST",
-                headers: {
-                  Authorization: `Bearer ${FIRECRAWL_API_KEY}`,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  url: article.url,
-                  formats: ["markdown"],
-                  onlyMainContent: true,
-                  waitFor: 3000,
-                }),
+            if (article.url && article.url.startsWith("http")) {
+              try {
+                console.log(`  Deep-scraping article: ${article.url}`);
+                const articleScrape = await fetch("https://api.firecrawl.dev/v1/scrape", {
+                  method: "POST",
+                  headers: {
+                    Authorization: `Bearer ${FIRECRAWL_API_KEY}`,
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    url: article.url,
+                    formats: ["markdown"],
+                    onlyMainContent: true,
+                    waitFor: 3000,
+                  }),
+                });
+
+                if (articleScrape.ok) {
+                  const articleData = await articleScrape.json();
+                  let articleMarkdown = articleData.data?.markdown || articleData.markdown || "";
+                  articleMarkdown = cleanBoilerplate(articleMarkdown);
+                  if (articleMarkdown.length > fullBody.length + 50) {
+                    fullBody = articleMarkdown;
+                    console.log(`  Got full article: ${articleMarkdown.length} chars`);
+                  }
+                  if (!articleImageUrl) {
+                    const meta = articleData.data?.metadata || articleData.metadata;
+                    articleImageUrl = meta?.ogImage || meta?.image || null;
+                  }
+                } else {
+                  console.warn(`  Deep-scrape failed [${articleScrape.status}] for ${article.url}`);
+                }
+              } catch (deepErr) {
+                console.warn(`  Deep-scrape error for ${article.url}:`, deepErr);
+              }
+            }
+
+            fullBody = cleanBoilerplate(fullBody);
+
+            const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
+            const intelligence = await enrichWithAI(article.title, fullBody, vertical, LOVABLE_API_KEY);
+
+            const status = source.auto_publish ? "published" : "draft";
+
+            const { error: insertError } = await supabase
+              .from("cna_articles")
+              .insert({
+                title: article.title,
+                body_markdown: fullBody,
+                source_url: article.url || `${source.url}${source.scrape_path}`,
+                source_id: sourceId,
+                image_url: articleImageUrl,
+                vertical,
+                summary: intelligence.summary,
+                what_happened: intelligence.what_happened,
+                why_it_matters: intelligence.why_it_matters,
+                what_to_do: intelligence.what_to_do,
+                tags: [...intelligence.tags, source.slug, source.category],
+                status,
+                published_at: status === "published" ? new Date().toISOString() : null,
               });
 
-              if (articleScrape.ok) {
-                const articleData = await articleScrape.json();
-                let articleMarkdown = articleData.data?.markdown || articleData.markdown || "";
-                // Clean boilerplate from scraped content
-                articleMarkdown = cleanBoilerplate(articleMarkdown);
-                // Only use the deep-scraped content if it's meaningfully longer than the snippet
-                if (articleMarkdown.length > fullBody.length + 50) {
-                  fullBody = articleMarkdown;
-                  console.log(`  Got full article: ${articleMarkdown.length} chars`);
-                }
-                // Try to grab the article image from metadata if we don't have one
-                if (!articleImageUrl) {
-                  const meta = articleData.data?.metadata || articleData.metadata;
-                  articleImageUrl = meta?.ogImage || meta?.image || null;
-                }
-              } else {
-                console.warn(`  Deep-scrape failed [${articleScrape.status}] for ${article.url}`);
-              }
-            } catch (deepErr) {
-              console.warn(`  Deep-scrape error for ${article.url}:`, deepErr);
+            if (insertError) {
+              sourceResult.errors.push(`Insert failed for "${article.title.slice(0, 40)}": ${insertError.message}`);
+            } else {
+              sourceResult.articles_ingested++;
             }
-          }
-
-          // Clean the final body content
-          fullBody = cleanBoilerplate(fullBody);
-
-          // Classify and enrich using the full body
-          const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
-          const intelligence = await enrichWithAI(article.title, fullBody, vertical, LOVABLE_API_KEY);
-
-          // Determine publish status based on trust level
-          const status = source.auto_publish ? "published" : "draft";
-
-          const { error: insertError } = await supabase
-            .from("cna_articles")
-            .insert({
-              title: article.title,
-              body_markdown: fullBody,
-              source_url: article.url || `${source.url}${source.scrape_path}`,
-              source_id: sourceId,
-              image_url: articleImageUrl,
-              vertical,
-              summary: intelligence.summary,
-              what_happened: intelligence.what_happened,
-              why_it_matters: intelligence.why_it_matters,
-              what_to_do: intelligence.what_to_do,
-              tags: [...intelligence.tags, source.slug, source.category],
-              status,
-              published_at: status === "published" ? new Date().toISOString() : null,
-            });
-
-          if (insertError) {
-            sourceResult.errors.push(`Insert failed for "${article.title.slice(0, 40)}": ${insertError.message}`);
-          } else {
-            sourceResult.articles_ingested++;
           }
         }
 
