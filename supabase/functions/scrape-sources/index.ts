@@ -352,17 +352,14 @@ Deno.serve(async (req) => {
         if (!scrapeResponse.ok) {
           const errBody = await scrapeResponse.text();
           sourceResult.errors.push(`Scrape failed [${scrapeResponse.status}]: ${errBody.slice(0, 200)}`);
-          allResults.push(sourceResult);
-          continue;
-        }
-
-        const scrapeData = await scrapeResponse.json();
-        const markdown = scrapeData.data?.markdown || scrapeData.markdown || "";
-
-        if (!markdown || markdown.length < 100) {
-          sourceResult.errors.push("No meaningful content scraped");
-          allResults.push(sourceResult);
-          continue;
+        } else {
+          const scrapeData = await scrapeResponse.json();
+          const markdown = scrapeData.data?.markdown || scrapeData.markdown || "";
+          if (!markdown || markdown.length < 100) {
+            sourceResult.errors.push("No meaningful content scraped");
+          } else {
+            await processScrape(markdown, source, sourceResult);
+          }
         }
 
         // Extract articles using AI
