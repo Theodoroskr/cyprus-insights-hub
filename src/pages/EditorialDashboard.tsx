@@ -512,6 +512,14 @@ const EditorialDashboard = () => {
             >
               <FileEdit className="h-3.5 w-3.5" /> Directory
             </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "health" ? "default" : "ghost"}
+              onClick={() => setActivePanel("health")}
+              className="gap-1.5"
+            >
+              <AlertTriangle className="h-3.5 w-3.5" /> Health
+            </Button>
           </div>
         </div>
 
@@ -525,6 +533,8 @@ const EditorialDashboard = () => {
           <SourcesPanel />
         ) : activePanel === "directory" ? (
           <DirectoryArticlesPanel />
+        ) : activePanel === "health" ? (
+          <ContentHealthPanel />
         ) : (
         <>
 
