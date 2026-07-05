@@ -335,6 +335,8 @@ export type Database = {
           category: string
           created_at: string
           id: string
+          last_error: string | null
+          last_error_at: string | null
           last_scraped_at: string | null
           name: string
           scrape_interval_hours: number
@@ -352,6 +354,8 @@ export type Database = {
           category?: string
           created_at?: string
           id?: string
+          last_error?: string | null
+          last_error_at?: string | null
           last_scraped_at?: string | null
           name: string
           scrape_interval_hours?: number
@@ -369,6 +373,8 @@ export type Database = {
           category?: string
           created_at?: string
           id?: string
+          last_error?: string | null
+          last_error_at?: string | null
           last_scraped_at?: string | null
           name?: string
           scrape_interval_hours?: number
