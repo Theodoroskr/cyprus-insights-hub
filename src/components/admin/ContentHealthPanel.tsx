@@ -1,8 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
-import { CheckCircle, AlertTriangle, Clock, Activity } from "lucide-react";
+import { CheckCircle, AlertTriangle, Clock, Activity, RefreshCw, Loader2 } from "lucide-react";
 
 type SourceRow = {
   id: string;
@@ -18,6 +21,9 @@ type SourceRow = {
 };
 
 export function ContentHealthPanel() {
+  const queryClient = useQueryClient();
+  const [retrying, setRetrying] = useState<string | null>(null);
+
   const { data: sources, isLoading } = useQuery({
     queryKey: ["content-health"],
     queryFn: async () => {
@@ -30,6 +36,25 @@ export function ContentHealthPanel() {
     },
     refetchInterval: 60000,
   });
+
+  const retrySource = async (slug: string) => {
+    setRetrying(slug);
+    try {
+      const { data, error } = await supabase.functions.invoke("scrape-sources", { body: { slug } });
+      if (error) throw error;
+      const result = data?.results?.[0];
+      if (result?.errors?.length) {
+        toast.error(`Retry failed: ${String(result.errors[0]).slice(0, 140)}`);
+      } else {
+        toast.success(`Retried: found ${data?.total_found ?? 0}, ingested ${data?.total_ingested ?? 0}.`);
+      }
+      queryClient.invalidateQueries({ queryKey: ["content-health"] });
+    } catch (e) {
+      toast.error((e as Error).message || "Retry failed");
+    } finally {
+      setRetrying(null);
+    }
+  };
 
   const totals = {
     all: sources?.length || 0,
@@ -76,6 +101,7 @@ export function ContentHealthPanel() {
                 <th className="text-left px-4 py-2 font-medium">Vertical</th>
                 <th className="text-left px-4 py-2 font-medium">Last scrape</th>
                 <th className="text-left px-4 py-2 font-medium">Last error</th>
+                <th className="text-right px-4 py-2 font-medium">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -132,12 +158,28 @@ export function ContentHealthPanel() {
                         <span className="text-xs text-muted-foreground">—</span>
                       )}
                     </td>
+                    <td className="px-4 py-3 text-right whitespace-nowrap">
+                      <Button
+                        size="sm"
+                        variant={s.last_error ? "default" : "outline"}
+                        className="h-7 gap-1.5"
+                        disabled={!s.active || retrying !== null}
+                        onClick={() => retrySource(s.slug)}
+                      >
+                        {retrying === s.slug ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : (
+                          <RefreshCw className="h-3.5 w-3.5" />
+                        )}
+                        Retry
+                      </Button>
+                    </td>
                   </tr>
                 );
               })}
               {(!sources || sources.length === 0) && (
                 <tr>
-                  <td colSpan={4} className="text-center py-8 text-sm text-muted-foreground">
+                  <td colSpan={5} className="text-center py-8 text-sm text-muted-foreground">
                     No sources configured.
                   </td>
                 </tr>
