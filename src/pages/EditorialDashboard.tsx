@@ -22,6 +22,7 @@ import { formatDistanceToNow } from "date-fns";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
 import { BannersPanel } from "@/components/admin/BannersPanel";
 import { DirectoryArticlesPanel } from "@/components/admin/DirectoryArticlesPanel";
+import { ContentHealthPanel } from "@/components/admin/ContentHealthPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
