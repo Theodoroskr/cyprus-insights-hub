@@ -801,6 +801,45 @@ export type Database = {
         }
         Relationships: []
       }
+      market_quotes: {
+        Row: {
+          active: boolean
+          category: string
+          change_pct: number
+          currency: string
+          display_order: number
+          name: string
+          source: string | null
+          symbol: string
+          updated_at: string
+          value: number
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          change_pct?: number
+          currency?: string
+          display_order?: number
+          name: string
+          source?: string | null
+          symbol: string
+          updated_at?: string
+          value: number
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          change_pct?: number
+          currency?: string
+          display_order?: number
+          name?: string
+          source?: string | null
+          symbol?: string
+          updated_at?: string
+          value?: number
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           company: string | null
