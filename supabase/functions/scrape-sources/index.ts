@@ -464,14 +464,28 @@ Deno.serve(async (req) => {
           }
         }
 
-        // Update last_scraped_at
+        // Update last_scraped_at and last_error status
+        const lastError = sourceResult.errors[0] || null;
         await supabase
           .from("content_sources")
-          .update({ last_scraped_at: new Date().toISOString() })
+          .update({
+            last_scraped_at: new Date().toISOString(),
+            last_error: lastError,
+            last_error_at: lastError ? new Date().toISOString() : null,
+          })
           .eq("id", source.id);
 
       } catch (e) {
-        sourceResult.errors.push(e instanceof Error ? e.message : "Unknown error");
+        const msg = e instanceof Error ? e.message : "Unknown error";
+        sourceResult.errors.push(msg);
+        await supabase
+          .from("content_sources")
+          .update({
+            last_scraped_at: new Date().toISOString(),
+            last_error: msg,
+            last_error_at: new Date().toISOString(),
+          })
+          .eq("id", source.id);
       }
 
       allResults.push(sourceResult);
