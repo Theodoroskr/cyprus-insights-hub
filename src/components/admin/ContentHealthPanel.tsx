@@ -21,6 +21,9 @@ type SourceRow = {
 };
 
 export function ContentHealthPanel() {
+  const queryClient = useQueryClient();
+  const [retrying, setRetrying] = useState<string | null>(null);
+
   const { data: sources, isLoading } = useQuery({
     queryKey: ["content-health"],
     queryFn: async () => {
@@ -33,6 +36,25 @@ export function ContentHealthPanel() {
     },
     refetchInterval: 60000,
   });
+
+  const retrySource = async (slug: string) => {
+    setRetrying(slug);
+    try {
+      const { data, error } = await supabase.functions.invoke("scrape-sources", { body: { slug } });
+      if (error) throw error;
+      const result = data?.results?.[0];
+      if (result?.errors?.length) {
+        toast.error(`Retry failed: ${String(result.errors[0]).slice(0, 140)}`);
+      } else {
+        toast.success(`Retried: found ${data?.total_found ?? 0}, ingested ${data?.total_ingested ?? 0}.`);
+      }
+      queryClient.invalidateQueries({ queryKey: ["content-health"] });
+    } catch (e) {
+      toast.error((e as Error).message || "Retry failed");
+    } finally {
+      setRetrying(null);
+    }
+  };
 
   const totals = {
     all: sources?.length || 0,
