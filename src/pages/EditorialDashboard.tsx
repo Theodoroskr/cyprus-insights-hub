@@ -297,7 +297,7 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory">("articles");
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "health">("articles");
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
