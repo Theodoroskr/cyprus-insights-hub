@@ -808,6 +808,8 @@ export type Database = {
           change_pct: number
           currency: string
           display_order: number
+          last_error: string | null
+          last_error_at: string | null
           name: string
           source: string | null
           symbol: string
@@ -820,6 +822,8 @@ export type Database = {
           change_pct?: number
           currency?: string
           display_order?: number
+          last_error?: string | null
+          last_error_at?: string | null
           name: string
           source?: string | null
           symbol: string
@@ -832,6 +836,8 @@ export type Database = {
           change_pct?: number
           currency?: string
           display_order?: number
+          last_error?: string | null
+          last_error_at?: string | null
           name?: string
           source?: string | null
           symbol?: string

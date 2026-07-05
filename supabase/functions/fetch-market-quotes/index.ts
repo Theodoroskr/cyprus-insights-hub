@@ -113,16 +113,18 @@ Deno.serve(async (req) => {
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     const updates: Array<{ symbol: string; value: number; change_pct: number; source: string }> = [];
-    const errors: string[] = [];
+    const perSymbolErrors = new Map<string, string>();
+    const globalErrors: string[] = [];
 
     // 1. Yahoo — FX & commodities
     for (const [symbol, ticker] of Object.entries(YAHOO_TICKERS)) {
       const q = await fetchYahoo(ticker);
       if (q) updates.push({ symbol, ...q, source: "yahoo" });
-      else errors.push(`Yahoo:${symbol}`);
+      else perSymbolErrors.set(symbol, `Yahoo fetch failed for ${ticker}`);
     }
 
-    // 2. Firecrawl + AI — CSE main market
+    // 2. Firecrawl + AI — CSE main market (one call yields many equity rows)
+    let cseError: string | null = null;
     if (FIRECRAWL_API_KEY && LOVABLE_API_KEY) {
       try {
         const scrapeRes = await fetch("https://api.firecrawl.dev/v1/scrape", {
@@ -143,29 +145,41 @@ Deno.serve(async (req) => {
           const md = scraped.data?.markdown || scraped.markdown || "";
           if (md.length > 200) {
             const quotes = await extractCseQuotes(md, LOVABLE_API_KEY);
+            const seen = new Set<string>();
             for (const q of quotes) {
-              updates.push({
-                symbol: q.symbol.toUpperCase(),
-                value: q.value,
-                change_pct: q.change_pct,
-                source: "cse.com.cy",
-              });
+              const sym = q.symbol.toUpperCase();
+              seen.add(sym);
+              updates.push({ symbol: sym, value: q.value, change_pct: q.change_pct, source: "cse.com.cy" });
+            }
+            // Symbols we track but didn't find in the scrape get a per-symbol error
+            for (const sym of CSE_SYMBOLS) {
+              if (!seen.has(sym)) perSymbolErrors.set(sym, "Not found in CSE scrape");
             }
           } else {
-            errors.push("CSE: empty markdown");
+            cseError = "CSE scrape returned empty markdown";
           }
         } else {
-          errors.push(`CSE scrape ${scrapeRes.status}: ${(await scrapeRes.text()).slice(0, 120)}`);
+          cseError = `CSE scrape ${scrapeRes.status}: ${(await scrapeRes.text()).slice(0, 200)}`;
         }
       } catch (e) {
-        errors.push(`CSE: ${(e as Error).message}`);
+        cseError = `CSE: ${(e as Error).message}`;
       }
     } else {
-      errors.push("CSE skipped (missing FIRECRAWL_API_KEY or LOVABLE_API_KEY)");
+      cseError = "CSE skipped (missing FIRECRAWL_API_KEY or LOVABLE_API_KEY)";
+    }
+    if (cseError) {
+      globalErrors.push(cseError);
+      for (const sym of CSE_SYMBOLS) {
+        if (!perSymbolErrors.has(sym)) perSymbolErrors.set(sym, cseError);
+      }
     }
 
-    // 3. Upsert into market_quotes
+    const successfulSymbols = new Set(updates.map((u) => u.symbol));
+
+    // 3. Write successful updates (clears error) and error-only rows
     let written = 0;
+    const nowIso = new Date().toISOString();
+
     for (const u of updates) {
       const { error } = await supabase
         .from("market_quotes")
@@ -173,16 +187,32 @@ Deno.serve(async (req) => {
           value: u.value,
           change_pct: u.change_pct,
           source: u.source,
-          updated_at: new Date().toISOString(),
+          last_error: null,
+          last_error_at: null,
+          updated_at: nowIso,
         })
         .eq("symbol", u.symbol);
-      if (error) errors.push(`upsert:${u.symbol}:${error.message}`);
+      if (error) globalErrors.push(`upsert:${u.symbol}:${error.message}`);
       else written++;
     }
 
-    console.log(`Market quotes updated: ${written}/${updates.length}. Errors: ${errors.length}`);
+    for (const [symbol, msg] of perSymbolErrors) {
+      if (successfulSymbols.has(symbol)) continue;
+      await supabase
+        .from("market_quotes")
+        .update({ last_error: msg, last_error_at: nowIso })
+        .eq("symbol", symbol);
+    }
+
+    console.log(`Market quotes: ${written} updated, ${perSymbolErrors.size - written} errored`);
     return new Response(
-      JSON.stringify({ success: true, updated: written, attempted: updates.length, errors }),
+      JSON.stringify({
+        success: true,
+        updated: written,
+        attempted: updates.length,
+        symbol_errors: Object.fromEntries(perSymbolErrors),
+        errors: globalErrors,
+      }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
