@@ -289,23 +289,31 @@ Deno.serve(async (req) => {
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    // Optionally accept a specific source slug
+    // Optionally accept a specific source slug, or a batch window
     let targetSlug: string | null = null;
+    let limit: number | null = 10;
+    let offset = 0;
     try {
       const body = await req.json();
       targetSlug = body?.slug || null;
+      if (body?.limit !== undefined) limit = body.limit === null ? null : Number(body.limit);
+      if (body?.offset !== undefined) offset = Number(body.offset) || 0;
     } catch {
-      // No body — scrape all active sources
+      // No body — default batch of 10 oldest sources
     }
 
-    // Fetch active sources
+    // Fetch active sources, ordered so the least-recently-scraped run first.
+    // This lets scheduled batches rotate through every source over multiple runs.
     let query = supabase
       .from("content_sources")
       .select("*")
-      .eq("active", true);
+      .eq("active", true)
+      .order("last_scraped_at", { ascending: true, nullsFirst: true });
 
     if (targetSlug) {
       query = query.eq("slug", targetSlug);
+    } else if (limit !== null) {
+      query = query.range(offset, offset + limit - 1);
     }
 
     const { data: sources, error: srcError } = await query;
