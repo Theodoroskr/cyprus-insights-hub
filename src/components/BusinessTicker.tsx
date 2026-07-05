@@ -1,38 +1,37 @@
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-interface TickerItem {
+type Quote = {
   symbol: string;
-  value: string;
-  change: number;
+  name: string;
+  category: string;
+  value: number;
+  change_pct: number;
+  currency: string;
+  display_order: number;
+  updated_at: string;
+};
+
+function formatValue(q: Quote): string {
+  const symbol = q.currency === "USD" ? "$" : q.currency === "EUR" ? "€" : "";
+  if (q.category === "fx") return q.value.toFixed(4);
+  if (q.category === "commodity") return `${symbol}${q.value.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+  return `${symbol}${q.value.toFixed(3)}`;
 }
 
-// Real CSE closing prices scraped from cse.com.cy (11 April 2026)
-const tickerData: TickerItem[] = [
-  { symbol: "BOCH", value: "€8.850", change: -2.53 },
-  { symbol: "DEM", value: "€1.370", change: -0.72 },
-  { symbol: "EUROBCY", value: "€3.769", change: -4.07 },
-  { symbol: "ATL", value: "€2.440", change: 0.83 },
-  { symbol: "LUI", value: "€0.114", change: 3.64 },
-  { symbol: "KEO", value: "€2.380", change: 0 },
-  { symbol: "LOG", value: "€2.920", change: 0 },
-  { symbol: "CCC", value: "€1.300", change: 0 },
-  { symbol: "EUR/USD", value: "1.0842", change: 0.12 },
-  { symbol: "BRENT", value: "$82.45", change: -0.34 },
-  { symbol: "GOLD", value: "$2,645", change: 0.56 },
-];
+const TickerItemComponent = ({ item }: { item: Quote }) => {
+  const Icon = item.change_pct > 0 ? TrendingUp : item.change_pct < 0 ? TrendingDown : Minus;
+  const colorClass = item.change_pct > 0 ? "text-success" : item.change_pct < 0 ? "text-destructive" : "text-muted-foreground";
 
-const TickerItemComponent = ({ item }: { item: TickerItem }) => {
-  const Icon = item.change > 0 ? TrendingUp : item.change < 0 ? TrendingDown : Minus;
-  const colorClass = item.change > 0 ? "text-success" : item.change < 0 ? "text-destructive" : "text-muted-foreground";
-  
   return (
     <span className="inline-flex items-center gap-2 px-6">
       <span className="font-medium text-primary-foreground/90">{item.symbol}</span>
-      <span className="text-secondary font-semibold">{item.value}</span>
-      {item.change !== 0 && (
+      <span className="text-secondary font-semibold">{formatValue(item)}</span>
+      {item.change_pct !== 0 && (
         <span className={`inline-flex items-center gap-0.5 ${colorClass}`}>
           <Icon className="h-3 w-3" />
-          <span className="text-xs">{Math.abs(item.change)}%</span>
+          <span className="text-xs">{Math.abs(item.change_pct).toFixed(2)}%</span>
         </span>
       )}
     </span>
@@ -40,12 +39,32 @@ const TickerItemComponent = ({ item }: { item: TickerItem }) => {
 };
 
 export function BusinessTicker() {
+  const { data: quotes } = useQuery({
+    queryKey: ["market-quotes"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("market_quotes")
+        .select("symbol,name,category,value,change_pct,currency,display_order,updated_at")
+        .eq("active", true)
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return (data || []) as Quote[];
+    },
+    refetchInterval: 5 * 60 * 1000, // refresh every 5 min in the client
+    staleTime: 60 * 1000,
+  });
+
+  // Only show tickers that have been priced at least once
+  const items = (quotes || []).filter((q) => q.value > 0);
+
+  if (items.length === 0) return null;
+
   return (
     <div className="navy-gradient border-b border-navy-light">
       <div className="ticker-container py-2">
         <div className="ticker-content">
-          {[...tickerData, ...tickerData].map((item, index) => (
-            <TickerItemComponent key={index} item={item} />
+          {[...items, ...items].map((item, index) => (
+            <TickerItemComponent key={`${item.symbol}-${index}`} item={item} />
           ))}
         </div>
       </div>
