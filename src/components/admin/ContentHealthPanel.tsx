@@ -101,6 +101,7 @@ export function ContentHealthPanel() {
                 <th className="text-left px-4 py-2 font-medium">Vertical</th>
                 <th className="text-left px-4 py-2 font-medium">Last scrape</th>
                 <th className="text-left px-4 py-2 font-medium">Last error</th>
+                <th className="text-right px-4 py-2 font-medium">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
