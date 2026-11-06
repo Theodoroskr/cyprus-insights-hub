@@ -12,24 +12,25 @@ const SOURCES = [
     name: "CySEC — Investment Firms",
     url: "https://www.cysec.gov.cy/en-GB/entities/investment-firms/cypriot/",
     license_type: "Investment Firm (CIF)",
+    direct: true, // plain HTML cards incl. licence + HE number — parsed without Firecrawl/AI
   },
   {
     key: "cysec",
-    name: "CySEC — EMIs",
-    url: "https://www.cysec.gov.cy/en-GB/entities/electronic-money-institutions/",
-    license_type: "Electronic Money Institution",
-  },
-  {
-    key: "cysec",
-    name: "CySEC — CASPs",
-    url: "https://www.cysec.gov.cy/en-GB/entities/crypto-asset-service-providers/",
+    name: "CySEC — CASPs (MiCAR)",
+    url: "https://www.cysec.gov.cy/en-GB/entities/Crypto-Assets-Entities-(MiCAR)/MiCAR-CASPs/",
     license_type: "Crypto Asset Service Provider",
   },
   {
     key: "cysec",
-    name: "CySEC — UCITS",
-    url: "https://www.cysec.gov.cy/en-GB/entities/collective-investment/ucits/management-companies/",
-    license_type: "UCITS Management Company",
+    name: "CySEC — AIFMs",
+    url: "https://www.cysec.gov.cy/en-GB/entities/aifm/authorised/",
+    license_type: "Alternative Investment Fund Manager",
+  },
+  {
+    key: "cysec",
+    name: "CySEC — Administrative Service Providers",
+    url: "https://www.cysec.gov.cy/en-GB/entities/asp/",
+    license_type: "Administrative Service Provider",
   },
   {
     key: "cbc",
@@ -85,6 +86,28 @@ async function scrapeUrl(url: string, firecrawlKey: string): Promise<string> {
   return data?.data?.markdown || data?.markdown || "";
 }
 
+type Entity = { entity_name: string; license_number?: string; status?: string; address?: string; website?: string; registration_no?: string };
+
+const decode = (t: string) => t.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&#39;|&rsquo;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+
+async function parseCysecCards(url: string): Promise<Entity[]> {
+  const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 (BusinessHub.cy regulatory monitor)" } });
+  if (!res.ok) throw new Error(`CySEC ${res.status}`);
+  const html = await res.text();
+  const parts = html.split(/class="card-title"/).slice(1);
+  const out: Entity[] = [];
+  for (const part of parts) {
+    const name = decode((part.match(/>([\s\S]*?)<\/a>/) || [])[1] || "");
+    const text = decode(part.slice(0, 4000));
+    if (!name) continue;
+    const lic = text.match(/Licence Number\s*:\s*([0-9]+\/[0-9]+)/i)?.[1];
+    const reg = text.match(/Registration Number\s*:\s*HE\s*([0-9]+)/i)?.[1];
+    const site = text.match(/Website\s*:\s*(\S+\.\S+)/i)?.[1];
+    out.push({ entity_name: name, license_number: lic, registration_no: reg, website: site, status: "active" });
+  }
+  return out;
+}
+
 async function extractEntities(
   markdown: string,
   sourceName: string,
@@ -102,7 +125,7 @@ async function extractEntities(
       messages: [
         {
           role: "user",
-          content: `Extract all regulated entities (companies, firms, institutions) listed on this ${sourceName} page. Each entity is a ${licenseType}. Extract the company name, any licence or registration number, status (active/suspended/revoked), address, and website if visible.\n\n${markdown.slice(0, 8000)}`,
+          content: `Extract all regulated entities (companies, firms, institutions) listed on this ${sourceName} page. Each entity is a ${licenseType}. Extract the company name, any licence or registration number, status (active/suspended/revoked), address, and website if visible.\n\n${markdown.slice(0, 40000)}`,
         },
       ],
       tools: [{
@@ -162,11 +185,17 @@ function generateSlug(name: string): string {
 
 async function matchOrCreateInDirectory(
   entityName: string,
-  entity: { address?: string; website?: string; license_number?: string; status?: string },
+  entity: Entity,
   sourceKey: string,
   licenseType: string,
   supabase: any
 ): Promise<{ id: string; confidence: number; created: boolean }> {
+  // Registration number is the strongest identifier
+  if (entity.registration_no) {
+    const { data: byReg } = await supabase.from("directory_companies").select("id")
+      .eq("registration_no", entity.registration_no).limit(1);
+    if (byReg && byReg.length > 0) return { id: byReg[0].id, confidence: 1.0, created: false };
+  }
   // Exact (case-insensitive) name match first, preferring registered companies
   const escaped = entityName.replace(/[\\%_]/g, (c) => "\\" + c);
   const { data: exact } = await supabase
@@ -221,6 +250,7 @@ async function matchOrCreateInDirectory(
     .insert({
       company_name: entityName,
       slug,
+      registration_no: entity.registration_no || null,
       address: entity.address || null,
       organisation_status: "Active",
       organisation_type: licenseType,
@@ -259,7 +289,8 @@ Deno.serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
     const source = body?.source || "all";
-    const toProcess = source === "all" ? SOURCES : SOURCES.filter((s) => s.key === source);
+    let toProcess = source === "all" ? SOURCES : SOURCES.filter((s) => s.key === source);
+    if (typeof body?.only === "string") toProcess = toProcess.filter((s) => s.name.toLowerCase().includes(body.only.toLowerCase()));
 
     const results: Record<string, number> = {};
     const errors: Record<string, string> = {};
@@ -267,14 +298,19 @@ Deno.serve(async (req) => {
     for (const src of toProcess) {
       try {
         console.log(`Scraping: ${src.name}`);
-        const markdown = await scrapeUrl(src.url, FIRECRAWL_API_KEY);
-        if (!markdown || markdown.length < 100) {
-          console.warn(`No content from ${src.name}`);
-          results[src.name] = 0;
-          continue;
+        let entities: Entity[];
+        if ((src as any).direct) {
+          entities = await parseCysecCards(src.url);
+        } else {
+          const markdown = await scrapeUrl(src.url, FIRECRAWL_API_KEY);
+          if (!markdown || markdown.length < 100) {
+            console.warn(`No content from ${src.name}`);
+            results[src.name] = 0;
+            errors[src.name] = "Page returned no readable content";
+            continue;
+          }
+          entities = await extractEntities(markdown, src.name, src.license_type, LOVABLE_API_KEY);
         }
-
-        const entities = await extractEntities(markdown, src.name, src.license_type, LOVABLE_API_KEY);
         console.log(`Extracted ${entities.length} entities from ${src.name}`);
 
         let inserted = 0;

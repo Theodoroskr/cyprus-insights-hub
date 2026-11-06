@@ -14,3 +14,4 @@
 - [ ] Profile claiming (deferred)
 
 - [ ] Rerun CySEC licence import (blocked: Firecrawl has 0 credits; resets 11 Nov or after upgrade)
+- [ ] Nov 6: CySEC import rerun, CSE parser hardening, 68 near-matches to Review, retry failing sources, link 14 curated companies to registry

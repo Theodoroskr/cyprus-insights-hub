@@ -41,23 +41,49 @@ function num(s: string): number {
   return Number(s.replace(/[,%\s]/g, ""));
 }
 
-// Columns: Code | Currency | Open | High | Low | Last | Previous | Change | Change % | ...
+const clean = (h: string) => h.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+
+// Reads the closing-prices table by its header names (falls back to the known layout:
+// Code | Currency | Open | High | Low | Last | Previous | Change | Change % | ...)
 export function parseCseRows(html: string): Map<string, { value: number; change_pct: number }> {
   const out = new Map<string, { value: number; change_pct: number }>();
+  let col = { code: 0, last: 5, prev: 6, pct: 8 };
+  const header = [...html.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/gi)].map((m) => clean(m[1]).toLowerCase());
+  if (header.length >= 6) {
+    const find = (re: RegExp) => header.findIndex((h) => re.test(h));
+    const last = find(/^(last|closing|close)/), prev = find(/^prev/), pct = find(/%/);
+    if (last >= 0 && prev >= 0) col = { code: Math.max(0, find(/code|symbol/)), last, prev, pct };
+  }
   for (const tr of html.match(/<tr[\s\S]*?<\/tr>/gi) ?? []) {
-    const cells = [...tr.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)]
-      .map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").trim());
-    if (cells.length < 9) continue;
-    const code = cells[0].replace(/\(.*\)/, "").trim().toUpperCase();
+    const cells = [...tr.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map((m) => clean(m[1]));
+    if (cells.length <= Math.max(col.last, col.prev)) continue;
+    const code = cells[col.code].replace(/\(.*\)/, "").trim().toUpperCase();
     if (!/^[A-Z0-9]{2,10}$/.test(code)) continue;
-    const last = num(cells[5]);
-    const prev = num(cells[6]);
-    const pct = num(cells[8]);
+    const last = num(cells[col.last]);
+    const prev = num(cells[col.prev]);
+    const pct = col.pct >= 0 ? num(cells[col.pct] ?? "") : NaN;
     const value = last > 0 ? last : prev; // not traded today → previous close
     if (!Number.isFinite(value) || value <= 0) continue;
-    out.set(code, { value, change_pct: last > 0 && Number.isFinite(pct) ? pct : 0 });
+    const change = last > 0 && Number.isFinite(pct) ? pct : last > 0 && prev > 0 ? ((last - prev) / prev) * 100 : 0;
+    out.set(code, { value, change_pct: Math.round(change * 100) / 100 });
   }
   return out;
+}
+
+async function fetchCsePage(): Promise<string> {
+  let lastErr = "";
+  for (let i = 0; i < 3; i++) {
+    try {
+      const res = await fetch(CSE_PRICES_URL, {
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; BusinessHubBot/1.0)" },
+        signal: AbortSignal.timeout(15000),
+      });
+      if (res.ok) return await res.text();
+      lastErr = `CSE prices page ${res.status}`;
+    } catch (e) { lastErr = (e as Error).message; }
+    await new Promise((r) => setTimeout(r, 2000 * (i + 1)));
+  }
+  throw new Error(lastErr);
 }
 
 Deno.serve(async (req) => {
@@ -82,15 +108,13 @@ Deno.serve(async (req) => {
     // 2. CSE closing prices — public HTML table, parsed directly (no credits/AI)
     let cseError: string | null = null;
     try {
-      const res = await fetch(CSE_PRICES_URL, { headers: { "User-Agent": "Mozilla/5.0 (compatible; BusinessHubBot/1.0)" } });
-      if (!res.ok) {
-        cseError = `CSE prices page ${res.status}`;
-      } else {
-        const rows = parseCseRows(await res.text());
+      {
+        const rows = parseCseRows(await fetchCsePage());
+        if (rows.size === 0) throw new Error("CSE table layout changed — no rows parsed (previous prices kept)");
         for (const sym of CSE_SYMBOLS) {
           const r = rows.get(sym);
           if (r) updates.push({ symbol: sym, value: r.value, change_pct: r.change_pct, source: "cse.com.cy" });
-          else perSymbolErrors.set(sym, "Not found on CSE closing prices page");
+          else perSymbolErrors.set(sym, "Not found on CSE closing prices page (previous price kept)");
         }
       }
     } catch (e) {
