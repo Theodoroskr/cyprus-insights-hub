@@ -46,7 +46,6 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
               BusinessHub.cy Group
             </Link>
             <span className="w-px h-3 bg-background/30" />
-            <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">Financial Mirror</a>
             {hubLinks.map((hub) => (
               <Link
                 key={hub.href}

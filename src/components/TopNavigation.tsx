@@ -69,7 +69,6 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
               BusinessHub.cy Group
             </Link>
             <span className="w-px h-3 bg-background/30" />
-            <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">Financial Mirror</a>
             <Link to="/fintech" className="hover:text-secondary transition-colors hidden sm:inline">FinTechHub.cy</Link>
             <Link to="/compliance" className="hover:text-secondary transition-colors hidden sm:inline">ComplianceHub.cy</Link>
             <Link to="/regtech" className="hover:text-secondary transition-colors hidden md:inline">RegTechHub.cy</Link>

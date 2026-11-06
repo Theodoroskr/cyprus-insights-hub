@@ -49,12 +49,6 @@ export function Footer() {
             <h4 className="font-semibold mb-4 text-secondary">BusinessHub.cy Group</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/70">
               <li>
-                <a href="https://www.financialmirror.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-secondary transition-colors">
-                  <Newspaper className="h-4 w-4 text-secondary" />
-                  <span>Financial Mirror</span>
-                </a>
-              </li>
-              <li>
                 <Link to="/" className="flex items-center gap-2 hover:text-secondary transition-colors">
                   <Building2 className="h-4 w-4 text-secondary" />
                   <span>BusinessHub.cy</span>
