@@ -123,6 +123,10 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
           <p>© {new Date().getFullYear()} BusinessHub.cy Group. All rights reserved. | <Link to="/privacy" className="hover:text-secondary transition-colors">Privacy Policy</Link> | <Link to="/terms" className="hover:text-secondary transition-colors">Terms of Service</Link> | <Link to="/cookies" className="hover:text-secondary transition-colors">Cookie Policy</Link></p>
+          <p className="mt-2 inline-flex items-center gap-1">
+            Made with <span aria-label="love" className="text-secondary">♥</span> by{" "}
+            <a href="https://blenddigital.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors underline-offset-2 hover:underline">Blend Digital</a>
+          </p>
         </div>
       </div>
     </footer>
