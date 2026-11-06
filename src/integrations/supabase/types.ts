@@ -2151,6 +2151,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      merge_directory_duplicate: {
+        Args: { _dup: string; _keep: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
