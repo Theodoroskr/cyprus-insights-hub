@@ -1,117 +1,45 @@
+# Company News, Who's Who and Official Sources: audit and plan
 
+Phase 1 audit of your master prompt, checked against the live app and database. Nothing changes until you approve.
 
-## Plan: User Registration, Premium Resources, Notifications & Upsell System
+## 1. Audit
 
-### The Strategy
+| Feature | Exists? | What's there now | Gap | Action |
+|---|---|---|---|---|
+| Company directory | Yes | 54,899 registry companies; 54,629 have a registration number | Two separate company lists: the registry and 14 hand-picked profiles | EXTEND: make the registry the one master company record |
+| Company profile page | Partial | Two different page designs for registry and hand-picked companies | No news, people, timeline or sources sections | EXTEND |
+| Who's Who | Yes | 66 people, 67 person-company links, all for the 14 hand-picked companies | No Greek name, appointment dates, sources or verification date; no link to registry companies | EXTEND |
+| Company news | Partial | 915 scraped news items, plus 12 editorial articles (9 linked to companies, 6 to people) | Scraped news is not linked to any company or person | EXTEND |
+| CSE integration | Partial | Share prices only (blocked by Firecrawl credits); CSE is one news source | No announcements feed. The CSE announcements feed did not respond from our server; needs checking | CREATE (after the feed is checked) |
+| CySEC integration | Partial | Weekly regulator scrape; 172 regulated firms, 139 matched to the directory; licence flags on companies | Warnings and sanctions are not kept apart from licensed-firm data; no status history | EXTEND |
+| CNA integration | Partial | A CNA import exists; 0 stored articles are tagged as CNA | No confirmed licence | DEFER: mark "Pending Permission" until you have a licence |
+| Entity matching | Partial | Regulator records matched to companies, with a confidence score | No review queue; no matching for people or news | EXTEND |
+| Duplicate detection | Partial | Duplicates checked by original link only | No content fingerprint and no similarity check | EXTEND |
+| Automated updates | Yes | Hourly news batch, weekly regulators, ticker 3 times a weekday, digests, monthly trade data | Blocked by Firecrawl credits | REUSE |
+| Admin tools | Yes | Editorial dashboard, Health tab with Retry, Sources page | No match review, event fixes, licence status or rejected/duplicate counts | EXTEND |
+| Profile claiming | No | Nothing | Everything | DEFER (later phase) |
 
-Build a freemium model where anonymous visitors see enough value to register, registered users get meaningful extras, and strategically placed upsell prompts drive conversions to premium tiers.
+## 2. Implementation order
 
----
+1. **One master company record:** link the 14 hand-picked companies and their people to registry companies by registration number, then retire the second page design. (EXTEND)
+2. **Evidence-based relationships:** add role type, start and end dates, source link and verified date to person-company links. Add a Greek name and a verified date to people. (EXTEND)
+3. **News linking engine:** AI tags each news item with companies, people and one of the 13 event types. Facts are stored separately from summaries, and duplicates are caught by link, fingerprint and similarity. (CREATE, reusing the current news import)
+4. **Matching review queue:** automatic links only on registration number or official licence or exchange ID. Name-only matches go to an admin queue. People are never auto-merged. (CREATE)
+5. **Profile sections:** Latest News, Key People, Corporate Timeline, Regulatory Information and Sources added to the company page. Person pages show their companies and news. (EXTEND)
+6. **CySEC split:** licensed firms, warnings about unauthorised firms, and enforcement actions become separate record types, with status history. Warnings are never shown as a company's own sanction. (EXTEND)
+7. **CSE announcements:** use the official feed if it works and is allowed; check every 2 hours. (CREATE, waits on step 8)
+8. **Source licence status:** each source gets a status (Active, Pending Permission, Pending Configuration, Authentication Required, Error, Disabled), plus imported, rejected and duplicate counts on the Health tab. Collection runs only for Active sources. (EXTEND)
+9. **Privacy safeguards:** a correction request form on person pages; sensitive negative items need human approval before publishing. (CREATE)
 
-### Tier Structure
+## 3. Waiting on you or outside approval
 
-```text
-ANONYMOUS (no account)          REGISTERED (free)              PREMIUM (paid)
-─────────────────────          ──────────────────              ──────────────────
-3 articles/day                 Unlimited articles              Everything in Free
-Headlines only on feeds        Full intelligence cards         PDF report exports
-No tool results saving         Save tool results               Custom alerts & digests
-No alerts                      Weekly email digest             Daily briefing email
-See upsell prompts             Bookmark articles               API access
-                               Monthly compliance summary      Priority directory listing
-                               Access regulatory calendar      White-label reports
-                               Community Q&A access            1-on-1 advisory booking
-```
+- **CNA licence:** needed for commercial reuse and AI processing.
+- **CSE announcements feed:** reuse permission, and confirmation that it is reachable.
+- **Firecrawl credits:** all scraping stays blocked until topped up.
 
----
+## Technical details
 
-### What to Build
-
-#### 1. Authentication System (Supabase Auth)
-- Login/Register modal (email + Google OAuth)
-- Auth context wrapping the app
-- `profiles` table (name, company, role, tier: free/premium)
-- `user_roles` table for admin access (editorial dashboard later)
-- Protected route wrapper for premium content
-
-#### 2. Registration Gate Components
-- **`<ContentGate>`** — wraps articles/tool results; shows teaser + blurred content + "Register free to read" CTA for anonymous users
-- **`<ToolResultGate>`** — after completing any SME tool (VAT calc, GDPR checker, etc.), prompt: "Register to save & export your results"
-- **`<ArticleCounter>`** — tracks daily article views in localStorage; shows "2 of 3 free articles remaining" banner
-
-#### 3. Upsell Banner Placements (using existing banner system)
-
-Strategic placement across the portal:
-
-| Location | Banner Type | Message |
-|----------|-------------|---------|
-| After 2nd Intelligence Card in feed | `InsightBanner` | "Get daily briefings delivered to your inbox — Register free" |
-| Below each SME tool result | `OperationaliseBanner` | "Save results, track progress over time — Upgrade to Premium" |
-| Sidebar on article pages | `SidebarBanner` | "Premium: Export compliance reports as PDF" |
-| Between vertical sections on homepage | `LeaderboardBanner` | "BusinessHub Premium — Your competitive edge in Cyprus" |
-| Bottom of FinTech/Compliance hub pages | `NativeAdCard` | "Sponsored: Advisory services for [vertical]" (revenue) |
-| Footer area, above PartnerStrip | New `PremiumCTABanner` | Full-width premium pitch with feature comparison |
-| Profile pages (WhoIsWho) | Inline prompt | "Claim this profile — Register to manage your listing" |
-
-#### 4. Notification System
-- **Database**: `user_preferences` table (digest frequency, verticals of interest, alert types)
-- **Email notifications** via Lovable Email:
-  - Weekly digest (free tier) — top 5 articles from selected verticals
-  - Daily briefing (premium) — full intelligence cards + regulatory calendar
-  - Breaking alerts (premium) — new regulation, major deal, critical compliance update
-- **In-app notification bell** (already exists in TopNavigation as icon):
-  - `notifications` table (user_id, type, title, read, created_at)
-  - Dropdown showing recent alerts, new articles in your verticals, tool reminders
-  - Badge count on bell icon
-
-#### 5. Saved Items & Dashboard
-- **`/dashboard`** page for registered users:
-  - Saved articles & bookmarks
-  - Tool results history (GDPR scores, Digital Maturity over time)
-  - Notification preferences
-  - Subscription status
-- **Bookmark button** on every article card (heart/bookmark icon, visible only to logged-in users)
-
-#### 6. Premium Upsell Triggers (behavioral)
-- After 3rd article view: "You're reading a lot — get unlimited access"
-- After completing 2 SME tools: "Track your compliance journey over time"
-- After visiting 3+ verticals in one session: "Get a personalized daily briefing"
-- Monthly: "Your free compliance summary is ready" email (with premium teaser)
-
----
-
-### Files to Create/Modify
-
-**New files (~12):**
-- `src/contexts/AuthContext.tsx` — auth state provider
-- `src/components/auth/LoginModal.tsx` — login/register modal
-- `src/components/auth/ContentGate.tsx` — content paywall component
-- `src/components/auth/ToolResultGate.tsx` — tool result save prompt
-- `src/components/auth/ArticleCounter.tsx` — free article limit banner
-- `src/components/banners/PremiumCTABanner.tsx` — full-width premium pitch
-- `src/components/notifications/NotificationDropdown.tsx` — bell dropdown
-- `src/pages/DashboardPage.tsx` — user dashboard
-- Supabase migration for profiles, notifications, user_preferences, saved_items tables
-
-**Modified files (~8):**
-- `src/App.tsx` — add AuthProvider, Dashboard route
-- `src/components/TopNavigation.tsx` — login/register buttons, notification bell with badge
-- `src/components/hub/HubNavigation.tsx` — same auth buttons
-- `src/components/IntelligenceFeed.tsx` — insert upsell banner after 2nd card
-- `src/components/IntelligenceCard.tsx` — add bookmark button
-- `src/pages/Index.tsx` — add PremiumCTABanner placement
-- `src/pages/SMEPage.tsx` — add ToolResultGate after each tool
-- `src/pages/FinTechPage.tsx` & `CompliancePage.tsx` — add upsell banners
-
----
-
-### Implementation Order
-
-1. Supabase setup (tables, RLS, auth config)
-2. Auth context + Login modal
-3. Content gating components (ContentGate, ArticleCounter)
-4. Upsell banners placed across all pages
-5. Notification system (DB + in-app dropdown)
-6. User dashboard page
-7. Email digest setup (Lovable Email)
-
+- New tables: `company_events` (facts), `news_entity_links` (news to company or person, with confidence and status), `match_review_queue`, `regulatory_records` (type: licensed, warning or enforcement), and `cysec_status_history`.
+- New columns: `relationships` gets `role_type`, `started_at`, `ended_at`, `source_url` and `verified_at`. `people` gets `name_el` and `verified_at`. `companies` gets `directory_company_id`. `cna_articles` gets `content_hash` and `canonical_url`. `content_sources` gets `access_status`, `records_imported`, `records_rejected` and `records_duplicate`.
+- Reuse the `scrape-sources` and `scrape-regulators` functions and the Health tab. No new cron jobs except CSE announcements. Matching for news and people happens inside the existing hourly batch.
+- RLS: public read only for approved links; admins (has_role) manage everything else.
