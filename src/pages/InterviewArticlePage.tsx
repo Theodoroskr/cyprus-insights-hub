@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Building2, User } from "lucide-react";
@@ -70,7 +71,7 @@ export default function InterviewArticlePage() {
 
         <div className="prose max-w-none mt-8">
           <p className="text-lg font-medium text-foreground mb-4">{article.excerpt}</p>
-          <div className="text-muted-foreground leading-relaxed whitespace-pre-line">{article.content}</div>
+          <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed prose-headings:font-serif prose-headings:text-foreground prose-strong:text-foreground"><ReactMarkdown>{article.content || ""}</ReactMarkdown></div>
         </div>
 
         {/* Related profiles */}

@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ExternalLink } from "lucide-react";
@@ -97,7 +98,7 @@ export default function SponsoredArticlePage() {
             <TabsContent value="full">
               <div className="prose prose-lg max-w-none text-foreground">
                 {item.content ? (
-                  <div className="whitespace-pre-line leading-relaxed">{item.content}</div>
+                  <div className="prose max-w-none leading-relaxed prose-headings:font-serif prose-headings:text-foreground prose-strong:text-foreground"><ReactMarkdown>{item.content || ""}</ReactMarkdown></div>
                 ) : (
                   <p className="text-muted-foreground italic">Full article content coming soon.</p>
                 )}
