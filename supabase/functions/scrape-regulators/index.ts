@@ -77,8 +77,12 @@ async function scrapeUrl(url: string, firecrawlKey: string): Promise<string> {
       waitFor: 5000,
     }),
   });
+  if (!res.ok) {
+    const t = await res.text();
+    throw new Error(`Firecrawl ${res.status}: ${t.slice(0, 200)}`);
+  }
   const data = await res.json();
-  return data?.data?.markdown || "";
+  return data?.data?.markdown || data?.markdown || "";
 }
 
 async function extractEntities(
@@ -253,10 +257,12 @@ Deno.serve(async (req) => {
     const SUPABASE_SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-    const { source } = await req.json().catch(() => ({ source: "all" }));
+    const body = await req.json().catch(() => ({}));
+    const source = body?.source || "all";
     const toProcess = source === "all" ? SOURCES : SOURCES.filter((s) => s.key === source);
 
     const results: Record<string, number> = {};
+    const errors: Record<string, string> = {};
 
     for (const src of toProcess) {
       try {
@@ -346,11 +352,12 @@ Deno.serve(async (req) => {
       } catch (err) {
         console.error(`Error scraping ${src.name}:`, err);
         results[src.name] = -1;
+        errors[src.name] = err instanceof Error ? err.message : String(err);
       }
     }
 
     return new Response(
-      JSON.stringify({ success: true, results }),
+      JSON.stringify({ success: true, results, errors }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {

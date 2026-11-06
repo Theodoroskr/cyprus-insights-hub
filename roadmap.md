@@ -12,3 +12,5 @@
 - [ ] CNA — blocked: licence (source marked Pending Permission)
 - [ ] Semantic-similarity duplicate check (later)
 - [ ] Profile claiming (deferred)
+
+- [ ] Rerun CySEC licence import (blocked: Firecrawl has 0 credits; resets 11 Nov or after upgrade)
