@@ -17,3 +17,5 @@
 - [x] CSE price reader hardened; 70 near-matches queued; failing sources retried; 14 Who's Who companies linked
 - [ ] CySEC crypto/AIFM/admin-service lists — pages load their tables in-browser; need a different read method
 - [ ] 7 news sources still failing (4 pages unreadable, 3 site-side SSL/blocking)
+- [x] Remove gap between Intelligence Hub and Custom Studio
+- [ ] Article page layout (plan awaiting approval)

@@ -62,8 +62,8 @@ export function IntelligenceHub() {
   const featuredArticles = useMemo(() => {
     return dbArticles.map((a) => ({
       id: a.id,
-      title: a.what_happened || a.title,
-      summary: a.summary || "",
+      title: a.title || a.what_happened,
+      summary: a.summary || a.what_happened || "",
       image: a.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
       category: verticalLabel(a.vertical),
       date: a.published_at
@@ -129,10 +129,10 @@ export function IntelligenceHub() {
                   {lead.category}
                 </Badge>
               </div>
-              <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground leading-tight mb-3 group-hover:text-secondary transition-colors">
+              <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground leading-tight mb-3 line-clamp-4 group-hover:text-secondary transition-colors">
                 {lead.title}
               </h3>
-              <p className="article-body text-base mb-3">
+              <p className="article-body text-base mb-3 line-clamp-3">
                 {lead.summary}
               </p>
               <div className="flex items-center gap-3 text-xs text-muted-foreground">
@@ -164,7 +164,7 @@ export function IntelligenceHub() {
                       </span>
                     )}
                   </div>
-                  <h4 className="font-serif text-lg font-bold text-foreground leading-snug mb-2 group-hover:text-secondary transition-colors">
+                  <h4 className="font-serif text-lg font-bold text-foreground leading-snug mb-2 line-clamp-3 group-hover:text-secondary transition-colors">
                     {article.title}
                   </h4>
                   <p className="article-body text-sm line-clamp-2 mb-2">
