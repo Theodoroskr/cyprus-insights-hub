@@ -73,12 +73,6 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/sme" className="flex items-center gap-2 hover:text-secondary transition-colors">
-                  <Briefcase className="h-4 w-4 text-secondary" />
-                  <span>SMEHub.cy</span>
-                </Link>
-              </li>
-              <li>
                 <Link to="/regtech" className="flex items-center gap-2 hover:text-secondary transition-colors">
                   <Cpu className="h-4 w-4 text-secondary" />
                   <span>RegTechHub.cy</span>

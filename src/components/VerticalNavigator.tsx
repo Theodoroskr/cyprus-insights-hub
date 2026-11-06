@@ -33,7 +33,6 @@ const verticals: Vertical[] = [
   { id: "trade", label: "Trade", icon: TrendingUp, href: "/trade", count: 10, trending: true },
   { id: "compliance", label: "Compliance", icon: Shield, href: "/compliance", count: 18 },
   { id: "fintech", label: "FinTech", icon: Landmark, href: "/fintech", count: 12, trending: true },
-  { id: "sme", label: "SME", icon: Briefcase, href: "/sme", count: 8 },
   { id: "directory", label: "Directory", icon: Users, href: "/directory", count: 150 },
   { id: "whoiswho", label: "Who's Who", icon: Globe, href: "/whoiswho", count: 45 },
   { id: "interviews", label: "Interviews", icon: BookOpen, href: "/interviews", count: 14 },

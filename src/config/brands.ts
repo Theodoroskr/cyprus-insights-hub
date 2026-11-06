@@ -34,7 +34,6 @@ export const brands: Record<BrandId, BrandConfig> = {
       { label: "Directory", href: "/directory" },
       { label: "FinTech", href: "/fintech" },
       { label: "Compliance", href: "/compliance" },
-      { label: "SME", href: "/sme" },
       { label: "Resources", href: "/resources" },
     ],
     parentBadge: false,
@@ -123,6 +122,5 @@ export const hubLinks = [
   { brand: brands.businesshub, href: "/" },
   { brand: brands.fintechhub, href: "/fintech" },
   { brand: brands.compliancehub, href: "/compliance" },
-  { brand: brands.smehub, href: "/sme" },
   { brand: brands.regtechhub, href: "/regtech" },
 ];
