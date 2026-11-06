@@ -44,7 +44,7 @@ export default function DirectoryHomePage() {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Business Directory"
-        description="Explore 60,000+ registered Cyprus companies — search by city, industry, and company name. Full registry data."
+        description="Explore 54,000+ registered Cyprus companies — search by city, industry, and company name. Full registry data."
         path="/directory-home"
         breadcrumbs={[
           { name: "Home", href: "/" },

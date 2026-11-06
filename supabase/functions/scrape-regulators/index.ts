@@ -163,7 +163,17 @@ async function matchOrCreateInDirectory(
   licenseType: string,
   supabase: any
 ): Promise<{ id: string; confidence: number; created: boolean }> {
-  // Try fuzzy match first
+  // Exact (case-insensitive) name match first, preferring registered companies
+  const escaped = entityName.replace(/[\\%_]/g, (c) => "\\" + c);
+  const { data: exact } = await supabase
+    .from("directory_companies")
+    .select("id, registration_no")
+    .ilike("company_name", escaped)
+    .order("registration_no", { ascending: true, nullsFirst: false })
+    .limit(1);
+  if (exact && exact.length > 0) return { id: exact[0].id, confidence: 1.0, created: false };
+
+  // Then fuzzy match
   const firstWord = entityName.split(" ")[0];
   if (firstWord && firstWord.length >= 2) {
     const { data } = await supabase
