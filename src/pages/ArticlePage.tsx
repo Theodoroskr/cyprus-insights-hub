@@ -2,10 +2,11 @@ import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import ReactMarkdown from "react-markdown";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail, FileText, BookOpen } from "lucide-react";
+import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail, Flame, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cleanArticleMarkdown, cleanedWordCount } from "@/lib/cleanArticleMarkdown";
+import { estimateReadingTime } from "@/lib/readingTime";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
@@ -49,6 +50,8 @@ export default function ArticlePage() {
   const [related, setRelated] = useState<Article[]>([]);
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [mostRead, setMostRead] = useState<{ article_id: string; title: string }[]>([]);
   const viewTracked = useRef(false);
   const articleRef = useRef<HTMLDivElement>(null);
 
@@ -103,6 +106,10 @@ export default function ArticlePage() {
   }, [id]);
 
   useEffect(() => {
+    supabase.rpc("get_most_read_articles", { _limit: 5 }).then(({ data }) => data && setMostRead(data as any));
+  }, []);
+
+  useEffect(() => {
     if (user && article) {
       supabase
         .from("saved_items")
@@ -153,13 +160,32 @@ export default function ArticlePage() {
   }
 
   const date = article.published_at
-    ? new Date(article.published_at).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
+    ? new Date(article.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
     : "";
+  const headline = article.title || (article.what_happened || "").split(/(?<=\.)\s/)[0];
+  const source = article.source_url ? new URL(article.source_url).hostname.replace(/^www\./, "") : null;
+  const cleanBody = cleanArticleMarkdown(article.body_markdown);
+  const hasBody = cleanedWordCount(cleanBody) >= 60;
+  const readTime = estimateReadingTime(article.what_happened, article.why_it_matters, article.what_to_do, hasBody ? cleanBody : article.summary);
+  const isLong = cleanBody.length > 2500;
+  const shareText = encodeURIComponent(headline);
+  const shareUrl = encodeURIComponent(window.location.href);
+
+  const cards = [
+    { key: "what", text: article.what_happened, label: "What happened", Icon: Zap, tone: "secondary" },
+    { key: "why", text: article.why_it_matters, label: "Why it matters", Icon: Target, tone: "destructive" },
+    { key: "do", text: article.what_to_do, label: "What to do", Icon: Lightbulb, tone: "success" },
+  ].filter((c) => c.text);
+  const toneClass: Record<string, string> = {
+    secondary: "border-secondary text-secondary",
+    destructive: "border-destructive text-destructive",
+    success: "border-success text-success",
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={article.what_happened || article.title}
+        title={headline}
         description={article.summary || article.why_it_matters || ""}
         path={`/article/${article.id}`}
         image={article.image_url || undefined}
@@ -167,218 +193,152 @@ export default function ArticlePage() {
       />
       <TopNavigation onSearch={() => {}} />
 
-      {/* Hero image */}
-      {article.image_url && (
-        <div className="relative w-full overflow-hidden">
-          <img src={article.image_url} alt={article.title} className="w-full h-[300px] md:h-[420px] object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-            <div className="container mx-auto max-w-4xl">
-              <Badge variant="outline" className={`mb-3 ${verticalColor[article.vertical] || verticalColor.general}`}>
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
+            <ArrowLeft className="h-4 w-4" /> Back
+          </Link>
+
+          {/* Header */}
+          <header className="max-w-4xl mb-8">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground mb-4">
+              <Badge variant="outline" className={verticalColor[article.vertical] || verticalColor.general}>
                 {verticalLabel[article.vertical] || article.vertical}
               </Badge>
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-white leading-snug drop-shadow-lg">
-                {article.what_happened || article.title}
-              </h1>
+              {source && <span className="font-medium text-foreground">{source}</span>}
+              {date && <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{date}</span>}
+              <span>{readTime}</span>
             </div>
-          </div>
-        </div>
-      )}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-tight mb-4 line-clamp-4">
+              {headline}
+            </h1>
+            {article.summary && (
+              <p className="text-lg md:text-xl text-muted-foreground font-source-serif leading-relaxed">{article.summary}</p>
+            )}
+          </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto" ref={articleRef}>
-          {/* Back + meta */}
-          <div className="flex items-center justify-between mb-6">
-            <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <ArrowLeft className="h-4 w-4" /> Back
-            </Link>
-            <div className="flex items-center gap-2">
-              {user && (
-                <button onClick={toggleBookmark} className="text-muted-foreground hover:text-secondary transition-colors" title="Bookmark">
-                  <Bookmark className={`h-5 w-5 ${bookmarked ? "fill-secondary text-secondary" : ""}`} />
-                </button>
+          {article.image_url && (
+            <figure className="mb-10">
+              <img src={article.image_url} alt={headline} className="w-full aspect-[16/9] max-h-[420px] object-cover rounded-lg bg-muted" />
+              {source && <figcaption className="text-xs text-muted-foreground mt-2">Image: {source}</figcaption>}
+            </figure>
+          )}
+
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-10">
+            {/* Article column */}
+            <article ref={articleRef} className="min-w-0">
+              {cards.length > 0 && (
+                <div className="grid gap-4 mb-10">
+                  {cards.map(({ key, text, label, Icon, tone }) => (
+                    <div key={key} className={`border-l-4 pl-5 py-1 ${toneClass[tone].split(" ")[0]}`}>
+                      <div className={`flex items-center gap-2 mb-1.5 ${toneClass[tone].split(" ")[1]}`}>
+                        <Icon className="h-4 w-4" />
+                        <span className="text-xs font-bold uppercase tracking-wider">{label}</span>
+                      </div>
+                      <p className="text-foreground leading-relaxed">{text}</p>
+                    </div>
+                  ))}
+                </div>
               )}
-              <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent((article.what_happened || article.title))}&url=${encodeURIComponent(window.location.href)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-[#1DA1F2] transition-colors"
-                title="Share on X"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-[#0A66C2] transition-colors"
-                title="Share on LinkedIn"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href={`mailto:?subject=${encodeURIComponent((article.what_happened || article.title))}&body=${encodeURIComponent(`Read this article: ${window.location.href}`)}`}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                title="Share via Email"
-              >
-                <Mail className="h-5 w-5" />
-              </a>
+
+              {hasBody ? (
+                <div className="mb-10">
+                  <h2 className="section-label mb-4">Full article</h2>
+                  <div className={`relative ${isLong && !expanded ? "max-h-[900px] overflow-hidden" : ""}`}>
+                    <div className="prose prose-lg max-w-[68ch] text-foreground prose-headings:font-serif prose-a:text-secondary prose-img:rounded-lg">
+                      <ReactMarkdown>{cleanBody}</ReactMarkdown>
+                    </div>
+                    {isLong && !expanded && (
+                      <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-background to-transparent" />
+                    )}
+                  </div>
+                  {isLong && !expanded && (
+                    <Button variant="outline" className="mt-4 gap-2" onClick={() => setExpanded(true)}>
+                      Continue reading <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              ) : null}
+
               {article.source_url && (
-                <a href={article.source_url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" title="View original source">
-                  <ExternalLink className="h-5 w-5" />
+                <a href={article.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex">
+                  <Button variant={hasBody ? "ghost" : "default"} className="gap-2 mb-10">
+                    <ExternalLink className="h-4 w-4" />
+                    {hasBody ? `Read original at ${source}` : `Read the full release at ${source}`}
+                  </Button>
                 </a>
               )}
-            </div>
-          </div>
+            </article>
 
-          {/* Title (if no hero image) */}
-          {!article.image_url && (
-            <>
-              <Badge variant="outline" className={`mb-3 ${verticalColor[article.vertical] || verticalColor.general}`}>
-                {verticalLabel[article.vertical] || article.vertical}
-              </Badge>
-              <h1 className="text-3xl md:text-4xl font-serif font-bold text-foreground leading-tight mb-4">
-                {article.what_happened || article.title}
-              </h1>
-            </>
-          )}
-
-          {date && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
-              <Calendar className="h-4 w-4" />
-              <span>{date}</span>
-            </div>
-          )}
-
-          {/* Intelligence Cards */}
-          <div className="space-y-6 mb-10">
-            {article.what_happened && (
-              <div className="border-l-4 border-secondary pl-5 py-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <Zap className="h-4 w-4 text-secondary" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-secondary">What Happened</span>
-                </div>
-                <p className="text-foreground leading-relaxed">{article.what_happened}</p>
-              </div>
-            )}
-
-            {article.why_it_matters && (
-              <div className="border-l-4 border-destructive pl-5 py-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <Target className="h-4 w-4 text-destructive" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-destructive">Why It Matters</span>
-                </div>
-                <p className="text-foreground leading-relaxed">{article.why_it_matters}</p>
-              </div>
-            )}
-
-            {article.what_to_do && (
-              <div className="border-l-4 border-success pl-5 py-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="h-4 w-4 text-success" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-success">What To Do</span>
-                </div>
-                <p className="text-foreground leading-relaxed">{article.what_to_do}</p>
-              </div>
-            )}
-          </div>
-
-          {/* Tabbed: Summary / Full Article */}
-          {(() => {
-            // body_markdown is "distinct" only if it's long enough to be real content (not just a date)
-            const normalizedBody = article.body_markdown
-              ? article.body_markdown.replace(/\\n/g, "\n").trim()
-              : "";
-            const hasDistinctBody = normalizedBody.length > 80
-              && normalizedBody !== (article.summary || "").trim();
-            if (hasDistinctBody) {
-              return (
-                <Tabs defaultValue="summary" className="mb-10">
-                  <TabsList className="w-full justify-start bg-muted/50 h-auto p-1 rounded-lg">
-                    {article.summary && (
-                      <TabsTrigger value="summary" className="text-sm px-5 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm rounded-md gap-2">
-                        <FileText className="h-4 w-4" /> Summary
-                      </TabsTrigger>
-                    )}
-                    <TabsTrigger value="full" className="text-sm px-5 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm rounded-md gap-2">
-                      <BookOpen className="h-4 w-4" /> Full Article
-                    </TabsTrigger>
-                  </TabsList>
-                  {article.summary && (
-                    <TabsContent value="summary" className="mt-4">
-                      <div className="bg-muted/30 rounded-xl p-6 border border-border">
-                        <p className="text-muted-foreground leading-relaxed">{article.summary}</p>
-                      </div>
-                    </TabsContent>
+            {/* Sidebar */}
+            <aside className="space-y-6 lg:sticky lg:top-24 self-start">
+              <div className="rounded-xl border border-border bg-card p-4">
+                <p className="section-label mb-3">Share</p>
+                <div className="flex items-center gap-4 text-muted-foreground">
+                  {user && (
+                    <button onClick={toggleBookmark} className="hover:text-secondary transition-colors" title="Bookmark">
+                      <Bookmark className={`h-5 w-5 ${bookmarked ? "fill-secondary text-secondary" : ""}`} />
+                    </button>
                   )}
-                  <TabsContent value="full" className="mt-4">
-                    <div className="prose prose-lg max-w-none text-foreground prose-headings:font-serif prose-a:text-secondary">
-                      <ReactMarkdown>{article.body_markdown!
-                        .replace(/\\n/g, "\n")
-                        .replace(/#{1,3}\s*Cookies on [\w.]+[\s\S]*?\[Adjust\]\([^)]*\)\s*/gi, "")
-                        .replace(/(?:^|\n)\s*Print\s*(?:\n|$)/gi, "\n")
-                        .replace(/(?:^|\n)\s*For the analytical data,?\s*(?:please\s+)?click here\.?\s*(?:\n|$)/gi, "\n")
-                        .replace(/\[For the analytical data,?\s*(?:please\s+)?click here\.?\]\([^)]*\)/gi, "")
-                      }</ReactMarkdown>
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              );
-            } else if (article.summary) {
-              return (
-                <div className="bg-muted/30 rounded-xl p-6 border border-border mb-10">
-                  <p className="text-muted-foreground leading-relaxed">{article.summary}</p>
+                  <a href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground" title="Share on X"><Twitter className="h-5 w-5" /></a>
+                  <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground" title="Share on LinkedIn"><Linkedin className="h-5 w-5" /></a>
+                  <a href={`mailto:?subject=${shareText}&body=${shareUrl}`} className="hover:text-foreground" title="Share via Email"><Mail className="h-5 w-5" /></a>
                 </div>
-              );
-            }
-            return null;
-          })()}
+              </div>
 
-          {/* Tags */}
-          {article.tags && article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-10">
-              {article.tags.map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
-              ))}
+              {article.tags && article.tags.length > 0 && (
+                <div className="rounded-xl border border-border bg-card p-4">
+                  <p className="section-label mb-3">Topics</p>
+                  <div className="flex flex-wrap gap-2">
+                    {article.tags.map((tag) => (
+                      <Link key={tag} to={`/search?q=${encodeURIComponent(tag)}`}>
+                        <Badge variant="outline" className="text-xs hover:border-secondary hover:text-secondary">{tag}</Badge>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {mostRead.length > 0 && (
+                <div className="rounded-xl border border-border bg-card p-4">
+                  <p className="section-label mb-3 flex items-center gap-1.5"><Flame className="h-3.5 w-3.5 text-destructive" />Most read</p>
+                  <ol className="space-y-3">
+                    {mostRead.filter((m) => m.article_id !== article.id).slice(0, 5).map((m, i) => (
+                      <li key={m.article_id} className="flex gap-3">
+                        <span className="font-serif font-black text-xl text-muted-foreground/30 leading-none">{i + 1}</span>
+                        <Link to={`/article/${m.article_id}`} className="text-sm font-serif leading-snug hover:text-secondary line-clamp-3">{m.title}</Link>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+            </aside>
+          </div>
+
+          {/* Related articles */}
+          {related.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-border">
+              <h3 className="section-label mb-6">Related Intelligence</h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {related.map((r) => (
+                  <Link key={r.id} to={`/article/${r.id}`} className="group">
+                    <div className="rounded-lg overflow-hidden border border-border bg-card hover:shadow-md transition-shadow h-full">
+                      {r.image_url && (
+                        <img src={r.image_url} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500" />
+                      )}
+                      <div className="p-3">
+                        <Badge variant="outline" className="text-[9px] mb-2">{verticalLabel[r.vertical] || r.vertical}</Badge>
+                        <h4 className="font-serif font-bold text-sm leading-snug line-clamp-3 group-hover:text-secondary transition-colors">
+                          {r.title || r.what_happened}
+                        </h4>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
-          )}
-
-          {/* Source link */}
-          {article.source_url && (
-            <a
-              href={article.source_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-secondary hover:underline mb-10"
-            >
-              <ExternalLink className="h-4 w-4" /> View original source
-            </a>
           )}
         </div>
-
-        {/* Related articles */}
-        {related.length > 0 && (
-          <div className="max-w-5xl mx-auto mt-12 pt-8 border-t border-border">
-            <h3 className="section-label mb-6">Related Intelligence</h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {related.map((r) => (
-                <Link key={r.id} to={`/article/${r.id}`} className="group">
-                  <div className="rounded-lg overflow-hidden border border-border bg-card hover:shadow-md transition-shadow">
-                    {r.image_url && (
-                      <img src={r.image_url} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500" />
-                    )}
-                    <div className="p-3">
-                      <Badge variant="outline" className="text-[9px] mb-2">{verticalLabel[r.vertical] || r.vertical}</Badge>
-                      <h4 className="font-serif font-bold text-sm leading-snug line-clamp-2 group-hover:text-secondary transition-colors">
-                        {r.what_happened || r.title}
-                      </h4>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
       </main>
 
       <Footer />
