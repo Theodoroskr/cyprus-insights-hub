@@ -13,5 +13,7 @@
 - [ ] Semantic-similarity duplicate check (later)
 - [ ] Profile claiming (deferred)
 
-- [ ] Rerun CySEC licence import (blocked: Firecrawl has 0 credits; resets 11 Nov or after upgrade)
-- [ ] Nov 6: CySEC import rerun, CSE parser hardening, 68 near-matches to Review, retry failing sources, link 14 curated companies to registry
+- [x] CySEC investment-firm licences imported (248)
+- [x] CSE price reader hardened; 70 near-matches queued; failing sources retried; 14 Who's Who companies linked
+- [ ] CySEC crypto/AIFM/admin-service lists — pages load their tables in-browser; need a different read method
+- [ ] 7 news sources still failing (4 pages unreadable, 3 site-side SSL/blocking)
