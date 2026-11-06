@@ -78,7 +78,7 @@ Write in a professional, authoritative tone. Be specific about Cyprus implicatio
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-3-flash-preview",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Title: ${title}\n\nArticle:\n${body.slice(0, 3000)}` },
@@ -161,7 +161,7 @@ If no distinct articles can be identified, return an empty array.`;
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-3-flash-preview",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: markdown.slice(0, 8000) },

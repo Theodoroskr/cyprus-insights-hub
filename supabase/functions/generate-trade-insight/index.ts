@@ -156,7 +156,7 @@ Keep it factual, data-driven, and under 300 words. Do not use markdown headers. 
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-lite",
+        model: "google/gemini-3.1-flash-lite",
         messages: [
           { role: "user", content: `Write a short headline (max 10 words) for this Cyprus trade summary for ${monthLabel}. No quotes, no punctuation at the end:\n\n${summaryText}` },
         ],
