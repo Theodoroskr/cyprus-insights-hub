@@ -291,6 +291,22 @@ Deno.serve(async (req) => {
             continue;
           }
 
+          // Licensed-register entries are stored as "licensed" records only — never as warnings or sanctions
+          const { data: existingRec } = await supabase.from("regulatory_records")
+            .select("id").eq("regulator", src.key.toUpperCase()).eq("record_type", "licensed")
+            .eq("entity_name", entity.entity_name).maybeSingle();
+          if (!existingRec) {
+            await supabase.from("regulatory_records").insert({
+              regulator: src.key.toUpperCase(),
+              record_type: "licensed",
+              entity_name: entity.entity_name,
+              license_number: entity.license_number || null,
+              directory_company_id: match.confidence >= 0.75 ? match.id : null,
+              title: `${src.license_type} — ${entity.status || "active"}`,
+              status: match.confidence >= 0.75 ? "published" : "pending",
+            });
+          }
+
           // Update directory company flags if matched (not created — created already has flags)
           if (!match.created && match.confidence >= 0.75) {
             const updates: Record<string, any> = {

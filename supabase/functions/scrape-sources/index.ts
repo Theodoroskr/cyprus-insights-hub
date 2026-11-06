@@ -217,6 +217,11 @@ If no distinct articles can be identified, return an empty array.`;
 }
 
 // Strip common boilerplate patterns from scraped markdown
+async function sha256(input: string): Promise<string> {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 function cleanBoilerplate(text: string): string {
   let cleaned = text;
 
@@ -308,6 +313,7 @@ Deno.serve(async (req) => {
       .from("content_sources")
       .select("*")
       .eq("active", true)
+      .eq("access_status", "active")
       .order("last_scraped_at", { ascending: true, nullsFirst: true });
 
     if (targetSlug) {
@@ -328,7 +334,8 @@ Deno.serve(async (req) => {
     const allResults: Array<{ source: string; articles_found: number; articles_ingested: number; errors: string[] }> = [];
 
     for (const source of sources) {
-      const sourceResult = { source: source.name, articles_found: 0, articles_ingested: 0, errors: [] as string[] };
+      const sourceResult: { source: string; articles_found: number; articles_ingested: number; errors: string[]; duplicates?: number; rejected?: number } =
+        { source: source.name, articles_found: 0, articles_ingested: 0, errors: [] as string[] };
       
       try {
         console.log(`Scraping: ${source.name} — ${source.url}${source.scrape_path}`);
@@ -379,7 +386,17 @@ Deno.serve(async (req) => {
               .eq("source_id", sourceId)
               .maybeSingle();
 
-            if (existing) continue;
+            if (existing) { sourceResult.duplicates = (sourceResult.duplicates || 0) + 1; continue; }
+
+            // Duplicate check by canonical URL
+            const canonicalUrl = article.url && article.url.startsWith("http")
+              ? article.url.split("#")[0].split("?")[0].replace(/\/$/, "").toLowerCase()
+              : null;
+            if (canonicalUrl) {
+              const { data: dupUrl } = await supabase
+                .from("cna_articles").select("id").eq("canonical_url", canonicalUrl).maybeSingle();
+              if (dupUrl) { sourceResult.duplicates = (sourceResult.duplicates || 0) + 1; continue; }
+            }
 
             let fullBody = article.body || "";
             let articleImageUrl = article.image_url || null;
@@ -423,6 +440,15 @@ Deno.serve(async (req) => {
 
             fullBody = cleanBoilerplate(fullBody);
 
+            // Duplicate check by content fingerprint (same story republished elsewhere)
+            const contentHash = await sha256(
+              (article.title + " " + fullBody.slice(0, 2000)).toLowerCase().replace(/[^a-z0-9α-ω]/g, "")
+            );
+            const { data: dupHash } = await supabase
+              .from("cna_articles").select("id").eq("content_hash", contentHash).maybeSingle();
+            if (dupHash) { sourceResult.duplicates = (sourceResult.duplicates || 0) + 1; continue; }
+            if (fullBody.length < 150) { sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
+
             const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
             const intelligence = await enrichWithAI(article.title, fullBody, vertical, LOVABLE_API_KEY);
 
@@ -435,6 +461,8 @@ Deno.serve(async (req) => {
                 body_markdown: fullBody,
                 source_url: article.url || `${source.url}${source.scrape_path}`,
                 source_id: sourceId,
+                canonical_url: canonicalUrl,
+                content_hash: contentHash,
                 image_url: articleImageUrl,
                 vertical,
                 summary: intelligence.summary,
@@ -462,6 +490,9 @@ Deno.serve(async (req) => {
             last_scraped_at: new Date().toISOString(),
             last_error: lastError,
             last_error_at: lastError ? new Date().toISOString() : null,
+            records_imported: (source.records_imported || 0) + sourceResult.articles_ingested,
+            records_duplicate: (source.records_duplicate || 0) + (sourceResult.duplicates || 0),
+            records_rejected: (source.records_rejected || 0) + (sourceResult.rejected || 0),
           })
           .eq("id", source.id);
 
@@ -480,6 +511,16 @@ Deno.serve(async (req) => {
 
       allResults.push(sourceResult);
     }
+
+    // Link new articles to companies and people (runs in the same hourly batch)
+    try {
+      await fetch(`${SUPABASE_URL}/functions/v1/extract-entities`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}` },
+        body: JSON.stringify({ limit: 15 }),
+        signal: AbortSignal.timeout(2000),
+      });
+    } catch { /* fire-and-forget */ }
 
     const totalIngested = allResults.reduce((s, r) => s + r.articles_ingested, 0);
     const totalFound = allResults.reduce((s, r) => s + r.articles_found, 0);

@@ -181,7 +181,11 @@ export type Database = {
       cna_articles: {
         Row: {
           body_markdown: string | null
+          canonical_url: string | null
+          content_hash: string | null
           created_at: string
+          entities_extracted_at: string | null
+          event_type: string | null
           id: string
           image_url: string | null
           published_at: string | null
@@ -199,7 +203,11 @@ export type Database = {
         }
         Insert: {
           body_markdown?: string | null
+          canonical_url?: string | null
+          content_hash?: string | null
           created_at?: string
+          entities_extracted_at?: string | null
+          event_type?: string | null
           id?: string
           image_url?: string | null
           published_at?: string | null
@@ -217,7 +225,11 @@ export type Database = {
         }
         Update: {
           body_markdown?: string | null
+          canonical_url?: string | null
+          content_hash?: string | null
           created_at?: string
+          entities_extracted_at?: string | null
+          event_type?: string | null
           id?: string
           image_url?: string | null
           published_at?: string | null
@@ -239,6 +251,7 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          directory_company_id: string | null
           id: string
           industry_id: string | null
           location_id: string | null
@@ -253,6 +266,7 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string | null
+          directory_company_id?: string | null
           id?: string
           industry_id?: string | null
           location_id?: string | null
@@ -267,6 +281,7 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string | null
+          directory_company_id?: string | null
           id?: string
           industry_id?: string | null
           location_id?: string | null
@@ -280,6 +295,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "companies_directory_company_id_fkey"
+            columns: ["directory_company_id"]
+            isOneToOne: false
+            referencedRelation: "directory_companies"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "companies_industry_id_fkey"
             columns: ["industry_id"]
             isOneToOne: false
@@ -291,6 +313,80 @@ export type Database = {
             columns: ["location_id"]
             isOneToOne: false
             referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_events: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          directory_company_id: string | null
+          event_date: string | null
+          event_type: string
+          id: string
+          is_sensitive: boolean
+          person_id: string | null
+          source_article_id: string | null
+          source_url: string | null
+          status: string
+          title: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          directory_company_id?: string | null
+          event_date?: string | null
+          event_type: string
+          id?: string
+          is_sensitive?: boolean
+          person_id?: string | null
+          source_article_id?: string | null
+          source_url?: string | null
+          status?: string
+          title: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          directory_company_id?: string | null
+          event_date?: string | null
+          event_type?: string
+          id?: string
+          is_sensitive?: boolean
+          person_id?: string | null
+          source_article_id?: string | null
+          source_url?: string | null
+          status?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "company_events_directory_company_id_fkey"
+            columns: ["directory_company_id"]
+            isOneToOne: false
+            referencedRelation: "directory_companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "company_events_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "company_events_source_article_id_fkey"
+            columns: ["source_article_id"]
+            isOneToOne: false
+            referencedRelation: "cna_articles"
             referencedColumns: ["id"]
           },
         ]
@@ -330,6 +426,7 @@ export type Database = {
       }
       content_sources: {
         Row: {
+          access_status: string
           active: boolean
           auto_publish: boolean
           category: string
@@ -339,6 +436,9 @@ export type Database = {
           last_error_at: string | null
           last_scraped_at: string | null
           name: string
+          records_duplicate: number
+          records_imported: number
+          records_rejected: number
           scrape_interval_hours: number
           scrape_path: string
           slug: string
@@ -349,6 +449,7 @@ export type Database = {
           url: string
         }
         Insert: {
+          access_status?: string
           active?: boolean
           auto_publish?: boolean
           category?: string
@@ -358,6 +459,9 @@ export type Database = {
           last_error_at?: string | null
           last_scraped_at?: string | null
           name: string
+          records_duplicate?: number
+          records_imported?: number
+          records_rejected?: number
           scrape_interval_hours?: number
           scrape_path?: string
           slug: string
@@ -368,6 +472,7 @@ export type Database = {
           url: string
         }
         Update: {
+          access_status?: string
           active?: boolean
           auto_publish?: boolean
           category?: string
@@ -377,6 +482,9 @@ export type Database = {
           last_error_at?: string | null
           last_scraped_at?: string | null
           name?: string
+          records_duplicate?: number
+          records_imported?: number
+          records_rejected?: number
           scrape_interval_hours?: number
           scrape_path?: string
           slug?: string
@@ -387,6 +495,47 @@ export type Database = {
           url?: string
         }
         Relationships: []
+      }
+      correction_requests: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          id: string
+          message: string
+          person_id: string | null
+          requester_email: string
+          requester_name: string
+          status: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          person_id?: string | null
+          requester_email: string
+          requester_name: string
+          status?: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          person_id?: string | null
+          requester_email?: string
+          requester_name?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "correction_requests_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       country_risk_scores: {
         Row: {
@@ -432,6 +581,38 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      cysec_status_history: {
+        Row: {
+          changed_at: string
+          id: string
+          new_status: string | null
+          old_status: string | null
+          regulated_entity_id: string
+        }
+        Insert: {
+          changed_at?: string
+          id?: string
+          new_status?: string | null
+          old_status?: string | null
+          regulated_entity_id: string
+        }
+        Update: {
+          changed_at?: string
+          id?: string
+          new_status?: string | null
+          old_status?: string | null
+          regulated_entity_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cysec_status_history_regulated_entity_id_fkey"
+            columns: ["regulated_entity_id"]
+            isOneToOne: false
+            referencedRelation: "regulated_entities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       dashboard_settings: {
         Row: {
@@ -846,6 +1027,101 @@ export type Database = {
         }
         Relationships: []
       }
+      match_review_queue: {
+        Row: {
+          candidate_id: string | null
+          candidate_label: string | null
+          candidate_type: string | null
+          confidence: number | null
+          created_at: string
+          extracted_name: string
+          id: string
+          kind: string
+          reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          source_id: string
+          source_table: string
+          status: string
+        }
+        Insert: {
+          candidate_id?: string | null
+          candidate_label?: string | null
+          candidate_type?: string | null
+          confidence?: number | null
+          created_at?: string
+          extracted_name: string
+          id?: string
+          kind: string
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          source_id: string
+          source_table: string
+          status?: string
+        }
+        Update: {
+          candidate_id?: string | null
+          candidate_label?: string | null
+          candidate_type?: string | null
+          confidence?: number | null
+          created_at?: string
+          extracted_name?: string
+          id?: string
+          kind?: string
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          source_id?: string
+          source_table?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      news_entity_links: {
+        Row: {
+          article_id: string
+          confidence: number | null
+          created_at: string
+          entity_id: string
+          entity_label: string | null
+          entity_type: string
+          id: string
+          match_method: string | null
+          status: string
+        }
+        Insert: {
+          article_id: string
+          confidence?: number | null
+          created_at?: string
+          entity_id: string
+          entity_label?: string | null
+          entity_type: string
+          id?: string
+          match_method?: string | null
+          status?: string
+        }
+        Update: {
+          article_id?: string
+          confidence?: number | null
+          created_at?: string
+          entity_id?: string
+          entity_label?: string | null
+          entity_type?: string
+          id?: string
+          match_method?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "news_entity_links_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "cna_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       newsletter_subscribers: {
         Row: {
           company: string | null
@@ -928,10 +1204,12 @@ export type Database = {
           id: string
           is_whoiswho: boolean
           name: string
+          name_el: string | null
           photo: string | null
           slug: string
           title: string | null
           updated_at: string
+          verified_at: string | null
           whoiswho_quote: string | null
         }
         Insert: {
@@ -940,10 +1218,12 @@ export type Database = {
           id?: string
           is_whoiswho?: boolean
           name: string
+          name_el?: string | null
           photo?: string | null
           slug: string
           title?: string | null
           updated_at?: string
+          verified_at?: string | null
           whoiswho_quote?: string | null
         }
         Update: {
@@ -952,10 +1232,12 @@ export type Database = {
           id?: string
           is_whoiswho?: boolean
           name?: string
+          name_el?: string | null
           photo?: string | null
           slug?: string
           title?: string | null
           updated_at?: string
+          verified_at?: string | null
           whoiswho_quote?: string | null
         }
         Relationships: []
@@ -1166,30 +1448,98 @@ export type Database = {
         }
         Relationships: []
       }
+      regulatory_records: {
+        Row: {
+          created_at: string
+          decision_date: string | null
+          details: string | null
+          directory_company_id: string | null
+          entity_name: string
+          id: string
+          license_number: string | null
+          record_type: string
+          regulator: string
+          source_url: string | null
+          status: string
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          decision_date?: string | null
+          details?: string | null
+          directory_company_id?: string | null
+          entity_name: string
+          id?: string
+          license_number?: string | null
+          record_type: string
+          regulator?: string
+          source_url?: string | null
+          status?: string
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          decision_date?: string | null
+          details?: string | null
+          directory_company_id?: string | null
+          entity_name?: string
+          id?: string
+          license_number?: string | null
+          record_type?: string
+          regulator?: string
+          source_url?: string | null
+          status?: string
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "regulatory_records_directory_company_id_fkey"
+            columns: ["directory_company_id"]
+            isOneToOne: false
+            referencedRelation: "directory_companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       relationships: {
         Row: {
           company_id: string
           created_at: string
+          ended_at: string | null
           id: string
           is_current: boolean
           person_id: string
           role: string
+          role_type: string | null
+          source_url: string | null
+          started_at: string | null
+          verified_at: string | null
         }
         Insert: {
           company_id: string
           created_at?: string
+          ended_at?: string | null
           id?: string
           is_current?: boolean
           person_id: string
           role: string
+          role_type?: string | null
+          source_url?: string | null
+          started_at?: string | null
+          verified_at?: string | null
         }
         Update: {
           company_id?: string
           created_at?: string
+          ended_at?: string | null
           id?: string
           is_current?: boolean
           person_id?: string
           role?: string
+          role_type?: string | null
+          source_url?: string | null
+          started_at?: string | null
+          verified_at?: string | null
         }
         Relationships: [
           {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Building2, MapPin, Globe, Users, ExternalLink, Lock, Shield, FileText, BarChart3, UserCheck, AlertTriangle, Eye, EyeOff } from "lucide-react";
 import { useWatchlist } from "@/hooks/useWatchlist";
 import { useAuth } from "@/contexts/AuthContext";
@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 
 export default function CompanyProfilePage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { isWatching, toggleWatch } = useWatchlist();
   const [company, setCompany] = useState<any>(null);
@@ -28,6 +29,11 @@ export default function CompanyProfilePage() {
     supabase.from("companies").select("*, industry:industries(name, slug), location:locations(name, slug)").eq("slug", slug).single()
       .then(async ({ data: comp }) => {
         if (!comp) { setLoading(false); return; }
+        // One master record: once linked to the registry, send visitors to the registry profile
+        if (comp.directory_company_id) {
+          const { data: dir } = await supabase.from("directory_companies").select("slug").eq("id", comp.directory_company_id).maybeSingle();
+          if (dir?.slug) { navigate(`/directory/company/${dir.slug}`, { replace: true }); return; }
+        }
         setCompany(comp);
 
         const [relRes, artRes, repRes] = await Promise.all([

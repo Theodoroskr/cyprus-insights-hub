@@ -18,6 +18,19 @@ type SourceRow = {
   last_error: string | null;
   last_error_at: string | null;
   scrape_interval_hours: number;
+  access_status: string;
+  records_imported: number;
+  records_rejected: number;
+  records_duplicate: number;
+};
+
+const ACCESS_LABELS: Record<string, string> = {
+  active: "Active",
+  pending_permission: "Pending Permission",
+  pending_configuration: "Pending Configuration",
+  auth_required: "Authentication Required",
+  error: "Error",
+  disabled: "Disabled",
 };
 
 export function ContentHealthPanel() {
@@ -29,7 +42,7 @@ export function ContentHealthPanel() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("content_sources")
-        .select("id,name,slug,category,target_vertical,active,last_scraped_at,last_error,last_error_at,scrape_interval_hours")
+        .select("id,name,slug,category,target_vertical,active,last_scraped_at,last_error,last_error_at,scrape_interval_hours,access_status,records_imported,records_rejected,records_duplicate")
         .order("last_error_at", { ascending: false, nullsFirst: false });
       if (error) throw error;
       return (data || []) as SourceRow[];
@@ -116,6 +129,22 @@ export function ContentHealthPanel() {
                     <td className="px-4 py-3">
                       <div className="font-medium text-foreground">{s.name}</div>
                       <div className="text-[11px] text-muted-foreground">{s.category}</div>
+                      <div className="flex flex-wrap items-center gap-1 mt-1">
+                        <select
+                          aria-label="Access status"
+                          value={s.access_status}
+                          onChange={async (e) => {
+                            await supabase.from("content_sources").update({ access_status: e.target.value }).eq("id", s.id);
+                            queryClient.invalidateQueries({ queryKey: ["content-health"] });
+                          }}
+                          className="text-[10px] border border-border rounded bg-background px-1 py-0.5"
+                        >
+                          {Object.entries(ACCESS_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                        </select>
+                        <span className="text-[10px] text-muted-foreground">
+                          {s.records_imported} imported · {s.records_duplicate} duplicates · {s.records_rejected} rejected
+                        </span>
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <Badge variant="outline" className="text-[10px] uppercase">

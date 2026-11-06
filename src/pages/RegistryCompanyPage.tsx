@@ -10,6 +10,7 @@ import { LoginModal } from "@/components/auth/LoginModal";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
+import { CompanyIntelligence } from "@/components/intel/CompanyIntelligence";
 
 import { toast } from "sonner";
 
@@ -309,6 +310,7 @@ export default function RegistryCompanyPage() {
                 </div>
               </div>
             )}
+            <CompanyIntelligence directoryCompanyId={company.id} />
           </div>
         </div>
       </div>
