@@ -43,31 +43,10 @@ export function HeroBanner() {
   return (
     <section className="border-b border-border bg-card">
       <div className="container mx-auto px-4">
-        {/* Thin accent line */}
-        <div className="h-[3px] bg-foreground" />
-
-        {/* Compact masthead — FC style */}
-        <div className="py-4 flex flex-col md:flex-row items-center justify-between gap-3 border-b border-border">
-          <div className="text-center md:text-left">
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground font-serif tracking-tight">
-              BusinessHub<span className="text-secondary">.cy</span>
-            </h1>
-          </div>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <Calendar className="h-3 w-3" />
-              {formattedDate}
-            </span>
-            <span className="w-1 h-1 rounded-full bg-border" />
-            <span>Cyprus Edition</span>
-            <span className="w-1 h-1 rounded-full bg-border" />
-            <span className="text-secondary font-medium">LIVE</span>
-          </div>
-        </div>
-
         {/* Trending Topics Bar — FC "Latest Topics" */}
-        {trendingTags.length > 0 && (
-          <div className="py-2.5 flex items-center gap-3 overflow-x-auto scrollbar-hide">
+        {(
+          <div className="py-2 flex items-center gap-3 overflow-x-auto scrollbar-hide">
+            <h1 className="sr-only">BusinessHub.cy — Cyprus business intelligence</h1>
             <span className="text-secondary text-xs font-semibold uppercase tracking-wider whitespace-nowrap">
               Trending
             </span>
@@ -82,7 +61,10 @@ export function HeroBanner() {
                 </Link>
               ))}
             </div>
-            <div className="ml-auto hidden md:flex items-center gap-2">
+            <div className="ml-auto hidden md:flex items-center gap-3 text-xs text-muted-foreground whitespace-nowrap">
+              <span className="flex items-center gap-1.5"><Calendar className="h-3 w-3" />{formattedDate}</span>
+              <span className="w-1 h-1 rounded-full bg-border" />
+              <span>Cyprus Edition</span>
               <Link
                 to="/dashboard"
                 className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-xs font-semibold hover:bg-secondary/20 transition-colors"

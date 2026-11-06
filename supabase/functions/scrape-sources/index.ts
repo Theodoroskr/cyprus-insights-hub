@@ -447,7 +447,7 @@ Deno.serve(async (req) => {
             const { data: dupHash } = await supabase
               .from("cna_articles").select("id").eq("content_hash", contentHash).maybeSingle();
             if (dupHash) { sourceResult.duplicates = (sourceResult.duplicates || 0) + 1; continue; }
-            if (fullBody.length < 150) { sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
+            if (fullBody.length < 150 || /404 not found|page not found|could not be found|currently unavailable/i.test(fullBody.slice(0, 600))) { sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
 
             const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
             const intelligence = await enrichWithAI(article.title, fullBody, vertical, LOVABLE_API_KEY);

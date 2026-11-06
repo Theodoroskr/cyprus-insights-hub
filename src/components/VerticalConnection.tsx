@@ -20,33 +20,39 @@ export function VerticalConnection() {
   const [connections, setConnections] = useState<Connection[]>([]);
 
   useEffect(() => {
-    // Fetch articles with linked people via article_people junction
-    supabase
-      .from("article_people")
-      .select("article_id, person_id, people(name, title, slug, photo, is_whoiswho), directory_articles(id, title, article_type, published_at)")
-      .limit(20)
-      .then(({ data }) => {
-        if (!data || data.length === 0) return;
-        const mapped: Connection[] = [];
-        for (const row of data as any[]) {
-          if (row.directory_articles && row.people) {
-            mapped.push({
-              articleId: row.directory_articles.id,
-              articleTitle: row.directory_articles.title,
-              articleVertical: row.directory_articles.article_type || "news",
-              articleDate: row.directory_articles.published_at
-                ? new Date(row.directory_articles.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })
-                : "",
-              personName: row.people.name,
-              personTitle: row.people.title,
-              personSlug: row.people.slug,
-              personPhoto: row.people.photo,
-              personIsWhoiswho: row.people.is_whoiswho,
-            });
-          }
-        }
-        setConnections(mapped.slice(0, 6));
-      });
+    // Only approved news↔person links (never demo or pending matches)
+    (async () => {
+      const { data: links } = await supabase
+        .from("news_entity_links")
+        .select("article_id, entity_id, created_at")
+        .eq("entity_type", "person")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (!links || links.length < 3) return;
+      const [{ data: arts }, { data: ppl }] = await Promise.all([
+        supabase.from("cna_articles").select("id, title, vertical, published_at").in("id", links.map((l) => l.article_id)),
+        supabase.from("people").select("id, name, title, slug, photo, is_whoiswho").in("id", links.map((l) => l.entity_id)),
+      ]);
+      const mapped: Connection[] = [];
+      for (const l of links) {
+        const a = arts?.find((x) => x.id === l.article_id);
+        const p = ppl?.find((x) => x.id === l.entity_id);
+        if (!a || !p) continue;
+        mapped.push({
+          articleId: a.id,
+          articleTitle: a.title,
+          articleVertical: a.vertical || "news",
+          articleDate: a.published_at ? new Date(a.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : "",
+          personName: p.name,
+          personTitle: p.title,
+          personSlug: p.slug,
+          personPhoto: p.photo,
+          personIsWhoiswho: p.is_whoiswho,
+        });
+      }
+      if (mapped.length >= 3) setConnections(mapped.slice(0, 6));
+    })();
   }, []);
 
   if (connections.length === 0) return null;
@@ -74,7 +80,7 @@ export function VerticalConnection() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <Badge variant="secondary" className="mb-2 text-xs">{c.articleVertical}</Badge>
-                  <h4 className="font-medium text-sm text-primary leading-tight line-clamp-2">{c.articleTitle}</h4>
+                  <Link to={`/article/${c.articleId}`} className="font-medium text-sm text-primary leading-tight line-clamp-2 hover:text-secondary">{c.articleTitle}</Link>
                   {c.articleDate && <p className="text-xs text-muted-foreground mt-1">{c.articleDate}</p>}
                 </div>
               </div>

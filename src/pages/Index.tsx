@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { Link } from "react-router-dom";
-import { Landmark, Euro, Shield, ArrowRight } from "lucide-react";
+import { Landmark, Euro, Shield, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InlineAdSlot } from "@/components/banners/AdSlot";
 import { BusinessTicker } from "@/components/BusinessTicker";
@@ -14,11 +14,9 @@ import { IntelligenceHub } from "@/components/IntelligenceHub";
 import { IntelligenceFeed } from "@/components/IntelligenceFeed";
 import { SponsoredStudio } from "@/components/SponsoredStudio";
 import { VerticalConnection } from "@/components/VerticalConnection";
-import { KnowledgeGraph } from "@/components/KnowledgeGraph";
 import { SearchResults } from "@/components/SearchResults";
 import { Footer } from "@/components/Footer";
 import { PartnerStrip } from "@/components/banners/PartnerStrip";
-import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { ArticleCounter } from "@/components/auth/ArticleCounter";
 import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
 import { DirectoryPreview } from "@/components/DirectoryPreview";
@@ -56,7 +54,7 @@ function HubTripleRow() {
   ];
 
   return (
-    <section className="py-10 bg-muted/30">
+    <section className="py-8 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-5">
           {hubs.map((hub) => (
@@ -90,6 +88,7 @@ function HubTripleRow() {
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showBeta, setShowBeta] = useState(() => typeof window === "undefined" || !localStorage.getItem("bh_beta_dismissed"));
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -115,12 +114,19 @@ const Index = () => {
       <HeroBanner />
 
       {/* Free Beta Banner */}
-      <div className="bg-secondary/10 border-b border-secondary/20 py-2.5 text-center text-sm">
-        <span className="text-foreground">🎉 Free during beta — full access, no credit card required.{" "}</span>
-        <Link to="/dashboard" className="text-secondary font-semibold hover:underline">
-          Create free account →
-        </Link>
-      </div>
+      {showBeta && (
+        <div className="bg-secondary/10 border-b border-secondary/20 py-1 text-center text-xs relative">
+          <span className="text-foreground">Free during beta — full access, no credit card required.{" "}</span>
+          <Link to="/dashboard" className="text-secondary font-semibold hover:underline">Create free account →</Link>
+          <button
+            aria-label="Dismiss"
+            onClick={() => { localStorage.setItem("bh_beta_dismissed", "1"); setShowBeta(false); }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      )}
 
       {/* Vertical Navigator — category tabs */}
       <VerticalNavigator />
@@ -137,13 +143,13 @@ const Index = () => {
         <SponsoredStudio />
 
         {/* Ad: Billboard mid-page */}
-        <InlineAdSlot size="billboard" label="970 × 250 — Billboard" />
+        <InlineAdSlot size="billboard" />
 
         {/* Latest Stories Feed — with inline Premium indicators + sidebar ads */}
         <IntelligenceFeed />
 
         {/* Ad: Leaderboard mid-feed */}
-        <InlineAdSlot size="leaderboard" label="728 × 90 — Mid-Page" />
+        <InlineAdSlot size="leaderboard" />
 
         {/* Verticals strip */}
         <SectionBanners />
@@ -152,7 +158,7 @@ const Index = () => {
         <DirectoryPreview />
 
         {/* Ad: Banner between directory and featured */}
-        <InlineAdSlot size="banner" label="468 × 60 — Banner" />
+        <InlineAdSlot size="banner" />
 
         {/* Featured Companies by City */}
         <FeaturedCompaniesSection compact />
@@ -160,11 +166,6 @@ const Index = () => {
         {/* Vertical Connection */}
         <VerticalConnection />
 
-        {/* Ad: Leaderboard before knowledge graph */}
-        <InlineAdSlot size="leaderboard" label="728 × 90 — Lower" />
-
-        {/* Knowledge Graph */}
-        <KnowledgeGraph />
         
         {/* FinTech · EU Funding · Compliance — 3-column row */}
         <HubTripleRow />
@@ -173,8 +174,6 @@ const Index = () => {
       {/* Newsletter Signup */}
       <NewsletterSignup />
 
-      {/* Premium CTA Banner */}
-      <PremiumCTABanner />
       
       {/* Leaderboard Ad — above footer */}
       <LeaderboardAdSlot />

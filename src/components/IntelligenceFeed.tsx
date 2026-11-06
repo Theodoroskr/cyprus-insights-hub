@@ -6,6 +6,33 @@ import { IntelligenceListItem } from "@/components/IntelligenceListItem";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+
+/** Sidebar filler: latest compliance/regtech headlines */
+function LatestRegulatory() {
+  const [items, setItems] = useState<{ id: string; title: string; published_at: string }[]>([]);
+  useEffect(() => {
+    supabase.from("cna_articles").select("id, title, published_at").eq("status", "published")
+      .in("vertical", ["compliance", "regtech"]).order("published_at", { ascending: false }).limit(6)
+      .then(({ data }) => data && setItems(data as any));
+  }, []);
+  if (items.length === 0) return null;
+  return (
+    <div className="rounded-xl border border-border bg-card p-4">
+      <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-compliance mb-3">Regulatory updates</p>
+      <ul className="space-y-3">
+        {items.map((a) => (
+          <li key={a.id}>
+            <Link to={`/article/${a.id}`} className="block text-sm font-serif text-foreground leading-snug hover:text-secondary line-clamp-3">{a.title}</Link>
+            <span className="text-[11px] text-muted-foreground">{new Date(a.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+const normTitle = (t: string) => t.toLowerCase().replace(/[^a-z0-9 ]/g, "").split(" ").slice(0, 8).join(" ");
 
 interface DBArticle {
   id: string;
@@ -38,11 +65,8 @@ function StickySidebar() {
         </Button>
       </div>
 
-      {/* Ad: MREC 300×250 */}
-      <AdSlot size="mrec" label="300 × 250 — Sidebar" />
-
-      {/* Ad: Second MREC */}
-      <AdSlot size="mrec" label="300 × 250 — Sidebar 2" />
+      <AdSlot size="mrec" />
+      <LatestRegulatory />
     </div>
   );
 }
@@ -56,11 +80,19 @@ export function IntelligenceFeed() {
       .select("id, title, vertical, what_happened, why_it_matters, what_to_do, published_at, image_url, tags, body_markdown")
       .eq("status", "published")
       .order("published_at", { ascending: false })
-      .limit(12)
+      .range(5, 24) // first 5 are shown in the Intelligence Hub above
       .then(({ data, error }) => {
         if (error) console.error("CNA fetch error:", error);
         if (data && data.length > 0) {
-          setDbArticles(data as DBArticle[]);
+          // Drop near-duplicate stories (same opening words, same day)
+          const seen = new Set<string>();
+          const unique = (data as DBArticle[]).filter((a) => {
+            const k = normTitle(a.what_happened || a.title) + "|" + (a.published_at || "").slice(0, 10);
+            if (seen.has(k)) return false;
+            seen.add(k);
+            return true;
+          });
+          setDbArticles(unique.slice(0, 12));
           // Views are now tracked on click, not on load
         }
       });

@@ -39,7 +39,7 @@ export function IntelligenceHub() {
       .select("id, title, summary, image_url, vertical, published_at, what_happened, body_markdown, why_it_matters, what_to_do")
       .eq("status", "published")
       .order("published_at", { ascending: false })
-      .range(1, 5) // skip index 0 (hero lead), get next 5
+      .range(0, 4) // 5 latest; the feed below starts after these
       .then(({ data }) => {
         if (data && data.length > 0) {
           setDbArticles(data);
