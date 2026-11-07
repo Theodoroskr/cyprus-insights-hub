@@ -17,7 +17,7 @@ function renderCompanyHtml(c: any): string {
     `${c.company_name}${c.city ? ` in ${c.city}` : ""} — ${c.activity_description || "Registered company in Cyprus"}. Registration, NACE code, and business details.`
   );
   const url = `${BASE_URL}/directory/company/${c.slug}`;
-  const ogImage = `${BASE_URL}/og-default.png`;
+  const ogImage = `${BASE_URL}/images/og-businesshub.png`;
 
   const cityLabel = c.city || "";
   const citySlug = c.city_slug || "";

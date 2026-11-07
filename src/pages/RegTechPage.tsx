@@ -198,6 +198,7 @@ export default function RegTechPage() {
         title="RegTechHub.cy — Regulatory Technology Intelligence for Cyprus"
         description="DORA readiness, vendor landscape, and regulatory frameworks for RegTech in Cyprus. Compliance automation, risk surveillance & ICT resilience tools."
         path="/regtech"
+        vertical="regtech"
       />
 
       {/* ─── Masthead ─────────────────────────────────────── */}

@@ -194,6 +194,7 @@ export default function ArticlePage() {
         description={article.summary || article.why_it_matters || ""}
         path={`/article/${article.id}`}
         image={article.image_url || undefined}
+        vertical={article.vertical}
         type="article"
       />
       <TopNavigation onSearch={() => {}} />

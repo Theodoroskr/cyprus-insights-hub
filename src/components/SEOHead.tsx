@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { ogImageFor } from "@/lib/ogImage";
 
 export interface BreadcrumbItem {
   name: string;
@@ -10,6 +11,8 @@ interface SEOHeadProps {
   description?: string;
   path?: string;
   image?: string;
+  /** Hub vertical — picks the branded share image when `image` is absent. */
+  vertical?: string;
   type?: string;
   breadcrumbs?: BreadcrumbItem[];
   jsonLd?: Record<string, any>;
@@ -17,20 +20,20 @@ interface SEOHeadProps {
 
 const SITE_NAME = "BusinessHub.cy";
 const BASE_URL = "https://businesshub.cy";
-const DEFAULT_OG_IMAGE = `${BASE_URL}/og-default.png`;
 
 export function SEOHead({
   title,
   description = "Cyprus business intelligence platform — compliance, fintech, trade, and company directory.",
   path = "",
   image,
+  vertical,
   type = "website",
   breadcrumbs,
   jsonLd,
 }: SEOHeadProps) {
   const fullTitle = `${title} | ${SITE_NAME}`;
   const url = `${BASE_URL}${path}`;
-  const ogImage = image || DEFAULT_OG_IMAGE;
+  const ogImage = image || ogImageFor(vertical);
 
   const breadcrumbJsonLd = breadcrumbs?.length
     ? {
