@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { IntelligenceListItem } from "@/components/IntelligenceListItem";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { AdSlot } from "@/components/banners/AdSlot";
+import { useActiveBanner } from "@/hooks/useActiveBanner";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 
@@ -47,6 +48,16 @@ interface DBArticle {
   body_markdown: string | null;
 }
 
+function HomepageMobileBanner() {
+  const banner = useActiveBanner("homepage-stories");
+  if (!banner) return null;
+  return (
+    <div className="py-4">
+      <AdSlot size="mrec" slotId="homepage-stories" />
+    </div>
+  );
+}
+
 function StickySidebar() {
   return (
     <div className="space-y-5">
@@ -65,7 +76,7 @@ function StickySidebar() {
         </Button>
       </div>
 
-      <AdSlot size="mrec" />
+      <AdSlot size="mrec" slotId="homepage-stories" />
       <LatestRegulatory />
     </div>
   );
@@ -154,6 +165,11 @@ export function IntelligenceFeed() {
                   bodyMarkdown={article.body_markdown}
                   tags={article.tags}
                 />
+                {index === 1 && (
+                  <div className="lg:hidden">
+                    <HomepageMobileBanner />
+                  </div>
+                )}
                 {index === 2 && (
                   <div className="py-4">
                     <InsightBanner
@@ -167,7 +183,7 @@ export function IntelligenceFeed() {
             ))}
           </div>
 
-          <aside className="hidden lg:block w-[280px] flex-shrink-0">
+          <aside className="hidden lg:block w-[300px] flex-shrink-0">
             <div className="sticky top-24">
               <StickySidebar />
             </div>

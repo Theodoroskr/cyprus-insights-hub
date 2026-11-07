@@ -17,6 +17,8 @@ const SLOT_OPTIONS = [
   { value: "skyscraper", label: "Skyscraper (160×600)" },
   { value: "billboard", label: "Billboard (970×250)" },
   { value: "custom-studio", label: "Custom Studio (970×250)" },
+  { value: "homepage-stories", label: "Homepage — Latest Stories (300×250)" },
+  { value: "homepage-footer", label: "Homepage — Above Footer (728×90)" },
 ];
 
 type Banner = {
@@ -46,7 +48,7 @@ type BannerForm = {
 
 const emptyForm: BannerForm = {
   name: "",
-  slot_id: "leaderboard",
+  slot_id: "custom-studio",
   image_url: "",
   click_url: "",
   is_active: true,

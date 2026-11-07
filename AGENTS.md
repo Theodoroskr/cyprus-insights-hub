@@ -7,3 +7,4 @@
 - Scrapers only collect from sources with `access_status = 'active'`. Why: no collection until reuse rights are confirmed.
 - Entity extraction (`extract-entities`) runs inside the hourly `scrape-sources` batch, not a separate cron. Why: avoid duplicate scheduled jobs.
 - Custom Studio uses the `custom-studio` banner placement and collapses when no live, in-date image is available; sponsored article pages remain separate. Why: reuse banner scheduling without reserving empty homepage space.
+- Homepage ads are limited to `custom-studio`, `homepage-stories` (sidebar on desktop, after the second story on mobile), and `homepage-footer`; other pages retain generic slots. Why: prevent repeated ads and preserve editorial spacing.

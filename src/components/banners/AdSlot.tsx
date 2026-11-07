@@ -9,30 +9,29 @@ interface AdSlotProps {
   slotId?: string;
 }
 
-const AD_SIZES: Record<AdSize, { w: string; h: string }> = {
-  leaderboard: { w: "728px", h: "90px" },
-  banner: { w: "468px", h: "60px" },
-  mrec: { w: "300px", h: "250px" },
-  skyscraper: { w: "160px", h: "600px" },
-  billboard: { w: "970px", h: "250px" },
+const AD_SIZES: Record<AdSize, string> = {
+  leaderboard: "max-w-[728px] aspect-[728/90]",
+  banner: "max-w-[468px] aspect-[468/60]",
+  mrec: "max-w-[300px] aspect-[300/250]",
+  skyscraper: "max-w-[160px] aspect-[160/600]",
+  billboard: "max-w-[970px] aspect-[970/250]",
 };
 
 /** Renders a live banner, or nothing at all when the slot has no advertiser. */
 export function AdSlot({ size = "leaderboard", slotId }: AdSlotProps) {
   const banner = useActiveBanner(slotId ?? size);
-  if (!banner) return null;
+  if (!banner?.image_url) return null;
   const spec = AD_SIZES[size];
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center" data-banner-slot={slotId ?? size}>
       <a
         href={banner.click_url}
         target="_blank"
         rel="noopener noreferrer sponsored"
-        className="relative block rounded-lg overflow-hidden"
-        style={{ width: "100%", maxWidth: spec.w, height: spec.h }}
+        className={`relative block w-full rounded-lg overflow-hidden bg-muted ${spec}`}
       >
-        <img src={banner.image_url!} alt={banner.name} className="w-full h-full object-cover" loading="lazy" />
+        <img src={banner.image_url} alt={banner.name} className="w-full h-full object-contain" loading="lazy" />
         <span className="absolute top-1 right-1 text-[8px] uppercase tracking-widest bg-background/80 text-muted-foreground px-1.5 rounded">
           Ad
         </span>

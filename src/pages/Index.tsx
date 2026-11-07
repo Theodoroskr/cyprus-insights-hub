@@ -4,7 +4,6 @@ import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { Link } from "react-router-dom";
 import { Landmark, Euro, Shield, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { InlineAdSlot } from "@/components/banners/AdSlot";
 import { BusinessTicker } from "@/components/BusinessTicker";
 import { TopNavigation } from "@/components/TopNavigation";
 import { HeroBanner } from "@/components/banners/HeroBanner";
@@ -136,29 +135,17 @@ const Index = () => {
         {/* Intelligence Hub — 3-column hero layout */}
         <IntelligenceHub />
 
-        {/* Ad: Leaderboard after hero */}
-        <LeaderboardAdSlot />
-
-        {/* Custom Studio — Sponsored Content */}
+        {/* Main homepage partner placement */}
         <SponsoredStudio />
-
-        {/* Ad: Billboard mid-page */}
-        <InlineAdSlot size="billboard" />
 
         {/* Latest Stories Feed — with inline Premium indicators + sidebar ads */}
         <IntelligenceFeed />
-
-        {/* Ad: Leaderboard mid-feed */}
-        <InlineAdSlot size="leaderboard" />
 
         {/* Verticals strip */}
         <SectionBanners />
 
         {/* Intelligence Directory Preview */}
         <DirectoryPreview />
-
-        {/* Ad: Banner between directory and featured */}
-        <InlineAdSlot size="banner" />
 
         {/* Featured Companies by City */}
         <FeaturedCompaniesSection compact />
@@ -175,11 +162,11 @@ const Index = () => {
       <NewsletterSignup />
 
       
-      {/* Leaderboard Ad — above footer */}
-      <LeaderboardAdSlot />
-
       {/* Partner Strip */}
       <PartnerStrip />
+
+      {/* Dedicated footer placement, never repeated above the headlines */}
+      <LeaderboardAdSlot slotId="homepage-footer" />
       
       {/* Footer */}
       <Footer />

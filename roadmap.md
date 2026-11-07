@@ -20,3 +20,4 @@
 - [x] Remove gap between Intelligence Hub and Custom Studio
 - [x] Article page layout (news articles); interviews/sponsored keep their own header
 - [x] Disable three sample sponsored posts; retain sponsored articles and turn Custom Studio into a scheduled banner placement
+- [x] Set up three distinct homepage banner positions, mobile story placement, and remove consecutive generic banners
