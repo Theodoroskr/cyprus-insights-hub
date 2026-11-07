@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 import { estimateReadingTime } from "@/lib/readingTime";
+import { useBlendedNews } from "@/hooks/useBlendedNews";
 
 
 
@@ -28,24 +29,10 @@ function getViewerHash(): string {
 }
 
 export function IntelligenceHub() {
-  const [dbArticles, setDbArticles] = useState<any[]>([]);
+  const { data: blendedArticles = [] } = useBlendedNews();
+  const dbArticles = useMemo(() => blendedArticles.slice(0, 5), [blendedArticles]);
   const [mostRead, setMostRead] = useState<MostReadItem[]>([]);
   const [viewsLoaded, setViewsLoaded] = useState(false);
-
-  // Fetch latest published articles from DB (skip the first one used by HeroBanner)
-  useEffect(() => {
-    supabase
-      .from("cna_articles")
-      .select("id, title, summary, image_url, vertical, published_at, what_happened, body_markdown, why_it_matters, what_to_do")
-      .eq("status", "published")
-      .order("published_at", { ascending: false })
-      .range(0, 4) // 5 latest; the feed below starts after these
-      .then(({ data }) => {
-        if (data && data.length > 0) {
-          setDbArticles(data);
-        }
-      });
-  }, []);
 
   const verticalLabel = (v: string) => {
     const map: Record<string, string> = {

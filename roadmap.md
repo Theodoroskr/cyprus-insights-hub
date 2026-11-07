@@ -21,3 +21,4 @@
 - [x] Article page layout (news articles); interviews/sponsored keep their own header
 - [x] Disable three sample sponsored posts; retain sponsored articles and turn Custom Studio into a scheduled banner placement
 - [x] Set up three distinct homepage banner positions, mobile story placement, and remove consecutive generic banners
+- [x] Blend same-day news sources/topics across the homepage and regulatory sidebar without changing publication dates

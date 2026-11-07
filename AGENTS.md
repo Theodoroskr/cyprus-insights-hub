@@ -8,3 +8,4 @@
 - Entity extraction (`extract-entities`) runs inside the hourly `scrape-sources` batch, not a separate cron. Why: avoid duplicate scheduled jobs.
 - Custom Studio uses the `custom-studio` banner placement and collapses when no live, in-date image is available; sponsored article pages remain separate. Why: reuse banner scheduling without reserving empty homepage space.
 - Homepage ads are limited to `custom-studio`, `homepage-stories` (sidebar on desktop, after the second story on mobile), and `homepage-footer`; other pages retain generic slots. Why: prevent repeated ads and preserve editorial spacing.
+- Homepage lead and feed share `useBlendedNews`: stable same-day source/topic mixing and deduplication happen before slicing; publication dates remain unchanged. Why: prevent scraping batches dominating the feed or repeating between sections.

@@ -8,14 +8,16 @@ import { AdSlot } from "@/components/banners/AdSlot";
 import { useActiveBanner } from "@/hooks/useActiveBanner";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
+import { useBlendedNews } from "@/hooks/useBlendedNews";
+import { blendNews } from "@/lib/blendNews";
 
 /** Sidebar filler: latest compliance/regtech headlines */
 function LatestRegulatory() {
   const [items, setItems] = useState<{ id: string; title: string; published_at: string }[]>([]);
   useEffect(() => {
-    supabase.from("cna_articles").select("id, title, published_at").eq("status", "published")
-      .in("vertical", ["compliance", "regtech"]).order("published_at", { ascending: false }).limit(6)
-      .then(({ data }) => data && setItems(data as any));
+    supabase.from("cna_articles").select("id, title, published_at, vertical, source_id, source_url").eq("status", "published")
+      .in("vertical", ["compliance", "regtech"]).order("published_at", { ascending: false }).limit(60)
+      .then(({ data }) => data && setItems(blendNews(data).slice(0, 6)));
   }, []);
   if (items.length === 0) return null;
   return (
@@ -83,31 +85,8 @@ function StickySidebar() {
 }
 
 export function IntelligenceFeed() {
-  const [dbArticles, setDbArticles] = useState<DBArticle[]>([]);
-
-  useEffect(() => {
-    supabase
-      .from("cna_articles")
-      .select("id, title, vertical, what_happened, why_it_matters, what_to_do, published_at, image_url, tags, body_markdown")
-      .eq("status", "published")
-      .order("published_at", { ascending: false })
-      .range(5, 24) // first 5 are shown in the Intelligence Hub above
-      .then(({ data, error }) => {
-        if (error) console.error("CNA fetch error:", error);
-        if (data && data.length > 0) {
-          // Drop near-duplicate stories (same opening words, same day)
-          const seen = new Set<string>();
-          const unique = (data as DBArticle[]).filter((a) => {
-            const k = normTitle(a.what_happened || a.title) + "|" + (a.published_at || "").slice(0, 10);
-            if (seen.has(k)) return false;
-            seen.add(k);
-            return true;
-          });
-          setDbArticles(unique.slice(0, 12));
-          // Views are now tracked on click, not on load
-        }
-      });
-  }, []);
+  const { data: blendedArticles = [] } = useBlendedNews();
+  const dbArticles = blendedArticles.slice(5, 17);
 
   const verticalToHub = (v: string) => {
     if (v === "fintech") return "fintechhub" as const;
