@@ -50,3 +50,12 @@ describe("cleanArticleMarkdown", () => {
     expect(cleanArticleMarkdown("[Home](x) [Search](y)\n\n- [A](a)")).toBe("");
   });
 });
+
+describe("source listings", () => {
+  it("cuts Related Press & News and Latest Publications", () => {
+    const story = "ESMA published its annual work programme today, setting out priorities for supervision, data and simplification of reporting across the EU markets.";
+    const raw = `${story}\n\nRelated Press & News\n\n23/09/2026\n\nThe European Supervisory Authorities have identified external dependencies as key vu\n\nLATEST PUBLICATIONS\n\nDownload All FilesDownload Selected Files\n\n| Date | Reference | Title | | |`;
+    const out = cleanArticleMarkdown(raw);
+    expect(out).toBe(story);
+  });
+});

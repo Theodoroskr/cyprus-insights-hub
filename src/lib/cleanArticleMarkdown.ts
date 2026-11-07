@@ -6,6 +6,10 @@
 
 const FOOTER_HEADING =
   /^#{1,6}\s*(ίσως σας ενδιαφέρουν|σχετικά άρθρα|σχετικές ειδήσεις|επικοινωνία|ακολουθήστε μας|related topics|print friendly|contacts? for media|press contacts?|media contacts?|for more information|about us|related sites|related links|related content|contact( us)?|follow us|share this|useful links|quick links|newsletter|subscribe|cookies?|footer|site map|sitemap|legal notice|privacy)\b/i;
+/** Plain-text section markers (heading or not) where the source site's own listings start */
+const CUT_LINE =
+  /^(related (press( & news)?|news|articles|stories|publications)|latest (publications|news)|more news|other news|see also|read more|download (all|selected) files.*)$/i;
+const DATE_ONLY = /^(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{1,2}\s+[a-z]{3,9}\.?\s+\d{4})$/i;
 const NOISE_LINE =
   /^(print|share|skip to (main )?content|back to top|available languages:.*|press release\s.*\d{4}.*|\d+\.\s*\.\.\.|search|menu|en|el)$/i;
 
@@ -52,6 +56,21 @@ export function cleanArticleMarkdown(raw: string | null | undefined): string {
   // 2. Cut at the first footer-style heading
   const footer = body.findIndex((b, i) => i > 0 && FOOTER_HEADING.test(b));
   if (footer > 0) body = body.slice(0, footer);
+  const cut = body.findIndex((b, i) => i > 0 && CUT_LINE.test(plain(b.split("\n")[0])));
+  if (cut > 0) body = body.slice(0, cut);
+
+  // 2b. Drop teaser pairs (date line + cut-off snippet) and broken/empty tables
+  body = body.filter((b, i) => {
+    const p = plain(b);
+    if (DATE_ONLY.test(p)) return false;
+    if (i > 0 && DATE_ONLY.test(plain(body[i - 1])) && !/[.!?"”]$/.test(p)) return false;
+    if (/^\s*\|/.test(b)) {
+      const cells = b.split("|").map((c) => c.trim()).filter((c) => c && !/^-+$/.test(c));
+      const total = (b.match(/\|/g) || []).length;
+      if (cells.length * 2 < total * 0.5 || /\|\s*\|\s*\|/.test(b.split("\n")[0]) && b.split("\n").length === 1) return false;
+    }
+    return true;
+  });
 
   // 3. Remove noise lines and link-only blocks
   body = body
