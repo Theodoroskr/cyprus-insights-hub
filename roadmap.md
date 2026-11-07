@@ -25,3 +25,4 @@
 - [x] House banners for Infocredit Group, ComplianceSuite, RisQo in the three homepage spaces
 - [x] Vary backup photos (4 per hub) so stories without photos don't repeat
 - [x] Article photos: unwrap website photo cards, use story's own photo, same photo on preview and page, hub-only backups
+- [x] News & Insights lists the latest scraped stories with hub filter and Load more
