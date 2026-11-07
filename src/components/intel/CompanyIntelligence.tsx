@@ -21,7 +21,7 @@ export const EVENT_LABELS: Record<string, string> = {
 };
 
 const RECORD_LABELS: Record<string, string> = {
-  licensed: "Licensed entity",
+  licensed: "Licence register",
   warning: "Warning (unauthorised entity)",
   enforcement: "Enforcement action",
   announcement: "Announcement",

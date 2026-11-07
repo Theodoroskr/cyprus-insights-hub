@@ -7,12 +7,34 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { EVENT_LABELS } from "@/components/intel/CompanyIntelligence";
+import { CYSEC_LISTS, directoryFlagsFor } from "../../../supabase/functions/_shared/cysecRegister";
 
 const KIND_LABELS: Record<string, string> = {
   company: "Company profile ↔ registry",
   news_company: "News ↔ company",
   news_person: "News ↔ person",
+  regulator_company: "Regulator licence ↔ company",
 };
+
+/** Link a regulator licence row to a directory company and refresh that company's CySEC badge */
+async function applyRegulatorMatch(entityId: string, companyId: string): Promise<string | null> {
+  const { data: ent, error } = await supabase.from("regulated_entities")
+    .update({ matched_company_id: companyId, match_confidence: 1, match_method: "manual" })
+    .eq("id", entityId).select("source, entity_name, license_number").single();
+  if (error || !ent) return error?.message || "Licence not found";
+  let recs = supabase.from("regulatory_records").update({ directory_company_id: companyId, status: "published" })
+    .eq("regulator", ent.source.toUpperCase()).eq("record_type", "licensed").eq("entity_name", ent.entity_name);
+  if (ent.license_number) recs = recs.eq("license_number", ent.license_number);
+  await recs;
+  if (ent.source !== "cysec") return null;
+  const { data: rows = [] } = await supabase.from("regulated_entities")
+    .select("status, license_type, license_number, source_list")
+    .eq("source", "cysec").eq("matched_company_id", companyId).gte("match_confidence", 0.75);
+  const flags = directoryFlagsFor((rows || []).map((r) => ({ ...r, priority: CYSEC_LISTS.find((l) => l.name === r.source_list)?.priority ?? 50 })));
+  const { error: upErr } = await supabase.from("directory_companies")
+    .update({ ...flags, regulatory_flags_updated_at: new Date().toISOString() }).eq("id", companyId);
+  return upErr?.message || null;
+}
 
 type Tab = "matches" | "events" | "corrections";
 
@@ -53,6 +75,17 @@ export function ReviewQueuePanel() {
     }
     const { error } = await supabase.from("match_review_queue").update({ status, ...reviewed }).eq("id", m.id);
     if (error) { toast.error(error.message); qc.invalidateQueries({ queryKey: ["review-matches"] }); return; }
+    if (m.kind === "regulator_company") {
+      if (approve) {
+        const msg = await applyRegulatorMatch(m.source_id, m.candidate_id);
+        if (msg) { toast.error(msg); qc.invalidateQueries({ queryKey: ["review-matches"] }); return; }
+        await supabase.from("match_review_queue").update({ status: "rejected", ...reviewed })
+          .eq("kind", "regulator_company").eq("source_id", m.source_id).eq("status", "pending");
+      }
+      toast.success(approve ? "Licence linked to company" : "Match rejected");
+      qc.invalidateQueries({ queryKey: ["review-matches"] });
+      return;
+    }
     if (m.kind === "company" && approve && m.source_table === "companies") {
       // One master record: link the curated profile to the registry company; reject other candidates
       await supabase.from("companies").update({ directory_company_id: m.candidate_id }).eq("id", m.source_id);

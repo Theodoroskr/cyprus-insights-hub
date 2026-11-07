@@ -110,7 +110,8 @@ export default function RegistryCompanyPage() {
 
   const isActive = company.organisation_status === "Active";
   const citySlug = company.city_slug;
-  const hasRegulatory = company.cysec_licensed || company.cbc_supervised || company.icpac_registered || company.bar_member || company.cifa_member;
+  const hasCysec = !!(company.cysec_licensed || company.cysec_status);
+  const hasRegulatory = hasCysec || company.cbc_supervised || company.icpac_registered || company.bar_member || company.cifa_member;
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
@@ -208,8 +209,8 @@ export default function RegistryCompanyPage() {
               </h2>
               <div className="grid sm:grid-cols-2 gap-3">
                 <RegulatoryBadge
-                  show={company.cysec_licensed}
-                  label="CySEC Licensed"
+                  show={hasCysec}
+                  label={company.cysec_licensed ? "CySEC Licensed" : "Former CySEC Licence"}
                   detail={[company.cysec_license_type, company.cysec_license_number].filter(Boolean).join(" — ") || null}
                   status={company.cysec_status}
                   href="https://www.cysec.gov.cy/en-GB/entities/"

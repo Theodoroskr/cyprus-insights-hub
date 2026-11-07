@@ -36,6 +36,20 @@
       "when": 1794037760665,
       "tag": "0004_company_name_matching",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794041927860,
+      "tag": "0005_cysec_licence_register_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794042200512,
+      "tag": "0006_regulated_entities_unique_per_licence",
+      "breakpoints": true
     }
   ]
 }

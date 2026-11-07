@@ -1391,12 +1391,19 @@ export type Database = {
           created_at: string | null
           entity_name: string
           id: string
+          last_seen_at: string | null
+          lei: string | null
+          license_date: string | null
           license_number: string | null
           license_type: string | null
           match_confidence: number | null
+          match_method: string | null
           matched_company_id: string | null
           raw_data: Json | null
+          registration_no: string | null
           source: string
+          source_list: string | null
+          source_url: string | null
           status: string | null
           updated_at: string | null
           website: string | null
@@ -1407,12 +1414,19 @@ export type Database = {
           created_at?: string | null
           entity_name: string
           id?: string
+          last_seen_at?: string | null
+          lei?: string | null
+          license_date?: string | null
           license_number?: string | null
           license_type?: string | null
           match_confidence?: number | null
+          match_method?: string | null
           matched_company_id?: string | null
           raw_data?: Json | null
+          registration_no?: string | null
           source: string
+          source_list?: string | null
+          source_url?: string | null
           status?: string | null
           updated_at?: string | null
           website?: string | null
@@ -1423,12 +1437,19 @@ export type Database = {
           created_at?: string | null
           entity_name?: string
           id?: string
+          last_seen_at?: string | null
+          lei?: string | null
+          license_date?: string | null
           license_number?: string | null
           license_type?: string | null
           match_confidence?: number | null
+          match_method?: string | null
           matched_company_id?: string | null
           raw_data?: Json | null
+          registration_no?: string | null
           source?: string
+          source_list?: string | null
+          source_url?: string | null
           status?: string | null
           updated_at?: string | null
           website?: string | null

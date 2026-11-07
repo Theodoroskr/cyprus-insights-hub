@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { syncCysec } from "./cysecSync.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -7,31 +8,7 @@ const corsHeaders = {
 };
 
 const SOURCES = [
-  {
-    key: "cysec",
-    name: "CySEC — Investment Firms",
-    url: "https://www.cysec.gov.cy/en-GB/entities/investment-firms/cypriot/",
-    license_type: "Investment Firm (CIF)",
-    direct: true, // plain HTML cards incl. licence + HE number — parsed without Firecrawl/AI
-  },
-  {
-    key: "cysec",
-    name: "CySEC — CASPs (MiCAR)",
-    url: "https://www.cysec.gov.cy/en-GB/entities/Crypto-Assets-Entities-(MiCAR)/MiCAR-CASPs/",
-    license_type: "Crypto Asset Service Provider",
-  },
-  {
-    key: "cysec",
-    name: "CySEC — AIFMs",
-    url: "https://www.cysec.gov.cy/en-GB/entities/aifm/authorised/",
-    license_type: "Alternative Investment Fund Manager",
-  },
-  {
-    key: "cysec",
-    name: "CySEC — Administrative Service Providers",
-    url: "https://www.cysec.gov.cy/en-GB/entities/asp/",
-    license_type: "Administrative Service Provider",
-  },
+  // CySEC registers are read directly by cysecSync.ts
   {
     key: "cbc",
     name: "CBC — Credit Institutions",
@@ -89,24 +66,6 @@ async function scrapeUrl(url: string, firecrawlKey: string): Promise<string> {
 type Entity = { entity_name: string; license_number?: string; status?: string; address?: string; website?: string; registration_no?: string };
 
 const decode = (t: string) => t.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&#39;|&rsquo;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
-
-async function parseCysecCards(url: string): Promise<Entity[]> {
-  const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 (BusinessHub.cy regulatory monitor)" } });
-  if (!res.ok) throw new Error(`CySEC ${res.status}`);
-  const html = await res.text();
-  const parts = html.split(/class="card-title"/).slice(1);
-  const out: Entity[] = [];
-  for (const part of parts) {
-    const name = decode((part.match(/>([\s\S]*?)<\/a>/) || [])[1] || "");
-    const text = decode(part.slice(0, 4000));
-    if (!name) continue;
-    const lic = text.match(/Licence Number\s*:\s*([0-9]+\/[0-9]+)/i)?.[1];
-    const reg = text.match(/Registration Number\s*:\s*HE\s*([0-9]+)/i)?.[1];
-    const site = text.match(/Website\s*:\s*(\S+\.\S+)/i)?.[1];
-    out.push({ entity_name: name, license_number: lic, registration_no: reg, website: site, status: "active" });
-  }
-  return out;
-}
 
 async function extractEntities(
   markdown: string,
@@ -202,9 +161,8 @@ async function matchOrCreateInDirectory(
     .from("directory_companies")
     .select("id, registration_no")
     .ilike("company_name", escaped)
-    .order("registration_no", { ascending: true, nullsFirst: false })
-    .limit(1);
-  if (exact && exact.length > 0) return { id: exact[0].id, confidence: 1.0, created: false };
+    .limit(2);
+  if (exact && exact.length === 1) return { id: exact[0].id, confidence: 0.95, created: false };
 
   // Then normalised name ("X LTD" == "X LIMITED") or a known alias, only when unique
   const { data: key } = await supabase.rpc("normalize_company_name", { _name: entityName });
@@ -220,12 +178,6 @@ async function matchOrCreateInDirectory(
   const regulatoryFlags: Record<string, any> = {
     regulatory_flags_updated_at: new Date().toISOString(),
   };
-  if (sourceKey === "cysec") {
-    regulatoryFlags.cysec_licensed = true;
-    regulatoryFlags.cysec_license_type = licenseType;
-    regulatoryFlags.cysec_license_number = entity.license_number || null;
-    regulatoryFlags.cysec_status = entity.status || "active";
-  }
   if (sourceKey === "cbc") regulatoryFlags.cbc_supervised = true;
   if (sourceKey === "icpac") regulatoryFlags.icpac_registered = true;
   if (sourceKey === "bar") regulatoryFlags.bar_member = true;
@@ -266,8 +218,7 @@ Deno.serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
-    const FIRECRAWL_API_KEY = Deno.env.get("FIRECRAWL_API_KEY");
-    if (!FIRECRAWL_API_KEY) throw new Error("FIRECRAWL_API_KEY not configured");
+    const FIRECRAWL_API_KEY = Deno.env.get("FIRECRAWL_API_KEY") || "";
 
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
     const SUPABASE_SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -275,19 +226,27 @@ Deno.serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
     const source = body?.source || "all";
+    const only = typeof body?.only === "string" ? body.only : undefined;
     let toProcess = source === "all" ? SOURCES : SOURCES.filter((s) => s.key === source);
-    if (typeof body?.only === "string") toProcess = toProcess.filter((s) => s.name.toLowerCase().includes(body.only.toLowerCase()));
+    if (only) toProcess = toProcess.filter((s) => s.name.toLowerCase().includes(only.toLowerCase()));
 
     const results: Record<string, number> = {};
     const errors: Record<string, string> = {};
+    let cysec: Record<string, number> | undefined;
+
+    if (source === "all" || source === "cysec") {
+      const r = await syncCysec(supabase, only);
+      Object.assign(results, r.results);
+      Object.assign(errors, r.errors);
+      cysec = r.stats;
+    }
+    if (toProcess.length && !FIRECRAWL_API_KEY) throw new Error("FIRECRAWL_API_KEY not configured");
 
     for (const src of toProcess) {
       try {
         console.log(`Scraping: ${src.name}`);
         let entities: Entity[];
-        if ((src as any).direct) {
-          entities = await parseCysecCards(src.url);
-        } else {
+        {
           const markdown = await scrapeUrl(src.url, FIRECRAWL_API_KEY);
           if (!markdown || markdown.length < 100) {
             console.warn(`No content from ${src.name}`);
@@ -310,7 +269,7 @@ Deno.serve(async (req) => {
             continue;
           }
 
-          const { error } = await supabase.from("regulated_entities").upsert({
+          const reRow = {
             source: src.key,
             entity_name: entity.entity_name,
             license_number: entity.license_number || null,
@@ -321,11 +280,19 @@ Deno.serve(async (req) => {
             raw_data: entity,
             matched_company_id: match.id,
             match_confidence: match.confidence,
+            source_list: src.name,
+            source_url: src.url,
+            last_seen_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
-          }, { onConflict: "source,entity_name" });
+          };
+          const { data: prevRe } = await supabase.from("regulated_entities").select("id")
+            .eq("source", src.key).eq("license_type", src.license_type).eq("entity_name", entity.entity_name).maybeSingle();
+          const { error } = prevRe
+            ? await supabase.from("regulated_entities").update(reRow).eq("id", prevRe.id)
+            : await supabase.from("regulated_entities").insert(reRow);
 
           if (error) {
-            console.error(`Upsert error for ${entity.entity_name}:`, error.message);
+            console.error(`Save error for ${entity.entity_name}:`, error.message);
             continue;
           }
 
@@ -350,12 +317,6 @@ Deno.serve(async (req) => {
             const updates: Record<string, any> = {
               regulatory_flags_updated_at: new Date().toISOString(),
             };
-            if (src.key === "cysec") {
-              updates.cysec_licensed = true;
-              updates.cysec_license_type = src.license_type;
-              updates.cysec_license_number = entity.license_number || null;
-              updates.cysec_status = entity.status || "active";
-            }
             if (src.key === "cbc") updates.cbc_supervised = true;
             if (src.key === "icpac") updates.icpac_registered = true;
             if (src.key === "bar") updates.bar_member = true;
@@ -379,7 +340,7 @@ Deno.serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, results, errors }),
+      JSON.stringify({ success: true, results, errors, cysec }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {
