@@ -1,20 +1,28 @@
-import general from "@/assets/fallback/general.jpg";
-import fintech from "@/assets/fallback/fintech.jpg";
-import compliance from "@/assets/fallback/compliance.jpg";
-import regtech from "@/assets/fallback/regtech.jpg";
-import sme from "@/assets/fallback/sme.jpg";
+const files = import.meta.glob("@/assets/fallback/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
 
-const BY_VERTICAL: Record<string, string> = { general, fintech, compliance, regtech, sme };
-export const FALLBACK_IMAGE = general;
-const ALL = new Set(Object.values(BY_VERTICAL));
+const BY_VERTICAL: Record<string, string[]> = {};
+for (const [path, url] of Object.entries(files)) {
+  const hub = path.split("/").pop()!.replace(/(-\d+)?\.jpg$/, "");
+  (BY_VERTICAL[hub] ||= []).push(url);
+}
+const ALL = new Set(Object.values(files));
+export const FALLBACK_IMAGE = BY_VERTICAL.general[0];
 
-export function fallbackFor(vertical?: string | null): string {
-  return BY_VERTICAL[(vertical || "").toLowerCase()] || general;
+function hash(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
 }
 
-/** Use the article image when present, otherwise our own image for that hub. */
-export function articleImage(url?: string | null, vertical?: string | null): string {
-  return url && url.trim() ? url : fallbackFor(vertical);
+/** Pick one of our own photos for this hub; the same seed always gives the same photo. */
+export function fallbackFor(vertical?: string | null, seed?: string | null): string {
+  const list = BY_VERTICAL[(vertical || "").toLowerCase()] || BY_VERTICAL.general;
+  return list[hash(seed || "") % list.length];
+}
+
+/** Use the article image when present, otherwise one of our own images for that hub. */
+export function articleImage(url?: string | null, vertical?: string | null, seed?: string | null): string {
+  return url && url.trim() ? url : fallbackFor(vertical, seed);
 }
 
 /** Swap any broken article/story photo for our own image (skips logos, avatars, banners). */
@@ -29,7 +37,7 @@ export function installImageFallback() {
       if (/rounded-full|object-contain/.test(img.className)) return;
       if (ALL.has(img.getAttribute("src") || "")) return;
       img.srcset = "";
-      img.src = fallbackFor(img.dataset.vertical);
+      img.src = fallbackFor(img.dataset.vertical, img.dataset.seed || img.alt || img.src);
     },
     true,
   );

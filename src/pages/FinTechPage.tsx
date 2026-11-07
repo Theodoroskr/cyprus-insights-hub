@@ -183,7 +183,7 @@ export default function FinTechPage() {
               {featuredArticles.map((article) => (
                 <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
                   <div className="relative h-44 overflow-hidden">
-                    <img src={article.image_url || FALLBACK_IMAGE} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={articleImage(article.image_url, "fintech", article.id)} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
                     <span className="absolute top-3 left-3 section-label text-white drop-shadow bg-primary/40 backdrop-blur-sm px-2 py-0.5">FinTech</span>
                   </div>

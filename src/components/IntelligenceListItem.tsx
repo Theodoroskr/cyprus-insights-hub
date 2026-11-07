@@ -1,4 +1,4 @@
-import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
+import { fallbackFor } from "@/lib/fallbackImage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Zap, Target, Lightbulb, Bookmark, Clock } from "lucide-react";
@@ -90,7 +90,7 @@ export function IntelligenceListItem({
     if (href && href !== "#") navigate(href);
   };
 
-  const fallbackImage = FALLBACK_IMAGE;
+  const fallbackImage = fallbackFor(null, whatHappened || href);
 
   if (isLead) {
     return (

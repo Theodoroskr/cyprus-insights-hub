@@ -52,7 +52,7 @@ export function IntelligenceHub() {
       id: a.id,
       title: a.title || a.what_happened,
       summary: a.summary || a.what_happened || "",
-      image: a.image_url || FALLBACK_IMAGE,
+      image: articleImage(a.image_url, a.vertical, a.id),
       category: verticalLabel(a.vertical),
       date: a.published_at
         ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
@@ -75,7 +75,7 @@ export function IntelligenceHub() {
               id: d.article_id,
               title: d.title,
               category: verticalLabel(d.vertical),
-              image: articleImage(d.image_url, d.vertical),
+              image: articleImage(d.image_url, d.vertical, d.id),
               view_count: Number(d.view_count),
             }))
           );
@@ -197,7 +197,7 @@ export function IntelligenceHub() {
                   </div>
                   <div className="relative w-[72px] h-[72px] flex-shrink-0 overflow-hidden rounded">
                     <img
-                      src={article.image || FALLBACK_IMAGE}
+                      src={articleImage(article.image, null, String(article.id))}
                       alt=""
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />

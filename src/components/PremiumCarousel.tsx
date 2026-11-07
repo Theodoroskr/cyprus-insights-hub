@@ -38,7 +38,7 @@ export function PremiumCarousel() {
               id: a.id,
               title: a.title,
               summary: a.summary || "",
-              image: a.image_url || FALLBACK_IMAGE,
+              image: articleImage(a.image_url, a.vertical, a.id),
               category: verticalLabel(a.vertical),
             }))
           );

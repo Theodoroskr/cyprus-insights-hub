@@ -22,3 +22,5 @@
 - [x] Disable three sample sponsored posts; retain sponsored articles and turn Custom Studio into a scheduled banner placement
 - [x] Set up three distinct homepage banner positions, mobile story placement, and remove consecutive generic banners
 - [x] Blend same-day news sources/topics across the homepage and regulatory sidebar without changing publication dates
+- [x] House banners for Infocredit Group, ComplianceSuite, RisQo in the three homepage spaces
+- [x] Vary backup photos (4 per hub) so stories without photos don't repeat

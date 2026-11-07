@@ -275,7 +275,7 @@ export default function RegTechPage() {
                     <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-regtech/40 transition-colors">
                       <div className="relative h-44 overflow-hidden">
                         <img
-                          src={article.image_url || FALLBACK_IMAGE}
+                          src={articleImage(article.image_url, "regtech", article.id)}
                           alt={article.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />

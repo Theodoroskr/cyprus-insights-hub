@@ -215,7 +215,7 @@ export default function CompliancePage() {
                       <article className="border border-border rounded-lg overflow-hidden group cursor-pointer hover:border-secondary/40 transition-colors">
                         {(
                           <div className="relative h-40 overflow-hidden">
-                            <img src={articleImage(article.image_url, "compliance")} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img src={articleImage(article.image_url, "compliance", article.id)} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent" />
                           </div>
                         )}
