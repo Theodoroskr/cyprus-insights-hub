@@ -292,7 +292,7 @@ export default function ResourcesPage() {
             <div className="text-center py-8">
               <Library className="h-12 w-12 mx-auto text-muted-foreground/30 mb-4" />
               <h2 className="text-xl font-serif font-bold text-foreground mb-2">
-                {searchQuery ? "No resources match your search" : "Resource library coming soon"}
+                {searchQuery ? "No resources match your search" : "No resources published yet"}
               </h2>
               <p className="text-sm text-muted-foreground max-w-md mx-auto">
                 {searchQuery

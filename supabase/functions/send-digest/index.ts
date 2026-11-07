@@ -19,18 +19,36 @@ serve(async (req) => {
 
     // Parse optional frequency filter from request body
     let targetFrequency = "weekly";
+    let testMode = false;
     try {
       const body = await req.json();
       if (body?.frequency) targetFrequency = body.frequency;
+      testMode = body?.test === true;
     } catch {
       // No body or invalid JSON — use default
     }
 
+    // Test digests only ever go to the signed-in person who asked for one
+    let onlyUserId: string | null = null;
+    if (testMode) {
+      const token = (req.headers.get("Authorization") ?? "").replace("Bearer ", "");
+      const { data: u } = await supabase.auth.getUser(token);
+      if (!u?.user) {
+        return new Response(JSON.stringify({ error: "Sign in required" }), {
+          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      onlyUserId = u.user.id;
+    }
+
     // 1. Get all users with matching digest frequency
-    const { data: preferences, error: prefsError } = await supabase
+    let prefsQuery = supabase
       .from("user_preferences")
-      .select("user_id, verticals, digest_frequency")
-      .eq("digest_frequency", targetFrequency);
+      .select("user_id, verticals, digest_frequency");
+    prefsQuery = onlyUserId
+      ? prefsQuery.eq("user_id", onlyUserId)
+      : prefsQuery.eq("digest_frequency", targetFrequency);
+    const { data: preferences, error: prefsError } = await prefsQuery;
 
     if (prefsError) {
       console.error("Error fetching preferences:", prefsError);

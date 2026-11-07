@@ -57,7 +57,7 @@ export function NewsletterSignup() {
     }
 
     setSubmitted(true);
-    toast.success("Welcome! You'll receive your first briefing soon.");
+    toast.success("Welcome! We'll email you when the briefing launches.");
   };
 
   if (submitted) {
@@ -70,7 +70,7 @@ export function NewsletterSignup() {
             </div>
             <h3 className="text-xl font-serif font-bold text-foreground mb-2">You're In</h3>
             <p className="text-sm text-muted-foreground">
-              Your daily intelligence briefing will arrive in your inbox each morning at 07:00 CET.
+              You're on the list. We'll email you as soon as the daily intelligence briefing launches.
             </p>
           </div>
         </div>
@@ -176,7 +176,7 @@ export function NewsletterSignup() {
                     disabled={submitting}
                     className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none text-xs uppercase tracking-wider font-semibold gap-2"
                   >
-                    {submitting ? "Subscribing…" : "Subscribe to Daily Briefing"}
+                    {submitting ? "Joining…" : "Join the Briefing List"}
                     {!submitting && <ArrowRight className="h-3.5 w-3.5" />}
                   </Button>
 

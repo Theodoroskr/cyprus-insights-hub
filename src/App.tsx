@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -11,7 +11,6 @@ import { CookieConsent } from "./components/CookieConsent";
 
 // Lazy-loaded route components
 const Index = lazy(() => import("./pages/Index"));
-const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
 const CompliancePage = lazy(() => import("./pages/CompliancePage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
@@ -80,7 +79,7 @@ const App = () => (
               <Suspense fallback={<RouteLoader />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
-                  <Route path="/profile/:id" element={<ProfilePage />} />
+                  <Route path="/profile/:id" element={<Navigate to="/whoiswho" replace />} />
                   <Route path="/fintech" element={<FinTechPage />} />
                   <Route path="/compliance" element={<CompliancePage />} />
                   <Route path="/resources" element={<ResourcesPage />} />

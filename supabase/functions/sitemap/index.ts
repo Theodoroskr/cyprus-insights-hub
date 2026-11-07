@@ -11,7 +11,6 @@ const STATIC_PAGES = [
   { path: "/sme", priority: "0.8", changefreq: "weekly" },
   { path: "/trade", priority: "0.7", changefreq: "weekly" },
   { path: "/resources", priority: "0.6", changefreq: "weekly" },
-  { path: "/directory-home", priority: "0.7", changefreq: "weekly" },
   { path: "/whoiswho", priority: "0.6", changefreq: "weekly" },
   { path: "/privacy", priority: "0.2", changefreq: "yearly" },
   { path: "/terms", priority: "0.2", changefreq: "yearly" },
@@ -38,11 +37,11 @@ Deno.serve(async (req) => {
   if (type === "index") {
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap><loc>${BASE_URL}/sitemap.xml?type=static</loc></sitemap>
-  <sitemap><loc>${BASE_URL}/sitemap.xml?type=articles</loc></sitemap>
-  <sitemap><loc>${BASE_URL}/sitemap.xml?type=companies-1</loc></sitemap>
-  <sitemap><loc>${BASE_URL}/sitemap.xml?type=companies-2</loc></sitemap>
-  <sitemap><loc>${BASE_URL}/sitemap.xml?type=companies-3</loc></sitemap>
+  <sitemap><loc>${SUPABASE_URL}/functions/v1/sitemap?type=static</loc></sitemap>
+  <sitemap><loc>${SUPABASE_URL}/functions/v1/sitemap?type=articles</loc></sitemap>
+  <sitemap><loc>${SUPABASE_URL}/functions/v1/sitemap?type=companies-1</loc></sitemap>
+  <sitemap><loc>${SUPABASE_URL}/functions/v1/sitemap?type=companies-2</loc></sitemap>
+  <sitemap><loc>${SUPABASE_URL}/functions/v1/sitemap?type=companies-3</loc></sitemap>
 </sitemapindex>`;
     return new Response(xml, { headers });
   }

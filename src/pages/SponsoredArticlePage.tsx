@@ -100,7 +100,7 @@ export default function SponsoredArticlePage() {
                 {item.content ? (
                   <div className="prose max-w-none leading-relaxed prose-headings:font-serif prose-headings:text-foreground prose-strong:text-foreground"><ReactMarkdown>{item.content || ""}</ReactMarkdown></div>
                 ) : (
-                  <p className="text-muted-foreground italic">Full article content coming soon.</p>
+                  <p className="text-muted-foreground italic">{item.summary || "Visit the sponsor for the full story."}</p>
                 )}
               </div>
             </TabsContent>

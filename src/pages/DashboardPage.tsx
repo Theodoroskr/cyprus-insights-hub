@@ -95,7 +95,7 @@ export default function DashboardPage() {
 
   const sendTestDigest = async () => {
     await supabase.functions.invoke("send-digest", {
-      body: { frequency: digestFreq },
+      body: { frequency: digestFreq, test: true },
     });
   };
 
@@ -378,7 +378,7 @@ export default function DashboardPage() {
                 onClick={async () => {
                   toast.info("Sending test digest…");
                   const { error } = await supabase.functions.invoke("send-digest", {
-                    body: { frequency: digestFreq === "none" ? "weekly" : digestFreq },
+                    body: { frequency: digestFreq === "none" ? "weekly" : digestFreq, test: true },
                   });
                   if (error) toast.error("Failed to send digest");
                   else toast.success("Digest sent — check Notifications tab");
@@ -395,11 +395,11 @@ export default function DashboardPage() {
                 <div className="flex items-center gap-3">
                   <Crown className="h-5 w-5 text-secondary" />
                   <div>
-                    <p className="font-serif font-bold text-foreground">Upgrade to Premium</p>
+                    <p className="font-serif font-bold text-foreground">Premium — coming soon</p>
                     <p className="text-xs text-muted-foreground">Get daily briefings, PDF exports, and custom alerts</p>
                   </div>
-                  <Button className="ml-auto rounded-none text-xs uppercase tracking-wider font-semibold bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                    Upgrade
+                  <Button disabled className="ml-auto rounded-none text-xs uppercase tracking-wider font-semibold bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                    Coming soon
                   </Button>
                 </div>
               </div>

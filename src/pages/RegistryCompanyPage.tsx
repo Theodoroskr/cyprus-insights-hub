@@ -403,6 +403,7 @@ function KYBPurchaseModal({ company, user, onClose }: { company: any; user: any;
   const [buyerCompany, setBuyerCompany] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [sent, setSent] = useState(false);
 
   const handleCheckout = async () => {
     if (!email.trim()) { setError("Email is required"); return; }
@@ -427,25 +428,8 @@ function KYBPurchaseModal({ company, user, onClose }: { company: any; user: any;
 
       if (dbErr) throw dbErr;
 
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-kyb-checkout`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({
-            report_id: report.id,
-            company_name: company.company_name,
-            buyer_email: email.trim().toLowerCase(),
-          }),
-        }
-      );
-
-      const { url, error: fnErr } = await res.json();
-      if (fnErr) throw new Error(fnErr);
-      window.location.href = url;
+      setSent(true);
+      setLoading(false);
     } catch (err: any) {
       setError(err.message || "Something went wrong. Please try again.");
       setLoading(false);
@@ -459,7 +443,7 @@ function KYBPurchaseModal({ company, user, onClose }: { company: any; user: any;
     >
       <div className="bg-card border border-border w-full max-w-md p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-serif font-bold text-lg text-foreground">Order KYB Report</h2>
+          <h2 className="font-serif font-bold text-lg text-foreground">Request a KYB Report</h2>
           <button onClick={onClose} className="text-muted-foreground hover:text-foreground text-xl">✕</button>
         </div>
 
@@ -513,15 +497,15 @@ function KYBPurchaseModal({ company, user, onClose }: { company: any; user: any;
           </div>
           <Button
             onClick={handleCheckout}
-            disabled={loading}
+            disabled={loading || sent}
             className="bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none text-xs font-semibold uppercase tracking-wider"
           >
-            {loading ? "Redirecting..." : "Pay with Stripe →"}
+            {sent ? "Request received ✓" : loading ? "Sending..." : "Request report →"}
           </Button>
         </div>
 
         <p className="text-[10px] text-muted-foreground text-center">
-          Secure payment via Stripe. PDF report delivered to your email instantly after payment.
+          {sent ? "Thanks — our team will email you to confirm and arrange the report." : "No payment now. Our team will contact you by email to confirm your request."}
         </p>
       </div>
     </div>

@@ -388,11 +388,11 @@ export default function RegTechPage() {
               ))}
             </div>
 
-            {/* Coming soon placeholder */}
+            {/* Directory link */}
             <div className="mt-6">
               <Link to="/directory" className="block border-2 border-dashed border-border p-6 text-center hover:border-regtech/40 transition-colors group">
                 <Cpu className="h-8 w-8 text-muted-foreground mx-auto mb-2 group-hover:text-regtech transition-colors" />
-                <h3 className="font-serif font-bold text-foreground mb-1">RegTech Vendor Directory — coming soon</h3>
+                <h3 className="font-serif font-bold text-foreground mb-1">Find RegTech firms in the directory</h3>
                 <p className="text-xs text-muted-foreground">Browse and compare RegTech solutions for Cyprus-regulated entities</p>
                 <span className="inline-flex items-center gap-1 mt-3 text-[10px] uppercase tracking-wider text-regtech font-semibold">
                   Browse Directory <ArrowRight className="h-3 w-3" />

@@ -49,7 +49,7 @@ const fundingProgrammes = [
     eligibility: ["Registered EU SME", "Fewer than 250 employees", "Innovation-driven project"],
     link: "https://ec.europa.eu/info/horizon-europe_en",
     category: "Innovation",
-    status: "Open",
+    status: "Check portal",
   },
   {
     id: "cosme",
@@ -60,7 +60,7 @@ const fundingProgrammes = [
     eligibility: ["Any EU-registered SME", "Cross-border ambition", "Growth-stage or scaling"],
     link: "https://ec.europa.eu/growth/smes/cosme_en",
     category: "Competitiveness",
-    status: "Open",
+    status: "Check portal",
   },
   {
     id: "digital-europe",
@@ -71,7 +71,7 @@ const fundingProgrammes = [
     eligibility: ["Digital transformation project", "EU-based SME", "Tech adoption focus"],
     link: "https://digital-strategy.ec.europa.eu/en/activities/digital-programme",
     category: "Digital",
-    status: "Open",
+    status: "Check portal",
   },
   {
     id: "eic",
@@ -82,7 +82,7 @@ const fundingProgrammes = [
     eligibility: ["High-impact innovation", "TRL 5–8", "Scalable business model"],
     link: "https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en",
     category: "Innovation",
-    status: "Open",
+    status: "Check portal",
   },
   {
     id: "life",
@@ -93,7 +93,7 @@ const fundingProgrammes = [
     eligibility: ["Environmental innovation", "Climate action project", "EU-based entity"],
     link: "https://cinea.ec.europa.eu/programmes/life_en",
     category: "Green",
-    status: "Open",
+    status: "Check portal",
   },
   {
     id: "structural",
@@ -104,7 +104,7 @@ const fundingProgrammes = [
     eligibility: ["Cyprus-registered SME", "Project in Cyprus", "Co-financing capability"],
     link: "https://www.structuralfunds.org.cy",
     category: "National",
-    status: "Open",
+    status: "Check portal",
   },
 ];
 
@@ -419,6 +419,7 @@ export default function SMEPage() {
             <h2 className="section-label text-foreground text-sm">EU Funding Matchmaker</h2>
             <span className="section-label text-secondary">{filteredFunding.length} programmes</span>
           </div>
+          <p className="text-xs text-muted-foreground mb-4">Budgets and call availability are indicative. Always confirm current calls on the official programme portal.</p>
 
           {/* Category filters */}
           <div className="flex flex-wrap gap-2 mb-6">
@@ -583,6 +584,7 @@ export default function SMEPage() {
             <h2 className="section-label text-foreground text-sm">Interactive Business Tools</h2>
             <span className="section-label text-secondary">4 tools</span>
           </div>
+          <p className="text-xs text-muted-foreground mb-4">These tools give general guidance only and are not legal, tax or financial advice.</p>
 
           <div className="space-y-8">
             {/* Row 1: Digital Maturity + VAT Calculator */}

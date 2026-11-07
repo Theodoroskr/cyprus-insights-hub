@@ -57,12 +57,12 @@ export function PremiumGate({
                   Register Free to Start
                 </Button>
                 <span className="text-xs text-muted-foreground">
-                  Then upgrade for €29/month
+                  Premium membership launching soon
                 </span>
               </div>
             ) : (
-              <Button className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                Upgrade to Premium — €29/mo
+              <Button disabled className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                Premium — coming soon
               </Button>
             )}
           </div>
