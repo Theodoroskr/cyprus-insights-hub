@@ -36,15 +36,23 @@ export function ReviewQueuePanel() {
 
   const decideMatch = async (m: any, approve: boolean) => {
     const status = approve ? "approved" : "rejected";
+    const reviewed = { reviewed_by: user?.id, reviewed_at: new Date().toISOString() };
+    // Remove from the list straight away
+    qc.setQueryData(["review-matches"], (old: any[] = []) => old.filter((x) => x.id !== m.id));
     if (m.source_table === "directory_companies" && approve) {
       // Duplicate unregistered directory entry: fold it into the registered company
       const { error } = await supabase.rpc("merge_directory_duplicate", { _dup: m.source_id, _keep: m.candidate_id });
-      if (error) { toast.error(error.message); return; }
+      if (error) { toast.error(error.message); qc.invalidateQueries({ queryKey: ["review-matches"] }); return; }
+      await supabase.from("match_review_queue").update({ status: "approved", ...reviewed }).eq("id", m.id);
+      // Other pending suggestions for the same (now merged) entry are no longer relevant
+      await supabase.from("match_review_queue").update({ status: "rejected", ...reviewed })
+        .eq("source_id", m.source_id).eq("status", "pending");
       toast.success("Merged into registered company");
       qc.invalidateQueries({ queryKey: ["review-matches"] });
       return;
     }
-    await supabase.from("match_review_queue").update({ status, reviewed_by: user?.id, reviewed_at: new Date().toISOString() }).eq("id", m.id);
+    const { error } = await supabase.from("match_review_queue").update({ status, ...reviewed }).eq("id", m.id);
+    if (error) { toast.error(error.message); qc.invalidateQueries({ queryKey: ["review-matches"] }); return; }
     if (m.kind === "company" && approve && m.source_table === "companies") {
       // One master record: link the curated profile to the registry company; reject other candidates
       await supabase.from("companies").update({ directory_company_id: m.candidate_id }).eq("id", m.source_id);
