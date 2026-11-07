@@ -9,6 +9,8 @@ export interface ActiveBanner {
   click_url: string;
 }
 
+const PAGE_SEED = Math.floor(Math.random() * 1000);
+
 /** All live, in-date banners, fetched once and shared by every ad slot. */
 function useActiveBanners() {
   return useQuery({
@@ -30,5 +32,8 @@ function useActiveBanners() {
 /** Returns the live banner for a slot, or null when the slot is unsold. */
 export function useActiveBanner(slotId: string): ActiveBanner | null {
   const { data } = useActiveBanners();
-  return data?.find((b) => b.slot_id === slotId) ?? null;
+  const live = (data ?? []).filter((b) => b.slot_id === slotId);
+  if (!live.length) return null;
+  // Several live banners in one slot take turns: one is picked per page visit.
+  return live[PAGE_SEED % live.length];
 }
