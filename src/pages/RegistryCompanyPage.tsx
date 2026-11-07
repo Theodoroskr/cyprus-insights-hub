@@ -66,6 +66,7 @@ export default function RegistryCompanyPage() {
   const [company, setCompany] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
+  const [formerNames, setFormerNames] = useState<string[]>([]);
 
   const isPremium = profile?.tier === "premium";
 
@@ -78,9 +79,14 @@ export default function RegistryCompanyPage() {
       .select("*")
       .eq(col, identifier)
       .single()
-      .then(({ data }) => {
+      .then(async ({ data }) => {
         setCompany(data);
         setLoading(false);
+        if (data?.id) {
+          const { data: al } = await supabase.from("company_aliases").select("alias").eq("directory_company_id", data.id);
+          const own = (data.company_name || "").toLowerCase();
+          setFormerNames([...new Set((al || []).map((a) => a.alias).filter((a) => a.toLowerCase() !== own))]);
+        }
       });
   }, [slug, companyId]);
 
@@ -169,7 +175,12 @@ export default function RegistryCompanyPage() {
             </div>
             <div className="flex-1">
               <div className="flex items-start justify-between gap-4">
-                <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
+                  {formerNames.length > 0 && (
+                    <p className="text-sm text-muted-foreground mt-1">Also known as: {formerNames.join(", ")}</p>
+                  )}
+                </div>
                 {user && company?.id && (
                   <Button
                     variant={isWatching(company.id) ? "default" : "outline"}
