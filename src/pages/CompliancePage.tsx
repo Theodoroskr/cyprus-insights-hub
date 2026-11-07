@@ -1,3 +1,4 @@
+import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useState, useEffect } from "react";
 import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
 import { Link } from "react-router-dom";
@@ -212,9 +213,9 @@ export default function CompliancePage() {
                   {articles.map((article) => (
                     <Link to={`/article/${article.id}`} key={article.id}>
                       <article className="border border-border rounded-lg overflow-hidden group cursor-pointer hover:border-secondary/40 transition-colors">
-                        {article.image_url && (
+                        {(
                           <div className="relative h-40 overflow-hidden">
-                            <img src={article.image_url} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img src={articleImage(article.image_url, "compliance")} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent" />
                           </div>
                         )}

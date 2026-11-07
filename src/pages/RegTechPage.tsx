@@ -1,3 +1,4 @@
+import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useState, useEffect } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
@@ -274,7 +275,7 @@ export default function RegTechPage() {
                     <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-regtech/40 transition-colors">
                       <div className="relative h-44 overflow-hidden">
                         <img
-                          src={article.image_url || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80"}
+                          src={article.image_url || FALLBACK_IMAGE}
                           alt={article.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />

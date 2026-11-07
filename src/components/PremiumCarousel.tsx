@@ -1,3 +1,4 @@
+import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Lock, ChevronLeft, ChevronRight, Crown } from "lucide-react";
@@ -37,7 +38,7 @@ export function PremiumCarousel() {
               id: a.id,
               title: a.title,
               summary: a.summary || "",
-              image: a.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80",
+              image: a.image_url || FALLBACK_IMAGE,
               category: verticalLabel(a.vertical),
             }))
           );

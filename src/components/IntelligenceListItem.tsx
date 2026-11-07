@@ -1,3 +1,4 @@
+import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Zap, Target, Lightbulb, Bookmark, Clock } from "lucide-react";
@@ -89,7 +90,7 @@ export function IntelligenceListItem({
     if (href && href !== "#") navigate(href);
   };
 
-  const fallbackImage = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80";
+  const fallbackImage = FALLBACK_IMAGE;
 
   if (isLead) {
     return (

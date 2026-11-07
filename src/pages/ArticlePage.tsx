@@ -1,3 +1,4 @@
+import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import ReactMarkdown from "react-markdown";
@@ -219,10 +220,10 @@ export default function ArticlePage() {
             )}
           </header>
 
-          {article.image_url && (
+          {(
             <figure className="mb-10">
-              <img src={article.image_url} alt={headline} className="w-full aspect-[16/9] max-h-[420px] object-cover rounded-lg bg-muted" />
-              {source && <figcaption className="text-xs text-muted-foreground mt-2">Image: {source}</figcaption>}
+              <img src={articleImage(article.image_url, article.vertical)} alt={headline} className="w-full aspect-[16/9] max-h-[420px] object-cover rounded-lg bg-muted" />
+              {article.image_url && source && <figcaption className="text-xs text-muted-foreground mt-2">Image: {source}</figcaption>}
             </figure>
           )}
 
@@ -345,8 +346,8 @@ export default function ArticlePage() {
                 {related.map((r) => (
                   <Link key={r.id} to={`/article/${r.id}`} className="group">
                     <div className="rounded-lg overflow-hidden border border-border bg-card hover:shadow-md transition-shadow h-full">
-                      {r.image_url && (
-                        <img src={r.image_url} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500" />
+                      {(
+                        <img src={articleImage(r.image_url, r.vertical)} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500" />
                       )}
                       <div className="p-3">
                         <Badge variant="outline" className="text-[9px] mb-2">{verticalLabel[r.vertical] || r.vertical}</Badge>

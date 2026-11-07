@@ -1,3 +1,4 @@
+import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Clock, Flame } from "lucide-react";
@@ -51,7 +52,7 @@ export function IntelligenceHub() {
       id: a.id,
       title: a.title || a.what_happened,
       summary: a.summary || a.what_happened || "",
-      image: a.image_url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      image: a.image_url || FALLBACK_IMAGE,
       category: verticalLabel(a.vertical),
       date: a.published_at
         ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
@@ -74,7 +75,7 @@ export function IntelligenceHub() {
               id: d.article_id,
               title: d.title,
               category: verticalLabel(d.vertical),
-              image: d.image_url,
+              image: articleImage(d.image_url, d.vertical),
               view_count: Number(d.view_count),
             }))
           );
@@ -196,7 +197,7 @@ export function IntelligenceHub() {
                   </div>
                   <div className="relative w-[72px] h-[72px] flex-shrink-0 overflow-hidden rounded">
                     <img
-                      src={article.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=200&q=60"}
+                      src={article.image || FALLBACK_IMAGE}
                       alt=""
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />

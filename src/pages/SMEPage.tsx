@@ -1,3 +1,4 @@
+import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
@@ -389,9 +390,9 @@ export default function SMEPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
               {smeArticles.map((article) => (
                 <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
-                  {article.image_url && (
+                  {(
                     <div className="relative h-36 overflow-hidden">
-                      <img src={article.image_url} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={articleImage(article.image_url, "sme")} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
                     </div>
                   )}
