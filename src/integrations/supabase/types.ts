@@ -188,6 +188,7 @@ export type Database = {
           event_type: string | null
           id: string
           image_url: string | null
+          original_language: string | null
           published_at: string | null
           source_id: string | null
           source_url: string | null
@@ -210,6 +211,7 @@ export type Database = {
           event_type?: string | null
           id?: string
           image_url?: string | null
+          original_language?: string | null
           published_at?: string | null
           source_id?: string | null
           source_url?: string | null
@@ -232,6 +234,7 @@ export type Database = {
           event_type?: string | null
           id?: string
           image_url?: string | null
+          original_language?: string | null
           published_at?: string | null
           source_id?: string | null
           source_url?: string | null

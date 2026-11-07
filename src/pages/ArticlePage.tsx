@@ -26,6 +26,7 @@ interface Article {
   published_at: string | null;
   source_url: string | null;
   tags: string[] | null;
+  original_language?: string | null;
 }
 
 const verticalLabel: Record<string, string> = {
@@ -278,6 +279,9 @@ export default function ArticlePage() {
                 </div>
               ) : null}
 
+              {article.original_language === "el" && (
+                <p className="text-sm text-muted-foreground italic mb-3">Translated from Greek.</p>
+              )}
               {article.source_url && (
                 <a href={article.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex">
                   <Button variant={hasBody ? "ghost" : "default"} className="gap-2 mb-10">

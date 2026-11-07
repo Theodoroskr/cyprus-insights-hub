@@ -1,3 +1,4 @@
+import { isGreek, translateToEnglish } from "../_shared/translateToEnglish.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
@@ -69,7 +70,7 @@ Given a news article, produce a structured intelligence card with EXACTLY these 
 5. tags — 3-5 keyword tags relevant to the article
 
 IMPORTANT: Ignore any cookie banners, privacy notices, navigation menus, "you may also like" sections, language selectors, feedback widgets, or other website boilerplate in the input. Focus ONLY on the actual article content.
-Write in a professional, authoritative tone. Be specific about Cyprus implications.`;
+Always write in English, even if the source is in Greek. Write in a professional, authoritative tone. Be specific about Cyprus implications.`;
 
   try {
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -451,6 +452,15 @@ Deno.serve(async (req) => {
             if (dupHash) { sourceResult.duplicates = (sourceResult.duplicates || 0) + 1; continue; }
             if (fullBody.length < 150 || /404 not found|page not found|could not be found|currently unavailable/i.test(fullBody.slice(0, 600))) { sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
 
+            let originalLanguage = "en";
+            if (isGreek(article.title + " " + fullBody)) {
+              try {
+                const t = await translateToEnglish({ title: article.title, body_markdown: fullBody.slice(0, 20000) }, LOVABLE_API_KEY);
+                article.title = t.title || article.title;
+                fullBody = t.body_markdown || fullBody;
+                originalLanguage = "el";
+              } catch (e) { console.error("translate failed", (e as Error).message); }
+            }
             const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
             const intelligence = await enrichWithAI(article.title, fullBody, vertical, LOVABLE_API_KEY);
 
@@ -461,6 +471,7 @@ Deno.serve(async (req) => {
               .insert({
                 title: article.title,
                 body_markdown: fullBody,
+                original_language: originalLanguage,
                 source_url: article.url || `${source.url}${source.scrape_path}`,
                 source_id: sourceId,
                 canonical_url: canonicalUrl,

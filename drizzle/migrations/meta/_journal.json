@@ -15,6 +15,13 @@
       "when": 1794002888500,
       "tag": "0001_merge_directory_duplicate",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794033839837,
+      "tag": "0002_article_original_language",
+      "breakpoints": true
     }
   ]
 }

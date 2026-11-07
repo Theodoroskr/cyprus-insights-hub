@@ -1,0 +1,1 @@
+ALTER TABLE public.cna_articles ADD COLUMN IF NOT EXISTS original_language text;
