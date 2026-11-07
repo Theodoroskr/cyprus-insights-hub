@@ -83,7 +83,9 @@ const complianceAreas = [
   },
 ];
 
-const regulatoryCalendar = [
+// Fallback shown only if the database calendar is empty; the table is
+// refreshed monthly by the update-regulatory-calendar function.
+const fallbackCalendar = [
   { date: "Q2 2026", event: "CySEC AML/CFT supervisory priorities update", category: "AML" },
   { date: "Jul 2026", event: "DORA — full compliance deadline for ICT third-party risk", category: "DORA" },
   { date: "Sep 2026", event: "MiCA — transitional period ends for existing CASPs", category: "MiCA" },
@@ -111,6 +113,7 @@ const regulatoryLinks = [
 export default function CompliancePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [articles, setArticles] = useState<any[]>([]);
+  const [calendar, setCalendar] = useState<{ date: string; event: string; category: string }[]>(fallbackCalendar);
   const [activeTab, setActiveTab] = useState<"overview" | "tools" | "templates" | "calendar">("overview");
 
   useEffect(() => {
@@ -123,6 +126,23 @@ export default function CompliancePage() {
       .limit(6)
       .then(({ data }) => {
         if (data) setArticles(data);
+      });
+
+    supabase
+      .from("regulatory_calendar")
+      .select("date_label, event, category")
+      .eq("active", true)
+      .order("sort_date", { ascending: true, nullsFirst: false })
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setCalendar(
+            data.map((row) => ({
+              date: row.date_label,
+              event: row.event,
+              category: row.category,
+            }))
+          );
+        }
       });
   }, []);
 
@@ -419,7 +439,7 @@ export default function CompliancePage() {
             </div>
             <div className="max-w-2xl">
               <div className="divide-y divide-border border border-border">
-                {regulatoryCalendar.map((item, i) => (
+                {calendar.map((item, i) => (
                   <div key={i} className="flex items-start gap-4 p-4 hover:bg-muted/30 transition-colors">
                     <div className="w-20 shrink-0">
                       <span className="text-xs font-bold text-secondary uppercase tracking-wider">{item.date}</span>

@@ -22,6 +22,13 @@
       "when": 1794033839837,
       "tag": "0002_article_original_language",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794035852739,
+      "tag": "0003_regulatory_calendar_table",
+      "breakpoints": true
     }
   ]
 }

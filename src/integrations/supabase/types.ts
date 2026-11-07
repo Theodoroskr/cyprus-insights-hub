@@ -1451,6 +1451,42 @@ export type Database = {
         }
         Relationships: []
       }
+      regulatory_calendar: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          date_label: string
+          event: string
+          generated_at: string
+          id: string
+          sort_date: string | null
+          source_url: string | null
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          date_label: string
+          event: string
+          generated_at?: string
+          id?: string
+          sort_date?: string | null
+          source_url?: string | null
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          date_label?: string
+          event?: string
+          generated_at?: string
+          id?: string
+          sort_date?: string | null
+          source_url?: string | null
+        }
+        Relationships: []
+      }
       regulatory_records: {
         Row: {
           created_at: string
