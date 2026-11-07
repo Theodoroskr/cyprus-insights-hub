@@ -19,3 +19,4 @@
 - [ ] 7 news sources still failing (4 pages unreadable, 3 site-side SSL/blocking)
 - [x] Remove gap between Intelligence Hub and Custom Studio
 - [x] Article page layout (news articles); interviews/sponsored keep their own header
+- [x] Disable three sample sponsored posts; retain sponsored articles and turn Custom Studio into a scheduled banner placement

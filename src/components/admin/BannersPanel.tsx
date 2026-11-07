@@ -16,6 +16,7 @@ const SLOT_OPTIONS = [
   { value: "mrec", label: "MREC (300×250)" },
   { value: "skyscraper", label: "Skyscraper (160×600)" },
   { value: "billboard", label: "Billboard (970×250)" },
+  { value: "custom-studio", label: "Custom Studio (970×250)" },
 ];
 
 type Banner = {
@@ -93,6 +94,7 @@ export function BannersPanel() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-banners"] });
+      queryClient.invalidateQueries({ queryKey: ["active-banners"] });
       setDialogOpen(false);
       setEditingId(null);
       toast.success("Banner placement saved successfully.");
@@ -107,6 +109,7 @@ export function BannersPanel() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-banners"] });
+      queryClient.invalidateQueries({ queryKey: ["active-banners"] });
       toast.success("Banner removed.");
     },
     onError: (err) => toast.error((err as Error).message),
@@ -117,7 +120,10 @@ export function BannersPanel() {
       const { error } = await supabase.from("banner_placements").update({ is_active }).eq("id", id);
       if (error) throw error;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-banners"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-banners"] });
+      queryClient.invalidateQueries({ queryKey: ["active-banners"] });
+    },
   });
 
   const openCreate = () => {
