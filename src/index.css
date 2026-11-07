@@ -285,3 +285,12 @@
     text-wrap: balance;
   }
 }
+
+/* Our branded backup photos: keep the hub web address (top-right) in view when cropped */
+img[src*="/fallback/branded/"],
+img[src*="/assets/business-"],
+img[src*="/assets/fintech-"],
+img[src*="/assets/compliance-"],
+img[src*="/assets/regtech-"] {
+  object-position: right top !important;
+}
