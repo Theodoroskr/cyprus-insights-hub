@@ -26,3 +26,9 @@
 - [x] Vary backup photos (4 per hub) so stories without photos don't repeat
 - [x] Article photos: unwrap website photo cards, use story's own photo, same photo on preview and page, hub-only backups
 - [x] News & Insights lists the latest scraped stories with hub filter and Load more
+
+# Roadmap — Regulator matching (Nov 2026)
+- [x] Central Bank register parser: banks, e-money and payment institutions read from official CBC pages/spreadsheets, auto-matched (registration no. → alias → unique name)
+- [x] Alias & suffix matcher: strip city/branch words ("Cyta Limassol", "Deloitte Cyprus"), harvest former/trading names from CySEC & CBC as aliases, used by news linking and all regulator imports
+- [x] Fold old placeholder bank profiles into the official registry records
+- [x] Company page shows CBC licence type, number and status

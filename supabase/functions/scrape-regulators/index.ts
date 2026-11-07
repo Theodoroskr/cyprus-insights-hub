@@ -1,5 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { syncCysec } from "./cysecSync.ts";
+import { syncCbc } from "./cbcSync.ts";
+import { resolveCompanies } from "../_shared/companyMatcher.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -8,13 +10,7 @@ const corsHeaders = {
 };
 
 const SOURCES = [
-  // CySEC registers are read directly by cysecSync.ts
-  {
-    key: "cbc",
-    name: "CBC — Credit Institutions",
-    url: "https://www.centralbank.cy/en/licensing-supervision/banks/register-of-credit-institutions-operating-in-cyprus",
-    license_type: "Credit Institution",
-  },
+  // CySEC and Central Bank registers are read directly by cysecSync.ts / cbcSync.ts
   {
     key: "icpac",
     name: "ICPAC — Member Firms",
@@ -149,29 +145,9 @@ async function matchOrCreateInDirectory(
   licenseType: string,
   supabase: any
 ): Promise<{ id: string; confidence: number; created: boolean }> {
-  // Registration number is the strongest identifier
-  if (entity.registration_no) {
-    const { data: byReg } = await supabase.from("directory_companies").select("id")
-      .eq("registration_no", entity.registration_no).limit(1);
-    if (byReg && byReg.length > 0) return { id: byReg[0].id, confidence: 1.0, created: false };
-  }
-  // Exact (case-insensitive) name match first, preferring registered companies
-  const escaped = entityName.replace(/[\\%_]/g, (c) => "\\" + c);
-  const { data: exact } = await supabase
-    .from("directory_companies")
-    .select("id, registration_no")
-    .ilike("company_name", escaped)
-    .limit(2);
-  if (exact && exact.length === 1) return { id: exact[0].id, confidence: 0.95, created: false };
-
-  // Then normalised name ("X LTD" == "X LIMITED") or a known alias, only when unique
-  const { data: key } = await supabase.rpc("normalize_company_name", { _name: entityName });
-  if (typeof key === "string" && key.length >= 3) {
-    const { data: al } = await supabase.from("company_aliases").select("directory_company_id").eq("alias_key", key).maybeSingle();
-    if (al) return { id: al.directory_company_id, confidence: 0.98, created: false };
-    const { data: hits } = await supabase.from("directory_companies").select("id").eq("name_key", key).limit(2);
-    if (hits && hits.length === 1 && !/\b(of|and|for)$/.test(key)) return { id: hits[0].id, confidence: 0.95, created: false };
-  }
+  // Registration number → alias (incl. city/branch suffixes) → unique normalised name
+  const [m] = await resolveCompanies(supabase, [{ name: entityName, registration_no: entity.registration_no }]);
+  if (m.id) return { id: m.id, confidence: m.confidence, created: false };
 
   // No match found — create new directory entry
   const slug = generateSlug(entityName) + "-" + Date.now().toString(36);
@@ -233,12 +209,19 @@ Deno.serve(async (req) => {
     const results: Record<string, number> = {};
     const errors: Record<string, string> = {};
     let cysec: Record<string, number> | undefined;
+    let cbc: Record<string, number> | undefined;
 
     if (source === "all" || source === "cysec") {
       const r = await syncCysec(supabase, only);
       Object.assign(results, r.results);
       Object.assign(errors, r.errors);
       cysec = r.stats;
+    }
+    if ((source === "all" && !only) || source === "cbc") {
+      const r = await syncCbc(supabase);
+      Object.assign(results, r.results);
+      Object.assign(errors, r.errors);
+      cbc = r.stats;
     }
     if (toProcess.length && !FIRECRAWL_API_KEY) throw new Error("FIRECRAWL_API_KEY not configured");
 
@@ -340,7 +323,7 @@ Deno.serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, results, errors, cysec }),
+      JSON.stringify({ success: true, results, errors, cysec, cbc }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {

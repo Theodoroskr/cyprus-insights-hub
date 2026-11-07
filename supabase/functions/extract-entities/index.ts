@@ -1,10 +1,12 @@
 // Links news articles to companies and people, and classifies the business event.
 // Matching rules:
-//  - Registration number found in text -> auto-approved company link
-//  - Exact name match -> pending link + review task (never auto-approved)
+//  - Registration number, official/curated alias (also with "Cyprus"/city/branch suffixes) or a single
+//    specific registry name -> auto-approved company link (see _shared/companyMatcher.ts)
+//  - Ambiguous names -> pending link + review task
 //  - People are never auto-merged: every person match goes to review
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { resolveCompanies } from "../_shared/companyMatcher.ts";
 
 const EVENT_TYPES = [
   "executive_appointment", "board_appointment", "investment", "merger_acquisition", "partnership",
@@ -102,55 +104,31 @@ Deno.serve(async (req) => {
 
       let primaryCompany: { directory_company_id?: string; company_id?: string } | null = null;
 
-      for (const c of (ex.companies || []).slice(0, 8)) {
-        const name = c.name?.trim();
-        if (!name || name.length < 3) continue;
-        const reg = c.registration_no?.replace(/\s/g, "").toUpperCase();
+      const comps = (ex.companies || []).slice(0, 8)
+        .map((c) => ({ name: c.name?.trim() || "", registration_no: c.registration_no }))
+        .filter((c) => c.name.length >= 3);
+      // Registration number → alias (incl. "Cyprus"/city/branch suffixes) → unique specific registry name
+      const resolved = await resolveCompanies(supabase, comps, { strict: true });
 
-        // 1. Registration number -> auto-approve
-        if (reg && /^HE\d{3,}$/.test(reg)) {
-          const { data: d } = await supabase.from("directory_companies").select("id, company_name").eq("registration_no", reg).maybeSingle();
-          if (d) {
-            await supabase.from("news_entity_links").upsert({
-              article_id: a.id, entity_type: "directory_company", entity_id: d.id, entity_label: d.company_name,
-              confidence: 1, match_method: "registration_no", status: "approved",
-            }, { onConflict: "article_id,entity_type,entity_id" });
-            primaryCompany ??= { directory_company_id: d.id };
-            links++;
-            continue;
-          }
-        }
-
-        // 2. Known alias or unique normalised registry name -> auto-approve
-        const { data: keyRow } = await supabase.rpc("normalize_company_name", { _name: name });
-        const key = typeof keyRow === "string" ? keyRow : null;
-        let auto: { id: string; company_name: string; method: string } | null = null;
-        if (key && key.length >= 3) {
-          const { data: al } = await supabase.from("company_aliases").select("directory_company_id, directory_companies(company_name)").eq("alias_key", key).maybeSingle();
-          if (al) auto = { id: al.directory_company_id, company_name: (al as any).directory_companies?.company_name ?? name, method: "alias" };
-          else if ((key.length >= 6 || key.includes(" ")) && !/\b(of|and|for)$/.test(key)) {
-            const { data: hits } = await supabase.from("directory_companies").select("id, company_name").eq("name_key", key).limit(2);
-            if (hits && hits.length === 1) auto = { ...hits[0], method: "normalised_name" };
-          }
-        }
-        if (auto) {
+      for (let ci = 0; ci < comps.length; ci++) {
+        const name = comps[ci].name;
+        const r = resolved[ci];
+        if (r.id) {
           await supabase.from("news_entity_links").upsert({
-            article_id: a.id, entity_type: "directory_company", entity_id: auto.id, entity_label: auto.company_name,
-            confidence: auto.method === "alias" ? 0.98 : 0.95, match_method: auto.method, status: "approved",
+            article_id: a.id, entity_type: "directory_company", entity_id: r.id, entity_label: r.label ?? name,
+            confidence: r.confidence, match_method: r.method, status: "approved",
           }, { onConflict: "article_id,entity_type,entity_id" });
-          primaryCompany ??= { directory_company_id: auto.id };
+          primaryCompany ??= { directory_company_id: r.id };
           links++;
           continue;
         }
 
-        // 3. Ambiguous -> review queue
-        const { data: cur } = await supabase.from("companies").select("id, name, directory_company_id").ilike("name", name).maybeSingle();
-        const { data: dir } = cur ? { data: null } : key
-          ? await supabase.from("directory_companies").select("id, company_name, registration_no").eq("name_key", key).limit(3)
-          : { data: [] as any[] };
+        // Ambiguous -> review queue
+        const escaped = name.replace(/[\\%_]/g, (c) => "\\" + c);
+        const { data: cur } = await supabase.from("companies").select("id, name, directory_company_id").ilike("name", escaped).maybeSingle();
         const candidates = cur
           ? [{ type: "company", id: cur.id, label: cur.name }]
-          : (dir || []).map((d: any) => ({ type: "directory_company", id: d.id, label: `${d.company_name}${d.registration_no ? ` (${d.registration_no})` : ""}` }));
+          : (r.candidates || []).slice(0, 3).map((d) => ({ type: "directory_company", id: d.id, label: d.label }));
 
         for (const cand of candidates) {
           await supabase.from("news_entity_links").upsert({

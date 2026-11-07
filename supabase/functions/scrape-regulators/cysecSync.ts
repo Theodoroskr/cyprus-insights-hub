@@ -3,6 +3,7 @@
 import {
   ADVERSE_STATUSES, CYSEC_LISTS, CysecEntry, CysecList, cysecUrl, directoryFlagsFor, isCurrentStatus, mapCysecStatus, parseCysecRegister,
 } from "../_shared/cysecRegister.ts";
+import { type AliasRow, extractAlternateNames, resolveCompanies, saveAliases } from "../_shared/companyMatcher.ts";
 
 // Licence-type labels used by the previous parser, so old rows are updated rather than duplicated
 const OLD_TYPES: Record<string, string> = {
@@ -15,7 +16,7 @@ const normType = (t?: string | null) => (t ? OLD_TYPES[t] || t : "");
 const PRIORITY = Object.fromEntries(CYSEC_LISTS.map((l) => [l.name, l.priority]));
 
 type Match = { id: string | null; confidence: number; method: string; candidates?: { id: string; label: string }[] };
-type Item = { list: CysecList; entry: CysecEntry; key?: string | null; match?: Match };
+type Item = { list: CysecList; entry: CysecEntry; match?: Match };
 
 async function inBatches<T>(items: T[], size: number, fn: (x: T) => Promise<unknown>) {
   for (let i = 0; i < items.length; i += size) await Promise.all(items.slice(i, i + size).map(fn));
@@ -83,52 +84,23 @@ export async function syncCysec(supabase: any, only?: string) {
     return r;
   };
 
-  // 3. Match by company registration number (strongest identifier)
-  const regs = [...new Set(items.map((i) => i.entry.registration_no).filter(Boolean))] as string[];
-  const byReg = new Map<string, string>();
-  for (const c of chunk(regs, 150)) {
-    const { data } = await supabase.from("directory_companies").select("id, registration_no").in("registration_no", c);
-    for (const d of data || []) byReg.set(d.registration_no, d.id);
-  }
-  for (const it of items) {
-    const id = it.entry.registration_no ? byReg.get(it.entry.registration_no) : undefined;
-    if (id) { it.match = { id, confidence: 1, method: "registration_no" }; stats.by_registration_no++; continue; }
-    const prev = findExisting(it);
-    if (prev?.match_method === "manual" && prev.matched_company_id) {
-      it.match = { id: prev.matched_company_id, confidence: 1, method: "manual" }; stats.kept_manual++;
+  // 3–4. Match: registration number → alias (incl. city/branch suffixes) → unique normalised name.
+  // A company with a different registration number is never matched by name. Manual approvals are kept.
+  const resolved = await resolveCompanies(supabase, items.map((i) => ({ name: i.entry.entity_name, registration_no: i.entry.registration_no })));
+  items.forEach((it, i) => {
+    const r = resolved[i];
+    if (r.method !== "registration_no") {
+      const prev = findExisting(it);
+      if (prev?.match_method === "manual" && prev.matched_company_id) {
+        it.match = { id: prev.matched_company_id, confidence: 1, method: "manual" }; stats.kept_manual++;
+        return;
+      }
     }
-  }
-
-  // 4. Remaining firms: curated alias, then a single unique normalised-name match
-  const pending = items.filter((i) => !i.match);
-  await inBatches(pending, 10, async (it) => {
-    const { data } = await supabase.rpc("normalize_company_name", { _name: it.entry.entity_name });
-    it.key = typeof data === "string" && data.length >= 3 ? data : null;
+    it.match = { id: r.id, confidence: r.confidence, method: r.method, candidates: r.candidates };
+    if (r.method === "registration_no") stats.by_registration_no++;
+    else if (r.method.startsWith("alias")) stats.by_alias++;
+    else if (r.method.startsWith("name_key")) stats.by_name++;
   });
-  const keys = [...new Set(pending.map((i) => i.key).filter(Boolean))] as string[];
-  const aliasMap = new Map<string, string>();
-  const nameHits = new Map<string, { id: string; company_name: string; registration_no: string | null }[]>();
-  for (const c of chunk(keys, 100)) {
-    const [{ data: al }, { data: hits }] = await Promise.all([
-      supabase.from("company_aliases").select("alias_key, directory_company_id").in("alias_key", c),
-      supabase.from("directory_companies").select("id, name_key, company_name, registration_no").in("name_key", c).limit(2000),
-    ]);
-    for (const a of al || []) aliasMap.set(a.alias_key, a.directory_company_id);
-    for (const h of hits || []) nameHits.set(h.name_key, [...(nameHits.get(h.name_key) || []), h]);
-  }
-  for (const it of pending) {
-    if (!it.key) { it.match = { id: null, confidence: 0, method: "none" }; continue; }
-    const alias = aliasMap.get(it.key);
-    if (alias) { it.match = { id: alias, confidence: 0.98, method: "alias" }; stats.by_alias++; continue; }
-    // A company with a different registration number is a different company, whatever its name
-    const cands = (nameHits.get(it.key) || []).filter((h) => !it.entry.registration_no || !h.registration_no || h.registration_no === it.entry.registration_no);
-    if (cands.length === 1 && !/\b(of|and|for)$/.test(it.key)) { it.match = { id: cands[0].id, confidence: 0.95, method: "name_key" }; stats.by_name++; continue; }
-    if (cands.length > 1) {
-      it.match = { id: null, confidence: 0, method: "ambiguous", candidates: cands.slice(0, 5).map((c) => ({ id: c.id, label: `${c.company_name}${c.registration_no ? ` (HE ${c.registration_no})` : ""}` })) };
-      continue;
-    }
-    it.match = { id: null, confidence: 0, method: "none" };
-  }
 
   // 5. Licensed firms missing from the directory get a basic profile (former licensees do not)
   const toCreate = items.filter((i) => i.match?.method === "none" && !i.list.former && isCurrentStatus(i.entry.status));
@@ -153,6 +125,7 @@ export async function syncCysec(supabase: any, only?: string) {
   const recByKey = new Map<string, string>();
   for (const r of recs) recByKey.set(rowKey((r.title || "").split(" — ")[0], r.license_number, r.entity_name), r.id);
   const today = runStart.slice(0, 10);
+  const aliasRows: AliasRow[] = [];
 
   await inBatches(items, 15, async (it) => {
     const { entry, list } = it;
@@ -192,6 +165,12 @@ export async function syncCysec(supabase: any, only?: string) {
     if (matchedId) affected.add(matchedId);
     if (prev?.matched_company_id && prev.matched_company_id !== matchedId) affected.add(prev.matched_company_id);
     if (!matchedId) m.method === "ambiguous" ? stats.review++ : stats.unmatched++;
+
+    // Official former names ("ex …") and the register's spelling become aliases for news matching
+    if (matchedId && m.confidence >= 0.9) {
+      for (const n of extractAlternateNames(entry.raw_name).formerNames) aliasRows.push({ directory_company_id: matchedId, alias: n, alias_type: "former_name", source: "cysec" });
+      if (m.method === "registration_no") aliasRows.push({ directory_company_id: matchedId, alias: entry.entity_name, alias_type: "regulator_name", source: "cysec" });
+    }
 
     if (m.candidates?.length) {
       for (const c of m.candidates) {
@@ -236,6 +215,8 @@ export async function syncCysec(supabase: any, only?: string) {
     else await supabase.from("regulatory_records").insert(rec);
   });
 
+  const aliasesAdded = await saveAliases(supabase, aliasRows);
+
   // 7. Full run with every current register read: firms that vanished are "No longer listed"
   const currentListsOk = !only && CYSEC_LISTS.filter((l) => !l.former).every((l) => (results[l.name] ?? 0) > 0);
   if (currentListsOk) {
@@ -278,5 +259,5 @@ export async function syncCysec(supabase: any, only?: string) {
   });
 
   const licensed = ids.filter((id) => directoryFlagsFor(rowsByCompany.get(id) || []).cysec_licensed).length;
-  return { results, errors, stats: { ...stats, firms_read: items.length, companies_updated: ids.length, currently_licensed: licensed } };
+  return { results, errors, stats: { ...stats, aliases_added: aliasesAdded, firms_read: items.length, companies_updated: ids.length, currently_licensed: licensed } };
 }

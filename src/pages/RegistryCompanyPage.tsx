@@ -117,7 +117,8 @@ export default function RegistryCompanyPage() {
   const isActive = company.organisation_status === "Active";
   const citySlug = company.city_slug;
   const hasCysec = !!(company.cysec_licensed || company.cysec_status);
-  const hasRegulatory = hasCysec || company.cbc_supervised || company.icpac_registered || company.bar_member || company.cifa_member;
+  const hasCbc = !!(company.cbc_supervised || company.cbc_status);
+  const hasRegulatory = hasCysec || hasCbc || company.icpac_registered || company.bar_member || company.cifa_member;
 
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
@@ -228,11 +229,13 @@ export default function RegistryCompanyPage() {
                   icon={<ShieldCheck className="h-4 w-4 text-emerald-600" />}
                 />
                 <RegulatoryBadge
-                  show={company.cbc_supervised}
-                  label="CBC Supervised"
-                  detail="Central Bank of Cyprus"
-                  status="Active"
-                  href="https://www.centralbank.cy/en/supervision/supervised-entities"
+                  show={hasCbc}
+                  label={company.cbc_supervised ? "Central Bank of Cyprus" : "Former CBC Authorisation"}
+                  detail={[company.cbc_license_type, company.cbc_license_number && `Licence ${company.cbc_license_number}`].filter(Boolean).join(" — ") || "Central Bank of Cyprus"}
+                  status={company.cbc_status || (company.cbc_supervised ? "Active" : null)}
+                  href={/bank|representative/i.test(company.cbc_license_type || "")
+                    ? "https://www.centralbank.cy/en/licensing-supervision/banks/register-of-credit-institutions-operating-in-cyprus"
+                    : "https://www.centralbank.cy/en/licensing-supervision/payment-institutions-and-electronic-money-institutions/registers"}
                   icon={<Building2 className="h-4 w-4 text-emerald-600" />}
                 />
                 <RegulatoryBadge

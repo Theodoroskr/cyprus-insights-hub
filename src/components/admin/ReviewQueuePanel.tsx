@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { EVENT_LABELS } from "@/components/intel/CompanyIntelligence";
 import { CYSEC_LISTS, directoryFlagsFor } from "../../../supabase/functions/_shared/cysecRegister";
+import { CBC_LIST_PRIORITY, cbcFlagsFor } from "../../../supabase/functions/_shared/cbcRegister";
 
 const KIND_LABELS: Record<string, string> = {
   company: "Company profile ↔ registry",
@@ -26,6 +27,15 @@ async function applyRegulatorMatch(entityId: string, companyId: string): Promise
     .eq("regulator", ent.source.toUpperCase()).eq("record_type", "licensed").eq("entity_name", ent.entity_name);
   if (ent.license_number) recs = recs.eq("license_number", ent.license_number);
   await recs;
+  if (ent.source === "cbc") {
+    const { data: rows = [] } = await supabase.from("regulated_entities")
+      .select("status, license_type, license_number, source_list")
+      .eq("source", "cbc").eq("matched_company_id", companyId).gte("match_confidence", 0.75);
+    const flags = cbcFlagsFor((rows || []).map((r) => ({ ...r, priority: CBC_LIST_PRIORITY[r.source_list ?? ""] ?? 50 })));
+    const { error: upErr } = await supabase.from("directory_companies")
+      .update({ ...flags, regulatory_flags_updated_at: new Date().toISOString() }).eq("id", companyId);
+    return upErr?.message || null;
+  }
   if (ent.source !== "cysec") return null;
   const { data: rows = [] } = await supabase.from("regulated_entities")
     .select("status, license_type, license_number, source_list")

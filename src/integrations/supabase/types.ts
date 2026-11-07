@@ -324,23 +324,29 @@ export type Database = {
         Row: {
           alias: string
           alias_key: string | null
+          alias_type: string
           created_at: string
           directory_company_id: string
           id: string
+          source: string
         }
         Insert: {
           alias: string
           alias_key?: string | null
+          alias_type?: string
           created_at?: string
           directory_company_id: string
           id?: string
+          source?: string
         }
         Update: {
           alias?: string
           alias_key?: string | null
+          alias_type?: string
           created_at?: string
           directory_company_id?: string
           id?: string
+          source?: string
         }
         Relationships: [
           {
@@ -762,6 +768,9 @@ export type Database = {
           activity_description: string | null
           address: string | null
           bar_member: boolean | null
+          cbc_license_number: string | null
+          cbc_license_type: string | null
+          cbc_status: string | null
           cbc_supervised: boolean | null
           cifa_member: boolean | null
           city: string | null
@@ -790,6 +799,9 @@ export type Database = {
           activity_description?: string | null
           address?: string | null
           bar_member?: boolean | null
+          cbc_license_number?: string | null
+          cbc_license_type?: string | null
+          cbc_status?: string | null
           cbc_supervised?: boolean | null
           cifa_member?: boolean | null
           city?: string | null
@@ -818,6 +830,9 @@ export type Database = {
           activity_description?: string | null
           address?: string | null
           bar_member?: boolean | null
+          cbc_license_number?: string | null
+          cbc_license_type?: string | null
+          cbc_status?: string | null
           cbc_supervised?: boolean | null
           cifa_member?: boolean | null
           city?: string | null
@@ -2258,6 +2273,10 @@ export type Database = {
         Returns: boolean
       }
       merge_directory_duplicate: {
+        Args: { _dup: string; _keep: string }
+        Returns: undefined
+      }
+      merge_directory_placeholder: {
         Args: { _dup: string; _keep: string }
         Returns: undefined
       }

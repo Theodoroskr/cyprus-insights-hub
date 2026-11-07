@@ -65,7 +65,7 @@ const toIso = (d?: string | null) => {
 
 /** Strip "(ex …)", "(revoke …)" and similar register notes from a firm name */
 export function cleanEntityName(raw: string): string {
-  const cut = raw.search(/\s*\((?:ex|formerly|former|revoke|revoked|withdrawn|voluntary|suspended|under examination)\b/i);
+  const cut = raw.search(/\s*[([](?:ex|formerly|former|revoke|revoked|withdrawn|voluntary|suspended|under examination)\b/i);
   return (cut > 0 ? raw.slice(0, cut) : raw).replace(/\s+/g, " ").trim();
 }
 
