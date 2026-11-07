@@ -1,4 +1,4 @@
-const files = import.meta.glob("@/assets/fallback/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
+const files = import.meta.glob("@/assets/fallback/branded/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
 
 const BY_VERTICAL: Record<string, string[]> = {};
 for (const [path, url] of Object.entries(files)) {
@@ -6,7 +6,8 @@ for (const [path, url] of Object.entries(files)) {
   (BY_VERTICAL[hub] ||= []).push(url);
 }
 const ALL = new Set(Object.values(files));
-export const FALLBACK_IMAGE = BY_VERTICAL.general[0];
+const ALIAS: Record<string, string> = { general: "business", sme: "business", business: "business", fintech: "fintech", compliance: "compliance", regtech: "regtech" };
+export const FALLBACK_IMAGE = BY_VERTICAL.business[0];
 
 function hash(s: string): number {
   let h = 0;
@@ -16,7 +17,7 @@ function hash(s: string): number {
 
 /** Pick one of our own photos for this hub; the same seed always gives the same photo. */
 export function fallbackFor(vertical?: string | null, seed?: string | null): string {
-  const list = BY_VERTICAL[(vertical || "").toLowerCase()] || BY_VERTICAL.general;
+  const list = BY_VERTICAL[ALIAS[(vertical || "").toLowerCase()] || "business"];
   return list[hash(seed || "") % list.length];
 }
 

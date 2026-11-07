@@ -249,14 +249,14 @@ export default function ArticlePage() {
                   <h2 className="section-label mb-4">Full article</h2>
                   <div className={`relative ${isLong && !expanded ? "max-h-[900px] overflow-hidden" : ""}`}>
                     <div className="prose prose-lg max-w-[68ch] text-foreground prose-headings:font-serif prose-a:text-secondary prose-img:rounded-lg">
-                      {groupArticleImages(cleanBody).map((seg, i) =>
+                      {groupArticleImages(cleanBody, article.image_url).map((seg, i) =>
                         seg.type === "text" ? (
                           <ReactMarkdown key={i}>{seg.markdown}</ReactMarkdown>
                         ) : (
                           <div key={i} className="not-prose my-6 grid grid-cols-2 sm:grid-cols-3 gap-2">
                             {seg.images.slice(0, 6).map((img, j) => (
                               <a key={j} href={img.src} target="_blank" rel="noopener noreferrer" className="relative block aspect-square overflow-hidden rounded-md bg-muted">
-                                <img src={img.src} alt={img.alt} loading="lazy" className="h-full w-full object-cover transition-transform hover:scale-105" />
+                                <img src={img.src} alt={img.alt} loading="lazy" data-no-fallback onError={(e) => { const tile = e.currentTarget.parentElement as HTMLElement; if (tile) tile.style.display = "none"; }} className="h-full w-full object-cover transition-transform hover:scale-105" />
                                 {j === 5 && seg.images.length > 6 && (
                                   <span className="absolute inset-0 flex items-center justify-center bg-foreground/60 text-lg font-semibold text-background">
                                     +{seg.images.length - 6}
