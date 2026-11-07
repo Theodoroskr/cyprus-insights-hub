@@ -15,6 +15,7 @@ interface FeaturedCompany {
   featured_reason: string | null;
   website: string | null;
   linkedin: string | null;
+  directory_companies?: { slug: string } | null;
 }
 
 interface Props {
@@ -28,7 +29,7 @@ export function FeaturedCompaniesSection({ compact = false }: Props) {
   useEffect(() => {
     supabase
       .from("featured_companies")
-      .select("*")
+      .select("*, directory_companies(slug)")
       .eq("is_featured", true)
       .order("featured_city_rank")
       .then(({ data }) => {
@@ -86,7 +87,7 @@ export function FeaturedCompaniesSection({ compact = false }: Props) {
                   {grouped[city]?.map((f, i) => (
                       <Link
                         key={f.id}
-                        to={`/directory?q=${encodeURIComponent(f.company_name)}`}
+                        to={f.directory_companies?.slug ? `/directory/company/${f.directory_companies.slug}` : `/directory?q=${encodeURIComponent(f.company_name)}`}
                         className="border border-border rounded-lg p-5 bg-card hover:shadow-lg hover:border-secondary/30 transition-all relative overflow-hidden group cursor-pointer block"
                       >
                         <div className="absolute top-3 right-3">

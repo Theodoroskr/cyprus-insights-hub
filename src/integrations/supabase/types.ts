@@ -320,6 +320,38 @@ export type Database = {
           },
         ]
       }
+      company_aliases: {
+        Row: {
+          alias: string
+          alias_key: string | null
+          created_at: string
+          directory_company_id: string
+          id: string
+        }
+        Insert: {
+          alias: string
+          alias_key?: string | null
+          created_at?: string
+          directory_company_id: string
+          id?: string
+        }
+        Update: {
+          alias?: string
+          alias_key?: string | null
+          created_at?: string
+          directory_company_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_aliases_directory_company_id_fkey"
+            columns: ["directory_company_id"]
+            isOneToOne: false
+            referencedRelation: "directory_companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       company_events: {
         Row: {
           company_id: string | null
@@ -745,6 +777,7 @@ export type Database = {
           map_lat: number | null
           map_lng: number | null
           nace_code: string | null
+          name_key: string | null
           organisation_status: string | null
           organisation_sub_type: string | null
           organisation_type: string | null
@@ -772,6 +805,7 @@ export type Database = {
           map_lat?: number | null
           map_lng?: number | null
           nace_code?: string | null
+          name_key?: string | null
           organisation_status?: string | null
           organisation_sub_type?: string | null
           organisation_type?: string | null
@@ -799,6 +833,7 @@ export type Database = {
           map_lat?: number | null
           map_lng?: number | null
           nace_code?: string | null
+          name_key?: string | null
           organisation_status?: string | null
           organisation_sub_type?: string | null
           organisation_type?: string | null
@@ -814,6 +849,7 @@ export type Database = {
           city: string | null
           company_name: string
           created_at: string
+          directory_company_id: string | null
           featured_city_rank: number | null
           featured_reason: string | null
           id: string
@@ -825,6 +861,7 @@ export type Database = {
           city?: string | null
           company_name: string
           created_at?: string
+          directory_company_id?: string | null
           featured_city_rank?: number | null
           featured_reason?: string | null
           id?: string
@@ -836,6 +873,7 @@ export type Database = {
           city?: string | null
           company_name?: string
           created_at?: string
+          directory_company_id?: string | null
           featured_city_rank?: number | null
           featured_reason?: string | null
           id?: string
@@ -843,7 +881,15 @@ export type Database = {
           linkedin?: string | null
           website?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "featured_companies_directory_company_id_fkey"
+            columns: ["directory_company_id"]
+            isOneToOne: false
+            referencedRelation: "directory_companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       hs_sector_mapping: {
         Row: {
@@ -2194,6 +2240,7 @@ export type Database = {
         Args: { _dup: string; _keep: string }
         Returns: undefined
       }
+      normalize_company_name: { Args: { _name: string }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

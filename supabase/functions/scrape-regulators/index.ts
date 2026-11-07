@@ -206,27 +206,13 @@ async function matchOrCreateInDirectory(
     .limit(1);
   if (exact && exact.length > 0) return { id: exact[0].id, confidence: 1.0, created: false };
 
-  // Then fuzzy match
-  const firstWord = entityName.split(" ")[0];
-  if (firstWord && firstWord.length >= 2) {
-    const { data } = await supabase
-      .from("directory_companies")
-      .select("id, company_name")
-      .ilike("company_name", `%${firstWord}%`)
-      .limit(10);
-
-    if (data && data.length > 0) {
-      const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
-      const target = normalize(entityName);
-
-      for (const company of data) {
-        const candidate = normalize(company.company_name);
-        if (candidate === target) return { id: company.id, confidence: 1.0, created: false };
-        if (candidate.includes(target) || target.includes(candidate)) {
-          return { id: company.id, confidence: 0.75, created: false };
-        }
-      }
-    }
+  // Then normalised name ("X LTD" == "X LIMITED") or a known alias, only when unique
+  const { data: key } = await supabase.rpc("normalize_company_name", { _name: entityName });
+  if (typeof key === "string" && key.length >= 3) {
+    const { data: al } = await supabase.from("company_aliases").select("directory_company_id").eq("alias_key", key).maybeSingle();
+    if (al) return { id: al.directory_company_id, confidence: 0.98, created: false };
+    const { data: hits } = await supabase.from("directory_companies").select("id").eq("name_key", key).limit(2);
+    if (hits && hits.length === 1 && !/\b(of|and|for)$/.test(key)) return { id: hits[0].id, confidence: 0.95, created: false };
   }
 
   // No match found — create new directory entry
