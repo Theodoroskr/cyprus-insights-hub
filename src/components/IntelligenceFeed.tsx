@@ -150,8 +150,9 @@ export function IntelligenceFeed() {
                   </div>
                 )}
                 {index === 2 && (
-                  <div className="py-4">
+                  <div className="py-6">
                     <InsightBanner
+                      variant="prominent"
                       text="Get daily intelligence briefings delivered to your inbox — curated for Cyprus business professionals."
                       ctaText="Register free for daily updates"
                       href="/dashboard"
