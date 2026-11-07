@@ -8,11 +8,11 @@ const corsHeaders = {
 
 // Summary table: has monthly time series with EU/Non-EU split
 const SUMMARY_API_URL =
-  "https://cystatdb23px.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/8.CYSTAT-DB__External%20Trade";
+  "https://cystatdb.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/8.CYSTAT-DB__External%20Trade";
 
 // Detailed table: country-level breakdown (single latest month)
 const DETAILED_API_URL =
-  "https://cystatdb23px.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/8.CYSTAT-DB__External%20Trade__Foreign%20Trade%20Detailed%20Data__Imports";
+  "https://cystatdb.cystat.gov.cy/api/v1/en/8.CYSTAT-DB/8.CYSTAT-DB__External%20Trade__Foreign%20Trade%20Detailed%20Data__Imports";
 
 const MONTH_NAMES = [
   "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
