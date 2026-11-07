@@ -17,10 +17,35 @@ const AD_SIZES: Record<AdSize, string> = {
   billboard: "max-w-[970px] aspect-[970/250]",
 };
 
-/** Renders a live banner, or nothing at all when the slot has no advertiser. */
-export function AdSlot({ size = "leaderboard", slotId }: AdSlotProps) {
+const DIMENSIONS: Record<AdSize, string> = {
+  leaderboard: "728×90", banner: "468×60", mrec: "300×250", skyscraper: "160×600", billboard: "970×250",
+};
+
+/** Homepage slots show a labelled placeholder while unsold. */
+export const PLACEHOLDER_SLOTS = new Set(["custom-studio", "homepage-stories", "homepage-footer"]);
+
+export function BannerPlaceholder({ size, label }: { size: AdSize; label?: string }) {
+  const compact = size === "leaderboard" || size === "banner";
+  return (
+    <div className="flex justify-center">
+      <a
+        href="mailto:advertise@businesshub.cy?subject=Banner%20enquiry"
+        className={`w-full ${AD_SIZES[size]} rounded-lg border-2 border-dashed border-border bg-muted/50 flex ${compact ? "flex-row gap-3" : "flex-col gap-1"} items-center justify-center text-center text-muted-foreground hover:border-primary hover:text-foreground transition-colors`}
+      >
+        <span className="text-[10px] uppercase tracking-widest">{label ?? "Advertise here"}</span>
+        <span className="text-xs">{DIMENSIONS[size]}</span>
+        <span className="text-xs font-semibold text-primary">Partner with us →</span>
+      </a>
+    </div>
+  );
+}
+
+/** Renders a live banner; homepage slots show a placeholder, others render nothing. */
+export function AdSlot({ size = "leaderboard", slotId, label }: AdSlotProps) {
   const banner = useActiveBanner(slotId ?? size);
-  if (!banner?.image_url) return null;
+  if (!banner?.image_url) {
+    return slotId && PLACEHOLDER_SLOTS.has(slotId) ? <BannerPlaceholder size={size} label={label} /> : null;
+  }
   const spec = AD_SIZES[size];
 
   return (
