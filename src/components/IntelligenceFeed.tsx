@@ -139,6 +139,7 @@ export function IntelligenceFeed() {
                   hub={verticalToHub(article.vertical)}
                   imageUrl={article.image_url}
                   articleId={article.id}
+                  vertical={article.vertical}
                   href={`/article/${article.id}`}
                   isLead={index === 0}
                   bodyMarkdown={article.body_markdown}

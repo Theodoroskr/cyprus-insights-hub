@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import ReactMarkdown from "react-markdown";
 import { groupArticleImages } from "@/lib/groupArticleImages";
+import { storyImage } from "@/lib/fallbackImage";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail, Flame, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -168,6 +169,7 @@ export default function ArticlePage() {
   const headline = article.title || (article.what_happened || "").split(/(?<=\.)\s/)[0];
   const source = article.source_url ? new URL(article.source_url).hostname.replace(/^www\./, "") : null;
   const cleanBody = cleanArticleMarkdown(article.body_markdown);
+  const heroSrc = storyImage(article.image_url, article.vertical, article.id, article.body_markdown);
   const hasBody = cleanedWordCount(cleanBody) >= 60;
   const readTime = estimateReadingTime(article.what_happened, article.why_it_matters, article.what_to_do, hasBody ? cleanBody : article.summary);
   const isLong = cleanBody.length > 2500;
@@ -222,7 +224,7 @@ export default function ArticlePage() {
 
           {(
             <figure className="mb-10">
-              <img src={articleImage(article.image_url, article.vertical, article.id)} alt={headline} className="w-full aspect-[16/9] max-h-[420px] object-cover rounded-lg bg-muted" />
+              <img src={heroSrc} alt={headline} data-vertical={article.vertical} data-seed={article.id} className="w-full aspect-[16/9] object-cover rounded-lg bg-muted" />
               {article.image_url && source && <figcaption className="text-xs text-muted-foreground mt-2">Image: {source}</figcaption>}
             </figure>
           )}
@@ -249,7 +251,7 @@ export default function ArticlePage() {
                   <h2 className="section-label mb-4">Full article</h2>
                   <div className={`relative ${isLong && !expanded ? "max-h-[900px] overflow-hidden" : ""}`}>
                     <div className="prose prose-lg max-w-[68ch] text-foreground prose-headings:font-serif prose-a:text-secondary prose-img:rounded-lg">
-                      {groupArticleImages(cleanBody, article.image_url).map((seg, i) =>
+                      {groupArticleImages(cleanBody, heroSrc).map((seg, i) =>
                         seg.type === "text" ? (
                           <ReactMarkdown key={i}>{seg.markdown}</ReactMarkdown>
                         ) : (

@@ -1,4 +1,4 @@
-import { fallbackFor } from "@/lib/fallbackImage";
+import { fallbackFor , storyImage } from "@/lib/fallbackImage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Zap, Target, Lightbulb, Bookmark, Clock } from "lucide-react";
@@ -22,6 +22,7 @@ interface IntelligenceListItemProps {
   };
   href?: string;
   articleId?: string;
+  vertical?: string | null;
   isLead?: boolean;
   bodyMarkdown?: string | null;
   tags?: string[] | null;
@@ -60,6 +61,7 @@ export function IntelligenceListItem({
   whatToDo,
   hub = "businesshub",
   imageUrl,
+  vertical,
   linkedPerson,
   href = "#",
   articleId,
@@ -90,7 +92,7 @@ export function IntelligenceListItem({
     if (href && href !== "#") navigate(href);
   };
 
-  const fallbackImage = fallbackFor(null, whatHappened || href);
+  const fallbackImage = storyImage(null, vertical, articleId || whatHappened || href, bodyMarkdown);
 
   if (isLead) {
     return (
@@ -98,7 +100,7 @@ export function IntelligenceListItem({
         {/* Large hero image */}
         <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-5">
           <img
-            src={imageUrl || fallbackImage}
+            src={imageUrl || fallbackImage} data-vertical={vertical ?? undefined} data-seed={articleId}
             alt={whatHappened}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
@@ -176,7 +178,7 @@ export function IntelligenceListItem({
       {/* Image — left side */}
       <div className="flex-shrink-0 w-[200px] h-[140px] rounded-lg overflow-hidden relative">
         <img
-          src={imageUrl || fallbackImage}
+          src={imageUrl || fallbackImage} data-vertical={vertical ?? undefined} data-seed={articleId}
           alt={whatHappened}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />

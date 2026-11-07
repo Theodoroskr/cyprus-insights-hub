@@ -30,6 +30,7 @@ function linkiness(block: string): number {
 }
 
 function isLinkOnly(block: string): boolean {
+  if (/^\s*!\[[^\]]*\]\(https?:[^)]*\)\s*$/.test(block)) return false;
   return linkiness(block) > 0.6 || plain(block).length < 3;
 }
 
@@ -42,6 +43,9 @@ function isRealParagraph(block: string): boolean {
 export function cleanArticleMarkdown(raw: string | null | undefined): string {
   if (!raw) return "";
   let text = raw.replace(/\\n/g, "\n").replace(/\r/g, "");
+  // Website "cards": [![alt](img)\\ \\ **Label**](link) -> plain photo
+  text = text.replace(/\[(!\[[^\]]*\]\([^)]*\))(?:\s|\\)*(?:\*\*[^*\]]*\*\*)?(?:\s|\\)*\]\([^)]*\)/g, "$1");
+  text = text.replace(/^(?:\s*\\)+\s*$/gm, "");
   // Known cookie banners
   text = text.replace(/#{1,3}\s*Cookies on [\w.]+[\s\S]*?\[Adjust\]\([^)]*\)\s*/gi, "");
   text = text.replace(/\[For the analytical data,?\s*(?:please\s+)?click here\.?\]\([^)]*\)/gi, "");
@@ -84,7 +88,7 @@ export function cleanArticleMarkdown(raw: string | null | undefined): string {
     .filter((b) => b && !isLinkOnly(b));
 
   // 4. Trim trailing short fragments (e.g. "Print", contact snippets)
-  while (body.length > 1 && plain(body[body.length - 1]).length < 25) body.pop();
+  while (body.length > 1 && plain(body[body.length - 1]).length < 25 && !/^\s*!\[/.test(body[body.length - 1])) body.pop();
 
   return body.join("\n\n").trim();
 }

@@ -24,3 +24,4 @@
 - [x] Blend same-day news sources/topics across the homepage and regulatory sidebar without changing publication dates
 - [x] House banners for Infocredit Group, ComplianceSuite, RisQo in the three homepage spaces
 - [x] Vary backup photos (4 per hub) so stories without photos don't repeat
+- [x] Article photos: unwrap website photo cards, use story's own photo, same photo on preview and page, hub-only backups

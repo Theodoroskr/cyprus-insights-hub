@@ -43,3 +43,9 @@ export function installImageFallback() {
     true,
   );
 }
+
+/** Story photo: its own main photo, else first photo in its text, else our hub photo. */
+export function storyImage(url?: string | null, vertical?: string | null, seed?: string | null, body?: string | null): string {
+  const m = (body || "").match(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)[^)]*\)/);
+  return articleImage(url || (m ? m[1] : null), vertical, seed);
+}

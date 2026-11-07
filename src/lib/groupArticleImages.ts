@@ -55,3 +55,10 @@ export function groupArticleImages(markdown: string, heroUrl?: string | null): A
   if (text.length) segments.push({ type: "text", markdown: text.join("\n") });
   return segments;
 }
+
+const FIRST_IMG = /!\[[^\]]*\]\((https?:\/\/[^)\s]+)[^)]*\)/;
+/** First photo inside the story text, used as the main photo when the story has none. */
+export function extractFirstImage(markdown: string | null | undefined): string | null {
+  const m = (markdown || "").match(FIRST_IMG);
+  return m ? m[1] : null;
+}

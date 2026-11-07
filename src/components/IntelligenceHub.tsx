@@ -1,4 +1,4 @@
-import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
+import { articleImage, FALLBACK_IMAGE , storyImage } from "@/lib/fallbackImage";
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Clock, Flame } from "lucide-react";
@@ -52,7 +52,7 @@ export function IntelligenceHub() {
       id: a.id,
       title: a.title || a.what_happened,
       summary: a.summary || a.what_happened || "",
-      image: articleImage(a.image_url, a.vertical, a.id),
+      image: storyImage(a.image_url, a.vertical, a.id, a.body_markdown),
       category: verticalLabel(a.vertical),
       date: a.published_at
         ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true })
@@ -75,7 +75,7 @@ export function IntelligenceHub() {
               id: d.article_id,
               title: d.title,
               category: verticalLabel(d.vertical),
-              image: articleImage(d.image_url, d.vertical, d.id),
+              image: storyImage(d.image_url, d.vertical, d.article_id ?? d.id, d.body_markdown),
               view_count: Number(d.view_count),
             }))
           );
