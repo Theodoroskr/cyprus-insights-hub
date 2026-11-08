@@ -116,6 +116,15 @@ function parsePeriod(code: string): { year: number; month: number } {
   return { year: parseInt(y), month: parseInt(m) };
 }
 
+async function markSource(sb: any, ok: boolean, err?: string) {
+  const now = new Date().toISOString();
+  const { data: latest } = await sb.from("trade_monthly_totals").select("date_month").order("date_month", { ascending: false }).limit(1);
+  const row: Record<string, unknown> = ok
+    ? { status: "ok", last_error: null, last_checked_at: now, last_success_at: now, latest_period: latest?.[0]?.date_month ?? null }
+    : { status: "error", last_error: (err ?? "Unknown error").slice(0, 500), last_checked_at: now };
+  await sb.from("open_data_sources").update(row).eq("slug", "cystat-external-trade");
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -168,6 +177,7 @@ Deno.serve(async (req) => {
     }
 
     if (newPeriods.length === 0) {
+      await markSource(supabase, true);
       return new Response(
         JSON.stringify({
           success: true,
@@ -421,6 +431,7 @@ Deno.serve(async (req) => {
       })
       .eq("batch_id", batchId);
 
+    await markSource(supabase, true);
     console.log(`Successfully imported ${totalRecords} monthly periods`);
 
     return new Response(
@@ -434,6 +445,10 @@ Deno.serve(async (req) => {
     );
   } catch (e) {
     console.error("CYSTAT ingestion error:", e);
+    try {
+      const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+      await markSource(sb, false, e instanceof Error ? e.message : String(e));
+    } catch { /* ignore */ }
     return new Response(
       JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }

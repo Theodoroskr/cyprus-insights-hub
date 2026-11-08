@@ -1281,6 +1281,9 @@ export type Database = {
       }
       open_data_sources: {
         Row: {
+          alert_reason: string | null
+          alert_state: string
+          alerted_at: string | null
           check_frequency: string
           created_at: string
           dashboard_path: string | null
@@ -1293,6 +1296,8 @@ export type Database = {
           last_success_at: string | null
           latest_period: string | null
           licence: string | null
+          max_period_lag_months: number | null
+          max_staleness_days: number | null
           module: string
           portal_url: string | null
           publisher: string
@@ -1304,6 +1309,9 @@ export type Database = {
           upstream_url: string | null
         }
         Insert: {
+          alert_reason?: string | null
+          alert_state?: string
+          alerted_at?: string | null
           check_frequency?: string
           created_at?: string
           dashboard_path?: string | null
@@ -1316,6 +1324,8 @@ export type Database = {
           last_success_at?: string | null
           latest_period?: string | null
           licence?: string | null
+          max_period_lag_months?: number | null
+          max_staleness_days?: number | null
           module?: string
           portal_url?: string | null
           publisher: string
@@ -1327,6 +1337,9 @@ export type Database = {
           upstream_url?: string | null
         }
         Update: {
+          alert_reason?: string | null
+          alert_state?: string
+          alerted_at?: string | null
           check_frequency?: string
           created_at?: string
           dashboard_path?: string | null
@@ -1339,6 +1352,8 @@ export type Database = {
           last_success_at?: string | null
           latest_period?: string | null
           licence?: string | null
+          max_period_lag_months?: number | null
+          max_staleness_days?: number | null
           module?: string
           portal_url?: string | null
           publisher?: string

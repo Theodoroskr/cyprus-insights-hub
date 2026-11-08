@@ -186,6 +186,14 @@ async function matchOrCreateInDirectory(
   return { id: created.id, confidence: 1.0, created: true };
 }
 
+async function markRegister(sb: any, slug: string, errs: Record<string, string>) {
+  const now = new Date().toISOString();
+  const msgs = Object.values(errs);
+  await sb.from("open_data_sources").update(msgs.length
+    ? { status: "error", last_error: msgs.join("; ").slice(0, 500), last_checked_at: now }
+    : { status: "ok", last_error: null, last_checked_at: now, last_success_at: now }).eq("slug", slug);
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -219,12 +227,14 @@ Deno.serve(async (req) => {
       Object.assign(results, r.results);
       Object.assign(errors, r.errors);
       cysec = r.stats;
+      if (!only) await markRegister(supabase, "cysec-registers", r.errors);
     }
     if ((source === "all" && !only) || source === "cbc") {
       const r = await syncCbc(supabase);
       Object.assign(results, r.results);
       Object.assign(errors, r.errors);
       cbc = r.stats;
+      await markRegister(supabase, "cbc-registers", r.errors);
     }
     if (toProcess.length && !FIRECRAWL_API_KEY) throw new Error("FIRECRAWL_API_KEY not configured");
 

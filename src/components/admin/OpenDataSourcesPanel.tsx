@@ -47,10 +47,10 @@ export function OpenDataSourcesPanel() {
       </Card>
 
       <Card>
-        <CardHeader className="pb-2"><CardTitle className="text-base">Official sources ({sources.data?.length ?? 0})</CardTitle></CardHeader>
+        <CardHeader className="pb-2"><CardTitle className="text-base flex items-center justify-between gap-2">Official sources ({sources.data?.length ?? 0}) <Button size="sm" variant="outline" disabled={busy} onClick={async () => { const r = await invoke("check-open-data-health", {}, "Health check done"); if (r) toast.message(`${r.alerts} new alert(s)`); }}>Run check now</Button></CardTitle></CardHeader>
         <CardContent className="overflow-x-auto">
           <table className="w-full text-xs">
-            <thead className="text-left text-muted-foreground"><tr><th className="py-1">Source</th><th>Area</th><th>Checked</th><th>Latest period</th><th>Last check</th><th>Status</th><th>Public</th><th /></tr></thead>
+            <thead className="text-left text-muted-foreground"><tr><th className="py-1">Source</th><th>Area</th><th>Checked</th><th>Latest period</th><th>Last check</th><th>Status</th><th>Health</th><th>Public</th><th /></tr></thead>
             <tbody>{(sources.data ?? []).map((s) => (
               <tr key={s.id} className="border-t align-top">
                 <td className="py-1.5 max-w-xs">
@@ -65,8 +65,9 @@ export function OpenDataSourcesPanel() {
                 </td>
                 <td>{s.module}</td><td>{s.check_frequency}</td><td>{s.latest_period ?? "—"}</td><td className="whitespace-nowrap">{fmt(s.last_checked_at)}</td>
                 <td><Badge variant={s.status === "ok" ? "default" : s.status === "error" ? "destructive" : "secondary"}>{s.status}</Badge></td>
+                <td className="max-w-[14rem]">{s.alert_state && s.alert_state !== "ok" ? (<><Badge variant={s.alert_state === "error" || s.alert_state === "missed_check" ? "destructive" : "secondary"}>{s.alert_state === "stale_period" ? "No new month" : s.alert_state === "missed_check" ? "Missed check" : "Error"}</Badge><p className="text-muted-foreground mt-0.5">{s.alert_reason}</p></>) : <Badge variant="outline">Healthy</Badge>}</td>
                 <td><Switch checked={s.enabled} onCheckedChange={(v) => toggle(s.id, v)} aria-label="Show publicly" /></td>
-                <td>{s.module === "tourism" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-tourism", { action: "check" }, "Tourism data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}</td>
+                <td>{s.module === "trade" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-cystat-trade", {}, "Trade data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "tourism" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-tourism", { action: "check" }, "Tourism data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}</td>
               </tr>
             ))}</tbody>
           </table>
