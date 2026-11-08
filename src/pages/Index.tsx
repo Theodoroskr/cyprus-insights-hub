@@ -12,14 +12,13 @@ import { SectionBanners } from "@/components/banners/SectionBanners";
 import { IntelligenceHub } from "@/components/IntelligenceHub";
 import { IntelligenceFeed } from "@/components/IntelligenceFeed";
 import { SponsoredStudio } from "@/components/SponsoredStudio";
-import { VerticalConnection } from "@/components/VerticalConnection";
 import { SearchResults } from "@/components/SearchResults";
 import { Footer } from "@/components/Footer";
 import { PartnerStrip } from "@/components/banners/PartnerStrip";
 import { ArticleCounter } from "@/components/auth/ArticleCounter";
 import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
 import { DirectoryPreview } from "@/components/DirectoryPreview";
-import { FeaturedCompaniesSection } from "@/components/FeaturedCompaniesSection";
+import { DirectoryCtaBanner } from "@/components/DirectoryCtaBanner";
 
 function HubTripleRow() {
   const hubs = [
@@ -148,10 +147,7 @@ const Index = () => {
         <DirectoryPreview />
 
         {/* Featured Companies by City */}
-        <FeaturedCompaniesSection compact />
-        
-        {/* Vertical Connection */}
-        <VerticalConnection />
+        <DirectoryCtaBanner />
 
         
         {/* FinTech · EU Funding · Compliance — 3-column row */}

@@ -1,4 +1,3 @@
-import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Building2, Users, ArrowRight, Search, MapPin } from "lucide-react";
@@ -9,7 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 export function DirectoryPreview() {
   const [companies, setCompanies] = useState<any[]>([]);
   const [allPeople, setPeople] = useState<any[]>([]);
-  const { visible: showPeople } = useWhoIsWhoVisible();
+  // Who's Who hidden on the homepage for everyone until it is populated.
+  const showPeople = false;
   const people = showPeople ? allPeople : [];
 
   useEffect(() => {
