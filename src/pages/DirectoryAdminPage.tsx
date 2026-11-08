@@ -78,7 +78,8 @@ export default function DirectoryAdminPage() {
 
   const save = async () => {
     setSaving(true);
-    const { id, created_at, slug, ...rest } = form;
+    // name_key is a generated column; Postgres rejects any value written to it.
+    const { id, created_at, slug, name_key, ...rest } = form;
     const { error } = await supabase.from("directory_companies")
       .update({ ...rest, regulatory_flags_updated_at: new Date().toISOString() }).eq("id", id);
     setSaving(false);
