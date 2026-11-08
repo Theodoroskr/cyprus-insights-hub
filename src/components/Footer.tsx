@@ -39,6 +39,8 @@ export function Footer() {
               <li><Link to="/directory" className="hover:text-secondary transition-colors">Business Directory</Link></li>
               <li><Link to="/trade" className="hover:text-secondary transition-colors">Trade Intelligence</Link></li>
               <li><Link to="/real-estate" className="hover:text-secondary transition-colors">Real Estate Intelligence</Link></li>
+              <li><Link to="/tourism" className="hover:text-secondary transition-colors">Tourism Intelligence</Link></li>
+              <li><Link to="/open-data" className="hover:text-secondary transition-colors">Official Data Sources</Link></li>
               {showPeople && <li><Link to="/whoiswho" className="hover:text-secondary transition-colors">Who's Who</Link></li>}
               <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
               <li><Link to="/regtech" className="hover:text-secondary transition-colors">RegTech & ICT Risk</Link></li>

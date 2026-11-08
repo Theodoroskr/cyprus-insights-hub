@@ -99,6 +99,13 @@
       "when": 1794163532713,
       "tag": "0013_real_estate_intelligence",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1794165755613,
+      "tag": "0014_open_data_registry_and_tourism",
+      "breakpoints": true
     }
   ]
 }

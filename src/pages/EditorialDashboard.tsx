@@ -25,7 +25,7 @@ import { DirectoryArticlesPanel } from "@/components/admin/DirectoryArticlesPane
 import { ResourcesPanel } from "@/components/admin/ResourcesPanel";
 import { ContentHealthPanel } from "@/components/admin/ContentHealthPanel";
 import { ReviewQueuePanel } from "@/components/admin/ReviewQueuePanel";
-import { RealEstatePanel } from "@/components/admin/RealEstatePanel";
+import { OpenDataSourcesPanel } from "@/components/admin/OpenDataSourcesPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -545,7 +545,7 @@ const EditorialDashboard = () => {
               onClick={() => setActivePanel("realestate")}
               className="gap-1.5"
             >
-              <Building2 className="h-3.5 w-3.5" /> Real Estate
+              <Building2 className="h-3.5 w-3.5" /> Open Data
             </Button>
           </div>
         </div>
@@ -567,7 +567,7 @@ const EditorialDashboard = () => {
         ) : activePanel === "review" ? (
           <ReviewQueuePanel />
         ) : activePanel === "realestate" ? (
-          <RealEstatePanel />
+          <OpenDataSourcesPanel />
         ) : (
         <>
 

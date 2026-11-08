@@ -101,6 +101,12 @@ async function refreshSourceStatus(sb: Sb, source: { id: string; dataset_type: D
   const { data: latest } = await sb.from(TABLE[source.dataset_type]).select("period_date").eq("status", "published").order("period_date", { ascending: false }).limit(1);
   const next = new Date(); next.setUTCMonth(next.getUTCMonth() + 1); next.setUTCDate(20); next.setUTCHours(6, 0, 0, 0);
   await sb.from("re_sources").update({ latest_reporting_period: latest?.[0]?.period_date ?? null, next_check_at: next.toISOString(), last_checked_at: new Date().toISOString(), ...extra }).eq("id", source.id);
+  // Mirror status into the central open-data registry
+  const reg: Record<string, unknown> = { latest_period: latest?.[0]?.period_date ?? null, last_checked_at: new Date().toISOString() };
+  if (typeof extra.status === "string") reg.status = extra.status;
+  if ("last_error" in extra) reg.last_error = extra.last_error;
+  if (extra.last_successful_import_at) reg.last_success_at = extra.last_successful_import_at;
+  await sb.from("open_data_sources").update(reg).eq("slug", source.dataset_type === "sale_contracts" ? "dls-sale-contracts" : "dls-transfers");
 }
 
 Deno.serve(async (req) => {

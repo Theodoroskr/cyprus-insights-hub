@@ -20,6 +20,7 @@ const navItems = [
   { label: "Directory", href: "/directory" },
   { label: "Trade", href: "/trade" },
   { label: "Real Estate", href: "/real-estate" },
+  { label: "Tourism", href: "/tourism" },
   { label: "Who's Who", href: "/whoiswho" },
   { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },

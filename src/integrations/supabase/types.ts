@@ -1279,6 +1279,78 @@ export type Database = {
         }
         Relationships: []
       }
+      open_data_sources: {
+        Row: {
+          check_frequency: string
+          created_at: string
+          dashboard_path: string | null
+          discovered_resources: Json
+          enabled: boolean
+          format: string | null
+          id: string
+          last_checked_at: string | null
+          last_error: string | null
+          last_success_at: string | null
+          latest_period: string | null
+          licence: string | null
+          module: string
+          portal_url: string | null
+          publisher: string
+          slug: string
+          status: string
+          title_el: string | null
+          title_en: string
+          updated_at: string
+          upstream_url: string | null
+        }
+        Insert: {
+          check_frequency?: string
+          created_at?: string
+          dashboard_path?: string | null
+          discovered_resources?: Json
+          enabled?: boolean
+          format?: string | null
+          id?: string
+          last_checked_at?: string | null
+          last_error?: string | null
+          last_success_at?: string | null
+          latest_period?: string | null
+          licence?: string | null
+          module?: string
+          portal_url?: string | null
+          publisher: string
+          slug: string
+          status?: string
+          title_el?: string | null
+          title_en: string
+          updated_at?: string
+          upstream_url?: string | null
+        }
+        Update: {
+          check_frequency?: string
+          created_at?: string
+          dashboard_path?: string | null
+          discovered_resources?: Json
+          enabled?: boolean
+          format?: string | null
+          id?: string
+          last_checked_at?: string | null
+          last_error?: string | null
+          last_success_at?: string | null
+          latest_period?: string | null
+          licence?: string | null
+          module?: string
+          portal_url?: string | null
+          publisher?: string
+          slug?: string
+          status?: string
+          title_el?: string | null
+          title_en?: string
+          updated_at?: string
+          upstream_url?: string | null
+        }
+        Relationships: []
+      }
       people: {
         Row: {
           bio: string | null
@@ -2238,6 +2310,151 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      tourism_arrivals_monthly: {
+        Row: {
+          arrivals: number | null
+          country_code: string
+          country_label: string
+          created_at: string
+          id: string
+          import_batch_id: string | null
+          kind: string
+          month: number
+          period_date: string
+          region: string | null
+          status: string
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          arrivals?: number | null
+          country_code: string
+          country_label: string
+          created_at?: string
+          id?: string
+          import_batch_id?: string | null
+          kind?: string
+          month: number
+          period_date: string
+          region?: string | null
+          status?: string
+          updated_at?: string
+          year: number
+        }
+        Update: {
+          arrivals?: number | null
+          country_code?: string
+          country_label?: string
+          created_at?: string
+          id?: string
+          import_batch_id?: string | null
+          kind?: string
+          month?: number
+          period_date?: string
+          region?: string | null
+          status?: string
+          updated_at?: string
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tourism_arrivals_monthly_import_batch_id_fkey"
+            columns: ["import_batch_id"]
+            isOneToOne: false
+            referencedRelation: "tourism_import_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tourism_import_batches: {
+        Row: {
+          changed_rows: number
+          id: string
+          imported_at: string
+          imported_by: string | null
+          new_rows: number
+          rejected_rows: number
+          source_slug: string
+          status: string
+          total_rows: number
+          unchanged_rows: number
+          validation_report: Json | null
+        }
+        Insert: {
+          changed_rows?: number
+          id?: string
+          imported_at?: string
+          imported_by?: string | null
+          new_rows?: number
+          rejected_rows?: number
+          source_slug: string
+          status?: string
+          total_rows?: number
+          unchanged_rows?: number
+          validation_report?: Json | null
+        }
+        Update: {
+          changed_rows?: number
+          id?: string
+          imported_at?: string
+          imported_by?: string | null
+          new_rows?: number
+          rejected_rows?: number
+          source_slug?: string
+          status?: string
+          total_rows?: number
+          unchanged_rows?: number
+          validation_report?: Json | null
+        }
+        Relationships: []
+      }
+      tourism_revisions: {
+        Row: {
+          approved_by: string | null
+          changed_at: string
+          country_code: string
+          decided_at: string | null
+          id: string
+          period_date: string
+          previous_value: number | null
+          replacement_value: number | null
+          source_batch_id: string | null
+          status: string
+        }
+        Insert: {
+          approved_by?: string | null
+          changed_at?: string
+          country_code: string
+          decided_at?: string | null
+          id?: string
+          period_date: string
+          previous_value?: number | null
+          replacement_value?: number | null
+          source_batch_id?: string | null
+          status?: string
+        }
+        Update: {
+          approved_by?: string | null
+          changed_at?: string
+          country_code?: string
+          decided_at?: string | null
+          id?: string
+          period_date?: string
+          previous_value?: number | null
+          replacement_value?: number | null
+          source_batch_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tourism_revisions_source_batch_id_fkey"
+            columns: ["source_batch_id"]
+            isOneToOne: false
+            referencedRelation: "tourism_import_batches"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       trade_ai_insights: {
         Row: {
