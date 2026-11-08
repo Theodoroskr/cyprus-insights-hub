@@ -36,6 +36,7 @@ export function Footer() {
               <li><Link to="/news" className="hover:text-secondary transition-colors">Latest News</Link></li>
               <li><Link to="/directory" className="hover:text-secondary transition-colors">Business Directory</Link></li>
               <li><Link to="/trade" className="hover:text-secondary transition-colors">Trade Intelligence</Link></li>
+              <li><Link to="/real-estate" className="hover:text-secondary transition-colors">Real Estate Intelligence</Link></li>
               <li><Link to="/whoiswho" className="hover:text-secondary transition-colors">Who's Who</Link></li>
               <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
               <li><Link to="/regtech" className="hover:text-secondary transition-colors">RegTech & ICT Risk</Link></li>

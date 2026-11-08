@@ -34,6 +34,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 const IndustryPage = lazy(() => import("./pages/IndustryPage"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const TradePage = lazy(() => import("./pages/TradePage"));
+const RealEstatePage = lazy(() => import("./pages/RealEstatePage"));
 const SponsoredArticlePage = lazy(() => import("./pages/SponsoredArticlePage"));
 const CookiePolicyPage = lazy(() => import("./pages/CookiePolicyPage"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
@@ -93,6 +94,8 @@ const App = () => (
                   <Route path="/admin/users" element={<UserManagementPage />} />
                   <Route path="/article/:id" element={<ArticlePage />} />
                   <Route path="/trade" element={<TradePage />} />
+                  <Route path="/real-estate" element={<RealEstatePage />} />
+                  <Route path="/real-estate/:district" element={<RealEstatePage />} />
 
                   {/* Company Directory (55K+ companies) */}
                   <Route path="/directory" element={<RegistryDirectoryPage />} />

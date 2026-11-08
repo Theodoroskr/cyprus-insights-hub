@@ -92,6 +92,13 @@
       "when": 1794163136263,
       "tag": "0012_resources_reviewed_at",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1794163532713,
+      "tag": "0013_real_estate_intelligence",
+      "breakpoints": true
     }
   ]
 }

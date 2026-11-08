@@ -1417,6 +1417,342 @@ export type Database = {
         }
         Relationships: []
       }
+      re_districts: {
+        Row: {
+          aliases: string[]
+          code: string
+          name_el: string
+          name_en: string
+          slug: string
+        }
+        Insert: {
+          aliases?: string[]
+          code: string
+          name_el: string
+          name_en: string
+          slug: string
+        }
+        Update: {
+          aliases?: string[]
+          code?: string
+          name_el?: string
+          name_en?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      re_import_batches: {
+        Row: {
+          changed_rows: number
+          file_checksum: string | null
+          filename: string | null
+          id: string
+          imported_at: string
+          imported_by: string | null
+          new_rows: number
+          rejected_rows: number
+          source_id: string | null
+          status: string
+          total_rows: number
+          unchanged_rows: number
+          valid_rows: number
+          validation_report: Json | null
+        }
+        Insert: {
+          changed_rows?: number
+          file_checksum?: string | null
+          filename?: string | null
+          id?: string
+          imported_at?: string
+          imported_by?: string | null
+          new_rows?: number
+          rejected_rows?: number
+          source_id?: string | null
+          status?: string
+          total_rows?: number
+          unchanged_rows?: number
+          valid_rows?: number
+          validation_report?: Json | null
+        }
+        Update: {
+          changed_rows?: number
+          file_checksum?: string | null
+          filename?: string | null
+          id?: string
+          imported_at?: string
+          imported_by?: string | null
+          new_rows?: number
+          rejected_rows?: number
+          source_id?: string | null
+          status?: string
+          total_rows?: number
+          unchanged_rows?: number
+          valid_rows?: number
+          validation_report?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "re_import_batches_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "re_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      re_revisions: {
+        Row: {
+          approved_by: string | null
+          changed_at: string
+          changed_by: string | null
+          dataset_type: string
+          decided_at: string | null
+          district_code: string
+          id: string
+          period_date: string
+          previous_values: Json | null
+          reason: string | null
+          replacement_values: Json
+          source_batch_id: string | null
+          status: string
+        }
+        Insert: {
+          approved_by?: string | null
+          changed_at?: string
+          changed_by?: string | null
+          dataset_type: string
+          decided_at?: string | null
+          district_code: string
+          id?: string
+          period_date: string
+          previous_values?: Json | null
+          reason?: string | null
+          replacement_values: Json
+          source_batch_id?: string | null
+          status?: string
+        }
+        Update: {
+          approved_by?: string | null
+          changed_at?: string
+          changed_by?: string | null
+          dataset_type?: string
+          decided_at?: string | null
+          district_code?: string
+          id?: string
+          period_date?: string
+          previous_values?: Json | null
+          reason?: string | null
+          replacement_values?: Json
+          source_batch_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "re_revisions_source_batch_id_fkey"
+            columns: ["source_batch_id"]
+            isOneToOne: false
+            referencedRelation: "re_import_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      re_sale_contracts: {
+        Row: {
+          contract_count: number | null
+          created_at: string
+          district_code: string
+          id: string
+          import_batch_id: string | null
+          month: number
+          period_date: string
+          source_id: string | null
+          status: string
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          contract_count?: number | null
+          created_at?: string
+          district_code: string
+          id?: string
+          import_batch_id?: string | null
+          month: number
+          period_date: string
+          source_id?: string | null
+          status?: string
+          updated_at?: string
+          year: number
+        }
+        Update: {
+          contract_count?: number | null
+          created_at?: string
+          district_code?: string
+          id?: string
+          import_batch_id?: string | null
+          month?: number
+          period_date?: string
+          source_id?: string | null
+          status?: string
+          updated_at?: string
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "re_sale_contracts_district_code_fkey"
+            columns: ["district_code"]
+            isOneToOne: false
+            referencedRelation: "re_districts"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "re_sale_contracts_import_batch_id_fkey"
+            columns: ["import_batch_id"]
+            isOneToOne: false
+            referencedRelation: "re_import_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "re_sale_contracts_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "re_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      re_sources: {
+        Row: {
+          created_at: string
+          dataset_type: string
+          id: string
+          last_checked_at: string | null
+          last_error: string | null
+          last_successful_import_at: string | null
+          latest_reporting_period: string | null
+          licence: string | null
+          next_check_at: string | null
+          official_dataset_url: string
+          publisher: string
+          resource_urls: Json
+          source_name_el: string
+          source_name_en: string
+          status: string
+          update_frequency: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dataset_type: string
+          id?: string
+          last_checked_at?: string | null
+          last_error?: string | null
+          last_successful_import_at?: string | null
+          latest_reporting_period?: string | null
+          licence?: string | null
+          next_check_at?: string | null
+          official_dataset_url: string
+          publisher: string
+          resource_urls?: Json
+          source_name_el: string
+          source_name_en: string
+          status?: string
+          update_frequency?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dataset_type?: string
+          id?: string
+          last_checked_at?: string | null
+          last_error?: string | null
+          last_successful_import_at?: string | null
+          latest_reporting_period?: string | null
+          licence?: string | null
+          next_check_at?: string | null
+          official_dataset_url?: string
+          publisher?: string
+          resource_urls?: Json
+          source_name_el?: string
+          source_name_en?: string
+          status?: string
+          update_frequency?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      re_transfers: {
+        Row: {
+          accepted_value_eur: number | null
+          created_at: string
+          declared_value_eur: number | null
+          district_code: string
+          id: string
+          import_batch_id: string | null
+          month: number
+          parcel_count: number | null
+          period_date: string
+          source_id: string | null
+          status: string
+          transfer_cases: number | null
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          accepted_value_eur?: number | null
+          created_at?: string
+          declared_value_eur?: number | null
+          district_code: string
+          id?: string
+          import_batch_id?: string | null
+          month: number
+          parcel_count?: number | null
+          period_date: string
+          source_id?: string | null
+          status?: string
+          transfer_cases?: number | null
+          updated_at?: string
+          year: number
+        }
+        Update: {
+          accepted_value_eur?: number | null
+          created_at?: string
+          declared_value_eur?: number | null
+          district_code?: string
+          id?: string
+          import_batch_id?: string | null
+          month?: number
+          parcel_count?: number | null
+          period_date?: string
+          source_id?: string | null
+          status?: string
+          transfer_cases?: number | null
+          updated_at?: string
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "re_transfers_district_code_fkey"
+            columns: ["district_code"]
+            isOneToOne: false
+            referencedRelation: "re_districts"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "re_transfers_import_batch_id_fkey"
+            columns: ["import_batch_id"]
+            isOneToOne: false
+            referencedRelation: "re_import_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "re_transfers_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "re_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       regulated_entities: {
         Row: {
           address: string | null

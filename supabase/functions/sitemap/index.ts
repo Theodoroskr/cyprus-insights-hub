@@ -10,6 +10,8 @@ const STATIC_PAGES = [
   { path: "/regtech", priority: "0.8", changefreq: "weekly" },
   { path: "/sme", priority: "0.8", changefreq: "weekly" },
   { path: "/trade", priority: "0.7", changefreq: "weekly" },
+  { path: "/real-estate", priority: "0.7", changefreq: "monthly" },
+  ...["nicosia", "limassol", "larnaca", "paphos", "famagusta"].map((d) => ({ path: `/real-estate/${d}`, priority: "0.6", changefreq: "monthly" })),
   { path: "/resources", priority: "0.6", changefreq: "weekly" },
   { path: "/whoiswho", priority: "0.6", changefreq: "weekly" },
   { path: "/privacy", priority: "0.2", changefreq: "yearly" },

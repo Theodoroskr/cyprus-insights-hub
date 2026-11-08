@@ -25,6 +25,7 @@ import { DirectoryArticlesPanel } from "@/components/admin/DirectoryArticlesPane
 import { ResourcesPanel } from "@/components/admin/ResourcesPanel";
 import { ContentHealthPanel } from "@/components/admin/ContentHealthPanel";
 import { ReviewQueuePanel } from "@/components/admin/ReviewQueuePanel";
+import { RealEstatePanel } from "@/components/admin/RealEstatePanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -299,7 +300,7 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review">("articles");
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate">("articles");
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -538,6 +539,14 @@ const EditorialDashboard = () => {
             >
               <CheckCircle className="h-3.5 w-3.5" /> Review
             </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "realestate" ? "default" : "ghost"}
+              onClick={() => setActivePanel("realestate")}
+              className="gap-1.5"
+            >
+              <Building2 className="h-3.5 w-3.5" /> Real Estate
+            </Button>
           </div>
         </div>
 
@@ -557,6 +566,8 @@ const EditorialDashboard = () => {
           <ContentHealthPanel />
         ) : activePanel === "review" ? (
           <ReviewQueuePanel />
+        ) : activePanel === "realestate" ? (
+          <RealEstatePanel />
         ) : (
         <>
 
