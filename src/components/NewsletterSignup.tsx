@@ -62,7 +62,7 @@ export function NewsletterSignup() {
 
   if (submitted) {
     return (
-      <section className="section-rule">
+      <section id="newsletter" className="section-rule">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-xl mx-auto text-center">
             <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -79,7 +79,7 @@ export function NewsletterSignup() {
   }
 
   return (
-    <section className="section-rule">
+    <section id="newsletter" className="section-rule">
       <div className="container mx-auto px-4 py-10">
         <div className="navy-gradient text-primary-foreground py-10 px-6 md:px-10">
           <div className="max-w-2xl mx-auto">

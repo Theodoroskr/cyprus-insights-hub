@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BrandId, brands } from "@/config/brands";
 import { HubNavigation } from "@/components/hub/HubNavigation";
 import { HubFooter } from "@/components/hub/HubFooter";
+import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
 
 interface HubLayoutProps {
   brand: BrandId;
@@ -24,6 +25,7 @@ export function HubLayout({ brand, children, onSearch }: HubLayoutProps) {
   return (
     <div className="min-h-screen bg-background">
       <HubNavigation brand={brandConfig} onSearch={handleSearch} />
+      <LeaderboardAdSlot slotId="hub-top" />
       <main>{children}</main>
       <HubFooter brand={brandConfig} />
     </div>

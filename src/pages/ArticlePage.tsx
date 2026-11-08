@@ -2,6 +2,7 @@ import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import ReactMarkdown from "react-markdown";
+import { AdSlot } from "@/components/banners/AdSlot";
 import { groupArticleImages } from "@/lib/groupArticleImages";
 import { storyImage } from "@/lib/fallbackImage";
 import { useParams, Link } from "react-router-dom";
@@ -254,7 +255,10 @@ export default function ArticlePage() {
                     <div className="prose prose-lg max-w-[68ch] text-foreground prose-headings:font-serif prose-a:text-secondary prose-img:rounded-lg">
                       {groupArticleImages(cleanBody, heroSrc).map((seg, i) =>
                         seg.type === "text" ? (
-                          <ReactMarkdown key={i}>{seg.markdown}</ReactMarkdown>
+                          <div key={i}>
+                            <ReactMarkdown>{seg.markdown}</ReactMarkdown>
+                            {i === 0 && <div className="not-prose my-8"><AdSlot size="leaderboard" slotId="article-inline" /></div>}
+                          </div>
                         ) : (
                           <div key={i} className="not-prose my-6 grid grid-cols-2 sm:grid-cols-3 gap-2">
                             {seg.images.slice(0, 6).map((img, j) => (

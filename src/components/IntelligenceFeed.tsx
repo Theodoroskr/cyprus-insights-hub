@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { IntelligenceListItem } from "@/components/IntelligenceListItem";
 import { InsightBanner } from "@/components/banners/InsightBanner";
 import { AdSlot } from "@/components/banners/AdSlot";
+import { SponsoredStoryCard } from "@/components/banners/SponsoredStoryCard";
 import { useActiveBanner } from "@/hooks/useActiveBanner";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
@@ -79,6 +80,7 @@ function StickySidebar() {
       </div>
 
       <AdSlot size="mrec" slotId="homepage-stories" />
+      <SponsoredStoryCard />
       <LatestRegulatory />
     </div>
   );

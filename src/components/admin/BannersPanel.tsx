@@ -19,6 +19,11 @@ const SLOT_OPTIONS = [
   { value: "custom-studio", label: "Custom Studio (970×250)" },
   { value: "homepage-stories", label: "Homepage — Latest Stories (300×250)" },
   { value: "homepage-footer", label: "Homepage — Above Footer (728×90)" },
+  { value: "homepage-top", label: "Homepage — Top Leaderboard (970×250)" },
+  { value: "homepage-feed-top", label: "Homepage — Above News Feed (970×250)" },
+  { value: "homepage-mid", label: "Homepage — Between Hub Rows (728×90)" },
+  { value: "hub-top", label: "Hub pages — Below Menu (728×90)" },
+  { value: "article-inline", label: "Articles — Mid-article (728×90)" },
 ];
 
 type Banner = {

@@ -19,6 +19,8 @@ import { ArticleCounter } from "@/components/auth/ArticleCounter";
 import { LeaderboardAdSlot } from "@/components/banners/LeaderboardAdSlot";
 import { DirectoryPreview } from "@/components/DirectoryPreview";
 import { DirectoryCtaBanner } from "@/components/DirectoryCtaBanner";
+import { UtilityBar } from "@/components/UtilityBar";
+import { AdSlot } from "@/components/banners/AdSlot";
 
 function HubTripleRow() {
   const hubs = [
@@ -105,6 +107,9 @@ const Index = () => {
       {/* Article Limit Counter */}
       <ArticleCounter />
 
+      <UtilityBar />
+      <div className="py-3"><div className="container mx-auto px-4"><AdSlot size="billboard" slotId="homepage-top" /></div></div>
+
       {/* Top Navigation */}
       <TopNavigation onSearch={handleSearch} />
 
@@ -138,6 +143,7 @@ const Index = () => {
         <SponsoredStudio />
 
         {/* Latest Stories Feed — with inline Premium indicators + sidebar ads */}
+        <div className="container mx-auto px-4 pt-6"><AdSlot size="billboard" slotId="homepage-feed-top" /></div>
         <IntelligenceFeed />
 
         {/* Verticals strip */}
@@ -148,6 +154,8 @@ const Index = () => {
 
         {/* Featured Companies by City */}
         <DirectoryCtaBanner />
+
+        <LeaderboardAdSlot slotId="homepage-mid" />
 
         
         {/* FinTech · EU Funding · Compliance — 3-column row */}

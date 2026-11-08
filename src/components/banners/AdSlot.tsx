@@ -22,7 +22,7 @@ const DIMENSIONS: Record<AdSize, string> = {
 };
 
 /** Homepage slots show a labelled placeholder while unsold. */
-export const PLACEHOLDER_SLOTS = new Set(["custom-studio", "homepage-stories", "homepage-footer"]);
+export const PLACEHOLDER_SLOTS = new Set(["custom-studio", "homepage-stories", "homepage-footer", "homepage-top", "homepage-feed-top", "homepage-mid"]);
 
 export function BannerPlaceholder({ size, label }: { size: AdSize; label?: string }) {
   const compact = size === "leaderboard" || size === "banner";
