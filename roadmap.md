@@ -33,3 +33,9 @@
 - [x] Alias & suffix matcher: strip city/branch words ("Cyta Limassol", "Deloitte Cyprus"), harvest former/trading names from CySEC & CBC as aliases, used by news linking and all regulator imports
 - [x] Fold old placeholder bank profiles into the official registry records
 - [x] Company page shows CBC licence type, number and status
+
+# Roadmap — Directory usability (Nov 2026)
+- [x] Remove Philippos Soseilos from Who's Who (no longer PwC Cyprus CEO)
+- [x] Directory search results: 25 per page with page numbers
+- [x] Search by registration number (HE 6771) and by trading/former names
+- [x] Licence and status badges on directory result cards

@@ -78,6 +78,13 @@
       "when": 1794134770526,
       "tag": "0010_lock_down_jobs_premium_trade_and_open_inserts",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1794161818962,
+      "tag": "0011_directory_search_indexes",
+      "breakpoints": true
     }
   ]
 }
