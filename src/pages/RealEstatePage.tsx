@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
-  DISTRICTS, Obs, Frequency, latestPeriod, ytdComparison, momentum, seriesBy, districtShares, ratio, periodLabel, MONTHS, sumField,
+  DISTRICTS, Obs, Frequency, SeriesPoint, latestPeriod, ytdComparison, momentum, seriesBy, districtShares, ratio, periodLabel, MONTHS, sumField,
 } from "@/lib/realEstateMetrics";
 
 const COLORS = ["hsl(var(--re-1))", "hsl(var(--re-2))", "hsl(var(--re-3))", "hsl(var(--re-4))", "hsl(var(--re-5))"];
@@ -116,7 +116,7 @@ export default function RealEstatePage() {
   const yearOk = (r: Obs) => r.year >= Number(fromYear);
   const cSeries = seriesBy(contracts.filter(yearOk), ["contract_count"], freq);
   const tSeries = seriesBy(transfers.filter(yearOk), ["transfer_cases", "parcel_count", "declared_value_eur", "accepted_value_eur"], freq)
-    .map((e) => ({ ...e, ratio: ratio(Number(e.accepted_value_eur), Number(e.declared_value_eur)) }));
+    .map((e) => ({ ...e, ratio: ratio(Number(e.accepted_value_eur), Number(e.declared_value_eur)) }) as SeriesPoint);
   const compare = useMemo(() => {
     const m = new Map<string, Record<string, unknown>>();
     for (const e of cSeries) m.set(String(e.period), { period: e.period, contracts: e.contract_count, partial: e.partial });
