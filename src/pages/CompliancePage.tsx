@@ -33,65 +33,32 @@ import { GDPRComplianceChecker } from "@/components/sme/GDPRComplianceChecker";
 import { supabase } from "@/integrations/supabase/client";
 
 const complianceAreas = [
-  { 
-    name: "AML/KYC", 
-    icon: Shield, 
-    description: "Anti-Money Laundering & Know Your Customer",
-    regulator: "CySEC / MOKAS",
-    keyRegulation: "Prevention & Suppression of Money Laundering Law",
-    status: "active",
-  },
-  { 
-    name: "GDPR", 
-    icon: FileSearch, 
-    description: "Data Protection & Privacy Compliance",
-    regulator: "Commissioner for Personal Data Protection",
-    keyRegulation: "EU Regulation 2016/679",
-    status: "active",
-  },
-  { 
-    name: "MiFID II", 
-    icon: Scale, 
-    description: "Markets in Financial Instruments",
-    regulator: "CySEC",
-    keyRegulation: "EU Directive 2014/65/EU",
-    status: "active",
-  },
-  { 
-    name: "FATCA/CRS", 
-    icon: Globe, 
-    description: "Tax Reporting & Exchange of Information",
-    regulator: "Tax Department",
-    keyRegulation: "Common Reporting Standard",
-    status: "active",
-  },
-  {
-    name: "DORA",
-    icon: Lock,
-    description: "Digital Operational Resilience Act",
-    regulator: "CySEC / CBC",
-    keyRegulation: "EU Regulation 2022/2554",
-    status: "upcoming",
-  },
-  {
-    name: "MiCA",
-    icon: Building2,
-    description: "Markets in Crypto-Assets Regulation",
-    regulator: "CySEC",
-    keyRegulation: "EU Regulation 2023/1114",
-    status: "active",
-  },
+  { name: "AML/KYC", icon: Shield, description: "Anti-Money Laundering & Know Your Customer", regulator: "CySEC / CBC / MOKAS",
+    keyRegulation: "Law 188(I)/2007 + EU AML Package (AMLR 2024/1624, applies July 2027)", status: "changing" },
+  { name: "GDPR", icon: FileSearch, description: "Data Protection & Privacy Compliance", regulator: "Commissioner for Personal Data Protection",
+    keyRegulation: "EU Regulation 2016/679", status: "active" },
+  { name: "MiFID II", icon: Scale, description: "Markets in Financial Instruments", regulator: "CySEC",
+    keyRegulation: "EU Directive 2014/65/EU + MiFIR review 2024/791", status: "active" },
+  { name: "FATCA/CRS", icon: Globe, description: "Tax Reporting & Exchange of Information", regulator: "Tax Department",
+    keyRegulation: "FATCA IGA, CRS & DAC8 (crypto reporting from 2026)", status: "active" },
+  { name: "DORA", icon: Lock, description: "Digital Operational Resilience Act", regulator: "CySEC / CBC / ICCS",
+    keyRegulation: "EU Regulation 2022/2554 (applies since 17 Jan 2025)", status: "active" },
+  { name: "MiCA", icon: Building2, description: "Markets in Crypto-Assets Regulation", regulator: "CySEC",
+    keyRegulation: "EU Regulation 2023/1114 (CySEC transition ended 1 Jul 2025)", status: "active" },
+  { name: "NIS2", icon: Users, description: "Network & Information Security (Cybersecurity)", regulator: "Digital Security Authority",
+    keyRegulation: "EU Directive 2022/2555", status: "active" },
+  { name: "EU AI Act", icon: ClipboardCheck, description: "Artificial Intelligence Regulation", regulator: "EU AI Office / national authorities",
+    keyRegulation: "EU Regulation 2024/1689 (main obligations from Aug 2026)", status: "changing" },
 ];
 
 // Fallback shown only if the database calendar is empty; the table is
 // refreshed monthly by the update-regulatory-calendar function.
 const fallbackCalendar = [
-  { date: "Q2 2026", event: "CySEC AML/CFT supervisory priorities update", category: "AML" },
-  { date: "Jul 2026", event: "DORA — full compliance deadline for ICT third-party risk", category: "DORA" },
-  { date: "Sep 2026", event: "MiCA — transitional period ends for existing CASPs", category: "MiCA" },
-  { date: "Oct 2026", event: "CBC Annual Compliance Conference", category: "General" },
-  { date: "Q4 2026", event: "NIS2 Directive — national transposition deadline", category: "Cyber" },
-  { date: "Jan 2027", event: "EU AML Authority (AMLA) — operational start", category: "AML" },
+  { date: "Dec 2026", event: "CySEC AML/CFT supervisory priorities for 2027", category: "AML" },
+  { date: "Jan 2027", event: "DAC8 — first crypto-asset transaction reports due (2026 data)", category: "Tax" },
+  { date: "Jul 2027", event: "EU AML Regulation (AMLR) and AMLD6 apply", category: "AML" },
+  { date: "Aug 2027", event: "EU AI Act — rules for high-risk AI in regulated products apply", category: "AI" },
+  { date: "2028", event: "AMLA begins direct supervision of selected obliged entities", category: "AML" },
 ];
 
 const documentTemplates = [
@@ -285,12 +252,12 @@ export default function CompliancePage() {
                         <Badge
                           variant="outline"
                           className={`rounded-none text-[9px] uppercase tracking-wider ${
-                            area.status === "upcoming"
+                            area.status !== "active"
                               ? "border-warning text-warning"
                               : "border-success text-success"
                           }`}
                         >
-                          {area.status === "upcoming" ? "Upcoming" : "Active"}
+                          {area.status === "upcoming" ? "Upcoming" : area.status === "changing" ? "Changing" : "Active"}
                         </Badge>
                       </div>
                       <h3 className="font-serif font-semibold text-foreground mb-1">{area.name}</h3>
