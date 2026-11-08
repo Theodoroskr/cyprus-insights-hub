@@ -527,15 +527,8 @@ Deno.serve(async (req) => {
       allResults.push(sourceResult);
     }
 
-    // Link new articles to companies and people (runs in the same hourly batch)
-    try {
-      await fetch(`${SUPABASE_URL}/functions/v1/extract-entities`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}` },
-        body: JSON.stringify({ limit: 30 }),
-        signal: AbortSignal.timeout(2000),
-      });
-    } catch { /* fire-and-forget */ }
+    // Company/person linking runs on its own hourly schedule (extract-entities-hourly, :30),
+    // so it still runs when a scraping batch fails or times out.
 
     const totalIngested = allResults.reduce((s, r) => s + r.articles_ingested, 0);
     const totalFound = allResults.reduce((s, r) => s + r.articles_found, 0);

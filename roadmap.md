@@ -6,7 +6,8 @@
 - [x] Company page sections: news, people, timeline, regulatory, sources
 - [x] Who's Who: Greek name, dates, news, correction form
 - [x] Admin Review tab + source access status/counters on Health tab
-- [ ] Backfill entity extraction for ~540 older articles (runs 30/hour automatically, clears within a day)
+- [x] News matcher on its own hourly schedule (:30), 40 stories per run
+- [ ] Backfill entity extraction for ~500 older articles (clears automatically at 40/hour, ~13 hours)
 - [ ] CySEC warnings & enforcement collection — blocked: Firecrawl credits
 - [ ] CSE announcements feed — blocked: feed unreachable + reuse permission
 - [ ] CNA — blocked: licence (source marked Pending Permission)
