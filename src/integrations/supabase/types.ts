@@ -859,6 +859,139 @@ export type Database = {
         }
         Relationships: []
       }
+      econ_import_batches: {
+        Row: {
+          changed_rows: number
+          id: string
+          imported_at: string
+          imported_by: string | null
+          new_rows: number
+          rejected_rows: number
+          status: string
+          total_rows: number
+          unchanged_rows: number
+          validation_report: Json | null
+        }
+        Insert: {
+          changed_rows?: number
+          id?: string
+          imported_at?: string
+          imported_by?: string | null
+          new_rows?: number
+          rejected_rows?: number
+          status?: string
+          total_rows?: number
+          unchanged_rows?: number
+          validation_report?: Json | null
+        }
+        Update: {
+          changed_rows?: number
+          id?: string
+          imported_at?: string
+          imported_by?: string | null
+          new_rows?: number
+          rejected_rows?: number
+          status?: string
+          total_rows?: number
+          unchanged_rows?: number
+          validation_report?: Json | null
+        }
+        Relationships: []
+      }
+      econ_indicators: {
+        Row: {
+          created_at: string
+          frequency: string
+          id: string
+          import_batch_id: string | null
+          period_date: string
+          period_label: string
+          series_code: string
+          status: string
+          updated_at: string
+          value: number | null
+        }
+        Insert: {
+          created_at?: string
+          frequency: string
+          id?: string
+          import_batch_id?: string | null
+          period_date: string
+          period_label: string
+          series_code: string
+          status?: string
+          updated_at?: string
+          value?: number | null
+        }
+        Update: {
+          created_at?: string
+          frequency?: string
+          id?: string
+          import_batch_id?: string | null
+          period_date?: string
+          period_label?: string
+          series_code?: string
+          status?: string
+          updated_at?: string
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "econ_indicators_import_batch_id_fkey"
+            columns: ["import_batch_id"]
+            isOneToOne: false
+            referencedRelation: "econ_import_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      econ_revisions: {
+        Row: {
+          approved_by: string | null
+          changed_at: string
+          decided_at: string | null
+          id: string
+          period_date: string
+          previous_value: number | null
+          replacement_value: number | null
+          series_code: string
+          source_batch_id: string | null
+          status: string
+        }
+        Insert: {
+          approved_by?: string | null
+          changed_at?: string
+          decided_at?: string | null
+          id?: string
+          period_date: string
+          previous_value?: number | null
+          replacement_value?: number | null
+          series_code: string
+          source_batch_id?: string | null
+          status?: string
+        }
+        Update: {
+          approved_by?: string | null
+          changed_at?: string
+          decided_at?: string | null
+          id?: string
+          period_date?: string
+          previous_value?: number | null
+          replacement_value?: number | null
+          series_code?: string
+          source_batch_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "econ_revisions_source_batch_id_fkey"
+            columns: ["source_batch_id"]
+            isOneToOne: false
+            referencedRelation: "econ_import_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       featured_companies: {
         Row: {
           city: string | null

@@ -113,6 +113,13 @@
       "when": 1794166965534,
       "tag": "0015_open_data_health_alerts",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1794167269715,
+      "tag": "0016_economic_indicators",
+      "breakpoints": true
     }
   ]
 }

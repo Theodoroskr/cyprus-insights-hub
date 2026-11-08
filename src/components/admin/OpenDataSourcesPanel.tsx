@@ -18,7 +18,8 @@ export function OpenDataSourcesPanel() {
   const [busy, setBusy] = useState(false);
   const sources = useQuery({ queryKey: ["od-sources"], queryFn: async () => (await supabase.from("open_data_sources").select("*").order("module").order("title_en")).data ?? [] });
   const revisions = useQuery({ queryKey: ["tourism-revisions"], queryFn: async () => (await supabase.from("tourism_revisions").select("*").eq("status", "pending").order("period_date").limit(200)).data ?? [] });
-  const refresh = () => ["od-sources", "tourism-revisions", "tourism-totals"].forEach((k) => qc.invalidateQueries({ queryKey: [k] }));
+  const econRevisions = useQuery({ queryKey: ["econ-revisions"], queryFn: async () => (await supabase.from("econ_revisions").select("*").eq("status", "pending").order("series_code").order("period_date").limit(500)).data ?? [] });
+  const refresh = () => ["od-sources", "tourism-revisions", "tourism-totals", "econ-revisions", "econ-indicators"].forEach((k) => qc.invalidateQueries({ queryKey: [k] }));
 
   const invoke = async (fn: string, body: Record<string, unknown>, ok: string) => {
     setBusy(true);
@@ -67,7 +68,7 @@ export function OpenDataSourcesPanel() {
                 <td><Badge variant={s.status === "ok" ? "default" : s.status === "error" ? "destructive" : "secondary"}>{s.status}</Badge></td>
                 <td className="max-w-[14rem]">{s.alert_state && s.alert_state !== "ok" ? (<><Badge variant={s.alert_state === "error" || s.alert_state === "missed_check" ? "destructive" : "secondary"}>{s.alert_state === "stale_period" ? "No new month" : s.alert_state === "missed_check" ? "Missed check" : "Error"}</Badge><p className="text-muted-foreground mt-0.5">{s.alert_reason}</p></>) : <Badge variant="outline">Healthy</Badge>}</td>
                 <td><Switch checked={s.enabled} onCheckedChange={(v) => toggle(s.id, v)} aria-label="Show publicly" /></td>
-                <td>{s.module === "trade" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-cystat-trade", {}, "Trade data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "tourism" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-tourism", { action: "check" }, "Tourism data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}</td>
+                <td>{s.module === "economy" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-economy", { action: "check" }, "Economic indicators checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "trade" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-cystat-trade", {}, "Trade data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "tourism" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-tourism", { action: "check" }, "Tourism data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}</td>
               </tr>
             ))}</tbody>
           </table>
@@ -84,6 +85,25 @@ export function OpenDataSourcesPanel() {
               <span className="flex gap-1">
                 <Button size="sm" disabled={busy} onClick={() => invoke("ingest-tourism", { action: "approve_revision", id: r.id }, "Approved")}><Check className="h-4 w-4" /></Button>
                 <Button size="sm" variant="outline" disabled={busy} onClick={() => invoke("ingest-tourism", { action: "reject_revision", id: r.id }, "Rejected")}><X className="h-4 w-4" /></Button>
+              </span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-2 flex flex-row items-center justify-between gap-2">
+          <CardTitle className="text-base">Economic indicators revised by CYSTAT, awaiting approval ({econRevisions.data?.length ?? 0})</CardTitle>
+          {(econRevisions.data ?? []).length > 1 && <Button size="sm" disabled={busy} onClick={() => invoke("ingest-economy", { action: "approve_all" }, "All revisions approved")}>Approve all</Button>}
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          {(econRevisions.data ?? []).length === 0 && <p className="text-muted-foreground">No pending changes. New periods publish automatically.</p>}
+          {(econRevisions.data ?? []).map((r) => (
+            <div key={r.id} className="flex items-center justify-between gap-2 border rounded p-2">
+              <span>{r.series_code} · {r.period_date.slice(0, 7)}: {r.previous_value} → <strong>{r.replacement_value}</strong></span>
+              <span className="flex gap-1">
+                <Button size="sm" disabled={busy} onClick={() => invoke("ingest-economy", { action: "approve_revision", id: r.id }, "Approved")}><Check className="h-4 w-4" /></Button>
+                <Button size="sm" variant="outline" disabled={busy} onClick={() => invoke("ingest-economy", { action: "reject_revision", id: r.id }, "Rejected")}><X className="h-4 w-4" /></Button>
               </span>
             </div>
           ))}

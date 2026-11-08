@@ -37,6 +37,7 @@ const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const TradePage = lazy(() => import("./pages/TradePage"));
 const RealEstatePage = lazy(() => import("./pages/RealEstatePage"));
 const TourismPage = lazy(() => import("./pages/TourismPage"));
+const EconomyPage = lazy(() => import("./pages/EconomyPage"));
 const OpenDataPage = lazy(() => import("./pages/OpenDataPage"));
 const SponsoredArticlePage = lazy(() => import("./pages/SponsoredArticlePage"));
 const CookiePolicyPage = lazy(() => import("./pages/CookiePolicyPage"));
@@ -99,6 +100,7 @@ const App = () => (
                   <Route path="/trade" element={<TradePage />} />
                   <Route path="/real-estate" element={<RealEstatePage />} />
                   <Route path="/tourism" element={<TourismPage />} />
+                  <Route path="/economy" element={<EconomyPage />} />
                   <Route path="/open-data" element={<OpenDataPage />} />
                   <Route path="/real-estate/:district" element={<RealEstatePage />} />
 
