@@ -6,7 +6,7 @@
 - [x] Company page sections: news, people, timeline, regulatory, sources
 - [x] Who's Who: Greek name, dates, news, correction form
 - [x] Admin Review tab + source access status/counters on Health tab
-- [ ] Backfill entity extraction for all ~900 older articles (runs 15/hour automatically)
+- [ ] Backfill entity extraction for ~540 older articles (runs 30/hour automatically, clears within a day)
 - [ ] CySEC warnings & enforcement collection — blocked: Firecrawl credits
 - [ ] CSE announcements feed — blocked: feed unreachable + reuse permission
 - [ ] CNA — blocked: licence (source marked Pending Permission)
@@ -16,7 +16,7 @@
 - [x] CySEC investment-firm licences imported (248)
 - [x] CSE price reader hardened; 70 near-matches queued; failing sources retried; 14 Who's Who companies linked
 - [ ] CySEC crypto/AIFM/admin-service lists — pages load their tables in-browser; need a different read method
-- [ ] 7 news sources still failing (4 pages unreadable, 3 site-side SSL/blocking)
+- [x] Failing/silent news sources repointed to their current pages (15 fixed; ICPAC paused — site unreadable by the scraper); moved pages now show as errors on the Health tab
 - [x] Remove gap between Intelligence Hub and Custom Studio
 - [x] Article page layout (news articles); interviews/sponsored keep their own header
 - [x] Disable three sample sponsored posts; retain sponsored articles and turn Custom Studio into a scheduled banner placement

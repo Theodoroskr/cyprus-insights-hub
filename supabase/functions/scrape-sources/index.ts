@@ -1,5 +1,6 @@
 import { isGreek, translateToEnglish } from "../_shared/translateToEnglish.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
+import { canonicalArticleUrl, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const corsHeaders = {
@@ -166,7 +167,7 @@ If no distinct articles can be identified, return an empty array.`;
         model: "google/gemini-3-flash-preview",
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: markdown.slice(0, 8000) },
+          { role: "user", content: markdown },
         ],
         tools: [{
           type: "function",
@@ -365,16 +366,19 @@ Deno.serve(async (req) => {
         } else {
           const scrapeData = await scrapeResponse.json();
           markdown = scrapeData.data?.markdown || scrapeData.markdown || "";
-          if (!markdown || markdown.length < 100) {
-            sourceResult.errors.push("No meaningful content scraped");
+          const statusCode = scrapeData.data?.metadata?.statusCode ?? null;
+          const problem = listingPageProblem(markdown, statusCode);
+          if (problem) {
+            sourceResult.errors.push(problem);
             markdown = "";
           }
         }
 
         if (markdown) {
           // Extract articles using AI
-          const articles = await extractArticles(markdown, source.name, source.url, LOVABLE_API_KEY);
+          const articles = await extractArticles(prepareListingMarkdown(markdown), source.name, source.url, LOVABLE_API_KEY);
           sourceResult.articles_found = articles.length;
+          if (articles.length === 0) sourceResult.errors.push("No articles recognised on the news page");
 
           // Ingest each article
           for (const article of articles) {
@@ -391,9 +395,7 @@ Deno.serve(async (req) => {
             if (existing) { sourceResult.duplicates = (sourceResult.duplicates || 0) + 1; continue; }
 
             // Duplicate check by canonical URL
-            const canonicalUrl = article.url && article.url.startsWith("http")
-              ? article.url.split("#")[0].split("?")[0].replace(/\/$/, "").toLowerCase()
-              : null;
+            const canonicalUrl = canonicalArticleUrl(article.url);
             if (canonicalUrl) {
               const { data: dupUrl } = await supabase
                 .from("cna_articles").select("id").eq("canonical_url", canonicalUrl).maybeSingle();
@@ -530,7 +532,7 @@ Deno.serve(async (req) => {
       await fetch(`${SUPABASE_URL}/functions/v1/extract-entities`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}` },
-        body: JSON.stringify({ limit: 15 }),
+        body: JSON.stringify({ limit: 30 }),
         signal: AbortSignal.timeout(2000),
       });
     } catch { /* fire-and-forget */ }
