@@ -6,7 +6,8 @@ import {
 } from "recharts";
 import { Info, Download, Building2, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { HubLayout } from "@/layouts/HubLayout";
+import { TopNavigation } from "@/components/TopNavigation";
+import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -162,7 +163,8 @@ export default function RealEstatePage() {
   };
 
   return (
-    <HubLayout brand="businesshub">
+    <div className="min-h-screen bg-background">
+      <TopNavigation onSearch={() => {}} />
       <SEOHead
         title={title}
         description={`Official ${name} property market statistics: deposited sale contracts since 2016, completed transfers, declared and accepted values, district comparisons and trends.`}
@@ -380,6 +382,7 @@ export default function RealEstatePage() {
           </footer>
         </div>
       </TooltipProvider>
-    </HubLayout>
+      <Footer />
+    </div>
   );
 }
