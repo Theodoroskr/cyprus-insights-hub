@@ -326,7 +326,7 @@ export function BannersPanel() {
             </div>
             <div>
               <label className="section-label">Click URL</label>
-              <Input value={form.click_url} onChange={(e) => setForm({ ...form, click_url: e.target.value })} placeholder="https://sponsor.com/landing" />
+              <Input value={form.click_url} onChange={(e) => setForm({ ...form, click_url: e.target.value })} placeholder="https://sponsor.com/landing or /economy" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>

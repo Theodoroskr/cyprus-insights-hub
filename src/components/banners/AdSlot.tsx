@@ -47,13 +47,14 @@ export function AdSlot({ size = "leaderboard", slotId, label }: AdSlotProps) {
     return slotId && PLACEHOLDER_SLOTS.has(slotId) ? <BannerPlaceholder size={size} label={label} /> : null;
   }
   const spec = AD_SIZES[size];
+  // House banners link to our own pages ("/economy") and open in the same tab.
+  const internal = banner.click_url.startsWith("/");
 
   return (
     <div className="flex justify-center" data-banner-slot={slotId ?? size}>
       <a
         href={banner.click_url}
-        target="_blank"
-        rel="noopener noreferrer sponsored"
+        {...(internal ? {} : { target: "_blank", rel: "noopener noreferrer sponsored" })}
         className={`relative block w-full rounded-lg overflow-hidden bg-muted ${spec}`}
       >
         <img src={banner.image_url} alt={banner.name} className="w-full h-full object-contain" loading="lazy" />
