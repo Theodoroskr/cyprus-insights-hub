@@ -26,6 +26,7 @@ import { ResourcesPanel } from "@/components/admin/ResourcesPanel";
 import { ContentHealthPanel } from "@/components/admin/ContentHealthPanel";
 import { ReviewQueuePanel } from "@/components/admin/ReviewQueuePanel";
 import { OpenDataSourcesPanel } from "@/components/admin/OpenDataSourcesPanel";
+import { MastercardAdminPanel } from "@/components/admin/MastercardAdminPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -300,7 +301,10 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate">("articles");
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard">(() => {
+    const tab = new URLSearchParams(window.location.search).get("tab");
+    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : "articles";
+  });
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -466,7 +470,7 @@ const EditorialDashboard = () => {
             <h1 className="text-3xl font-bold text-foreground">Editorial Dashboard</h1>
             <p className="text-muted-foreground mt-1">Review, edit, and publish CNA intelligence articles</p>
           </div>
-          <div className="flex gap-1 border border-border rounded-lg p-1">
+          <div className="flex flex-wrap gap-1 border border-border rounded-lg p-1">
             <Button
               size="sm"
               variant={activePanel === "articles" ? "default" : "ghost"}
@@ -547,6 +551,14 @@ const EditorialDashboard = () => {
             >
               <Building2 className="h-3.5 w-3.5" /> Open Data
             </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "mastercard" ? "default" : "ghost"}
+              onClick={() => setActivePanel("mastercard")}
+              className="gap-1.5"
+            >
+              <Users className="h-3.5 w-3.5" /> Mastercard &amp; Leads
+            </Button>
           </div>
         </div>
 
@@ -568,6 +580,8 @@ const EditorialDashboard = () => {
           <ReviewQueuePanel />
         ) : activePanel === "realestate" ? (
           <OpenDataSourcesPanel />
+        ) : activePanel === "mastercard" ? (
+          <MastercardAdminPanel />
         ) : (
         <>
 

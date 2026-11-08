@@ -250,6 +250,81 @@ export type Database = {
         }
         Relationships: []
       }
+      commercial_enquiries: {
+        Row: {
+          admin_notes: string | null
+          assigned_to: string | null
+          client_hash: string | null
+          company: string
+          country: string
+          created_at: string
+          email: string
+          external_ref: string | null
+          full_name: string
+          id: string
+          industry: string
+          interest: string
+          language: string
+          marketing_consent: boolean
+          message: string | null
+          origin_path: string | null
+          partner: string
+          phone: string | null
+          placement: string | null
+          privacy_ack: boolean
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          assigned_to?: string | null
+          client_hash?: string | null
+          company: string
+          country: string
+          created_at?: string
+          email: string
+          external_ref?: string | null
+          full_name: string
+          id?: string
+          industry: string
+          interest: string
+          language?: string
+          marketing_consent?: boolean
+          message?: string | null
+          origin_path?: string | null
+          partner?: string
+          phone?: string | null
+          placement?: string | null
+          privacy_ack?: boolean
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          assigned_to?: string | null
+          client_hash?: string | null
+          company?: string
+          country?: string
+          created_at?: string
+          email?: string
+          external_ref?: string | null
+          full_name?: string
+          id?: string
+          industry?: string
+          interest?: string
+          language?: string
+          marketing_consent?: boolean
+          message?: string | null
+          origin_path?: string | null
+          partner?: string
+          phone?: string | null
+          placement?: string | null
+          privacy_ack?: boolean
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       companies: {
         Row: {
           created_at: string
@@ -623,6 +698,33 @@ export type Database = {
         }
         Relationships: []
       }
+      cta_events: {
+        Row: {
+          created_at: string
+          event: string
+          id: string
+          interest: string | null
+          path: string | null
+          placement: string
+        }
+        Insert: {
+          created_at?: string
+          event: string
+          id?: string
+          interest?: string | null
+          path?: string | null
+          placement: string
+        }
+        Update: {
+          created_at?: string
+          event?: string
+          id?: string
+          interest?: string | null
+          path?: string | null
+          placement?: string
+        }
+        Relationships: []
+      }
       cysec_status_history: {
         Row: {
           changed_at: string
@@ -673,6 +775,92 @@ export type Database = {
           key?: string
           updated_at?: string
           value_json?: Json
+        }
+        Relationships: []
+      }
+      data_connector_audit: {
+        Row: {
+          change: Json
+          changed_by: string | null
+          connector_id: string | null
+          created_at: string
+          id: string
+        }
+        Insert: {
+          change: Json
+          changed_by?: string | null
+          connector_id?: string | null
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          change?: Json
+          changed_by?: string | null
+          connector_id?: string | null
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_connector_audit_connector_id_fkey"
+            columns: ["connector_id"]
+            isOneToOne: false
+            referencedRelation: "data_connectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_connectors: {
+        Row: {
+          access_scope: string
+          auth_type: string
+          created_at: string
+          description: string | null
+          docs_url: string | null
+          enabled: boolean
+          id: string
+          licence_confirmed: boolean
+          licence_reference: string | null
+          name: string
+          provider: string
+          schedule: string | null
+          slug: string
+          updated_at: string
+          usage_limit: string | null
+        }
+        Insert: {
+          access_scope?: string
+          auth_type?: string
+          created_at?: string
+          description?: string | null
+          docs_url?: string | null
+          enabled?: boolean
+          id?: string
+          licence_confirmed?: boolean
+          licence_reference?: string | null
+          name: string
+          provider: string
+          schedule?: string | null
+          slug: string
+          updated_at?: string
+          usage_limit?: string | null
+        }
+        Update: {
+          access_scope?: string
+          auth_type?: string
+          created_at?: string
+          description?: string | null
+          docs_url?: string | null
+          enabled?: boolean
+          id?: string
+          licence_confirmed?: boolean
+          licence_reference?: string | null
+          name?: string
+          provider?: string
+          schedule?: string | null
+          slug?: string
+          updated_at?: string
+          usage_limit?: string | null
         }
         Relationships: []
       }
@@ -1239,6 +1427,72 @@ export type Database = {
           symbol?: string
           updated_at?: string
           value?: number
+        }
+        Relationships: []
+      }
+      mastercard_resources: {
+        Row: {
+          applications: string[]
+          attribution: string | null
+          category: string
+          created_at: string
+          geography: string | null
+          id: string
+          industries: string[]
+          kind: string
+          licence_note: string | null
+          published_on: string | null
+          publisher: string
+          sort_order: number
+          source_url: string
+          status: string
+          summary: string | null
+          summary_el: string | null
+          title: string
+          title_el: string | null
+          updated_at: string
+        }
+        Insert: {
+          applications?: string[]
+          attribution?: string | null
+          category?: string
+          created_at?: string
+          geography?: string | null
+          id?: string
+          industries?: string[]
+          kind?: string
+          licence_note?: string | null
+          published_on?: string | null
+          publisher?: string
+          sort_order?: number
+          source_url: string
+          status?: string
+          summary?: string | null
+          summary_el?: string | null
+          title: string
+          title_el?: string | null
+          updated_at?: string
+        }
+        Update: {
+          applications?: string[]
+          attribution?: string | null
+          category?: string
+          created_at?: string
+          geography?: string | null
+          id?: string
+          industries?: string[]
+          kind?: string
+          licence_note?: string | null
+          published_on?: string | null
+          publisher?: string
+          sort_order?: number
+          source_url?: string
+          status?: string
+          summary?: string | null
+          summary_el?: string | null
+          title?: string
+          title_el?: string | null
+          updated_at?: string
         }
         Relationships: []
       }

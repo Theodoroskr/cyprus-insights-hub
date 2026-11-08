@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
+import { InfocreditCta } from "@/components/mastercard/InfocreditCta";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -208,6 +209,8 @@ export default function TourismPage() {
             </Card>
           </>
         )}
+
+        <InfocreditCta placement="tourism" interest="Tourism Spending Intelligence" />
 
         <footer className="border-t pt-4 text-xs text-muted-foreground space-y-1">
           <p>Source: Cyprus Statistical Service (CYSTAT), "Arrivals of Tourists by Country of Usual Residence, Monthly", via the Cyprus Open Data Portal (CC BY 4.0). Totals, year-to-date comparisons and shares calculated by BusinessHub.</p>

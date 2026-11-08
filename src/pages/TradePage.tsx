@@ -13,6 +13,7 @@ import { ContentGate } from "@/components/auth/ContentGate";
 import { PremiumGate } from "@/components/auth/PremiumGate";
 import { TrendingUp, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { InfocreditCta } from "@/components/mastercard/InfocreditCta";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function TradePage() {
@@ -180,6 +181,10 @@ export default function TradePage() {
         <PremiumGate message="Unlock executive trade summaries" blurHeight="250px">
           <TradeExecutiveInsight insight={insight} />
         </PremiumGate>
+      </section>
+
+      <section className="max-w-7xl mx-auto px-4 pb-8">
+        <InfocreditCta placement="trade" interest="Sector Benchmarking" />
       </section>
 
       {/* Data disclaimer */}

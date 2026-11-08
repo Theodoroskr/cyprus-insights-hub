@@ -120,6 +120,13 @@
       "when": 1794167269715,
       "tag": "0016_economic_indicators",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1794167807837,
+      "tag": "0017_mastercard_intelligence_and_enquiries",
+      "breakpoints": true
     }
   ]
 }

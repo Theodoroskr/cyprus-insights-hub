@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
+import { InfocreditCta } from "@/components/mastercard/InfocreditCta";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -150,6 +151,8 @@ export default function EconomyPage() {
             </div>
           </>
         )}
+
+        <InfocreditCta placement="economy" interest="Economic Research" />
 
         <footer className="border-t pt-4 text-xs text-muted-foreground space-y-1">
           <p>Source: Cyprus Statistical Service (CYSTAT), CYSTAT-DB (CC BY 4.0). GDP growth is seasonally and working-day adjusted; annual GDP is the sum of four published quarters, calculated by BusinessHub. The unemployment rate is from the quarterly Labour Force Survey (not registered unemployment).</p>
