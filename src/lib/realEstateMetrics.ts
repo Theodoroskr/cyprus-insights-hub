@@ -91,6 +91,8 @@ export function periodKey(year: number, month: number, freq: Frequency): string 
   return `${year}-${String(month).padStart(2, "0")}`;
 }
 
+export type SeriesPoint = { period: string; partial: boolean; monthsCovered: number; [key: string]: number | string | boolean };
+
 /** Group rows into periods; each period maps field→total and per-district totals. Periods with no data are dropped. */
 export function seriesBy(rows: Obs[], fields: string[], freq: Frequency) {
   const map = new Map<string, Record<string, number | string>>();
@@ -117,7 +119,7 @@ export function seriesBy(rows: Obs[], fields: string[], freq: Frequency) {
     .map((e) => {
       const n = months.get(String(e.period))?.size ?? 0;
       const expected = freq === "annual" ? 12 : freq === "quarterly" ? 3 : 1;
-      return { ...e, period: String(e.period), partial: n < expected, monthsCovered: n } as Record<string, number | string> & { period: string; partial: boolean; monthsCovered: number };
+      return { ...e, period: String(e.period), partial: n < expected, monthsCovered: n } as SeriesPoint;
     })
     .sort((a, b) => String(a.period).localeCompare(String(b.period)));
 }
