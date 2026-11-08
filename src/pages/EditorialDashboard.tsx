@@ -469,6 +469,7 @@ const EditorialDashboard = () => {
           <div>
             <h1 className="text-3xl font-bold text-foreground">Editorial Dashboard</h1>
             <p className="text-muted-foreground mt-1">Review, edit, and publish CNA intelligence articles</p>
+            <a href="/whoiswho" className="text-xs text-secondary hover:underline">Who's Who (private build) →</a>
           </div>
           <div className="flex flex-wrap gap-1 border border-border rounded-lg p-1">
             <Button

@@ -47,7 +47,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
     enabled: !!user,
   });
 
-  const visibleNav = navItems.filter((i) => WHOISWHO_PUBLIC || i.href !== "/whoiswho" || isAdmin);
+  const visibleNav = navItems.filter((i) => WHOISWHO_PUBLIC || i.href !== "/whoiswho");
 
   const isActive = (href: string) => {
     const path = href.split("#")[0];
