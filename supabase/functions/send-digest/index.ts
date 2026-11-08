@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { requireTrustedCaller, deniedResponse, getUserFromRequest } from "../_shared/requireTrustedCaller.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,14 +32,22 @@ serve(async (req) => {
     // Test digests only ever go to the signed-in person who asked for one
     let onlyUserId: string | null = null;
     if (testMode) {
-      const token = (req.headers.get("Authorization") ?? "").replace("Bearer ", "");
-      const { data: u } = await supabase.auth.getUser(token);
-      if (!u?.user) {
+      const u = await getUserFromRequest(req, supabase);
+      if (!u) {
         return new Response(JSON.stringify({ error: "Sign in required" }), {
           status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      onlyUserId = u.user.id;
+      onlyUserId = u.id;
+    } else {
+      // Full digest runs for everyone: scheduled job or an admin only
+      const caller = await requireTrustedCaller(req, supabase);
+      if (!caller.ok) return deniedResponse(caller, corsHeaders);
+      if (!["daily", "weekly"].includes(targetFrequency)) {
+        return new Response(JSON.stringify({ error: "Invalid frequency" }), {
+          status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
     }
 
     // 1. Get all users with matching digest frequency

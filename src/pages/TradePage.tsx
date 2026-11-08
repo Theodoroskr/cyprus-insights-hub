@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { HubLayout } from "@/layouts/HubLayout";
@@ -17,6 +18,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export default function TradePage() {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState<string>(String(currentYear));
+  // Premium datasets are only returned by the database to premium members and admins
+  const { profile } = useAuth();
+  const isPremium = profile?.tier === "premium";
 
   const { data: kpiSnapshot } = useQuery({
     queryKey: ["trade-kpi", selectedYear],
@@ -45,6 +49,7 @@ export default function TradePage() {
 
   const { data: topCountries } = useQuery({
     queryKey: ["trade-top-countries", selectedYear],
+    enabled: isPremium,
     queryFn: async () => {
       const { data } = await supabase
         .from("trade_country_monthly")
@@ -66,6 +71,7 @@ export default function TradePage() {
 
   const { data: topSectors } = useQuery({
     queryKey: ["trade-top-sectors", selectedYear],
+    enabled: isPremium,
     queryFn: async () => {
       const { data: latest } = await supabase
         .from("trade_sector_monthly")
@@ -86,6 +92,7 @@ export default function TradePage() {
 
   const { data: insight } = useQuery({
     queryKey: ["trade-insight"],
+    enabled: isPremium,
     queryFn: async () => {
       const { data } = await supabase
         .from("trade_ai_insights")
@@ -155,9 +162,8 @@ export default function TradePage() {
 
           {/* EU vs Non-EU Split - PREMIUM */}
           <div>
-            <PremiumGate message="Unlock EU trade analysis" blurHeight="320px">
-              <TradeEUSplit snapshot={kpiSnapshot} />
-            </PremiumGate>
+            {/* EU share is already part of the free KPI strip */}
+            <TradeEUSplit snapshot={kpiSnapshot} />
           </div>
         </div>
       </section>

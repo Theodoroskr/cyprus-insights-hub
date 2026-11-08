@@ -1,6 +1,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { isGreek, translateToEnglish } from "../_shared/translateToEnglish.ts";
+import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 
 /** Backfill: translates saved Greek articles into English, a few at a time. */
 Deno.serve(async (req) => {
@@ -13,6 +14,8 @@ Deno.serve(async (req) => {
     const apiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!apiKey) return json({ error: "LOVABLE_API_KEY not configured" }, 500);
     const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const caller = await requireTrustedCaller(req, supabase);
+    if (!caller.ok) return deniedResponse(caller, corsHeaders);
 
     const { data: rows, error } = await supabase
       .from("cna_articles")

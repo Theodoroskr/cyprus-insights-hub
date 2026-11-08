@@ -71,6 +71,13 @@
       "when": 1794053043680,
       "tag": "0009_launch_security_hardening",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1794134770526,
+      "tag": "0010_lock_down_jobs_premium_trade_and_open_inserts",
+      "breakpoints": true
     }
   ]
 }

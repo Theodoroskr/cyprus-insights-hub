@@ -7,6 +7,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { resolveCompanies } from "../_shared/companyMatcher.ts";
+import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 
 const EVENT_TYPES = [
   "executive_appointment", "board_appointment", "investment", "merger_acquisition", "partnership",
@@ -82,6 +83,8 @@ Deno.serve(async (req) => {
   try {
     const key = Deno.env.get("LOVABLE_API_KEY")!;
     const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const caller = await requireTrustedCaller(req, supabase);
+    if (!caller.ok) return deniedResponse(caller, corsHeaders);
     let limit = 15;
     try { const b = await req.json(); if (b?.limit) limit = Math.min(Math.max(Number(b.limit), 1), 50); } catch { /* default */ }
 
