@@ -39,3 +39,7 @@
 - [x] Directory search results: 25 per page with page numbers
 - [x] Search by registration number (HE 6771) and by trading/former names
 - [x] Licence and status badges on directory result cards
+
+# Roadmap — Resource Hub refresh (Nov 2026)
+- [x] Real guides and glossaries, live trade and FinTech reports, SME benchmark hidden
+- [x] Resource pages, "Last reviewed" dates, Resources tab in the editorial dashboard with 6-month review flag

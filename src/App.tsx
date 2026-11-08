@@ -14,6 +14,7 @@ const Index = lazy(() => import("./pages/Index"));
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
 const CompliancePage = lazy(() => import("./pages/CompliancePage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
+const ResourceDetailPage = lazy(() => import("./pages/ResourceDetailPage"));
 const DirectoryPage = lazy(() => import("./pages/DirectoryPage"));
 const SMEPage = lazy(() => import("./pages/SMEPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
@@ -83,6 +84,7 @@ const App = () => (
                   <Route path="/fintech" element={<FinTechPage />} />
                   <Route path="/compliance" element={<CompliancePage />} />
                   <Route path="/resources" element={<ResourcesPage />} />
+                  <Route path="/resources/:slug" element={<ResourceDetailPage />} />
                   <Route path="/sme" element={<SMEPage />} />
                   <Route path="/regtech" element={<RegTechPage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />

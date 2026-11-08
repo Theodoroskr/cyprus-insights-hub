@@ -22,6 +22,7 @@ import { formatDistanceToNow } from "date-fns";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
 import { BannersPanel } from "@/components/admin/BannersPanel";
 import { DirectoryArticlesPanel } from "@/components/admin/DirectoryArticlesPanel";
+import { ResourcesPanel } from "@/components/admin/ResourcesPanel";
 import { ContentHealthPanel } from "@/components/admin/ContentHealthPanel";
 import { ReviewQueuePanel } from "@/components/admin/ReviewQueuePanel";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -298,7 +299,7 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "health" | "review">("articles");
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review">("articles");
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -515,6 +516,14 @@ const EditorialDashboard = () => {
             </Button>
             <Button
               size="sm"
+              variant={activePanel === "resources" ? "default" : "ghost"}
+              onClick={() => setActivePanel("resources")}
+              className="gap-1.5"
+            >
+              <FileEdit className="h-3.5 w-3.5" /> Resources
+            </Button>
+            <Button
+              size="sm"
               variant={activePanel === "health" ? "default" : "ghost"}
               onClick={() => setActivePanel("health")}
               className="gap-1.5"
@@ -542,6 +551,8 @@ const EditorialDashboard = () => {
           <SourcesPanel />
         ) : activePanel === "directory" ? (
           <DirectoryArticlesPanel />
+        ) : activePanel === "resources" ? (
+          <ResourcesPanel />
         ) : activePanel === "health" ? (
           <ContentHealthPanel />
         ) : activePanel === "review" ? (

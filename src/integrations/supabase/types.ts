@@ -1747,6 +1747,7 @@ export type Database = {
           id: string
           is_published: boolean
           resource_type: string
+          reviewed_at: string | null
           slug: string
           tags: string[] | null
           title: string
@@ -1763,6 +1764,7 @@ export type Database = {
           id?: string
           is_published?: boolean
           resource_type?: string
+          reviewed_at?: string | null
           slug: string
           tags?: string[] | null
           title: string
@@ -1779,6 +1781,7 @@ export type Database = {
           id?: string
           is_published?: boolean
           resource_type?: string
+          reviewed_at?: string | null
           slug?: string
           tags?: string[] | null
           title?: string

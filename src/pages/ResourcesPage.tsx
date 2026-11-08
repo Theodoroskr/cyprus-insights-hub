@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { formatReviewed } from "@/lib/resourceFreshness";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
@@ -45,7 +46,7 @@ const quickTools = [
   },
   {
     name: "Cyprus VAT Calculator",
-    description: "Calculate VAT across all Cyprus rate tiers including MOSS",
+    description: "Calculate VAT across all Cyprus rate tiers including OSS",
     icon: Calculator,
     href: "/sme",
     badge: "Calculator",
@@ -74,6 +75,8 @@ const externalResources = [
 ];
 
 export default function ResourcesPage() {
+  const navigate = useNavigate();
+  const open = (slug: string) => navigate(`/resources/${slug}`);
   const [activeTab, setActiveTab] = useState<Tab>("All");
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearch = (query: string) => { if (query.trim()) window.location.href = `/search?q=${encodeURIComponent(query)}`; };
@@ -174,7 +177,7 @@ export default function ResourcesPage() {
             {/* Featured resource */}
             <div className="grid lg:grid-cols-12 gap-0 mb-8">
               <div className="lg:col-span-7 lg:pr-6 lg:border-r border-border">
-                <article className="group cursor-pointer">
+                <article className="group cursor-pointer" onClick={() => open(featured.slug)}>
                   {featured.cover_image && (
                     <div className="overflow-hidden mb-4">
                       <img
@@ -197,7 +200,7 @@ export default function ResourcesPage() {
                       {featured.resource_type}
                     </span>
                     <span className="w-1 h-1 rounded-full bg-border" />
-                    <span>{new Date(featured.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
+                    <span>{formatReviewed(featured.reviewed_at) ? `Reviewed ${formatReviewed(featured.reviewed_at)}` : new Date(featured.created_at).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}</span>
                   </div>
                 </article>
               </div>
@@ -213,7 +216,7 @@ export default function ResourcesPage() {
                     {rest.slice(0, 4).map((r, i) => {
                       const TypeIcon = typeMap[r.resource_type]?.icon || FileText;
                       return (
-                        <article key={r.id} className="py-4 first:pt-0 group cursor-pointer">
+                        <article key={r.id} className="py-4 first:pt-0 group cursor-pointer" onClick={() => open(r.slug)}>
                           <div className="flex items-start gap-3">
                             <span className="text-2xl font-serif font-bold text-muted-foreground/30 leading-none">{String(i + 1).padStart(2, "0")}</span>
                             <div className="flex-1 min-w-0">
@@ -251,6 +254,7 @@ export default function ResourcesPage() {
                     return (
                       <article
                         key={r.id}
+                        onClick={() => open(r.slug)}
                         className={`py-5 px-4 group cursor-pointer hover:bg-muted/30 transition-colors
                           ${i % 3 !== 2 ? "lg:border-r border-border" : ""}
                           ${i >= 3 ? "border-t border-border" : ""}
@@ -269,7 +273,7 @@ export default function ResourcesPage() {
                         <p className="article-body text-sm line-clamp-2 mb-3">{r.description}</p>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <span>{new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
+                            <span>{formatReviewed(r.reviewed_at) ? `Reviewed ${formatReviewed(r.reviewed_at)}` : new Date(r.created_at).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}</span>
                             {r.tags && r.tags.length > 0 && (
                               <>
                                 <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
