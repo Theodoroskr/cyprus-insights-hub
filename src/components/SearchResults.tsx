@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { X, Newspaper, User, BadgeCheck, Building2, Clock } from "lucide-react";
@@ -13,7 +14,9 @@ interface SearchResultsProps {
 
 export function SearchResults({ query, onClose }: SearchResultsProps) {
   const [news, setNews] = useState<any[]>([]);
-  const [people, setPeople] = useState<any[]>([]);
+  const [allPeople, setPeople] = useState<any[]>([]);
+  const { visible: showPeople } = useWhoIsWhoVisible();
+  const people = showPeople ? allPeople : [];
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

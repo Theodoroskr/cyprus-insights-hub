@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Link2, ArrowRight, Newspaper, User } from "lucide-react";
@@ -17,6 +18,7 @@ interface Connection {
 }
 
 export function VerticalConnection() {
+  const { visible: showPeople } = useWhoIsWhoVisible();
   const [connections, setConnections] = useState<Connection[]>([]);
 
   useEffect(() => {
@@ -57,6 +59,7 @@ export function VerticalConnection() {
 
   if (connections.length === 0) return null;
 
+  if (!showPeople) return null;
   return (
     <section className="py-8 bg-muted/30">
       <div className="container mx-auto px-4">

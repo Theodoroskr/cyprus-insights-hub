@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -43,6 +44,7 @@ const verticals: Vertical[] = [
 ];
 
 export function VerticalNavigator() {
+  const { visible: showPeople } = useWhoIsWhoVisible();
   const navigate = useNavigate();
   const location = useLocation();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -78,7 +80,7 @@ export function VerticalNavigator() {
             ref={scrollRef}
             className="flex items-center gap-0 overflow-x-auto scrollbar-hide scroll-smooth md:mx-6"
           >
-            {verticals.map((v) => {
+            {verticals.filter((v) => showPeople || v.id !== "whoiswho").map((v) => {
               const active = isActive(v.href);
               return (
                 <button

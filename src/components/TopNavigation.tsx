@@ -1,3 +1,4 @@
+import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, User, Newspaper, PenTool } from "lucide-react";
@@ -43,6 +44,8 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
     },
     enabled: !!user,
   });
+
+  const visibleNav = navItems.filter((i) => WHOISWHO_PUBLIC || i.href !== "/whoiswho" || isAdmin);
 
   const isActive = (href: string) => {
     const path = href.split("#")[0];
@@ -95,7 +98,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
           {/* Desktop Navigation — clean horizontal links */}
           <nav className="hidden lg:flex items-center">
-            {navItems.map((item, i) => (
+            {visibleNav.map((item, i) => (
               <Link
                 key={item.label}
                 to={item.href}
@@ -174,7 +177,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
         {isMobileMenuOpen && (
           <nav className="lg:hidden py-4 border-t border-border animate-slide-in-up">
             <div className="flex flex-col gap-0.5">
-              {navItems.map((item) => (
+              {visibleNav.map((item) => (
                 <Link
                   key={item.label}
                   to={item.href}

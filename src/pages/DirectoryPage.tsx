@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { TopNavigation } from "@/components/TopNavigation";
@@ -12,7 +13,9 @@ import { Button } from "@/components/ui/button";
 
 export default function DirectoryPage() {
   const [companies, setCompanies] = useState<any[]>([]);
-  const [people, setPeople] = useState<any[]>([]);
+  const [allPeople, setPeople] = useState<any[]>([]);
+  const { visible: showPeople } = useWhoIsWhoVisible();
+  const people = showPeople ? allPeople : [];
   const [industries, setIndustries] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState<"companies" | "people">("companies");
@@ -76,7 +79,7 @@ export default function DirectoryPage() {
             >
               <Building2 className="h-4 w-4" /> Companies ({filteredCompanies.length})
             </button>
-            <button
+            {showPeople && <button
               onClick={() => setActiveTab("people")}
               className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors flex items-center gap-2 ${
                 activeTab === "people"
@@ -85,7 +88,7 @@ export default function DirectoryPage() {
               }`}
             >
               <Users className="h-4 w-4" /> People ({filteredPeople.length})
-            </button>
+            </button>}
           </div>
         </div>
       </section>

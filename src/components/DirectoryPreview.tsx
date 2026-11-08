@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Building2, Users, ArrowRight, Search, MapPin } from "lucide-react";
@@ -7,7 +8,9 @@ import { supabase } from "@/integrations/supabase/client";
 
 export function DirectoryPreview() {
   const [companies, setCompanies] = useState<any[]>([]);
-  const [people, setPeople] = useState<any[]>([]);
+  const [allPeople, setPeople] = useState<any[]>([]);
+  const { visible: showPeople } = useWhoIsWhoVisible();
+  const people = showPeople ? allPeople : [];
 
   useEffect(() => {
     Promise.all([
@@ -77,7 +80,7 @@ export function DirectoryPreview() {
         </div>
 
         {/* Who's Who */}
-        <div className="mb-6">
+        {showPeople && <div className="mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Users className="h-4 w-4 text-secondary" />
             <h3 className="font-serif font-bold text-foreground">Who's Who</h3>
@@ -96,7 +99,7 @@ export function DirectoryPreview() {
               </Link>
             ))}
           </div>
-        </div>
+        </div>}
 
         {/* Browse CTA */}
         <div className="flex flex-wrap items-center gap-3">

@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Newspaper, Users, History, ShieldCheck, Link2 } from "lucide-react";
@@ -41,6 +42,7 @@ function Section({ icon: Icon, title, children }: { icon: any; title: string; ch
 }
 
 export function CompanyIntelligence({ directoryCompanyId }: { directoryCompanyId: string }) {
+  const { visible: showPeople } = useWhoIsWhoVisible();
   const { data } = useQuery({
     queryKey: ["company-intel", directoryCompanyId],
     queryFn: async () => {
@@ -99,7 +101,7 @@ export function CompanyIntelligence({ directoryCompanyId }: { directoryCompanyId
           <ul className="grid sm:grid-cols-2 gap-3">
             {people.map((r: any) => (
               <li key={r.id} className="border border-border rounded-lg p-3">
-                <Link to={`/whoiswho/${r.person?.slug}`} className="font-medium text-foreground hover:text-secondary">{r.person?.name}</Link>
+                {showPeople ? <Link to={`/whoiswho/${r.person?.slug}`} className="font-medium text-foreground hover:text-secondary">{r.person?.name}</Link> : <span className="font-medium text-foreground">{r.person?.name}</span>}
                 <p className="text-sm text-muted-foreground">{r.role}{!r.is_current && " (former)"}</p>
                 {(r.started_at || r.ended_at) && <p className="text-xs text-muted-foreground">{fmt(r.started_at)} – {r.ended_at ? fmt(r.ended_at) : "present"}</p>}
               </li>

@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Search, Building2, User, Newspaper, Mic, BookOpen } from "lucide-react";
@@ -14,7 +15,9 @@ export default function SearchPage() {
   const query = searchParams.get("q") || "";
   const [search, setSearch] = useState(query);
   const [companies, setCompanies] = useState<any[]>([]);
-  const [people, setPeople] = useState<any[]>([]);
+  const [allPeople, setPeople] = useState<any[]>([]);
+  const { visible: showPeople } = useWhoIsWhoVisible();
+  const people = showPeople ? allPeople : [];
   const [articles, setArticles] = useState<any[]>([]);
 
   useEffect(() => {

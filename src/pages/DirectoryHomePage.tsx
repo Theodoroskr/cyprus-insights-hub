@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Building2, Users, Newspaper, Mic, BookOpen, TrendingUp, ArrowRight, Globe, Shield, ChevronRight } from "lucide-react";
@@ -15,7 +16,9 @@ export default function DirectoryHomePage() {
   const [companies, setCompanies] = useState<any[]>([]);
   const [articles, setArticles] = useState<any[]>([]);
   const [interviews, setInterviews] = useState<any[]>([]);
-  const [people, setPeople] = useState<any[]>([]);
+  const [allPeople, setPeople] = useState<any[]>([]);
+  const { visible: showPeople } = useWhoIsWhoVisible();
+  const people = showPeople ? allPeople : [];
   const [industries, setIndustries] = useState<any[]>([]);
 
   useEffect(() => {
@@ -188,7 +191,7 @@ export default function DirectoryHomePage() {
       </section>
 
       {/* Who's Who */}
-      <section className="bg-primary/5 border-y border-border">
+      {showPeople && <section className="bg-primary/5 border-y border-border">
         <div className="container mx-auto px-4 py-16">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
@@ -212,7 +215,7 @@ export default function DirectoryHomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* Industries */}
       <section className="container mx-auto px-4 py-16">

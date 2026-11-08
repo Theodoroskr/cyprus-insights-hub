@@ -1,7 +1,9 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { Link } from "react-router-dom";
 import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone } from "lucide-react";
 
 export function Footer() {
+  const { visible: showPeople } = useWhoIsWhoVisible();
   return (
     <footer className="navy-gradient text-primary-foreground py-12">
       <div className="container mx-auto px-4">
@@ -37,7 +39,7 @@ export function Footer() {
               <li><Link to="/directory" className="hover:text-secondary transition-colors">Business Directory</Link></li>
               <li><Link to="/trade" className="hover:text-secondary transition-colors">Trade Intelligence</Link></li>
               <li><Link to="/real-estate" className="hover:text-secondary transition-colors">Real Estate Intelligence</Link></li>
-              <li><Link to="/whoiswho" className="hover:text-secondary transition-colors">Who's Who</Link></li>
+              {showPeople && <li><Link to="/whoiswho" className="hover:text-secondary transition-colors">Who's Who</Link></li>}
               <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
               <li><Link to="/regtech" className="hover:text-secondary transition-colors">RegTech & ICT Risk</Link></li>
               <li><Link to="/interviews" className="hover:text-secondary transition-colors">Interviews</Link></li>

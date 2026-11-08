@@ -1,3 +1,4 @@
+import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Network, User, ArrowRight } from "lucide-react";
@@ -16,6 +17,7 @@ interface Person {
 }
 
 export function KnowledgeGraph() {
+  const { visible: showPeople } = useWhoIsWhoVisible();
   const [people, setPeople] = useState<Person[]>([]);
 
   useEffect(() => {
@@ -44,6 +46,7 @@ export function KnowledgeGraph() {
 
   if (people.length === 0) return null;
 
+  if (!showPeople) return null;
   return (
     <section className="py-8 bg-muted/20">
       <div className="container mx-auto px-4">

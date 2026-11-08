@@ -1,3 +1,4 @@
+import { WhoIsWhoRoute } from "@/components/auth/WhoIsWhoGate";
 import { lazy, Suspense } from "react";
 
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -107,9 +108,9 @@ const App = () => (
 
                   {/* Intelligence Directory routes */}
                   <Route path="/companies/:slug" element={<CompanyProfilePage />} />
-                  <Route path="/people/:slug" element={<PeopleProfilePage />} />
-                  <Route path="/whoiswho" element={<WhoIsWhoPage />} />
-                  <Route path="/whoiswho/:slug" element={<WhoIsWhoProfilePage />} />
+                  <Route path="/people/:slug" element={<WhoIsWhoRoute><PeopleProfilePage /></WhoIsWhoRoute>} />
+                  <Route path="/whoiswho" element={<WhoIsWhoRoute><WhoIsWhoPage /></WhoIsWhoRoute>} />
+                  <Route path="/whoiswho/:slug" element={<WhoIsWhoRoute><WhoIsWhoProfilePage /></WhoIsWhoRoute>} />
                   <Route path="/news" element={<NewsListPage />} />
                   <Route path="/news/:slug" element={<NewsArticlePage />} />
                   <Route path="/interviews" element={<InterviewsPage />} />
