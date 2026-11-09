@@ -3,6 +3,8 @@
 export const SITE_URL = "https://businesshub.cy";
 /** Last Cyprus-time hour in which the hourly job posts. */
 export const LAST_POST_HOUR = 21;
+/** Hard cap per hourly run, so a late start never dumps the whole day's allowance at once. */
+export const MAX_PER_RUN = 3;
 
 export interface CandidateArticle {
   id: string;
@@ -38,7 +40,7 @@ export function postsThisRun(dailyLimit: number, postedToday: number, now: Date)
   if (remaining === 0) return 0;
   const { hour } = cyprusClock(now);
   const runsLeft = Math.max(1, LAST_POST_HOUR - hour + 1);
-  return Math.min(remaining, Math.ceil(remaining / runsLeft));
+  return Math.min(remaining, MAX_PER_RUN, Math.ceil(remaining / runsLeft));
 }
 
 /**

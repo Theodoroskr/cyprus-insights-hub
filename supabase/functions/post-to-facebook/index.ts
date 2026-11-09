@@ -27,7 +27,34 @@ async function graphViaGateway(path: string, query: Record<string, string> = {})
   return JSON.parse(text);
 }
 
+/** The connection may hold a Page token (the token *is* the page) or a User token that manages pages. */
+async function tokenPage(): Promise<{ id: string; name: string } | null> {
+  try {
+    await graphViaGateway("/me/accounts", { fields: "id", limit: "1" });
+    return null; // user token
+  } catch (e) {
+    if (!String(e).includes("nonexisting field (accounts)")) throw e;
+    const me = await graphViaGateway("/me", { fields: "id,name" });
+    return { id: me.id, name: me.name };
+  }
+}
+
+async function publishViaGateway(pageId: string, message: string, link: string): Promise<string> {
+  const lovableKey = Deno.env.get("LOVABLE_API_KEY")!;
+  const fbKey = Deno.env.get("UDC_FACEBOOK_PAGES_API_KEY")!;
+  const res = await fetch(`${GATEWAY_URL}/${GRAPH_VERSION}/${encodeURIComponent(pageId)}/feed`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${lovableKey}`, "X-Connection-Api-Key": fbKey, "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ message, link }),
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`Facebook [${res.status}]: ${text.slice(0, 500)}`);
+  return JSON.parse(text).id as string;
+}
+
 async function listPages(): Promise<{ id: string; name: string; canPost: boolean }[]> {
+  const own = await tokenPage();
+  if (own) return [{ ...own, canPost: true }];
   const out: { id: string; name: string; canPost: boolean }[] = [];
   let after: string | undefined;
   for (let i = 0; i < 5; i++) {
@@ -110,12 +137,16 @@ Deno.serve(async (req) => {
       return json({ posted: 0, postedToday, reason: "No new stories" });
     }
 
-    const token = await pageToken(settings.page_id);
+    const own = await tokenPage();
+    if (own && own.id !== settings.page_id) throw new Error(`The Facebook token belongs to "${own.name}", not the chosen page`);
+    const token = own ? null : await pageToken(settings.page_id);
     const results = [];
     let lastError: string | null = null;
     for (const a of picks) {
       try {
-        const fbId = await publish(settings.page_id, token, buildPostMessage(a), articleLink(a.id));
+        const fbId = token
+          ? await publish(settings.page_id, token, buildPostMessage(a), articleLink(a.id))
+          : await publishViaGateway(settings.page_id, buildPostMessage(a), articleLink(a.id));
         await sb.from("facebook_posts").insert({ article_id: a.id, page_id: settings.page_id, fb_post_id: fbId, status: "posted" });
         results.push({ id: a.id, ok: true });
       } catch (e) {

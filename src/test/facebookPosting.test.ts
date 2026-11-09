@@ -11,7 +11,7 @@ describe("daily limit of 20 posts", () => {
   it("never posts once 20 are already out today", () => expect(postsThisRun(20, 20, morning)).toBe(0));
   it("never goes over the remaining allowance", () => expect(postsThisRun(20, 19, new Date("2026-11-09T19:30:00Z"))).toBe(1));
   it("spreads posts over the day instead of all at once", () => expect(postsThisRun(20, 0, morning)).toBeLessThan(5));
-  it("the last run of the day can use what is left", () => expect(postsThisRun(20, 15, new Date("2026-11-09T19:45:00Z"))).toBe(5));
+  it("never posts more than 3 in one hour, even late in the day", () => expect(postsThisRun(20, 0, new Date("2026-11-09T19:45:00Z"))).toBe(3));
   it("counts today by Cyprus date, not UTC", () => {
     // 23:30 UTC on the 8th is already 01:30 on the 9th in Cyprus
     expect(countPostedToday(["2026-11-08T23:30:00Z", "2026-11-08T21:00:00Z"], morning)).toBe(1);
