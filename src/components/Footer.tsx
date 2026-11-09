@@ -44,6 +44,7 @@ export function Footer() {
               <li><Link to="/economy" className="hover:text-secondary transition-colors">Economic Indicators</Link></li>
               <li><Link to="/intelligence/mastercard" className="hover:text-secondary transition-colors">Consumer Spending &amp; Economic Intelligence</Link></li>
               <li><Link to="/open-data" className="hover:text-secondary transition-colors">Official Data Sources</Link></li>
+              <li><a href="/rss.xml" className="hover:text-secondary transition-colors">RSS Feed</a></li>
               {WHOISWHO_PUBLIC && <li><Link to="/whoiswho" className="hover:text-secondary transition-colors">Who's Who</Link></li>}
               <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
               <li><Link to="/regtech" className="hover:text-secondary transition-colors">RegTech & ICT Risk</Link></li>
