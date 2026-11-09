@@ -1,0 +1,1 @@
+ALTER TABLE public.facebook_posts ADD COLUMN IF NOT EXISTS image_url text;

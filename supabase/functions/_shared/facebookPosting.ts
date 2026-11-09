@@ -28,10 +28,39 @@ export function hubImage(vertical: string | null | undefined): string {
   return HUB_IMAGES[vertical ?? ""] ?? `${SITE_URL}/images/og-businesshub.png`;
 }
 
-/** Picture for the Facebook post: the story's own photo, else its section's branded image. */
-export function postImageFor(a: CandidateArticle): string {
-  const own = (a.image_url ?? "").trim();
-  return /^https:\/\//i.test(own) ? own : hubImage(a.vertical);
+const LIBRARY_BASE = "https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/social-library";
+const lib = (section: string, n: number) => Array.from({ length: n }, (_, i) => `${LIBRARY_BASE}/${section}-${i + 1}.jpg`);
+
+/**
+ * Picture library per section, used in rotation when a story has no photo of its own.
+ * To add pictures: upload `<section>-<n>.jpg` to banner-images/social-library and raise the count.
+ */
+export const SOCIAL_IMAGE_LIBRARY: Record<string, string[]> = {
+  general: lib("general", 4),
+  fintech: lib("fintech", 4),
+  compliance: lib("compliance", 4),
+  regtech: lib("regtech", 4),
+  sme: lib("sme", 4),
+};
+
+/**
+ * Library picture for a section: one not used recently, else the one used longest ago.
+ * `recentlyUsed` is newest first.
+ */
+export function libraryImageFor(vertical: string | null | undefined, recentlyUsed: string[] = []): string {
+  const pool = SOCIAL_IMAGE_LIBRARY[vertical ?? ""] ?? SOCIAL_IMAGE_LIBRARY.general;
+  const unused = pool.find((img) => !recentlyUsed.includes(img));
+  if (unused) return unused;
+  return [...pool].sort((x, y) => recentlyUsed.indexOf(y) - recentlyUsed.indexOf(x))[0];
+}
+
+export function hasOwnPhoto(a: CandidateArticle): boolean {
+  return /^https:\/\//i.test((a.image_url ?? "").trim());
+}
+
+/** Picture for the Facebook post: the story's own photo, else a rotating picture from its section's library. */
+export function postImageFor(a: CandidateArticle, recentlyUsed: string[] = []): string {
+  return hasOwnPhoto(a) ? a.image_url!.trim() : libraryImageFor(a.vertical, recentlyUsed);
 }
 
 /** Calendar date (YYYY-MM-DD) and hour in Cyprus time. */

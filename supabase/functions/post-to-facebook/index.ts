@@ -2,7 +2,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import {
-  articleLink, buildPhotoCaption, buildPostMessage, countPostedToday, cyprusClock, hubImage, pickArticles, postImageFor,
+  articleLink, buildPhotoCaption, buildPostMessage, countPostedToday, cyprusClock, hubImage, libraryImageFor, pickArticles, postImageFor,
   postsThisRun, LAST_POST_HOUR,
   type CandidateArticle,
 } from "../_shared/facebookPosting.ts";
@@ -77,20 +77,26 @@ async function graphPost(pageId: string, edge: string, params: Record<string, st
  * Photo post with the story's picture (or its section's branded image if Facebook
  * can't fetch it); falls back to a plain link post as a last resort.
  */
-async function publishStory(pageId: string, token: string | null, a: CandidateArticle): Promise<string> {
+async function publishStory(
+  pageId: string, token: string | null, a: CandidateArticle, recentlyUsed: string[],
+): Promise<{ id: string; image: string | null }> {
   const caption = buildPhotoCaption(a);
-  const images = [...new Set([postImageFor(a), hubImage(a.vertical)])];
+  const images = [...new Set([
+    postImageFor(a, recentlyUsed),
+    libraryImageFor(a.vertical, recentlyUsed),
+    hubImage(a.vertical),
+  ])];
   let lastErr: unknown;
   for (const img of images) {
     try {
-      return await graphPost(pageId, "photos", { url: img, message: caption }, token);
+      return { id: await graphPost(pageId, "photos", { url: img, message: caption }, token), image: img };
     } catch (e) {
       lastErr = e;
       console.warn(`Photo post failed for ${a.id} with ${img}:`, String(e).slice(0, 200));
     }
   }
   try {
-    return await graphPost(pageId, "feed", { message: buildPostMessage(a), link: articleLink(a.id) }, token);
+    return { id: await graphPost(pageId, "feed", { message: buildPostMessage(a), link: articleLink(a.id) }, token), image: null };
   } catch {
     throw lastErr;
   }
@@ -161,12 +167,18 @@ Deno.serve(async (req) => {
     const own = await tokenPage();
     if (own && own.id !== settings.page_id) throw new Error(`The Facebook token belongs to "${own.name}", not the chosen page`);
     const token = own ? null : await pageToken(settings.page_id);
+    // Library pictures used on recent posts (newest first), so stories without a photo rotate through them.
+    const { data: usedRows } = await sb.from("facebook_posts").select("image_url")
+      .eq("page_id", settings.page_id).eq("status", "posted").not("image_url", "is", null)
+      .order("created_at", { ascending: false }).limit(60);
+    const recentlyUsed = (usedRows ?? []).map((r) => r.image_url as string);
     const results = [];
     let lastError: string | null = null;
     for (const a of picks) {
       try {
-        const fbId = await publishStory(settings.page_id, token, a);
-        await sb.from("facebook_posts").insert({ article_id: a.id, page_id: settings.page_id, fb_post_id: fbId, status: "posted" });
+        const { id: fbId, image } = await publishStory(settings.page_id, token, a, recentlyUsed);
+        if (image) recentlyUsed.unshift(image);
+        await sb.from("facebook_posts").insert({ article_id: a.id, page_id: settings.page_id, fb_post_id: fbId, status: "posted", image_url: image });
         results.push({ id: a.id, ok: true });
       } catch (e) {
         lastError = e instanceof Error ? e.message : String(e);

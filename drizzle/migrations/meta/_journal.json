@@ -134,6 +134,13 @@
       "when": 1794251854599,
       "tag": "0018_facebook_autopost",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1794254807237,
+      "tag": "0019_facebook_posts_image_url",
+      "breakpoints": true
     }
   ]
 }

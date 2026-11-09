@@ -1220,6 +1220,7 @@ export type Database = {
           error: string | null
           fb_post_id: string | null
           id: string
+          image_url: string | null
           page_id: string
           status: string
         }
@@ -1229,6 +1230,7 @@ export type Database = {
           error?: string | null
           fb_post_id?: string | null
           id?: string
+          image_url?: string | null
           page_id: string
           status: string
         }
@@ -1238,6 +1240,7 @@ export type Database = {
           error?: string | null
           fb_post_id?: string | null
           id?: string
+          image_url?: string | null
           page_id?: string
           status?: string
         }

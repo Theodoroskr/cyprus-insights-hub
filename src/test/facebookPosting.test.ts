@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { postsThisRun, pickArticles, countPostedToday, articleLink, postImageFor, buildPhotoCaption, type CandidateArticle } from "../../supabase/functions/_shared/facebookPosting";
+import { postsThisRun, pickArticles, countPostedToday, articleLink, postImageFor, libraryImageFor, SOCIAL_IMAGE_LIBRARY, buildPhotoCaption, type CandidateArticle } from "../../supabase/functions/_shared/facebookPosting";
 
 const art = (id: string, published_at: string, vertical = "general", source_id = "s1"): CandidateArticle => ({
   id, title: `Story ${id}`, summary: "x", what_happened: null, vertical, source_id, published_at,
@@ -37,8 +37,22 @@ describe("story selection", () => {
 describe("post picture", () => {
   it("uses the story's own photo when it has one", () =>
     expect(postImageFor({ ...art("p", "2026-11-09T05:00:00Z"), image_url: "https://example.com/a.jpg" })).toBe("https://example.com/a.jpg"));
-  it("uses the section's branded picture when the story has no photo", () =>
-    expect(postImageFor({ ...art("p", "2026-11-09T05:00:00Z", "compliance"), image_url: null })).toBe("https://businesshub.cy/images/og-compliancehub.png"));
+  it("uses a compliance library picture when a compliance story has no photo", () =>
+    expect(SOCIAL_IMAGE_LIBRARY.compliance).toContain(postImageFor({ ...art("p", "2026-11-09T05:00:00Z", "compliance"), image_url: null })));
+  it("does not repeat a library picture until the section's others have been used", () => {
+    const pool = SOCIAL_IMAGE_LIBRARY.fintech;
+    const used: string[] = [];
+    for (let i = 0; i < pool.length; i++) used.unshift(libraryImageFor("fintech", used));
+    expect(new Set(used).size).toBe(pool.length);
+  });
+  it("after the whole library is used, picks the picture used longest ago", () => {
+    const pool = SOCIAL_IMAGE_LIBRARY.sme;
+    const newestFirst = [pool[1], pool[3], pool[0], pool[2]];
+    expect(libraryImageFor("sme", newestFirst)).toBe(pool[2]);
+  });
+  it("each section has at least 4 pictures", () => {
+    for (const s of ["general", "fintech", "compliance", "regtech", "sme"]) expect(SOCIAL_IMAGE_LIBRARY[s].length).toBeGreaterThanOrEqual(4);
+  });
   it("caption ends with a link to the article", () =>
     expect(buildPhotoCaption(art("xyz", "2026-11-09T05:00:00Z"))).toMatch(/Read more: https:\/\/businesshub\.cy\/article\/xyz$/));
 });
