@@ -97,10 +97,6 @@ export function HubFooter({ brand }: HubFooterProps) {
                   info@{brand.name.toLowerCase()}.cy
                 </a>
               </li>
-              <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-secondary" />
-                <span>+357 22 123 456</span>
-              </li>
             </ul>
           </div>
         </div>
