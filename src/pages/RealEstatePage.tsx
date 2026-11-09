@@ -93,7 +93,7 @@ export default function RealEstatePage() {
   const transfersQ = useQuery({ queryKey: ["re-transfers"], queryFn: () => fetchAll("re_transfers"), staleTime: 3600_000 });
   const { data: sources } = useQuery({
     queryKey: ["re-sources"],
-    queryFn: async () => (await supabase.from("re_sources").select("dataset_type, official_dataset_url, last_successful_import_at, latest_reporting_period")).data ?? [],
+    queryFn: async () => (await supabase.rpc("get_public_re_sources")).data ?? [],
   });
 
   const allContracts = contractsQ.data ?? [];

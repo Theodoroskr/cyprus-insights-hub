@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 export default function OpenDataPage() {
   const { data: sources = [], isLoading } = useQuery({
     queryKey: ["open-data-public"],
-    queryFn: async () => (await supabase.from("open_data_sources").select("*").eq("enabled", true).order("module").order("title_en")).data ?? [],
+    queryFn: async () => (await supabase.rpc("get_public_open_data_sources")).data ?? [],
   });
 
   return (

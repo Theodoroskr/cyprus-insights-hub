@@ -3307,6 +3307,32 @@ export type Database = {
           view_count: number
         }[]
       }
+      get_public_open_data_sources: {
+        Args: never
+        Returns: {
+          check_frequency: string
+          dashboard_path: string
+          format: string
+          id: string
+          latest_period: string
+          licence: string
+          module: string
+          portal_url: string
+          publisher: string
+          title_el: string
+          title_en: string
+          upstream_url: string
+        }[]
+      }
+      get_public_re_sources: {
+        Args: never
+        Returns: {
+          dataset_type: string
+          last_successful_import_at: string
+          latest_reporting_period: string
+          official_dataset_url: string
+        }[]
+      }
       has_premium_access: { Args: never; Returns: boolean }
       has_role: {
         Args: {
