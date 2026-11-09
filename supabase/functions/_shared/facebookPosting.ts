@@ -29,11 +29,11 @@ export function hubImage(vertical: string | null | undefined): string {
 }
 
 const LIBRARY_BASE = "https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/social-library";
-const lib = (section: string, n: number) => Array.from({ length: n }, (_, i) => `${LIBRARY_BASE}/${section}-${i + 1}.jpg`);
+const lib = (section: string, n: number) => Array.from({ length: n }, (_, i) => `${LIBRARY_BASE}/${section}-${i + 1}-v2.jpg`);
 
 /**
  * Picture library per section, used in rotation when a story has no photo of its own.
- * To add pictures: upload `<section>-<n>.jpg` to banner-images/social-library and raise the count.
+ * To add pictures: upload `<section>-<n>-v2.jpg` (no people; logo + section name band) to banner-images/social-library and raise the count.
  */
 export const SOCIAL_IMAGE_LIBRARY: Record<string, string[]> = {
   general: lib("general", 4),
