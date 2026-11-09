@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
 import { ogImageFor } from "@/lib/ogImage";
 
 export interface BreadcrumbItem {
@@ -24,7 +25,7 @@ const BASE_URL = "https://businesshub.cy";
 export function SEOHead({
   title,
   description = "Cyprus business intelligence platform — compliance, fintech, trade, and company directory.",
-  path = "",
+  path,
   image,
   vertical,
   type = "website",
@@ -32,7 +33,9 @@ export function SEOHead({
   jsonLd,
 }: SEOHeadProps) {
   const fullTitle = `${title} | ${SITE_NAME}`;
-  const url = `${BASE_URL}${path}`;
+  const location = useLocation();
+  // Self-referencing canonical: default to the current route when no path is given.
+  const url = `${BASE_URL}${path ?? location.pathname}`;
   const ogImage = image || ogImageFor(vertical);
 
   const breadcrumbJsonLd = breadcrumbs?.length

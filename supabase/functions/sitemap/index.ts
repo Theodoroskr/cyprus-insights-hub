@@ -77,7 +77,7 @@ ${entries.join("\n")}
       .limit(1000);
 
     const entries = (articles || []).map(
-      (a) => `  <url><loc>${BASE_URL}/article/${a.id}</loc><lastmod>${a.published_at?.split("T")[0] || ""}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`
+      (a) => `  <url><loc>${BASE_URL}/article/${a.id}</loc>${a.published_at ? `<lastmod>${a.published_at.split("T")[0]}</lastmod>` : ""}<changefreq>monthly</changefreq><priority>0.6</priority></url>`
     );
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
