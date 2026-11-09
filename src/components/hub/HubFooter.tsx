@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Building2, Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
 import { BrandConfig, hubLinks, brands } from "@/config/brands";
+import { RssFeedLinks } from "@/components/RssFeedLinks";
 
 interface HubFooterProps {
   brand: BrandConfig;
@@ -98,6 +99,7 @@ export function HubFooter({ brand }: HubFooterProps) {
                 </a>
               </li>
             </ul>
+            <RssFeedLinks />
           </div>
         </div>
 

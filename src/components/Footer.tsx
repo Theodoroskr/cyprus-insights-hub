@@ -1,6 +1,7 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
 import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { Link } from "react-router-dom";
+import { RssFeedLinks } from "@/components/RssFeedLinks";
 import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone } from "lucide-react";
 
 export function Footer() {
@@ -44,7 +45,6 @@ export function Footer() {
               <li><Link to="/economy" className="hover:text-secondary transition-colors">Economic Indicators</Link></li>
               <li><Link to="/intelligence/mastercard" className="hover:text-secondary transition-colors">Consumer Spending &amp; Economic Intelligence</Link></li>
               <li><Link to="/open-data" className="hover:text-secondary transition-colors">Official Data Sources</Link></li>
-              <li><a href="/rss.xml" className="hover:text-secondary transition-colors">RSS Feed</a></li>
               {WHOISWHO_PUBLIC && <li><Link to="/whoiswho" className="hover:text-secondary transition-colors">Who's Who</Link></li>}
               <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
               <li><Link to="/regtech" className="hover:text-secondary transition-colors">RegTech & ICT Risk</Link></li>
@@ -123,6 +123,7 @@ export function Footer() {
                 </a>
               </li>
             </ul>
+            <RssFeedLinks />
           </div>
         </div>
 
