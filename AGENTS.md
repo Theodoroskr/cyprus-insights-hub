@@ -22,3 +22,4 @@
 - Importers update their own `open_data_sources` row; daily `check-open-data-health` (`_shared/openDataHealth.ts`) notifies admins only when `alert_state` changes. Why: stale data is flagged once.
 - `/economy` reads `econ_indicators`, loaded weekly by `ingest-economy` from CYSTAT tables in `_shared/econParse.ts` `ECON_SPECS` (variables picked by label), with Tourism's publish/revision rules. Why: official figures only; revisions reviewed.
 - Leads: `InfocreditCta` → `submit-enquiry` → admin-only `commercial_enquiries` + admin bell; `cta_events` is anonymous counts. Why: no public PII.
+- The sitemap is static files on the site domain: `scripts/generate-sitemap.ts` (prebuild) writes `public/sitemap.xml` + `public/sitemaps/*.xml` from public tables using helpers in `src/lib/sitemap.ts`, and keeps the old files if the database is unreachable. Why: search engines only accept sitemap URLs on the site's own host; new content is added on each publish.

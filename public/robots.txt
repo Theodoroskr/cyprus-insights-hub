@@ -14,4 +14,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://businesshub.cy/sitemap.xml
-Sitemap: https://oralbierakmfxcqncjnz.supabase.co/functions/v1/sitemap?type=index
