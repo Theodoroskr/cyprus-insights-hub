@@ -1180,6 +1180,69 @@ export type Database = {
           },
         ]
       }
+      facebook_autopost_settings: {
+        Row: {
+          daily_limit: number
+          enabled: boolean
+          id: boolean
+          last_error: string | null
+          last_run_at: string | null
+          page_id: string | null
+          page_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          daily_limit?: number
+          enabled?: boolean
+          id?: boolean
+          last_error?: string | null
+          last_run_at?: string | null
+          page_id?: string | null
+          page_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          daily_limit?: number
+          enabled?: boolean
+          id?: boolean
+          last_error?: string | null
+          last_run_at?: string | null
+          page_id?: string | null
+          page_name?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      facebook_posts: {
+        Row: {
+          article_id: string
+          created_at: string
+          error: string | null
+          fb_post_id: string | null
+          id: string
+          page_id: string
+          status: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          error?: string | null
+          fb_post_id?: string | null
+          id?: string
+          page_id: string
+          status: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          error?: string | null
+          fb_post_id?: string | null
+          id?: string
+          page_id?: string
+          status?: string
+        }
+        Relationships: []
+      }
       featured_companies: {
         Row: {
           city: string | null

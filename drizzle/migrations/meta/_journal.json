@@ -127,6 +127,13 @@
       "when": 1794167807837,
       "tag": "0017_mastercard_intelligence_and_enquiries",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1794251854599,
+      "tag": "0018_facebook_autopost",
+      "breakpoints": true
     }
   ]
 }
