@@ -1445,6 +1445,72 @@ export type Database = {
           },
         ]
       }
+      linkedin_autopost_settings: {
+        Row: {
+          daily_limit: number
+          enabled: boolean
+          id: boolean
+          last_error: string | null
+          last_run_at: string | null
+          organization_name: string | null
+          organization_urn: string | null
+          updated_at: string
+        }
+        Insert: {
+          daily_limit?: number
+          enabled?: boolean
+          id?: boolean
+          last_error?: string | null
+          last_run_at?: string | null
+          organization_name?: string | null
+          organization_urn?: string | null
+          updated_at?: string
+        }
+        Update: {
+          daily_limit?: number
+          enabled?: boolean
+          id?: boolean
+          last_error?: string | null
+          last_run_at?: string | null
+          organization_name?: string | null
+          organization_urn?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      linkedin_posts: {
+        Row: {
+          article_id: string
+          created_at: string
+          error: string | null
+          id: string
+          image_url: string | null
+          li_post_id: string | null
+          organization_urn: string
+          status: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          error?: string | null
+          id?: string
+          image_url?: string | null
+          li_post_id?: string | null
+          organization_urn: string
+          status?: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          error?: string | null
+          id?: string
+          image_url?: string | null
+          li_post_id?: string | null
+          organization_urn?: string
+          status?: string
+        }
+        Relationships: []
+      }
       locations: {
         Row: {
           country: string
