@@ -14,6 +14,24 @@ export interface CandidateArticle {
   vertical: string | null;
   source_id: string | null;
   published_at: string | null;
+  image_url?: string | null;
+}
+
+/** Branded section pictures on the site, used when a story has no photo of its own. */
+const HUB_IMAGES: Record<string, string> = {
+  fintech: `${SITE_URL}/images/og-fintechhub.png`,
+  compliance: `${SITE_URL}/images/og-compliancehub.png`,
+  regtech: `${SITE_URL}/images/og-regtechhub.png`,
+};
+
+export function hubImage(vertical: string | null | undefined): string {
+  return HUB_IMAGES[vertical ?? ""] ?? `${SITE_URL}/images/og-businesshub.png`;
+}
+
+/** Picture for the Facebook post: the story's own photo, else its section's branded image. */
+export function postImageFor(a: CandidateArticle): string {
+  const own = (a.image_url ?? "").trim();
+  return /^https:\/\//i.test(own) ? own : hubImage(a.vertical);
 }
 
 /** Calendar date (YYYY-MM-DD) and hour in Cyprus time. */
@@ -96,4 +114,9 @@ export function buildPostMessage(a: CandidateArticle): string {
   const title = (a.title ?? "").trim();
   const summary = plain(a.summary || a.what_happened, 280);
   return summary ? `${title}\n\n${summary}` : title;
+}
+
+/** Caption for a photo post: headline, summary and a clickable link to the article. */
+export function buildPhotoCaption(a: CandidateArticle): string {
+  return `${buildPostMessage(a)}\n\nRead more: ${articleLink(a.id)}`;
 }

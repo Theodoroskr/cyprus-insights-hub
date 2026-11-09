@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { postsThisRun, pickArticles, countPostedToday, articleLink, type CandidateArticle } from "../../supabase/functions/_shared/facebookPosting";
+import { postsThisRun, pickArticles, countPostedToday, articleLink, postImageFor, buildPhotoCaption, type CandidateArticle } from "../../supabase/functions/_shared/facebookPosting";
 
 const art = (id: string, published_at: string, vertical = "general", source_id = "s1"): CandidateArticle => ({
   id, title: `Story ${id}`, summary: "x", what_happened: null, vertical, source_id, published_at,
@@ -32,4 +32,13 @@ describe("story selection", () => {
     expect(picked.map((p) => p.id)).toEqual(["1", "3"]);
   });
   it("links to the article on businesshub.cy", () => expect(articleLink("abc")).toBe("https://businesshub.cy/article/abc"));
+});
+
+describe("post picture", () => {
+  it("uses the story's own photo when it has one", () =>
+    expect(postImageFor({ ...art("p", "2026-11-09T05:00:00Z"), image_url: "https://example.com/a.jpg" })).toBe("https://example.com/a.jpg"));
+  it("uses the section's branded picture when the story has no photo", () =>
+    expect(postImageFor({ ...art("p", "2026-11-09T05:00:00Z", "compliance"), image_url: null })).toBe("https://businesshub.cy/images/og-compliancehub.png"));
+  it("caption ends with a link to the article", () =>
+    expect(buildPhotoCaption(art("xyz", "2026-11-09T05:00:00Z"))).toMatch(/Read more: https:\/\/businesshub\.cy\/article\/xyz$/));
 });

@@ -2,7 +2,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import {
-  articleLink, buildPostMessage, countPostedToday, cyprusClock, pickArticles, postsThisRun, LAST_POST_HOUR,
+  articleLink, buildPhotoCaption, buildPostMessage, countPostedToday, cyprusClock, hubImage, pickArticles, postImageFor,
+  postsThisRun, LAST_POST_HOUR,
   type CandidateArticle,
 } from "../_shared/facebookPosting.ts";
 
@@ -39,18 +40,6 @@ async function tokenPage(): Promise<{ id: string; name: string } | null> {
   }
 }
 
-async function publishViaGateway(pageId: string, message: string, link: string): Promise<string> {
-  const lovableKey = Deno.env.get("LOVABLE_API_KEY")!;
-  const fbKey = Deno.env.get("UDC_FACEBOOK_PAGES_API_KEY")!;
-  const res = await fetch(`${GATEWAY_URL}/${GRAPH_VERSION}/${encodeURIComponent(pageId)}/feed`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${lovableKey}`, "X-Connection-Api-Key": fbKey, "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ message, link }),
-  });
-  const text = await res.text();
-  if (!res.ok) throw new Error(`Facebook [${res.status}]: ${text.slice(0, 500)}`);
-  return JSON.parse(text).id as string;
-}
 
 async function listPages(): Promise<{ id: string; name: string; canPost: boolean }[]> {
   const own = await tokenPage();
@@ -68,19 +57,51 @@ async function listPages(): Promise<{ id: string; name: string; canPost: boolean
   return out;
 }
 
+/** POST to a page edge, with an explicit page token or through the connection (Page token mode). */
+async function graphPost(pageId: string, edge: string, params: Record<string, string>, token: string | null) {
+  const url = `${token ? "https://graph.facebook.com" : GATEWAY_URL}/${GRAPH_VERSION}/${encodeURIComponent(pageId)}/${edge}`;
+  const headers: Record<string, string> = { "Content-Type": "application/x-www-form-urlencoded" };
+  if (!token) {
+    headers.Authorization = `Bearer ${Deno.env.get("LOVABLE_API_KEY")}`;
+    headers["X-Connection-Api-Key"] = Deno.env.get("UDC_FACEBOOK_PAGES_API_KEY") ?? "";
+  }
+  const body = new URLSearchParams(token ? { ...params, access_token: token } : params);
+  const res = await fetch(url, { method: "POST", headers, body });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`Facebook [${res.status}]: ${text.slice(0, 500)}`);
+  const r = JSON.parse(text);
+  return (r.post_id ?? r.id) as string;
+}
+
+/**
+ * Photo post with the story's picture (or its section's branded image if Facebook
+ * can't fetch it); falls back to a plain link post as a last resort.
+ */
+async function publishStory(pageId: string, token: string | null, a: CandidateArticle): Promise<string> {
+  const caption = buildPhotoCaption(a);
+  const images = [...new Set([postImageFor(a), hubImage(a.vertical)])];
+  let lastErr: unknown;
+  for (const img of images) {
+    try {
+      return await graphPost(pageId, "photos", { url: img, message: caption }, token);
+    } catch (e) {
+      lastErr = e;
+      console.warn(`Photo post failed for ${a.id} with ${img}:`, String(e).slice(0, 200));
+    }
+  }
+  try {
+    return await graphPost(pageId, "feed", { message: buildPostMessage(a), link: articleLink(a.id) }, token);
+  } catch {
+    throw lastErr;
+  }
+}
+
 async function pageToken(pageId: string): Promise<string> {
   const r = await graphViaGateway(`/${encodeURIComponent(pageId)}`, { fields: "access_token" });
   if (!r.access_token) throw new Error("This Facebook token cannot post to the chosen page");
   return r.access_token;
 }
 
-async function publish(pageId: string, token: string, message: string, link: string): Promise<string> {
-  const body = new URLSearchParams({ message, link, access_token: token });
-  const res = await fetch(`https://graph.facebook.com/${GRAPH_VERSION}/${encodeURIComponent(pageId)}/feed`, { method: "POST", body });
-  const text = await res.text();
-  if (!res.ok) throw new Error(`Facebook [${res.status}]: ${text.slice(0, 500)}`);
-  return JSON.parse(text).id as string;
-}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
@@ -120,7 +141,7 @@ Deno.serve(async (req) => {
     }
 
     const { data: candidates, error } = await sb.from("cna_articles")
-      .select("id,title,summary,what_happened,vertical,source_id,published_at")
+      .select("id,title,summary,what_happened,vertical,source_id,published_at,image_url")
       .eq("status", "published")
       .gte("published_at", new Date(now.getTime() - 36 * 3600_000).toISOString())
       .lte("published_at", now.toISOString())
@@ -144,9 +165,7 @@ Deno.serve(async (req) => {
     let lastError: string | null = null;
     for (const a of picks) {
       try {
-        const fbId = token
-          ? await publish(settings.page_id, token, buildPostMessage(a), articleLink(a.id))
-          : await publishViaGateway(settings.page_id, buildPostMessage(a), articleLink(a.id));
+        const fbId = await publishStory(settings.page_id, token, a);
         await sb.from("facebook_posts").insert({ article_id: a.id, page_id: settings.page_id, fb_post_id: fbId, status: "posted" });
         results.push({ id: a.id, ok: true });
       } catch (e) {
