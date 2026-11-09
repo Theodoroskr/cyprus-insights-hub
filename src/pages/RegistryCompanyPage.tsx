@@ -314,12 +314,15 @@ export default function RegistryCompanyPage() {
                         <Button onClick={() => setShowLogin(true)} className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90">
                           Register Free to Start
                         </Button>
-                        <span className="text-xs text-muted-foreground">Then upgrade for €29/month</span>
+                        <span className="text-xs text-muted-foreground">Premium membership launching soon</span>
                       </div>
                     ) : (
-                      <Button className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                        Upgrade to Premium — €29/mo
-                      </Button>
+                      <div className="flex flex-col gap-2 items-center">
+                        <Button disabled className="rounded-full px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                          Premium — coming soon
+                        </Button>
+                        <span className="text-xs text-muted-foreground">You're registered — we'll email you when Premium opens.</span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -347,7 +350,7 @@ function KYBReportCard({ company }: { company: any }) {
     "CySEC / CBC / ICPAC regulatory status",
     "Related intelligence articles",
     "Auto-generated risk summary",
-    "PDF download — instant delivery",
+    "Delivered as a PDF by email",
   ];
 
   return (
@@ -361,7 +364,7 @@ function KYBReportCard({ company }: { company: any }) {
             </div>
             <h3 className="font-serif font-bold text-foreground text-lg mb-1">Know Your Business Report</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Full company intelligence report including directors, shareholders, charges, and regulatory status. PDF delivered instantly.
+              Full company intelligence report including directors, shareholders, charges, and regulatory status. Request one and our team will be in touch.
             </p>
             <ul className="space-y-1.5">
               {reportFeatures.map((f, i) => (
@@ -373,18 +376,18 @@ function KYBReportCard({ company }: { company: any }) {
             </ul>
             <p className="text-[10px] text-muted-foreground mt-3 flex items-center gap-1">
               <Lock className="h-3 w-3" />
-              Secure payment via Stripe · Instant PDF delivery · No subscription
+              No payment needed · No subscription · Our team confirms every request by email
             </p>
           </div>
           <div className="text-center md:text-right flex flex-col items-center md:items-end gap-2">
-            <p className="text-3xl font-bold text-foreground">€45</p>
-            <p className="text-xs text-muted-foreground">one-time</p>
+            <Badge className="bg-secondary/10 text-secondary border-secondary/20">Beta</Badge>
+            <p className="text-xs text-muted-foreground">Free to request during beta</p>
             <Button
               onClick={() => setShowModal(true)}
               className="bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none gap-2 text-xs font-semibold uppercase tracking-wider w-full md:w-auto"
             >
-              <ShoppingCart className="h-3.5 w-3.5" />
-              Buy Report
+              <FileText className="h-3.5 w-3.5" />
+              Request Company KYB Report
             </Button>
           </div>
         </div>
@@ -492,8 +495,8 @@ function KYBPurchaseModal({ company, user, onClose }: { company: any; user: any;
 
         <div className="flex items-center justify-between mb-3">
           <div>
-            <span className="text-2xl font-bold text-foreground">€45</span>
-            <span className="text-xs text-muted-foreground ml-1">+ VAT if applicable</span>
+            <span className="text-sm font-semibold text-foreground">Beta request</span>
+            <span className="text-xs text-muted-foreground ml-1">no payment</span>
           </div>
           <Button
             onClick={handleCheckout}

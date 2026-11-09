@@ -68,7 +68,7 @@ export function PremiumCTABanner() {
               {/* Premium tier */}
               <div className="border-2 border-secondary p-6 relative">
                 <div className="absolute -top-3 left-4 bg-secondary text-secondary-foreground text-[10px] uppercase tracking-[0.15em] font-bold px-3 py-1">
-                  Recommended
+                  Coming soon
                 </div>
                 <p className="text-[10px] uppercase tracking-[0.15em] font-semibold text-secondary mb-3">Premium</p>
                 <ul className="space-y-2.5">
@@ -79,12 +79,25 @@ export function PremiumCTABanner() {
                     </li>
                   ))}
                 </ul>
-                <Button
-                  className="w-full mt-5 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none text-xs uppercase tracking-wider font-semibold gap-2"
-                >
-                  Upgrade to Premium
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Button>
+                {!user ? (
+                  <Button
+                    onClick={() => setShowLogin(true)}
+                    className="w-full mt-5 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none text-xs uppercase tracking-wider font-semibold gap-2"
+                  >
+                    Register free for early access
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                ) : (
+                  <Button
+                    disabled
+                    className="w-full mt-5 bg-secondary text-secondary-foreground rounded-none text-xs uppercase tracking-wider font-semibold"
+                  >
+                    Coming soon — you're on the list
+                  </Button>
+                )}
+                <p className="text-[11px] text-primary-foreground/60 mt-2 text-center">
+                  Premium launches after the beta. Registered members hear first.
+                </p>
               </div>
             </div>
           </div>

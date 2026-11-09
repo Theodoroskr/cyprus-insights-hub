@@ -206,8 +206,7 @@ export default function CompanyProfilePage() {
               <Button onClick={() => setReportModal(true)} className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90">
                 Get Full Report
               </Button>
-              {report && <p className="text-center text-lg font-bold text-foreground mt-3">€{report.price}</p>}
-              <p className="text-center text-xs text-muted-foreground mt-2">Powered by Infocredit</p>
+              <p className="text-center text-xs text-muted-foreground mt-3">Free to request during beta · Powered by Infocredit</p>
             </div>
           </aside>
         </div>
@@ -227,11 +226,12 @@ export default function CompanyProfilePage() {
               <li className="flex items-center gap-2"><UserCheck className="h-4 w-4 text-secondary" /> Directors & Shareholders</li>
               <li className="flex items-center gap-2"><AlertTriangle className="h-4 w-4 text-secondary" /> Risk Analysis & Score</li>
             </ul>
-            {report && <p className="text-center text-2xl font-bold text-foreground">€{report.price}</p>}
-            <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90" onClick={() => { setReportModal(false); }}>
-              Proceed to Payment
+            <Button asChild className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90">
+              <a href={`mailto:info@businesshub.cy?subject=${encodeURIComponent(`KYB report request: ${company.name}`)}`}>
+                Request this report
+              </a>
             </Button>
-            <p className="text-center text-xs text-muted-foreground">Secure payment • Instant delivery • Powered by Infocredit</p>
+            <p className="text-center text-xs text-muted-foreground">No payment during beta • Our team will reply by email • Powered by Infocredit</p>
           </div>
         </DialogContent>
       </Dialog>

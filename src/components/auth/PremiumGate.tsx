@@ -13,7 +13,7 @@ interface PremiumGateProps {
 
 export function PremiumGate({
   children,
-  message = "Upgrade to Premium for full access",
+  message = "Premium insight — coming soon",
   blurHeight = "280px",
 }: PremiumGateProps) {
   const { user, profile } = useAuth();

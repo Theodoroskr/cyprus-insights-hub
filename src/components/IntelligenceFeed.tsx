@@ -11,6 +11,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { useBlendedNews } from "@/hooks/useBlendedNews";
 import { blendNews } from "@/lib/blendNews";
+import { useAuth } from "@/contexts/AuthContext";
+import { LoginModal } from "@/components/auth/LoginModal";
 
 /** Sidebar filler: latest compliance/regtech headlines */
 function LatestRegulatory() {
@@ -62,6 +64,8 @@ function HomepageMobileBanner() {
 }
 
 function StickySidebar() {
+  const { user } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
   return (
     <div className="space-y-5">
       {/* Premium upsell */}
@@ -70,14 +74,21 @@ function StickySidebar() {
           <Crown className="h-4 w-4 text-secondary" />
           <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-secondary">Premium</span>
         </div>
-        <h4 className="font-serif font-bold text-sm mb-2">Unlock Full Intelligence</h4>
+        <h4 className="font-serif font-bold text-sm mb-2">Premium is coming soon</h4>
         <p className="text-xs text-primary-foreground/60 leading-relaxed mb-4">
-          Daily briefings, PDF exports, and white-label reports for your team.
+          Daily briefings, PDF exports and team reports. Free members get early access when it launches.
         </p>
-        <Button size="sm" className="w-full text-xs bg-secondary text-primary hover:bg-secondary/90 gap-1">
-          Upgrade Now
-        </Button>
+        {user ? (
+          <Button size="sm" disabled className="w-full text-xs bg-secondary text-primary">
+            You're on the list
+          </Button>
+        ) : (
+          <Button size="sm" onClick={() => setShowLogin(true)} className="w-full text-xs bg-secondary text-primary hover:bg-secondary/90 gap-1">
+            Register free for the beta
+          </Button>
+        )}
       </div>
+      <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} defaultTab="register" />
 
       <AdSlot size="mrec" slotId="homepage-stories" />
       <SponsoredStoryCard />
