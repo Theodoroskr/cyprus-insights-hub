@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
+import { CompanySearchGuide } from "@/components/directory/CompanySearchGuide";
 import {
   DIRECTORY_PAGE_SIZE,
   companyCardBadges,
@@ -216,8 +217,8 @@ export default function RegistryDirectoryPage() {
   return (
     <div className="min-h-screen bg-background select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
       <SEOHead
-        title="Cyprus Company Registry Directory"
-        description={`Search ${totalCompanies.toLocaleString()}+ registered companies in Cyprus by city, industry, and name. Official registry data.`}
+        title="Cyprus Company Search — Find Any Registered Company & Registrar Guide"
+        description={`Search ${totalCompanies > 0 ? totalCompanies.toLocaleString() : "54,000"}+ Cyprus companies free by name or HE registration number, check CySEC and Central Bank licences, and learn how to get official records from the Registrar of Companies.`}
         path="/directory"
         breadcrumbs={[
           { name: "Home", href: "/" },
@@ -336,6 +337,9 @@ export default function RegistryDirectoryPage() {
                 </button>
               ))}
             </div>
+            <Link to="/directory/cysec-licensed-firms" className="inline-flex items-center gap-1.5 mt-3 text-sm text-secondary font-medium hover:underline">
+              <ShieldCheck className="h-3.5 w-3.5" /> See the full list of CySEC-licensed firms →
+            </Link>
           </div>
 
           {(selectedCity || selectedIndustry) && (
@@ -444,6 +448,8 @@ export default function RegistryDirectoryPage() {
 
         {/* Featured Companies */}
         <FeaturedCompaniesSection />
+
+        <CompanySearchGuide totalCompanies={totalCompanies} />
       </div>
 
       <Footer />

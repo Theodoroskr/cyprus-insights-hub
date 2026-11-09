@@ -49,6 +49,7 @@ const TermsOfServicePage = lazy(() => import("./pages/TermsOfServicePage"));
 const RegistryDirectoryPage = lazy(() => import("./pages/RegistryDirectoryPage"));
 const DirectoryAdminPage = lazy(() => import("./pages/DirectoryAdminPage"));
 const RegistryCityPage = lazy(() => import("./pages/RegistryCityPage"));
+const CysecLicensedFirmsPage = lazy(() => import("./pages/CysecLicensedFirmsPage"));
 const RegistryCompanyPage = lazy(() => import("./pages/RegistryCompanyPage"));
 const RegTechPage = lazy(() => import("./pages/RegTechPage"));
 const KYBSuccessPage = lazy(() => import("./pages/KYBSuccessPage"));
@@ -114,6 +115,7 @@ const App = () => (
                   <Route path="/directory" element={<RegistryDirectoryPage />} />
                   <Route path="/directory/admin" element={<DirectoryAdminPage />} />
                   <Route path="/directory/city/:citySlug" element={<RegistryCityPage />} />
+                  <Route path="/directory/cysec-licensed-firms" element={<CysecLicensedFirmsPage />} />
                   <Route path="/directory/company/:slug" element={<RegistryCompanyPage />} />
                   {/* Legacy UUID fallback */}
                   <Route path="/directory/:companyId" element={<RegistryCompanyPage />} />

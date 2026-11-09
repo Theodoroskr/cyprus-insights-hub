@@ -1320,6 +1320,24 @@ export type Database = {
         }
         Relationships: []
       }
+      indexnow_submissions: {
+        Row: {
+          status_code: number | null
+          submitted_at: string
+          url: string
+        }
+        Insert: {
+          status_code?: number | null
+          submitted_at?: string
+          url: string
+        }
+        Update: {
+          status_code?: number | null
+          submitted_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       industries: {
         Row: {
           created_at: string

@@ -30,6 +30,7 @@ interface Article {
   source_url: string | null;
   tags: string[] | null;
   original_language?: string | null;
+  updated_at?: string | null;
 }
 
 const verticalLabel: Record<string, string> = {
@@ -197,6 +198,32 @@ export default function ArticlePage() {
         image={article.image_url || undefined}
         vertical={article.vertical}
         type="article"
+        breadcrumbs={[
+          { name: "Home", href: "/" },
+          { name: "News", href: "/news" },
+          { name: headline.slice(0, 110), href: `/article/${article.id}` },
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "NewsArticle",
+          headline: headline.slice(0, 110),
+          description: article.summary || undefined,
+          datePublished: article.published_at || undefined,
+          dateModified: article.updated_at || article.published_at || undefined,
+          image: heroSrc.startsWith("http") ? [heroSrc] : [`https://businesshub.cy${heroSrc}`],
+          articleSection: verticalLabel[article.vertical] || article.vertical,
+          keywords: article.tags?.join(", ") || undefined,
+          abstract: article.why_it_matters || undefined,
+          mainEntityOfPage: `https://businesshub.cy/article/${article.id}`,
+          isBasedOn: article.source_url || undefined,
+          author: { "@type": "Organization", name: "BusinessHub.cy", url: "https://businesshub.cy/" },
+          publisher: {
+            "@type": "Organization",
+            name: "BusinessHub.cy",
+            url: "https://businesshub.cy/",
+            logo: { "@type": "ImageObject", url: "https://businesshub.cy/apple-touch-icon.png" },
+          },
+        }}
       />
       <TopNavigation onSearch={() => {}} />
 
@@ -234,6 +261,9 @@ export default function ArticlePage() {
           <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-10">
             {/* Article column */}
             <article ref={articleRef} className="min-w-0">
+              {cards.length > 0 && (
+                <h2 className="section-label mb-4">BusinessHub analysis</h2>
+              )}
               {cards.length > 0 && (
                 <div className="grid gap-4 mb-10">
                   {cards.map(({ key, text, label, Icon, tone }) => (

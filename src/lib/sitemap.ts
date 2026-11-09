@@ -18,6 +18,7 @@ const DISTRICTS = ["nicosia", "limassol", "larnaca", "paphos", "famagusta"];
 export const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/", changefreq: "daily", priority: "1.0" },
   { path: "/directory", changefreq: "daily", priority: "0.9" },
+  { path: "/directory/cysec-licensed-firms", changefreq: "weekly", priority: "0.8" },
   { path: "/news", changefreq: "daily", priority: "0.8" },
   { path: "/fintech", changefreq: "weekly", priority: "0.8" },
   { path: "/compliance", changefreq: "weekly", priority: "0.8" },

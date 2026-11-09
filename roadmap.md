@@ -43,3 +43,11 @@
 # Roadmap — Resource Hub refresh (Nov 2026)
 - [x] Real guides and glossaries, live trade and FinTech reports, SME benchmark hidden
 - [x] Resource pages, "Last reviewed" dates, Resources tab in the editorial dashboard with 6-month review flag
+
+# Roadmap — Search traffic (Nov 2026)
+- [x] One canonical address + one description per page
+- [x] Google Search Console verified, sitemap submitted
+- [x] Faster discovery of new stories (Bing/IndexNow pings; Google via sitemap on publish)
+- [x] Directory page: "How to search Cyprus companies" guide
+- [x] CySEC-licensed firms list page from licence data
+- [x] Make story analysis ("Why it matters") recognisable to search engines
