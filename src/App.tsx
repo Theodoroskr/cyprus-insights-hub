@@ -9,6 +9,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "./components/CookieConsent";
+import { RouteSEODefaults } from "./components/RouteSEODefaults";
 
 // Lazy-loaded route components
 const Index = lazy(() => import("./pages/Index"));
@@ -84,6 +85,7 @@ const App = () => (
           <TooltipProvider>
             <Sonner />
             <BrowserRouter>
+              <RouteSEODefaults />
               <Suspense fallback={<RouteLoader />}>
                 <Routes>
                   <Route path="/" element={<Index />} />

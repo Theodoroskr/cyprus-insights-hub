@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import { ogImageFor } from "@/lib/ogImage";
+import { canonicalUrl, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export interface BreadcrumbItem {
   name: string;
@@ -19,8 +20,7 @@ interface SEOHeadProps {
   jsonLd?: Record<string, any>;
 }
 
-const SITE_NAME = "BusinessHub.cy";
-const BASE_URL = "https://businesshub.cy";
+const BASE_URL = SITE_URL;
 
 export function SEOHead({
   title,
@@ -35,7 +35,7 @@ export function SEOHead({
   const fullTitle = `${title} | ${SITE_NAME}`;
   const location = useLocation();
   // Self-referencing canonical: default to the current route when no path is given.
-  const url = `${BASE_URL}${path ?? location.pathname}`;
+  const url = canonicalUrl(path ?? location.pathname);
   const ogImage = image || ogImageFor(vertical);
 
   const breadcrumbJsonLd = breadcrumbs?.length
