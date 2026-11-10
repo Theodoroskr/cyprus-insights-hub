@@ -1293,6 +1293,72 @@ export type Database = {
           },
         ]
       }
+      fin_lit_findings: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          comparison_label: string | null
+          comparison_value: number | null
+          created_at: string
+          id: string
+          indicator: string
+          notes: string | null
+          page_ref: string | null
+          published_year: number | null
+          publisher: string
+          sort_order: number
+          source_url: string
+          status: string
+          survey: string
+          survey_year: number
+          unit: string
+          updated_at: string
+          value: number | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          comparison_label?: string | null
+          comparison_value?: number | null
+          created_at?: string
+          id?: string
+          indicator: string
+          notes?: string | null
+          page_ref?: string | null
+          published_year?: number | null
+          publisher: string
+          sort_order?: number
+          source_url: string
+          status?: string
+          survey: string
+          survey_year: number
+          unit: string
+          updated_at?: string
+          value?: number | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          comparison_label?: string | null
+          comparison_value?: number | null
+          created_at?: string
+          id?: string
+          indicator?: string
+          notes?: string | null
+          page_ref?: string | null
+          published_year?: number | null
+          publisher?: string
+          sort_order?: number
+          source_url?: string
+          status?: string
+          survey?: string
+          survey_year?: number
+          unit?: string
+          updated_at?: string
+          value?: number | null
+        }
+        Relationships: []
+      }
       hs_sector_mapping: {
         Row: {
           display_order: number

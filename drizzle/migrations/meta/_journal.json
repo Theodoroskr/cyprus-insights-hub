@@ -169,6 +169,13 @@
       "when": 1794339042066,
       "tag": "0023_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1794339645107,
+      "tag": "0024_financial_literacy_findings",
+      "breakpoints": true
     }
   ]
 }

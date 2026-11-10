@@ -39,6 +39,7 @@ const TradePage = lazy(() => import("./pages/TradePage"));
 const RealEstatePage = lazy(() => import("./pages/RealEstatePage"));
 const TourismPage = lazy(() => import("./pages/TourismPage"));
 const EconomyPage = lazy(() => import("./pages/EconomyPage"));
+const FinancialLiteracyPage = lazy(() => import("./pages/FinancialLiteracyPage"));
 const MastercardIntelligencePage = lazy(() => import("./pages/MastercardIntelligencePage"));
 const SpendingPulsePage = lazy(() => import("./pages/SpendingPulsePage"));
 const OpenDataPage = lazy(() => import("./pages/OpenDataPage"));
@@ -108,6 +109,7 @@ const App = () => (
                   <Route path="/real-estate" element={<RealEstatePage />} />
                   <Route path="/tourism" element={<TourismPage />} />
                   <Route path="/economy" element={<EconomyPage />} />
+                  <Route path="/financial-literacy" element={<FinancialLiteracyPage />} />
                   <Route path="/intelligence/mastercard" element={<MastercardIntelligencePage />} />
                   <Route path="/intelligence/mastercard/spendingpulse" element={<SpendingPulsePage />} />
                   <Route path="/open-data" element={<OpenDataPage />} />

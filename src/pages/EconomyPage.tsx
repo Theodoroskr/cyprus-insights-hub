@@ -72,7 +72,7 @@ export default function EconomyPage() {
   const labour = useMemo(() => pivot(["unemployment_rate", "youth_unemployment_rate"]), [rows, fromDate]);
 
   const kpis = [
-    { l: `Inflation, ${infl ? prettyPeriod(infl.period_label) : ""}`, v: pct(infl?.value), d: pp(infl?.value, infl?.prev?.value), s: "CPI, change vs same month last year" },
+    { l: `Inflation (national CPI), ${infl ? prettyPeriod(infl.period_label) : ""}`, v: pct(infl?.value), d: pp(infl?.value, infl?.prev?.value), s: "CYSTAT Consumer Price Index vs same month last year. Differs from the EU-harmonised HICP below" },
     { l: `Real GDP growth, ${gdp ? prettyPeriod(gdp.period_label) : ""}`, v: pct(gdp?.value), d: null, s: `vs same quarter last year · ${pct(gdpQ?.value)} vs previous quarter` },
     { l: `Unemployment rate, ${unemp ? prettyPeriod(unemp.period_label) : ""}`, v: pct(unemp?.value, false), d: pp(unemp?.value, unemp?.yearAgo?.value), s: "Labour Force Survey, ages 15+" },
     { l: `Youth unemployment, ${youth ? prettyPeriod(youth.period_label) : ""}`, v: pct(youth?.value, false), d: pp(youth?.value, youth?.yearAgo?.value), s: "ages 15–24" },
@@ -163,7 +163,7 @@ export default function EconomyPage() {
           <p className="flex flex-wrap gap-3">
             {TABLES.map((t) => <a key={t.url} href={t.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 underline">{t.label} <ExternalLink className="h-3 w-3" /></a>)}
           </p>
-          <p>Periods not yet published are left out, never shown as zero.</p>
+          <p>Periods not yet published are left out, never shown as zero. See also <a href="/financial-literacy" className="underline">Financial Literacy in Cyprus</a>.</p>
         </footer>
       </div>
       <Footer />
