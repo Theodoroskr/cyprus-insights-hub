@@ -48,12 +48,12 @@ export function RelatedModules({ keys, lang, title }: { keys: string[]; lang: La
   return (
     <section className="space-y-3">
       {title && <h2 className="text-xl font-serif font-semibold">{title}</h2>}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
         {keys.map((k) => { const r = moduleByKey(k); const I = MODULE_ICONS[r.icon]; return (
-          <Link key={k} to={r.path} className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <Card className="h-full transition-shadow hover:shadow-md"><CardContent className="p-4 flex gap-3">
-              <I className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden />
-              <div><p className="font-serif font-semibold">{lang === "el" ? r.el : r.en}</p><p className="text-sm text-muted-foreground">{t(r.blurb)}</p></div>
+          <Link key={k} to={r.path} title={lang === "el" ? r.el : r.en} className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <Card className="h-full rounded-xl transition-all group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:border-primary"><CardContent className="p-4 flex items-start gap-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground"><I className="h-5 w-5" aria-hidden /></span>
+              <div className="min-w-0"><p className="font-serif font-semibold leading-tight">{lang === "el" ? r.short_el : r.short_en}</p><p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{t(r.blurb)}</p></div>
             </CardContent></Card>
           </Link>); })}
       </div>

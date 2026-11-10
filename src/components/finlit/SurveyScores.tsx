@@ -1,5 +1,7 @@
 import { useT, periodLabel } from "@/lib/finlitI18n";
-import { ExternalLink } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ExternalLink, Info } from "lucide-react";
+import { scoreExplain } from "@/lib/finlitExplain";
 import { Card, CardContent } from "@/components/ui/card";
 
 export type Finding = { id: string; publisher: string; survey: string; survey_year: number; published_year: number | null; indicator: string; value: number | null; unit: string; comparison_label: string | null; comparison_value: number | null; source_url: string; page_ref: string | null; notes: string | null; status: string };
@@ -8,12 +10,15 @@ const maxOf = (f: Finding) => { const m = f.unit.match(/out of (\d+)/i); return 
 
 function Gauge({ value, max, target }: { value: number; max: number; target?: number | null }) {
   const t = useT();
-  const r = 80, c = Math.PI * r, pct = Math.min(value / max, 1);
+  const r = 80, c = Math.PI * r;
+  const [shown, setShown] = useState(0);
+  useEffect(() => { const id = requestAnimationFrame(() => setShown(value)); return () => cancelAnimationFrame(id); }, [value]);
+  const pct = Math.min(shown / max, 1);
   const ang = target != null ? Math.PI * (1 - target / max) : null;
   return (
     <svg viewBox="0 0 200 120" className="w-full max-w-[280px]" role="img" aria-label={`${value} out of ${max}`}>
       <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="hsl(var(--muted))" strokeWidth="16" strokeLinecap="round" />
-      <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="hsl(var(--primary))" strokeWidth="16" strokeLinecap="round" strokeDasharray={`${c * pct} ${c}`} />
+      <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="hsl(var(--primary))" strokeWidth="16" strokeLinecap="round" strokeDasharray={`${c * pct} ${c}`} style={{ transition: "stroke-dasharray 1.1s ease-out" }} />
       {ang != null && <line x1={100 + 64 * Math.cos(ang)} y1={100 - 64 * Math.sin(ang)} x2={100 + 98 * Math.cos(ang)} y2={100 - 98 * Math.sin(ang)} stroke="hsl(var(--foreground))" strokeWidth="2" strokeDasharray="3 2" />}
       <text x="100" y="92" textAnchor="middle" className="fill-foreground font-serif" fontSize="40" fontWeight="700">{value}</text>
       <text x="100" y="114" textAnchor="middle" className="fill-muted-foreground" fontSize="11">{t("out of")} {max}</text>
@@ -23,16 +28,29 @@ function Gauge({ value, max, target }: { value: number; max: number; target?: nu
 
 function Bar({ f }: { f: Finding }) {
   const t = useT();
+  const [open, setOpen] = useState(false);
+  const [grow, setGrow] = useState(false);
+  useEffect(() => { const id = requestAnimationFrame(() => setGrow(true)); return () => cancelAnimationFrame(id); }, []);
   const max = maxOf(f); const v = f.value ?? 0; const pct = max ? Math.min((v / max) * 100, 100) : null;
+  const cmp = max && f.comparison_value != null ? Math.min((f.comparison_value / max) * 100, 100) : null;
+  const note = scoreExplain(f.indicator, t.lang);
   return (
-    <div className="space-y-1.5">
+    <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} disabled={!note && !f.notes}
+      className="group block w-full text-left space-y-1.5 rounded-lg p-2 -m-2 transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:hover:bg-transparent">
       <div className="flex items-baseline justify-between gap-2">
-        <span className="text-sm font-medium">{t(f.indicator)}</span>
+        <span className="text-sm font-medium inline-flex items-center gap-1.5">{t(f.indicator)}{(note || f.notes) && <Info className={`h-3.5 w-3.5 transition-colors ${open ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`} aria-hidden />}</span>
         <span className="font-serif text-lg font-semibold whitespace-nowrap">{f.value == null ? "n/a" : f.value.toLocaleString("en-GB")}<span className="text-xs text-muted-foreground font-sans font-normal"> {max === 100 && f.unit.startsWith("%") ? "%" : max ? `/ ${max}` : t(f.unit)}</span></span>
       </div>
-      {pct != null && <div className="h-2.5 rounded-full bg-muted overflow-hidden"><div className="h-full rounded-full bg-primary transition-all" style={{ width: `${pct}%` }} /></div>}
-      {f.notes && <p className="text-xs text-muted-foreground">{t(f.notes)}</p>}
-    </div>
+      {pct != null && <div className="relative h-2.5 rounded-full bg-muted overflow-hidden">
+        <div className="h-full rounded-full bg-primary" style={{ width: grow ? `${pct}%` : "0%", transition: "width 1s ease-out" }} />
+        {cmp != null && <span className="absolute top-0 h-full w-0.5 bg-foreground" style={{ left: `${cmp}%` }} aria-hidden />}
+      </div>}
+      {open && <div className="rounded-md bg-muted p-2.5 text-xs leading-relaxed space-y-1">
+        {note && <p>{note}</p>}
+        {f.notes && <p className="text-muted-foreground">{t(f.notes)}</p>}
+        {f.comparison_label && f.comparison_value != null && <p className="text-muted-foreground">{t(f.comparison_label)}: {f.comparison_value}</p>}
+      </div>}
+    </button>
   );
 }
 
@@ -61,6 +79,7 @@ export function SurveyScores({ findings }: { findings: Finding[] }) {
                     <p className="text-xs uppercase tracking-wide text-muted-foreground">{t(hero.indicator)}</p>
                     <Gauge value={hero.value} max={heroMax} target={hero.comparison_value} />
                     {hero.comparison_label && hero.comparison_value != null && <p className="text-xs text-muted-foreground">{t("Dashed line")}: {t(hero.comparison_label)} ({hero.comparison_value})</p>}
+                    {scoreExplain(hero.indicator, t.lang) && <p className="text-xs leading-relaxed max-w-[260px]">{scoreExplain(hero.indicator, t.lang)}</p>}
                   </>}
                   {target && target.value != null && (
                     <div className="w-full rounded-lg bg-primary/10 p-4">
@@ -71,7 +90,7 @@ export function SurveyScores({ findings }: { findings: Finding[] }) {
                   )}
                 </div>
               )}
-              <div className="space-y-5 self-center">{rest.map((f) => <Bar key={f.id} f={f} />)}</div>
+              <div className="space-y-4 self-center">{rest.length > 0 && <p className="text-[11px] text-muted-foreground">{t.lang === "el" ? "Πατήστε μια βαθμολογία για εξήγηση." : "Tap a score to see what it means."}</p>}{rest.map((f) => <Bar key={f.id} f={f} />)}</div>
             </CardContent>
           </Card>
         );
