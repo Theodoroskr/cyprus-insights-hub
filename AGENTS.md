@@ -28,3 +28,4 @@
 - Head tags: `RouteSEODefaults` (App.tsx) sets a self-referencing canonical/og:url via `canonicalUrl()` (`src/lib/seo.ts`); `SEOHead` overrides; `index.html` has no canonical and its fallback meta tags carry `data-rh="true"`. Why: one canonical/description per page.
 - Hourly `ping-indexnow` (`_shared/indexNow.ts`, key file in `public/`) sends new pages to Bing once each, logged in `indexnow_submissions`; Google relies on the publish-time sitemap. Why: discovery between publishes.
 - `/directory/cysec-licensed-firms` lists CySEC `regulated_entities` (current = "Active", `src/lib/licensedFirms.ts`), never warnings. Why: official licence data only.
+- Story link previews: `scripts/generate-story-previews.ts` (postbuild) writes `dist/article/<id>/index.html` with that story's head tags via `src/lib/storyPreview.ts`. Why: preview robots don't run JS.
