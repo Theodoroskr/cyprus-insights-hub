@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useAuth } from "@/contexts/AuthContext";
+import { Calculators } from "@/components/finlit/Calculators";
+import { StatChart } from "@/components/finlit/StatChart";
+import { Education, Methodology, TOPICS } from "@/components/finlit/EducationAndMethod";
 import { GEO_LABELS, formatStat, headline, prettyStatPeriod, databrowserUrl, type StatDataset, type StatObs } from "@/lib/eurostatView";
 
 type Finding = { id: string; publisher: string; survey: string; survey_year: number; published_year: number | null; indicator: string; value: number | null; unit: string; comparison_label: string | null; comparison_value: number | null; source_url: string; page_ref: string | null; notes: string | null; status: string };
@@ -71,6 +74,8 @@ export default function FinancialLiteracyPage() {
       <TopNavigation onSearch={() => {}} />
       <SEOHead title="Financial Literacy in Cyprus — Survey Results & Household Finances | BusinessHub"
         description="How financially literate are adults in Cyprus? OECD and Central Bank survey results, plus official Eurostat figures on household income, savings and the cost of living."
+        jsonLd={{ "@context": "https://schema.org", "@type": "WebPage", name: "Financial Literacy in Cyprus", alternateName: "Χρηματοοικονομικός Αλφαβητισμός στην Κύπρο", inLanguage: ["en", "el"], url: "https://businesshub.cy/financial-literacy",
+          about: TOPICS.map((t) => ({ "@type": "Thing", name: t.en, alternateName: t.el })) }}
         path="/financial-literacy" breadcrumbs={[{ name: "Home", href: "/" }, { name: "Financial Literacy", href: "/financial-literacy" }]} />
       <div className="container mx-auto px-4 py-8 space-y-10">
         <header className="space-y-2">
@@ -114,6 +119,23 @@ export default function FinancialLiteracyPage() {
         <section className="space-y-4">
           <h2 className="text-2xl font-serif font-semibold">Cost of living</h2>
           {stats.isLoading ? <p className="text-muted-foreground">Loading…</p> : <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">{pick(COST).map((d) => <StatCard key={d.code} ds={d} obs={obs} />)}</div>}
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-2xl font-serif font-semibold">Explore the figures</h2>
+          {stats.isLoading ? <p className="text-muted-foreground">Loading…</p> : <StatChart datasets={pick([...COST, ...HOUSEHOLD])} obs={obs} />}
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-2xl font-serif font-semibold">Money basics · Βασικές γνώσεις</h2>
+          <Education />
+        </section>
+
+        <section className="space-y-4"><Calculators /></section>
+
+        <section className="space-y-2">
+          <h2 className="text-2xl font-serif font-semibold">Sources & methodology</h2>
+          <Methodology />
         </section>
 
         <footer className="border-t pt-4 text-xs text-muted-foreground space-y-1">
