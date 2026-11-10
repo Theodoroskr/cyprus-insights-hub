@@ -20,7 +20,9 @@ const Note = ({ children }: { children: React.ReactNode }) => <p className="text
 
 export type CalculatorKey = "budget" | "goal" | "compound" | "loan" | "inflation" | "emergency";
 
-export function Calculators({ only }: { only?: CalculatorKey } = {}) {
+export const CALCULATOR_KEYS: CalculatorKey[] = ["budget", "goal", "compound", "loan", "inflation", "emergency"];
+
+export function Calculators({ only, initial }: { only?: CalculatorKey; initial?: CalculatorKey } = {}) {
   const [inc, setInc] = useState(2000);
   const [goal, setGoal] = useState(10000); const [gStart, setGStart] = useState(1000); const [gRate, setGRate] = useState(2); const [gYears, setGYears] = useState(3);
   const [cStart, setCStart] = useState(1000); const [cMon, setCMon] = useState(100); const [cRate, setCRate] = useState(5); const [cYears, setCYears] = useState(20);
@@ -34,7 +36,7 @@ export function Calculators({ only }: { only?: CalculatorKey } = {}) {
     <Card><CardHeader><CardTitle className="font-serif">Money calculators</CardTitle>
       <p className="text-sm text-muted-foreground">Everything is worked out in your browser; nothing you type is saved or sent anywhere. Results are illustrations, not financial advice.</p></CardHeader>
       <CardContent>
-        <Tabs defaultValue={only ?? "budget"}>
+        <Tabs defaultValue={only ?? initial ?? "budget"}>
           <TabsList className={only ? "hidden" : "flex flex-wrap h-auto"}>
             {[["budget", "Monthly budget"], ["goal", "Savings goal"], ["compound", "Compound interest"], ["loan", "Loan repayment"], ["inflation", "Inflation"], ["emergency", "Emergency fund"]].map(([v, l]) => <TabsTrigger key={v} value={v}>{l}</TabsTrigger>)}
           </TabsList>
@@ -61,7 +63,7 @@ export function Calculators({ only }: { only?: CalculatorKey } = {}) {
           <TabsContent value="inflation" className="space-y-3 pt-3">
             <div className="grid sm:grid-cols-3 gap-3"><Field label="Amount today (€)" value={ia} onChange={setIa} /><Field label="Inflation % a year" value={ir} onChange={setIr} step={0.1} /><Field label="Years" value={iy} onChange={setIy} /></div>
             <Result items={[["Buying power later", eur(realValue(ia, ir, iy))], ["Lost to inflation", eur(ia - realValue(ia, ir, iy))]]} />
-            <Note>Formula: real value = amount ÷ (1+inflation)^years. See the inflation chart above for Cyprus's actual rates.</Note>
+            <Note>Formula: real value = amount ÷ (1+inflation)^years. See the Cost of Living section for Cyprus's actual rates.</Note>
           </TabsContent>
           <TabsContent value="emergency" className="space-y-3 pt-3">
             <div className="grid sm:grid-cols-2 gap-3"><Field label="Essential monthly costs (€)" value={ee} onChange={setEe} /><Field label="Months to cover" value={em} onChange={setEm} /></div>

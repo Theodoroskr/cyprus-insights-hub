@@ -40,6 +40,14 @@ const RealEstatePage = lazy(() => import("./pages/RealEstatePage"));
 const TourismPage = lazy(() => import("./pages/TourismPage"));
 const EconomyPage = lazy(() => import("./pages/EconomyPage"));
 const FinancialLiteracyPage = lazy(() => import("./pages/FinancialLiteracyPage"));
+const FLObservatoryPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.ObservatoryPage })));
+const FLHouseholdPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.HouseholdPage })));
+const FLCostOfLivingPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.CostOfLivingPage })));
+const FLCreditPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.CreditPage })));
+const FLCalculatorsPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.CalculatorsPage })));
+const FLResearchPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.ResearchPage })));
+const FLCampaignsPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.CampaignsPage })));
+const FLMethodologyPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.MethodologyPage })));
 const AcademyPage = lazy(() => import("./pages/academy/AcademyPage"));
 const AcademyProgrammePage = lazy(() => import("./pages/academy/ProgrammePage"));
 const AcademyLessonPage = lazy(() => import("./pages/academy/LessonPage"));
@@ -113,6 +121,14 @@ const App = () => (
                   <Route path="/tourism" element={<TourismPage />} />
                   <Route path="/economy" element={<EconomyPage />} />
                   <Route path="/financial-literacy" element={<FinancialLiteracyPage />} />
+                  <Route path="/financial-literacy/observatory" element={<FLObservatoryPage />} />
+                  <Route path="/financial-literacy/household" element={<FLHouseholdPage />} />
+                  <Route path="/financial-literacy/cost-of-living" element={<FLCostOfLivingPage />} />
+                  <Route path="/financial-literacy/credit" element={<FLCreditPage />} />
+                  <Route path="/financial-literacy/calculators" element={<FLCalculatorsPage />} />
+                  <Route path="/financial-literacy/research" element={<FLResearchPage />} />
+                  <Route path="/financial-literacy/campaigns" element={<FLCampaignsPage />} />
+                  <Route path="/financial-literacy/methodology" element={<FLMethodologyPage />} />
                   <Route path="/financial-literacy/academy" element={<AcademyPage />} />
                   <Route path="/financial-literacy/academy/:programme" element={<AcademyProgrammePage />} />
                   <Route path="/financial-literacy/academy/:programme/:lesson" element={<AcademyLessonPage />} />

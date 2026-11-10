@@ -8,6 +8,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { FinLitNav } from "@/components/finlit/FinLitNav";
 import { AcademyCrumbs, LangSwitch } from "@/components/academy/AcademyChrome";
 import { LEVEL_LABEL, T, pick, useAcademyLang, type Lesson, type Programme } from "@/lib/academy";
 
@@ -30,6 +31,7 @@ export default function ProgrammePage() {
   return (
     <div className="min-h-screen bg-background">
       <TopNavigation onSearch={() => {}} />
+      <FinLitNav lang={lang} />
       {p && <SEOHead title={`${p.title_en} — Free Course | Financial Literacy Academy`} description={`${p.summary_en} ${p.title_el}.`}
         path={`/financial-literacy/academy/${p.slug}`}
         jsonLd={{ "@context": "https://schema.org", "@type": "Course", name: p.title_en, alternateName: p.title_el, description: p.summary_en, inLanguage: ["en", "el"], isAccessibleForFree: true,

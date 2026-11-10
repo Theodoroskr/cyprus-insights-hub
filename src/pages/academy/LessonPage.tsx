@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calculators, type CalculatorKey } from "@/components/finlit/Calculators";
+import { FinLitNav } from "@/components/finlit/FinLitNav";
 import { AcademyCrumbs, LangSwitch } from "@/components/academy/AcademyChrome";
 import { LessonStats } from "@/components/academy/LessonStats";
 import { T, hasGreek, pick, useAcademyLang, type Lesson, type Programme } from "@/lib/academy";
@@ -38,6 +39,7 @@ export default function LessonPage() {
   return (
     <div className="min-h-screen bg-background">
       <TopNavigation onSearch={() => {}} />
+      <FinLitNav lang={lang} />
       {p && l && <SEOHead title={`${l.title_en} — ${p.title_en} | Financial Literacy Academy`} description={`${l.summary_en} ${l.title_el}.`}
         path={`/financial-literacy/academy/${p.slug}/${l.slug}`}
         jsonLd={{ "@context": "https://schema.org", "@type": "LearningResource", name: l.title_en, alternateName: l.title_el, description: l.summary_en, inLanguage: ["en", "el"], isAccessibleForFree: true,
@@ -63,7 +65,7 @@ export default function LessonPage() {
           <article className="prose max-w-none text-foreground prose-headings:font-serif prose-headings:text-foreground prose-strong:text-foreground prose-a:text-primary" lang={greekMissing ? "en" : lang}>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{pick(l, "body", lang)}</ReactMarkdown>
           </article>
-          {l.calculator && CALCS.includes(l.calculator as CalculatorKey) && <Calculators only={l.calculator as CalculatorKey} />}
+          {l.calculator && CALCS.includes(l.calculator as CalculatorKey) && <><Calculators only={l.calculator as CalculatorKey} /><p className="text-sm"><Link to="/financial-literacy/calculators" className="underline">{lang === "el" ? "Όλοι οι υπολογιστές" : "See all calculators"}</Link></p></>}
           <LessonStats codes={l.stat_codes ?? []} title={T.official[lang]} />
           {l.resource_url && <p className="text-sm"><a className="underline" href={l.resource_url} target="_blank" rel="noopener noreferrer">{lang === "el" ? "Υποστηρικτικό υλικό" : "Supporting resource"}</a></p>}
           <nav className="flex justify-between gap-3 pt-4 border-t" aria-label="Lesson navigation">

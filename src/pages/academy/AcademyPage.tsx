@@ -7,6 +7,8 @@ import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Education } from "@/components/finlit/EducationAndMethod";
+import { FinLitNav } from "@/components/finlit/FinLitNav";
 import { AcademyCrumbs, LangSwitch } from "@/components/academy/AcademyChrome";
 import { LessonStats } from "@/components/academy/LessonStats";
 import { LEVEL_LABEL, T, pick, useAcademyLang, type Lesson, type Programme } from "@/lib/academy";
@@ -29,6 +31,7 @@ export default function AcademyPage() {
   return (
     <div className="min-h-screen bg-background">
       <TopNavigation onSearch={() => {}} />
+      <FinLitNav lang={lang} />
       <SEOHead title="Financial Literacy Academy — Free Financial Education Cyprus | BusinessHub"
         description="Free financial literacy courses in Cyprus, in English and Greek: money management, responsible borrowing, digital safety, saving and investing, and finance for SMEs. Δωρεάν χρηματοοικονομική εκπαίδευση."
         path="/financial-literacy/academy"
@@ -75,6 +78,11 @@ export default function AcademyPage() {
             </div>
           </section>
         ))}
+
+        <section className="space-y-3">
+          <h2 className="text-2xl font-serif font-semibold">{lang === "el" ? "Βασικές γνώσεις" : "Money basics"}</h2>
+          <Education />
+        </section>
 
         <LessonStats codes={["hicp_all", "saving_rate", "unexpected_expenses"]} title={lang === "el" ? "Τα οικονομικά των νοικοκυριών στην Κύπρο" : "Cyprus household finances in numbers"} />
       </main>
