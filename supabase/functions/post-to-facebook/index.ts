@@ -73,6 +73,33 @@ async function graphPost(pageId: string, edge: string, params: Record<string, st
   return (r.post_id ?? r.id) as string;
 }
 
+const BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+
+/** Fetch the image bytes and upload them to the page as a photo post. */
+async function uploadPhoto(pageId: string, imgUrl: string, caption: string, token: string | null): Promise<string> {
+  const img = await fetch(imgUrl, { headers: { "User-Agent": BROWSER_UA, Accept: "image/*" } });
+  if (!img.ok) throw new Error(`Image download failed [${img.status}]`);
+  const type = img.headers.get("content-type") ?? "image/jpeg";
+  if (!type.startsWith("image/")) throw new Error(`Not an image: ${type}`);
+  const blob = new Blob([await img.arrayBuffer()], { type });
+  if (blob.size < 1000) throw new Error("Image too small");
+  const form = new FormData();
+  form.append("message", caption);
+  form.append("source", blob, "photo." + (type.split("/")[1]?.split(";")[0] || "jpg"));
+  if (token) form.append("access_token", token);
+  const url = `${token ? "https://graph.facebook.com" : GATEWAY_URL}/${GRAPH_VERSION}/${encodeURIComponent(pageId)}/photos`;
+  const headers: Record<string, string> = {};
+  if (!token) {
+    headers.Authorization = `Bearer ${Deno.env.get("LOVABLE_API_KEY")}`;
+    headers["X-Connection-Api-Key"] = Deno.env.get("UDC_FACEBOOK_PAGES_API_KEY") ?? "";
+  }
+  const res = await fetch(url, { method: "POST", headers, body: form });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`Facebook [${res.status}]: ${text.slice(0, 500)}`);
+  const r = JSON.parse(text);
+  return (r.post_id ?? r.id) as string;
+}
+
 /**
  * Photo post with the story's picture (or its section's branded image if Facebook
  * can't fetch it); falls back to a plain link post as a last resort.
@@ -88,6 +115,13 @@ async function publishStory(
   ])];
   let lastErr: unknown;
   for (const img of images) {
+    // Download the picture ourselves (some sites, e.g. gov.cy, block Facebook's fetcher) and upload the file.
+    try {
+      return { id: await uploadPhoto(pageId, img, caption, token), image: img };
+    } catch (e) {
+      lastErr = e;
+      console.warn(`Photo upload failed for ${a.id} with ${img}:`, String(e).slice(0, 200));
+    }
     try {
       return { id: await graphPost(pageId, "photos", { url: img, message: caption }, token), image: img };
     } catch (e) {
