@@ -103,3 +103,21 @@ function dropMenus(lines: string[]): string[] {
   }
   return out;
 }
+
+const ARTICLE_ERROR_LINE = /^\s*#+\s*(?:404|410|not found|page not found|server error)\b|sorry,? (?:this|the) page (?:does not exist|could not be found|is not available)|the page you (?:are|were) looking for (?:could not be found|does not exist|is no longer)|404 - file or directory not found|error 404|404 not found/im;
+
+/**
+ * Why a single article page is unusable (an error/"page not found" screen), or null.
+ * Error pages often have kilobytes of site navigation before the "404" heading,
+ * so short pages are searched in full.
+ */
+export function articlePageProblem(markdown: string, statusCode?: number | null): string | null {
+  if (statusCode && statusCode >= 400) return `Article page returned HTTP ${statusCode}`;
+  const text = (markdown || "").trim();
+  if (text.length < 150) return "No meaningful article text";
+  const window = text.length < 8000 ? text : text.slice(0, 1500);
+  if (ARTICLE_ERROR_LINE.test(window)) return "Article page is a 'page not found' screen";
+  return null;
+}
+
+export { describesMissingPage } from "../_shared/missingPage.ts";

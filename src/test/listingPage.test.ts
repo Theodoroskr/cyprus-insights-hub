@@ -85,3 +85,30 @@ describe("prepareListingMarkdown", () => {
     expect(prepareListingMarkdown("a".repeat(50000), 20000).length).toBe(20000);
   });
 });
+
+import { articlePageProblem, describesMissingPage } from "../../supabase/functions/scrape-sources/listingPage";
+
+describe("articlePageProblem", () => {
+  const ecb404 = "Skip to: [Skip to navigation](x)\n\n" + "Search Options\nSort by\nSuggestions\n".repeat(40) + "\n# 404\n\n## Sorry, this page does not exist.\n\nWhy not take a look at the menu?";
+  it("rejects an ECB 404 screen even when navigation comes first", () => {
+    expect(ecb404.indexOf("# 404")).toBeGreaterThan(600);
+    expect(articlePageProblem(ecb404)).not.toBeNull();
+  });
+  it("rejects pages the scraper reports as 404", () => {
+    expect(articlePageProblem("# Real story\n\n" + "text ".repeat(100), 404)).not.toBeNull();
+  });
+  it("accepts a real long article that mentions 404 deep in the text", () => {
+    const real = "# ECB raises rates\n\n" + "The Governing Council decided today. ".repeat(300) + "\nError 404 appeared in a footnote.";
+    expect(articlePageProblem(real, 200)).toBeNull();
+  });
+});
+
+describe("describesMissingPage", () => {
+  it("flags AI summaries of broken pages", () => {
+    expect(describesMissingPage("An attempted retrieval of the ECB's Weekly Financial Statement resulted in a 404 error")).toBe(true);
+    expect(describesMissingPage("The requested report is currently unavailable due to a broken link")).toBe(true);
+  });
+  it("accepts normal summaries", () => {
+    expect(describesMissingPage("The ECB published its first progress report on the digital euro preparation phase.")).toBe(false);
+  });
+});

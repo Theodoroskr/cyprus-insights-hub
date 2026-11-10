@@ -1,6 +1,6 @@
 import { isGreek, translateToEnglish } from "../_shared/translateToEnglish.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
-import { canonicalArticleUrl, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
+import { articlePageProblem, canonicalArticleUrl, describesMissingPage, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 
@@ -409,6 +409,7 @@ Deno.serve(async (req) => {
             let articleImageUrl = article.image_url || null;
 
             if (article.url && article.url.startsWith("http")) {
+            let deepStatus: number | null = null;
               try {
                 console.log(`  Deep-scraping article: ${article.url}`);
                 const articleScrape = await fetch("https://api.firecrawl.dev/v1/scrape", {
@@ -427,6 +428,7 @@ Deno.serve(async (req) => {
 
                 if (articleScrape.ok) {
                   const articleData = await articleScrape.json();
+                  deepStatus = (articleData.data?.metadata || articleData.metadata)?.statusCode ?? null;
                   let articleMarkdown = articleData.data?.markdown || articleData.markdown || "";
                   articleMarkdown = cleanBoilerplate(articleMarkdown);
                   if (articleMarkdown.length > fullBody.length + 50) {
@@ -455,7 +457,7 @@ Deno.serve(async (req) => {
             const { data: dupHash } = await supabase
               .from("cna_articles").select("id").eq("content_hash", contentHash).maybeSingle();
             if (dupHash) { sourceResult.duplicates = (sourceResult.duplicates || 0) + 1; continue; }
-            if (fullBody.length < 150 || /404 not found|page not found|could not be found|currently unavailable/i.test(fullBody.slice(0, 600))) { sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
+            if (articlePageProblem(fullBody, deepStatus)) { console.warn(`  Rejected error page: ${article.url}`); sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
 
             let originalLanguage = "en";
             if (isGreek(article.title + " " + fullBody)) {
@@ -469,6 +471,7 @@ Deno.serve(async (req) => {
             const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
             const intelligence = await enrichWithAI(article.title, fullBody, vertical, LOVABLE_API_KEY);
 
+            if (describesMissingPage(intelligence.summary, intelligence.what_happened)) { console.warn(`  Rejected (AI saw a missing page): ${article.url}`); sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
             const status = source.auto_publish ? "published" : "draft";
 
             const { error: insertError } = await supabase

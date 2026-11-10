@@ -1,3 +1,4 @@
+import { describesMissingPage } from "../_shared/missingPage.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
@@ -192,7 +193,8 @@ Deno.serve(async (req) => {
     const { data: done } = ids.length
       ? await sb.from("facebook_posts").select("article_id").eq("page_id", settings.page_id).in("article_id", ids)
       : { data: [] };
-    const picks = pickArticles((candidates ?? []) as CandidateArticle[], new Set((done ?? []).map((d) => d.article_id)), quota);
+    const usable = (candidates ?? []).filter((c) => !describesMissingPage(c.summary, c.what_happened));
+    const picks = pickArticles(usable as CandidateArticle[], new Set((done ?? []).map((d) => d.article_id)), quota);
     if (!picks.length) {
       await sb.from("facebook_autopost_settings").update({ last_run_at: now.toISOString(), last_error: null }).eq("id", true);
       return json({ posted: 0, postedToday, reason: "No new stories" });
