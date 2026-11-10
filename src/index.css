@@ -299,3 +299,17 @@ img[src*="/assets/compliance-"],
 img[src*="/assets/regtech-"] {
   object-position: right top !important;
 }
+
+/* Mastercard proposed-partnership demo theme — applied only inside .mc-demo (private demo route). */
+.mc-demo {
+  --primary: 356 100% 46%;          /* #EB001B */
+  --primary-foreground: 0 0% 100%;
+  --accent: 22 100% 50%;            /* #FF5F00 */
+  --accent-foreground: 0 0% 8%;
+  --ring: 22 100% 50%;
+  --mc-red: 356 100% 46%;
+  --mc-orange: 22 100% 50%;
+  --mc-yellow: 36 93% 54%;          /* #F79E1B */
+  --mc-charcoal: 0 0% 8%;           /* #151515 */
+  --mc-white: 0 0% 100%;
+}

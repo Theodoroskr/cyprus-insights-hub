@@ -39,6 +39,7 @@ const TradePage = lazy(() => import("./pages/TradePage"));
 const RealEstatePage = lazy(() => import("./pages/RealEstatePage"));
 const TourismPage = lazy(() => import("./pages/TourismPage"));
 const EconomyPage = lazy(() => import("./pages/EconomyPage"));
+const MastercardDemoPage = lazy(() => import("./pages/demo/MastercardDemoPage"));
 const FinancialLiteracyPage = lazy(() => import("./pages/FinancialLiteracyPage"));
 const FLObservatoryPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.ObservatoryPage })));
 const FLHouseholdPage = lazy(() => import("./pages/finlit/FinLitModules").then((m) => ({ default: m.HouseholdPage })));
@@ -120,6 +121,7 @@ const App = () => (
                   <Route path="/real-estate" element={<RealEstatePage />} />
                   <Route path="/tourism" element={<TourismPage />} />
                   <Route path="/economy" element={<EconomyPage />} />
+                  <Route path="/demo/mastercard-financial-confidence" element={<MastercardDemoPage />} />
                   <Route path="/financial-literacy" element={<FinancialLiteracyPage />} />
                   <Route path="/financial-literacy/observatory" element={<FLObservatoryPage />} />
                   <Route path="/financial-literacy/household" element={<FLHouseholdPage />} />

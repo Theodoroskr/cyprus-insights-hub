@@ -1,16 +1,21 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /demo/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /demo/
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /demo/
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /demo/
 
 User-agent: *
 Allow: /
+Disallow: /demo/
 
 Sitemap: https://businesshub.cy/sitemap.xml
