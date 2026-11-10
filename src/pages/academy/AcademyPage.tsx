@@ -32,7 +32,7 @@ export default function AcademyPage() {
     <div className="min-h-screen bg-background">
       <TopNavigation onSearch={() => {}} />
       <FinLitNav lang={lang} />
-      <SEOHead title="Financial Literacy Academy — Free Financial Education Cyprus | BusinessHub"
+      <SEOHead title={lang === "el" ? "Ακαδημία Χρηματοοικονομικού Αλφαβητισμού — Δωρεάν Χρηματοοικονομική Εκπαίδευση στην Κύπρο | BusinessHub" : "Financial Literacy Academy — Free Financial Education Cyprus | BusinessHub"}
         description="Free financial literacy courses in Cyprus, in English and Greek: money management, responsible borrowing, digital safety, saving and investing, and finance for SMEs. Δωρεάν χρηματοοικονομική εκπαίδευση."
         path="/financial-literacy/academy"
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Financial Literacy", href: "/financial-literacy" }, { name: "Academy", href: "/financial-literacy/academy" }]}

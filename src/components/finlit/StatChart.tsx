@@ -1,3 +1,4 @@
+import { useT, periodLabel, sourceLabel } from "@/lib/finlitI18n";
 import { useMemo, useState } from "react";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, Legend } from "recharts";
 import { Download } from "lucide-react";
@@ -9,6 +10,7 @@ import { GEO_LABELS, datasetSource, prettyStatPeriod, type StatDataset, type Sta
 const COLORS: Record<string, string> = { CY: "hsl(var(--re-1))", EU27_2020: "hsl(var(--re-2))", EA: "hsl(var(--re-3))" };
 
 export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: StatObs[] }) {
+  const t = useT();
   const [code, setCode] = useState(datasets[0]?.code ?? "");
   const [from, setFrom] = useState(2020);
   const ds = datasets.find((d) => d.code === code) ?? datasets[0];
@@ -17,11 +19,11 @@ export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: Sta
     const m = new Map<string, Record<string, number | string>>();
     for (const o of obs) {
       if (o.dataset_id !== ds.id || Number(o.period.slice(0, 4)) < from) continue;
-      const e = m.get(o.period_date) ?? { period: prettyStatPeriod(o.period), raw: o.period };
+      const e = m.get(o.period_date) ?? { period: periodLabel(o.period, t.lang), raw: o.period };
       e[o.geo] = o.value; m.set(o.period_date, e);
     }
     return [...m.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([, v]) => v);
-  }, [ds, obs, from]);
+  }, [ds, obs, from, t.lang]);
   if (!ds) return null;
   const download = () => {
     const cell = (v: unknown) => { let s = String(v ?? ""); if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`; return `"${s.replace(/"/g, '""')}"`; };
@@ -34,9 +36,9 @@ export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: Sta
     <Card><CardContent className="p-4 space-y-3">
       <div className="flex flex-wrap gap-2">
         <Select value={ds.code} onValueChange={setCode}><SelectTrigger className="w-72 h-9"><SelectValue /></SelectTrigger>
-          <SelectContent>{datasets.map((d) => <SelectItem key={d.code} value={d.code}>{d.title_en}</SelectItem>)}</SelectContent></Select>
+          <SelectContent>{datasets.map((d) => <SelectItem key={d.code} value={d.code}>{t.lang === "el" && d.title_el ? d.title_el : d.title_en}</SelectItem>)}</SelectContent></Select>
         <Select value={String(from)} onValueChange={(v) => setFrom(Number(v))}><SelectTrigger className="w-32 h-9"><SelectValue /></SelectTrigger>
-          <SelectContent>{[2019, 2020, 2021, 2022, 2023, 2024].map((y) => <SelectItem key={y} value={String(y)}>From {y}</SelectItem>)}</SelectContent></Select>
+          <SelectContent>{[2019, 2020, 2021, 2022, 2023, 2024].map((y) => <SelectItem key={y} value={String(y)}>{t("From")} {y}</SelectItem>)}</SelectContent></Select>
         <Button variant="outline" size="sm" onClick={download} disabled={!rows.length}><Download className="h-4 w-4 mr-1" /> CSV</Button>
       </div>
       <div className="h-72" role="img" aria-label={chartSummary(ds, rows)}>
@@ -44,10 +46,10 @@ export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: Sta
           <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
           <XAxis dataKey="period" fontSize={11} minTickGap={24} /><YAxis fontSize={11} />
           <RTooltip /><Legend />
-          {ds.geos.map((g) => <Line key={g} dataKey={g} name={GEO_LABELS[g] ?? g} stroke={COLORS[g]} dot={false} strokeWidth={2} />)}
-        </LineChart></ResponsiveContainer> : <p className="text-muted-foreground text-sm">Data not available for this period.</p>}
+          {ds.geos.map((g) => <Line key={g} dataKey={g} name={t(GEO_LABELS[g] ?? g)} stroke={COLORS[g]} dot={false} strokeWidth={2} />)}
+        </LineChart></ResponsiveContainer> : <p className="text-muted-foreground text-sm">{t("Data not available for this period.")}</p>}
       </div>
-      <p className="text-xs text-muted-foreground">Unit: {ds.unit_label} · Source: <a className="underline" href={datasetSource(ds).href} target="_blank" rel="noopener noreferrer">{datasetSource(ds).label}</a>{ds.latest_period ? ` · latest period ${prettyStatPeriod(ds.latest_period)}` : ""}{ds.last_success_at ? ` · last updated ${new Date(ds.last_success_at).toLocaleDateString("en-GB")}` : ""}. Gaps mean no figure has been published; nothing is estimated.</p>
+      <p className="text-xs text-muted-foreground">{t("Unit")}: {t(ds.unit_label)} · {t("Source")}: <a className="underline" href={datasetSource(ds).href} target="_blank" rel="noopener noreferrer">{sourceLabel(datasetSource(ds).label, t.lang)}</a>{ds.latest_period ? ` · ${t("latest period")} ${periodLabel(ds.latest_period, t.lang)}` : ""}{ds.last_success_at ? ` · ${t("last updated")} ${new Date(ds.last_success_at).toLocaleDateString(t.lang === "el" ? "el-GR" : "en-GB")}` : ""}. {t("Gaps mean no figure has been published; nothing is estimated.")}</p>
     </CardContent></Card>
   );
 }

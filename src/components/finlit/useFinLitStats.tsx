@@ -1,3 +1,4 @@
+import { useT, periodLabel, sourceLabel } from "@/lib/finlitI18n";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
@@ -48,16 +49,17 @@ export function useFinLitFindings() {
 }
 
 export function StatCard({ ds, obs }: { ds: StatDataset; obs: StatObs[] }) {
+  const t = useT();
   const h = headline(ds, obs);
   return (
     <Card className="border-l-4 border-l-primary transition-shadow hover:shadow-md"><CardContent className="p-4 space-y-1">
-      <p className="text-xs font-medium text-muted-foreground leading-snug">{ds.title_en}</p>
+      <p className="text-xs font-medium text-muted-foreground leading-snug">{(t.lang === "el" && ds.title_el ? ds.title_el : ds.title_en)}</p>
       <p className="text-3xl font-bold font-serif text-primary">{formatStat(h.latest?.value, ds)}</p>
       <p className="text-xs text-muted-foreground">
-        {h.latest ? prettyStatPeriod(h.latest.period) : "Data not available"}
-        {h.benchmarks.map((b) => b.obs && <span key={b.geo}> · {GEO_LABELS[b.geo] ?? b.geo} {formatStat(b.obs.value, ds)}</span>)}
+        {h.latest ? periodLabel(h.latest.period, t.lang) : t("Data not available")}
+        {h.benchmarks.map((b) => b.obs && <span key={b.geo}> · {t(GEO_LABELS[b.geo] ?? b.geo)} {formatStat(b.obs.value, ds)}</span>)}
       </p>
-      <p className="text-[10px] text-muted-foreground">{ds.unit_label} · <a className="underline" href={datasetSource(ds).href} target="_blank" rel="noopener noreferrer">{datasetSource(ds).label}</a></p>
+      <p className="text-[10px] text-muted-foreground">{t(ds.unit_label)} · <a className="underline" href={datasetSource(ds).href} target="_blank" rel="noopener noreferrer">{sourceLabel(datasetSource(ds).label, t.lang)}</a></p>
     </CardContent></Card>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 export type AcademyStatus = "draft" | "review" | "published" | "archived";
 export type Programme = { id: string; slug: string; code: string; title_en: string; title_el: string; summary_en: string; summary_el: string; audience_en: string; audience_el: string; level: string; objectives_en: string[]; objectives_el: string[]; notice_en: string | null; notice_el: string | null; status: AcademyStatus; publish_at: string | null; sort_order: number };
@@ -6,10 +6,17 @@ export type Lesson = { id: string; programme_id: string; slug: string; title_en:
 
 export type Lang = "en" | "el";
 const KEY = "bh-academy-lang";
+const listeners = new Set<() => void>();
+let current: Lang = typeof window !== "undefined" && (() => { try { return localStorage.getItem(KEY) === "el"; } catch { return false; } })() ? "el" : "en";
+function setShared(l: Lang) {
+  current = l; try { localStorage.setItem(KEY, l); } catch { /* ignore */ }
+  listeners.forEach((f) => f());
+}
+/** Shared language for Academy and Financial Literacy pages; every component on the page stays in sync. */
 export function useAcademyLang(): [Lang, (l: Lang) => void] {
-  const [lang, setLang] = useState<Lang>(() => (typeof window !== "undefined" && localStorage.getItem(KEY) === "el" ? "el" : "en"));
-  useEffect(() => { try { localStorage.setItem(KEY, lang); } catch { /* ignore */ } document.documentElement.lang = lang; return () => { document.documentElement.lang = "en"; }; }, [lang]);
-  return [lang, setLang];
+  const lang = useSyncExternalStore((f) => { listeners.add(f); return () => { listeners.delete(f); }; }, () => current, () => "en" as Lang);
+  useEffect(() => { document.documentElement.lang = lang; return () => { document.documentElement.lang = "en"; }; }, [lang]);
+  return [lang, setShared];
 }
 
 /** Pick the Greek field when chosen and filled; otherwise English. */
