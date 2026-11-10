@@ -22,6 +22,7 @@ const navItems = [
   { label: "Real Estate", href: "/real-estate" },
   { label: "Tourism", href: "/tourism" },
   { label: "Economy", href: "/economy" },
+  { label: "Financial Literacy", href: "/financial-literacy" },
   { label: "Who's Who", href: "/whoiswho" },
   { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },
@@ -99,13 +100,13 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
             </Link>
 
           {/* Desktop Navigation — clean horizontal links */}
-          <nav className="hidden lg:flex items-center">
+          <nav className="hidden lg:flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {visibleNav.map((item, i) => (
               <Link
                 key={item.label}
                 to={item.href}
                 className={`
-                  px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors
+                  px-2 py-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] whitespace-nowrap shrink-0 transition-colors
                   ${isActive(item.href)
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"
