@@ -35,11 +35,10 @@ export function Methodology() {
     ["Eurostat definitions", "Household figures use Eurostat's official definitions (e.g. saving rate = gross saving ÷ disposable income). Each chart links to its Eurostat table."],
     ["CYSTAT data", "National CPI, GDP and unemployment come from the Cyprus Statistical Service on the Economy page. National CPI and EU-harmonised HICP measure inflation differently."],
     ["Update frequency", "Eurostat figures are checked daily and CYSTAT weekly. When a past figure is revised, it is reviewed before it changes here; a failed update never removes existing figures."],
-    ["Cyprus vs EU limits", "Comparisons use the same period for both. Price levels and incomes reflect different cost structures, so differences should be read with care."],
   ];
   return (
     <Accordion type="multiple">
-      {items.map(([q, a]) => <AccordionItem key={q} value={q}><AccordionTrigger>{q}</AccordionTrigger><AccordionContent className="text-sm text-muted-foreground">{a}</AccordionContent></AccordionItem>)}
+      {items.map(([q, a]) => <AccordionItem key={q} value={q}><AccordionTrigger className="text-sm py-2">{q}</AccordionTrigger><AccordionContent className="text-xs text-muted-foreground">{a}</AccordionContent></AccordionItem>)}
     </Accordion>
   );
 }

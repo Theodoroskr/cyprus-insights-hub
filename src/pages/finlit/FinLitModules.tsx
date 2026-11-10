@@ -207,7 +207,7 @@ export function MethodologyPage() {
       intro="Where every figure comes from, how often it updates and how to read it."
       related={["research", "observatory", "household"]}>
       {() => <>
-        <section className="space-y-2"><H2>How the figures work</H2><Methodology /></section>
+        <section className="space-y-2"><h2 className="text-base font-semibold">How the figures work</h2><Methodology /></section>
         <section className="space-y-2"><H2>Datasets</H2>
           {s.isLoading ? <Loading /> : <div className="overflow-x-auto"><table className="w-full text-sm">
             <thead><tr className="text-left text-muted-foreground border-b"><th className="py-2 pr-3">Indicator</th><th className="pr-3">Source</th><th className="pr-3">Latest period</th><th>Last checked</th></tr></thead>
