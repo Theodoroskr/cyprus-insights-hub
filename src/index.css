@@ -43,6 +43,13 @@
     --re-4: 220 25% 55%;
     --re-5: 275 35% 50%;
 
+    /* Financial Literacy section palette: data, prices, learning, borrowing, benchmarks */
+    --fl-1: 174 62% 32%;
+    --fl-2: 36 88% 40%;
+    --fl-3: 262 50% 48%;
+    --fl-4: 16 62% 42%;
+    --fl-5: 200 70% 40%;
+
     --secondary: 40 47% 56%;
     --secondary-foreground: 213 100% 14%;
 
@@ -117,6 +124,13 @@
     --border: 213 60% 20%;
     --input: 213 60% 20%;
     --ring: 40 47% 56%;
+
+    /* Financial Literacy palette, brightened for dark mode */
+    --fl-1: 174 55% 48%;
+    --fl-2: 40 88% 58%;
+    --fl-3: 262 60% 68%;
+    --fl-4: 16 75% 62%;
+    --fl-5: 200 75% 62%;
   }
 }
 
@@ -320,6 +334,12 @@ img[src*="/assets/regtech-"] {
   --muted: 30 12% 90%;
   --muted-foreground: 0 0% 32%;
   --border: 30 10% 84%;
+  /* Keep the shared Financial Literacy components in Mastercard colours inside this demo. */
+  --fl-1: 356 100% 46%;
+  --fl-2: 22 100% 50%;
+  --fl-3: 36 93% 54%;
+  --fl-4: 0 0% 8%;
+  --fl-5: 0 0% 32%;
   --radius: 1rem;
 }
 .mc-demo button { border-radius: 9999px; }

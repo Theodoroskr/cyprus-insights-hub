@@ -44,6 +44,13 @@ export default {
           DEFAULT: "hsl(var(--regtech))",
           light: "hsl(var(--regtech-light))",
         },
+        finlit: {
+          "1": "hsl(var(--fl-1))",
+          "2": "hsl(var(--fl-2))",
+          "3": "hsl(var(--fl-3))",
+          "4": "hsl(var(--fl-4))",
+          "5": "hsl(var(--fl-5))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

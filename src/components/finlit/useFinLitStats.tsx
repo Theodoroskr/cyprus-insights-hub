@@ -6,6 +6,7 @@ import { ResponsiveContainer, LineChart, Line, Tooltip as RTooltip, YAxis } from
 import { Info } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { statExplain } from "@/lib/finlitExplain";
+import { FL_BORDER_L, FL_SOFT, FL_TEXT, flCss, statAccent } from "@/lib/finlitPalette";
 import { GEO_LABELS, formatStat, headline, prettyStatPeriod, datasetSource, type StatDataset, type StatObs } from "@/lib/eurostatView";
 import type { Finding as F } from "@/components/finlit/SurveyScores";
 import { chartSummary } from "@/components/finlit/StatChart";
@@ -53,11 +54,12 @@ export function useFinLitFindings() {
   });
 }
 
-const SPARK: Record<string, string> = { CY: "hsl(var(--primary))", EU27_2020: "hsl(var(--muted-foreground))", EA: "hsl(var(--muted-foreground))" };
+const SPARK: Record<string, string> = { CY: "hsl(var(--fl-1))", EU27_2020: "hsl(var(--fl-2))", EA: "hsl(var(--fl-2))" };
 
 /** Headline figure with a hover-able trend line (Cyprus vs benchmark) and a tap-to-open plain-language note. */
 export function StatCard({ ds, obs }: { ds: StatDataset; obs: StatObs[] }) {
   const t = useT();
+  const a = statAccent(ds.code);
   const h = headline(ds, obs);
   const [open, setOpen] = useState(false);
   const note = statExplain(ds.code, t.lang);
@@ -74,13 +76,13 @@ export function StatCard({ ds, obs }: { ds: StatDataset; obs: StatObs[] }) {
   const latest = h.latest?.value; const prev = rows.length > 1 ? Number(rows[rows.length - 2]?.CY) : null;
   const delta = latest != null && prev != null && Number.isFinite(prev) ? latest - prev : null;
   return (
-    <Card className="border-l-4 border-l-primary transition-shadow hover:shadow-md"><CardContent className="p-4 space-y-1.5">
+    <Card className={`border-l-4 ${FL_BORDER_L[a]} transition-shadow hover:shadow-md`}><CardContent className="p-4 space-y-1.5">
       <div className="flex items-start justify-between gap-2">
         <p className="text-xs font-medium text-muted-foreground leading-snug">{(t.lang === "el" && ds.title_el ? ds.title_el : ds.title_en)}</p>
-        {note && <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label={t.lang === "el" ? "Τι σημαίνει" : "What this means"} className={`shrink-0 rounded-full p-1 transition-colors ${open ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}><Info className="h-3.5 w-3.5" /></button>}
+        {note && <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label={t.lang === "el" ? "Τι σημαίνει" : "What this means"} className={`shrink-0 rounded-full p-1 transition-colors ${open ? `${FL_SOFT[a]} ${FL_TEXT[a]}` : "text-muted-foreground hover:bg-muted"}`}><Info className="h-3.5 w-3.5" /></button>}
       </div>
       <div className="flex items-baseline gap-2">
-        <p className="text-3xl font-bold font-serif text-primary">{formatStat(latest, ds)}</p>
+        <p className={`text-3xl font-bold font-serif ${FL_TEXT[a]}`}>{formatStat(latest, ds)}</p>
         {delta != null && Math.abs(delta) > 0 && <span className="text-xs text-muted-foreground">{delta > 0 ? "▲" : "▼"} {Math.abs(delta).toLocaleString("en-GB", { maximumFractionDigits: ds.decimals ?? 1 })}</span>}
       </div>
       {rows.length > 2 && (
@@ -89,7 +91,7 @@ export function StatCard({ ds, obs }: { ds: StatDataset; obs: StatObs[] }) {
             <YAxis hide domain={["auto", "auto"]} />
             <RTooltip cursor={{ stroke: "hsl(var(--border))" }} contentStyle={{ fontSize: 11, padding: "4px 8px", borderRadius: 8 }} labelFormatter={(_, p) => String(p?.[0]?.payload?.p ?? "")}
               formatter={(v: number, name: string) => [formatStat(v, ds), t(GEO_LABELS[name] ?? name)]} />
-            {geos.map((g) => <Line key={g} dataKey={g} stroke={SPARK[g]} strokeWidth={g === "CY" ? 2 : 1.25} strokeDasharray={g === "CY" ? undefined : "3 3"} dot={false} isAnimationActive connectNulls={false} />)}
+            {geos.map((g) => <Line key={g} dataKey={g} stroke={g === "CY" ? flCss(a) : SPARK[g]} strokeWidth={g === "CY" ? 2.25 : 2} strokeDasharray={g === "CY" ? undefined : "3 2"} dot={false} isAnimationActive connectNulls={false} />)}
           </LineChart></ResponsiveContainer>
         </div>
       )}

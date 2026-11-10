@@ -4,9 +4,10 @@ import { periodLabel } from "@/lib/finlitI18n";
 import { statExplain } from "@/lib/finlitExplain";
 import { GEO_LABELS, formatStat, headline, type StatDataset, type StatObs } from "@/lib/eurostatView";
 import type { Lang } from "@/lib/academy";
+import { FL_BORDER, FL_BORDER_SOFT, FL_SOFT, FL_TEXT } from "@/lib/finlitPalette";
 
-/** Cyprus = primary colour (solid), benchmark = muted (dashed), bars use accent; themed by the surrounding page. */
-const RED = "hsl(var(--primary))", CHAR = "hsl(var(--muted-foreground))", ORANGE = "hsl(var(--accent))";
+/** Cyprus = teal (solid), EU / euro area benchmark = amber, comparison bars amber; themed by the surrounding page. */
+const RED = "hsl(var(--fl-1))", CHAR = "hsl(var(--fl-2))", ORANGE = "hsl(var(--fl-2))";
 const geoName = (g: string, lang: Lang) => (lang === "el" ? ({ CY: "Κύπρος", EU27_2020: "ΕΕ-27", EA: "Ευρωζώνη" } as Record<string, string>)[g] : GEO_LABELS[g]) ?? g;
 const title = (d: StatDataset, lang: Lang) => (lang === "el" && d.title_el ? d.title_el : d.title_en);
 
@@ -27,11 +28,11 @@ export function TrendChart({ datasets, obs, lang }: { datasets: StatDataset[]; o
   }, [ds, obs, from, lang, geos.join()]);
   if (!ds) return null;
   return (
-    <div className="h-full rounded-2xl border bg-card p-4 md:p-6 space-y-4">
+    <div className={`h-full rounded-2xl border ${FL_BORDER_SOFT[1]} bg-card p-4 md:p-6 space-y-4`}>
       <div className="flex flex-wrap gap-2">
         {datasets.map((d) => (
           <button key={d.code} type="button" onClick={() => setCode(d.code)} aria-pressed={d.code === ds.code}
-            className={`px-4 py-1.5 text-sm font-medium border transition-colors ${d.code === ds.code ? "bg-primary text-primary-foreground border-primary" : "bg-card hover:bg-muted"}`}>{title(d, lang)}</button>
+            className={`px-4 py-1.5 text-sm font-medium border transition-colors ${d.code === ds.code ? `${FL_SOFT[1]} ${FL_TEXT[1]} ${FL_BORDER[1]}` : "bg-card hover:bg-muted"}`}>{title(d, lang)}</button>
         ))}
       </div>
       <div className="flex flex-wrap gap-1.5 text-xs">
@@ -45,10 +46,10 @@ export function TrendChart({ datasets, obs, lang }: { datasets: StatDataset[]; o
           <XAxis dataKey="p" fontSize={11} minTickGap={28} /><YAxis fontSize={11} width={44} />
           <Tooltip formatter={(v: number, n: string) => [formatStat(v, ds), geoName(n, lang)]} contentStyle={{ borderRadius: 12, fontSize: 12 }} />
           <Legend formatter={(v) => geoName(String(v), lang)} />
-          {geos.map((g) => <Line key={g} dataKey={g} stroke={g === "CY" ? RED : CHAR} strokeWidth={g === "CY" ? 2.5 : 1.5} strokeDasharray={g === "CY" ? undefined : "4 3"} dot={false} />)}
+          {geos.map((g) => <Line key={g} dataKey={g} stroke={g === "CY" ? RED : CHAR} strokeWidth={g === "CY" ? 2.5 : 2} strokeDasharray={g === "CY" ? undefined : "4 3"} dot={false} />)}
         </LineChart></ResponsiveContainer> : <p className="text-sm text-muted-foreground">{lang === "el" ? "Δεν υπάρχουν στοιχεία." : "Data not available."}</p>}
       </div>
-      {statExplain(ds.code, lang) && <p className="text-sm border-l-4 border-accent pl-3">{statExplain(ds.code, lang)}</p>}
+      {statExplain(ds.code, lang) && <p className="text-sm border-l-4 border-finlit-2 pl-3">{statExplain(ds.code, lang)}</p>}
     </div>
   );
 }
@@ -63,7 +64,7 @@ export function CompareBars({ datasets, obs, lang }: { datasets: StatDataset[]; 
   const cy = geoName("CY", lang);
   /** Paired horizontal bars: long metric names stay readable at any width. */
   return (
-    <div className="h-full rounded-2xl border bg-card p-4 md:p-6 space-y-5">
+    <div className={`h-full rounded-2xl border ${FL_BORDER_SOFT[2]} bg-card p-4 md:p-6 space-y-5`}>
       <div className="flex gap-4 text-xs text-muted-foreground"><span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: RED }} />{cy}</span><span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: ORANGE }} />{lang === "el" ? "ΕΕ / Ευρωζώνη" : "EU / euro area"}</span></div>
       {rows.map((r) => (
         <div key={r.ds.code} className="space-y-1.5">

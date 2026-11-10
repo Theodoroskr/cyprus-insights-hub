@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { GEO_LABELS, datasetSource, prettyStatPeriod, type StatDataset, type StatObs } from "@/lib/eurostatView";
 
-const COLORS: Record<string, string> = { CY: "hsl(var(--re-1))", EU27_2020: "hsl(var(--re-2))", EA: "hsl(var(--re-3))" };
+const COLORS: Record<string, string> = { CY: "hsl(var(--fl-1))", EU27_2020: "hsl(var(--fl-2))", EA: "hsl(var(--fl-5))" };
 
 export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: StatObs[] }) {
   const t = useT();

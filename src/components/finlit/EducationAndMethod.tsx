@@ -1,6 +1,7 @@
 import { useT, periodLabel } from "@/lib/finlitI18n";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { FL_BORDER_L, FL_TEXT, type FlAccent } from "@/lib/finlitPalette";
 
 export const TOPICS = [
   { en: "Budgeting", el: "Προϋπολογισμός", t: "Track what comes in and goes out each month, then plan spending before the month starts." },
@@ -18,13 +19,13 @@ export function Education() {
   const t = useT();
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      {TOPICS.map((x) => (
-        <Card key={x.en}><CardContent className="p-4 space-y-1">
-          <p className="font-serif font-semibold">{t.lang === "el" ? x.el : x.en}</p>
+      {TOPICS.map((x, i) => { const a = ([1, 2, 3, 4, 5] as FlAccent[])[i % 5]; return (
+        <Card key={x.en} className={`border-l-4 ${FL_BORDER_L[a]}`}><CardContent className="p-4 space-y-1">
+          <p className={`font-serif font-semibold ${FL_TEXT[a]}`}>{t.lang === "el" ? x.el : x.en}</p>
           <p className="text-xs text-muted-foreground" lang={t.lang === "el" ? "en" : "el"}>{t.lang === "el" ? x.en : x.el}</p>
           <p className="text-sm">{t(x.t)}</p>
         </CardContent></Card>
-      ))}
+      ); })}
     </div>
   );
 }
@@ -41,7 +42,9 @@ export function Methodology() {
   ];
   return (
     <Accordion type="multiple">
-      {items.map(([q, a]) => <AccordionItem key={q} value={q}><AccordionTrigger className="text-sm py-2">{q}</AccordionTrigger><AccordionContent className="text-xs text-muted-foreground">{a}</AccordionContent></AccordionItem>)}
+      {items.map(([q, ans], i) => { const ac = ([1, 2, 3, 4, 5, 1] as FlAccent[])[i % 6]; return (
+        <AccordionItem key={q} value={q}><AccordionTrigger className={`text-sm py-2 ${FL_TEXT[ac]}`}>{q}</AccordionTrigger><AccordionContent className="text-xs text-muted-foreground">{ans}</AccordionContent></AccordionItem>
+      ); })}
     </Accordion>
   );
 }
