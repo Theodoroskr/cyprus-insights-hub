@@ -1,3 +1,4 @@
+import { FinLitFindingsPanel } from "@/components/admin/FinLitFindingsPanel";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -113,6 +114,8 @@ export function OpenDataSourcesPanel() {
 
       <h3 className="font-semibold pt-2">Eurostat statistics</h3>
       <EurostatAdminPanel />
+
+      <FinLitFindingsPanel />
 
       <h3 className="font-semibold pt-2">Real Estate imports</h3>
       <RealEstatePanel />
