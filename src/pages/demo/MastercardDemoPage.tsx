@@ -1,12 +1,12 @@
 import { Navigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ShieldCheck } from "lucide-react";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { MASTERCARD_DEMO } from "@/lib/mastercardDemo";
 import { useAcademyLang } from "@/lib/academy";
 import { LangSwitch } from "@/components/academy/AcademyChrome";
 import { SurveyScores } from "@/components/finlit/SurveyScores";
 import { Calculators } from "@/components/finlit/Calculators";
+import { ConfidenceTools } from "@/components/demo/ConfidenceTools";
 import { StatCard, useFinLitFindings, useFinLitStats } from "@/components/finlit/useFinLitStats";
 
 const C = {
@@ -15,7 +15,7 @@ const C = {
     title: "Cyprus Financial Confidence",
     intro: "A preview of how BusinessHub.cy's financial literacy platform could look as a joint public programme. All figures are live official data from OECD, the Central Bank of Cyprus and Eurostat.",
     scores: "How confident is Cyprus with money?", figures: "Household finances today", tools: "Try the money tools",
-    soon: "Coming in the next demo stage", soonItems: ["Financial knowledge assessment", "Digital payment safety simulator", "Personal learning results"],
+    check: "Test your money confidence",
     note: "Private demonstration for discussion purposes only. Mastercard has not endorsed or approved this programme. Visible to BusinessHub administrators only.",
     back: "View the public Financial Literacy pages",
   },
@@ -24,7 +24,7 @@ const C = {
     title: "Οικονομική Αυτοπεποίθηση στην Κύπρο",
     intro: "Προεπισκόπηση του πώς θα μπορούσε να μοιάζει η πλατφόρμα χρηματοοικονομικού αλφαβητισμού του BusinessHub.cy ως κοινό πρόγραμμα. Όλα τα στοιχεία είναι επίσημα, από τον ΟΟΣΑ, την Κεντρική Τράπεζα της Κύπρου και τη Eurostat.",
     scores: "Πόσο σίγουρη νιώθει η Κύπρος με τα χρήματα;", figures: "Τα οικονομικά των νοικοκυριών σήμερα", tools: "Δοκιμάστε τα εργαλεία",
-    soon: "Στο επόμενο στάδιο της επίδειξης", soonItems: ["Αξιολόγηση χρηματοοικονομικών γνώσεων", "Προσομοιωτής ασφαλών ψηφιακών πληρωμών", "Προσωπικά αποτελέσματα μάθησης"],
+    check: "Δοκιμάστε την οικονομική σας αυτοπεποίθηση",
     note: "Ιδιωτική επίδειξη μόνο για συζήτηση. Η Mastercard δεν έχει εγκρίνει αυτό το πρόγραμμα. Ορατό μόνο στους διαχειριστές του BusinessHub.",
     back: "Δείτε τις δημόσιες σελίδες",
   },
@@ -79,9 +79,9 @@ export default function MastercardDemoPage() {
           <Calculators />
         </section>
 
-        <section className="rounded-lg border p-6 space-y-3">
-          <h2 className="text-lg font-semibold flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-primary" />{t.soon}</h2>
-          <ul className="grid sm:grid-cols-3 gap-3">{t.soonItems.map((i) => <li key={i} className="rounded-md bg-muted p-3 text-sm">{i}</li>)}</ul>
+        <section className="space-y-4">
+          <h2 className="text-2xl font-serif font-semibold border-l-4 border-[hsl(var(--mc-orange))] pl-3">{t.check}</h2>
+          <ConfidenceTools lang={lang} cyCompound={(f.data ?? []).find((x) => /compound/i.test(x.indicator) && !x.breakdown_dimension)?.value ?? null} />
         </section>
 
         <footer className="space-y-2 text-sm text-muted-foreground border-t pt-6">
