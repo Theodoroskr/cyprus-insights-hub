@@ -6,9 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export type Finding = { id: string; publisher: string; survey: string; survey_year: number; published_year: number | null; indicator: string; value: number | null; unit: string; comparison_label: string | null; comparison_value: number | null; source_url: string; page_ref: string | null; notes: string | null; status: string };
 
-const maxOf = (f: Finding) => { const m = f.unit.match(/out of (\d+)/i); return m ? Number(m[1]) : f.unit.trim().startsWith("%") ? 100 : null; };
+export const maxOf = (f: Finding) => { const m = f.unit.match(/out of (\d+)/i); return m ? Number(m[1]) : f.unit.trim().startsWith("%") ? 100 : null; };
 
-function Gauge({ value, max, target }: { value: number; max: number; target?: number | null }) {
+export function Gauge({ value, max, target }: { value: number; max: number; target?: number | null }) {
   const t = useT();
   const r = 80, c = Math.PI * r;
   const [shown, setShown] = useState(0);
@@ -26,7 +26,7 @@ function Gauge({ value, max, target }: { value: number; max: number; target?: nu
   );
 }
 
-function Bar({ f }: { f: Finding }) {
+export function ScoreBar({ f }: { f: Finding }) {
   const t = useT();
   const [open, setOpen] = useState(false);
   const [grow, setGrow] = useState(false);
@@ -90,7 +90,7 @@ export function SurveyScores({ findings }: { findings: Finding[] }) {
                   )}
                 </div>
               )}
-              <div className="space-y-4 self-center">{rest.length > 0 && <p className="text-[11px] text-muted-foreground">{t.lang === "el" ? "Πατήστε μια βαθμολογία για εξήγηση." : "Tap a score to see what it means."}</p>}{rest.map((f) => <Bar key={f.id} f={f} />)}</div>
+              <div className="space-y-4 self-center">{rest.length > 0 && <p className="text-[11px] text-muted-foreground">{t.lang === "el" ? "Πατήστε μια βαθμολογία για εξήγηση." : "Tap a score to see what it means."}</p>}{rest.map((f) => <ScoreBar key={f.id} f={f} />)}</div>
             </CardContent>
           </Card>
         );

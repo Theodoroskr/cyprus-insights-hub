@@ -8,7 +8,7 @@ import { SurveyScores } from "@/components/finlit/SurveyScores";
 import { Calculators } from "@/components/finlit/Calculators";
 import { useState } from "react";
 import { scoreExplain } from "@/lib/finlitExplain";
-import { DemoTrendChart, DemoCompareBars } from "@/components/demo/DemoCharts";
+import { TrendChart as DemoTrendChart, CompareBars as DemoCompareBars } from "@/components/finlit/SnapshotCharts";
 import { ConfidenceTools } from "@/components/demo/ConfidenceTools";
 import { StatCard, useFinLitFindings, useFinLitStats } from "@/components/finlit/useFinLitStats";
 

@@ -22,3 +22,10 @@ export const LEGACY_ANCHORS: Record<string, string> = {
   sources: "/financial-literacy/methodology", household: "/financial-literacy/household",
   "cost-of-living": "/financial-literacy/cost-of-living", survey: "/financial-literacy/observatory",
 };
+
+/** Menu groups (after Overview): figures, learning tools, and background. */
+export const FINLIT_GROUPS: { key: string; en: string; el: string; keys: string[] }[] = [
+  { key: "data", en: "Data", el: "Στοιχεία", keys: ["observatory", "household", "cost", "credit"] },
+  { key: "learn", en: "Learn", el: "Μάθηση", keys: ["academy", "calculators", "campaigns"] },
+  { key: "about", en: "About", el: "Σχετικά", keys: ["research", "methodology"] },
+];
