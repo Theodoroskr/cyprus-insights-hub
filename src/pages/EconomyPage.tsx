@@ -7,6 +7,7 @@ import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { InfocreditCta } from "@/components/mastercard/InfocreditCta";
+import { EurostatSection } from "@/components/economy/EurostatSection";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -93,7 +94,7 @@ export default function EconomyPage() {
       <TopNavigation onSearch={() => {}} />
       <SEOHead
         title="Cyprus Economic Indicators — Inflation, GDP, Unemployment | BusinessHub"
-        description="Official Cyprus inflation (CPI and HICP), quarterly GDP growth and Labour Force Survey unemployment from CYSTAT, updated as soon as new figures are released."
+        description="Official Cyprus inflation, GDP growth and unemployment from CYSTAT, plus Eurostat household income, savings, earnings, poverty and cost-of-living figures compared with the EU."
         path="/economy"
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Economy", href: "/economy" }]}
       />
@@ -151,6 +152,8 @@ export default function EconomyPage() {
             </div>
           </>
         )}
+
+        <EurostatSection />
 
         <InfocreditCta placement="economy" interest="Economic Research" />
 

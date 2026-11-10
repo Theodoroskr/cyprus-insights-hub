@@ -2863,6 +2863,273 @@ export type Database = {
         }
         Relationships: []
       }
+      stat_datasets: {
+        Row: {
+          category: string
+          code: string
+          created_at: string
+          dataset_code: string
+          decimals: number
+          description: string | null
+          enabled: boolean
+          filters: Json
+          frequency: string
+          geos: string[]
+          higher_is_better: boolean | null
+          id: string
+          last_checked_at: string | null
+          last_error: string | null
+          last_success_at: string | null
+          latest_period: string | null
+          refresh_hours: number
+          since_period: string
+          sort_order: number
+          source: string
+          source_label: string | null
+          source_updated_at: string | null
+          status: string
+          title_el: string | null
+          title_en: string
+          unit_label: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          code: string
+          created_at?: string
+          dataset_code: string
+          decimals?: number
+          description?: string | null
+          enabled?: boolean
+          filters?: Json
+          frequency: string
+          geos?: string[]
+          higher_is_better?: boolean | null
+          id?: string
+          last_checked_at?: string | null
+          last_error?: string | null
+          last_success_at?: string | null
+          latest_period?: string | null
+          refresh_hours?: number
+          since_period: string
+          sort_order?: number
+          source?: string
+          source_label?: string | null
+          source_updated_at?: string | null
+          status?: string
+          title_el?: string | null
+          title_en: string
+          unit_label: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          code?: string
+          created_at?: string
+          dataset_code?: string
+          decimals?: number
+          description?: string | null
+          enabled?: boolean
+          filters?: Json
+          frequency?: string
+          geos?: string[]
+          higher_is_better?: boolean | null
+          id?: string
+          last_checked_at?: string | null
+          last_error?: string | null
+          last_success_at?: string | null
+          latest_period?: string | null
+          refresh_hours?: number
+          since_period?: string
+          sort_order?: number
+          source?: string
+          source_label?: string | null
+          source_updated_at?: string | null
+          status?: string
+          title_el?: string | null
+          title_en?: string
+          unit_label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      stat_import_jobs: {
+        Row: {
+          changed_rows: number
+          datasets_checked: number
+          datasets_skipped: number
+          finished_at: string | null
+          id: string
+          new_rows: number
+          rejected_rows: number
+          report: Json
+          started_at: string
+          status: string
+          trigger: string
+          triggered_by: string | null
+          unchanged_rows: number
+        }
+        Insert: {
+          changed_rows?: number
+          datasets_checked?: number
+          datasets_skipped?: number
+          finished_at?: string | null
+          id?: string
+          new_rows?: number
+          rejected_rows?: number
+          report?: Json
+          started_at?: string
+          status?: string
+          trigger?: string
+          triggered_by?: string | null
+          unchanged_rows?: number
+        }
+        Update: {
+          changed_rows?: number
+          datasets_checked?: number
+          datasets_skipped?: number
+          finished_at?: string | null
+          id?: string
+          new_rows?: number
+          rejected_rows?: number
+          report?: Json
+          started_at?: string
+          status?: string
+          trigger?: string
+          triggered_by?: string | null
+          unchanged_rows?: number
+        }
+        Relationships: []
+      }
+      stat_observations: {
+        Row: {
+          created_at: string
+          dataset_id: string
+          geo: string
+          id: string
+          import_job_id: string | null
+          period: string
+          period_date: string
+          retrieved_at: string
+          source_updated_at: string | null
+          status: string
+          status_flag: string | null
+          updated_at: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          dataset_id: string
+          geo: string
+          id?: string
+          import_job_id?: string | null
+          period: string
+          period_date: string
+          retrieved_at?: string
+          source_updated_at?: string | null
+          status?: string
+          status_flag?: string | null
+          updated_at?: string
+          value: number
+        }
+        Update: {
+          created_at?: string
+          dataset_id?: string
+          geo?: string
+          id?: string
+          import_job_id?: string | null
+          period?: string
+          period_date?: string
+          retrieved_at?: string
+          source_updated_at?: string | null
+          status?: string
+          status_flag?: string | null
+          updated_at?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stat_observations_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "stat_datasets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stat_observations_import_job_id_fkey"
+            columns: ["import_job_id"]
+            isOneToOne: false
+            referencedRelation: "stat_import_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stat_revisions: {
+        Row: {
+          created_at: string
+          dataset_id: string
+          decided_at: string | null
+          decided_by: string | null
+          geo: string
+          id: string
+          import_job_id: string | null
+          period: string
+          previous_flag: string | null
+          previous_value: number | null
+          replacement_flag: string | null
+          replacement_value: number
+          source_updated_at: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          dataset_id: string
+          decided_at?: string | null
+          decided_by?: string | null
+          geo: string
+          id?: string
+          import_job_id?: string | null
+          period: string
+          previous_flag?: string | null
+          previous_value?: number | null
+          replacement_flag?: string | null
+          replacement_value: number
+          source_updated_at?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          dataset_id?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          geo?: string
+          id?: string
+          import_job_id?: string | null
+          period?: string
+          previous_flag?: string | null
+          previous_value?: number | null
+          replacement_flag?: string | null
+          replacement_value?: number
+          source_updated_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stat_revisions_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "stat_datasets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stat_revisions_import_job_id_fkey"
+            columns: ["import_job_id"]
+            isOneToOne: false
+            referencedRelation: "stat_import_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tourism_arrivals_monthly: {
         Row: {
           arrivals: number | null
@@ -3415,6 +3682,29 @@ export type Database = {
           last_successful_import_at: string
           latest_reporting_period: string
           official_dataset_url: string
+        }[]
+      }
+      get_public_stat_datasets: {
+        Args: never
+        Returns: {
+          category: string
+          code: string
+          dataset_code: string
+          decimals: number
+          description: string
+          frequency: string
+          geos: string[]
+          higher_is_better: boolean
+          id: string
+          last_success_at: string
+          latest_period: string
+          sort_order: number
+          source: string
+          source_label: string
+          source_updated_at: string
+          title_el: string
+          title_en: string
+          unit_label: string
         }[]
       }
       has_premium_access: { Args: never; Returns: boolean }

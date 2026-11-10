@@ -51,3 +51,9 @@
 - [x] Directory page: "How to search Cyprus companies" guide
 - [x] CySEC-licensed firms list page from licence data
 - [x] Make story analysis ("Why it matters") recognisable to search engines
+
+# Roadmap — Eurostat & Financial Literacy (Nov 2026)
+- [x] Eurostat connector: 12 verified Cyprus vs EU indicators, daily check, revisions reviewed, import history, admin controls
+- [x] Cyprus vs EU section on /economy
+- [x] Financial Literacy assessment report (awaiting approval)
+- [ ] Financial Literacy page — blocked: waiting for approval of the assessment and answers to its open questions

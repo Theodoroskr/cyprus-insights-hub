@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { RealEstatePanel } from "@/components/admin/RealEstatePanel";
+import { EurostatAdminPanel } from "@/components/admin/EurostatAdminPanel";
 
 const fmt = (d: string | null) => (d ? new Date(d).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" }) : "—");
 
@@ -68,7 +69,7 @@ export function OpenDataSourcesPanel() {
                 <td><Badge variant={s.status === "ok" ? "default" : s.status === "error" ? "destructive" : "secondary"}>{s.status}</Badge></td>
                 <td className="max-w-[14rem]">{s.alert_state && s.alert_state !== "ok" ? (<><Badge variant={s.alert_state === "error" || s.alert_state === "missed_check" ? "destructive" : "secondary"}>{s.alert_state === "stale_period" ? "No new month" : s.alert_state === "missed_check" ? "Missed check" : "Error"}</Badge><p className="text-muted-foreground mt-0.5">{s.alert_reason}</p></>) : <Badge variant="outline">Healthy</Badge>}</td>
                 <td><Switch checked={s.enabled} onCheckedChange={(v) => toggle(s.id, v)} aria-label="Show publicly" /></td>
-                <td>{s.module === "economy" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-economy", { action: "check" }, "Economic indicators checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "trade" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-cystat-trade", {}, "Trade data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "tourism" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-tourism", { action: "check" }, "Tourism data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}</td>
+                <td>{s.module === "economy" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-economy", { action: "check" }, "Economic indicators checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "trade" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-cystat-trade", {}, "Trade data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "eurostat" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-eurostat", { action: "check", force: true }, "Eurostat checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}{s.module === "tourism" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => invoke("ingest-tourism", { action: "check" }, "Tourism data checked")}><RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} /></Button>}</td>
               </tr>
             ))}</tbody>
           </table>
@@ -109,6 +110,9 @@ export function OpenDataSourcesPanel() {
           ))}
         </CardContent>
       </Card>
+
+      <h3 className="font-semibold pt-2">Eurostat statistics</h3>
+      <EurostatAdminPanel />
 
       <h3 className="font-semibold pt-2">Real Estate imports</h3>
       <RealEstatePanel />
