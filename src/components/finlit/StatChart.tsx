@@ -39,7 +39,7 @@ export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: Sta
           <SelectContent>{[2019, 2020, 2021, 2022, 2023, 2024].map((y) => <SelectItem key={y} value={String(y)}>From {y}</SelectItem>)}</SelectContent></Select>
         <Button variant="outline" size="sm" onClick={download} disabled={!rows.length}><Download className="h-4 w-4 mr-1" /> CSV</Button>
       </div>
-      <div className="h-72">
+      <div className="h-72" role="img" aria-label={chartSummary(ds, rows)}>
         {rows.length ? <ResponsiveContainer><LineChart data={rows}>
           <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
           <XAxis dataKey="period" fontSize={11} minTickGap={24} /><YAxis fontSize={11} />
@@ -50,4 +50,12 @@ export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: Sta
       <p className="text-xs text-muted-foreground">Unit: {ds.unit_label} · Source: <a className="underline" href={datasetSource(ds).href} target="_blank" rel="noopener noreferrer">{datasetSource(ds).label}</a>{ds.latest_period ? ` · latest period ${prettyStatPeriod(ds.latest_period)}` : ""}{ds.last_success_at ? ` · last updated ${new Date(ds.last_success_at).toLocaleDateString("en-GB")}` : ""}. Gaps mean no figure has been published; nothing is estimated.</p>
     </CardContent></Card>
   );
+}
+
+/** Plain-text summary of a chart for screen readers: latest value per area. */
+export function chartSummary(ds: Pick<StatDataset, "title_en" | "unit_label" | "geos">, rows: Record<string, number | string>[]) {
+  const last = rows[rows.length - 1];
+  if (!last) return `${ds.title_en}: no data for this period`;
+  const parts = ds.geos.filter((g) => last[g] !== undefined).map((g) => `${GEO_LABELS[g] ?? g} ${last[g]}`);
+  return `${ds.title_en} (${ds.unit_label}), ${rows[0].period} to ${last.period}. Latest ${last.period}: ${parts.join(", ")}.`;
 }

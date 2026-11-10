@@ -92,9 +92,9 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                 <span className="text-background font-serif font-bold text-sm">B</span>
               </div>
               <div className="hidden sm:block">
-                <h1 className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                <span className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   BusinessHub<span className="text-secondary">.cy</span>
-                </h1>
+                </span>
               </div>
             </Link>
 

@@ -70,6 +70,10 @@ export function ObservatoryPage() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">{s.pick(BANKING).map((d) => <StatCard key={d.code} ds={d} obs={s.obs} />)}</div>
             <StatChart datasets={s.pick(BANKING)} obs={s.obs} />
           </>}
+          <div className="rounded-md border border-dashed p-4 text-sm" role="status">
+            <p className="font-medium">Household debt-to-income ratio · Not yet available</p>
+            <p className="text-muted-foreground">No verified monthly official series has been confirmed yet, so no figure is shown. It will be added once an official source is checked.</p>
+          </div>
         </section>
         <section className="space-y-4">
           <H2>C · Cyprus financial conditions</H2>

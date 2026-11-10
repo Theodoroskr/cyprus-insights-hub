@@ -9,3 +9,9 @@ describe("finCalc", () => {
   it("inflation erodes", () => expect(realValue(1000, 2, 10)).toBeCloseTo(820.35, 1));
   it("emergency fund", () => expect(emergencyFund(1500, 6)).toBe(9000));
 });
+
+describe("calculator edge inputs", () => {
+  it("loan with 0 years returns 0, not Infinity", () => { expect(loanPayment(150000, 4, 0)).toBe(0); });
+  it("loan at 0% splits principal evenly", () => { expect(loanPayment(12000, 0, 1)).toBe(1000); });
+  it("goal already met needs no saving", () => { expect(monthlyForGoal(1000, 5000, 3, 5)).toBe(0); });
+});
