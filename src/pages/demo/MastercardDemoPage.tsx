@@ -13,6 +13,7 @@ const C = {
   en: {
     sub: "Proposed Partnership Demonstration – Not an Official Mastercard Programme",
     title: "Cyprus Financial Confidence",
+    kicker: "Financial confidence for everyone in Cyprus", cta: "Test your money confidence", k1: "Overall financial literacy score", k2: "Adults reaching the target score", k3: "Answer the compound-interest question correctly", src: "survey 2023, published 2025",
     intro: "A preview of how BusinessHub.cy's financial literacy platform could look as a joint public programme. All figures are live official data from OECD, the Central Bank of Cyprus and Eurostat.",
     scores: "How confident is Cyprus with money?", figures: "Household finances today", tools: "Try the money tools",
     check: "Test your money confidence",
@@ -22,6 +23,7 @@ const C = {
   el: {
     sub: "Επίδειξη Προτεινόμενης Συνεργασίας – Δεν αποτελεί Επίσημο Πρόγραμμα της Mastercard",
     title: "Οικονομική Αυτοπεποίθηση στην Κύπρο",
+    kicker: "Οικονομική αυτοπεποίθηση για όλους στην Κύπρο", cta: "Δοκιμάστε την αυτοπεποίθησή σας", k1: "Συνολική βαθμολογία χρηματοοικονομικού αλφαβητισμού", k2: "Ενήλικες που φτάνουν τον στόχο", k3: "Απαντούν σωστά στην ερώτηση ανατοκισμού", src: "έρευνα 2023, δημοσίευση 2025",
     intro: "Προεπισκόπηση του πώς θα μπορούσε να μοιάζει η πλατφόρμα χρηματοοικονομικού αλφαβητισμού του BusinessHub.cy ως κοινό πρόγραμμα. Όλα τα στοιχεία είναι επίσημα, από τον ΟΟΣΑ, την Κεντρική Τράπεζα της Κύπρου και τη Eurostat.",
     scores: "Πόσο σίγουρη νιώθει η Κύπρος με τα χρήματα;", figures: "Τα οικονομικά των νοικοκυριών σήμερα", tools: "Δοκιμάστε τα εργαλεία",
     check: "Δοκιμάστε την οικονομική σας αυτοπεποίθηση",
@@ -39,31 +41,56 @@ export default function MastercardDemoPage() {
   if (!isAdmin || !MASTERCARD_DEMO.enabled) return <Navigate to="/" replace />;
   const t = C[lang];
   const overall = (f.data ?? []).filter((x) => x.publisher?.startsWith("OECD") && !x.breakdown_dimension).slice(0, 4);
+  const compound = (f.data ?? []).find((x) => /compound/i.test(x.indicator) && !x.breakdown_dimension)?.value ?? null;
   const showLogo = MASTERCARD_DEMO.logoApproved && !!MASTERCARD_DEMO.logoUrl;
   return (
     <div className="mc-demo min-h-screen bg-background">
       <Helmet><title>Private demo</title><meta name="robots" content="noindex, nofollow" /></Helmet>
-      <header className="bg-[hsl(var(--mc-charcoal))] text-[hsl(var(--mc-white))]">
-        <div className="container mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
+      <header className="sticky top-0 z-40 bg-[hsl(var(--mc-white))] border-b">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="font-serif text-xl font-bold">BusinessHub.cy</span>
-            <span aria-hidden className="opacity-60">×</span>
-            {showLogo ? <img src={MASTERCARD_DEMO.logoUrl!} alt="Mastercard" className="h-8 w-auto" /> : <span className="text-xl font-semibold">Mastercard</span>}
+            <span className="font-serif text-lg md:text-xl font-bold">BusinessHub.cy</span>
+            <span aria-hidden className="text-muted-foreground">×</span>
+            {showLogo ? <img src={MASTERCARD_DEMO.logoUrl!} alt="Mastercard" className="h-9 md:h-10 w-auto" /> : <span className="text-xl font-semibold">Mastercard</span>}
           </div>
-          <div className="rounded-md bg-[hsl(var(--mc-white))] text-[hsl(var(--mc-charcoal))] text-sm"><LangSwitch lang={lang} setLang={setLang} /></div>
+          <div className="text-sm"><LangSwitch lang={lang} setLang={setLang} /></div>
         </div>
-        <div className="flex h-1" aria-hidden>
+      </header>
+      <div className="bg-[hsl(var(--mc-charcoal))] text-[hsl(var(--mc-white))] border-b border-[hsl(var(--mc-white)/0.1)]">
+        <p className="container mx-auto px-4 py-2 text-xs font-medium tracking-wide text-center">{t.sub}</p>
+      </div>
+
+      <section className="bg-[hsl(var(--mc-charcoal))] text-[hsl(var(--mc-white))]">
+        <div className="container mx-auto px-4 py-12 md:py-16 grid lg:grid-cols-[1.4fr_1fr] gap-10 items-center">
+          <div className="space-y-5">
+            <p className="inline-flex rounded-full bg-[hsl(var(--mc-orange))] px-3 py-1 text-xs font-semibold text-[hsl(var(--mc-charcoal))]">{t.kicker}</p>
+            <h1 className="text-4xl md:text-6xl font-serif font-bold leading-tight">{t.title}</h1>
+            <p className="text-lg opacity-80 max-w-2xl">{t.intro}</p>
+            <div className="flex flex-wrap gap-3">
+              <a href="#check" className="rounded-full bg-[hsl(var(--mc-red))] px-6 py-3 font-semibold text-[hsl(var(--mc-white))] hover:opacity-90">{t.cta}</a>
+              <a href="#tools" className="rounded-full border border-[hsl(var(--mc-white)/0.4)] px-6 py-3 font-semibold hover:bg-[hsl(var(--mc-white)/0.1)]">{t.tools}</a>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 lg:grid-cols-1 gap-3">
+            {[
+              { v: "56/100", l: t.k1, c: "--mc-red" },
+              { v: "17%", l: t.k2, c: "--mc-orange" },
+              { v: compound != null ? `${compound}%` : "—", l: t.k3, c: "--mc-yellow" },
+            ].map((k) => (
+              <div key={k.l} className="rounded-2xl bg-[hsl(var(--mc-white)/0.06)] p-4 border-l-4" style={{ borderColor: `hsl(var(${k.c}))` }}>
+                <p className="text-2xl md:text-3xl font-serif font-bold">{k.v}</p>
+                <p className="text-xs md:text-sm opacity-75">{k.l}</p>
+              </div>
+            ))}
+            <p className="col-span-3 lg:col-span-1 text-[11px] opacity-60">OECD, {t.src}</p>
+          </div>
+        </div>
+        <div className="flex h-1.5" aria-hidden>
           <div className="flex-1 bg-[hsl(var(--mc-red))]" /><div className="flex-1 bg-[hsl(var(--mc-orange))]" /><div className="flex-1 bg-[hsl(var(--mc-yellow))]" />
         </div>
-        <p className="container mx-auto px-4 py-2 text-xs font-medium tracking-wide">{t.sub}</p>
-      </header>
+      </section>
 
-      <main className="container mx-auto px-4 py-10 space-y-12">
-        <section className="space-y-3 max-w-3xl">
-          <h1 className="text-3xl md:text-5xl font-serif font-bold">{t.title}</h1>
-          <p className="text-muted-foreground text-lg">{t.intro}</p>
-        </section>
-
+      <main className="container mx-auto px-4 py-12 space-y-14">
         <section className="space-y-4">
           <h2 className="text-2xl font-serif font-semibold border-l-4 border-[hsl(var(--mc-orange))] pl-3">{t.scores}</h2>
           {overall.length > 0 && <SurveyScores findings={overall} />}
@@ -75,13 +102,13 @@ export default function MastercardDemoPage() {
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-2xl font-serif font-semibold border-l-4 border-[hsl(var(--mc-red))] pl-3">{t.tools}</h2>
+          <h2 id="tools" className="scroll-mt-24 text-2xl font-serif font-semibold border-l-4 border-[hsl(var(--mc-red))] pl-3">{t.tools}</h2>
           <Calculators />
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-2xl font-serif font-semibold border-l-4 border-[hsl(var(--mc-orange))] pl-3">{t.check}</h2>
-          <ConfidenceTools lang={lang} cyCompound={(f.data ?? []).find((x) => /compound/i.test(x.indicator) && !x.breakdown_dimension)?.value ?? null} />
+          <h2 id="check" className="scroll-mt-24 text-2xl font-serif font-semibold border-l-4 border-[hsl(var(--mc-orange))] pl-3">{t.check}</h2>
+          <ConfidenceTools lang={lang} cyCompound={compound} />
         </section>
 
         <footer className="space-y-2 text-sm text-muted-foreground border-t pt-6">

@@ -312,4 +312,14 @@ img[src*="/assets/regtech-"] {
   --mc-yellow: 36 93% 54%;          /* #F79E1B */
   --mc-charcoal: 0 0% 8%;           /* #151515 */
   --mc-white: 0 0% 100%;
+  --mc-cream: 30 14% 94%;           /* warm off-white page */
+  --background: 30 14% 94%;
+  --foreground: 0 0% 8%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 8%;
+  --muted: 30 12% 90%;
+  --muted-foreground: 0 0% 32%;
+  --border: 30 10% 84%;
+  --radius: 1rem;
 }
+.mc-demo button { border-radius: 9999px; }

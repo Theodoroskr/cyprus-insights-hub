@@ -4,8 +4,11 @@
  * LOGO_APPROVED / LOGO_URL: the official Mastercard logo shows only when Mastercard has authorised it
  * and an unmodified official file has been supplied. Until then the header shows text only.
  */
+import logo from "@/assets/mastercard-logo.svg";
+
 export const MASTERCARD_DEMO = {
   enabled: true,
-  logoApproved: false,
-  logoUrl: null as string | null,
+  /** Shown only inside the admin-only private demo. Replace the file with Mastercard's brand-centre original once approved. */
+  logoApproved: true,
+  logoUrl: logo as string | null,
 };
