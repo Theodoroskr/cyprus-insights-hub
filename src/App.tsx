@@ -55,6 +55,7 @@ const RegTechPage = lazy(() => import("./pages/RegTechPage"));
 const KYBSuccessPage = lazy(() => import("./pages/KYBSuccessPage"));
 const KYBCancelledPage = lazy(() => import("./pages/KYBCancelledPage"));
 const UserManagementPage = lazy(() => import("./pages/UserManagementPage"));
+const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -98,6 +99,7 @@ const App = () => (
                   <Route path="/sme" element={<SMEPage />} />
                   <Route path="/regtech" element={<RegTechPage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/reset-password" element={<ResetPasswordPage />} />
                   <Route path="/editorial" element={<EditorialDashboard />} />
                   <Route path="/admin/sources" element={<ContentSourcesPage />} />
                   <Route path="/admin/users" element={<UserManagementPage />} />

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export function LoginModal({ isOpen, onClose, defaultTab = "login" }: LoginModal
   const [fullName, setFullName] = useState("");
   const [company, setCompany] = useState("");
   const [loading, setLoading] = useState(false);
+  const [forgot, setForgot] = useState(false);
   const { signIn, signUp } = useAuth();
 
   if (!isOpen) return null;
@@ -26,6 +28,15 @@ export function LoginModal({ isOpen, onClose, defaultTab = "login" }: LoginModal
     e.preventDefault();
     setLoading(true);
     try {
+      if (forgot) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast.success("If that email has an account, a reset link is on its way.");
+        setForgot(false);
+        return;
+      }
       if (tab === "login") {
         await signIn(email, password);
         toast.success("Welcome back!");
@@ -65,7 +76,7 @@ export function LoginModal({ isOpen, onClose, defaultTab = "login" }: LoginModal
           {(["login", "register"] as const).map((t) => (
             <button
               key={t}
-              onClick={() => setTab(t)}
+              onClick={() => { setTab(t); setForgot(false); }}
               className={`flex-1 py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-colors border-b-2 ${
                 tab === t ? "text-foreground border-secondary" : "text-muted-foreground border-transparent hover:text-foreground"
               }`}
@@ -110,22 +121,38 @@ export function LoginModal({ isOpen, onClose, defaultTab = "login" }: LoginModal
               className="pl-10 rounded-none"
             />
           </div>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              className="pl-10 rounded-none"
-            />
-          </div>
+          {forgot ? (
+            <p className="text-xs text-muted-foreground">
+              Enter your account email and we'll send you a link to set a new password.
+            </p>
+          ) : (
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                className="pl-10 rounded-none"
+              />
+            </div>
+          )}
 
           <Button type="submit" className="w-full rounded-none font-semibold uppercase tracking-wider text-xs h-11" disabled={loading}>
-            {loading ? "Please wait..." : tab === "login" ? "Sign In" : "Create Free Account"}
+            {loading ? "Please wait..." : forgot ? "Send reset link" : tab === "login" ? "Sign In" : "Create Free Account"}
           </Button>
+
+          {tab === "login" && (
+            <button
+              type="button"
+              onClick={() => setForgot((f) => !f)}
+              className="block w-full text-center text-xs text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
+            >
+              {forgot ? "Back to sign in" : "Forgot password?"}
+            </button>
+          )}
 
           {tab === "register" && (
             <div className="space-y-2 pt-2">
