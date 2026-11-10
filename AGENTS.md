@@ -29,4 +29,4 @@
 - Hourly `ping-indexnow` sends new pages to Bing once (`indexnow_submissions`). Why: discovery between publishes.
 - `/directory/cysec-licensed-firms` lists CySEC `regulated_entities`, never warnings. Why: licence data only.
 - Postbuild `generate-story-previews.ts` writes per-story `dist/article/<id>/index.html` head tags. Why: preview robots skip JS.
-- `/financial-literacy` shows survey findings from `fin_lit_findings` (entered from official PDFs, public only once an admin approves them on the page) plus existing Eurostat `stat_*` data. Why: survey numbers come from PDFs and must be checked by a person.
+- `/financial-literacy`: `fin_lit_findings` (from PDFs, public after admin approval) + Eurostat `stat_*`. Why: PDF figures need human checks.
