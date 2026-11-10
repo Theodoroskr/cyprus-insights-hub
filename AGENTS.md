@@ -23,11 +23,11 @@
 - `/economy`: CYSTAT `econ_indicators` (weekly `ingest-economy`, `ECON_SPECS`) + Eurostat `stat_*` tables (daily `ingest-eurostat`, `_shared/eurostat.ts`, config in `stat_datasets`); new periods publish, changed values go to revisions. Why: official figures only.
 - Leads: `InfocreditCta` → `submit-enquiry` → admin-only `commercial_enquiries` + admin bell; `cta_events` is anonymous counts. Why: no public PII.
 - The sitemap is static files on the site domain: `scripts/generate-sitemap.ts` (prebuild) writes `public/sitemap.xml` + `public/sitemaps/*.xml` from public tables using helpers in `src/lib/sitemap.ts`, and keeps the old files if the database is unreachable. Why: search engines only accept sitemap URLs on the site's own host; new content is added on each publish.
-- RSS: prebuild `generate-rss.ts` writes `public/rss.xml` + `public/rss/<hub>.xml`. Why: feed URLs must be on the site domain.
+- RSS: prebuild `generate-rss.ts` writes `public/rss*`. Why: feeds on the site domain.
 - Facebook auto-posting: hourly `post-to-facebook` (07:00–21:00 Cyprus) posts new `cna_articles` to the page chosen in the admin-only `facebook_autopost_settings`, spread evenly up to its daily limit and logged once per article in `facebook_posts` (rules in `_shared/facebookPosting.ts`); the token lives only in the Facebook Pages connector (a Page token posts through the connector directly; a User token has its page token fetched each run), and each hourly run posts at most 3 as photo posts (story image → least-recently-used picture from the section library `SOCIAL_IMAGE_LIBRARY`, tracked via `facebook_posts.image_url` → hub image → link post). Why: no duplicate or flood posting, and no token stored in the database.
 - Head tags: `RouteSEODefaults` (App.tsx) sets a self-referencing canonical/og:url via `canonicalUrl()` (`src/lib/seo.ts`); `SEOHead` overrides; `index.html` has no canonical and its fallback meta tags carry `data-rh="true"`. Why: one canonical/description per page.
-- Hourly `ping-indexnow` sends new pages to Bing once (`indexnow_submissions`). Why: discovery between publishes.
-- `/directory/cysec-licensed-firms` lists CySEC `regulated_entities`, never warnings. Why: licence data only.
-- Postbuild `generate-story-previews.ts` writes per-story `dist/article/<id>/index.html` head tags. Why: preview robots skip JS.
-- `/financial-literacy`: `fin_lit_findings` (from PDFs, public after admin approval) + Eurostat `stat_*`. Why: PDF figures need human checks.
+- Hourly `ping-indexnow` sends new pages to Bing once. Why: discovery between publishes.
+- CySEC firms page lists licences, never warnings. Why: licence data only.
+- Postbuild `generate-story-previews.ts` writes per-story preview heads. Why: robots skip JS.
+- `fin_lit_findings` are public only after admin approval. Why: PDF figures need checks.
 - Academy: `academy_*` rows public only when published and past `publish_at` (RLS); drafts seeded from `academySeed.ts` via admin tab. Why: no unreviewed lessons.
