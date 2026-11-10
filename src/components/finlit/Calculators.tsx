@@ -18,7 +18,9 @@ function Result({ items }: { items: [string, string][] }) {
 }
 const Note = ({ children }: { children: React.ReactNode }) => <p className="text-xs text-muted-foreground">{children}</p>;
 
-export function Calculators() {
+export type CalculatorKey = "budget" | "goal" | "compound" | "loan" | "inflation" | "emergency";
+
+export function Calculators({ only }: { only?: CalculatorKey } = {}) {
   const [inc, setInc] = useState(2000);
   const [goal, setGoal] = useState(10000); const [gStart, setGStart] = useState(1000); const [gRate, setGRate] = useState(2); const [gYears, setGYears] = useState(3);
   const [cStart, setCStart] = useState(1000); const [cMon, setCMon] = useState(100); const [cRate, setCRate] = useState(5); const [cYears, setCYears] = useState(20);
@@ -32,8 +34,8 @@ export function Calculators() {
     <Card><CardHeader><CardTitle className="font-serif">Money calculators</CardTitle>
       <p className="text-sm text-muted-foreground">Everything is worked out in your browser; nothing you type is saved or sent anywhere. Results are illustrations, not financial advice.</p></CardHeader>
       <CardContent>
-        <Tabs defaultValue="budget">
-          <TabsList className="flex flex-wrap h-auto">
+        <Tabs defaultValue={only ?? "budget"}>
+          <TabsList className={only ? "hidden" : "flex flex-wrap h-auto"}>
             {[["budget", "Monthly budget"], ["goal", "Savings goal"], ["compound", "Compound interest"], ["loan", "Loan repayment"], ["inflation", "Inflation"], ["emergency", "Emergency fund"]].map(([v, l]) => <TabsTrigger key={v} value={v}>{l}</TabsTrigger>)}
           </TabsList>
           <TabsContent value="budget" className="space-y-3 pt-3">

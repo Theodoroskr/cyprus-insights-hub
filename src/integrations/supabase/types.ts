@@ -14,6 +14,187 @@ export type Database = {
   }
   public: {
     Tables: {
+      academy_lesson_revisions: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          id: string
+          lesson_id: string
+          snapshot: Json
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          lesson_id: string
+          snapshot: Json
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          lesson_id?: string
+          snapshot?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "academy_lesson_revisions_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "academy_lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      academy_lessons: {
+        Row: {
+          body_el: string
+          body_en: string
+          calculator: string | null
+          created_at: string
+          id: string
+          level: string
+          minutes: number
+          objectives_el: string[]
+          objectives_en: string[]
+          programme_id: string
+          publish_at: string | null
+          resource_url: string | null
+          slug: string
+          sort_order: number
+          stat_codes: string[]
+          status: string
+          summary_el: string
+          summary_en: string
+          title_el: string
+          title_en: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          body_el?: string
+          body_en?: string
+          calculator?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          minutes?: number
+          objectives_el?: string[]
+          objectives_en?: string[]
+          programme_id: string
+          publish_at?: string | null
+          resource_url?: string | null
+          slug: string
+          sort_order?: number
+          stat_codes?: string[]
+          status?: string
+          summary_el?: string
+          summary_en?: string
+          title_el?: string
+          title_en: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          body_el?: string
+          body_en?: string
+          calculator?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          minutes?: number
+          objectives_el?: string[]
+          objectives_en?: string[]
+          programme_id?: string
+          publish_at?: string | null
+          resource_url?: string | null
+          slug?: string
+          sort_order?: number
+          stat_codes?: string[]
+          status?: string
+          summary_el?: string
+          summary_en?: string
+          title_el?: string
+          title_en?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "academy_lessons_programme_id_fkey"
+            columns: ["programme_id"]
+            isOneToOne: false
+            referencedRelation: "academy_programmes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      academy_programmes: {
+        Row: {
+          audience_el: string
+          audience_en: string
+          code: string
+          created_at: string
+          id: string
+          level: string
+          notice_el: string | null
+          notice_en: string | null
+          objectives_el: string[]
+          objectives_en: string[]
+          publish_at: string | null
+          slug: string
+          sort_order: number
+          status: string
+          summary_el: string
+          summary_en: string
+          title_el: string
+          title_en: string
+          updated_at: string
+        }
+        Insert: {
+          audience_el?: string
+          audience_en?: string
+          code?: string
+          created_at?: string
+          id?: string
+          level?: string
+          notice_el?: string | null
+          notice_en?: string | null
+          objectives_el?: string[]
+          objectives_en?: string[]
+          publish_at?: string | null
+          slug: string
+          sort_order?: number
+          status?: string
+          summary_el?: string
+          summary_en?: string
+          title_el?: string
+          title_en: string
+          updated_at?: string
+        }
+        Update: {
+          audience_el?: string
+          audience_en?: string
+          code?: string
+          created_at?: string
+          id?: string
+          level?: string
+          notice_el?: string | null
+          notice_en?: string | null
+          objectives_el?: string[]
+          objectives_en?: string[]
+          publish_at?: string | null
+          slug?: string
+          sort_order?: number
+          status?: string
+          summary_el?: string
+          summary_en?: string
+          title_el?: string
+          title_en?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       article_companies: {
         Row: {
           article_id: string

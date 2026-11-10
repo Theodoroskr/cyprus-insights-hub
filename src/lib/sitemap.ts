@@ -30,6 +30,7 @@ export const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/tourism", changefreq: "monthly", priority: "0.7" },
   { path: "/economy", changefreq: "weekly", priority: "0.7" },
   { path: "/financial-literacy", changefreq: "weekly", priority: "0.6" },
+  { path: "/financial-literacy/academy", changefreq: "weekly", priority: "0.6" },
   { path: "/intelligence/mastercard", changefreq: "monthly", priority: "0.6" },
   { path: "/intelligence/mastercard/spendingpulse", changefreq: "monthly", priority: "0.5" },
   { path: "/open-data", changefreq: "monthly", priority: "0.5" },

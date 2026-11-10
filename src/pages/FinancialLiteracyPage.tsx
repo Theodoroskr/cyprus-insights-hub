@@ -72,6 +72,12 @@ export default function FinancialLiteracyPage() {
           <p className="text-muted-foreground max-w-3xl">What adults in Cyprus know about money, and the household finances behind it. Survey results come from official reports; household and price figures update automatically from Eurostat. Every figure shows its publisher and year.</p>
         </header>
 
+        <Link to="/financial-literacy/academy" className="block rounded-xl border bg-gradient-to-r from-primary/15 to-background p-5 hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <p className="text-xs uppercase tracking-wide text-muted-foreground">New · Ακαδημία</p>
+          <p className="text-xl font-serif font-semibold">Financial Literacy Academy →</p>
+          <p className="text-sm text-muted-foreground">Free, short lessons on budgeting, borrowing, online safety, saving and business finance, in English and Greek.</p>
+        </Link>
+
         <section className="space-y-4">
           <h2 className="text-2xl font-serif font-semibold">Cyprus financial literacy</h2>
           {findings.isLoading ? <p className="text-muted-foreground">Loading…</p> : !visible.length ? <p className="text-muted-foreground">Data not available yet.</p> : <SurveyScores findings={visible} />}

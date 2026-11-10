@@ -30,3 +30,4 @@
 - `/directory/cysec-licensed-firms` lists CySEC `regulated_entities`, never warnings. Why: licence data only.
 - Postbuild `generate-story-previews.ts` writes per-story `dist/article/<id>/index.html` head tags. Why: preview robots skip JS.
 - `/financial-literacy`: `fin_lit_findings` (from PDFs, public after admin approval) + Eurostat `stat_*`. Why: PDF figures need human checks.
+- Financial Literacy Academy: `academy_programmes`/`academy_lessons` are public only when `published` and past `publish_at` (RLS); starter drafts live in `src/lib/academySeed.ts` and are imported as drafts from the admin Academy tab; lessons embed the existing `Calculators` via `only`. Why: no unreviewed lessons published, no duplicate calculators.

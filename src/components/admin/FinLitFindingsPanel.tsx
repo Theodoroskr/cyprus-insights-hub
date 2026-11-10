@@ -23,10 +23,16 @@ export function FinLitFindingsPanel() {
     qc.invalidateQueries({ queryKey: ["admin-finlit-findings"] });
     qc.invalidateQueries({ queryKey: ["finlit-findings"] });
   };
+  const approveAll = async () => {
+    await supabase.from("fin_lit_findings").update({ status: "approved", approved_by: user?.id, approved_at: new Date().toISOString() }).neq("status", "approved");
+    qc.invalidateQueries({ queryKey: ["admin-finlit-findings"] });
+    qc.invalidateQueries({ queryKey: ["finlit-findings"] });
+  };
   return (
     <Card>
       <CardHeader><CardTitle className="text-lg">Financial Literacy survey results</CardTitle>
-        <p className="text-sm text-muted-foreground">Only approved figures appear on the public Financial Literacy page.</p></CardHeader>
+        <p className="text-sm text-muted-foreground">Only approved figures appear on the public Financial Literacy page.</p>
+        <Button size="sm" className="w-fit" onClick={approveAll} disabled={!(q.data ?? []).some((r) => r.status !== "approved")}>Approve all</Button></CardHeader>
       <CardContent className="divide-y">
         {(q.data ?? []).map((r) => (
           <div key={r.id} className="flex items-center gap-3 py-2 text-sm">

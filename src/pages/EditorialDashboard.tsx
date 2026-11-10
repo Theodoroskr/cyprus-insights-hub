@@ -16,7 +16,8 @@ import {
   CheckCircle, Archive, FileEdit, Eye, Clock,
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
   AlertTriangle, Users, Image, ShieldCheck, Rss,
-  ExternalLink, Loader2, Send
+  ExternalLink, Loader2, Send,
+  GraduationCap,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
@@ -25,6 +26,7 @@ import { DirectoryArticlesPanel } from "@/components/admin/DirectoryArticlesPane
 import { ResourcesPanel } from "@/components/admin/ResourcesPanel";
 import { ContentHealthPanel } from "@/components/admin/ContentHealthPanel";
 import { ReviewQueuePanel } from "@/components/admin/ReviewQueuePanel";
+import { AcademyPanel } from "@/components/admin/AcademyPanel";
 import { OpenDataSourcesPanel } from "@/components/admin/OpenDataSourcesPanel";
 import { MastercardAdminPanel } from "@/components/admin/MastercardAdminPanel";
 import { FacebookAutopostPanel } from "@/components/admin/FacebookAutopostPanel";
@@ -302,9 +304,9 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook">(() => {
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "academy">(() => {
     const tab = new URLSearchParams(window.location.search).get("tab");
-    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : "articles";
+    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "academy" ? "academy" : "articles";
   });
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
@@ -569,6 +571,14 @@ const EditorialDashboard = () => {
             >
               <Send className="h-3.5 w-3.5" /> Facebook
             </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "academy" ? "default" : "ghost"}
+              onClick={() => setActivePanel("academy")}
+              className="gap-1.5"
+            >
+              <GraduationCap className="h-3.5 w-3.5" /> Academy
+            </Button>
           </div>
         </div>
 
@@ -592,6 +602,8 @@ const EditorialDashboard = () => {
           <OpenDataSourcesPanel />
         ) : activePanel === "mastercard" ? (
           <MastercardAdminPanel />
+        ) : activePanel === "academy" ? (
+          <AcademyPanel />
         ) : activePanel === "facebook" ? (
           <FacebookAutopostPanel />
         ) : (
