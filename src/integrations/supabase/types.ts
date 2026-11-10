@@ -1478,6 +1478,8 @@ export type Database = {
         Row: {
           approved_at: string | null
           approved_by: string | null
+          breakdown_dimension: string | null
+          breakdown_group: string | null
           comparison_label: string | null
           comparison_value: number | null
           created_at: string
@@ -1499,6 +1501,8 @@ export type Database = {
         Insert: {
           approved_at?: string | null
           approved_by?: string | null
+          breakdown_dimension?: string | null
+          breakdown_group?: string | null
           comparison_label?: string | null
           comparison_value?: number | null
           created_at?: string
@@ -1520,6 +1524,8 @@ export type Database = {
         Update: {
           approved_at?: string | null
           approved_by?: string | null
+          breakdown_dimension?: string | null
+          breakdown_group?: string | null
           comparison_label?: string | null
           comparison_value?: number | null
           created_at?: string

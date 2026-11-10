@@ -11,7 +11,7 @@ export default function FinancialLiteracyPage() {
   useEffect(() => { const to = LEGACY_ANCHORS[hash.replace("#", "")]; if (to) navigate(to, { replace: true }); }, [hash, navigate]);
   const s = useFinLitStats();
   const f = useFinLitFindings();
-  const overall = (f.data ?? []).filter((x) => x.publisher?.startsWith("OECD")).slice(0, 4);
+  const overall = (f.data ?? []).filter((x) => x.publisher?.startsWith("OECD") && !x.breakdown_dimension).slice(0, 4);
   return (
     <FinLitLayout moduleKey="overview" title="Financial Literacy in Cyprus — Survey Results, Household Finances & Free Lessons"
       description="How financially literate are adults in Cyprus? OECD and Central Bank survey results, Eurostat household and price figures, free calculators and lessons."

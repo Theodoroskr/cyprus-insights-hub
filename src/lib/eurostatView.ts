@@ -1,5 +1,5 @@
 export type StatDataset = {
-  id: string; code: string; dataset_code: string; title_en: string; title_el: string | null; category: string; description: string | null;
+  id: string; code: string; source?: string; dataset_code: string; title_en: string; title_el: string | null; category: string; description: string | null;
   unit_label: string; frequency: string; geos: string[]; decimals: number; higher_is_better: boolean | null; sort_order: number;
   source_label: string | null; source_updated_at: string | null; last_success_at: string | null; latest_period: string | null;
 };
@@ -15,6 +15,12 @@ export const CATEGORY_LABELS: Record<string, string> = {
   earnings: "Earnings · Αποδοχές",
   poverty: "Financial vulnerability · Οικονομική ευαλωτότητα",
 };
+/** Link and label for a dataset's official source (Eurostat table or ECB/Central Bank series). */
+export function datasetSource(ds: { dataset_code: string; source?: string; filters?: { series?: string } | null; code?: string }): { href: string; label: string } {
+  if (ds.source === "ecb") return { href: "https://data.ecb.europa.eu/data/datasets/" + ds.dataset_code, label: `Central Bank of Cyprus (ECB ${ds.dataset_code})` };
+  return { href: databrowserUrl(ds.dataset_code), label: `Eurostat ${ds.dataset_code}` };
+}
+
 export const GEO_LABELS: Record<string, string> = { CY: "Cyprus", EU27_2020: "EU-27", EA: "Euro area" };
 export const FLAG_LABELS: Record<string, string> = { e: "estimate", p: "provisional", b: "break in series", d: "definition differs", u: "low reliability", c: "confidential", f: "forecast", s: "Eurostat estimate" };
 

@@ -26,8 +26,9 @@
 - RSS: prebuild `generate-rss.ts` writes `public/rss*`. Why: feeds on the site domain.
 - Facebook auto-posting: hourly `post-to-facebook` (07:00–21:00 Cyprus) posts new `cna_articles` to the page chosen in the admin-only `facebook_autopost_settings`, spread evenly up to its daily limit and logged once per article in `facebook_posts` (rules in `_shared/facebookPosting.ts`); the token lives only in the Facebook Pages connector (a Page token posts through the connector directly; a User token has its page token fetched each run), and each hourly run posts at most 3 as photo posts (story image → least-recently-used picture from the section library `SOCIAL_IMAGE_LIBRARY`, tracked via `facebook_posts.image_url` → hub image → link post). Why: no duplicate or flood posting, and no token stored in the database.
 - Head tags: `RouteSEODefaults` (App.tsx) sets a self-referencing canonical/og:url via `canonicalUrl()` (`src/lib/seo.ts`); `SEOHead` overrides; `index.html` has no canonical and its fallback meta tags carry `data-rh="true"`. Why: one canonical/description per page.
-- Hourly `ping-indexnow` sends new pages to Bing once. Why: discovery between publishes.
+- `ping-indexnow` pings Bing once per page.
 - CySEC firms page lists licences, never warnings. Why: licence data only.
-- Postbuild `generate-story-previews.ts` writes per-story preview heads. Why: robots skip JS.
+- Postbuild writes per-story preview heads. Why: robots skip JS.
 - `fin_lit_findings` are public only after admin approval. Why: PDF figures need checks.
-- Academy: `academy_*` rows public only when published and past `publish_at` (RLS); drafts seeded from `academySeed.ts` via admin tab. Why: no unreviewed lessons.
+- Academy rows public only when published and past `publish_at` (RLS). Why: no unreviewed lessons.
+- CBC stats: `source=ecb` rows via `ingest-eurostat`; OECD via Crossref. Why: official APIs.

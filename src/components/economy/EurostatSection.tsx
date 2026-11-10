@@ -15,7 +15,7 @@ const COLORS: Record<string, string> = { CY: "hsl(var(--re-1))", EU27_2020: "hsl
 async function loadAll(): Promise<{ datasets: StatDataset[]; obs: StatObs[] }> {
   const { data: ds, error } = await supabase.rpc("get_public_stat_datasets");
   if (error) throw error;
-  const datasets = (ds ?? []) as StatDataset[];
+  const datasets = ((ds ?? []) as StatDataset[]).filter((d) => d.source !== "ecb");
   const obs: StatObs[] = [];
   for (let from = 0; ; from += 1000) {
     const { data, error: e } = await supabase.from("stat_observations").select("dataset_id, geo, period, period_date, value, status_flag")

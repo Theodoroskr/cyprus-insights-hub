@@ -47,7 +47,7 @@ export function SurveyScores({ findings }: { findings: Finding[] }) {
         return (
           <Card key={g} className="overflow-hidden">
             <div className="px-5 py-3 border-b bg-muted/40 flex flex-wrap items-center justify-between gap-2">
-              <p className="text-sm font-semibold">{f0.publisher} · survey year {f0.survey_year}{f0.published_year ? `, published ${f0.published_year}` : ""}</p>
+              <p className="text-sm font-semibold">{f0.publisher} · Survey reference year: {f0.survey_year}{f0.published_year ? ` · Published: ${f0.published_year}` : ""}</p>
               <a className="text-xs underline inline-flex items-center gap-1 text-muted-foreground" href={f0.source_url} target="_blank" rel="noopener noreferrer">{f0.survey} <ExternalLink className="h-3 w-3" /></a>
             </div>
             <CardContent className="p-5 grid gap-6 md:grid-cols-[minmax(0,280px)_1fr]">

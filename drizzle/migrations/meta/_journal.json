@@ -183,6 +183,13 @@
       "when": 1794341898202,
       "tag": "0025_academy_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1794343130224,
+      "tag": "0026_fin_lit_breakdowns",
+      "breakpoints": true
     }
   ]
 }

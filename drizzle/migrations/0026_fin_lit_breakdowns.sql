@@ -1,0 +1,2 @@
+ALTER TABLE public.fin_lit_findings ADD COLUMN IF NOT EXISTS breakdown_dimension text, ADD COLUMN IF NOT EXISTS breakdown_group text;
+COMMENT ON COLUMN public.fin_lit_findings.breakdown_dimension IS 'Socio-demographic dimension (gender, age, income); null = all respondents';

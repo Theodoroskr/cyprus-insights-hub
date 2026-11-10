@@ -4,7 +4,7 @@ import { Download } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { GEO_LABELS, databrowserUrl, prettyStatPeriod, type StatDataset, type StatObs } from "@/lib/eurostatView";
+import { GEO_LABELS, datasetSource, prettyStatPeriod, type StatDataset, type StatObs } from "@/lib/eurostatView";
 
 const COLORS: Record<string, string> = { CY: "hsl(var(--re-1))", EU27_2020: "hsl(var(--re-2))", EA: "hsl(var(--re-3))" };
 
@@ -25,7 +25,7 @@ export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: Sta
   if (!ds) return null;
   const download = () => {
     const cell = (v: unknown) => { let s = String(v ?? ""); if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`; return `"${s.replace(/"/g, '""')}"`; };
-    const lines = [[`Source: Eurostat ${ds.dataset_code} (reuse with attribution). Blank = not available.`], [ds.title_en, ds.unit_label], [], ["period", ...ds.geos.map((g) => GEO_LABELS[g] ?? g)],
+    const lines = [[`Source: ${datasetSource(ds).label} (reuse with attribution). Blank = not available.`], [ds.title_en, ds.unit_label], [], ["period", ...ds.geos.map((g) => GEO_LABELS[g] ?? g)],
       ...rows.map((r) => [r.raw, ...ds.geos.map((g) => r[g])])];
     const url = URL.createObjectURL(new Blob([lines.map((r) => r.map(cell).join(",")).join("\n")], { type: "text/csv" }));
     const a = document.createElement("a"); a.href = url; a.download = `cyprus-${ds.code}.csv`; a.click(); URL.revokeObjectURL(url);
@@ -47,7 +47,7 @@ export function StatChart({ datasets, obs }: { datasets: StatDataset[]; obs: Sta
           {ds.geos.map((g) => <Line key={g} dataKey={g} name={GEO_LABELS[g] ?? g} stroke={COLORS[g]} dot={false} strokeWidth={2} />)}
         </LineChart></ResponsiveContainer> : <p className="text-muted-foreground text-sm">Data not available for this period.</p>}
       </div>
-      <p className="text-xs text-muted-foreground">Unit: {ds.unit_label} · Source: <a className="underline" href={databrowserUrl(ds.dataset_code)} target="_blank" rel="noopener noreferrer">Eurostat {ds.dataset_code}</a>{ds.latest_period ? ` · latest period ${prettyStatPeriod(ds.latest_period)}` : ""}. Gaps mean Eurostat has not published a figure; nothing is estimated.</p>
+      <p className="text-xs text-muted-foreground">Unit: {ds.unit_label} · Source: <a className="underline" href={datasetSource(ds).href} target="_blank" rel="noopener noreferrer">{datasetSource(ds).label}</a>{ds.latest_period ? ` · latest period ${prettyStatPeriod(ds.latest_period)}` : ""}{ds.last_success_at ? ` · last updated ${new Date(ds.last_success_at).toLocaleDateString("en-GB")}` : ""}. Gaps mean no figure has been published; nothing is estimated.</p>
     </CardContent></Card>
   );
 }

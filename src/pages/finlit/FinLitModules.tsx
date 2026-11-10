@@ -7,23 +7,76 @@ import { SurveyScores } from "@/components/finlit/SurveyScores";
 import { StatChart } from "@/components/finlit/StatChart";
 import { Calculators, CALCULATOR_KEYS, type CalculatorKey } from "@/components/finlit/Calculators";
 import { Methodology } from "@/components/finlit/EducationAndMethod";
-import { COST, HOUSEHOLD, StatCard, useFinLitFindings, useFinLitStats } from "@/components/finlit/useFinLitStats";
-import { databrowserUrl, prettyStatPeriod } from "@/lib/eurostatView";
+import { BANKING, COST, CREDIT, HOUSEHOLD, StatCard, useFinLitFindings, useFinLitStats } from "@/components/finlit/useFinLitStats";
+import { datasetSource, prettyStatPeriod } from "@/lib/eurostatView";
 
 const Loading = () => <p className="text-muted-foreground">Loading…</p>;
 const H2 = ({ children }: { children: React.ReactNode }) => <h2 className="text-2xl font-serif font-semibold">{children}</h2>;
 
+const DIM_LABEL: Record<string, string> = { gender: "By gender", age: "By age", income: "By income" };
+
+function Breakdowns({ findings }: { findings: import("@/components/finlit/useFinLitStats").Finding[] }) {
+  const rows = findings.filter((x) => x.breakdown_dimension);
+  if (!rows.length) return null;
+  const inds = [...new Set(rows.map((r) => r.indicator))];
+  return (
+    <div className="grid md:grid-cols-2 gap-3">
+      {inds.map((ind) => (
+        <Card key={ind}><CardContent className="p-4 space-y-3">
+          <p className="font-serif font-semibold">{ind}</p>
+          {["gender", "age", "income"].map((dim) => {
+            const g = rows.filter((r) => r.indicator === ind && r.breakdown_dimension === dim);
+            if (!g.length) return null;
+            return (
+              <div key={dim} className="space-y-1">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">{DIM_LABEL[dim]}</p>
+                {g.map((r) => (
+                  <div key={r.id} className="flex items-center gap-2 text-sm">
+                    <span className="w-28 shrink-0">{r.breakdown_group}</span>
+                    <div className="h-2 flex-1 rounded bg-muted"><div className="h-2 rounded bg-primary" style={{ width: `${Math.min(100, Number(r.value))}%` }} /></div>
+                    <span className="w-8 text-right font-semibold">{r.value}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+          <p className="text-[10px] text-muted-foreground">Score out of 100 · OECD, {rows.find((r) => r.indicator === ind)?.page_ref}</p>
+        </CardContent></Card>
+      ))}
+    </div>
+  );
+}
+
 export function ObservatoryPage() {
   const f = useFinLitFindings();
+  const s = useFinLitStats();
+  const main = (f.data ?? []).filter((x) => !x.breakdown_dimension);
   return (
     <FinLitLayout moduleKey="observatory" title="Cyprus Financial Literacy Observatory — OECD & Central Bank Survey Results"
       description="How financially literate are adults in Cyprus? OECD/INFE 2023 and Central Bank of Cyprus 2018 survey scores for knowledge, behaviour and attitudes."
       intro="Survey results on what adults in Cyprus know about money and how they manage it. Each figure shows its publisher, survey year and page reference."
       related={["research", "academy", "methodology"]}>
-      {() => <section className="space-y-4">
-        {f.isLoading ? <Loading /> : !f.data?.length ? <p className="text-muted-foreground">Data not available yet.</p> : <SurveyScores findings={f.data} />}
-        <p className="text-xs text-muted-foreground">The OECD (2023) and Central Bank of Cyprus (2018) surveys use different questions and scales, so their scores cannot be compared with each other.</p>
-      </section>}
+      {() => <>
+        <section className="space-y-4">
+          <H2>A · Financial literacy survey results</H2>
+          {f.isLoading ? <Loading /> : !main.length ? <p className="text-muted-foreground">Data not available yet.</p> : <SurveyScores findings={main} />}
+          <p className="text-xs text-muted-foreground">The OECD (2023) and Central Bank of Cyprus (2018) surveys use different questions and scales, so their scores cannot be compared with each other.</p>
+          {f.data && <Breakdowns findings={f.data} />}
+        </section>
+        <section className="space-y-4">
+          <H2>B · Household banking statistics</H2>
+          <p className="text-sm text-muted-foreground">Monthly figures compiled by the Central Bank of Cyprus and published through the ECB Data Portal. Interest rates are compared with the euro area; loan and deposit totals are Cyprus only.</p>
+          {s.isLoading ? <Loading /> : <>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">{s.pick(BANKING).map((d) => <StatCard key={d.code} ds={d} obs={s.obs} />)}</div>
+            <StatChart datasets={s.pick(BANKING)} obs={s.obs} />
+          </>}
+        </section>
+        <section className="space-y-4">
+          <H2>C · Cyprus financial conditions</H2>
+          {s.isLoading ? <Loading /> : <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">{s.pick(["hicp_all", "disposable_income", "saving_rate", "price_level", "unexpected_expenses"]).map((d) => <StatCard key={d.code} ds={d} obs={s.obs} />)}</div>}
+          <p className="text-sm">Charts and history: <Link to="/financial-literacy/household" className="underline">Household Financial Health</Link> · <Link to="/financial-literacy/cost-of-living" className="underline">Cost of Living</Link> · <Link to="/economy" className="underline">Economy</Link></p>
+        </section>
+      </>}
     </FinLitLayout>
   );
 }
@@ -57,12 +110,20 @@ export function CostOfLivingPage() {
 }
 
 export function CreditPage() {
+  const s = useFinLitStats();
   return (
     <FinLitLayout moduleKey="credit" title="Credit & Borrowing in Cyprus — Loan Costs and Responsible Borrowing"
       description="Understand what borrowing really costs: loan repayment calculator, APR explained, and free lessons on credit and debt for people in Cyprus."
       intro="What borrowing really costs and how to borrow responsibly. Use the loan calculator, then follow the free credit lessons in the Academy."
       related={["academy", "calculators", "household"]}>
       {() => <>
+        <section className="space-y-4">
+          <H2>Household borrowing in Cyprus</H2>
+          {s.isLoading ? <Loading /> : <>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">{s.pick(CREDIT).map((d) => <StatCard key={d.code} ds={d} obs={s.obs} />)}</div>
+            <StatChart datasets={s.pick(CREDIT)} obs={s.obs} />
+          </>}
+        </section>
         <section className="space-y-4"><Calculators only="loan" /></section>
         <section className="grid md:grid-cols-2 gap-3">
           <Card><CardContent className="p-5 space-y-2">
@@ -71,8 +132,9 @@ export function CreditPage() {
             <Button asChild size="sm"><Link to="/financial-literacy/academy/credit-and-responsible-borrowing">Open the programme</Link></Button>
           </CardContent></Card>
           <Card><CardContent className="p-5 space-y-2">
-            <p className="font-serif font-semibold text-lg">Official household debt figures</p>
-            <p className="text-sm text-muted-foreground">Central Bank of Cyprus and ECB figures on household loans will be added here once their source tables have been checked. Until then nothing is shown, rather than an estimate.</p>
+            <p className="font-serif font-semibold text-lg">About these figures</p>
+            <p className="text-sm text-muted-foreground">Monthly Central Bank of Cyprus statistics via the ECB Data Portal, updated on the 5th of each month. Rates are for new loans; totals are outstanding balances at month end.</p>
+            <Link to="/financial-literacy/observatory" className="text-sm underline">All household banking figures</Link>
           </CardContent></Card>
         </section>
       </>}
@@ -147,7 +209,7 @@ export function MethodologyPage() {
             <thead><tr className="text-left text-muted-foreground border-b"><th className="py-2 pr-3">Indicator</th><th className="pr-3">Source</th><th className="pr-3">Latest period</th><th>Last checked</th></tr></thead>
             <tbody>{s.datasets.map((d) => <tr key={d.id} className="border-b">
               <td className="py-2 pr-3">{d.title_en}</td>
-              <td className="pr-3"><a className="underline" href={databrowserUrl(d.dataset_code)} target="_blank" rel="noopener noreferrer">Eurostat {d.dataset_code}</a></td>
+              <td className="pr-3"><a className="underline" href={datasetSource(d).href} target="_blank" rel="noopener noreferrer">{datasetSource(d).label}</a></td>
               <td className="pr-3">{d.latest_period ? prettyStatPeriod(d.latest_period) : "—"}</td>
               <td>{d.last_success_at ? new Date(d.last_success_at).toLocaleDateString("en-GB") : "—"}</td></tr>)}</tbody>
           </table></div>}

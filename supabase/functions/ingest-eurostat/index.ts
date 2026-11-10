@@ -3,6 +3,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import { diffObservations, eurostatUrl, parseJsonStat, type Existing } from "../_shared/eurostat.ts";
+import { ecbUrl, nicosiaHour, parseEcbCsv } from "../_shared/ecb.ts";
 
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -20,6 +21,28 @@ async function fetchEurostat(url: string) {
   throw new Error("Eurostat is temporarily unavailable; previous figures kept");
 }
 
+// Central Bank of Cyprus statistics via the ECB Data Portal (SDMX CSV), retried with backoff.
+async function fetchEcb(url: string) {
+  let last = "";
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt) await sleep(5000 * attempt);
+    try {
+      const res = await fetch(url, { headers: { Accept: "text/csv" }, signal: AbortSignal.timeout(45000) });
+      if (res.status === 429 || res.status >= 500) { last = `HTTP ${res.status}`; continue; }
+      const text = await res.text();
+      if (res.status === 404) throw new Error("ECB has no data for this series key");
+      if (!res.ok) throw new Error(`ECB HTTP ${res.status}`);
+      return text;
+    } catch (e) { last = (e as Error).message; if (/no data|HTTP 4/.test(last)) throw e; }
+  }
+  throw new Error(`ECB Data Portal unavailable (${last}); previous figures kept`);
+}
+
+const SOURCES = {
+  eurostat: { slug: "eurostat-cyprus", head: "hicp_all", name: "Eurostat" },
+  ecb: { slug: "cbc-household-banking", head: "cbc_hh_loans", name: "Central Bank" },
+} as const;
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -36,6 +59,11 @@ Deno.serve(async (req) => {
   let body: Record<string, unknown> = {};
   try { body = await req.json(); } catch { /* empty */ }
   const action = String(body.action ?? "check");
+  const source: keyof typeof SOURCES = body.source === "ecb" ? "ecb" : "eurostat";
+  // Monthly schedules fire at two UTC hours; only the one that is 04:00 in Cyprus runs (summer time safe).
+  if (via === "schedule" && typeof body.local_hour === "number" && nicosiaHour(new Date()) !== body.local_hour) {
+    return json({ ok: true, status: "skipped", reason: "not the scheduled Cyprus hour" });
+  }
 
   try {
     if (action === "approve_revision" || action === "reject_revision" || action === "approve_all") {
@@ -59,7 +87,7 @@ Deno.serve(async (req) => {
     const force = body.force === true && via === "admin";
     const only = typeof body.code === "string" && /^[a-z0-9_]{1,60}$/.test(body.code) ? body.code : null;
 
-    let dq = sb.from("stat_datasets").select("*").eq("source", "eurostat").order("sort_order");
+    let dq = sb.from("stat_datasets").select("*").eq("source", source).order("sort_order");
     dq = only ? dq.eq("code", only) : dq.eq("enabled", true);
     const { data: datasets, error: dErr } = await dq;
     if (dErr) throw dErr;
@@ -76,12 +104,13 @@ Deno.serve(async (req) => {
         totals.skipped++; results[ds.code] = "skipped: refreshed recently"; continue;
       }
       try {
-        const doc = await fetchEurostat(eurostatUrl(ds));
-        const parsed = parseJsonStat(doc, ds.geos);
+        const parsed = source === "ecb"
+          ? { ...parseEcbCsv(await fetchEcb(ecbUrl(ds)), ds.geos), updated: null as string | null }
+          : parseJsonStat(await fetchEurostat(eurostatUrl(ds)), ds.geos);
         totals.checked++;
         rejectedAll.push(...parsed.rejected.map((r) => `${ds.code}: ${r}`));
         totals.rejected += parsed.rejected.length;
-        if (!parsed.rows.length) throw new Error("Eurostat returned no observations for these filters");
+        if (!parsed.rows.length) throw new Error(`${SOURCES[source].name} returned no observations for these filters`);
         const unchangedAtSource = !force && ds.source_updated_at && parsed.updated && new Date(ds.source_updated_at).getTime() === new Date(parsed.updated).getTime();
 
         let summary = "no change at source";
@@ -134,10 +163,10 @@ Deno.serve(async (req) => {
 
     if (ran > 0) {
       const nowIso = new Date().toISOString();
-      const { data: head } = await sb.from("stat_observations").select("period_date, stat_datasets!inner(code)").eq("stat_datasets.code", "hicp_all").eq("geo", "CY").order("period_date", { ascending: false }).limit(1);
+      const { data: head } = await sb.from("stat_observations").select("period_date, stat_datasets!inner(code)").eq("stat_datasets.code", SOURCES[source].head).eq("geo", "CY").order("period_date", { ascending: false }).limit(1);
       await sb.from("open_data_sources").update(errors === ran
-        ? { status: "error", last_error: `${errors} Eurostat dataset(s) failed`, last_checked_at: nowIso }
-        : { status: "ok", last_error: errors ? `${errors} dataset(s) failed` : null, last_checked_at: nowIso, last_success_at: nowIso, latest_period: head?.[0]?.period_date ?? null }).eq("slug", "eurostat-cyprus");
+        ? { status: "error", last_error: `${errors} ${SOURCES[source].name} dataset(s) failed`, last_checked_at: nowIso }
+        : { status: "ok", last_error: errors ? `${errors} dataset(s) failed` : null, last_checked_at: nowIso, last_success_at: nowIso, latest_period: head?.[0]?.period_date ?? null }).eq("slug", SOURCES[source].slug);
     }
     return json({ ok: status !== "failed", job_id: job.id, status, ...totals, datasets: results }, status === "failed" ? 500 : 200);
   } catch (e) {
