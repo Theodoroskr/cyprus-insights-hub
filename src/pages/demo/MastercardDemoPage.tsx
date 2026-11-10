@@ -4,7 +4,8 @@ import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { MASTERCARD_DEMO } from "@/lib/mastercardDemo";
 import { useAcademyLang } from "@/lib/academy";
 import { LangSwitch } from "@/components/academy/AcademyChrome";
-import { SurveyScores } from "@/components/finlit/SurveyScores";
+import { ScoreSnapshot } from "@/components/finlit/ScoreSnapshot";
+import { headlineFigures, headlineFindings } from "@/lib/finlitHeadline";
 import { Calculators } from "@/components/finlit/Calculators";
 import { useState } from "react";
 import { scoreExplain } from "@/lib/finlitExplain";
@@ -16,7 +17,7 @@ const C = {
   en: {
     sub: "Proposed Partnership Demonstration – Not an Official Mastercard Programme",
     title: "Cyprus Financial Confidence",
-    kicker: "Financial confidence for everyone in Cyprus", cta: "Test your money confidence", k1: "Overall financial literacy score", k2: "Adults reaching the target score", k3: "Answer the compound-interest question correctly", src: "survey 2023, published 2025",
+    kicker: "Financial confidence for everyone in Cyprus", cta: "Test your money confidence", k1: "Overall financial literacy score", k2: "Adults reaching the target score", k3: "Answer the compound-interest question correctly", surveyed: "survey", published: "published", loading: "Loading…",
     intro: "A preview of how BusinessHub.cy's financial literacy platform could look as a joint public programme. All figures are live official data from OECD, the Central Bank of Cyprus and Eurostat.",
     scores: "How confident is Cyprus with money?", figures: "Household finances today", tools: "Try the money tools",
     check: "Test your money confidence", tap: "Tap any score to see what it means.", trend: "Cyprus vs Europe over time", glance: "Cyprus vs EU at a glance",
@@ -26,7 +27,7 @@ const C = {
   el: {
     sub: "Επίδειξη Προτεινόμενης Συνεργασίας – Δεν αποτελεί Επίσημο Πρόγραμμα της Mastercard",
     title: "Οικονομική Αυτοπεποίθηση στην Κύπρο",
-    kicker: "Οικονομική αυτοπεποίθηση για όλους στην Κύπρο", cta: "Δοκιμάστε την αυτοπεποίθησή σας", k1: "Συνολική βαθμολογία χρηματοοικονομικού αλφαβητισμού", k2: "Ενήλικες που φτάνουν τον στόχο", k3: "Απαντούν σωστά στην ερώτηση ανατοκισμού", src: "έρευνα 2023, δημοσίευση 2025",
+    kicker: "Οικονομική αυτοπεποίθηση για όλους στην Κύπρο", cta: "Δοκιμάστε την αυτοπεποίθησή σας", k1: "Συνολική βαθμολογία χρηματοοικονομικού αλφαβητισμού", k2: "Ενήλικες που φτάνουν τον στόχο", k3: "Απαντούν σωστά στην ερώτηση ανατοκισμού", surveyed: "έρευνα", published: "δημοσίευση", loading: "Φόρτωση…",
     intro: "Προεπισκόπηση του πώς θα μπορούσε να μοιάζει η πλατφόρμα χρηματοοικονομικού αλφαβητισμού του BusinessHub.cy ως κοινό πρόγραμμα. Όλα τα στοιχεία είναι επίσημα, από τον ΟΟΣΑ, την Κεντρική Τράπεζα της Κύπρου και τη Eurostat.",
     scores: "Πόσο σίγουρη νιώθει η Κύπρος με τα χρήματα;", figures: "Τα οικονομικά των νοικοκυριών σήμερα", tools: "Δοκιμάστε τα εργαλεία",
     check: "Δοκιμάστε την οικονομική σας αυτοπεποίθηση", tap: "Πατήστε μια βαθμολογία για να δείτε τι σημαίνει.", trend: "Κύπρος και Ευρώπη με τον χρόνο", glance: "Κύπρος και ΕΕ με μια ματιά",
@@ -44,8 +45,10 @@ export default function MastercardDemoPage() {
   if (loading) return null;
   if (!isAdmin || !MASTERCARD_DEMO.enabled) return <Navigate to="/" replace />;
   const t = C[lang];
-  const overall = (f.data ?? []).filter((x) => x.publisher?.startsWith("OECD") && !x.breakdown_dimension).slice(0, 4);
-  const compound = (f.data ?? []).find((x) => /compound/i.test(x.indicator) && !x.breakdown_dimension)?.value ?? null;
+  const headline = headlineFindings(f.data ?? []);
+  const fig = headlineFigures(f.data ?? []);
+  const compound = fig.compound;
+  const srcLine = [fig.surveyYear && `${t.surveyed} ${fig.surveyYear}`, fig.publishedYear && `${t.published} ${fig.publishedYear}`].filter(Boolean).join(", ");
   const showLogo = MASTERCARD_DEMO.logoApproved && !!MASTERCARD_DEMO.logoUrl;
   return (
     <div className="mc-demo min-h-screen bg-background">
@@ -77,8 +80,8 @@ export default function MastercardDemoPage() {
           </div>
           <div className="grid grid-cols-3 lg:grid-cols-1 gap-3">
             {[
-              { q: "overall", v: "56/100", l: t.k1, c: "--mc-red" },
-              { q: "target", v: "17%", l: t.k2, c: "--mc-orange" },
+              { q: "overall", v: fig.overall != null ? `${fig.overall}/100` : "—", l: t.k1, c: "--mc-red" },
+              { q: "target", v: fig.target != null ? `${fig.target}%` : "—", l: t.k2, c: "--mc-orange" },
               { q: "compound", v: compound != null ? `${compound}%` : "—", l: t.k3, c: "--mc-yellow" },
             ].map((k, i) => (
               <button type="button" key={k.l} onClick={() => setTile(tile === i ? null : i)} aria-expanded={tile === i}
@@ -88,7 +91,7 @@ export default function MastercardDemoPage() {
                 {tile === i && <p className="mt-2 text-xs leading-relaxed opacity-90">{scoreExplain(k.q, lang)}</p>}
               </button>
             ))}
-            <p className="col-span-3 lg:col-span-1 text-[11px] opacity-60">OECD, {t.src}</p>
+            <p className="col-span-3 lg:col-span-1 text-[11px] opacity-60">OECD{srcLine ? `, ${srcLine}` : ""}</p>
           </div>
         </div>
         <div className="flex h-1.5" aria-hidden>
@@ -99,7 +102,7 @@ export default function MastercardDemoPage() {
       <main className="container mx-auto px-4 py-12 space-y-14">
         <section className="space-y-4">
           <h2 className="text-2xl font-serif font-semibold border-l-4 border-[hsl(var(--mc-orange))] pl-3">{t.scores}</h2>
-          {overall.length > 0 && <SurveyScores findings={overall} />}
+          {f.isLoading ? <p className="text-muted-foreground">{t.loading}</p> : <ScoreSnapshot findings={headline} />}
         </section>
 
         <section className="space-y-4">

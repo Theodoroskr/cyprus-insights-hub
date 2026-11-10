@@ -5,6 +5,7 @@ import { FinLitLayout } from "@/components/finlit/FinLitLayout";
 import { MODULE_ICONS } from "@/components/finlit/FinLitNav";
 import { StatCard, useFinLitFindings, useFinLitStats } from "@/components/finlit/useFinLitStats";
 import { ScoreSnapshot } from "@/components/finlit/ScoreSnapshot";
+import { headlineFindings } from "@/lib/finlitHeadline";
 import { TrendChart, CompareBars } from "@/components/finlit/SnapshotCharts";
 import { FINLIT_GROUPS, LEGACY_ANCHORS, moduleByKey } from "@/lib/finlitModules";
 import { FL_BG, FL_BORDER_SOFT, FL_HOVER_BG, FL_SOFT, FL_TEXT, FL_TINT, groupAccent, moduleAccent, type FlAccent } from "@/lib/finlitPalette";
@@ -16,7 +17,7 @@ export default function FinancialLiteracyPage() {
   useEffect(() => { const to = LEGACY_ANCHORS[hash.replace("#", "")]; if (to) navigate(to, { replace: true }); }, [hash, navigate]);
   const s = useFinLitStats();
   const f = useFinLitFindings();
-  const headline = (f.data ?? []).filter((x) => x.publisher?.startsWith("OECD") && !x.breakdown_dimension);
+  const headline = headlineFindings(f.data ?? []);
   const H2 = ({ children, accent = 1, gradient = false }: { children: React.ReactNode; accent?: FlAccent; gradient?: boolean }) => (
     <h2 className="flex items-center gap-2.5 text-xl md:text-2xl font-serif font-semibold"><span aria-hidden className={`h-6 w-1.5 shrink-0 rounded-full ${gradient ? "bg-gradient-to-b from-finlit-1 via-finlit-3 to-finlit-2" : FL_BG[accent]}`} />{children}</h2>
   );
