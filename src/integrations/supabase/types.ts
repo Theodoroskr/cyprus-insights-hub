@@ -195,6 +195,84 @@ export type Database = {
         }
         Relationships: []
       }
+      announcement_sources: {
+        Row: {
+          auto_publish: boolean
+          check_interval_hours: number
+          company_name: string | null
+          created_at: string
+          directory_company_id: string | null
+          id: string
+          kind: string
+          last_error: string | null
+          last_error_at: string | null
+          last_found_items: number
+          last_new_items: number
+          last_run_at: string | null
+          last_success_at: string | null
+          method: string
+          name: string
+          notes: string | null
+          oam_company_id: number | null
+          search_query: string | null
+          section: string
+          slug: string
+          status: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          auto_publish?: boolean
+          check_interval_hours?: number
+          company_name?: string | null
+          created_at?: string
+          directory_company_id?: string | null
+          id?: string
+          kind?: string
+          last_error?: string | null
+          last_error_at?: string | null
+          last_found_items?: number
+          last_new_items?: number
+          last_run_at?: string | null
+          last_success_at?: string | null
+          method?: string
+          name: string
+          notes?: string | null
+          oam_company_id?: number | null
+          search_query?: string | null
+          section?: string
+          slug: string
+          status?: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          auto_publish?: boolean
+          check_interval_hours?: number
+          company_name?: string | null
+          created_at?: string
+          directory_company_id?: string | null
+          id?: string
+          kind?: string
+          last_error?: string | null
+          last_error_at?: string | null
+          last_found_items?: number
+          last_new_items?: number
+          last_run_at?: string | null
+          last_success_at?: string | null
+          method?: string
+          name?: string
+          notes?: string | null
+          oam_company_id?: number | null
+          search_query?: string | null
+          section?: string
+          slug?: string
+          status?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       article_companies: {
         Row: {
           article_id: string
@@ -614,6 +692,235 @@ export type Database = {
           },
         ]
       }
+      company_announcement_sources: {
+        Row: {
+          announcement_id: string
+          created_at: string
+          external_id: string | null
+          id: string
+          language: string | null
+          published_at: string | null
+          role: string
+          source_name: string | null
+          title: string | null
+          url: string
+        }
+        Insert: {
+          announcement_id: string
+          created_at?: string
+          external_id?: string | null
+          id?: string
+          language?: string | null
+          published_at?: string | null
+          role?: string
+          source_name?: string | null
+          title?: string | null
+          url: string
+        }
+        Update: {
+          announcement_id?: string
+          created_at?: string
+          external_id?: string | null
+          id?: string
+          language?: string | null
+          published_at?: string | null
+          role?: string
+          source_name?: string | null
+          title?: string | null
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_announcement_sources_announcement_id_fkey"
+            columns: ["announcement_id"]
+            isOneToOne: false
+            referencedRelation: "company_announcements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_announcement_timeline: {
+        Row: {
+          announcement_id: string
+          created_at: string
+          entry_date: string | null
+          id: string
+          source_url: string | null
+          stage: string | null
+          summary: string | null
+          title: string
+        }
+        Insert: {
+          announcement_id: string
+          created_at?: string
+          entry_date?: string | null
+          id?: string
+          source_url?: string | null
+          stage?: string | null
+          summary?: string | null
+          title: string
+        }
+        Update: {
+          announcement_id?: string
+          created_at?: string
+          entry_date?: string | null
+          id?: string
+          source_url?: string | null
+          stage?: string | null
+          summary?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_announcement_timeline_announcement_id_fkey"
+            columns: ["announcement_id"]
+            isOneToOne: false
+            referencedRelation: "company_announcements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_announcements: {
+        Row: {
+          amount: number | null
+          announcement_type: string
+          buyer: string | null
+          canonical_url: string | null
+          company_match_status: string
+          company_name: string
+          created_at: string
+          currency: string | null
+          cyprus_location: string | null
+          cyprus_tags: string[]
+          deal_stage: string | null
+          directory_company_id: string | null
+          discovery_url: string | null
+          event_date: string | null
+          external_ids: string[]
+          id: string
+          ingested_at: string
+          investors: string[]
+          merged_into: string | null
+          original_title: string | null
+          primary_source_url: string | null
+          primary_verified: boolean
+          publish_when_ready: boolean
+          published_at: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          routing_note: string | null
+          section: string
+          sector: string | null
+          slug: string | null
+          source_id: string | null
+          source_language: string | null
+          source_published_at: string | null
+          status: string
+          suggested_company_id: string | null
+          summary: string | null
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number | null
+          announcement_type: string
+          buyer?: string | null
+          canonical_url?: string | null
+          company_match_status?: string
+          company_name: string
+          created_at?: string
+          currency?: string | null
+          cyprus_location?: string | null
+          cyprus_tags?: string[]
+          deal_stage?: string | null
+          directory_company_id?: string | null
+          discovery_url?: string | null
+          event_date?: string | null
+          external_ids?: string[]
+          id?: string
+          ingested_at?: string
+          investors?: string[]
+          merged_into?: string | null
+          original_title?: string | null
+          primary_source_url?: string | null
+          primary_verified?: boolean
+          publish_when_ready?: boolean
+          published_at?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          routing_note?: string | null
+          section: string
+          sector?: string | null
+          slug?: string | null
+          source_id?: string | null
+          source_language?: string | null
+          source_published_at?: string | null
+          status?: string
+          suggested_company_id?: string | null
+          summary?: string | null
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number | null
+          announcement_type?: string
+          buyer?: string | null
+          canonical_url?: string | null
+          company_match_status?: string
+          company_name?: string
+          created_at?: string
+          currency?: string | null
+          cyprus_location?: string | null
+          cyprus_tags?: string[]
+          deal_stage?: string | null
+          directory_company_id?: string | null
+          discovery_url?: string | null
+          event_date?: string | null
+          external_ids?: string[]
+          id?: string
+          ingested_at?: string
+          investors?: string[]
+          merged_into?: string | null
+          original_title?: string | null
+          primary_source_url?: string | null
+          primary_verified?: boolean
+          publish_when_ready?: boolean
+          published_at?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          routing_note?: string | null
+          section?: string
+          sector?: string | null
+          slug?: string | null
+          source_id?: string | null
+          source_language?: string | null
+          source_published_at?: string | null
+          status?: string
+          suggested_company_id?: string | null
+          summary?: string | null
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_announcements_merged_into_fkey"
+            columns: ["merged_into"]
+            isOneToOne: false
+            referencedRelation: "company_announcements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "company_announcements_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "announcement_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       company_events: {
         Row: {
           company_id: string | null
@@ -736,6 +1043,7 @@ export type Database = {
           records_duplicate: number
           records_imported: number
           records_rejected: number
+          routing_profile: string | null
           scrape_interval_hours: number
           scrape_path: string
           slug: string
@@ -759,6 +1067,7 @@ export type Database = {
           records_duplicate?: number
           records_imported?: number
           records_rejected?: number
+          routing_profile?: string | null
           scrape_interval_hours?: number
           scrape_path?: string
           slug: string
@@ -782,6 +1091,7 @@ export type Database = {
           records_duplicate?: number
           records_imported?: number
           records_rejected?: number
+          routing_profile?: string | null
           scrape_interval_hours?: number
           scrape_path?: string
           slug?: string

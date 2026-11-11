@@ -190,6 +190,20 @@
       "when": 1794343130224,
       "tag": "0026_fin_lit_breakdowns",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1794378362547,
+      "tag": "0027_company_announcements",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1794378398563,
+      "tag": "0028_seed_announcement_sources",
+      "breakpoints": true
     }
   ]
 }

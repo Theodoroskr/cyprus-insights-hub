@@ -3,6 +3,8 @@ import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
 import { articlePageProblem, canonicalArticleUrl, describesMissingPage, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
+import { routeSourceItem, resolveSourcePath } from "../_shared/announcements.ts";
+import { flagDealForReview } from "./dealFlag.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -347,7 +349,7 @@ Deno.serve(async (req) => {
         console.log(`Scraping: ${source.name} — ${source.url}${source.scrape_path}`);
 
         // Scrape via Firecrawl
-        const scrapeUrl = `${source.url}${source.scrape_path}`;
+        const scrapeUrl = `${source.url}${resolveSourcePath(source.scrape_path)}`;
         const scrapeResponse = await fetch("https://api.firecrawl.dev/v1/scrape", {
           method: "POST",
           headers: {
@@ -468,7 +470,12 @@ Deno.serve(async (req) => {
                 originalLanguage = "el";
               } catch (e) { console.error("translate failed", (e as Error).message); }
             }
-            const vertical = classifyVertical(article.title, fullBody, source.target_vertical);
+            // Association sources route each item on its own (e.g. CCCI forum → Business News, ICPAC circular → ComplianceHub)
+            const route = routeSourceItem(source.routing_profile, article.title, fullBody);
+            const vertical = route ? route.vertical : classifyVertical(article.title, fullBody, source.target_vertical);
+            if (route?.dealReview && article.url) {
+              await flagDealForReview(supabase, { sourceName: source.name, title: article.title, url: article.url, body: fullBody, language: originalLanguage, reason: route.reason });
+            }
             const intelligence = await enrichWithAI(article.title, fullBody, vertical, LOVABLE_API_KEY);
 
             if (describesMissingPage(intelligence.summary, intelligence.what_happened)) { console.warn(`  Rejected (AI saw a missing page): ${article.url}`); sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
