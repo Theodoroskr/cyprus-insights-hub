@@ -32,3 +32,4 @@
 - `fin_lit_findings` are public only after admin approval. Why: PDF figures need checks.
 - Academy rows public only when published and past `publish_at` (RLS). Why: no unreviewed lessons.
 - CBC stats: `source=ecb` rows via `ingest-eurostat`; OECD via Crossref. Why: official APIs.
+- Company Announcements (`/company-announcements`): listed disclosures come from the CSE OAM public API (EL/EN filings grouped into one event, auto-published only when the summary was written from the filing text/PDF); deals come from discovery pages/searches and always wait for editor review in the Announcements panel. Duplicates are matched in `_shared/announcements.ts` (`isSameEvent`; deals by amount across currencies), with extra reports kept as source links on one record. Why: one event, one page, every claim traceable to a source.

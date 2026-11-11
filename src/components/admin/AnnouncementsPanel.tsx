@@ -216,6 +216,7 @@ function Editor({ a, onChange }: { a: Announcement; onChange: () => void }) {
   const publish = async () => {
     if (!f.summary?.trim()) { toast.error("Add a short BusinessHub summary first"); return; }
     if (!f.primary_source_url && !(extra.data?.links ?? []).length) { toast.error("Attach at least one source link"); return; }
+    if (f.section === "deals" && !f.primary_verified && !window.confirm("No checked primary source yet. Publish labelled “Reported by media sources”?")) return;
     await save({ status: "published" });
   };
   const addLink = async () => {

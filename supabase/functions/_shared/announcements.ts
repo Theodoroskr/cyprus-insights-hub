@@ -110,7 +110,6 @@ export type EventKey = { companyKey: string; type: AnnouncementType; date: strin
 
 // Rough rates, only used to tell whether two reports describe the same round (e.g. "€58.1m" vs "$67m")
 const TO_EUR: Record<string, number> = { EUR: 1, USD: 0.87, GBP: 1.17, CHF: 1.05, ILS: 0.24 };
-const DEAL_TYPES = ["funding_round", "acquisition", "strategic_investment", "project_expansion"];
 /** true / false when both amounts are known and comparable, null when that can't be told */
 export function sameAmount(a?: number | null, ac?: string | null, b?: number | null, bc?: string | null): boolean | null {
   if (a == null || b == null) return null;
