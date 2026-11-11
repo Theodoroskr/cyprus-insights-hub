@@ -1,12 +1,14 @@
 import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
+import { canonicalUrl } from "@/lib/seo";
+import { previewImage } from "@/lib/storyPreview";
 import ReactMarkdown from "react-markdown";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { groupArticleImages } from "@/lib/groupArticleImages";
 import { storyImage } from "@/lib/fallbackImage";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Mail, Flame, ChevronDown } from "lucide-react";
+import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Facebook, Mail, Flame, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cleanArticleMarkdown, cleanedWordCount } from "@/lib/cleanArticleMarkdown";
@@ -176,7 +178,7 @@ export default function ArticlePage() {
   const readTime = estimateReadingTime(article.what_happened, article.why_it_matters, article.what_to_do, hasBody ? cleanBody : article.summary);
   const isLong = cleanBody.length > 2500;
   const shareText = encodeURIComponent(headline);
-  const shareUrl = encodeURIComponent(window.location.href);
+  const shareUrl = encodeURIComponent(canonicalUrl(`/article/${article.id}`));
 
   const cards = [
     { key: "what", text: article.what_happened, label: "What happened", Icon: Zap, tone: "secondary" },
@@ -195,7 +197,7 @@ export default function ArticlePage() {
         title={headline}
         description={article.summary || article.why_it_matters || ""}
         path={`/article/${article.id}`}
-        image={article.image_url || undefined}
+        image={previewImage(article)}
         vertical={article.vertical}
         type="article"
         breadcrumbs={[
@@ -340,6 +342,7 @@ export default function ArticlePage() {
                       <Bookmark className={`h-5 w-5 ${bookmarked ? "fill-secondary text-secondary" : ""}`} />
                     </button>
                   )}
+                  <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground" title="Share on Facebook"><Facebook className="h-5 w-5" /></a>
                   <a href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground" title="Share on X"><Twitter className="h-5 w-5" /></a>
                   <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground" title="Share on LinkedIn"><Linkedin className="h-5 w-5" /></a>
                   <a href={`mailto:?subject=${shareText}&body=${shareUrl}`} className="hover:text-foreground" title="Share via Email"><Mail className="h-5 w-5" /></a>
