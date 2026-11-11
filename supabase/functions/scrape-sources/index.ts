@@ -408,8 +408,8 @@ Deno.serve(async (req) => {
             let fullBody = article.body || "";
             let articleImageUrl = article.image_url || null;
 
-            if (article.url && article.url.startsWith("http")) {
             let deepStatus: number | null = null;
+            if (article.url && article.url.startsWith("http")) {
               try {
                 console.log(`  Deep-scraping article: ${article.url}`);
                 const articleScrape = await fetch("https://api.firecrawl.dev/v1/scrape", {

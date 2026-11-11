@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { canonicalArticleUrl, listingPageProblem, prepareListingMarkdown } from "../../supabase/functions/scrape-sources/listingPage";
 
@@ -110,5 +112,28 @@ describe("describesMissingPage", () => {
   });
   it("accepts normal summaries", () => {
     expect(describesMissingPage("The ECB published its first progress report on the digital euro preparation phase.")).toBe(false);
+  });
+});
+
+describe("scrape-sources article loop", () => {
+  const scraperSource = readFileSync(resolve(process.cwd(), "supabase/functions/scrape-sources/index.ts"), "utf8");
+  const lines = scraperSource.split("\n");
+  const lineOf = (re: RegExp) => lines.findIndex((l) => re.test(l));
+  const indentOf = (i: number) => (i < 0 ? "" : lines[i].match(/^\s*/)![0]);
+
+  it("declares the article page status in the article loop, not inside the deep-scrape block", () => {
+    const declared = lineOf(/^\s*let deepStatus: number \| null = null;$/);
+    const blockOpen = lineOf(/^\s*if \(article\.url && article\.url\.startsWith\("http"\)\) \{$/);
+    const used = lineOf(/^\s*if \(articlePageProblem\(fullBody, deepStatus\)\)/);
+
+    expect(declared).toBeGreaterThan(-1);
+    expect(blockOpen).toBeGreaterThan(-1);
+    expect(used).toBeGreaterThan(-1);
+
+    // Declared before the deep-scrape block and at the same indentation, so the
+    // error-page check further down the loop can still see it.
+    expect(declared).toBeLessThan(blockOpen);
+    expect(indentOf(declared)).toBe(indentOf(blockOpen));
+    expect(used).toBeGreaterThan(blockOpen);
   });
 });
