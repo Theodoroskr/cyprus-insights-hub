@@ -23,6 +23,8 @@ const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const EditorialDashboard = lazy(() => import("./pages/EditorialDashboard"));
 const ContentSourcesPage = lazy(() => import("./pages/ContentSourcesPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const CompanyAnnouncementsPage = lazy(() => import("./pages/CompanyAnnouncementsPage"));
+const CompanyAnnouncementPage = lazy(() => import("./pages/CompanyAnnouncementPage"));
 const DirectoryHomePage = lazy(() => import("./pages/DirectoryHomePage"));
 const CompanyProfilePage = lazy(() => import("./pages/CompanyProfilePage"));
 const PeopleProfilePage = lazy(() => import("./pages/PeopleProfilePage"));
@@ -154,6 +156,8 @@ const App = () => (
                   <Route path="/whoiswho" element={<WhoIsWhoRoute><WhoIsWhoPage /></WhoIsWhoRoute>} />
                   <Route path="/whoiswho/:slug" element={<WhoIsWhoRoute><WhoIsWhoProfilePage /></WhoIsWhoRoute>} />
                   <Route path="/news" element={<NewsListPage />} />
+                  <Route path="/company-announcements" element={<CompanyAnnouncementsPage />} />
+                  <Route path="/company-announcements/:slug" element={<CompanyAnnouncementPage />} />
                   <Route path="/news/:slug" element={<NewsArticlePage />} />
                   <Route path="/interviews" element={<InterviewsPage />} />
                   <Route path="/interviews/:slug" element={<InterviewArticlePage />} />

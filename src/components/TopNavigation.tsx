@@ -1,7 +1,8 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Menu, X, User, Newspaper, PenTool } from "lucide-react";
+import { Search, Menu, X, User, Newspaper, PenTool, ChevronDown } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,8 +16,9 @@ interface TopNavigationProps {
   onSearch: (query: string) => void;
 }
 
-const navItems = [
-  { label: "News", href: "/news" },
+type NavItem = { label: string; href: string; children?: { label: string; href: string }[] };
+const navItems: NavItem[] = [
+  { label: "News", href: "/news", children: [{ label: "All news", href: "/news" }, { label: "Company Announcements", href: "/company-announcements" }] },
   { label: "Directory", href: "/directory" },
   { label: "Trade", href: "/trade" },
   { label: "Real Estate", href: "/real-estate" },
@@ -50,7 +52,8 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
   const visibleNav = navItems.filter((i) => WHOISWHO_PUBLIC || i.href !== "/whoiswho");
 
-  const isActive = (href: string) => {
+  const isActive = (href: string, children?: { href: string }[]) => {
+    if (children?.some((c) => c.href !== href && location.pathname.startsWith(c.href))) return true;
     const path = href.split("#")[0];
     if (path === "/") return location.pathname === "/";
     return location.pathname.startsWith(path);
@@ -101,7 +104,22 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
           {/* Desktop Navigation — clean horizontal links */}
           <nav className="hidden lg:flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {visibleNav.map((item, i) => (
+            {visibleNav.map((item, i) => item.children ? (
+              <DropdownMenu key={item.label}>
+                <DropdownMenuTrigger
+                  className={`inline-flex items-center gap-0.5 px-2 py-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] whitespace-nowrap shrink-0 transition-colors outline-none
+                    ${isActive(item.href, item.children) ? "text-foreground" : "text-muted-foreground hover:text-foreground"}
+                    ${i > 0 ? "border-l border-border" : ""}`}
+                >
+                  {item.label}<ChevronDown className="h-3 w-3" aria-hidden />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {item.children.map((c) => (
+                    <DropdownMenuItem key={c.href} asChild><Link to={c.href}>{c.label}</Link></DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
               <Link
                 key={item.label}
                 to={item.href}
@@ -193,7 +211,15 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                 >
                   {item.label}
                 </Link>
-              ))}
+              )).flatMap((link, idx) => {
+                const kids = visibleNav[idx].children?.filter((c) => c.href !== visibleNav[idx].href) ?? [];
+                return [link, ...kids.map((c) => (
+                  <Link key={c.href} to={c.href} onClick={() => setIsMobileMenuOpen(false)}
+                    className={`pl-8 pr-4 py-2 text-xs font-medium uppercase tracking-wider transition-colors ${location.pathname.startsWith(c.href) ? "text-foreground bg-muted" : "text-muted-foreground hover:text-foreground"}`}>
+                    {c.label}
+                  </Link>
+                ))];
+              })}
               {isAdmin && (
                 <Link
                   to="/editorial"

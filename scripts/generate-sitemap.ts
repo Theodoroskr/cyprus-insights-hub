@@ -51,7 +51,7 @@ async function fetchAll<T>(table: string, query: string): Promise<T[]> {
 async function main() {
   if (!API_URL || !API_KEY) throw new Error("database URL/key not set");
 
-  const [articles, stories, resources, companies] = await Promise.all([
+  const [articles, stories, resources, companies, announcements] = await Promise.all([
     fetchAll<{ id: string; published_at: string | null }>(
       "cna_articles",
       "select=id,published_at&status=eq.published&order=published_at.desc.nullslast,id.asc",
@@ -62,6 +62,10 @@ async function main() {
     ),
     fetchAll<{ slug: string }>("resources", "select=slug&is_published=eq.true&order=slug.asc"),
     fetchAll<{ slug: string }>("directory_companies", "select=slug&slug=not.is.null&order=id.asc"),
+    fetchAll<{ slug: string; updated_at: string | null }>(
+      "company_announcements",
+      "select=slug,updated_at&status=eq.published&order=source_published_at.desc.nullslast,id.asc",
+    ).catch(() => [] as { slug: string; updated_at: string | null }[]),
   ]);
 
   const staticEntries: SitemapEntry[] = [
@@ -81,6 +85,12 @@ async function main() {
     ...articles.map((a) => ({
       path: `/article/${a.id}`,
       lastmod: dateOnly(a.published_at),
+      changefreq: "monthly" as const,
+      priority: "0.6",
+    })),
+    ...announcements.map((a) => ({
+      path: `/company-announcements/${encodeURIComponent(a.slug)}`,
+      lastmod: dateOnly(a.updated_at),
       changefreq: "monthly" as const,
       priority: "0.6",
     })),

@@ -17,7 +17,7 @@ import {
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
   AlertTriangle, Users, Image, ShieldCheck, Rss,
   ExternalLink, Loader2, Send,
-  GraduationCap,
+  GraduationCap, Megaphone,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
@@ -30,6 +30,7 @@ import { AcademyPanel } from "@/components/admin/AcademyPanel";
 import { OpenDataSourcesPanel } from "@/components/admin/OpenDataSourcesPanel";
 import { MastercardAdminPanel } from "@/components/admin/MastercardAdminPanel";
 import { FacebookAutopostPanel } from "@/components/admin/FacebookAutopostPanel";
+import { AnnouncementsPanel } from "@/components/admin/AnnouncementsPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -304,9 +305,9 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "academy">(() => {
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "academy" | "announcements">(() => {
     const tab = new URLSearchParams(window.location.search).get("tab");
-    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "academy" ? "academy" : "articles";
+    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : "articles";
   });
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
@@ -579,6 +580,14 @@ const EditorialDashboard = () => {
             >
               <GraduationCap className="h-3.5 w-3.5" /> Academy
             </Button>
+            <Button
+              size="sm"
+              variant={activePanel === "announcements" ? "default" : "ghost"}
+              onClick={() => setActivePanel("announcements")}
+              className="gap-1.5"
+            >
+              <Megaphone className="h-3.5 w-3.5" /> Announcements
+            </Button>
           </div>
         </div>
 
@@ -604,6 +613,8 @@ const EditorialDashboard = () => {
           <MastercardAdminPanel />
         ) : activePanel === "academy" ? (
           <AcademyPanel />
+        ) : activePanel === "announcements" ? (
+          <AnnouncementsPanel />
         ) : activePanel === "facebook" ? (
           <FacebookAutopostPanel />
         ) : (

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { classifyDisclosure, groupOamItems, isSameEvent, oamCardUrl, resolveSourcePath, routeSourceItem, looksLikeDeal } from "../../supabase/functions/_shared/announcements";
+import { classifyDisclosure, groupOamItems, isSameEvent, oamCardUrl, resolveSourcePath, routeSourceItem, looksLikeDeal, industryLabel, sameAmount } from "../../supabase/functions/_shared/announcements";
 import { formatDealAmount } from "@/lib/announcements";
 
 describe("routing association news", () => {
@@ -94,5 +94,31 @@ describe("deal amounts", () => {
     expect(formatDealAmount(3_000_000, "USD")).toBe("$3m");
     expect(formatDealAmount(1_200_000_000, "GBP")).toBe("£1.2bn");
     expect(formatDealAmount(750_000, "CHF")).toBe("CHF 750k");
+  });
+});
+
+describe("industryLabel", () => {
+  it("drops exchange industry codes", () => {
+    expect(industryLabel("8300 Banks")).toBe("Banks");
+    expect(industryLabel("-Technology")).toBe("Technology");
+    expect(industryLabel("0040 Consumer Discretionary")).toBe("Consumer Discretionary");
+  });
+  it("treats N/A as no sector", () => {
+    expect(industryLabel("0000 N/A")).toBeNull();
+    expect(industryLabel("")).toBeNull();
+  });
+});
+
+describe("deal duplicates across outlets", () => {
+  const base = { companyKey: "omilia", type: "funding_round" as const, title: "Omilia secures Series B" };
+  it("treats €58.1m and $67m reports of one round as the same deal", () => {
+    expect(sameAmount(58_100_000, "EUR", 67_000_000, "USD")).toBe(true);
+    expect(isSameEvent({ ...base, date: "2026-02-01", amount: 58_100_000, currency: "EUR" }, { ...base, date: "2026-04-20", title: "Limassol AI firm raises $67 million", amount: 67_000_000, currency: "USD" })).toBe(true);
+  });
+  it("keeps rounds with different amounts apart", () => {
+    expect(isSameEvent({ ...base, date: "2026-02-01", amount: 10_000_000, currency: "EUR" }, { ...base, date: "2026-02-05", amount: 25_000_000, currency: "EUR" })).toBe(false);
+  });
+  it("needs a close date and similar headline when an amount is missing", () => {
+    expect(isSameEvent({ ...base, date: "2026-02-01" }, { ...base, date: "2026-05-01", amount: 1_000_000, currency: "EUR" })).toBe(false);
   });
 });

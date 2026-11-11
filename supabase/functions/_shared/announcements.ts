@@ -106,7 +106,19 @@ export function titleSimilarity(a: string, b: string): number {
   return inter / (A.size + B.size - inter);
 }
 
-export type EventKey = { companyKey: string; type: AnnouncementType; date: string; title: string };
+export type EventKey = { companyKey: string; type: AnnouncementType; date: string; title: string; amount?: number | null; currency?: string | null };
+
+// Rough rates, only used to tell whether two reports describe the same round (e.g. "€58.1m" vs "$67m")
+const TO_EUR: Record<string, number> = { EUR: 1, USD: 0.87, GBP: 1.17, CHF: 1.05, ILS: 0.24 };
+const DEAL_TYPES = ["funding_round", "acquisition", "strategic_investment", "project_expansion"];
+/** true / false when both amounts are known and comparable, null when that can't be told */
+export function sameAmount(a?: number | null, ac?: string | null, b?: number | null, bc?: string | null): boolean | null {
+  if (a == null || b == null) return null;
+  const ra = TO_EUR[(ac || "EUR").toUpperCase()], rb = TO_EUR[(bc || "EUR").toUpperCase()];
+  if (!ra || !rb) return null;
+  const x = a * ra, y = b * rb;
+  return Math.abs(x - y) / Math.max(x, y) <= 0.12;
+}
 const dayDiff = (a: string, b: string) => Math.abs(Date.parse(a.slice(0, 10)) - Date.parse(b.slice(0, 10))) / 86400000;
 
 /**
@@ -116,6 +128,13 @@ const dayDiff = (a: string, b: string) => Math.abs(Date.parse(a.slice(0, 10)) - 
 export function isSameEvent(a: EventKey, b: EventKey): boolean {
   if (!a.companyKey || a.companyKey !== b.companyKey || a.type !== b.type) return false;
   const diff = dayDiff(a.date, b.date);
+  if (DEAL_TYPES.includes(a.type)) {
+    // deals are reported by many outlets over weeks: the amount is the strongest signal
+    const amt = sameAmount(a.amount, a.currency, b.amount, b.currency);
+    if (amt === false) return false;
+    if (amt === true) return diff <= 180;
+    return diff <= 30 && titleSimilarity(a.title, b.title) >= 0.3;
+  }
   const window = a.type === "buyback" ? 0 : a.type === "funding_round" || a.type === "acquisition" || a.type === "strategic_investment" || a.type === "project_expansion" ? 14 : 3;
   if (diff > window) return false;
   const sim = titleSimilarity(a.title, b.title);
@@ -176,4 +195,8 @@ export function routeSourceItem(profile: string | null | undefined, title: strin
 /** `{year}` in a source path is replaced with the current (or configured) archive year */
 export const resolveSourcePath = (path: string, now = new Date()) => (path || "").replace(/\{year\}/g, String(now.getUTCFullYear()));
 
-export const industryLabel = (s?: string | null) => (s || "").replace(/^\d+-/, "").trim() || null;
+/** Exchange industry codes arrive as "8300 Banks", "1-Technology" or "0000 N/A"; keep only a meaningful name */
+export const industryLabel = (s?: string | null) => {
+  const name = (s || "").replace(/^[\d\s-]+/, "").trim();
+  return !name || /^n\/?a$/i.test(name) ? null : name;
+};

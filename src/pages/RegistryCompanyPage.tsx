@@ -11,6 +11,7 @@ import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { CompanyIntelligence } from "@/components/intel/CompanyIntelligence";
+import { CompanyAnnouncements } from "@/components/announcements/CompanyAnnouncements";
 
 import { toast } from "sonner";
 
@@ -265,6 +266,8 @@ export default function RegistryCompanyPage() {
               </div>
             </div>
           )}
+
+          <CompanyAnnouncements companyId={company.id} />
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <InfoCard icon={MapPin} label="City" value={company.city || "—"} />

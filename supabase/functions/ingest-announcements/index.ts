@@ -164,10 +164,10 @@ async function saveDeal(sb: Sb, src: Row, d: DealDetails, articleUrl: string, ar
   const type: AnnouncementType = (["funding_round", "strategic_investment", "acquisition", "project_expansion"].includes(d.announcement_type) ? d.announcement_type : classifyDealType(text));
   const key = normalizeCompanyName(d.company_name) ?? "";
   const date = validDate(d.event_date) ?? iso(new Date());
-  const { data: pool } = await sb.from("company_announcements").select("id, slug, title, announcement_type, source_published_at, event_date, company_name, status")
+  const { data: pool } = await sb.from("company_announcements").select("id, slug, title, announcement_type, source_published_at, event_date, company_name, status, amount, currency")
     .eq("section", "deals").neq("status", "rejected").gte("created_at", new Date(Date.now() - 400 * DAY).toISOString()).limit(1000);
   const same = (pool ?? []).filter((p: Row) => normalizeCompanyName(p.company_name) === key);
-  const dup = same.find((p: Row) => isSameEvent({ companyKey: key, type, date, title: d.headline }, { companyKey: key, type: p.announcement_type, date: p.event_date ?? p.source_published_at ?? date, title: p.title }));
+  const dup = same.find((p: Row) => isSameEvent({ companyKey: key, type, date, title: d.headline, amount: d.amount, currency: d.currency }, { companyKey: key, type: p.announcement_type, date: p.event_date ?? p.source_published_at ?? date, title: p.title, amount: p.amount, currency: p.currency }));
   const links = [{ url: articleUrl, role: "discovery", source_name: src.name, title: articleTitle, language: d.source_language === "el" ? "el" : "en", published_at: new Date(`${date}T09:00:00Z`).toISOString() }];
   if (d.primary_source_url && d.primary_source_url !== articleUrl) links.push({ url: d.primary_source_url, role: "supporting", source_name: "Linked from the discovery article (unverified)", title: d.headline, language: "en", published_at: links[0].published_at });
   if (dup) { await addLinks(sb, dup.id, links); return "duplicate"; }
