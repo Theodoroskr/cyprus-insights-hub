@@ -36,9 +36,9 @@ export function ComplianceShell({ title, intro, children, masthead }: Props) {
                 ComplianceHub<span className="text-secondary">.cy</span>
               </h1>
             ) : (
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground font-serif tracking-tight">{title}</h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground font-serif tracking-tight">{ct(title, lang)}</h1>
             )}
-            {intro && <p className={`text-sm text-muted-foreground mt-2 max-w-2xl ${masthead ? "mx-auto" : ""}`}>{intro}</p>}
+            {intro && <p className={`text-sm text-muted-foreground mt-2 max-w-2xl ${masthead ? "mx-auto" : ""}`}>{ct(intro, lang)}</p>}
             <div className={`mt-3 flex ${masthead ? "justify-center" : ""}`}>
               <LangSwitch lang={lang} setLang={setLang} />
             </div>

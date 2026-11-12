@@ -144,7 +144,7 @@ function FatfView({ lang }: { lang: Lang }) {
       {releases.length > 1 && (
         <div>
           <h3 className="section-label text-xs mb-2">{ct("Earlier releases", lang)}</h3>
-          <ul className="text-sm text-muted-foreground space-y-0.5">{releases.slice(1).map((r) => <li key={r.id}>{r.label} — {r.listings.length}</li>)}</ul>
+          <ul className="text-sm text-muted-foreground space-y-0.5">{releases.slice(1).map((r) => <li key={r.id}>{r.label} — {r.listings.length} {lang === "el" ? "δικαιοδοσίες" : "jurisdictions"}</li>)}</ul>
         </div>
       )}
     </div>

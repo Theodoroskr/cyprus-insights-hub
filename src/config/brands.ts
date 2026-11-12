@@ -70,8 +70,10 @@ export const brands: Record<BrandId, BrandConfig> = {
     },
     navItems: [
       { label: "Dashboard", href: "/compliance" },
-      { label: "Alerts", href: "/compliance#alerts" },
-      { label: "AML Center", href: "/compliance#aml" },
+      { label: "Regulatory Updates", href: "/compliance/regulatory-updates" },
+      { label: "Sanctions & Risk", href: "/compliance/sanctions" },
+      { label: "Deadlines", href: "/compliance/deadlines" },
+      { label: "Guidance", href: "/compliance/guidance" },
       { label: "Resources", href: "/resources" },
     ],
     parentBadge: true,

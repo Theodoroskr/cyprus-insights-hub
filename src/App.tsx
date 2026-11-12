@@ -15,6 +15,11 @@ import { RouteSEODefaults } from "./components/RouteSEODefaults";
 const Index = lazy(() => import("./pages/Index"));
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
 const CompliancePage = lazy(() => import("./pages/CompliancePage"));
+const ComplianceUpdatesPage = lazy(() => import("./pages/ComplianceUpdatesPage"));
+const ComplianceItemPage = lazy(() => import("./pages/ComplianceItemPage"));
+const ComplianceSanctionsPage = lazy(() => import("./pages/ComplianceSanctionsPage"));
+const ComplianceDeadlinesPage = lazy(() => import("./pages/ComplianceDeadlinesPage"));
+const ComplianceGuidancePage = lazy(() => import("./pages/ComplianceGuidancePage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
 const ResourceDetailPage = lazy(() => import("./pages/ResourceDetailPage"));
 const DirectoryPage = lazy(() => import("./pages/DirectoryPage"));
@@ -109,6 +114,11 @@ const App = () => (
                   <Route path="/profile/:id" element={<Navigate to="/whoiswho" replace />} />
                   <Route path="/fintech" element={<FinTechPage />} />
                   <Route path="/compliance" element={<CompliancePage />} />
+                  <Route path="/compliance/regulatory-updates" element={<ComplianceUpdatesPage />} />
+                  <Route path="/compliance/regulatory-updates/:slug" element={<ComplianceItemPage />} />
+                  <Route path="/compliance/sanctions" element={<ComplianceSanctionsPage />} />
+                  <Route path="/compliance/deadlines" element={<ComplianceDeadlinesPage />} />
+                  <Route path="/compliance/guidance" element={<ComplianceGuidancePage />} />
                   <Route path="/resources" element={<ResourcesPage />} />
                   <Route path="/resources/:slug" element={<ResourceDetailPage />} />
                   <Route path="/sme" element={<SMEPage />} />

@@ -32,8 +32,9 @@ const Empty = ({ text }: { text: string }) => <p className="text-sm text-muted-f
 
 export default function CompliancePage() {
   const { data: items = [], isLoading } = useComplianceItems();
-  const updates = items.filter((i) => i.sections.includes("updates")).slice(0, 5);
   const sanctions = items.filter((i) => i.sections.includes("eu_sanctions") || i.sections.includes("cy_sanctions")).slice(0, 5);
+  // a record can sit in several sections; on the overview show it once
+  const updates = items.filter((i) => i.sections.includes("updates") && !sanctions.some((s) => s.id === i.id)).slice(0, 5);
   const deadlines = deadlineEntries(items, today()).slice(0, 6);
 
   return (

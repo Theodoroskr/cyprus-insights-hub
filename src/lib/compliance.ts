@@ -59,7 +59,12 @@ export const label = (map: Record<string, L>, key: string | null | undefined, la
 
 /** UI strings; Greek falls back to English when missing. */
 const EL: Record<string, string> = {
-  "Overview": "Επισκόπηση", "Regulatory Updates": "Ρυθμιστικές Εξελίξεις", "Sanctions & Country Risk": "Κυρώσεις & Κίνδυνος Χωρών",
+  "Official regulatory updates, sanctions changes, FATF country risk and upcoming deadlines for Cyprus — each linked to the original document.": "Επίσημες ρυθμιστικές εξελίξεις, αλλαγές στις κυρώσεις, κίνδυνος χωρών κατά FATF και επερχόμενες προθεσμίες για την Κύπρο — με σύνδεσμο στο πρωτότυπο έγγραφο.",
+  "Circulars, guidance, consultations and new rules from Cypriot and EU authorities, summarised and linked to the official source.": "Εγκύκλιοι, καθοδήγηση, διαβουλεύσεις και νέοι κανόνες από κυπριακές και ευρωπαϊκές αρχές, με περίληψη και σύνδεσμο στην επίσημη πηγή.",
+  "EU restrictive-measures acts, Cyprus NSIU guidance, the FATF lists and the official screening tools — kept separate so each status is clear.": "Πράξεις περιοριστικών μέτρων της ΕΕ, καθοδήγηση της ΕΜΕΚ, οι κατάλογοι της FATF και τα επίσημα εργαλεία ελέγχου — χωριστά, ώστε να είναι σαφές το καθεστώς του καθενός.",
+  "Consultation closing dates, filing deadlines and application dates confirmed from the official documents.": "Ημερομηνίες λήξης διαβουλεύσεων, προθεσμίες υποβολής και ημερομηνίες εφαρμογής, επιβεβαιωμένες από τα επίσημα έγγραφα.",
+  "Self-assessment tools, templates, the regulatory horizon and links to every Cypriot and EU authority.": "Εργαλεία αυτοαξιολόγησης, υποδείγματα, ο ρυθμιστικός ορίζοντας και σύνδεσμοι προς όλες τις κυπριακές και ευρωπαϊκές αρχές.",
+  "Overview": "Επισκόπηση", "Summary": "Περίληψη", "Regulatory Updates": "Ρυθμιστικές Εξελίξεις", "Sanctions & Country Risk": "Κυρώσεις & Κίνδυνος Χωρών",
   "Deadlines & Consultations": "Προθεσμίες & Διαβουλεύσεις", "Guidance & Resources": "Καθοδήγηση & Πόροι",
   "Latest regulatory updates": "Πρόσφατες ρυθμιστικές εξελίξεις", "Recent sanctions changes": "Πρόσφατες αλλαγές στις κυρώσεις", "Upcoming deadlines": "Επερχόμενες προθεσμίες",
   "View all": "Όλα", "Official document": "Επίσημο έγγραφο", "Published": "Δημοσίευση", "Applies from": "Εφαρμόζεται από", "Effective": "Ισχύς",
