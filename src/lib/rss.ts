@@ -112,11 +112,23 @@ export interface FeedMeta {
   pagePath?: string;
 }
 
+const HUB_IMAGES: Record<string, string> = {
+  FinTech: "/images/og-fintechhub.png",
+  Compliance: "/images/og-compliancehub.png",
+  RegTech: "/images/og-regtechhub.png",
+};
+
+/** Branded picture for a story that has no photo of its own. */
+export function fallbackImage(category?: string): string {
+  return (category && HUB_IMAGES[category]) || "/images/og-businesshub.png";
+}
+
 export function buildRssFeed(meta: FeedMeta, items: RssItem[], base = SITE_URL, now = new Date()): string {
   const lastBuild = items[0] ? new Date(items[0].publishedAt) : now;
   const body = items.map((i) => {
     const link = escapeXml(base + i.path);
-    const img = absoluteImage(i.imageUrl, base);
+    const img = absoluteImage(i.imageUrl, base) ?? base + fallbackImage(i.category);
+    const type = /\.png(\?|$)/i.test(img) ? "image/png" : /\.webp(\?|$)/i.test(img) ? "image/webp" : "image/jpeg";
     return [
       "    <item>",
       `      <title>${escapeXml(i.title)}</title>`,
@@ -125,7 +137,8 @@ export function buildRssFeed(meta: FeedMeta, items: RssItem[], base = SITE_URL, 
       `      <pubDate>${new Date(i.publishedAt).toUTCString()}</pubDate>`,
       i.category ? `      <category>${escapeXml(i.category)}</category>` : null,
       `      <description>${escapeXml(i.description)}</description>`,
-      img ? `      <media:content url="${escapeXml(img)}" medium="image" />` : null,
+      `      <media:content url="${escapeXml(img)}" medium="image" type="${type}" />`,
+      `      <enclosure url="${escapeXml(img)}" type="${type}" length="0" />`,
       "    </item>",
     ]
       .filter(Boolean)
