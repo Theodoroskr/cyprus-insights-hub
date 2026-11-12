@@ -237,7 +237,8 @@ export function parseEurLexSearch(html: string): { celex: string; title: string;
   for (const b of parts) {
     const a = b.match(/<a[^>]*href="[^"]*uri=CELEX:([0-9A-Z()]+)[^"]*"[^>]*class="title"[^>]*>([\s\S]*?)<\/a>/);
     if (!a) continue;
-    const oj = b.match(/OJ [LC](?: [A-Z])?,\s*[^,<]+,\s*(\d{1,2}\.\d{1,2}\.\d{4})/);
+    const under = b.match(/class="[^"]*textUnderTitle[^"]*"[^>]*>\s*<i>([^<]+)/)?.[1] ?? "";
+    const oj = under.match(/OJ [LC](?: [A-Z])?,\s*[^,<]+,\s*(\d{1,2}\.\d{1,2}\.\d{4})/);
     out.push({ celex: a[1], title: clean(a[2]), ojDate: parseDateLoose(oj?.[1]) });
   }
   return out;

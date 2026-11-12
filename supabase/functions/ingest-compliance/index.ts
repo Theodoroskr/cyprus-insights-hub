@@ -363,6 +363,28 @@ async function sourceText(item: Row): Promise<{ text: string | null; pdf: string
   } catch { return { text: null, pdf: null }; }
 }
 
+/** Drafts one record's summary from its official text. Never changes the record's status. */
+async function draftOne(sb: Sb, r: Row): Promise<{ ok: boolean; blocked?: string; error?: string }> {
+  const attempts = Number(r.ai_suggestions?.attempts ?? 0);
+  const { text, pdf } = await sourceText(r);
+  try {
+    const b = await draftBrief({ authority: r.authority, officialTitle: r.official_title, documentType: r.document_type, text, pdfBase64: pdf });
+    if (!b?.summary_en) throw new Error("empty draft");
+    await sb.from("compliance_items").update({
+      title_en: b.title_en || null, title_el: b.title_el || r.title_el, summary_en: b.summary_en, summary_el: b.summary_el || null,
+      what_changed_en: b.what_changed_en || null, what_changed_el: b.what_changed_el || null, action_en: b.action_en || null, action_el: b.action_el || null,
+      topics: uniq([...(r.topics ?? []), ...b.topics]), sectors: uniq([...(r.sectors ?? []), ...b.sectors]), audience: r.audience ?? (b.audience || null),
+      ai_suggestions: { ...(r.ai_suggestions ?? {}), attempts: attempts + 1, drafted_at: new Date().toISOString(), read_from: pdf ? "pdf" : text ? "text" : "title", dates: b.dates, last_error: null },
+    }).eq("id", r.id);
+    return { ok: true };
+  } catch (e) {
+    if (e instanceof AiBlocked) return { ok: false, blocked: `${e.status}: ${e.message}` };
+    const msg = e instanceof Error ? e.message.slice(0, 300) : String(e);
+    await sb.from("compliance_items").update({ ai_suggestions: { ...(r.ai_suggestions ?? {}), attempts: attempts + 1, last_error: msg } }).eq("id", r.id);
+    return { ok: false, error: msg };
+  }
+}
+
 async function runSummaries(sb: Sb, deadline: number, limit: number) {
   const { data: rows } = await sb.from("compliance_items").select("*").eq("status", "review").is("summary_en", null).eq("is_test", false)
     .order("publication_date", { ascending: false, nullsFirst: false }).limit(limit * 2);
@@ -370,24 +392,10 @@ async function runSummaries(sb: Sb, deadline: number, limit: number) {
   let blocked: string | null = null;
   for (const r of rows ?? []) {
     if (done + failed >= limit || Date.now() > deadline - 35000) break;
-    const attempts = Number(r.ai_suggestions?.attempts ?? 0);
-    if (attempts >= 3) continue;
-    const { text, pdf } = await sourceText(r);
-    try {
-      const b = await draftBrief({ authority: r.authority, officialTitle: r.official_title, documentType: r.document_type, text, pdfBase64: pdf });
-      if (!b?.summary_en) throw new Error("empty draft");
-      await sb.from("compliance_items").update({
-        title_en: b.title_en || null, title_el: b.title_el || r.title_el, summary_en: b.summary_en, summary_el: b.summary_el || null,
-        what_changed_en: b.what_changed_en || null, what_changed_el: b.what_changed_el || null, action_en: b.action_en || null, action_el: b.action_el || null,
-        topics: uniq([...(r.topics ?? []), ...b.topics]), sectors: uniq([...(r.sectors ?? []), ...b.sectors]), audience: r.audience ?? (b.audience || null),
-        ai_suggestions: { ...(r.ai_suggestions ?? {}), attempts: attempts + 1, drafted_at: new Date().toISOString(), read_from: pdf ? "pdf" : text ? "text" : "title", dates: b.dates },
-      }).eq("id", r.id);
-      done++;
-    } catch (e) {
-      if (e instanceof AiBlocked) { blocked = `${e.status}: ${e.message}`; break; }
-      failed++;
-      await sb.from("compliance_items").update({ ai_suggestions: { ...(r.ai_suggestions ?? {}), attempts: attempts + 1, last_error: e instanceof Error ? e.message.slice(0, 300) : String(e) } }).eq("id", r.id);
-    }
+    if (Number(r.ai_suggestions?.attempts ?? 0) >= 3) continue;
+    const res = await draftOne(sb, r);
+    if (res.blocked) { blocked = res.blocked; break; }
+    if (res.ok) done++; else failed++;
   }
   return { drafted: done, failed, blocked };
 }
@@ -424,6 +432,13 @@ Deno.serve(async (req) => {
       const now = new Date().toISOString();
       await sb.from("compliance_sources").update({ last_attempt_at: now, notes: `${s.notes ?? ""}`.replace(/\s*\[Validation [^\]]*\]$/, "") + ` [Validation ${now.slice(0, 10)}: ${result.ok ? `readable via ${result.method}` : `not readable (${result.error ?? result.direct_error ?? result.status})`}]`, ...(result.ok ? {} : { last_error: `Validation failed: ${result.error ?? result.direct_error ?? result.status}`, last_error_at: now }) }).eq("id", s.id);
       return json({ ok: true, source: s.slug, validation: result });
+    }
+    if (body.action === "draft") {
+      if (via !== "admin") return json({ error: "Editors only" }, 403);
+      const { data: row } = await sb.from("compliance_items").select("*").eq("id", String(body.item_id ?? "")).maybeSingle();
+      if (!row) return json({ error: "Unknown record" }, 404);
+      const r = await draftOne(sb, row);
+      return json(r, r.blocked ? 402 : r.ok ? 200 : 502);
     }
     const phase = String(body.phase ?? "all");
     const result: Row = { phase, via };
