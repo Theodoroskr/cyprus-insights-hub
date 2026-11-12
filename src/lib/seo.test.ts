@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canonicalUrl, readStaticPreview, SITE_TITLE } from "./seo";
+import { canonicalUrl, metaDescription, readStaticPreview, routeMeta, SITE_DESCRIPTION, SITE_TITLE } from "./seo";
 
 describe("canonicalUrl", () => {
   it("points a story page at its own address, not the homepage", () => {
@@ -46,5 +46,45 @@ describe("readStaticPreview", () => {
 
   it("ignores the generic site-wide fallback tags", () => {
     expect(readStaticPreview(fakeDoc({ 'meta[property="og:title"]': SITE_TITLE }))).toBeNull();
+  });
+});
+
+describe("routeMeta", () => {
+  const publicPaths = ["/compliance", "/sme", "/trade", "/resources", "/news", "/cookies", "/privacy", "/terms"];
+
+  it("gives each public page without its own head tags a distinct title and description", () => {
+    const metas = publicPaths.map((p) => routeMeta(p));
+    metas.forEach((m) => expect(m).not.toBeNull());
+    expect(new Set(metas.map((m) => m!.title)).size).toBe(publicPaths.length);
+    expect(new Set(metas.map((m) => m!.description)).size).toBe(publicPaths.length);
+    metas.forEach((m) => expect(m!.description).not.toBe(SITE_DESCRIPTION));
+  });
+
+  it("matches with a trailing slash or query string", () => {
+    expect(routeMeta("/compliance/?utm_source=fb")?.vertical).toBe("compliance");
+  });
+
+  it("keeps the account dashboard out of search results but not public pages", () => {
+    expect(routeMeta("/dashboard")?.noindex).toBe(true);
+    expect(routeMeta("/news")?.noindex).toBeFalsy();
+  });
+
+  it("returns null for pages that set their own tags", () => {
+    expect(routeMeta("/article/abc")).toBeNull();
+  });
+});
+
+describe("metaDescription", () => {
+  it("strips Markdown and cuts long text near 155 characters at a word", () => {
+    const text = "## Heading\n\n**Bold** words and a [link](https://x.y) " + "lorem ipsum dolor ".repeat(20);
+    const d = metaDescription(text, "fallback");
+    expect(d.startsWith("Heading Bold words and a link")).toBe(true);
+    expect(d.length).toBeLessThanOrEqual(156);
+    expect(d.endsWith("…")).toBe(true);
+  });
+
+  it("uses the fallback when there is no text", () => {
+    expect(metaDescription("  ", "fallback")).toBe("fallback");
+    expect(metaDescription(null, "fallback")).toBe("fallback");
   });
 });

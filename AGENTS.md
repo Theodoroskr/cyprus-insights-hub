@@ -25,7 +25,7 @@
 - The sitemap is static files on the site domain: `scripts/generate-sitemap.ts` (prebuild) writes `public/sitemap.xml` + `public/sitemaps/*.xml` from public tables using helpers in `src/lib/sitemap.ts`, and keeps the old files if the database is unreachable. Why: search engines only accept sitemap URLs on the site's own host.
 - RSS: prebuild `generate-rss.ts` writes `public/rss*`. Why: feeds on the site domain.
 - Facebook auto-posting: hourly `post-to-facebook` (07:00–21:00 Cyprus) posts new `cna_articles` to the page in admin-only `facebook_autopost_settings`, spread up to its daily limit, max 3 per run, logged once per article in `facebook_posts` (rules in `_shared/facebookPosting.ts`); the token lives only in the Facebook Pages connector; photo order: story image → least-recently-used `SOCIAL_IMAGE_LIBRARY` picture → hub image → link post. Why: no duplicate or flood posting, no token in the database.
-- Head tags: `RouteSEODefaults` (App.tsx) sets a self-referencing canonical/og:url via `canonicalUrl()` (`src/lib/seo.ts`); `SEOHead` overrides; `index.html` has no canonical and its fallback meta tags carry `data-rh="true"`. Why: one canonical/description per page.
+- Head tags: `RouteSEODefaults` (App.tsx) sets a self-referencing canonical/og:url via `canonicalUrl()` + `ROUTE_META` text (`src/lib/seo.ts`); pages without `SEOHead` need a `ROUTE_META` entry; `index.html` has no canonical and its fallback meta tags carry `data-rh="true"`. Why: one canonical/description per page.
 - `ping-indexnow` pings Bing once per page.
 - CySEC firms page lists licences, never warnings. Why: licence data only.
 - Postbuild writes per-story preview heads. Why: robots skip JS.

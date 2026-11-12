@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
-import { canonicalUrl, readStaticPreview, SITE_DESCRIPTION, SITE_IMAGE, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
+import { ogImageFor } from "@/lib/ogImage";
+import { canonicalUrl, readStaticPreview, routeMeta, SITE_DESCRIPTION, SITE_IMAGE, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
 
 // Captured once, before React touches the head: the served page's own preview tags
 // (per-story files written at publish time) and the address they belong to.
@@ -18,14 +19,16 @@ export function RouteSEODefaults() {
   const { pathname } = useLocation();
   const url = canonicalUrl(pathname);
   const own = INITIAL_PREVIEW && url === INITIAL_PATH ? INITIAL_PREVIEW : null;
-  const title = own?.title ?? SITE_TITLE;
-  const description = own?.description ?? SITE_DESCRIPTION;
-  const image = own?.image ?? SITE_IMAGE;
+  const meta = own ? null : routeMeta(pathname);
+  const title = own?.title ?? (meta ? `${meta.title} | ${SITE_NAME}` : SITE_TITLE);
+  const description = own?.description ?? meta?.description ?? SITE_DESCRIPTION;
+  const image = own?.image ?? (meta ? ogImageFor(meta.vertical) : SITE_IMAGE);
   const ownImage = image.startsWith(`${SITE_URL}/images/og-`);
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
+      <meta name="robots" content={meta?.noindex ? "noindex, nofollow" : "index, follow"} />
       <link rel="canonical" href={url} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />

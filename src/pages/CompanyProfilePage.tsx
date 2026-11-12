@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
+import { metaDescription } from "@/lib/seo";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export default function CompanyProfilePage() {
@@ -56,6 +58,12 @@ export default function CompanyProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={`${company.name} — Cyprus Company Profile`}
+        description={metaDescription(company.description, `${company.name}${company.location?.name ? `, ${company.location.name}` : ""}: company profile, people and news on BusinessHub.cy.`)}
+        image={company.logo || undefined}
+        breadcrumbs={[{ name: "Home", href: "/" }, { name: "Directory", href: "/directory" }, { name: company.name, href: `/companies/${company.slug}` }]}
+      />
       <TopNavigation onSearch={() => {}} />
 
       {/* Company Header */}

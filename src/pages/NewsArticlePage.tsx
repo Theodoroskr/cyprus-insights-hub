@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
+import { metaDescription } from "@/lib/seo";
 import { formatDistanceToNow } from "date-fns";
 
 export default function NewsArticlePage() {
@@ -39,6 +41,13 @@ export default function NewsArticlePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={article.title}
+        description={metaDescription(article.excerpt || article.content, `${article.title} — analysis from the BusinessHub.cy newsroom.`)}
+        image={article.cover_image || undefined}
+        type="article"
+        breadcrumbs={[{ name: "Home", href: "/" }, { name: "News", href: "/news" }, { name: article.title, href: `/news/${article.slug}` }]}
+      />
       <TopNavigation onSearch={() => {}} />
 
       {/* Hero */}

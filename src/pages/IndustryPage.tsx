@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function IndustryPage() {
   const { slug } = useParams();
@@ -33,6 +34,11 @@ export default function IndustryPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={`${industry.name} Companies in Cyprus`}
+        description={`${industry.name} in Cyprus: ${companies.length} ${companies.length === 1 ? "company" : "companies"} in the BusinessHub.cy directory, with related news and analysis.`}
+        breadcrumbs={[{ name: "Home", href: "/" }, { name: "Directory", href: "/directory" }, { name: industry.name, href: `/industries/${industry.slug}` }]}
+      />
       <TopNavigation onSearch={() => {}} />
       <div className="bg-card border-b border-border">
         <div className="container mx-auto px-4 py-10">

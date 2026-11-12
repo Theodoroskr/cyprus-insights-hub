@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
+import { SEOHead } from "@/components/SEOHead";
+import { metaDescription } from "@/lib/seo";
 import { formatDistanceToNow } from "date-fns";
 
 export default function InterviewArticlePage() {
@@ -35,6 +37,13 @@ export default function InterviewArticlePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={article.title}
+        description={metaDescription(article.excerpt || article.content, `${article.title} — an interview from BusinessHub.cy.`)}
+        image={article.cover_image || undefined}
+        type="article"
+        breadcrumbs={[{ name: "Home", href: "/" }, { name: "Interviews", href: "/interviews" }, { name: article.title, href: `/interviews/${article.slug}` }]}
+      />
       <TopNavigation onSearch={() => {}} />
 
       {article.cover_image && (
