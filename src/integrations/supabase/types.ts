@@ -1028,6 +1028,353 @@ export type Database = {
         }
         Relationships: []
       }
+      compliance_item_history: {
+        Row: {
+          change_kind: string
+          changed_at: string
+          changed_by: string | null
+          details: Json | null
+          field: string | null
+          id: string
+          item_id: string
+          new_value: string | null
+          old_value: string | null
+        }
+        Insert: {
+          change_kind: string
+          changed_at?: string
+          changed_by?: string | null
+          details?: Json | null
+          field?: string | null
+          id?: string
+          item_id: string
+          new_value?: string | null
+          old_value?: string | null
+        }
+        Update: {
+          change_kind?: string
+          changed_at?: string
+          changed_by?: string | null
+          details?: Json | null
+          field?: string | null
+          id?: string
+          item_id?: string
+          new_value?: string | null
+          old_value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_item_history_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compliance_item_refs: {
+        Row: {
+          authority: string
+          created_at: string
+          id: string
+          item_id: string
+          language: string
+          official_id: string | null
+          published_at: string | null
+          role: string
+          source_id: string | null
+          title: string | null
+          url: string
+        }
+        Insert: {
+          authority: string
+          created_at?: string
+          id?: string
+          item_id: string
+          language?: string
+          official_id?: string | null
+          published_at?: string | null
+          role?: string
+          source_id?: string | null
+          title?: string | null
+          url: string
+        }
+        Update: {
+          authority?: string
+          created_at?: string
+          id?: string
+          item_id?: string
+          language?: string
+          official_id?: string | null
+          published_at?: string | null
+          role?: string
+          source_id?: string | null
+          title?: string | null
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_item_refs_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_item_refs_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compliance_items: {
+        Row: {
+          action_el: string | null
+          action_en: string | null
+          ai_suggestions: Json | null
+          application_date: string | null
+          audience: string | null
+          authority: string
+          canonical_url: string
+          change_note: string | null
+          change_pending: boolean
+          content_hash: string | null
+          countries: string[]
+          created_at: string
+          deadline_date: string | null
+          deadline_note: string | null
+          deadline_type: string | null
+          document_type: string
+          effective_date: string | null
+          id: string
+          is_test: boolean
+          jurisdiction: string
+          last_seen_at: string | null
+          legal_act_ref: string | null
+          measure_type: string | null
+          merged_into: string | null
+          official_id: string | null
+          official_title: string
+          publication_date: string | null
+          published_at: string | null
+          regime: string | null
+          related_acts: string[]
+          reviewed_at: string | null
+          reviewed_by: string | null
+          routing_note: string | null
+          sections: string[]
+          sectors: string[]
+          slug: string | null
+          source_id: string | null
+          source_language: string
+          status: string
+          summary_el: string | null
+          summary_en: string | null
+          title_el: string | null
+          title_en: string | null
+          topics: string[]
+          updated_at: string
+          what_changed_el: string | null
+          what_changed_en: string | null
+        }
+        Insert: {
+          action_el?: string | null
+          action_en?: string | null
+          ai_suggestions?: Json | null
+          application_date?: string | null
+          audience?: string | null
+          authority: string
+          canonical_url: string
+          change_note?: string | null
+          change_pending?: boolean
+          content_hash?: string | null
+          countries?: string[]
+          created_at?: string
+          deadline_date?: string | null
+          deadline_note?: string | null
+          deadline_type?: string | null
+          document_type?: string
+          effective_date?: string | null
+          id?: string
+          is_test?: boolean
+          jurisdiction?: string
+          last_seen_at?: string | null
+          legal_act_ref?: string | null
+          measure_type?: string | null
+          merged_into?: string | null
+          official_id?: string | null
+          official_title: string
+          publication_date?: string | null
+          published_at?: string | null
+          regime?: string | null
+          related_acts?: string[]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          routing_note?: string | null
+          sections?: string[]
+          sectors?: string[]
+          slug?: string | null
+          source_id?: string | null
+          source_language?: string
+          status?: string
+          summary_el?: string | null
+          summary_en?: string | null
+          title_el?: string | null
+          title_en?: string | null
+          topics?: string[]
+          updated_at?: string
+          what_changed_el?: string | null
+          what_changed_en?: string | null
+        }
+        Update: {
+          action_el?: string | null
+          action_en?: string | null
+          ai_suggestions?: Json | null
+          application_date?: string | null
+          audience?: string | null
+          authority?: string
+          canonical_url?: string
+          change_note?: string | null
+          change_pending?: boolean
+          content_hash?: string | null
+          countries?: string[]
+          created_at?: string
+          deadline_date?: string | null
+          deadline_note?: string | null
+          deadline_type?: string | null
+          document_type?: string
+          effective_date?: string | null
+          id?: string
+          is_test?: boolean
+          jurisdiction?: string
+          last_seen_at?: string | null
+          legal_act_ref?: string | null
+          measure_type?: string | null
+          merged_into?: string | null
+          official_id?: string | null
+          official_title?: string
+          publication_date?: string | null
+          published_at?: string | null
+          regime?: string | null
+          related_acts?: string[]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          routing_note?: string | null
+          sections?: string[]
+          sectors?: string[]
+          slug?: string | null
+          source_id?: string | null
+          source_language?: string
+          status?: string
+          summary_el?: string | null
+          summary_en?: string | null
+          title_el?: string | null
+          title_en?: string | null
+          topics?: string[]
+          updated_at?: string
+          what_changed_el?: string | null
+          what_changed_en?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_items_merged_into_fkey"
+            columns: ["merged_into"]
+            isOneToOne: false
+            referencedRelation: "compliance_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_items_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compliance_sources: {
+        Row: {
+          authority: string
+          check_interval_hours: number
+          collection_method: string
+          created_at: string
+          endpoint_urls: string[]
+          homepage_url: string
+          id: string
+          jurisdiction: string
+          last_attempt_at: string | null
+          last_changed_items: number | null
+          last_error: string | null
+          last_error_at: string | null
+          last_items_found: number | null
+          last_new_items: number | null
+          last_success_at: string | null
+          manual_reason: string | null
+          name: string
+          news_source_slug: string | null
+          notes: string | null
+          sections: string[]
+          slug: string
+          status: string
+          updated_at: string
+          validated_at: string | null
+        }
+        Insert: {
+          authority: string
+          check_interval_hours?: number
+          collection_method?: string
+          created_at?: string
+          endpoint_urls?: string[]
+          homepage_url: string
+          id?: string
+          jurisdiction?: string
+          last_attempt_at?: string | null
+          last_changed_items?: number | null
+          last_error?: string | null
+          last_error_at?: string | null
+          last_items_found?: number | null
+          last_new_items?: number | null
+          last_success_at?: string | null
+          manual_reason?: string | null
+          name: string
+          news_source_slug?: string | null
+          notes?: string | null
+          sections?: string[]
+          slug: string
+          status?: string
+          updated_at?: string
+          validated_at?: string | null
+        }
+        Update: {
+          authority?: string
+          check_interval_hours?: number
+          collection_method?: string
+          created_at?: string
+          endpoint_urls?: string[]
+          homepage_url?: string
+          id?: string
+          jurisdiction?: string
+          last_attempt_at?: string | null
+          last_changed_items?: number | null
+          last_error?: string | null
+          last_error_at?: string | null
+          last_items_found?: number | null
+          last_new_items?: number | null
+          last_success_at?: string | null
+          manual_reason?: string | null
+          name?: string
+          news_source_slug?: string | null
+          notes?: string | null
+          sections?: string[]
+          slug?: string
+          status?: string
+          updated_at?: string
+          validated_at?: string | null
+        }
+        Relationships: []
+      }
       content_sources: {
         Row: {
           access_status: string
@@ -1734,6 +2081,92 @@ export type Database = {
           image_url?: string | null
           page_id?: string
           status?: string
+        }
+        Relationships: []
+      }
+      fatf_listings: {
+        Row: {
+          category: string
+          country_code: string | null
+          country_name: string
+          created_at: string
+          id: string
+          release_id: string
+        }
+        Insert: {
+          category: string
+          country_code?: string | null
+          country_name: string
+          created_at?: string
+          id?: string
+          release_id: string
+        }
+        Update: {
+          category?: string
+          country_code?: string | null
+          country_name?: string
+          created_at?: string
+          id?: string
+          release_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fatf_listings_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "fatf_releases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fatf_releases: {
+        Row: {
+          call_for_action_url: string | null
+          content_hash: string | null
+          created_at: string
+          fetched_at: string | null
+          id: string
+          increased_monitoring_url: string | null
+          label: string
+          notes: string | null
+          release_date: string
+          stated_removals: string[]
+          status: string
+          updated_at: string
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          call_for_action_url?: string | null
+          content_hash?: string | null
+          created_at?: string
+          fetched_at?: string | null
+          id?: string
+          increased_monitoring_url?: string | null
+          label: string
+          notes?: string | null
+          release_date: string
+          stated_removals?: string[]
+          status?: string
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          call_for_action_url?: string | null
+          content_hash?: string | null
+          created_at?: string
+          fetched_at?: string | null
+          id?: string
+          increased_monitoring_url?: string | null
+          label?: string
+          notes?: string | null
+          release_date?: string
+          stated_removals?: string[]
+          status?: string
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Relationships: []
       }
@@ -4277,6 +4710,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      merge_compliance_items: {
+        Args: { _dup: string; _keep: string }
+        Returns: undefined
       }
       merge_directory_duplicate: {
         Args: { _dup: string; _keep: string }

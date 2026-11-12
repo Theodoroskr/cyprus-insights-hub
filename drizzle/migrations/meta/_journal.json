@@ -204,6 +204,13 @@
       "when": 1794378398563,
       "tag": "0028_seed_announcement_sources",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1794521142413,
+      "tag": "0029_compliancehub_monitoring",
+      "breakpoints": true
     }
   ]
 }
