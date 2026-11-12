@@ -41,3 +41,12 @@ describe("blendNews", () => {
     expect(blendNews([...input].reverse())).toEqual(blendNews(input));
   });
 });
+
+describe("section feeds", () => {
+  it("a compliance feed with 6 ICPAC stories shows at most 2 of them in its top 5", () => {
+    const icpac = Array.from({ length: 6 }, (_, i) => article(`i${i}`, "icpac", 2, "compliance", "2026-11-12"));
+    const others = ["eu-commission", "cbc", "cysec", "esma"].map((s, i) => article(s, s, 22 - i, "compliance", "2026-11-11"));
+    const top5 = blendNews([...icpac, ...others]).slice(0, 5).map(newsSource);
+    expect(top5.filter(s => s === "icpac").length).toBeLessThanOrEqual(2);
+  });
+});

@@ -23,7 +23,7 @@ const LABEL: Record<string, string> = { general: "Business", sme: "Business", fi
 interface Item { id: string; title: string; excerpt: string | null; image: string; href: string; date: string | null; label: string; vertical: string | null }
 
 export default function NewsListPage() {
-  const [hub, setHub] = useState<string>("all");
+  const [hub, setHub] = useState<string>(() => new URLSearchParams(window.location.search).get("hub") || "all");
   const [news, setNews] = useState<any[]>([]);
   const [own, setOwn] = useState<any[]>([]);
   const [page, setPage] = useState(1);

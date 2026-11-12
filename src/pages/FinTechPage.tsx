@@ -2,6 +2,7 @@ import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useState, useEffect } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Link, useNavigate } from "react-router-dom";
+import { HubNewsBlock } from "@/components/HubNewsBlock";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -55,26 +56,16 @@ interface Regulation {
   applies_to: string[];
   key_body: string;
 }
+const FINTECH_V = ["fintech"];
+
 export default function FinTechPage() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [featuredArticles, setFeaturedArticles] = useState<any[]>([]);
   const [regulations, setRegulations] = useState<Regulation[]>([]);
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [categoryCompanies, setCategoryCompanies] = useState<Record<string, any[]>>({});
   const [activeCategory, setActiveCategory] = useState(FINTECH_CATEGORIES[0].nace);
   useEffect(() => {
-    supabase
-      .from("cna_articles")
-      .select("id, title, summary, image_url, tags, published_at")
-      .eq("status", "published")
-      .eq("vertical", "fintech")
-      .order("published_at", { ascending: false })
-      .limit(3)
-      .then(({ data }) => {
-        if (data) setFeaturedArticles(data);
-      });
-
     supabase
       .from("regulations")
       .select("*")
@@ -171,37 +162,7 @@ export default function FinTechPage() {
 
       <SectionSponsorStrip sectionKey="fintechhub" />
 
-      {/* Featured FinTech Intelligence — newspaper grid */}
-      <section className="section-rule">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="section-label text-foreground text-sm">Featured Intelligence</h2>
-            <span className="section-label text-secondary">Latest from Cyprus FinTech</span>
-          </div>
-          {featuredArticles.length > 0 ? (
-            <div className="grid md:grid-cols-3 gap-6">
-              {featuredArticles.map((article) => (
-                <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-secondary/40 transition-colors">
-                  <div className="relative h-44 overflow-hidden">
-                    <img src={articleImage(article.image_url, "fintech", article.id)} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
-                    <span className="absolute top-3 left-3 section-label text-white drop-shadow bg-primary/40 backdrop-blur-sm px-2 py-0.5">FinTech</span>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors leading-tight">
-                      {article.title}
-                    </h3>
-                    <p className="article-body text-muted-foreground mb-3 line-clamp-2">{article.summary}</p>
-                    <p className="byline">{article.published_at ? formatDistanceToNow(new Date(article.published_at), { addSuffix: true }) : ""}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <p className="text-muted-foreground text-sm">No fintech articles published yet.</p>
-          )}
-        </div>
-      </section>
+      <HubNewsBlock title="FinTech" verticals={FINTECH_V} hubKey="fintech" />
 
       {/* Inline Insight Banner */}
       <div className="container mx-auto px-4 py-8">

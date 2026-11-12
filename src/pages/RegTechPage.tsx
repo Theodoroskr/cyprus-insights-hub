@@ -1,3 +1,4 @@
+import { HubNewsBlock } from "@/components/HubNewsBlock";
 import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useState, useEffect } from "react";
 import { SEOHead } from "@/components/SEOHead";
@@ -128,24 +129,14 @@ interface Regulation {
 
 /* ─── Component ────────────────────────────────────────── */
 
+const REGTECH_V = ["regtech"];
+
 export default function RegTechPage() {
   const [activeTab, setActiveTab] = useState<"overview" | "vendors" | "dora" | "frameworks" | "cyber">("overview");
-  const [articles, setArticles] = useState<any[]>([]);
   const [regulations, setRegulations] = useState<Regulation[]>([]);
   const [doraCompleted, setDoraCompleted] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-    supabase
-      .from("cna_articles")
-      .select("id, title, summary, image_url, published_at, vertical")
-      .eq("status", "published")
-      .in("vertical", ["regtech", "compliance", "fintech"])
-      .order("published_at", { ascending: false })
-      .limit(3)
-      .then(({ data }) => {
-        if (data) setArticles(data);
-      });
-
     supabase
       .from("regulations")
       .select("*")
@@ -261,45 +252,7 @@ export default function RegTechPage() {
       {/* ═══════════════════ TAB 1: OVERVIEW ═══════════════════ */}
       {activeTab === "overview" && (
         <>
-          {/* Latest Articles */}
-          {articles.length > 0 && (
-            <section className="section-rule">
-              <div className="container mx-auto px-4">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="section-label text-foreground text-sm">Latest RegTech Intelligence</h2>
-                  <Badge variant="outline" className="gap-1 rounded-none text-[10px] uppercase tracking-wider">
-                    <Cpu className="h-3 w-3" /> Live
-                  </Badge>
-                </div>
-                <div className="grid md:grid-cols-3 gap-6">
-                  {articles.map((article) => (
-                    <Link to={`/article/${article.id}`} key={article.id} className="group block border border-border rounded-lg overflow-hidden hover:border-regtech/40 transition-colors">
-                      <div className="relative h-44 overflow-hidden">
-                        <img
-                          src={articleImage(article.image_url, "regtech", article.id)}
-                          alt={article.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
-                        <span className="absolute top-3 left-3 section-label text-white drop-shadow bg-regtech/60 backdrop-blur-sm px-2 py-0.5">
-                          {article.vertical === "regtech" ? "RegTech" : article.vertical === "compliance" ? "Compliance" : "FinTech"}
-                        </span>
-                      </div>
-                      <div className="p-4">
-                        <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-regtech transition-colors leading-tight">
-                          {article.title}
-                        </h3>
-                        <p className="article-body text-muted-foreground mb-3 line-clamp-2">{article.summary}</p>
-                        <p className="byline">
-                          {article.published_at ? formatDistanceToNow(new Date(article.published_at), { addSuffix: true }) : ""}
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
+          <HubNewsBlock title="RegTech" verticals={REGTECH_V} hubKey="regtech" accent="text-regtech" />
 
           {/* What RegTech Covers */}
           <section className="section-rule bg-muted/30">

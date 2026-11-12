@@ -2,6 +2,7 @@ import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { useState, useEffect } from "react";
 import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
 import { Link } from "react-router-dom";
+import { HubNewsBlock } from "@/components/HubNewsBlock";
 import { HubLayout } from "@/layouts/HubLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { CountryRiskTable } from "@/components/compliance/CountryRiskTable";
@@ -77,24 +78,14 @@ const regulatoryLinks = [
   { name: "Data Protection Commissioner", url: "https://www.dataprotection.gov.cy", description: "Personal Data Protection" },
 ];
 
+const COMPLIANCE_V = ["compliance"];
+
 export default function CompliancePage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [articles, setArticles] = useState<any[]>([]);
   const [calendar, setCalendar] = useState<{ date: string; event: string; category: string }[]>(fallbackCalendar);
   const [activeTab, setActiveTab] = useState<"overview" | "tools" | "templates" | "calendar">("overview");
 
   useEffect(() => {
-    supabase
-      .from("cna_articles")
-      .select("id, title, summary, image_url, published_at, vertical")
-      .eq("status", "published")
-      .eq("vertical", "compliance")
-      .order("published_at", { ascending: false })
-      .limit(6)
-      .then(({ data }) => {
-        if (data) setArticles(data);
-      });
-
     supabase
       .from("regulatory_calendar")
       .select("date_label, event, category")
@@ -185,43 +176,7 @@ export default function CompliancePage() {
       {/* OVERVIEW TAB */}
       {activeTab === "overview" && (
         <>
-          {/* Latest Compliance Articles */}
-          {articles.length > 0 && (
-            <section id="alerts" className="section-rule">
-              <div className="container mx-auto px-4">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="section-label text-foreground text-sm">Latest Compliance Intelligence</h2>
-                  <Badge variant="outline" className="gap-1 rounded-none text-[10px] uppercase tracking-wider">
-                    <Clock className="h-3 w-3" />
-                    Live Updates
-                  </Badge>
-                </div>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {articles.map((article) => (
-                    <Link to={`/article/${article.id}`} key={article.id}>
-                      <article className="border border-border rounded-lg overflow-hidden group cursor-pointer hover:border-secondary/40 transition-colors">
-                        {(
-                          <div className="relative h-40 overflow-hidden">
-                            <img src={articleImage(article.image_url, "compliance", article.id)} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent" />
-                          </div>
-                        )}
-                        <div className="p-4">
-                          <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-secondary transition-colors">
-                            {article.title}
-                          </h3>
-                          {article.summary && <p className="article-body text-muted-foreground mb-2 line-clamp-2">{article.summary}</p>}
-                          {article.published_at && (
-                            <p className="byline">{new Date(article.published_at).toLocaleDateString("en-GB")}</p>
-                          )}
-                        </div>
-                      </article>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
+          <HubNewsBlock title="Compliance" verticals={COMPLIANCE_V} hubKey="compliance" />
 
           {/* Country Risk Index */}
           <section className="section-rule">
