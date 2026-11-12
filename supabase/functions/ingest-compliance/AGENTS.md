@@ -1,0 +1,3 @@
+# ingest-compliance
+
+- ComplianceHub monitoring: `compliance_sources` registry → hourly `ingest-compliance` (each source collected only when its `check_interval_hours` is due; parsers in `_shared/compliance.ts`, drafts in `_shared/complianceAi.ts`) → `compliance_items` in `review`; one record can sit in several `sections`, dedupe is authority + official ID then canonical URL, content-hash changes on published rows wait in `pending_source_values` for an editor, and only `published` rows / `published` `fatf_releases` are public (RLS). Why: every public claim is editor-verified and tied to an official document.
