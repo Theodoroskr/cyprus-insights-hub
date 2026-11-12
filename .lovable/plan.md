@@ -1,28 +1,34 @@
-# Launch the BusinessHub.cy newsletter
+# TourismHub.cy — Explore Cyprus (assessment and plan)
 
-## Goal
-Turn Facebook visitors into readers who come back: a real email briefing they can sign up for from any page, especially story pages.
+## Assessment
+- Fits the existing platform well: same layout, EN/EL language switch, admin review/publish pattern (as used by ComplianceHub), official-source registry and RLS "published only" rules.
+- Clash to avoid: `/tourism` already shows official arrival statistics. Explore Cyprus will live at `/explore` and the stats page stays where it is (statistics are deferred in this brief anyway).
+- No map exists yet. The map view will use Google Maps (connection card shown during build); pins only for listings with verified coordinates. Map display cannot be tested inside the sandbox — you'll check it on the live site.
+- Realistic content outcome: listings are written from official pages and kept in draft until each one has a source link and "last verified" date. Expect some destinations (Troodos, Protaras) to need editor input before reaching 3 published listings.
+- Images: only photos with recorded rights. Where none are confirmed, a destination shows a neutral illustration instead of a photo.
 
-## What changes for visitors
-1. **Sign-up box on every story page.** A short "Get the Cyprus business briefing" box under each story, plus a slim version in the story sidebar. Email address, then optional name/company. Same box stays on the homepage.
-2. **Honest wording.** The form stops saying "when the briefing launches". It says what they get: daily (weekdays, morning Cyprus time) or weekly (Friday) choice, topics (Business, Compliance, FinTech, RegTech).
-3. **Confirm your email.** After signing up, the person gets one confirmation email with a button; only confirmed addresses receive the briefing. This keeps the list clean and protects inbox delivery.
-4. **The briefing itself.** Top 5–8 English stories from the last 24 hours (or week), mixed across sources like the homepage, each with headline, one-line summary and link. Every link tagged so visits show as "newsletter" in analytics.
-5. **Unsubscribe in one click**, on every email.
-6. **Admin view.** Subscriber count, confirmed vs pending, last send, open the latest briefing in the browser.
+## What visitors get
+- `/explore` — landing: search, destination cards (Nicosia, Limassol, Larnaka, Pafos, Famagusta, Troodos), category links (Museums & heritage, Beaches, Nature & trails, Wineries, Traditional villages, Family), list/map toggle sharing the same filters.
+- `/explore/:destination` — intro, image, filtered listings. Famagusta has sub-pages Ayia Napa and Protaras. Troodos is an area spanning districts.
+- `/explore/place/:slug` — one page per place, shown on every related destination; only confirmed details (hours, admission, booking, accessibility, parking, official link, source, last verified, photo credit). Variable hours point to the official page.
+- Search understands EN/EL names and variants (Pafos/Paphos, Ayia/Agia Napa, Larnaka/Larnaca, Lefkosia/Nicosia, Lemesos/Limassol, etc.).
+- "Explore Cyprus" added to the main BusinessHub menu, footer and sitemap (published items only).
 
-## What you need to do
-- **Add email records for businesshub.cy** in your domain settings (I'll show the exact records). Needed for the confirmation email.
-- **Choose a newsletter sending service.** Lovable's built-in email can send the confirmation email, but not list emails like a daily briefing (that would hurt delivery for all your emails). The briefing needs a dedicated service such as Brevo, Mailchimp or Resend (free tiers cover a few thousand subscribers). I'll ask which one once we start, and you'll connect your account.
+## What editors get
+- New "TourismHub" admin panel: create/edit listings and destinations, link a listing to several destinations, set coordinates as verified, record photo rights, mark "verified today", draft/publish.
+- Source registry with the six starting sources plus Department of Antiquities and Troodos candidates (marked pending until checked).
 
-## Order of work
-1. Sign-up boxes on story pages + new wording (works immediately, collects emails).
-2. Email domain setup + confirmation email.
-3. Connect the newsletter service, build the daily/weekly briefing and schedule it.
-4. Admin view and a test send to you.
+## Build steps
+1. Database: destinations (with parent, district, aliases), listings, listing↔destination links, photos (rights, credit), sources; public can read only published rows; admins manage all.
+2. Pages and shared filtering/search logic with EN/EL labels.
+3. Google Maps connection and map view.
+4. Admin panel in the Editorial Dashboard.
+5. Research official pages and add curated listings (target 3+ per destination); publish only fully verified ones.
+6. Checks: tests for variant search, filters, multi-destination listing without duplicates, draft hiding; browser checks signed-out vs admin, EN/EL.
+7. Report routes, published counts per destination, sources used, and gaps.
 
-## Technical details
-- Reuse `newsletter_subscribers` (existing RLS insert policy); add confirmation token / confirmed_at flow via an edge function.
-- Confirmation email via Lovable app emails (one recipient, triggered by their sign-up).
-- Briefing built from `useBlendedNews`-equivalent server logic over published `cna_articles`, sent through the chosen provider's connector; scheduled with pg_cron, guarded by `requireTrustedCaller`; one send per subscriber per period logged to avoid duplicates.
-- UTM: `utm_source=newsletter&utm_medium=email`.
+## Technical notes
+- Tables: `tour_destinations`, `tour_listings`, `tour_listing_destinations`, `tour_photos`, `tour_sources`, with GRANTs + RLS (`status='published'` public, `has_role(admin)` write).
+- Search normalisation (accent/greek-latin folding + alias list) in `src/lib/explore.ts`, unit-tested.
+- Map: Maps JS via managed browser key, `google.maps.Marker`, `clickableIcons:false`.
+- AGENTS.md rule: Explore listings public only when published with source + verified date.
