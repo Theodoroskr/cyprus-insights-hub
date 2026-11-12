@@ -1,3 +1,4 @@
+import { sourceImageFor } from "../_shared/sourceImages.ts";
 import { isGreek, translateToEnglish } from "../_shared/translateToEnglish.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
 import { articlePageProblem, canonicalArticleUrl, describesMissingPage, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
@@ -491,7 +492,7 @@ Deno.serve(async (req) => {
                 source_id: sourceId,
                 canonical_url: canonicalUrl,
                 content_hash: contentHash,
-                image_url: articleImageUrl,
+                image_url: sourceImageFor(source.slug) ?? articleImageUrl,
                 vertical,
                 summary: intelligence.summary,
                 what_happened: intelligence.what_happened,
