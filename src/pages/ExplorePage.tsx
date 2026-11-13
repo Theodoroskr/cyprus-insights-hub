@@ -4,8 +4,7 @@ import { ExploreBrowser } from "@/components/explore/ExploreBrowser";
 import { SEOHead } from "@/components/SEOHead";
 import { useExploreData } from "@/hooks/useExplore";
 import { EL, EXPLORE_CATEGORIES, pick } from "@/lib/explore";
-import { AdSlot } from "@/components/banners/AdSlot";
-import { HUB_MID_SLOTS } from "@/components/hub/HubMasthead";
+import { HubLeadStories } from "@/components/hub/HubLeadStories";
 
 export default function ExplorePage() {
   const { data, isLoading } = useExploreData();
@@ -13,6 +12,8 @@ export default function ExplorePage() {
   return (
     <ExploreShell masthead>
       {(lang) => (
+        <>
+        <HubLeadStories brand="tourismhub" topic="tourism" allNewsHref="/search?q=tourism" />
         <div className="container mx-auto px-4 py-8">
           <SEOHead title={EL(lang, "Explore Cyprus — Destinations, Attractions & Experiences | TourismHub.cy", "Εξερευνήστε την Κύπρο — Προορισμοί, αξιοθέατα & εμπειρίες | TourismHub.cy")} description={EL(lang, "Verified guide to Nicosia, Limassol, Larnaka, Pafos, Famagusta (Ayia Napa, Protaras) and Troodos: museums, beaches, trails and more, with official links.", "Επιβεβαιωμένος οδηγός για Λευκωσία, Λεμεσό, Λάρνακα, Πάφο, Αμμόχωστο (Αγία Νάπα, Πρωταράς) και Τρόοδος: μουσεία, παραλίες, μονοπάτια και άλλα, με επίσημους συνδέσμους.")} path="/explore" />
           <h2 className="section-label mb-3">{EL(lang, "Destinations", "Προορισμοί")}</h2>
@@ -37,7 +38,6 @@ export default function ExplorePage() {
               );
             })}
           </div>
-          <div className="mb-8"><AdSlot size="leaderboard" slotId={HUB_MID_SLOTS.tourismhub} /></div>
           <div className="grid md:grid-cols-2 gap-3 mb-8">
             <Link to={`/explore/nicosia-countryside${lang === "el" ? "?lang=el" : ""}`} className="block border border-foreground bg-card p-5 hover:bg-muted transition-colors">
               <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary">{EL(lang, "New · Map & list", "Νέο · Χάρτης & λίστα")}</p>
@@ -59,6 +59,7 @@ export default function ExplorePage() {
           <h2 className="section-label mb-3">{EL(lang, "All places", "Όλα τα μέρη")}</h2>
           {isLoading || !data ? <p className="text-sm text-muted-foreground">…</p> : <ExploreBrowser listings={data.listings} destNameById={data.destNameById} lang={lang} />}
         </div>
+        </>
       )}
     </ExploreShell>
   );

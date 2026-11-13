@@ -96,15 +96,15 @@ export function LeadStoriesView({ hub, latest, aside, below, allNewsHref = "/new
 }
 
 /** A hub's own lead story and Latest column, from its news verticals only. */
-export function HubLeadStories({ verticals, brand }: { verticals: string[]; brand: BrandId }) {
-  const { data = [] } = useBlendedNews(verticals);
+export function HubLeadStories({ verticals, brand, topic, allNewsHref }: { verticals?: string[]; brand: BrandId; topic?: "tourism"; allNewsHref?: string }) {
+  const { data = [] } = useBlendedNews(verticals, topic);
   const { hub, latest, feed } = useMemo(() => partitionHomepage(data), [data]);
-  if (hub.length === 0) return null;
   const slot = HUB_MID_SLOTS[brand];
+  if (hub.length === 0) return slot ? <div className="container mx-auto px-4 py-6"><AdSlot size="leaderboard" slotId={slot} /></div> : null;
   return (
     <section className="section-rule">
       <div className="container mx-auto px-4">
-        <LeadStoriesView hub={hub} latest={latest} below={
+        <LeadStoriesView hub={hub} latest={latest} allNewsHref={allNewsHref} below={
           <>
             <MoreStories items={feed.slice(0, 4)} />
             {slot && <div className="mt-8"><AdSlot size="leaderboard" slotId={slot} /></div>}
