@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Search, Building2, MapPin, Factory, ShieldCheck, ChevronLeft, ChevronRight, Hash } from "lucide-react";
+import { Search, Building2, MapPin, Factory, ShieldCheck, ChevronLeft, ChevronRight, Hash, Compass, Presentation } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { FeaturedCompaniesSection } from "@/components/FeaturedCompaniesSection";
 import { Button } from "@/components/ui/button";
@@ -340,6 +340,15 @@ export default function RegistryDirectoryPage() {
             <Link to="/directory/cysec-licensed-firms" className="inline-flex items-center gap-1.5 mt-3 text-sm text-secondary font-medium hover:underline">
               <ShieldCheck className="h-3.5 w-3.5" /> See the full list of CySEC-licensed firms →
             </Link>
+          </div>
+
+          {/* Tourism & venues */}
+          <div>
+            <h2 className="text-lg font-serif font-bold text-foreground mb-3 flex items-center gap-2"><Compass className="h-4 w-4 text-secondary" />Tourism</h2>
+            <div className="flex flex-wrap gap-2">
+              <Link to="/explore/nicosia-countryside" className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-border bg-card text-sm hover:border-secondary/40"><Compass className="h-3.5 w-3.5" />Nicosia City & Countryside</Link>
+              <Link to="/explore/conference-venues" className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-border bg-card text-sm hover:border-secondary/40"><Presentation className="h-3.5 w-3.5" />Conference Venues</Link>
+            </div>
           </div>
 
           {(selectedCity || selectedIndustry) && (

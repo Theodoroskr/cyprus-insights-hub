@@ -19,7 +19,11 @@ interface TopNavigationProps {
 type NavItem = { label: string; href: string; children?: { label: string; href: string }[] };
 const navItems: NavItem[] = [
   { label: "News", href: "/news", children: [{ label: "All news", href: "/news" }, { label: "Company Announcements", href: "/company-announcements" }] },
-  { label: "Directory", href: "/directory" },
+  { label: "Directory", href: "/directory", children: [
+    { label: "Business Directory", href: "/directory" },
+    { label: "Tourism: Nicosia City & Countryside", href: "/explore/nicosia-countryside" },
+    { label: "Conference Venues", href: "/explore/conference-venues" },
+  ] },
   { label: "Trade", href: "/trade" },
   { label: "Real Estate", href: "/real-estate" },
   { label: "Tourism", href: "/tourism" },

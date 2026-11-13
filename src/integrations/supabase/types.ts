@@ -4194,6 +4194,77 @@ export type Database = {
           },
         ]
       }
+      tour_event_editions: {
+        Row: {
+          created_at: string
+          editor_notes: string | null
+          end_date: string | null
+          id: string
+          label: string
+          label_el: string | null
+          last_verified_at: string | null
+          listing_id: string
+          opening_hours: string | null
+          opening_hours_el: string | null
+          programme: string | null
+          programme_el: string | null
+          source_url: string | null
+          start_date: string | null
+          status: string
+          updated_at: string
+          visitor_info: string | null
+          visitor_info_el: string | null
+        }
+        Insert: {
+          created_at?: string
+          editor_notes?: string | null
+          end_date?: string | null
+          id?: string
+          label: string
+          label_el?: string | null
+          last_verified_at?: string | null
+          listing_id: string
+          opening_hours?: string | null
+          opening_hours_el?: string | null
+          programme?: string | null
+          programme_el?: string | null
+          source_url?: string | null
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+          visitor_info?: string | null
+          visitor_info_el?: string | null
+        }
+        Update: {
+          created_at?: string
+          editor_notes?: string | null
+          end_date?: string | null
+          id?: string
+          label?: string
+          label_el?: string | null
+          last_verified_at?: string | null
+          listing_id?: string
+          opening_hours?: string | null
+          opening_hours_el?: string | null
+          programme?: string | null
+          programme_el?: string | null
+          source_url?: string | null
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+          visitor_info?: string | null
+          visitor_info_el?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_event_editions_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tour_listing_destinations: {
         Row: {
           destination_id: string
@@ -4224,6 +4295,45 @@ export type Database = {
           },
         ]
       }
+      tour_listing_links: {
+        Row: {
+          created_at: string
+          from_listing_id: string
+          relation: string
+          sort_order: number
+          to_listing_id: string
+        }
+        Insert: {
+          created_at?: string
+          from_listing_id: string
+          relation?: string
+          sort_order?: number
+          to_listing_id: string
+        }
+        Update: {
+          created_at?: string
+          from_listing_id?: string
+          relation?: string
+          sort_order?: number
+          to_listing_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_listing_links_from_listing_id_fkey"
+            columns: ["from_listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tour_listing_links_to_listing_id_fkey"
+            columns: ["to_listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tour_listings: {
         Row: {
           accessibility: string | null
@@ -4235,10 +4345,15 @@ export type Database = {
           aliases: string[]
           booking_url: string | null
           category: string
+          catering: string | null
+          catering_el: string | null
           coords_verified: boolean
           created_at: string
+          directory_company_id: string | null
           district: string | null
           editor_notes: string | null
+          facilities: string | null
+          facilities_el: string | null
           id: string
           last_verified_at: string | null
           lat: number | null
@@ -4252,6 +4367,7 @@ export type Database = {
           opening_hours_el: string | null
           parking: string | null
           parking_el: string | null
+          quote_enabled: boolean
           slug: string
           source_id: string | null
           source_url: string | null
@@ -4270,10 +4386,15 @@ export type Database = {
           aliases?: string[]
           booking_url?: string | null
           category: string
+          catering?: string | null
+          catering_el?: string | null
           coords_verified?: boolean
           created_at?: string
+          directory_company_id?: string | null
           district?: string | null
           editor_notes?: string | null
+          facilities?: string | null
+          facilities_el?: string | null
           id?: string
           last_verified_at?: string | null
           lat?: number | null
@@ -4287,6 +4408,7 @@ export type Database = {
           opening_hours_el?: string | null
           parking?: string | null
           parking_el?: string | null
+          quote_enabled?: boolean
           slug: string
           source_id?: string | null
           source_url?: string | null
@@ -4305,10 +4427,15 @@ export type Database = {
           aliases?: string[]
           booking_url?: string | null
           category?: string
+          catering?: string | null
+          catering_el?: string | null
           coords_verified?: boolean
           created_at?: string
+          directory_company_id?: string | null
           district?: string | null
           editor_notes?: string | null
+          facilities?: string | null
+          facilities_el?: string | null
           id?: string
           last_verified_at?: string | null
           lat?: number | null
@@ -4322,6 +4449,7 @@ export type Database = {
           opening_hours_el?: string | null
           parking?: string | null
           parking_el?: string | null
+          quote_enabled?: boolean
           slug?: string
           source_id?: string | null
           source_url?: string | null
@@ -4410,6 +4538,97 @@ export type Database = {
           url?: string
         }
         Relationships: []
+      }
+      tour_venue_contacts: {
+        Row: {
+          email: string
+          listing_id: string
+          notes: string | null
+          updated_at: string
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          email: string
+          listing_id: string
+          notes?: string | null
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          email?: string
+          listing_id?: string
+          notes?: string | null
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_venue_contacts_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: true
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tour_venue_rooms: {
+        Row: {
+          area_sqm: number | null
+          banquet: number | null
+          boardroom: number | null
+          classroom: number | null
+          cocktail: number | null
+          created_at: string
+          id: string
+          listing_id: string
+          name: string
+          name_el: string | null
+          sort_order: number
+          theatre: number | null
+          u_shape: number | null
+        }
+        Insert: {
+          area_sqm?: number | null
+          banquet?: number | null
+          boardroom?: number | null
+          classroom?: number | null
+          cocktail?: number | null
+          created_at?: string
+          id?: string
+          listing_id: string
+          name: string
+          name_el?: string | null
+          sort_order?: number
+          theatre?: number | null
+          u_shape?: number | null
+        }
+        Update: {
+          area_sqm?: number | null
+          banquet?: number | null
+          boardroom?: number | null
+          classroom?: number | null
+          cocktail?: number | null
+          created_at?: string
+          id?: string
+          listing_id?: string
+          name?: string
+          name_el?: string | null
+          sort_order?: number
+          theatre?: number | null
+          u_shape?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_venue_rooms_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tourism_arrivals_monthly: {
         Row: {
@@ -4919,6 +5138,112 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      venue_quote_deliveries: {
+        Row: {
+          attempts: number
+          last_error: string | null
+          recipient_email: string
+          request_id: string
+          sent_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          last_error?: string | null
+          recipient_email: string
+          request_id: string
+          sent_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          last_error?: string | null
+          recipient_email?: string
+          request_id?: string
+          sent_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_quote_deliveries_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: true
+            referencedRelation: "venue_quote_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      venue_quote_requests: {
+        Row: {
+          av_requirements: string | null
+          catering: string | null
+          client_hash: string | null
+          created_at: string
+          delegate_count: number
+          details: string | null
+          email: string
+          event_type: string
+          full_name: string
+          id: string
+          language: string
+          listing_id: string
+          organisation: string
+          preferred_dates: string
+          request_key: string
+          room_layout: string
+          venue_name: string
+        }
+        Insert: {
+          av_requirements?: string | null
+          catering?: string | null
+          client_hash?: string | null
+          created_at?: string
+          delegate_count: number
+          details?: string | null
+          email: string
+          event_type: string
+          full_name: string
+          id?: string
+          language?: string
+          listing_id: string
+          organisation: string
+          preferred_dates: string
+          request_key: string
+          room_layout: string
+          venue_name: string
+        }
+        Update: {
+          av_requirements?: string | null
+          catering?: string | null
+          client_hash?: string | null
+          created_at?: string
+          delegate_count?: number
+          details?: string | null
+          email?: string
+          event_type?: string
+          full_name?: string
+          id?: string
+          language?: string
+          listing_id?: string
+          organisation?: string
+          preferred_dates?: string
+          request_key?: string
+          room_layout?: string
+          venue_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_quote_requests_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

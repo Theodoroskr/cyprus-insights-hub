@@ -35,6 +35,18 @@ export default function ExplorePage() {
               );
             })}
           </div>
+          <div className="grid md:grid-cols-2 gap-3 mb-8">
+            <Link to={`/explore/nicosia-countryside${lang === "el" ? "?lang=el" : ""}`} className="block border border-foreground bg-card p-5 hover:bg-muted transition-colors">
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary">{EL(lang, "New · Map & list", "Νέο · Χάρτης & λίστα")}</p>
+              <p className="font-serif text-xl font-bold">{EL(lang, "Nicosia City & Countryside", "Λευκωσία — Πόλη και Ύπαιθρος")}</p>
+              <p className="text-sm text-muted-foreground">{EL(lang, "Villages, heritage sites, stays, events and routes — starting with Fikardou.", "Χωριά, μνημεία, διαμονή, εκδηλώσεις και διαδρομές — ξεκινώντας από το Φικάρδου.")}</p>
+            </Link>
+            <Link to={`/explore/conference-venues${lang === "el" ? "?lang=el" : ""}`} className="block border border-border bg-card p-5 hover:border-foreground transition-colors">
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary">{EL(lang, "For organisers", "Για διοργανωτές")}</p>
+              <p className="font-serif text-xl font-bold">{EL(lang, "Conference Venues", "Χώροι συνεδρίων")}</p>
+              <p className="text-sm text-muted-foreground">{EL(lang, "Rooms and capacity by layout, as published by each venue.", "Αίθουσες και χωρητικότητα ανά διάταξη, όπως τις δημοσιεύει κάθε χώρος.")}</p>
+            </Link>
+          </div>
           <h2 className="section-label mb-3">{EL(lang, "Categories", "Κατηγορίες")}</h2>
           <div className="flex flex-wrap gap-2 mb-8">
             {EXPLORE_CATEGORIES.map((c) => (

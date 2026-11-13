@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { DISTRICTS, EXPLORE_CATEGORIES } from "@/lib/explore";
+import { EditionsEditor, LinksEditor, QuoteRequestsPanel, VenueEditor } from "./TourismExtras";
 
 type Row = Record<string, any>;
 const today = () => new Date().toISOString().slice(0, 10);
@@ -18,6 +19,8 @@ const FIELDS: [string, string, "text" | "area"][] = [
   ["admission", "Admission (EN, confirmed only)", "text"], ["admission_el", "Admission (EL)", "text"],
   ["booking_url", "Booking link", "text"], ["accessibility", "Accessibility (EN)", "text"], ["accessibility_el", "Accessibility (EL)", "text"],
   ["parking", "Parking (EN)", "text"], ["parking_el", "Parking (EL)", "text"],
+  ["facilities", "Facilities (EN, venues)", "area"], ["facilities_el", "Facilities (EL)", "area"], ["catering", "Catering (EN, venues)", "text"], ["catering_el", "Catering (EL)", "text"],
+  ["directory_company_id", "Linked business-directory record ID (optional)", "text"],
   ["official_url", "Official website / organiser", "text"], ["source_url", "Source page used", "text"], ["editor_notes", "Editor notes", "area"],
 ];
 
@@ -45,7 +48,7 @@ function ListingEditor({ row, data, onDone }: { row: Row; data: any; onDone: () 
   const set = (k: string, v: any) => setF((p) => ({ ...p, [k]: v }));
   const save = async (status?: string) => {
     const payload: Row = { ...f, status: status ?? f.status };
-    delete payload.id; delete payload.created_at; delete payload.updated_at;
+    delete payload.id; delete payload.created_at; delete payload.updated_at; delete payload.quote_enabled; delete payload.destination_ids;
     for (const k of Object.keys(payload)) if (payload[k] === "") payload[k] = null;
     payload.lat = payload.lat == null ? null : Number(payload.lat); payload.lng = payload.lng == null ? null : Number(payload.lng);
     if (!payload.slug) payload.slug = String(payload.name_en ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -97,6 +100,13 @@ function ListingEditor({ row, data, onDone }: { row: Row; data: any; onDone: () 
           <Input placeholder="Usage rights (e.g. licence, permission)" value={photo.rights} onChange={(e) => setPhoto({ ...photo, rights: e.target.value })} />
         </div>
       </div>
+      {row.id ? (
+        <div className="space-y-4 border-t border-border pt-3">
+          <LinksEditor listingId={row.id} listings={data.listings} />
+          {f.category === "events" && <EditionsEditor listingId={row.id} />}
+          {f.category === "conference-venues" && <VenueEditor listingId={row.id} />}
+        </div>
+      ) : <p className="text-xs text-muted-foreground">Save the listing first to add linked listings, event editions or venue rooms.</p>}
       <div className="flex gap-2">
         <Button size="sm" onClick={() => save()}>Save</Button>
         <Button size="sm" variant="outline" onClick={() => save("published")}>Save & publish</Button>
@@ -111,7 +121,8 @@ export function TourismPanel() {
   const qc = useQueryClient();
   const { data } = useAdminData();
   const [editing, setEditing] = useState<Row | null>(null);
-  const [tab, setTab] = useState<"listings" | "destinations" | "sources">("listings");
+  const [tab, setTab] = useState<"listings" | "destinations" | "sources" | "quotes">("listings");
+  const [onlyMissing, setOnlyMissing] = useState(false);
   if (!data) return <p className="text-sm text-muted-foreground">Loading…</p>;
   const refresh = () => { setEditing(null); qc.invalidateQueries({ queryKey: ["admin-tourism"] }); qc.invalidateQueries({ queryKey: ["explore-data"] }); };
   const counts = data.destinations.map((d: Row) => ({ d, n: data.links.filter((x: Row) => x.destination_id === d.id && data.listings.find((l: Row) => l.id === x.listing_id)?.status === "published").length }));
@@ -120,22 +131,24 @@ export function TourismPanel() {
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        {(["listings", "destinations", "sources"] as const).map((t) => <Button key={t} size="sm" variant={tab === t ? "default" : "outline"} onClick={() => setTab(t)} className="capitalize">{t}</Button>)}
+        {(["listings", "destinations", "sources", "quotes"] as const).map((t) => <Button key={t} size="sm" variant={tab === t ? "default" : "outline"} onClick={() => setTab(t)} className="capitalize">{t === "quotes" ? "Quote requests" : t}</Button>)}
+        {tab === "listings" && <label className="text-xs flex items-center gap-1 ml-2"><input type="checkbox" checked={onlyMissing} onChange={(e) => setOnlyMissing(e.target.checked)} />Needs coordinates ({data.listings.filter((l: Row) => !l.coords_verified || l.lat == null).length})</label>}
         {tab === "listings" && <Button size="sm" variant="secondary" onClick={() => setEditing({ status: "draft", category: "museums-heritage" })}>Add listing</Button>}
       </div>
       {editing && <ListingEditor row={editing} data={data} onDone={refresh} />}
       {tab === "listings" && (
         <table className="w-full text-sm">
           <thead><tr className="text-left text-xs text-muted-foreground"><th>Name</th><th>Category</th><th>Locality</th><th>Map</th><th>Verified</th><th>Status</th><th /></tr></thead>
-          <tbody>{data.listings.map((l: Row) => (
+          <tbody>{data.listings.filter((l: Row) => !onlyMissing || !l.coords_verified || l.lat == null).map((l: Row) => (
             <tr key={l.id} className="border-t border-border">
               <td className="py-1.5">{l.name_en}</td><td>{l.category}</td><td>{l.locality}</td>
-              <td>{l.coords_verified ? "✓" : "—"}</td><td>{l.last_verified_at ?? "—"}</td>
+              <td>{l.coords_verified && l.lat != null ? "✓" : <span className="text-destructive text-xs font-semibold">needs coords</span>}</td><td>{l.last_verified_at ?? "—"}</td>
               <td><Badge variant={l.status === "published" ? "default" : "outline"}>{l.status}</Badge></td>
               <td><Button size="sm" variant="ghost" onClick={() => setEditing(l)}>Edit</Button></td>
             </tr>))}</tbody>
         </table>
       )}
+      {tab === "quotes" && <QuoteRequestsPanel />}
       {tab === "destinations" && (
         <div className="space-y-3">{counts.map(({ d, n }: Row) => (
           <div key={d.id} className="border border-border p-3 space-y-2">
