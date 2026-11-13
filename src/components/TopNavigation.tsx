@@ -1,4 +1,5 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
+import { NewsTicker } from "@/components/NewsTicker";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, User, PenTool, ChevronDown } from "lucide-react";
@@ -59,6 +60,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
   return (
     <>
+      {location.pathname !== "/" && <NewsTicker />}
       {/* BusinessHub.cy Group Strip */}
       <div className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase font-sans">
         <div className="container mx-auto px-4 flex items-center justify-between h-7">

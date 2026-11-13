@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Landmark, Euro, Shield, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BusinessTicker } from "@/components/BusinessTicker";
+import { NewsTicker } from "@/components/NewsTicker";
 import { TopNavigation } from "@/components/TopNavigation";
 import { HeroBanner } from "@/components/banners/HeroBanner";
 import { VerticalNavigator } from "@/components/VerticalNavigator";
@@ -104,6 +105,7 @@ const Index = () => {
       <SEOHead title="Cyprus Business Intelligence" description="Real-time business intelligence for Cyprus — compliance, fintech, trade data, company directory, and SME tools." path="/" />
       {/* Live Business Ticker */}
       <BusinessTicker />
+      <NewsTicker />
       
       {/* Article Limit Counter */}
       <ArticleCounter />
