@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { OperationaliseBanner } from "@/components/banners/OperationaliseBanner";
 import { PremiumCTABanner } from "@/components/banners/PremiumCTABanner";
 import { ComplianceShell } from "@/components/compliance/ComplianceShell";
+import { HubLeadStories } from "@/components/hub/HubLeadStories";
+
 import { ComplianceItemCard, DeadlineRow } from "@/components/compliance/ComplianceItemCard";
 import { complianceAreas, regulatoryLinks, FRAMEWORKS_REVIEWED_AT, type FrameworkAccent } from "@/components/compliance/staticContent";
 
@@ -52,6 +54,7 @@ export default function CompliancePage() {
     <ComplianceShell masthead title="ComplianceHub.cy" intro="Official regulatory updates, sanctions changes, FATF country risk and upcoming deadlines for Cyprus — each linked to the original document.">
       {(lang) => (
         <>
+          <HubLeadStories verticals={COMPLIANCE_V} />
           <section className="container mx-auto px-4 py-8 grid lg:grid-cols-3 gap-4">
             <Column title="Latest regulatory updates" to="/compliance/regulatory-updates" lang={lang}>
               {isLoading ? <Empty text="…" /> : updates.length ? updates.map((i) => <ComplianceItemCard key={i.id} item={i} lang={lang} compact />) : <Empty text={ct("Nothing matches these filters yet.", lang)} />}
@@ -68,7 +71,6 @@ export default function CompliancePage() {
             </Column>
           </section>
 
-          <HubNewsBlock title="Compliance" verticals={COMPLIANCE_V} hubKey="compliance" />
 
           <section className="section-rule">
             <div className="container mx-auto px-4 pb-8">

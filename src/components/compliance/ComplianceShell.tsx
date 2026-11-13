@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
+import { HubMasthead } from "@/components/hub/HubMasthead";
 import { SectionSponsorStrip } from "@/components/SectionSponsorStrip";
 import { LangSwitch } from "@/components/academy/AcademyChrome";
 import { useAcademyLang, type Lang } from "@/lib/academy";
@@ -25,26 +26,39 @@ interface Props {
 export function ComplianceShell({ title, intro, children, masthead }: Props) {
   const [lang, setLang] = useAcademyLang();
   return (
-    <HubLayout brand="compliancehub">
+    <HubLayout brand="compliancehub" landing={masthead}>
+      {masthead ? (
+        <section className="border-b border-border bg-card">
+          <div className="container mx-auto px-4">
+            <HubMasthead
+              brand="compliancehub"
+              kicker={lang === "el" ? "Ρυθμιστική Πληροφόρηση & Διαχείριση Κινδύνου" : "Regulatory Intelligence & Risk Management"}
+              intro={intro ? ct(intro, lang) : undefined}
+              extra={<LangSwitch lang={lang} setLang={setLang} />}
+            />
+          </div>
+        </section>
+      ) : (
       <section className="border-b border-border bg-card">
-        <div className="container mx-auto px-4">
-          <div className="h-[3px] bg-foreground" />
-          <div className={`${masthead ? "py-6 text-center" : "py-5"} border-b border-border`}>
-            <p className="section-label mb-2 text-secondary">{lang === "el" ? "Ρυθμιστική Πληροφόρηση & Διαχείριση Κινδύνου" : "Regulatory Intelligence & Risk Management"}</p>
-            {masthead ? (
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-serif tracking-tight">
-                ComplianceHub<span className="text-secondary">.cy</span>
-              </h1>
-            ) : (
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground font-serif tracking-tight">{ct(title, lang)}</h1>
-            )}
-            {intro && <p className={`text-sm text-muted-foreground mt-2 max-w-2xl ${masthead ? "mx-auto" : ""}`}>{ct(intro, lang)}</p>}
-            <div className={`mt-3 flex ${masthead ? "justify-center" : ""}`}>
-              <LangSwitch lang={lang} setLang={setLang} />
+          <div className="container mx-auto px-4">
+            <div className="h-[3px] bg-foreground" />
+            <div className={`${masthead ? "py-6 text-center" : "py-5"} border-b border-border`}>
+              <p className="section-label mb-2 text-secondary">{lang === "el" ? "Ρυθμιστική Πληροφόρηση & Διαχείριση Κινδύνου" : "Regulatory Intelligence & Risk Management"}</p>
+              {masthead ? (
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-serif tracking-tight">
+                  ComplianceHub<span className="text-secondary">.cy</span>
+                </h1>
+              ) : (
+                <h1 className="text-2xl md:text-3xl font-bold text-foreground font-serif tracking-tight">{ct(title, lang)}</h1>
+              )}
+              {intro && <p className={`text-sm text-muted-foreground mt-2 max-w-2xl ${masthead ? "mx-auto" : ""}`}>{ct(intro, lang)}</p>}
+              <div className={`mt-3 flex ${masthead ? "justify-center" : ""}`}>
+                <LangSwitch lang={lang} setLang={setLang} />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
       {masthead && <SectionSponsorStrip sectionKey="compliancehub" />}
       <nav aria-label="ComplianceHub sections" className="border-b border-border bg-card sticky top-14 z-40">
         <div className="container mx-auto px-4 flex overflow-x-auto">

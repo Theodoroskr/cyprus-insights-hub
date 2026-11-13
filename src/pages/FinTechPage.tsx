@@ -4,6 +4,8 @@ import { SEOHead } from "@/components/SEOHead";
 import { Link, useNavigate } from "react-router-dom";
 import { HubNewsBlock } from "@/components/HubNewsBlock";
 import { HubLayout } from "@/layouts/HubLayout";
+import { HubMasthead } from "@/components/hub/HubMasthead";
+import { HubLeadStories } from "@/components/hub/HubLeadStories";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -123,29 +125,12 @@ export default function FinTechPage() {
   });
 
   return (
-    <HubLayout brand="fintechhub" onSearch={handleSearch}>
+    <HubLayout landing brand="fintechhub" onSearch={handleSearch}>
       <SEOHead title="FinTech Hub" description="MiCA, DORA, AML & digital finance regulatory intelligence for Cyprus fintech." path="/fintech" vertical="fintech" />
       {/* Editorial Masthead Hero */}
       <section className="relative border-b border-border bg-card">
         <div className="container mx-auto px-4">
-          <div className="h-[3px] bg-foreground" />
-
-          <div className="py-6 text-center border-b border-border">
-            <p className="section-label mb-2 text-secondary">Digital Finance Intelligence for Cyprus</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-serif tracking-tight">
-              FinTechHub<span className="text-secondary">.cy</span>
-            </h1>
-            <div className="flex items-center justify-center gap-4 mt-3 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <Calendar className="h-3 w-3" />
-                {formattedDate}
-              </span>
-              <span className="w-1 h-1 rounded-full bg-border" />
-              <span>Cyprus Edition</span>
-              <span className="w-1 h-1 rounded-full bg-border" />
-              <span className="text-secondary font-medium">LIVE</span>
-            </div>
-          </div>
+          <HubMasthead brand="fintechhub" kicker="Digital Finance Intelligence for Cyprus" intro="MiCA, DORA, AML and licensing news for Cyprus fintech and payments firms." links={[{ label: "Regulations", href: "#regulations" }, { label: "Licensed firms", href: "/directory/cysec-licensed-firms" }, { label: "Compliance", href: "/compliance" }, { label: "Rankings", href: "/rankings" }]} />
 
           {/* Quick Stats — editorial row */}
           <div className="py-6 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto border-b border-border">
@@ -162,7 +147,7 @@ export default function FinTechPage() {
 
       <SectionSponsorStrip sectionKey="fintechhub" />
 
-      <HubNewsBlock title="FinTech" verticals={FINTECH_V} hubKey="fintech" />
+      <HubLeadStories verticals={FINTECH_V} />
 
       {/* Inline Insight Banner */}
       <div className="container mx-auto px-4 py-8">

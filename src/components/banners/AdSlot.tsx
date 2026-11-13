@@ -1,6 +1,6 @@
 import { useActiveBanner } from "@/hooks/useActiveBanner";
 
-type AdSize = "leaderboard" | "banner" | "mrec" | "skyscraper" | "billboard";
+type AdSize = "leaderboard" | "banner" | "mrec" | "skyscraper" | "billboard" | "half-billboard";
 
 interface AdSlotProps {
   size?: AdSize;
@@ -15,14 +15,15 @@ const AD_SIZES: Record<AdSize, string> = {
   mrec: "max-w-[300px] aspect-[300/250]",
   skyscraper: "max-w-[160px] aspect-[160/600]",
   billboard: "max-w-[970px] aspect-[970/250]",
+  "half-billboard": "max-w-[485px] aspect-[485/250]",
 };
 
 const DIMENSIONS: Record<AdSize, string> = {
-  leaderboard: "728×90", banner: "468×60", mrec: "300×250", skyscraper: "160×600", billboard: "970×250",
+  leaderboard: "728×90", banner: "468×60", mrec: "300×250", skyscraper: "160×600", billboard: "970×250", "half-billboard": "485×250",
 };
 
 /** Homepage slots show a labelled placeholder while unsold. */
-export const PLACEHOLDER_SLOTS = new Set(["custom-studio", "homepage-stories", "homepage-footer", "homepage-top", "homepage-feed-top", "homepage-mid"]);
+export const PLACEHOLDER_SLOTS = new Set(["custom-studio", "homepage-stories", "homepage-footer", "homepage-top", "homepage-feed-top", "homepage-mid", "fintech-top", "compliance-top", "regtech-top", "tourism-top"]);
 
 export function BannerPlaceholder({ size, label }: { size: AdSize; label?: string }) {
   const compact = size === "leaderboard" || size === "banner";

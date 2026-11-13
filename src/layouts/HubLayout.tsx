@@ -9,9 +9,11 @@ interface HubLayoutProps {
   brand: BrandId;
   children: ReactNode;
   onSearch?: (query: string) => void;
+  /** Hub front pages show their own half-width top banner instead of the inner-page strip. */
+  landing?: boolean;
 }
 
-export function HubLayout({ brand, children, onSearch }: HubLayoutProps) {
+export function HubLayout({ brand, children, onSearch, landing }: HubLayoutProps) {
   const brandConfig = brands[brand];
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ export function HubLayout({ brand, children, onSearch }: HubLayoutProps) {
   return (
     <div className="min-h-screen bg-background">
       <HubNavigation brand={brandConfig} onSearch={handleSearch} />
-      <LeaderboardAdSlot slotId="hub-top" />
+      {!landing && <LeaderboardAdSlot slotId="hub-top" />}
       <main>{children}</main>
       <HubFooter brand={brandConfig} />
     </div>

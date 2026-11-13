@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
+import { HubMasthead } from "@/components/hub/HubMasthead";
+import { HubLeadStories } from "@/components/hub/HubLeadStories";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -184,7 +186,7 @@ export default function RegTechPage() {
   ];
 
   return (
-    <HubLayout brand="regtechhub">
+    <HubLayout landing brand="regtechhub">
       <SEOHead
         title="RegTechHub.cy — Regulatory Technology Intelligence for Cyprus"
         description="DORA readiness, vendor landscape, and regulatory frameworks for RegTech in Cyprus. Compliance automation, risk surveillance & ICT resilience tools."
@@ -195,23 +197,7 @@ export default function RegTechPage() {
       {/* ─── Masthead ─────────────────────────────────────── */}
       <section className="relative border-b border-border bg-card">
         <div className="container mx-auto px-4">
-          <div className="h-[3px] bg-foreground" />
-          <div className="py-6 text-center border-b border-border">
-            <p className="section-label mb-2 text-secondary">Regulatory Technology Intelligence for Cyprus</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-serif tracking-tight">
-              RegTechHub<span className="text-secondary">.cy</span>
-            </h1>
-            <div className="flex items-center justify-center gap-4 mt-3 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <Calendar className="h-3 w-3" />
-                {formattedDate}
-              </span>
-              <span className="w-1 h-1 rounded-full bg-border" />
-              <span>Cyprus Edition</span>
-              <span className="w-1 h-1 rounded-full bg-border" />
-              <span className="text-regtech font-medium">LIVE</span>
-            </div>
-          </div>
+          <HubMasthead brand="regtechhub" kicker="Regulatory Technology Intelligence for Cyprus" intro="DORA readiness, the RegTech vendor landscape, cyber and ICT risk, and the frameworks behind them." links={[{ label: "DORA readiness", href: "/regtech#dora" }, { label: "Vendors", href: "/regtech#vendors" }, { label: "Compliance", href: "/compliance" }, { label: "FinTech", href: "/fintech" }]} />
 
           {/* Stats row */}
           <div className="py-6 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto border-b border-border">
@@ -252,7 +238,7 @@ export default function RegTechPage() {
       {/* ═══════════════════ TAB 1: OVERVIEW ═══════════════════ */}
       {activeTab === "overview" && (
         <>
-          <HubNewsBlock title="RegTech" verticals={REGTECH_V} hubKey="regtech" accent="text-regtech" />
+          <HubLeadStories verticals={REGTECH_V} />
 
           {/* What RegTech Covers */}
           <section className="section-rule bg-muted/30">
