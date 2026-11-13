@@ -4,3 +4,4 @@
 - `/rankings` uses only `get_rankings()` (security invoker) + `market_quotes`, each list sourced. Why: official data only.
 - Top menu: `src/config/siteSections.ts`. Why: one list for menu and tests.
 - Hub front pages share `HubMasthead` (own full-width, half-height `wide-banner` top slot from `HUB_TOP_SLOTS`) + `HubLeadStories`; `HubLayout landing` drops the `hub-top` strip. Why: same structure, one banner per page.
+- Google News: prebuild writes `public/news-sitemap.xml` (cna_articles first published ≤48h, via `recentNews`/`buildNewsSitemap` in `src/lib/sitemap.ts`); Deputy Ministry of Tourism releases enter by hand (`MinistryReleaseForm`, rules in `src/lib/ministryRelease.ts`) as drafts, deduped by canonical URL, near-matches tagged "Possible duplicate". Why: the gov.cy firewall blocks crawling; nothing publishes without an editor.
