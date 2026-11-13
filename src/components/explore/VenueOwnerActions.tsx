@@ -18,7 +18,7 @@ import { currentPlanCode, planFor, uploadProblem } from "@/lib/venues";
 
 type Mode = null | "claim" | "help" | "upgrade";
 
-/** "Claim or Update This Listing", "Contact BusinessHub" and "Request a Paid Upgrade" on a venue page. */
+/** "Claim or Update This Listing", "Contact BusinessHub" and "Promote This" on a venue page. */
 export function VenueOwnerActions({ l, lang }: { l: Listing; lang: Lang }) {
   const { user } = useAuth() as { user: { id: string; email?: string } | null };
   const mine = useMyVenueIds(user?.id).data?.includes(l.id) ?? false;
@@ -33,9 +33,9 @@ export function VenueOwnerActions({ l, lang }: { l: Listing; lang: Lang }) {
       <div className="flex flex-wrap gap-2">
         {!mine && <Button variant="outline" className="gap-2" onClick={() => open("claim")}><PenLine className="h-4 w-4" />{EL(lang, "Claim or Update This Listing", "Διεκδίκηση ή ενημέρωση καταχώρισης")}</Button>}
         <Button variant="outline" className="gap-2" onClick={() => open("help")}><LifeBuoy className="h-4 w-4" />{EL(lang, "Contact BusinessHub", "Επικοινωνία με το BusinessHub")}</Button>
-        <Button variant="outline" className="gap-2" onClick={() => mine ? setMode("upgrade") : open("claim")}><Sparkles className="h-4 w-4" />{EL(lang, "Request a Paid Upgrade", "Αίτημα αναβάθμισης")}</Button>
+        <Button variant="outline" className="gap-2" onClick={() => mine ? setMode("upgrade") : open("claim")}><Sparkles className="h-4 w-4" />{EL(lang, "Promote This", "Προώθηση")}</Button>
       </div>
-      {!mine && <p className="text-xs text-muted-foreground mt-2">{EL(lang, "Paid upgrades are available once your claim is verified.", "Οι αναβαθμίσεις είναι διαθέσιμες μόλις επαληθευτεί η διεκδίκησή σας.")}</p>}
+      {!mine && <p className="text-xs text-muted-foreground mt-2">{EL(lang, "Promotion is available once your claim is verified.", "Η προώθηση είναι διαθέσιμη μόλις επαληθευτεί η διεκδίκησή σας.")}</p>}
       {login && <LoginModal isOpen onClose={() => setLogin(false)} defaultTab="register" />}
       <Dialog open={mode === "claim" || mode === "help"} onOpenChange={(o) => !o && setMode(null)}>
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">

@@ -113,7 +113,7 @@ function OwnerVenue({ l, lang, userId }: { l: Listing; lang: Lang; userId: strin
       <Button className="mt-2" size="sm" onClick={sendFile} disabled={busy || !file}>{EL(lang, "Upload for review", "Ανέβασμα για έλεγχο")}</Button>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <Button variant="outline" size="sm" onClick={() => setUpgrade(true)}>{EL(lang, "Request a Paid Upgrade", "Αίτημα αναβάθμισης")}</Button>
+        <Button variant="outline" size="sm" onClick={() => setUpgrade(true)}>{EL(lang, "Promote This", "Προώθηση")}</Button>
       </div>
       <Dialog open={upgrade} onOpenChange={setUpgrade}><DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">{upgrade && <UpgradeForm l={l} lang={lang} userId={userId} onDone={() => { setUpgrade(false); qc.invalidateQueries({ queryKey: ["my-upgrades", l.id] }); }} />}</DialogContent></Dialog>
 
