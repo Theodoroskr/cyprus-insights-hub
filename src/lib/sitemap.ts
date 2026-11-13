@@ -114,3 +114,23 @@ export function dateOnly(ts: string | null | undefined): string | undefined {
   const m = /^\d{4}-\d{2}-\d{2}/.exec(ts);
   return m ? m[0] : undefined;
 }
+
+export interface NewsSitemapItem { path: string; title: string; publishedAt: string; language: string }
+
+/** Stories first published in the last 48 hours (Google News sitemap rule). */
+export function recentNews<T extends { published_at: string | null }>(rows: T[], now = Date.now()): T[] {
+  return rows.filter((r) => r.published_at && now - Date.parse(r.published_at) <= 48 * 3600 * 1000 && Date.parse(r.published_at) <= now);
+}
+
+export function buildNewsSitemap(items: NewsSitemapItem[], base = SITE_URL): string {
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">',
+    ...items.map((i) => [
+      "  <url>", `    <loc>${escapeXml(base + i.path)}</loc>`, "    <news:news>",
+      "      <news:publication><news:name>BusinessHub.cy</news:name>" + `<news:language>${i.language}</news:language></news:publication>`,
+      `      <news:publication_date>${i.publishedAt}</news:publication_date>`, `      <news:title>${escapeXml(i.title)}</news:title>`,
+      "    </news:news>", "  </url>"].join("\n")),
+    "</urlset>", "",
+  ].join("\n");
+}

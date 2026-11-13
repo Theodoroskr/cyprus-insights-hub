@@ -9,6 +9,8 @@ import {
   STATIC_ENTRIES,
   buildSitemapIndex,
   buildUrlset,
+  buildNewsSitemap,
+  recentNews,
   chunk,
   dateOnly,
   type SitemapEntry,
@@ -52,9 +54,9 @@ async function main() {
   if (!API_URL || !API_KEY) throw new Error("database URL/key not set");
 
   const [articles, stories, resources, companies, announcements, complianceItems, tourDests, tourPlaces] = await Promise.all([
-    fetchAll<{ id: string; published_at: string | null }>(
+    fetchAll<{ id: string; title: string; published_at: string | null }>(
       "cna_articles",
-      "select=id,published_at&status=eq.published&order=published_at.desc.nullslast,id.asc",
+      "select=id,title,published_at&status=eq.published&order=published_at.desc.nullslast,id.asc",
     ),
     fetchAll<{ slug: string; article_type: string; published_at: string | null }>(
       "directory_articles",
@@ -138,6 +140,11 @@ async function main() {
       buildUrlset(slugs.map((s) => ({ path: `/directory/company/${encodeURIComponent(s)}`, changefreq: "monthly", priority: "0.4" }))),
     ),
   );
+
+  // Stories are stored in English (Greek sources are translated), so language is "en".
+  const fresh = recentNews(articles).map((a) => ({ path: `/article/${a.id}`, title: a.title, publishedAt: a.published_at!, language: "en" }));
+  writeFileSync(resolve("public/news-sitemap.xml"), buildNewsSitemap(fresh));
+  console.log(`news sitemap written: ${fresh.length} stories from the last 48 hours`);
 
   writeFileSync(resolve("public/sitemap.xml"), buildSitemapIndex(files));
   console.log(

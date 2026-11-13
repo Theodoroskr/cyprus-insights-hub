@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { DISTRICTS, EXPLORE_CATEGORIES } from "@/lib/explore";
+import { MinistryReleaseForm } from "./MinistryReleaseForm";
 import { EditionsEditor, LinksEditor, QuoteRequestsPanel, VenueEditor } from "./TourismExtras";
 
 type Row = Record<string, any>;
@@ -130,6 +131,7 @@ export function TourismPanel() {
   const saveDest = async (d: Row, k: string, v: string) => { const r = await supabase.from("tour_destinations").update({ [k]: v || null } as any).eq("id", d.id); r.error ? toast.error(r.error.message) : toast.success("Saved"); };
   return (
     <div className="space-y-4">
+      <MinistryReleaseForm />
       <div className="flex gap-2">
         {(["listings", "destinations", "sources", "quotes"] as const).map((t) => <Button key={t} size="sm" variant={tab === t ? "default" : "outline"} onClick={() => setTab(t)} className="capitalize">{t === "quotes" ? "Quote requests" : t}</Button>)}
         {tab === "listings" && <label className="text-xs flex items-center gap-1 ml-2"><input type="checkbox" checked={onlyMissing} onChange={(e) => setOnlyMissing(e.target.checked)} />Needs coordinates ({data.listings.filter((l: Row) => !l.coords_verified || l.lat == null).length})</label>}

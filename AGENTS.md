@@ -34,3 +34,4 @@
 - CBC stats: `source=ecb` rows via `ingest-eurostat`; OECD via Crossref. Why: official APIs.
 - Company Announcements: rules in `supabase/functions/ingest-announcements/AGENTS.md`. Why: one event, one page, every claim sourced.
 - ComplianceHub: only editor-published `compliance_items`/`fatf_releases` are public; pipeline rules in `supabase/functions/ingest-compliance/AGENTS.md`. Why: every claim verified and sourced.
+- Google News: prebuild writes `public/news-sitemap.xml` (cna_articles first published ≤48h, via `recentNews`/`buildNewsSitemap` in `src/lib/sitemap.ts`); Deputy Ministry of Tourism releases enter by hand (`MinistryReleaseForm`, rules in `src/lib/ministryRelease.ts`) as drafts, deduped by canonical URL, near-matches tagged "Possible duplicate". Why: the gov.cy firewall blocks crawling; nothing publishes without an editor.

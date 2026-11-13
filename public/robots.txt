@@ -19,3 +19,4 @@ Allow: /
 Disallow: /demo/
 
 Sitemap: https://businesshub.cy/sitemap.xml
+Sitemap: https://businesshub.cy/news-sitemap.xml
