@@ -63,6 +63,10 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        fw: {
+          aml: "hsl(var(--fw-aml))", gdpr: "hsl(var(--fw-gdpr))", mifid: "hsl(var(--fw-mifid))", tax: "hsl(var(--fw-tax))",
+          dora: "hsl(var(--fw-dora))", mica: "hsl(var(--fw-mica))", nis2: "hsl(var(--fw-nis2))", ai: "hsl(var(--fw-ai))",
+        },
         success: {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
