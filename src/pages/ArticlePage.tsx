@@ -260,7 +260,7 @@ export default function ArticlePage() {
 
           {(
             <figure className="mb-10">
-              <img src={heroSrc} alt={headline} data-vertical={article.vertical} data-seed={article.id} onLoad={(e) => { const im = e.currentTarget; const r = im.naturalWidth / (im.naturalHeight || 1); if (im.naturalWidth < 800 || r > 2.4 || r < 1.1) im.classList.add("img-contain"); }} className="w-full max-w-3xl mx-auto aspect-[16/9] object-cover rounded-lg bg-muted [&.img-contain]:object-contain [&.img-contain]:max-h-[240px] [&.img-contain]:p-6" />
+              <img src={heroSrc} alt={headline} data-vertical={article.vertical} data-seed={article.id} onLoad={(e) => { const im = e.currentTarget; const r = im.naturalWidth / (im.naturalHeight || 1); if (im.naturalWidth < 800 || r > 2.4) im.classList.add("img-contain"); else if (r < 0.9) im.classList.add("img-portrait"); else if (r < 1.1) im.classList.add("img-square"); }} className="w-full max-w-3xl mx-auto aspect-[16/9] object-cover rounded-lg bg-muted [&.img-contain]:object-contain [&.img-contain]:max-h-[240px] [&.img-contain]:p-6 [&.img-portrait]:object-[50%_55%] [&.img-square]:object-contain" />
               {article.image_url && source && <figcaption className="text-xs text-muted-foreground mt-2">Image: {source}</figcaption>}
             </figure>
           )}
