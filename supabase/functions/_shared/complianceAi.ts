@@ -51,7 +51,7 @@ const NOTE_SCHEMA = {
 
 const INSTRUCTIONS = "You draft short, neutral editorial notes about official regulatory documents for compliance officers in Cyprus (ComplianceHub.cy). Use only facts stated in the supplied document. Never invent obligations, dates, deadlines or affected sectors. Write in your own words. If the document does not state what changed, an action, or a deadline, return an empty string or empty list for that field. Only list sectors the document actually addresses. Greek fields are faithful Greek translations of the English fields. For dates, include only dates explicitly stated in the document, each with a verbatim quote (max 200 characters) copied exactly from the document.";
 
-async function readStream(res: Response): Promise<string> {
+export async function readStream(res: Response): Promise<string> {
   const reader = res.body!.getReader();
   const dec = new TextDecoder();
   let buf = "", text = "", done = "";
