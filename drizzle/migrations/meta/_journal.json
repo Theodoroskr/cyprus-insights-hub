@@ -253,6 +253,13 @@
       "when": 1794581451924,
       "tag": "0035_add_tourism_news_section",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1794582251067,
+      "tag": "0036_funding_subsidies",
+      "breakpoints": true
     }
   ]
 }

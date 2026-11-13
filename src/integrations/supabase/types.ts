@@ -303,6 +303,39 @@ export type Database = {
           },
         ]
       }
+      article_funding_links: {
+        Row: {
+          article_id: string
+          call_id: string
+          created_at: string
+        }
+        Insert: {
+          article_id: string
+          call_id: string
+          created_at?: string
+        }
+        Update: {
+          article_id?: string
+          call_id?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_funding_links_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "cna_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "article_funding_links_call_id_fkey"
+            columns: ["call_id"]
+            isOneToOne: false
+            referencedRelation: "funding_calls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       article_industries: {
         Row: {
           article_id: string
@@ -2286,6 +2319,350 @@ export type Database = {
           unit?: string
           updated_at?: string
           value?: number | null
+        }
+        Relationships: []
+      }
+      funding_call_changes: {
+        Row: {
+          call_id: string
+          change_kind: string
+          created_at: string
+          field: string | null
+          id: string
+          new_value: string | null
+          old_value: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          source_url: string | null
+          status: string
+        }
+        Insert: {
+          call_id: string
+          change_kind?: string
+          created_at?: string
+          field?: string | null
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          source_url?: string | null
+          status?: string
+        }
+        Update: {
+          call_id?: string
+          change_kind?: string
+          created_at?: string
+          field?: string | null
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          source_url?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "funding_call_changes_call_id_fkey"
+            columns: ["call_id"]
+            isOneToOne: false
+            referencedRelation: "funding_calls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      funding_call_sources: {
+        Row: {
+          call_id: string
+          first_seen_at: string
+          id: string
+          kind: string
+          language: string
+          last_seen_at: string
+          source_id: string | null
+          title: string | null
+          url: string
+        }
+        Insert: {
+          call_id: string
+          first_seen_at?: string
+          id?: string
+          kind?: string
+          language?: string
+          last_seen_at?: string
+          source_id?: string | null
+          title?: string | null
+          url: string
+        }
+        Update: {
+          call_id?: string
+          first_seen_at?: string
+          id?: string
+          kind?: string
+          language?: string
+          last_seen_at?: string
+          source_id?: string | null
+          title?: string | null
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "funding_call_sources_call_id_fkey"
+            columns: ["call_id"]
+            isOneToOne: false
+            referencedRelation: "funding_calls"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "funding_call_sources_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "funding_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      funding_calls: {
+        Row: {
+          applicant_types: string[]
+          application_url: string | null
+          call_reference: string | null
+          call_state: string
+          cofunding_rate: string | null
+          consortium_requirements: string | null
+          created_at: string
+          deadline_date: string | null
+          deadline_note: string | null
+          deadline_time: string | null
+          dedupe_key: string
+          documents: Json
+          editor_locked_fields: string[]
+          eligibility_summary: string | null
+          eligible_costs: string | null
+          geography: string
+          id: string
+          ineligible_reason: string | null
+          instrument_type: string
+          is_preview: boolean
+          issuer: string
+          last_verified_at: string | null
+          max_award_eur: number | null
+          official_url: string
+          opening_date: string | null
+          origin: string
+          programme: string | null
+          programme_id: string | null
+          raw: Json | null
+          round: string | null
+          sectors: string[]
+          slug: string | null
+          source_id: string | null
+          status: string
+          summary_el: string | null
+          summary_en: string | null
+          title_el: string | null
+          title_en: string
+          total_budget_eur: number | null
+          updated_at: string
+          verified_by: string | null
+        }
+        Insert: {
+          applicant_types?: string[]
+          application_url?: string | null
+          call_reference?: string | null
+          call_state?: string
+          cofunding_rate?: string | null
+          consortium_requirements?: string | null
+          created_at?: string
+          deadline_date?: string | null
+          deadline_note?: string | null
+          deadline_time?: string | null
+          dedupe_key: string
+          documents?: Json
+          editor_locked_fields?: string[]
+          eligibility_summary?: string | null
+          eligible_costs?: string | null
+          geography?: string
+          id?: string
+          ineligible_reason?: string | null
+          instrument_type?: string
+          is_preview?: boolean
+          issuer: string
+          last_verified_at?: string | null
+          max_award_eur?: number | null
+          official_url: string
+          opening_date?: string | null
+          origin?: string
+          programme?: string | null
+          programme_id?: string | null
+          raw?: Json | null
+          round?: string | null
+          sectors?: string[]
+          slug?: string | null
+          source_id?: string | null
+          status?: string
+          summary_el?: string | null
+          summary_en?: string | null
+          title_el?: string | null
+          title_en: string
+          total_budget_eur?: number | null
+          updated_at?: string
+          verified_by?: string | null
+        }
+        Update: {
+          applicant_types?: string[]
+          application_url?: string | null
+          call_reference?: string | null
+          call_state?: string
+          cofunding_rate?: string | null
+          consortium_requirements?: string | null
+          created_at?: string
+          deadline_date?: string | null
+          deadline_note?: string | null
+          deadline_time?: string | null
+          dedupe_key?: string
+          documents?: Json
+          editor_locked_fields?: string[]
+          eligibility_summary?: string | null
+          eligible_costs?: string | null
+          geography?: string
+          id?: string
+          ineligible_reason?: string | null
+          instrument_type?: string
+          is_preview?: boolean
+          issuer?: string
+          last_verified_at?: string | null
+          max_award_eur?: number | null
+          official_url?: string
+          opening_date?: string | null
+          origin?: string
+          programme?: string | null
+          programme_id?: string | null
+          raw?: Json | null
+          round?: string | null
+          sectors?: string[]
+          slug?: string | null
+          source_id?: string | null
+          status?: string
+          summary_el?: string | null
+          summary_en?: string | null
+          title_el?: string | null
+          title_en?: string
+          total_budget_eur?: number | null
+          updated_at?: string
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "funding_calls_programme_id_fkey"
+            columns: ["programme_id"]
+            isOneToOne: false
+            referencedRelation: "funding_programmes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "funding_calls_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "funding_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      funding_programmes: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          issuer: string | null
+          name_el: string | null
+          name_en: string
+          slug: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          issuer?: string | null
+          name_el?: string | null
+          name_en: string
+          slug: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          issuer?: string | null
+          name_el?: string | null
+          name_en?: string
+          slug?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      funding_sources: {
+        Row: {
+          check_interval_hours: number
+          created_at: string
+          default_sectors: string[]
+          enabled: boolean
+          id: string
+          issuer: string
+          items_found: number
+          last_attempt_at: string | null
+          last_error: string | null
+          last_success_at: string | null
+          method: string
+          name: string
+          notes: string | null
+          reused_from: string | null
+          slug: string
+          status: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          check_interval_hours?: number
+          created_at?: string
+          default_sectors?: string[]
+          enabled?: boolean
+          id?: string
+          issuer: string
+          items_found?: number
+          last_attempt_at?: string | null
+          last_error?: string | null
+          last_success_at?: string | null
+          method?: string
+          name: string
+          notes?: string | null
+          reused_from?: string | null
+          slug: string
+          status?: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          check_interval_hours?: number
+          created_at?: string
+          default_sectors?: string[]
+          enabled?: boolean
+          id?: string
+          issuer?: string
+          items_found?: number
+          last_attempt_at?: string | null
+          last_error?: string | null
+          last_success_at?: string | null
+          method?: string
+          name?: string
+          notes?: string | null
+          reused_from?: string | null
+          slug?: string
+          status?: string
+          updated_at?: string
+          url?: string
         }
         Relationships: []
       }
@@ -5253,6 +5630,22 @@ export type Database = {
       generate_company_slug: {
         Args: { city: string; company_name: string }
         Returns: string
+      }
+      get_funding_preview: {
+        Args: never
+        Returns: {
+          application_url: string
+          deadline_date: string
+          deadline_time: string
+          eligibility_summary: string
+          instrument_type: string
+          issuer: string
+          official_url: string
+          sectors: string[]
+          slug: string
+          title_el: string
+          title_en: string
+        }[]
       }
       get_most_read_articles: {
         Args: { _limit?: number }
