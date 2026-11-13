@@ -72,6 +72,8 @@ export interface Listing {
   official_url: string | null; source_url: string | null; last_verified_at: string | null; status: string;
   facilities?: string | null; facilities_el?: string | null; catering?: string | null; catering_el?: string | null;
   quote_enabled?: boolean; directory_company_id?: string | null;
+  venue_type?: string | null; operating_status?: string | null; verified_fields?: string[]; logo_url?: string | null; cover_url?: string | null; brochure_url?: string | null;
+  av_equipment?: string | null; av_equipment_el?: string | null; business_phone?: string | null; plan_code?: string; plan_expires_at?: string | null;
   destination_ids?: string[];
 }
 export interface ListingLink { from_listing_id: string; to_listing_id: string; relation: "heritage" | "stay" | "event" | "route" | "related"; sort_order: number }

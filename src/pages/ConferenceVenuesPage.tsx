@@ -7,6 +7,8 @@ import { ListingCard } from "@/components/explore/ListingCard";
 import { SEOHead } from "@/components/SEOHead";
 import { Input } from "@/components/ui/input";
 import { useExploreData, useIsTourismEditor } from "@/hooks/useExplore";
+import { VENUE_TYPES, currentPlanCode, planFor } from "@/lib/venues";
+import { useVenuePlans } from "@/hooks/useVenues";
 import { DISTRICTS, districtLabel, EL, filterListings, maxCapacity, ROOM_LAYOUTS, venueFits, type RoomLayout } from "@/lib/explore";
 
 export default function ConferenceVenuesPage() {
@@ -16,11 +18,14 @@ export default function ConferenceVenuesPage() {
   const q = params.get("q") ?? "", district = params.get("district") ?? "";
   const layout = (ROOM_LAYOUTS.some((x) => x.id === params.get("layout")) ? params.get("layout") : "") as RoomLayout | "";
   const delegates = Math.max(0, parseInt(params.get("delegates") ?? "", 10) || 0) || null;
+  const vtype = params.get("type") ?? "";
+  const plans = useVenuePlans().data ?? [];
+  const featured = (l: { plan_code?: string; plan_expires_at?: string | null }) => !!planFor(currentPlanCode(l), plans)?.featured;
   const view = params.get("view") === "map" ? "map" : "list";
   const update = (k: string, v: string) => { const p = new URLSearchParams(params); v ? p.set(k, v) : p.delete(k); setParams(p, { replace: true }); };
   const rooms = data?.roomsByListing ?? {};
   const venues = useMemo(() => (data?.listings ?? []).filter((l) => l.category === "conference-venues"), [data]);
-  const results = filterListings(venues, { q, district }).filter((l) => venueFits(rooms[l.id] ?? [], delegates, layout));
+  const results = filterListings(venues, { q, district }).filter((l) => !vtype || l.venue_type === vtype).filter((l) => venueFits(rooms[l.id] ?? [], delegates, layout)).sort((a, b) => Number(featured(b)) - Number(featured(a)));
   const sel = "h-10 border border-input bg-background px-3 text-sm";
   return (
     <ExploreShell title={(lang) => EL(lang, "Conference Venues", "Χώροι συνεδρίων")}>
@@ -42,6 +47,10 @@ export default function ConferenceVenuesPage() {
               <option value="">{EL(lang, "All districts", "Όλες οι επαρχίες")}</option>
               {DISTRICTS.map((d) => <option key={d} value={d}>{districtLabel(d, lang)}</option>)}
             </select>
+            <select aria-label={EL(lang, "Venue type", "Τύπος χώρου")} className={sel} value={vtype} onChange={(e) => update("type", e.target.value)}>
+              <option value="">{EL(lang, "All venue types", "Όλοι οι τύποι")}</option>
+              {VENUE_TYPES.map((t) => <option key={t.id} value={t.id}>{t[lang]}</option>)}
+            </select>
             <Input type="number" min={1} inputMode="numeric" value={delegates ?? ""} onChange={(e) => update("delegates", e.target.value)} className="w-36 rounded-none" aria-label={EL(lang, "Delegates", "Σύνεδροι")} placeholder={EL(lang, "Delegates", "Σύνεδροι")} />
             <select aria-label={EL(lang, "Room layout", "Διάταξη")} className={sel} value={layout} onChange={(e) => update("layout", e.target.value)}>
               <option value="">{EL(lang, "Any layout", "Οποιαδήποτε διάταξη")}</option>
@@ -58,7 +67,7 @@ export default function ConferenceVenuesPage() {
           {isLoading ? <p className="text-sm text-muted-foreground">…</p> : view === "map" ? <ExploreMap listings={results} lang={lang} /> : results.length ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{results.map((l) => {
               const cap = maxCapacity(rooms[l.id] ?? [], layout);
-              return <ListingCard key={l.id} l={l} lang={lang} editor={editor} extra={cap ? EL(lang, `Up to ${cap} delegates${layout ? ` (${ROOM_LAYOUTS.find((x) => x.id === layout)!.en.toLowerCase()})` : ""}`, `Έως ${cap} σύνεδροι`) : null} />;
+              return <ListingCard key={l.id} l={l} lang={lang} editor={editor} extra={(featured(l) ? "Featured · " : "") + (cap ? EL(lang, `Up to ${cap} delegates${layout ? ` (${ROOM_LAYOUTS.find((x) => x.id === layout)!.en.toLowerCase()})` : ""}`, `Έως ${cap} σύνεδροι`) : "") || null} />;
             })}</div>
           ) : <p className="text-sm text-muted-foreground py-8 text-center">{EL(lang, "No confirmed venues match these filters yet.", "Δεν υπάρχουν ακόμη επιβεβαιωμένοι χώροι για αυτά τα φίλτρα.")}</p>}
         </div>

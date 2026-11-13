@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { DISTRICTS, EXPLORE_CATEGORIES } from "@/lib/explore";
 import { MinistryReleaseForm } from "./MinistryReleaseForm";
+import { FIELD_LABELS, missingForPublish } from "@/lib/venues";
 import { EditionsEditor, LinksEditor, QuoteRequestsPanel, VenueEditor } from "./TourismExtras";
 
 type Row = Record<string, any>;
@@ -55,6 +56,10 @@ function ListingEditor({ row, data, onDone }: { row: Row; data: any; onDone: () 
     if (!payload.slug) payload.slug = String(payload.name_en ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     if (payload.status === "published" && (!payload.last_verified_at || !(payload.source_url || payload.official_url))) {
       toast.error("To publish, add a source or official link and a last-verified date."); return;
+    }
+    if (payload.status === "published" && row.status !== "published" && payload.category === "conference-venues") {
+      const miss = missingForPublish(payload.verified_fields ?? []);
+      if (miss.length) { toast.error(`Confirm first (Venues tab): ${miss.map((m) => FIELD_LABELS[m]).join(", ")}.`); return; }
     }
     const res = row.id ? await supabase.from("tour_listings").update(payload as any).eq("id", row.id).select().single() : await supabase.from("tour_listings").insert(payload as any).select().single();
     if (res.error) { toast.error(res.error.message); return; }

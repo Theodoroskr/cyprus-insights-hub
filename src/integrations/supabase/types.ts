@@ -4720,11 +4720,16 @@ export type Database = {
           admission: string | null
           admission_el: string | null
           aliases: string[]
+          av_equipment: string | null
+          av_equipment_el: string | null
           booking_url: string | null
+          brochure_url: string | null
+          business_phone: string | null
           category: string
           catering: string | null
           catering_el: string | null
           coords_verified: boolean
+          cover_url: string | null
           created_at: string
           directory_company_id: string | null
           district: string | null
@@ -4737,13 +4742,17 @@ export type Database = {
           lng: number | null
           locality: string | null
           locality_el: string | null
+          logo_url: string | null
           name_el: string | null
           name_en: string
           official_url: string | null
           opening_hours: string | null
           opening_hours_el: string | null
+          operating_status: string | null
           parking: string | null
           parking_el: string | null
+          plan_code: string
+          plan_expires_at: string | null
           quote_enabled: boolean
           slug: string
           source_id: string | null
@@ -4752,6 +4761,8 @@ export type Database = {
           summary_el: string | null
           summary_en: string | null
           updated_at: string
+          venue_type: string | null
+          verified_fields: string[]
         }
         Insert: {
           accessibility?: string | null
@@ -4761,11 +4772,16 @@ export type Database = {
           admission?: string | null
           admission_el?: string | null
           aliases?: string[]
+          av_equipment?: string | null
+          av_equipment_el?: string | null
           booking_url?: string | null
+          brochure_url?: string | null
+          business_phone?: string | null
           category: string
           catering?: string | null
           catering_el?: string | null
           coords_verified?: boolean
+          cover_url?: string | null
           created_at?: string
           directory_company_id?: string | null
           district?: string | null
@@ -4778,13 +4794,17 @@ export type Database = {
           lng?: number | null
           locality?: string | null
           locality_el?: string | null
+          logo_url?: string | null
           name_el?: string | null
           name_en: string
           official_url?: string | null
           opening_hours?: string | null
           opening_hours_el?: string | null
+          operating_status?: string | null
           parking?: string | null
           parking_el?: string | null
+          plan_code?: string
+          plan_expires_at?: string | null
           quote_enabled?: boolean
           slug: string
           source_id?: string | null
@@ -4793,6 +4813,8 @@ export type Database = {
           summary_el?: string | null
           summary_en?: string | null
           updated_at?: string
+          venue_type?: string | null
+          verified_fields?: string[]
         }
         Update: {
           accessibility?: string | null
@@ -4802,11 +4824,16 @@ export type Database = {
           admission?: string | null
           admission_el?: string | null
           aliases?: string[]
+          av_equipment?: string | null
+          av_equipment_el?: string | null
           booking_url?: string | null
+          brochure_url?: string | null
+          business_phone?: string | null
           category?: string
           catering?: string | null
           catering_el?: string | null
           coords_verified?: boolean
+          cover_url?: string | null
           created_at?: string
           directory_company_id?: string | null
           district?: string | null
@@ -4819,13 +4846,17 @@ export type Database = {
           lng?: number | null
           locality?: string | null
           locality_el?: string | null
+          logo_url?: string | null
           name_el?: string | null
           name_en?: string
           official_url?: string | null
           opening_hours?: string | null
           opening_hours_el?: string | null
+          operating_status?: string | null
           parking?: string | null
           parking_el?: string | null
+          plan_code?: string
+          plan_expires_at?: string | null
           quote_enabled?: boolean
           slug?: string
           source_id?: string | null
@@ -4834,6 +4865,8 @@ export type Database = {
           summary_el?: string | null
           summary_en?: string | null
           updated_at?: string
+          venue_type?: string | null
+          verified_fields?: string[]
         }
         Relationships: [
           {
@@ -5516,6 +5549,343 @@ export type Database = {
         }
         Relationships: []
       }
+      venue_change_requests: {
+        Row: {
+          changes: Json
+          created_at: string
+          id: string
+          listing_id: string
+          note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          changes?: Json
+          created_at?: string
+          id?: string
+          listing_id: string
+          note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          changes?: Json
+          created_at?: string
+          id?: string
+          listing_id?: string
+          note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_change_requests_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      venue_claims: {
+        Row: {
+          admin_notes: string | null
+          attachments: string[]
+          business_email: string
+          created_at: string
+          details: string | null
+          id: string
+          listing_id: string
+          organisation: string | null
+          rep_name: string
+          rep_role: string | null
+          request_type: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+          user_id: string
+          verification_method: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          attachments?: string[]
+          business_email: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          listing_id: string
+          organisation?: string | null
+          rep_name: string
+          rep_role?: string | null
+          request_type?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+          verification_method?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          attachments?: string[]
+          business_email?: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          listing_id?: string
+          organisation?: string | null
+          rep_name?: string
+          rep_role?: string | null
+          request_type?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+          verification_method?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_claims_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      venue_import_batches: {
+        Row: {
+          created_by: string | null
+          id: string
+          imported_at: string
+          notes: string | null
+          source_date: string | null
+          source_name: string
+          source_path: string | null
+        }
+        Insert: {
+          created_by?: string | null
+          id?: string
+          imported_at?: string
+          notes?: string | null
+          source_date?: string | null
+          source_name: string
+          source_path?: string | null
+        }
+        Update: {
+          created_by?: string | null
+          id?: string
+          imported_at?: string
+          notes?: string | null
+          source_date?: string | null
+          source_name?: string
+          source_path?: string | null
+        }
+        Relationships: []
+      }
+      venue_import_rows: {
+        Row: {
+          address: string | null
+          batch_id: string
+          created_at: string
+          created_listing_id: string | null
+          decided_at: string | null
+          decision: string
+          district: string | null
+          id: string
+          locality: string | null
+          match_note: string | null
+          match_status: string
+          matched_listing_id: string | null
+          name: string
+          needs_verification: string[]
+          phone: string | null
+          raw: Json | null
+          rooms: Json
+          source_page: number | null
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          batch_id: string
+          created_at?: string
+          created_listing_id?: string | null
+          decided_at?: string | null
+          decision?: string
+          district?: string | null
+          id?: string
+          locality?: string | null
+          match_note?: string | null
+          match_status?: string
+          matched_listing_id?: string | null
+          name: string
+          needs_verification?: string[]
+          phone?: string | null
+          raw?: Json | null
+          rooms?: Json
+          source_page?: number | null
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          batch_id?: string
+          created_at?: string
+          created_listing_id?: string | null
+          decided_at?: string | null
+          decision?: string
+          district?: string | null
+          id?: string
+          locality?: string | null
+          match_note?: string | null
+          match_status?: string
+          matched_listing_id?: string | null
+          name?: string
+          needs_verification?: string[]
+          phone?: string | null
+          raw?: Json | null
+          rooms?: Json
+          source_page?: number | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_import_rows_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "venue_import_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "venue_import_rows_created_listing_id_fkey"
+            columns: ["created_listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "venue_import_rows_matched_listing_id_fkey"
+            columns: ["matched_listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      venue_media: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          kind: string
+          listing_id: string
+          permission_confirmed: boolean
+          public_url: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          sort_order: number
+          status: string
+          storage_path: string
+          user_id: string | null
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          listing_id: string
+          permission_confirmed?: boolean
+          public_url?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sort_order?: number
+          status?: string
+          storage_path: string
+          user_id?: string | null
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          listing_id?: string
+          permission_confirmed?: boolean
+          public_url?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sort_order?: number
+          status?: string
+          storage_path?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_media_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      venue_plans: {
+        Row: {
+          active: boolean
+          allows_brochure: boolean
+          allows_cover: boolean
+          benefits_el: string[]
+          benefits_en: string[]
+          billing_interval: string | null
+          code: string
+          featured: boolean
+          name_el: string | null
+          name_en: string
+          photo_limit: number
+          price_eur: number | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          allows_brochure?: boolean
+          allows_cover?: boolean
+          benefits_el?: string[]
+          benefits_en?: string[]
+          billing_interval?: string | null
+          code: string
+          featured?: boolean
+          name_el?: string | null
+          name_en: string
+          photo_limit?: number
+          price_eur?: number | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          allows_brochure?: boolean
+          allows_cover?: boolean
+          benefits_el?: string[]
+          benefits_en?: string[]
+          billing_interval?: string | null
+          code?: string
+          featured?: boolean
+          name_el?: string | null
+          name_en?: string
+          photo_limit?: number
+          price_eur?: number | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       venue_quote_deliveries: {
         Row: {
           attempts: number
@@ -5622,6 +5992,150 @@ export type Database = {
           },
         ]
       }
+      venue_representatives: {
+        Row: {
+          claim_id: string | null
+          id: string
+          listing_id: string
+          user_id: string
+          verified_at: string
+          verified_by: string | null
+        }
+        Insert: {
+          claim_id?: string | null
+          id?: string
+          listing_id: string
+          user_id: string
+          verified_at?: string
+          verified_by?: string | null
+        }
+        Update: {
+          claim_id?: string | null
+          id?: string
+          listing_id?: string
+          user_id?: string
+          verified_at?: string
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_representatives_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: false
+            referencedRelation: "venue_claims"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "venue_representatives_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      venue_request_history: {
+        Row: {
+          action: string
+          actor: string | null
+          created_at: string
+          detail: Json | null
+          entity: string
+          entity_id: string
+          id: string
+          listing_id: string | null
+        }
+        Insert: {
+          action: string
+          actor?: string | null
+          created_at?: string
+          detail?: Json | null
+          entity: string
+          entity_id: string
+          id?: string
+          listing_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor?: string | null
+          created_at?: string
+          detail?: Json | null
+          entity?: string
+          entity_id?: string
+          id?: string
+          listing_id?: string | null
+        }
+        Relationships: []
+      }
+      venue_upgrade_requests: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          id: string
+          listing_id: string
+          message: string | null
+          payment_method: string | null
+          payment_reference: string | null
+          payment_status: string
+          plan_code: string
+          quoted_price_eur: number | null
+          status: string
+          term_end: string | null
+          term_start: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          listing_id: string
+          message?: string | null
+          payment_method?: string | null
+          payment_reference?: string | null
+          payment_status?: string
+          plan_code: string
+          quoted_price_eur?: number | null
+          status?: string
+          term_end?: string | null
+          term_start?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          listing_id?: string
+          message?: string | null
+          payment_method?: string | null
+          payment_reference?: string | null
+          payment_status?: string
+          plan_code?: string
+          quoted_price_eur?: number | null
+          status?: string
+          term_end?: string | null
+          term_start?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_upgrade_requests_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "venue_upgrade_requests_plan_code_fkey"
+            columns: ["plan_code"]
+            isOneToOne: false
+            referencedRelation: "venue_plans"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -5715,6 +6229,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_venue_rep: { Args: { _listing: string }; Returns: boolean }
       merge_compliance_items: {
         Args: { _dup: string; _keep: string }
         Returns: undefined

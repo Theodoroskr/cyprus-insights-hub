@@ -91,6 +91,7 @@ const ROUTE_META: Record<string, RouteMeta> = {
     description: "The terms that apply when you use BusinessHub.cy, its company directory, news, data dashboards and tools.",
   },
   "/dashboard": { title: "My Dashboard", description: "Your saved stories, watched companies and account settings on BusinessHub.cy.", noindex: true },
+  "/explore/my-venues": { title: "My venues", description: "Manage your conference venue listing on TourismHub.cy.", noindex: true },
   "/reset-password": { title: "Reset Your Password", description: "Choose a new password for your BusinessHub.cy account.", noindex: true },
   "/editorial": { title: "Editorial Dashboard", description: "BusinessHub.cy editorial tools.", noindex: true },
   "/admin/sources": { title: "Content Sources", description: "BusinessHub.cy news source settings.", noindex: true },

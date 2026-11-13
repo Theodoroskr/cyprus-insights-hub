@@ -27,3 +27,11 @@
 - [x] Editorial Funding tab, daily schedules, tests
 - [ ] Funding Programmes Portal, MECI, Interreg GR–CY: blocked from our servers, manual submission until access works
 - [ ] Editors to verify the review queue and pick the 3 public previews
+
+## Conference & Meeting Venues
+- [x] Owner claims, corrections, logo/photo review, "My venues" page
+- [x] Paid upgrade requests (staff quote / payment link), plans editable, Featured label, auto-return to free
+- [x] Import preview, verify & publish checklist, venue-type filter
+- [ ] Hotels PDF (Hotels_with_Conference_Facilites_13_4_21.pdf): waiting for the file to parse and import
+- [ ] Owner verification and quote emails: need a verified email sender domain
+- [ ] Plan prices: to be set by staff

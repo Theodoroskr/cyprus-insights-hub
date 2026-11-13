@@ -7,6 +7,8 @@ import { catLabel, directionsUrl, EL, mappable, pick, placeLine } from "@/lib/ex
 import { ExploreMap } from "@/components/explore/ExploreMap";
 import { EventEditions, LinkedFrom, VenueRooms, VillageSections } from "@/components/explore/PlaceSections";
 import { VenueQuoteForm } from "@/components/explore/VenueQuoteForm";
+import { VenueOwnerActions } from "@/components/explore/VenueOwnerActions";
+import { VenueGallery, VenueHeader } from "@/components/explore/VenueProfileExtras";
 import NotFound from "./NotFound";
 
 export default function ExplorePlacePage() {
@@ -40,6 +42,7 @@ export default function ExplorePlacePage() {
               {isNicosia && <> / <Link to={`/explore/nicosia-countryside${lang === "el" ? "?lang=el" : ""}`} className="hover:underline">{EL(lang, "Nicosia City & Countryside", "Λευκωσία — Πόλη και Ύπαιθρος")}</Link></>}
               {l.category === "conference-venues" && <> / <Link to={`/explore/conference-venues${lang === "el" ? "?lang=el" : ""}`} className="hover:underline">{EL(lang, "Conference Venues", "Χώροι συνεδρίων")}</Link></>}
             </nav>
+            {l.category === "conference-venues" && <VenueHeader l={l} lang={lang} />}
             <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary mb-1">{catLabel(l.category, lang)}</p>
             <h2 className="font-serif text-3xl font-bold">{pick(lang, l.name_en, l.name_el)}</h2>
             {lang === "en" && l.name_el && <p className="text-muted-foreground">{l.name_el}</p>}
@@ -66,7 +69,7 @@ export default function ExplorePlacePage() {
             )}
             {l.category === "villages" && <VillageSections l={l} lang={lang} listings={data.listings} links={data.listingLinks} editions={data.editions} />}
             {l.category === "events" && <EventEditions l={l} lang={lang} editions={data.editions} />}
-            {l.category === "conference-venues" && <><VenueRooms rooms={data.roomsByListing[l.id] ?? []} lang={lang} /><VenueQuoteForm l={l} lang={lang} /></>}
+            {l.category === "conference-venues" && <><VenueGallery l={l} lang={lang} /><VenueRooms rooms={data.roomsByListing[l.id] ?? []} lang={lang} /><VenueQuoteForm l={l} lang={lang} /><VenueOwnerActions l={l} lang={lang} /></>}
             <LinkedFrom l={l} lang={lang} listings={data.listings} links={data.listingLinks} />
             {dests.length > 0 && (
               <p className="mt-6 text-sm">{EL(lang, "Part of:", "Ανήκει σε:")} {dests.map((d, i) => <span key={d.id}>{i > 0 && ", "}<Link to={`/explore/${d.slug}`} className="text-secondary hover:underline">{pick(lang, d.name_en, d.name_el)}</Link></span>)}</p>
