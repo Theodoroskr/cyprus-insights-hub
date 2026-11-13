@@ -164,10 +164,12 @@ function euBudget(raw?: string): number | null {
   } catch { return null; }
 }
 
-let EU_PAGE = 20;
-async function runEu(sb: Any, src: Any, maxPages = 35) {
-  let stats = { seen: 0, inserted: 0, updated: 0, ineligible: 0, changes: 0 };
-  for (let page = 1; page <= maxPages; page++) {
+let EU_PAGE = 50;
+let EU_FROM = 1, EU_PAGES = 6;
+async function runEu(sb: Any, src: Any) {
+  let stats = { seen: 0, inserted: 0, updated: 0, ineligible: 0, changes: 0, last_page: 0, more: false };
+  for (let page = EU_FROM; page < EU_FROM + EU_PAGES; page++) {
+    stats.last_page = page;
     const boundary = "----bhfunding" + page;
     const part = (name: string, v: unknown) => `--${boundary}\r\nContent-Disposition: form-data; name="${name}"; filename="blob"\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(v)}\r\n`;
     const fd = part("query", { bool: { must: [{ terms: { type: ["1", "2", "8"] } }, { terms: { status: ["31094501", "31094502"] } }] } }) + part("languages", ["en"]) + `--${boundary}--\r\n`;
@@ -190,7 +192,9 @@ async function runEu(sb: Any, src: Any, maxPages = 35) {
       if (!title) continue;
       const desc = htmlToText(`${first("description") ?? ""} ${first("descriptionByte") ?? ""} ${first("furtherInformation") ?? ""}`);
       const elig = euEligibleForCyprus(kind, `${title} ${first("callTitle") ?? ""} ${desc.slice(0, 3000)}`, first("projectAcronym") ?? "");
-      const open = euDate(first("startDate")); const dl = euDate(first("deadlineDate"));
+      const open = euDate(first("startDate"));
+      const dls = (Array.isArray(m.deadlineDate) ? m.deadlineDate : [m.deadlineDate]).filter(Boolean).sort();
+      const dl = euDate(dls[dls.length - 1]);
       const progName = kind === "cascade" ? `Cascade funding: ${first("projectName") ?? first("projectAcronym") ?? euProgramme(identifier)}` : euProgramme(identifier);
       const url = first("url") ?? res.url;
       const input: CallInput = {
@@ -209,13 +213,14 @@ async function runEu(sb: Any, src: Any, maxPages = 35) {
       };
       // Topics are the Commission's own published call documents: verified on import. Cascade calls go to an editor.
       const status = !elig.eligible ? "ineligible" : kind === "topic" ? "verified" : "review";
-      const out = await upsertCall(sb, src.id, input, { status, ineligible_reason: elig.reason ?? null, raw: { type, status: EU_STATUS[first("status") ?? ""] ?? null, ccm2Id: first("ccm2Id") } });
+      const out = await upsertCall(sb, src.id, input, { status, ineligible_reason: elig.reason ?? null, raw: { type, status: EU_STATUS[first("status") ?? ""] ?? null, ccm2Id: first("ccm2Id"), deadlines: dls } });
       stats.seen++;
       if (out.action === "insert") { if (status === "ineligible") stats.ineligible++; else stats.inserted++; }
       if (out.action === "update") stats.updated++;
       stats.changes += out.changes;
     }
-    if (results.length < EU_PAGE) break;
+    if (results.length < EU_PAGE) { stats.more = false; break; }
+    stats.more = true;
   }
   return stats;
 }
@@ -277,6 +282,8 @@ Deno.serve(async (req) => {
   let body: Any = {};
   try { body = await req.json(); } catch { /* scheduled run */ }
   const action = body.action ?? "run";
+  if (body.page_from) EU_FROM = Math.max(1, Number(body.page_from));
+  if (body.pages) EU_PAGES = Math.min(10, Math.max(1, Number(body.pages)));
   if (body.page_size) EU_PAGE = Math.min(100, Math.max(1, Number(body.page_size)));
 
   if (action === "probe") {
