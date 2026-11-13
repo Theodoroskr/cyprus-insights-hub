@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { currentPlanCode, emailOnVenueDomain, matchImportRow, mergeImport, missingForPublish, uploadProblem, visiblePhotos, type VenuePlan } from "@/lib/venues";
+import { currentPlanCode, isUnconfirmedVenue, emailOnVenueDomain, matchImportRow, mergeImport, missingForPublish, uploadProblem, visiblePhotos, type VenuePlan } from "@/lib/venues";
 import { venueFits, type VenueRoom } from "@/lib/explore";
 
 const room = (o: Partial<VenueRoom>): VenueRoom => ({ id: "r", listing_id: "l", name: "R", name_el: null, area_sqm: null, sort_order: 0, theatre: null, classroom: null, banquet: null, cocktail: null, boardroom: null, u_shape: null, ...o });
@@ -60,4 +60,13 @@ describe("uploads and owner email", () => {
     expect(emailOnVenueDomain("events@amathushotel.com", "https://www.amathushotel.com")).toBe(true);
     expect(emailOnVenueDomain("me@gmail.com", "https://www.amathushotel.com")).toBe(false);
   });
+});
+
+describe("unconfirmed venues are flagged", () => {
+  it("flags a venue until all five details are confirmed", () => {
+    expect(isUnconfirmedVenue({ category: "conference-venues", verified_fields: [] })).toBe(true);
+    expect(isUnconfirmedVenue({ category: "conference-venues", verified_fields: ["name", "operating_status", "official_url", "business_contact"] })).toBe(true);
+    expect(isUnconfirmedVenue({ category: "conference-venues", verified_fields: ["name", "operating_status", "official_url", "business_contact", "room_capacities"] })).toBe(false);
+  });
+  it("never flags non-venue places", () => expect(isUnconfirmedVenue({ category: "museums-heritage", verified_fields: [] })).toBe(false));
 });

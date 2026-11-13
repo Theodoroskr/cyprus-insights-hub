@@ -17,6 +17,10 @@ export const FIELD_LABELS: Record<string, string> = {
 export function missingForPublish(verified: string[]): string[] {
   return PUBLISH_REQUIRED.filter((f) => !verified.includes(f));
 }
+/** A published venue whose details have not all been confirmed (e.g. listed straight from the 2021 hotels list); shown with a warning. */
+export function isUnconfirmedVenue(l: { category: string; verified_fields?: string[] | null }): boolean {
+  return l.category === "conference-venues" && missingForPublish(l.verified_fields ?? []).length > 0;
+}
 
 /* ---------- Import matching ---------- */
 const STOP = new Set(["hotel", "hotels", "resort", "resorts", "spa", "the", "and", "&", "beach", "conference", "centre", "center", "suites", "village", "ξενοδοχειο"]);

@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { ExternalLink, Navigation } from "lucide-react";
+import { AlertTriangle, ExternalLink, Navigation } from "lucide-react";
+import { isUnconfirmedVenue } from "@/lib/venues";
 import { ExploreShell } from "@/components/explore/ExploreShell";
 import { SEOHead } from "@/components/SEOHead";
 import { useExploreData } from "@/hooks/useExplore";
@@ -43,6 +44,12 @@ export default function ExplorePlacePage() {
               {l.category === "conference-venues" && <> / <Link to={`/explore/conference-venues${lang === "el" ? "?lang=el" : ""}`} className="hover:underline">{EL(lang, "Conference Venues", "Χώροι συνεδρίων")}</Link></>}
             </nav>
             {l.category === "conference-venues" && <VenueHeader l={l} lang={lang} />}
+            {isUnconfirmedVenue(l) && (
+              <p role="note" className="my-4 flex gap-2 border border-border bg-muted p-3 text-sm text-foreground">
+                <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground" />
+                <span>{EL(lang, "These details have not yet been confirmed with the venue. Please check room sizes and contact details with the venue before booking.", "Τα στοιχεία δεν έχουν ακόμη επιβεβαιωθεί με τον χώρο. Επιβεβαιώστε αίθουσες και στοιχεία επικοινωνίας με τον χώρο πριν από κράτηση.")}</span>
+              </p>
+            )}
             <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary mb-1">{catLabel(l.category, lang)}</p>
             <h2 className="font-serif text-3xl font-bold">{pick(lang, l.name_en, l.name_el)}</h2>
             {lang === "en" && l.name_el && <p className="text-muted-foreground">{l.name_el}</p>}
@@ -75,8 +82,8 @@ export default function ExplorePlacePage() {
               <p className="mt-6 text-sm">{EL(lang, "Part of:", "Ανήκει σε:")} {dests.map((d, i) => <span key={d.id}>{i > 0 && ", "}<Link to={`/explore/${d.slug}`} className="text-secondary hover:underline">{pick(lang, d.name_en, d.name_el)}</Link></span>)}</p>
             )}
             <p className="mt-6 text-xs text-muted-foreground">
-              {EL(lang, "Source:", "Πηγή:")} {l.source_url ? <a href={l.source_url} target="_blank" rel="noopener noreferrer" className="underline">{new URL(l.source_url).hostname.replace(/^www\./, "")}</a> : "—"}
-              {l.last_verified_at && <> · {EL(lang, "Last verified", "Τελευταίος έλεγχος")} {new Date(l.last_verified_at).toLocaleDateString(lang === "el" ? "el-GR" : "en-GB", { day: "numeric", month: "long", year: "numeric" })}</>}
+              {EL(lang, "Source:", "Πηγή:")} {l.source_url ? <a href={l.source_url} target="_blank" rel="noopener noreferrer" className="underline">{new URL(l.source_url).hostname.replace(/^www\./, "")}</a> : isUnconfirmedVenue(l) ? EL(lang, "published list of hotels with meeting rooms", "δημοσιευμένος κατάλογος ξενοδοχείων με αίθουσες") : "—"}
+              {l.last_verified_at && <> · {isUnconfirmedVenue(l) ? EL(lang, "Source dated", "Ημερομηνία πηγής") : EL(lang, "Last verified", "Τελευταίος έλεγχος")} {new Date(l.last_verified_at).toLocaleDateString(lang === "el" ? "el-GR" : "en-GB", { day: "numeric", month: "long", year: "numeric" })}</>}
             </p>
           </article>
         );

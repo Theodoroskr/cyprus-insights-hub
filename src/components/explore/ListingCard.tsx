@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { MapPin, AlertTriangle } from "lucide-react";
 import type { Lang } from "@/lib/academy";
-import { catLabel, needsCoords, pick, placeLine, type Listing } from "@/lib/explore";
+import { catLabel, EL, needsCoords, pick, placeLine, type Listing } from "@/lib/explore";
+import { isUnconfirmedVenue } from "@/lib/venues";
 
 /** One card per listing; it always opens the listing's single canonical page. */
 export function ListingCard({ l, lang, editor = false, extra }: { l: Listing; lang: Lang; editor?: boolean; extra?: string | null }) {
@@ -11,6 +12,7 @@ export function ListingCard({ l, lang, editor = false, extra }: { l: Listing; la
       <h3 className="font-serif text-lg font-bold text-foreground group-hover:underline leading-snug">{pick(lang, l.name_en, l.name_el)}</h3>
       <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1"><MapPin className="h-3 w-3" />{placeLine(l, lang)}</p>
       {extra && <p className="text-xs font-semibold text-foreground mt-1">{extra}</p>}
+      {isUnconfirmedVenue(l) && <p className="text-[11px] text-muted-foreground mt-1 italic">{EL(lang, "Details not yet confirmed with the venue", "Τα στοιχεία δεν έχουν επιβεβαιωθεί με τον χώρο")}</p>}
       <p className="text-sm text-muted-foreground mt-2 line-clamp-3">{pick(lang, l.summary_en, l.summary_el)}</p>
       {editor && needsCoords(l) && (
         <p className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-destructive"><AlertTriangle className="h-3 w-3" />Editors: add verified coordinates</p>
