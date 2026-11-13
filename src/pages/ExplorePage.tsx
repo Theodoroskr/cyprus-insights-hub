@@ -4,6 +4,8 @@ import { ExploreBrowser } from "@/components/explore/ExploreBrowser";
 import { SEOHead } from "@/components/SEOHead";
 import { useExploreData } from "@/hooks/useExplore";
 import { EL, EXPLORE_CATEGORIES, pick } from "@/lib/explore";
+import { AdSlot } from "@/components/banners/AdSlot";
+import { HUB_MID_SLOTS } from "@/components/hub/HubMasthead";
 
 export default function ExplorePage() {
   const { data, isLoading } = useExploreData();
@@ -35,6 +37,7 @@ export default function ExplorePage() {
               );
             })}
           </div>
+          <div className="mb-8"><AdSlot size="leaderboard" slotId={HUB_MID_SLOTS.tourismhub} /></div>
           <div className="grid md:grid-cols-2 gap-3 mb-8">
             <Link to={`/explore/nicosia-countryside${lang === "el" ? "?lang=el" : ""}`} className="block border border-foreground bg-card p-5 hover:bg-muted transition-colors">
               <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary">{EL(lang, "New · Map & list", "Νέο · Χάρτης & λίστα")}</p>

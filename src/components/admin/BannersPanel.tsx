@@ -27,6 +27,11 @@ const SLOT_OPTIONS = [
   { value: "compliance-top", label: "ComplianceHub top (970×125)" },
   { value: "regtech-top", label: "RegTechHub top (970×125)" },
   { value: "tourism-top", label: "TourismHub top (970×125)" },
+  { value: "homepage-lead", label: "Homepage — Under the lead stories (728×90)" },
+  { value: "fintech-mid", label: "FinTechHub — Under the lead stories (728×90)" },
+  { value: "compliance-mid", label: "ComplianceHub — Under the lead stories (728×90)" },
+  { value: "regtech-mid", label: "RegTechHub — Under the lead stories (728×90)" },
+  { value: "tourism-mid", label: "TourismHub — Under the destinations (728×90)" },
   { value: "article-inline", label: "Articles — Mid-article (728×90)" },
 ];
 

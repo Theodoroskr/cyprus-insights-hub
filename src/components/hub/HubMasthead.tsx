@@ -12,6 +12,14 @@ export const HUB_TOP_SLOTS: Partial<Record<BrandId, string>> = {
   tourismhub: "tourism-top",
 };
 
+/** Each hub front page's own mid-page banner place, under the three lead stories (728×90). */
+export const HUB_MID_SLOTS: Partial<Record<BrandId, string>> = {
+  fintechhub: "fintech-mid",
+  compliancehub: "compliance-mid",
+  regtechhub: "regtech-mid",
+  tourismhub: "tourism-mid",
+};
+
 const ACCENT: Partial<Record<BrandId, { text: string; bg: string }>> = {
   fintechhub: { text: "text-fintech", bg: "bg-fintech" },
   compliancehub: { text: "text-compliance", bg: "bg-compliance" },

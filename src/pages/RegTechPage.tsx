@@ -238,7 +238,7 @@ export default function RegTechPage() {
       {/* ═══════════════════ TAB 1: OVERVIEW ═══════════════════ */}
       {activeTab === "overview" && (
         <>
-          <HubLeadStories verticals={REGTECH_V} />
+          <HubLeadStories verticals={REGTECH_V} brand="regtechhub" />
 
           {/* What RegTech Covers */}
           <section className="section-rule bg-muted/30">

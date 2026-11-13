@@ -54,7 +54,7 @@ export default function CompliancePage() {
     <ComplianceShell masthead title="ComplianceHub.cy" intro="Official regulatory updates, sanctions changes, FATF country risk and upcoming deadlines for Cyprus — each linked to the original document.">
       {(lang) => (
         <>
-          <HubLeadStories verticals={COMPLIANCE_V} />
+          <HubLeadStories verticals={COMPLIANCE_V} brand="compliancehub" />
           <section className="container mx-auto px-4 py-8 grid lg:grid-cols-3 gap-4">
             <Column title="Latest regulatory updates" to="/compliance/regulatory-updates" lang={lang}>
               {isLoading ? <Empty text="…" /> : updates.length ? updates.map((i) => <ComplianceItemCard key={i.id} item={i} lang={lang} compact />) : <Empty text={ct("Nothing matches these filters yet.", lang)} />}

@@ -7,6 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { estimateReadingTime } from "@/lib/readingTime";
 import { useHomepageStories } from "@/hooks/useHomepageStories";
 import { LeadStoriesView } from "@/components/hub/HubLeadStories";
+import { AdSlot } from "@/components/banners/AdSlot";
 
 interface MostReadItem {
   id: string;
@@ -75,32 +76,31 @@ export function IntelligenceHub() {
   return (
     <section id="news" className="section-rule section-rule-thick">
       <div className="container mx-auto px-4">
-        <LeadStoriesView hub={hub} latest={latest} aside={
-          mostRead.length > 0 && (
-              <div className="mt-8">
-                <div className="flex items-center gap-2 pb-2 border-b border-border mb-1">
+        <LeadStoriesView hub={hub} latest={latest} below={
+          <>
+            {mostRead.length > 0 && (
+              <div className="mt-8 pt-4 border-t border-border">
+                <div className="flex items-center gap-2 mb-3">
                   <Flame className="h-4 w-4 text-destructive" />
                   <span className="section-label">Most Read</span>
                 </div>
-                {mostRead.map((article, index) => (
-                  <Link
-                    to={`/article/${article.id}`}
-                    key={article.id}
-                    className="group flex items-start gap-3 py-3 border-b border-border last:border-b-0"
-                  >
-                    <span className="text-xl font-serif font-black text-muted-foreground/30 leading-none min-w-[1.25rem] text-right pt-0.5 group-hover:text-secondary transition-colors">
-                      {index + 1}
-                    </span>
-                    <h3 className="flex-1 min-w-0 font-serif text-[13px] font-bold text-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-3">
-                      {article.title}
-                    </h3>
-                    <div className="w-14 h-14 flex-shrink-0 overflow-hidden">
-                      <img src={articleImage(article.image, null, String(article.id))} alt="" className="w-full h-full object-cover" />
-                    </div>
-                  </Link>
-                ))}
+                <ol className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                  {mostRead.map((article, index) => (
+                    <li key={article.id}>
+                      <Link to={`/article/${article.id}`} className="group block">
+                        <div className="relative aspect-[4/3] overflow-hidden bg-muted mb-2">
+                          <img src={articleImage(article.image, null, String(article.id))} alt="" className="w-full h-full object-cover" loading="lazy" />
+                          <span className="absolute top-1 left-1 bg-background/90 text-foreground font-serif font-black text-sm w-6 h-6 flex items-center justify-center">{index + 1}</span>
+                        </div>
+                        <h3 className="font-serif text-[13px] font-bold text-foreground leading-snug line-clamp-3 group-hover:text-secondary transition-colors">{article.title}</h3>
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
               </div>
-            )
+            )}
+            <div className="mt-8"><AdSlot size="leaderboard" slotId="homepage-lead" /></div>
+          </>
         } />
       </div>
     </section>

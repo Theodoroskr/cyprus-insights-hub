@@ -147,7 +147,7 @@ export default function FinTechPage() {
 
       <SectionSponsorStrip sectionKey="fintechhub" />
 
-      <HubLeadStories verticals={FINTECH_V} />
+      <HubLeadStories verticals={FINTECH_V} brand="fintechhub" />
 
       {/* Inline Insight Banner */}
       <div className="container mx-auto px-4 py-8">

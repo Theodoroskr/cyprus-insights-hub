@@ -23,7 +23,7 @@ export const AD_DIMENSIONS: Record<AdSize, string> = {
 };
 
 /** Homepage slots show a labelled placeholder while unsold. */
-export const PLACEHOLDER_SLOTS = new Set(["custom-studio", "homepage-stories", "homepage-footer", "homepage-top", "homepage-feed-top", "homepage-mid", "fintech-top", "compliance-top", "regtech-top", "tourism-top"]);
+export const PLACEHOLDER_SLOTS = new Set(["custom-studio", "homepage-stories", "homepage-footer", "homepage-top", "homepage-feed-top", "homepage-mid", "fintech-top", "compliance-top", "regtech-top", "tourism-top", "homepage-lead", "fintech-mid", "compliance-mid", "regtech-mid", "tourism-mid"]);
 
 export function BannerPlaceholder({ size, label }: { size: AdSize; label?: string }) {
   const compact = size === "leaderboard" || size === "banner" || size === "wide-banner";
