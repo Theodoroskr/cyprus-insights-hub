@@ -1,0 +1,5 @@
+# Funding importer rules
+- `funding_calls` holds one row per call keyed by `dedupeKey` (issuer + call reference + round) in `_shared/funding.ts`, which the site also imports. Why: portal listings and Greek/English releases merge into one record.
+- EU topics from the SEDIA search API are verified on import (send `Accept-Encoding: identity`, or the edge runtime fails to read the body). Cascade calls go to review, and cascades limited to another country are stored as `ineligible`. Calls whose last deadline has passed are skipped. Why: Commission topics are official call documents; cascades vary by country.
+- National pages and feeds are read by AI into `review`. A change to a reviewed field of a verified call becomes a `funding_call_changes` row for an editor, and `editor_locked_fields` are never overwritten. Why: no unverified change goes public.
+- Signed-out visitors get only `get_funding_preview()` (3 rows, preview columns); members read verified rows through RLS. Why: the paywall lives in the database.
