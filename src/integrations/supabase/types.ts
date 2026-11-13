@@ -4126,6 +4126,273 @@ export type Database = {
           },
         ]
       }
+      tour_destinations: {
+        Row: {
+          aliases: string[]
+          created_at: string
+          districts: string[]
+          id: string
+          image_credit: string | null
+          image_rights: string | null
+          image_url: string | null
+          intro_el: string | null
+          intro_en: string | null
+          kind: string
+          name_el: string | null
+          name_en: string
+          parent_id: string | null
+          slug: string
+          sort_order: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          aliases?: string[]
+          created_at?: string
+          districts?: string[]
+          id?: string
+          image_credit?: string | null
+          image_rights?: string | null
+          image_url?: string | null
+          intro_el?: string | null
+          intro_en?: string | null
+          kind?: string
+          name_el?: string | null
+          name_en: string
+          parent_id?: string | null
+          slug: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          aliases?: string[]
+          created_at?: string
+          districts?: string[]
+          id?: string
+          image_credit?: string | null
+          image_rights?: string | null
+          image_url?: string | null
+          intro_el?: string | null
+          intro_en?: string | null
+          kind?: string
+          name_el?: string | null
+          name_en?: string
+          parent_id?: string | null
+          slug?: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_destinations_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "tour_destinations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tour_listing_destinations: {
+        Row: {
+          destination_id: string
+          listing_id: string
+        }
+        Insert: {
+          destination_id: string
+          listing_id: string
+        }
+        Update: {
+          destination_id?: string
+          listing_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_listing_destinations_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "tour_destinations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tour_listing_destinations_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tour_listings: {
+        Row: {
+          accessibility: string | null
+          address: string | null
+          admission: string | null
+          aliases: string[]
+          booking_url: string | null
+          category: string
+          coords_verified: boolean
+          created_at: string
+          district: string | null
+          editor_notes: string | null
+          id: string
+          last_verified_at: string | null
+          lat: number | null
+          lng: number | null
+          locality: string | null
+          name_el: string | null
+          name_en: string
+          official_url: string | null
+          opening_hours: string | null
+          parking: string | null
+          slug: string
+          source_id: string | null
+          source_url: string | null
+          status: string
+          summary_el: string | null
+          summary_en: string | null
+          updated_at: string
+        }
+        Insert: {
+          accessibility?: string | null
+          address?: string | null
+          admission?: string | null
+          aliases?: string[]
+          booking_url?: string | null
+          category: string
+          coords_verified?: boolean
+          created_at?: string
+          district?: string | null
+          editor_notes?: string | null
+          id?: string
+          last_verified_at?: string | null
+          lat?: number | null
+          lng?: number | null
+          locality?: string | null
+          name_el?: string | null
+          name_en: string
+          official_url?: string | null
+          opening_hours?: string | null
+          parking?: string | null
+          slug: string
+          source_id?: string | null
+          source_url?: string | null
+          status?: string
+          summary_el?: string | null
+          summary_en?: string | null
+          updated_at?: string
+        }
+        Update: {
+          accessibility?: string | null
+          address?: string | null
+          admission?: string | null
+          aliases?: string[]
+          booking_url?: string | null
+          category?: string
+          coords_verified?: boolean
+          created_at?: string
+          district?: string | null
+          editor_notes?: string | null
+          id?: string
+          last_verified_at?: string | null
+          lat?: number | null
+          lng?: number | null
+          locality?: string | null
+          name_el?: string | null
+          name_en?: string
+          official_url?: string | null
+          opening_hours?: string | null
+          parking?: string | null
+          slug?: string
+          source_id?: string | null
+          source_url?: string | null
+          status?: string
+          summary_el?: string | null
+          summary_en?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_listings_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "tour_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tour_photos: {
+        Row: {
+          created_at: string
+          credit: string
+          id: string
+          listing_id: string
+          rights: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          credit: string
+          id?: string
+          listing_id: string
+          rights: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          created_at?: string
+          credit?: string
+          id?: string
+          listing_id?: string
+          rights?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_photos_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "tour_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tour_sources: {
+        Row: {
+          created_at: string
+          id: string
+          last_checked_at: string | null
+          name: string
+          notes: string | null
+          scope: string | null
+          status: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_checked_at?: string | null
+          name: string
+          notes?: string | null
+          scope?: string | null
+          status?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_checked_at?: string | null
+          name?: string
+          notes?: string | null
+          scope?: string | null
+          status?: string
+          url?: string
+        }
+        Relationships: []
+      }
       tourism_arrivals_monthly: {
         Row: {
           arrivals: number | null

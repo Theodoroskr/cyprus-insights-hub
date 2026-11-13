@@ -211,6 +211,13 @@
       "when": 1794521142413,
       "tag": "0029_compliancehub_monitoring",
       "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1794546261311,
+      "tag": "0030_tourismhub_explore",
+      "breakpoints": true
     }
   ]
 }
