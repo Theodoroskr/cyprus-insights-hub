@@ -1,10 +1,3 @@
-# Roadmap – Financial Literacy Academy
-- [x] Stage A – Academy pages, programmes, lessons (drafts), admin tab, revisions
-- [x] Phase 4A – Financial Literacy split into 10 sections with shared menu
-- [x] Observatory: OECD findings + Central Bank banking stats, monthly checks
-- [ ] Approve OECD breakdown drafts (waiting on Theodoros)
-- [ ] Review and publish lesson drafts; add Greek lesson text (waiting on Theodoros)
-- [ ] Stage B – Assessment and recommendations
-- [ ] Stage C – Progress and anonymous certificates
-- [ ] Stage D – Campaigns, partner courses, anonymous statistics
-- [ ] Final assessment report (14 deliverables)
+# Roadmap
+- [ ] Regulatory Frameworks cards: update facts from official sources + colour refresh (waiting on research)
+- [ ] Explore Cyprus: add Google map view (list/map toggle, verified pins only)
