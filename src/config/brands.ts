@@ -52,7 +52,7 @@ export const brands: Record<BrandId, BrandConfig> = {
     name: "FinTechHub",
     domain: ".cy",
     tagline: "Digital Finance Intelligence for Cyprus",
-    logoLetter: "FT",
+    logoLetter: "F",
     icon: Landmark,
     colors: {
       primary: "fintech",
@@ -118,7 +118,7 @@ export const brands: Record<BrandId, BrandConfig> = {
     name: "RegTechHub",
     domain: ".cy",
     tagline: "Regulatory Technology Intelligence for Cyprus",
-    logoLetter: "RT",
+    logoLetter: "R",
     icon: Cpu,
     colors: {
       primary: "regtech",

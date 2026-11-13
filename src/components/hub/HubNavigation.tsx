@@ -68,11 +68,7 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
             {/* Logo — editorial masthead style */}
             <Link to={brand.home} className="flex items-center gap-2.5 shrink-0" aria-label={`${brand.name}${brand.domain} home`}>
               <div className={`h-8 min-w-8 px-1.5 ${brand.badgeClass} flex items-center justify-center`}>
-                {brand.id === "businesshub" ? (
-                  <span className="text-background font-serif font-bold text-sm">B</span>
-                ) : (
-                  <brand.icon className="h-4 w-4 text-background" aria-hidden />
-                )}
+                <span className="text-background font-serif font-bold text-sm" aria-hidden>{brand.logoLetter}</span>
               </div>
               <span className="hidden sm:block font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                 {brand.name}<span className="text-secondary">{brand.domain}</span>
