@@ -148,7 +148,7 @@ function ImportTab({ d, refresh }: { d: Row; refresh: () => void }) {
   };
   const addRooms = async (listingId: string, rooms: Row[]) => {
     if (!rooms?.length) return;
-    const r = await db.from("tour_venue_rooms").insert(rooms.map((x, i) => ({ listing_id: listingId, name: x.name || `Room ${i + 1}`, theatre: x.theatre ?? null, classroom: x.classroom ?? null, banquet: x.banquet ?? null, cocktail: x.cocktail ?? null, boardroom: x.boardroom ?? null, u_shape: x.u_shape ?? null, area_sqm: x.area_sqm ?? null, sort_order: i })));
+    const r = await db.from("tour_venue_rooms").insert(rooms.map((x, i) => ({ listing_id: listingId, name: x.name || (rooms.length === 1 ? "Largest room (2021 figure)" : `Room ${i + 1}`), theatre: x.theatre ?? null, classroom: x.classroom ?? null, banquet: x.banquet ?? null, cocktail: x.cocktail ?? null, boardroom: x.boardroom ?? null, u_shape: x.u_shape ?? null, area_sqm: x.area_sqm ?? null, sort_order: i })));
     if (r.error) toast.error(r.error.message);
   };
   const mergeInto = async (r: Row, listingId: string) => {
