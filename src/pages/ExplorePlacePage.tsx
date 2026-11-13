@@ -3,7 +3,7 @@ import { ExternalLink, Navigation } from "lucide-react";
 import { ExploreShell } from "@/components/explore/ExploreShell";
 import { SEOHead } from "@/components/SEOHead";
 import { useExploreData } from "@/hooks/useExplore";
-import { catLabel, directionsUrl, EL, pick } from "@/lib/explore";
+import { catLabel, directionsUrl, EL, pick, placeLine } from "@/lib/explore";
 import NotFound from "./NotFound";
 
 export default function ExplorePlacePage() {
@@ -14,24 +14,24 @@ export default function ExplorePlacePage() {
   if (!l) return <NotFound />;
   const dests = data.destinations.filter((d) => l.destination_ids?.includes(d.id));
   return (
-    <ExploreShell title={l.name_en}>
+    <ExploreShell title={(lang) => pick(lang, l.name_en, l.name_el)}>
       {(lang) => {
         const rows: [string, string | null][] = [
-          [EL(lang, "Opening hours", "Ωράριο"), l.opening_hours],
-          [EL(lang, "Admission", "Είσοδος"), l.admission],
-          [EL(lang, "Accessibility", "Προσβασιμότητα"), l.accessibility],
-          [EL(lang, "Parking", "Στάθμευση"), l.parking],
-          [EL(lang, "Address", "Διεύθυνση"), l.address],
+          [EL(lang, "Opening hours", "Ωράριο"), pick(lang, l.opening_hours, l.opening_hours_el) || null],
+          [EL(lang, "Admission", "Είσοδος"), pick(lang, l.admission, l.admission_el) || null],
+          [EL(lang, "Accessibility", "Προσβασιμότητα"), pick(lang, l.accessibility, l.accessibility_el) || null],
+          [EL(lang, "Parking", "Στάθμευση"), pick(lang, l.parking, l.parking_el) || null],
+          [EL(lang, "Address", "Διεύθυνση"), pick(lang, l.address, l.address_el) || null],
         ];
         return (
           <article className="container mx-auto px-4 py-8 max-w-3xl">
-            <SEOHead title={`${l.name_en} — ${l.locality ?? l.district} | Explore Cyprus`} description={(l.summary_en ?? l.name_en).slice(0, 158)} path={`/explore/place/${l.slug}`}
-              breadcrumbs={[{ name: "Explore Cyprus", href: "/explore" }, ...(dests[0] ? [{ name: dests[0].name_en, href: `/explore/${dests[0].slug}` }] : [])]} />
+            <SEOHead title={`${pick(lang, l.name_en, l.name_el)} — ${placeLine(l, lang)} | ${EL(lang, "Explore Cyprus", "Εξερευνήστε την Κύπρο")}`} description={(pick(lang, l.summary_en, l.summary_el) || l.name_en).slice(0, 158)} path={`/explore/place/${l.slug}`}
+              breadcrumbs={[{ name: EL(lang, "Explore Cyprus", "Εξερευνήστε την Κύπρο"), href: "/explore" }, ...(dests[0] ? [{ name: pick(lang, dests[0].name_en, dests[0].name_el), href: `/explore/${dests[0].slug}` }] : [])]} />
             <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary mb-1">{catLabel(l.category, lang)}</p>
             <h2 className="font-serif text-3xl font-bold">{pick(lang, l.name_en, l.name_el)}</h2>
             {lang === "en" && l.name_el && <p className="text-muted-foreground">{l.name_el}</p>}
             {lang === "el" && l.name_el && <p className="text-muted-foreground">{l.name_en}</p>}
-            <p className="text-sm text-muted-foreground mt-1">{[l.locality, l.district].filter((x, i, a) => x && a.indexOf(x) === i).join(", ")}</p>
+            <p className="text-sm text-muted-foreground mt-1">{placeLine(l, lang)}</p>
             <p className="mt-4 text-foreground/90">{pick(lang, l.summary_en, l.summary_el)}</p>
             <dl className="mt-6 border-t border-border">
               {rows.filter(([, v]) => v).map(([k, v]) => (
@@ -39,7 +39,7 @@ export default function ExplorePlacePage() {
                   <dt className="font-semibold">{k}</dt><dd className="text-foreground/90">{v}</dd>
                 </div>
               ))}
-              {!l.opening_hours && (
+              {!pick(lang, l.opening_hours, l.opening_hours_el) && (
                 <p className="py-2 text-sm text-muted-foreground border-b border-border">{EL(lang, "Hours and access vary — check the official page before visiting.", "Ωράρια και πρόσβαση διαφέρουν — ελέγξτε την επίσημη σελίδα.")}</p>
               )}
             </dl>

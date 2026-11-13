@@ -12,7 +12,7 @@ export default function ExplorePage() {
     <ExploreShell masthead>
       {(lang) => (
         <div className="container mx-auto px-4 py-8">
-          <SEOHead title="Explore Cyprus — Destinations, Attractions & Experiences | TourismHub.cy" description="Verified guide to Nicosia, Limassol, Larnaka, Pafos, Famagusta (Ayia Napa, Protaras) and Troodos: museums, beaches, trails and more, with official links." path="/explore" />
+          <SEOHead title={EL(lang, "Explore Cyprus — Destinations, Attractions & Experiences | TourismHub.cy", "Εξερευνήστε την Κύπρο — Προορισμοί, αξιοθέατα & εμπειρίες | TourismHub.cy")} description={EL(lang, "Verified guide to Nicosia, Limassol, Larnaka, Pafos, Famagusta (Ayia Napa, Protaras) and Troodos: museums, beaches, trails and more, with official links.", "Επιβεβαιωμένος οδηγός για Λευκωσία, Λεμεσό, Λάρνακα, Πάφο, Αμμόχωστο (Αγία Νάπα, Πρωταράς) και Τρόοδος: μουσεία, παραλίες, μονοπάτια και άλλα, με επίσημους συνδέσμους.")} path="/explore" />
           <h2 className="section-label mb-3">{EL(lang, "Destinations", "Προορισμοί")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
             {top.map((d) => {

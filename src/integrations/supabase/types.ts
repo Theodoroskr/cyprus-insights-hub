@@ -4227,8 +4227,11 @@ export type Database = {
       tour_listings: {
         Row: {
           accessibility: string | null
+          accessibility_el: string | null
           address: string | null
+          address_el: string | null
           admission: string | null
+          admission_el: string | null
           aliases: string[]
           booking_url: string | null
           category: string
@@ -4241,11 +4244,14 @@ export type Database = {
           lat: number | null
           lng: number | null
           locality: string | null
+          locality_el: string | null
           name_el: string | null
           name_en: string
           official_url: string | null
           opening_hours: string | null
+          opening_hours_el: string | null
           parking: string | null
+          parking_el: string | null
           slug: string
           source_id: string | null
           source_url: string | null
@@ -4256,8 +4262,11 @@ export type Database = {
         }
         Insert: {
           accessibility?: string | null
+          accessibility_el?: string | null
           address?: string | null
+          address_el?: string | null
           admission?: string | null
+          admission_el?: string | null
           aliases?: string[]
           booking_url?: string | null
           category: string
@@ -4270,11 +4279,14 @@ export type Database = {
           lat?: number | null
           lng?: number | null
           locality?: string | null
+          locality_el?: string | null
           name_el?: string | null
           name_en: string
           official_url?: string | null
           opening_hours?: string | null
+          opening_hours_el?: string | null
           parking?: string | null
+          parking_el?: string | null
           slug: string
           source_id?: string | null
           source_url?: string | null
@@ -4285,8 +4297,11 @@ export type Database = {
         }
         Update: {
           accessibility?: string | null
+          accessibility_el?: string | null
           address?: string | null
+          address_el?: string | null
           admission?: string | null
+          admission_el?: string | null
           aliases?: string[]
           booking_url?: string | null
           category?: string
@@ -4299,11 +4314,14 @@ export type Database = {
           lat?: number | null
           lng?: number | null
           locality?: string | null
+          locality_el?: string | null
           name_el?: string | null
           name_en?: string
           official_url?: string | null
           opening_hours?: string | null
+          opening_hours_el?: string | null
           parking?: string | null
+          parking_el?: string | null
           slug?: string
           source_id?: string | null
           source_url?: string | null

@@ -1,12 +1,27 @@
-import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { ReactNode, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { HubLayout } from "@/layouts/HubLayout";
 import { LangSwitch } from "@/components/academy/AcademyChrome";
 import { useAcademyLang, type Lang } from "@/lib/academy";
 import { EL } from "@/lib/explore";
 
-export function ExploreShell({ title, children, masthead }: { title?: string; masthead?: boolean; children: (lang: Lang) => ReactNode }) {
-  const [lang, setLang] = useAcademyLang();
+type Text = string | ((lang: Lang) => string);
+
+/** Explore Cyprus chrome. English/Greek switch; `?lang=el` in a link opens the Greek version and the switch keeps the address in step. */
+export function ExploreShell({ title, children, masthead }: { title?: Text; masthead?: boolean; children: (lang: Lang) => ReactNode }) {
+  const [lang, setShared] = useAcademyLang();
+  const [params, setParams] = useSearchParams();
+  const urlLang = params.get("lang");
+  useEffect(() => {
+    if ((urlLang === "el" || urlLang === "en") && urlLang !== lang) setShared(urlLang);
+  }, [urlLang]); // eslint-disable-line react-hooks/exhaustive-deps
+  const setLang = (l: Lang) => {
+    setShared(l);
+    const p = new URLSearchParams(params);
+    l === "el" ? p.set("lang", "el") : p.delete("lang");
+    setParams(p, { replace: true });
+  };
+  const heading = typeof title === "function" ? title(lang) : title;
   return (
     <HubLayout brand="businesshub">
       <section className="border-b border-border bg-card">
@@ -17,7 +32,7 @@ export function ExploreShell({ title, children, masthead }: { title?: string; ma
               <Link to="/explore">{EL(lang, "TourismHub.cy · Explore Cyprus", "TourismHub.cy · Εξερευνήστε την Κύπρο")}</Link>
             </p>
             <h1 className={`${masthead ? "text-4xl md:text-5xl" : "text-2xl md:text-3xl"} font-bold text-foreground font-serif tracking-tight`}>
-              {title ?? EL(lang, "Explore Cyprus", "Εξερευνήστε την Κύπρο")}
+              {heading ?? EL(lang, "Explore Cyprus", "Εξερευνήστε την Κύπρο")}
             </h1>
             {masthead && (
               <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto">

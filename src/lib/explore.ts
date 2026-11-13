@@ -11,6 +11,8 @@ export const EXPLORE_CATEGORIES = [
 export type CategoryId = (typeof EXPLORE_CATEGORIES)[number]["id"];
 
 export const DISTRICTS = ["Nicosia", "Limassol", "Larnaka", "Pafos", "Famagusta"] as const;
+export const DISTRICT_EL: Record<string, string> = { Nicosia: "Λευκωσία", Limassol: "Λεμεσός", Larnaka: "Λάρνακα", Pafos: "Πάφος", Famagusta: "Αμμόχωστος" };
+export const districtLabel = (d: string, lang: Lang) => (lang === "el" ? DISTRICT_EL[d] ?? d : d);
 
 /** Spelling variants grouped; any member matches any other. */
 export const PLACE_VARIANTS: string[][] = [
@@ -60,16 +62,16 @@ export interface Destination {
 }
 export interface Listing {
   id: string; slug: string; name_en: string; name_el: string | null; aliases: string[];
-  summary_en: string | null; summary_el: string | null; category: string; district: string | null; locality: string | null;
-  address: string | null; lat: number | null; lng: number | null; coords_verified: boolean;
+  summary_en: string | null; summary_el: string | null; category: string; district: string | null; locality: string | null; locality_el?: string | null;
+  address: string | null; address_el?: string | null; opening_hours_el?: string | null; admission_el?: string | null; accessibility_el?: string | null; parking_el?: string | null; lat: number | null; lng: number | null; coords_verified: boolean;
   opening_hours: string | null; admission: string | null; booking_url: string | null; accessibility: string | null; parking: string | null;
   official_url: string | null; source_url: string | null; last_verified_at: string | null; status: string;
   destination_ids?: string[];
 }
 
-export function haystack(l: Pick<Listing, "name_en" | "name_el" | "aliases" | "summary_en" | "summary_el" | "district" | "locality" | "category">, destNames: string[] = []): string {
+export function haystack(l: Pick<Listing, "name_en" | "name_el" | "aliases" | "summary_en" | "summary_el" | "district" | "locality" | "category"> & { locality_el?: string | null }, destNames: string[] = []): string {
   const cat = EXPLORE_CATEGORIES.find((c) => c.id === l.category);
-  return normalise([l.name_en, l.name_el, ...(l.aliases ?? []), l.summary_en, l.summary_el, l.district, l.locality, cat?.en, cat?.el, ...destNames].filter(Boolean).join(" "));
+  return normalise([l.name_en, l.name_el, ...(l.aliases ?? []), l.summary_en, l.summary_el, l.district, l.district ? DISTRICT_EL[l.district] : null, l.locality, l.locality_el, cat?.en, cat?.el, ...destNames].filter(Boolean).join(" "));
 }
 
 export function matchesQuery(text: string, q: string): boolean {
@@ -109,3 +111,11 @@ export const directionsUrl = (l: Pick<Listing, "lat" | "lng" | "coords_verified"
     : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent([l.name_en, l.address, "Cyprus"].filter(Boolean).join(", "))}`;
 
 export const EL = (lang: Lang, en: string, el: string) => (lang === "el" ? el : en);
+
+/** "Locality, District" in the chosen language, without repeating a town that is also the district. */
+export function placeLine(l: Pick<Listing, "locality" | "district"> & { locality_el?: string | null }, lang: Lang): string {
+  const loc = l.locality ? (lang === "el" ? l.locality_el || l.locality : l.locality) : null;
+  const dis = l.district ? districtLabel(l.district, lang) : null;
+  return [loc, dis].filter((x, i, a) => x && a.indexOf(x) === i).join(", ");
+}
+

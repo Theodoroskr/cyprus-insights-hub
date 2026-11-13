@@ -13,9 +13,11 @@ const today = () => new Date().toISOString().slice(0, 10);
 const FIELDS: [string, string, "text" | "area"][] = [
   ["name_en", "Name (EN)", "text"], ["name_el", "Name (EL)", "text"], ["slug", "Slug", "text"],
   ["summary_en", "Short description (EN)", "area"], ["summary_el", "Short description (EL)", "area"],
-  ["locality", "Locality", "text"], ["address", "Address", "text"],
-  ["opening_hours", "Opening hours (confirmed only)", "area"], ["admission", "Admission (confirmed only)", "text"],
-  ["booking_url", "Booking link", "text"], ["accessibility", "Accessibility", "text"], ["parking", "Parking", "text"],
+  ["locality", "Locality (EN)", "text"], ["locality_el", "Locality (EL)", "text"], ["address", "Address (EN)", "text"], ["address_el", "Address (EL)", "text"],
+  ["opening_hours", "Opening hours (EN, confirmed only)", "area"], ["opening_hours_el", "Opening hours (EL)", "area"],
+  ["admission", "Admission (EN, confirmed only)", "text"], ["admission_el", "Admission (EL)", "text"],
+  ["booking_url", "Booking link", "text"], ["accessibility", "Accessibility (EN)", "text"], ["accessibility_el", "Accessibility (EL)", "text"],
+  ["parking", "Parking (EN)", "text"], ["parking_el", "Parking (EL)", "text"],
   ["official_url", "Official website / organiser", "text"], ["source_url", "Source page used", "text"], ["editor_notes", "Editor notes", "area"],
 ];
 
