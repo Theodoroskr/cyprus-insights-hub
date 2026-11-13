@@ -1,0 +1,50 @@
+import { Link } from "react-router-dom";
+import { ExploreShell } from "@/components/explore/ExploreShell";
+import { ExploreBrowser } from "@/components/explore/ExploreBrowser";
+import { SEOHead } from "@/components/SEOHead";
+import { useExploreData } from "@/hooks/useExplore";
+import { EL, EXPLORE_CATEGORIES, pick } from "@/lib/explore";
+
+export default function ExplorePage() {
+  const { data, isLoading } = useExploreData();
+  const top = (data?.destinations ?? []).filter((d) => !d.parent_id);
+  return (
+    <ExploreShell masthead>
+      {(lang) => (
+        <div className="container mx-auto px-4 py-8">
+          <SEOHead title="Explore Cyprus — Destinations, Attractions & Experiences | TourismHub.cy" description="Verified guide to Nicosia, Limassol, Larnaka, Pafos, Famagusta (Ayia Napa, Protaras) and Troodos: museums, beaches, trails and more, with official links." path="/explore" />
+          <h2 className="section-label mb-3">{EL(lang, "Destinations", "Προορισμοί")}</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+            {top.map((d) => {
+              const kids = data!.destinations.filter((k) => k.parent_id === d.id);
+              const n = data!.listings.filter((l) => l.destination_ids?.includes(d.id)).length;
+              return (
+                <div key={d.id} className="border border-border bg-card">
+                  <Link to={`/explore/${d.slug}`} className="block p-4 hover:bg-muted transition-colors">
+                    <div className="aspect-[4/3] mb-3 bg-gradient-to-br from-secondary/30 via-muted to-primary/20 flex items-end p-2">
+                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{n} {EL(lang, "places", "μέρη")}</span>
+                    </div>
+                    <p className="font-serif text-lg font-bold text-foreground">{pick(lang, d.name_en, d.name_el)}</p>
+                  </Link>
+                  {kids.length > 0 && (
+                    <div className="px-4 pb-3 flex flex-wrap gap-x-3 text-xs">
+                      {kids.map((k) => <Link key={k.id} to={`/explore/${k.slug}`} className="text-secondary hover:underline">{pick(lang, k.name_en, k.name_el)}</Link>)}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <h2 className="section-label mb-3">{EL(lang, "Categories", "Κατηγορίες")}</h2>
+          <div className="flex flex-wrap gap-2 mb-8">
+            {EXPLORE_CATEGORIES.map((c) => (
+              <Link key={c.id} to={`/explore?category=${c.id}`} className="border border-border px-3 py-1.5 text-sm hover:border-foreground">{c[lang]}</Link>
+            ))}
+          </div>
+          <h2 className="section-label mb-3">{EL(lang, "All places", "Όλα τα μέρη")}</h2>
+          {isLoading || !data ? <p className="text-sm text-muted-foreground">…</p> : <ExploreBrowser listings={data.listings} destNameById={data.destNameById} lang={lang} />}
+        </div>
+      )}
+    </ExploreShell>
+  );
+}

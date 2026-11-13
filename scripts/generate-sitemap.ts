@@ -51,7 +51,7 @@ async function fetchAll<T>(table: string, query: string): Promise<T[]> {
 async function main() {
   if (!API_URL || !API_KEY) throw new Error("database URL/key not set");
 
-  const [articles, stories, resources, companies, announcements, complianceItems] = await Promise.all([
+  const [articles, stories, resources, companies, announcements, complianceItems, tourDests, tourPlaces] = await Promise.all([
     fetchAll<{ id: string; published_at: string | null }>(
       "cna_articles",
       "select=id,published_at&status=eq.published&order=published_at.desc.nullslast,id.asc",
@@ -70,6 +70,10 @@ async function main() {
       "compliance_items",
       "select=slug,updated_at&status=eq.published&slug=not.is.null&order=publication_date.desc.nullslast,id.asc",
     ).catch(() => [] as { slug: string; updated_at: string | null }[]),
+    fetchAll<{ slug: string; updated_at: string | null }>("tour_destinations", "select=slug,updated_at&status=eq.published&order=slug.asc")
+      .catch(() => [] as { slug: string; updated_at: string | null }[]),
+    fetchAll<{ slug: string; updated_at: string | null }>("tour_listings", "select=slug,updated_at&status=eq.published&order=slug.asc")
+      .catch(() => [] as { slug: string; updated_at: string | null }[]),
   ]);
 
   const staticEntries: SitemapEntry[] = [
@@ -98,6 +102,8 @@ async function main() {
       changefreq: "monthly" as const,
       priority: "0.6",
     })),
+    ...tourDests.map((d) => ({ path: `/explore/${encodeURIComponent(d.slug)}`, lastmod: dateOnly(d.updated_at), changefreq: "weekly" as const, priority: "0.6" })),
+    ...tourPlaces.map((d) => ({ path: `/explore/place/${encodeURIComponent(d.slug)}`, lastmod: dateOnly(d.updated_at), changefreq: "monthly" as const, priority: "0.6" })),
     ...complianceItems.map((c) => ({
       path: `/compliance/regulatory-updates/${encodeURIComponent(c.slug)}`,
       lastmod: dateOnly(c.updated_at),

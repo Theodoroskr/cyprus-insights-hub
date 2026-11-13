@@ -34,3 +34,4 @@
 - CBC stats: `source=ecb` rows via `ingest-eurostat`; OECD via Crossref. Why: official APIs.
 - Company Announcements: rules in `supabase/functions/ingest-announcements/AGENTS.md`. Why: one event, one page, every claim sourced.
 - ComplianceHub: only editor-published `compliance_items`/`fatf_releases` are public; pipeline rules in `supabase/functions/ingest-compliance/AGENTS.md`. Why: every claim verified and sourced.
+- Explore Cyprus (`/explore`, `tour_*` tables, `src/lib/explore.ts`): listings are public only when `published` with a source/official link and a last-verified date (RLS); map pins only when `coords_verified`; one listing links to many destinations. Why: only confirmed visitor details, no duplicate pages.

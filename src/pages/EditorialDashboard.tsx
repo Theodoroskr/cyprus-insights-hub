@@ -32,6 +32,7 @@ import { MastercardAdminPanel } from "@/components/admin/MastercardAdminPanel";
 import { FacebookAutopostPanel } from "@/components/admin/FacebookAutopostPanel";
 import { AnnouncementsPanel } from "@/components/admin/AnnouncementsPanel";
 import { CompliancePanel } from "@/components/admin/CompliancePanel";
+import { TourismPanel } from "@/components/admin/TourismPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -306,9 +307,9 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "academy" | "announcements" | "compliance">(() => {
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "academy" | "announcements" | "compliance" | "tourism">(() => {
     const tab = new URLSearchParams(window.location.search).get("tab");
-    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : tab === "compliance" ? "compliance" : "articles";
+    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : tab === "compliance" ? "compliance" : tab === "tourism" ? "tourism" : "articles";
   });
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
@@ -597,6 +598,9 @@ const EditorialDashboard = () => {
             >
               <ShieldCheck className="h-3.5 w-3.5" /> ComplianceHub
             </Button>
+            <Button size="sm" variant={activePanel === "tourism" ? "default" : "ghost"} onClick={() => setActivePanel("tourism")} className="gap-1.5">
+              TourismHub
+            </Button>
           </div>
         </div>
 
@@ -626,6 +630,8 @@ const EditorialDashboard = () => {
           <AnnouncementsPanel />
         ) : activePanel === "compliance" ? (
           <CompliancePanel />
+        ) : activePanel === "tourism" ? (
+          <TourismPanel />
         ) : activePanel === "facebook" ? (
           <FacebookAutopostPanel />
         ) : (

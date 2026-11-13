@@ -34,6 +34,7 @@ export const brands: Record<BrandId, BrandConfig> = {
       { label: "Directory", href: "/directory" },
       { label: "FinTech", href: "/fintech" },
       { label: "Compliance", href: "/compliance" },
+      { label: "Explore Cyprus", href: "/explore" },
       { label: "Resources", href: "/resources" },
     ],
     parentBadge: false,

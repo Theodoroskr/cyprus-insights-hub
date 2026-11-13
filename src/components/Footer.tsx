@@ -48,6 +48,7 @@ export function Footer() {
               <li><Link to="/open-data" className="hover:text-secondary transition-colors">Official Data Sources</Link></li>
               {WHOISWHO_PUBLIC && <li><Link to="/whoiswho" className="hover:text-secondary transition-colors">Who's Who</Link></li>}
               <li><Link to="/compliance" className="hover:text-secondary transition-colors">Compliance Center</Link></li>
+              <li><Link to="/explore" className="hover:text-secondary transition-colors">Explore Cyprus</Link></li>
               <li><Link to="/regtech" className="hover:text-secondary transition-colors">RegTech & ICT Risk</Link></li>
               <li><Link to="/interviews" className="hover:text-secondary transition-colors">Interviews</Link></li>
               <li><Link to="/resources" className="hover:text-secondary transition-colors">Resources</Link></li>

@@ -22,6 +22,7 @@ export const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/news", changefreq: "daily", priority: "0.8" },
   { path: "/fintech", changefreq: "weekly", priority: "0.8" },
   { path: "/compliance", changefreq: "daily", priority: "0.8" },
+  { path: "/explore", changefreq: "weekly", priority: "0.7" },
   { path: "/compliance/regulatory-updates", changefreq: "daily", priority: "0.7" },
   { path: "/compliance/sanctions", changefreq: "daily", priority: "0.7" },
   { path: "/compliance/deadlines", changefreq: "daily", priority: "0.7" },
