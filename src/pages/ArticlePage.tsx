@@ -258,7 +258,7 @@ export default function ArticlePage() {
 
           {(
             <figure className="mb-10">
-              <img src={heroSrc} alt={headline} data-vertical={article.vertical} data-seed={article.id} className="w-full aspect-[16/9] object-cover rounded-lg bg-muted" />
+              <img src={heroSrc} alt={headline} data-vertical={article.vertical} data-seed={article.id} onLoad={(e) => { const im = e.currentTarget; const r = im.naturalWidth / (im.naturalHeight || 1); if (im.naturalWidth < 800 || r > 2.4 || r < 1.1) im.classList.add("img-contain"); }} className="w-full max-w-3xl mx-auto aspect-[16/9] object-cover rounded-lg bg-muted [&.img-contain]:object-contain [&.img-contain]:max-h-[240px] [&.img-contain]:p-6" />
               {article.image_url && source && <figcaption className="text-xs text-muted-foreground mt-2">Image: {source}</figcaption>}
             </figure>
           )}
@@ -298,7 +298,7 @@ export default function ArticlePage() {
                           <div key={i} className="not-prose my-6 grid grid-cols-2 sm:grid-cols-3 gap-2">
                             {seg.images.slice(0, 6).map((img, j) => (
                               <a key={j} href={img.src} target="_blank" rel="noopener noreferrer" className="relative block aspect-square overflow-hidden rounded-md bg-muted">
-                                <img src={img.src} alt={img.alt} loading="lazy" data-no-fallback onError={(e) => { const tile = e.currentTarget.parentElement as HTMLElement; if (tile) tile.style.display = "none"; }} className="h-full w-full object-cover transition-transform hover:scale-105" />
+                                <img src={img.src} alt={img.alt} loading="lazy" data-no-fallback onLoad={(e) => { const im = e.currentTarget; const r = im.naturalWidth / (im.naturalHeight || 1); if (im.naturalWidth < 300 || r > 2.4 || r < 0.5) im.classList.add("img-contain"); }} onError={(e) => { const tile = e.currentTarget.parentElement as HTMLElement; if (tile) tile.style.display = "none"; }} className="h-full w-full object-cover transition-transform hover:scale-105 [&.img-contain]:object-contain [&.img-contain]:p-3" />
                                 {j === 5 && seg.images.length > 6 && (
                                   <span className="absolute inset-0 flex items-center justify-center bg-foreground/60 text-lg font-semibold text-background">
                                     +{seg.images.length - 6}
