@@ -211,6 +211,8 @@ async function runEu(sb: Any, src: Any) {
         opening_date: open.date, deadline_date: dl.date, deadline_time: dl.time,
         consortium_requirements: null, application_url: url, official_url: url,
       };
+      // The EU index keeps old calls flagged "open"; skip anything whose last deadline has passed.
+      if (dl.date && dl.date < today()) { stats.seen++; continue; }
       // Topics are the Commission's own published call documents: verified on import. Cascade calls go to an editor.
       const status = !elig.eligible ? "ineligible" : kind === "topic" ? "verified" : "review";
       const out = await upsertCall(sb, src.id, input, { status, ineligible_reason: elig.reason ?? null, raw: { type, status: EU_STATUS[first("status") ?? ""] ?? null, ccm2Id: first("ccm2Id"), deadlines: dls } });
