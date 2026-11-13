@@ -2,7 +2,7 @@ import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
 import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { Link } from "react-router-dom";
 import { RssFeedLinks } from "@/components/RssFeedLinks";
-import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone, Compass } from "lucide-react";
 
 export function Footer() {
   const { visible: showPeople } = useWhoIsWhoVisible();
@@ -81,6 +81,12 @@ export function Footer() {
                 <Link to="/regtech" className="flex items-center gap-2 hover:text-secondary transition-colors">
                   <Cpu className="h-4 w-4 text-secondary" />
                   <span>RegTechHub.cy</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/explore" className="flex items-center gap-2 hover:text-secondary transition-colors">
+                  <Compass className="h-4 w-4 text-secondary" />
+                  <span>TourismHub.cy</span>
                 </Link>
               </li>
             </ul>

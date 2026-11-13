@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Building2, Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Linkedin, Twitter, Compass } from "lucide-react";
 import { BrandConfig, hubLinks, brands } from "@/config/brands";
 import { RssFeedLinks } from "@/components/RssFeedLinks";
 
@@ -77,6 +77,15 @@ export function HubFooter({ brand }: HubFooterProps) {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  to="/explore"
+                  className="flex items-center gap-2 hover:text-secondary transition-colors"
+                >
+                  <Compass className="h-4 w-4 text-secondary" />
+                  <span>TourismHub.cy</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
