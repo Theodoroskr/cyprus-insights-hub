@@ -5339,7 +5339,13 @@ export type Database = {
     Enums: {
       app_role: "admin" | "moderator" | "user"
       article_status: "draft" | "published" | "archived"
-      article_vertical: "compliance" | "fintech" | "sme" | "general" | "regtech"
+      article_vertical:
+        | "compliance"
+        | "fintech"
+        | "sme"
+        | "general"
+        | "regtech"
+        | "tourism"
       directory_article_type: "news" | "interview" | "insight" | "whoiswho"
       user_tier: "free" | "premium"
     }
@@ -5471,7 +5477,14 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "moderator", "user"],
       article_status: ["draft", "published", "archived"],
-      article_vertical: ["compliance", "fintech", "sme", "general", "regtech"],
+      article_vertical: [
+        "compliance",
+        "fintech",
+        "sme",
+        "general",
+        "regtech",
+        "tourism",
+      ],
       directory_article_type: ["news", "interview", "insight", "whoiswho"],
       user_tier: ["free", "premium"],
     },

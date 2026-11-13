@@ -116,6 +116,7 @@ export function IntelligenceFeed() {
       sme: "SME & Business",
       general: "Business Intelligence",
       regtech: "RegTech & ICT Risk",
+      tourism: "Tourism & Hospitality",
     };
     return map[v] || "Business Intelligence";
   };

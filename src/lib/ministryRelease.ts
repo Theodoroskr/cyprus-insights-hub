@@ -30,7 +30,7 @@ export function releaseDraft(f: MinistryReleaseInput, sourceId: string | null) {
     title: f.headline.trim(), summary: f.summary.trim(), what_happened: f.whatChanged.trim() || null,
     why_it_matters: f.whoAffected.trim() || null, what_to_do: f.action.trim() || null, body_markdown: body,
     source_url: url, canonical_url: url, source_id: sourceId, original_language: f.language,
-    status: "draft" as const, vertical: "sme" as const, published_at: null, event_type: "official_announcement",
+    status: "draft" as const, vertical: "tourism" as const, published_at: null, event_type: "official_announcement",
     tags: ["Tourism", f.topic],
   };
 }

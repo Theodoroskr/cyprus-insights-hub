@@ -11,7 +11,7 @@ import { HUB_MID_SLOTS } from "@/components/hub/HubMasthead";
 import type { BrandId } from "@/config/brands";
 
 const verticalLabel = (v: string) =>
-  ({ compliance: "Compliance", fintech: "FinTech", sme: "SME", general: "Business", regtech: "RegTech" } as Record<string, string>)[v] || v;
+  ({ compliance: "Compliance", fintech: "FinTech", sme: "SME", general: "Business", regtech: "RegTech", tourism: "Tourism" } as Record<string, string>)[v] || v;
 const fullDate = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
 const ago = (iso?: string | null) => (iso ? formatDistanceToNow(new Date(iso), { addSuffix: true }) : "");
@@ -96,8 +96,8 @@ export function LeadStoriesView({ hub, latest, aside, below, allNewsHref = "/new
 }
 
 /** A hub's own lead story and Latest column, from its news verticals only. */
-export function HubLeadStories({ verticals, brand, topic, allNewsHref }: { verticals?: string[]; brand: BrandId; topic?: "tourism"; allNewsHref?: string }) {
-  const { data = [] } = useBlendedNews(verticals, topic);
+export function HubLeadStories({ verticals, brand, allNewsHref }: { verticals: string[]; brand: BrandId; allNewsHref?: string }) {
+  const { data = [] } = useBlendedNews(verticals);
   const { hub, latest, feed } = useMemo(() => partitionHomepage(data), [data]);
   const slot = HUB_MID_SLOTS[brand];
   if (hub.length === 0) return slot ? <div className="container mx-auto px-4 py-6"><AdSlot size="leaderboard" slotId={slot} /></div> : null;

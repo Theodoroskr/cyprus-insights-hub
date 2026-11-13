@@ -24,6 +24,7 @@ const verticalLabel = (v: string) => {
     sme: "SME",
     general: "Business",
     regtech: "RegTech",
+    tourism: "Tourism",
   };
   return map[v] || v;
 };

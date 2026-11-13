@@ -1,6 +1,6 @@
 /** Maps a search word to a news section, so "Compliance" brings that hub's stories. */
 const SECTIONS: Record<string, string> = {
-  compliance: "compliance", fintech: "fintech", regtech: "regtech", sme: "sme", business: "general", general: "general",
+  compliance: "compliance", fintech: "fintech", regtech: "regtech", tourism: "tourism", hospitality: "tourism", sme: "sme", business: "general", general: "general",
 };
 /** Source slugs readers might search by name. */
 const SOURCES = ["icpac", "cysec", "cbc-announcements", "ecb", "eu-commission", "cystat", "esma", "eba", "pio"];

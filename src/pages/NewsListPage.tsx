@@ -17,8 +17,9 @@ const HUBS = [
   { key: "fintech", label: "FinTech", verticals: ["fintech"] },
   { key: "compliance", label: "Compliance", verticals: ["compliance"] },
   { key: "regtech", label: "RegTech", verticals: ["regtech"] },
+  { key: "tourism", label: "Tourism", verticals: ["tourism"] },
 ] as const;
-const LABEL: Record<string, string> = { general: "Business", sme: "Business", fintech: "FinTech", compliance: "Compliance", regtech: "RegTech" };
+const LABEL: Record<string, string> = { general: "Business", sme: "Business", fintech: "FinTech", compliance: "Compliance", regtech: "RegTech", tourism: "Tourism" };
 
 interface Item { id: string; title: string; excerpt: string | null; image: string; href: string; date: string | null; label: string; vertical: string | null }
 

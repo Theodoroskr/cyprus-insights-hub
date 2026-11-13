@@ -48,6 +48,7 @@ const TourismPage = lazy(() => import("./pages/TourismPage"));
 const ExplorePage = lazy(() => import("./pages/ExplorePage"));
 const ExploreDestinationPage = lazy(() => import("./pages/ExploreDestinationPage"));
 const ExplorePlacePage = lazy(() => import("./pages/ExplorePlacePage"));
+const ExploreNewsPage = lazy(() => import("./pages/ExploreNewsPage"));
 const NicosiaCountrysidePage = lazy(() => import("./pages/NicosiaCountrysidePage"));
 const ConferenceVenuesPage = lazy(() => import("./pages/ConferenceVenuesPage"));
 const EconomyPage = lazy(() => import("./pages/EconomyPage"));
@@ -140,6 +141,7 @@ const App = () => (
                   <Route path="/tourism" element={<TourismPage />} />
                   <Route path="/explore" element={<ExplorePage />} />
                   <Route path="/explore/place/:slug" element={<ExplorePlacePage />} />
+                  <Route path="/explore/news" element={<ExploreNewsPage />} />
                   <Route path="/explore/nicosia-countryside" element={<NicosiaCountrysidePage />} />
                   <Route path="/explore/conference-venues" element={<ConferenceVenuesPage />} />
                   <Route path="/explore/:destination" element={<ExploreDestinationPage />} />

@@ -6,6 +6,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import { routeSourceItem, resolveSourcePath } from "../_shared/announcements.ts";
 import { flagDealForReview } from "./dealFlag.ts";
+import { isTourismStory } from "../_shared/tourismNews.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -42,6 +43,8 @@ const VERTICAL_KEYWORDS: Record<string, string[]> = {
 };
 
 function classifyVertical(title: string, body: string, sourceVertical: string): string {
+  // Tourism headlines go to the Tourism section whatever the source usually covers.
+  if (sourceVertical === "tourism" || isTourismStory(title)) return "tourism";
   if (sourceVertical && sourceVertical !== "general") return sourceVertical;
   const text = `${title} ${body}`.toLowerCase();
   const scores: Record<string, number> = { compliance: 0, fintech: 0, sme: 0 };

@@ -41,6 +41,7 @@ const verticalLabel: Record<string, string> = {
   sme: "SME & Business",
   general: "Business Intelligence",
   regtech: "RegTech & ICT Risk",
+  tourism: "Tourism & Hospitality",
 };
 
 const verticalColor: Record<string, string> = {
@@ -49,6 +50,7 @@ const verticalColor: Record<string, string> = {
   sme: "bg-secondary/15 text-secondary border-secondary/20",
   general: "bg-secondary/15 text-secondary border-secondary/20",
   regtech: "bg-regtech/15 text-regtech border-regtech/20",
+  tourism: "bg-tourism/15 text-tourism border-tourism/20",
 };
 
 export default function ArticlePage() {

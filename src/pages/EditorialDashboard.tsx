@@ -46,6 +46,7 @@ const VERTICAL_CONFIG: Record<ArticleVertical, { label: string; icon: typeof Shi
   sme: { label: "SME", icon: Building2, color: "bg-amber-100 text-amber-800 border-amber-200" },
   general: { label: "General", icon: Globe, color: "bg-muted text-muted-foreground border-border" },
   regtech: { label: "RegTech", icon: Cpu, color: "bg-purple-100 text-purple-800 border-purple-200" },
+  tourism: { label: "Tourism", icon: Globe, color: "bg-tourism/15 text-tourism border-tourism/20" },
 };
 
 const STATUS_CONFIG: Record<ArticleStatus, { label: string; icon: typeof Clock; color: string }> = {
@@ -683,6 +684,7 @@ const EditorialDashboard = () => {
               <SelectItem value="sme">SME</SelectItem>
               <SelectItem value="general">General</SelectItem>
               <SelectItem value="regtech">RegTech</SelectItem>
+              <SelectItem value="tourism">Tourism</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -859,6 +861,7 @@ const EditorialDashboard = () => {
                   <SelectItem value="sme">SME</SelectItem>
                   <SelectItem value="general">General</SelectItem>
                   <SelectItem value="regtech">RegTech</SelectItem>
+                  <SelectItem value="tourism">Tourism</SelectItem>
                 </SelectContent>
               </Select>
             </div>

@@ -1,0 +1,1 @@
+ALTER TYPE public.article_vertical ADD VALUE IF NOT EXISTS 'tourism';

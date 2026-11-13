@@ -41,6 +41,7 @@ export const SOCIAL_IMAGE_LIBRARY: Record<string, string[]> = {
   compliance: lib("compliance", 4),
   regtech: lib("regtech", 4),
   sme: lib("sme", 4),
+  tourism: lib("general", 4),
 };
 
 /**

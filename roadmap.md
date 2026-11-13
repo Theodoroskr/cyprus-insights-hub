@@ -14,3 +14,8 @@
 - [x] Homepage: calmer Fortune-style lead panel + "Latest" column with relative times
 - [x] Shorter top menu (nine items) + Menu button with all sections
 - [x] Tests, Playwright check, sitemap/SEO entries
+
+## Tourism news (Nov 13)
+- [x] Own "tourism" news section (stored on each story), TourismHub "News" tab + page, News page tab
+- [x] New stories routed to Tourism at collection time; existing tourism stories moved over
+- [x] Read-only audit of Tourism & Hospitality sources (uploaded brief)

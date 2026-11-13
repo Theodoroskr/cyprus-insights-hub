@@ -25,6 +25,7 @@ export const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/explore", changefreq: "weekly", priority: "0.7" },
   { path: "/explore/nicosia-countryside", changefreq: "weekly", priority: "0.7" },
   { path: "/explore/conference-venues", changefreq: "weekly", priority: "0.6" },
+  { path: "/explore/news", changefreq: "daily", priority: "0.7" },
   { path: "/compliance/regulatory-updates", changefreq: "daily", priority: "0.7" },
   { path: "/compliance/sanctions", changefreq: "daily", priority: "0.7" },
   { path: "/compliance/deadlines", changefreq: "daily", priority: "0.7" },

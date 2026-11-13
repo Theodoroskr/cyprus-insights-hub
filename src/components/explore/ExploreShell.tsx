@@ -33,6 +33,7 @@ export function ExploreShell({ title, children, masthead }: { title?: Text; mast
               kicker={EL(lang, "Explore Cyprus", "Εξερευνήστε την Κύπρο")}
               intro={EL(lang, "Destinations, attractions and experiences — every practical detail checked against an official source.", "Προορισμοί, αξιοθέατα και εμπειρίες — κάθε πρακτική πληροφορία ελεγμένη από επίσημη πηγή.")}
               links={[
+                { label: EL(lang, "Tourism news", "Ειδήσεις τουρισμού"), href: "/explore/news" },
                 { label: EL(lang, "Nicosia City & Countryside", "Λευκωσία — Πόλη και Ύπαιθρος"), href: "/explore/nicosia-countryside" },
                 { label: EL(lang, "Conference venues", "Χώροι συνεδρίων"), href: "/explore/conference-venues" },
                 { label: EL(lang, "Tourism statistics", "Στατιστικά τουρισμού"), href: "/tourism" },

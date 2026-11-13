@@ -13,7 +13,7 @@ import { safeTerm, searchSection, searchSource } from "@/lib/searchTerms";
 import { storyImage } from "@/lib/fallbackImage";
 import { formatDistanceToNow } from "date-fns";
 
-const SECTION_LABEL: Record<string, string> = { compliance: "Compliance", fintech: "FinTech", regtech: "RegTech", sme: "SME", general: "Business" };
+const SECTION_LABEL: Record<string, string> = { compliance: "Compliance", fintech: "FinTech", regtech: "RegTech", tourism: "Tourism", sme: "SME", general: "Business" };
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();

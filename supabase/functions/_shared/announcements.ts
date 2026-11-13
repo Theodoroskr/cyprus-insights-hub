@@ -4,7 +4,7 @@
 export type AnnouncementType =
   | "financial_results" | "dividend" | "buyback" | "shareholding" | "acquisition" | "board"
   | "funding_round" | "strategic_investment" | "project_expansion" | "other";
-export type NewsVertical = "general" | "sme" | "fintech" | "compliance" | "regtech";
+export type NewsVertical = "general" | "sme" | "fintech" | "compliance" | "regtech" | "tourism";
 
 export const LISTED_TYPES: AnnouncementType[] = ["financial_results", "dividend", "buyback", "shareholding", "acquisition", "board"];
 export const DEAL_TYPES: AnnouncementType[] = ["funding_round", "strategic_investment", "acquisition", "project_expansion"];

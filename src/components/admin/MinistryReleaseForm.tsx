@@ -23,7 +23,7 @@ export function MinistryReleaseForm() {
       if (!src) {
         const ins = await supabase.from("content_sources").insert({
           slug: TOURISM_SOURCE_SLUG, name: "Deputy Ministry of Tourism", url: "https://www.gov.cy", scrape_path: "/tourism/en/news/",
-          category: "cyprus", target_vertical: "sme", trust_level: "trusted", access_status: "blocked", active: false, auto_publish: false,
+          category: "cyprus", target_vertical: "tourism", trust_level: "trusted", access_status: "blocked", active: false, auto_publish: false,
           last_error: "Crawler test 13 Nov 2026: site returns a firewall JavaScript check instead of news. Scheduled import off; add releases manually.",
           last_error_at: new Date().toISOString(),
         }).select("id").single();

@@ -8,7 +8,7 @@ import { useBlendedNews } from "@/hooks/useBlendedNews";
 import { storyImage } from "@/lib/fallbackImage";
 import { estimateReadingTime } from "@/lib/readingTime";
 
-const LABEL: Record<string, string> = { compliance: "Compliance", fintech: "FinTech", regtech: "RegTech", sme: "SME", general: "Business" };
+const LABEL: Record<string, string> = { compliance: "Compliance", fintech: "FinTech", regtech: "RegTech", tourism: "Tourism", sme: "SME", general: "Business" };
 
 interface Props {
   /** Section shown in headings, e.g. "Compliance". */
