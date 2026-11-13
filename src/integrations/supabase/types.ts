@@ -5313,6 +5313,7 @@ export type Database = {
           unit_label: string
         }[]
       }
+      get_rankings: { Args: never; Returns: Json }
       has_premium_access: { Args: never; Returns: boolean }
       has_role: {
         Args: {

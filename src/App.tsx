@@ -75,6 +75,7 @@ const RegistryDirectoryPage = lazy(() => import("./pages/RegistryDirectoryPage")
 const DirectoryAdminPage = lazy(() => import("./pages/DirectoryAdminPage"));
 const RegistryCityPage = lazy(() => import("./pages/RegistryCityPage"));
 const CysecLicensedFirmsPage = lazy(() => import("./pages/CysecLicensedFirmsPage"));
+const RankingsPage = lazy(() => import("./pages/RankingsPage"));
 const RegistryCompanyPage = lazy(() => import("./pages/RegistryCompanyPage"));
 const RegTechPage = lazy(() => import("./pages/RegTechPage"));
 const KYBSuccessPage = lazy(() => import("./pages/KYBSuccessPage"));
@@ -143,6 +144,7 @@ const App = () => (
                   <Route path="/explore/conference-venues" element={<ConferenceVenuesPage />} />
                   <Route path="/explore/:destination" element={<ExploreDestinationPage />} />
                   <Route path="/economy" element={<EconomyPage />} />
+                  <Route path="/rankings" element={<RankingsPage />} />
                   <Route path="/demo/mastercard-financial-confidence" element={<MastercardDemoPage />} />
                   <Route path="/financial-literacy" element={<FinancialLiteracyPage />} />
                   <Route path="/financial-literacy/observatory" element={<FLObservatoryPage />} />

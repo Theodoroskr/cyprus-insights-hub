@@ -7,3 +7,10 @@
 - [x] Request a Quote built; [ ] live sending — blocked: no email sender domain set up; venue email to confirm
 - [x] Admin: links, editions, rooms, verified contacts, quote requests view
 - [x] Tests + Playwright checks (EN/EL, mobile map/list, Fikardou links, visitor cannot read enquiries)
+
+## Fortune-inspired (Nov 13)
+- [x] Cyprus Rankings page (/rankings) from official data only
+- [x] Story packages: "Full coverage" block grouping a company's recent stories
+- [x] Homepage: calmer Fortune-style lead panel + "Latest" column with relative times
+- [x] Shorter top menu (nine items) + Menu button with all sections
+- [x] Tests, Playwright check, sitemap/SEO entries

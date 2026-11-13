@@ -1,7 +1,9 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Menu, X, User, Newspaper, PenTool, ChevronDown } from "lucide-react";
+import { Search, Menu, X, User, PenTool, ChevronDown } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { PRIMARY_NAV, visibleMenuSections } from "@/config/siteSections";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -15,25 +17,6 @@ import { Input } from "@/components/ui/input";
 interface TopNavigationProps {
   onSearch: (query: string) => void;
 }
-
-type NavItem = { label: string; href: string; children?: { label: string; href: string }[] };
-const navItems: NavItem[] = [
-  { label: "News", href: "/news", children: [{ label: "All news", href: "/news" }, { label: "Company Announcements", href: "/company-announcements" }] },
-  { label: "Directory", href: "/directory", children: [
-    { label: "Business Directory", href: "/directory" },
-    { label: "Tourism: Nicosia City & Countryside", href: "/explore/nicosia-countryside" },
-    { label: "Conference Venues", href: "/explore/conference-venues" },
-  ] },
-  { label: "Trade", href: "/trade" },
-  { label: "Real Estate", href: "/real-estate" },
-  { label: "Tourism", href: "/tourism" },
-  { label: "Economy", href: "/economy" },
-  { label: "Financial Literacy", href: "/financial-literacy" },
-  { label: "Who's Who", href: "/whoiswho" },
-  { label: "Compliance", href: "/compliance" },
-  { label: "FinTech", href: "/fintech" },
-  { label: "RegTech", href: "/regtech" },
-];
 
 export function TopNavigation({ onSearch }: TopNavigationProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -54,7 +37,8 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
     enabled: !!user,
   });
 
-  const visibleNav = navItems.filter((i) => WHOISWHO_PUBLIC || i.href !== "/whoiswho");
+  const visibleNav = PRIMARY_NAV;
+  const menuSections = visibleMenuSections(WHOISWHO_PUBLIC);
 
   const isActive = (href: string, children?: { href: string }[]) => {
     if (children?.some((c) => c.href !== href && location.pathname.startsWith(c.href))) return true;
@@ -95,6 +79,17 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-14">
+            <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+            {/* Menu — every section, grouped */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 gap-1.5 text-xs font-semibold uppercase tracking-wider"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open menu with all sections"
+            >
+              <Menu className="h-5 w-5" /><span className="hidden xl:inline">Menu</span>
+            </Button>
             {/* Logo — editorial masthead style */}
             <Link to="/" className="flex items-center gap-2.5 shrink-0">
               <div className="w-8 h-8 bg-foreground flex items-center justify-center">
@@ -106,6 +101,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                 </span>
               </div>
             </Link>
+            </div>
 
           {/* Desktop Navigation — clean horizontal links */}
           <nav className="hidden lg:flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -193,68 +189,58 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                 )}
               </>
             )}
-            <Button variant="ghost" size="icon" className="lg:hidden h-8 w-8" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <nav className="lg:hidden py-4 border-t border-border animate-slide-in-up">
-            <div className="flex flex-col gap-0.5">
-              {visibleNav.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`px-4 py-2.5 text-sm font-medium uppercase tracking-wider transition-colors ${
-                    isActive(item.href)
-                      ? "text-foreground bg-muted"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              )).flatMap((link, idx) => {
-                const kids = visibleNav[idx].children?.filter((c) => c.href !== visibleNav[idx].href) ?? [];
-                return [link, ...kids.map((c) => (
-                  <Link key={c.href} to={c.href} onClick={() => setIsMobileMenuOpen(false)}
-                    className={`pl-8 pr-4 py-2 text-xs font-medium uppercase tracking-wider transition-colors ${location.pathname.startsWith(c.href) ? "text-foreground bg-muted" : "text-muted-foreground hover:text-foreground"}`}>
-                    {c.label}
-                  </Link>
-                ))];
-              })}
-              {isAdmin && (
-                <Link
-                  to="/editorial"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`px-4 py-2.5 text-sm font-medium uppercase tracking-wider transition-colors flex items-center gap-2 ${
-                    isActive("/editorial")
-                      ? "text-foreground bg-muted"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  <PenTool className="h-3.5 w-3.5" />
-                  Editorial
-                </Link>
-              )}
-            </div>
-            <div className="mt-4 px-4">
-              <form onSubmit={handleSearch}>
-                <Input
-                  type="search"
-                  placeholder="Search..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-none"
-                />
-              </form>
-            </div>
-          </nav>
-        )}
       </div>
       </header>
+      <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+        <SheetContent side="left" className="w-[320px] sm:w-[360px] overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-xl text-left">All sections</SheetTitle>
+          </SheetHeader>
+          <form onSubmit={(e) => { handleSearch(e); setIsMobileMenuOpen(false); }} className="mt-4">
+            <Input
+              type="search"
+              placeholder="Search news, companies, grants…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-none"
+              aria-label="Search"
+            />
+          </form>
+          <nav className="mt-6 space-y-6" aria-label="All sections">
+            {menuSections.map((section) => (
+              <div key={section.title}>
+                <p className="text-[11px] font-sans font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-2">{section.title}</p>
+                <ul className="space-y-0.5">
+                  {section.links.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        to={l.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`block py-1.5 font-serif text-[17px] transition-colors ${location.pathname === l.href ? "text-secondary font-semibold" : "text-foreground hover:text-secondary"}`}
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            {isAdmin && (
+              <Link to="/editorial" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-secondary">
+                <PenTool className="h-3.5 w-3.5" /> Editorial dashboard
+              </Link>
+            )}
+            {!user && (
+              <Button size="sm" variant="outline" className="w-full sm:hidden" onClick={() => { setIsMobileMenuOpen(false); setShowLogin(true); }}>
+                Sign In
+              </Button>
+            )}
+          </nav>
+        </SheetContent>
+      </Sheet>
       <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </>
   );

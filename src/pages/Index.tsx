@@ -11,6 +11,7 @@ import { VerticalNavigator } from "@/components/VerticalNavigator";
 import { SectionBanners } from "@/components/banners/SectionBanners";
 import { IntelligenceHub } from "@/components/IntelligenceHub";
 import { IntelligenceFeed } from "@/components/IntelligenceFeed";
+import { StoryPackage } from "@/components/StoryPackage";
 import { SponsoredStudio } from "@/components/SponsoredStudio";
 import { SearchResults } from "@/components/SearchResults";
 import { Footer } from "@/components/Footer";
@@ -138,6 +139,9 @@ const Index = () => {
       <main>
         {/* Intelligence Hub — 3-column hero layout */}
         <IntelligenceHub />
+
+        {/* Full coverage — several recent stories about one company or topic */}
+        <StoryPackage />
 
         {/* Main homepage partner placement */}
         <SponsoredStudio />

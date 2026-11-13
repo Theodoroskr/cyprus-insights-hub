@@ -43,6 +43,7 @@ export function Footer() {
               <li><Link to="/real-estate" className="hover:text-secondary transition-colors">Real Estate Intelligence</Link></li>
               <li><Link to="/tourism" className="hover:text-secondary transition-colors">Tourism Intelligence</Link></li>
               <li><Link to="/economy" className="hover:text-secondary transition-colors">Economic Indicators</Link></li>
+              <li><Link to="/rankings" className="hover:text-secondary transition-colors">Cyprus Rankings</Link></li>
               <li><Link to="/financial-literacy" className="hover:text-secondary transition-colors">Financial Literacy</Link></li>
               <li><Link to="/intelligence/mastercard" className="hover:text-secondary transition-colors">Consumer Spending &amp; Economic Intelligence</Link></li>
               <li><Link to="/open-data" className="hover:text-secondary transition-colors">Official Data Sources</Link></li>

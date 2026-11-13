@@ -9,7 +9,7 @@ import { SponsoredStoryCard } from "@/components/banners/SponsoredStoryCard";
 import { useActiveBanner } from "@/hooks/useActiveBanner";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import { useBlendedNews } from "@/hooks/useBlendedNews";
+import { useHomepageStories } from "@/hooks/useHomepageStories";
 import { blendNews } from "@/lib/blendNews";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoginModal } from "@/components/auth/LoginModal";
@@ -98,8 +98,9 @@ function StickySidebar() {
 }
 
 export function IntelligenceFeed() {
-  const { data: blendedArticles = [] } = useBlendedNews();
-  const dbArticles = blendedArticles.slice(5, 17);
+  // Stories not already shown in the lead section, the Latest column or the Full coverage block
+  const { feed, linksSettled } = useHomepageStories();
+  const dbArticles = linksSettled ? feed : [];
 
   const verticalToHub = (v: string) => {
     if (v === "fintech") return "fintechhub" as const;
