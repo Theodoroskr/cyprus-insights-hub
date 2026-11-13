@@ -86,6 +86,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
             <Link to="/fintech" className="hover:text-secondary transition-colors hidden sm:inline">FinTechHub.cy</Link>
             <Link to="/compliance" className="hover:text-secondary transition-colors hidden sm:inline">ComplianceHub.cy</Link>
             <Link to="/regtech" className="hover:text-secondary transition-colors hidden md:inline">RegTechHub.cy</Link>
+            <Link to="/explore" className="hover:text-secondary transition-colors hidden md:inline">TourismHub.cy</Link>
           </div>
           <span className="hidden md:inline text-background/50">Est. Nicosia, Cyprus</span>
         </div>

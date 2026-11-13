@@ -66,29 +66,18 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-14">
             {/* Logo — editorial masthead style */}
-            <div className="flex items-center gap-2.5 shrink-0">
-              <Link to="/" className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-foreground flex items-center justify-center">
+            <Link to={brand.home} className="flex items-center gap-2.5 shrink-0" aria-label={`${brand.name}${brand.domain} home`}>
+              <div className={`h-8 min-w-8 px-1.5 ${brand.badgeClass} flex items-center justify-center`}>
+                {brand.id === "businesshub" ? (
                   <span className="text-background font-serif font-bold text-sm">B</span>
-                </div>
-                <div className="hidden sm:block">
-                  <span className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                    BusinessHub<span className="text-secondary">.cy</span>
-                  </span>
-                </div>
-              </Link>
-              {brand.id !== "businesshub" && (
-                <>
-                  <span className="hidden sm:block w-px h-5 bg-border mx-1" />
-                  <Link
-                    to={`/${brand.id.replace("hub", "")}`}
-                    className="hidden sm:block text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {brand.name}{brand.domain}
-                  </Link>
-                </>
-              )}
-            </div>
+                ) : (
+                  <brand.icon className="h-4 w-4 text-background" aria-hidden />
+                )}
+              </div>
+              <span className="hidden sm:block font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                {brand.name}<span className="text-secondary">{brand.domain}</span>
+              </span>
+            </Link>
 
             {/* Desktop Navigation — clean horizontal links */}
             <nav className="hidden lg:flex items-center">

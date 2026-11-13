@@ -23,7 +23,7 @@ export function ExploreShell({ title, children, masthead }: { title?: Text; mast
   };
   const heading = typeof title === "function" ? title(lang) : title;
   return (
-    <HubLayout brand="businesshub">
+    <HubLayout brand="tourismhub">
       <section className="border-b border-border bg-card">
         <div className="container mx-auto px-4">
           <div className="h-[3px] bg-foreground" />

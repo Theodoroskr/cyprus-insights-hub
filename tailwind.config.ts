@@ -44,6 +44,10 @@ export default {
           DEFAULT: "hsl(var(--regtech))",
           light: "hsl(var(--regtech-light))",
         },
+        tourism: {
+          DEFAULT: "hsl(var(--tourism))",
+          light: "hsl(var(--tourism-light))",
+        },
         finlit: {
           "1": "hsl(var(--fl-1))",
           "2": "hsl(var(--fl-2))",

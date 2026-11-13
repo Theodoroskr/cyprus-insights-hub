@@ -1,6 +1,6 @@
-import { Landmark, Shield, Building2, Briefcase, Cpu } from "lucide-react";
+import { Landmark, Shield, Building2, Briefcase, Cpu, Compass } from "lucide-react";
 
-export type BrandId = "businesshub" | "fintechhub" | "compliancehub" | "smehub" | "regtechhub";
+export type BrandId = "businesshub" | "fintechhub" | "compliancehub" | "smehub" | "regtechhub" | "tourismhub";
 
 export interface BrandConfig {
   id: BrandId;
@@ -14,12 +14,18 @@ export interface BrandConfig {
     accent: string;
   };
   navItems: { label: string; href: string }[];
+  /** Landing page of the hub; the masthead logo links here. */
+  home: string;
+  /** Tailwind background class for the logo badge (semantic token). */
+  badgeClass: string;
   parentBadge: boolean;
 }
 
 export const brands: Record<BrandId, BrandConfig> = {
   businesshub: {
     id: "businesshub",
+    home: "/",
+    badgeClass: "bg-foreground",
     name: "BusinessHub",
     domain: ".cy",
     tagline: "Cyprus Business Intelligence Platform",
@@ -41,6 +47,8 @@ export const brands: Record<BrandId, BrandConfig> = {
   },
   fintechhub: {
     id: "fintechhub",
+    home: "/fintech",
+    badgeClass: "bg-fintech",
     name: "FinTechHub",
     domain: ".cy",
     tagline: "Digital Finance Intelligence for Cyprus",
@@ -60,6 +68,8 @@ export const brands: Record<BrandId, BrandConfig> = {
   },
   compliancehub: {
     id: "compliancehub",
+    home: "/compliance",
+    badgeClass: "bg-compliance",
     name: "ComplianceHub",
     domain: ".cy",
     tagline: "Regulatory Intelligence & Risk Management",
@@ -81,6 +91,8 @@ export const brands: Record<BrandId, BrandConfig> = {
   },
   smehub: {
     id: "smehub",
+    home: "/sme",
+    badgeClass: "bg-sme",
     name: "SMEHub",
     domain: ".cy",
     tagline: "Tools & Intelligence for Cyprus SMEs",
@@ -101,6 +113,8 @@ export const brands: Record<BrandId, BrandConfig> = {
   },
   regtechhub: {
     id: "regtechhub",
+    home: "/regtech",
+    badgeClass: "bg-regtech",
     name: "RegTechHub",
     domain: ".cy",
     tagline: "Regulatory Technology Intelligence for Cyprus",
@@ -119,6 +133,27 @@ export const brands: Record<BrandId, BrandConfig> = {
     ],
     parentBadge: true,
   },
+  tourismhub: {
+    id: "tourismhub",
+    home: "/explore",
+    badgeClass: "bg-tourism",
+    name: "TourismHub",
+    domain: ".cy",
+    tagline: "Explore Cyprus — officially sourced travel guide",
+    logoLetter: "T",
+    icon: Compass,
+    colors: {
+      primary: "tourism",
+      accent: "secondary",
+    },
+    navItems: [
+      { label: "Explore", href: "/explore" },
+      { label: "Nicosia City & Countryside", href: "/explore/nicosia-countryside" },
+      { label: "Conference Venues", href: "/explore/conference-venues" },
+      { label: "Directory", href: "/directory" },
+    ],
+    parentBadge: true,
+  },
 };
 
 export const hubLinks = [
@@ -126,4 +161,5 @@ export const hubLinks = [
   { brand: brands.fintechhub, href: "/fintech" },
   { brand: brands.compliancehub, href: "/compliance" },
   { brand: brands.regtechhub, href: "/regtech" },
+  { brand: brands.tourismhub, href: "/explore" },
 ];
