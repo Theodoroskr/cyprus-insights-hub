@@ -35,6 +35,7 @@ import { CompliancePanel } from "@/components/admin/CompliancePanel";
 import { TourismPanel } from "@/components/admin/TourismPanel";
 import { FundingPanel } from "@/components/admin/FundingPanel";
 import { VenuesPanel } from "@/components/admin/VenuesPanel";
+import { NewStoryDialog } from "@/components/admin/NewStoryDialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -321,6 +322,7 @@ const EditorialDashboard = () => {
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [editForm, setEditForm] = useState<Partial<Article>>({});
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [newStoryOpen, setNewStoryOpen] = useState(false);
 
   // Check admin role
   const { data: isAdmin, isLoading: roleLoading } = useQuery({
@@ -649,6 +651,11 @@ const EditorialDashboard = () => {
           <FacebookAutopostPanel />
         ) : (
         <>
+
+        <div className="flex justify-end mb-4">
+          <Button onClick={() => setNewStoryOpen(true)} className="gap-1.5"><FileEdit className="h-4 w-4" /> New story / press release</Button>
+        </div>
+        <NewStoryDialog open={newStoryOpen} onOpenChange={setNewStoryOpen} />
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">

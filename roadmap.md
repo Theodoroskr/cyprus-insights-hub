@@ -35,3 +35,6 @@
 - [ ] Hotels PDF (Hotels_with_Conference_Facilites_13_4_21.pdf): waiting for the file to parse and import
 - [ ] Owner verification and quote emails: need a verified email sender domain
 - [ ] Plan prices: to be set by staff
+
+## Editorial (Nov 13)
+- [x] Articles tab: write a story or press release by hand (draft or publish now), press releases labelled
