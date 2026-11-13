@@ -38,6 +38,7 @@ export const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/tourism", changefreq: "monthly", priority: "0.7" },
   { path: "/economy", changefreq: "weekly", priority: "0.7" },
   { path: "/rankings", changefreq: "daily", priority: "0.7" },
+  { path: "/funding", changefreq: "daily", priority: "0.8" },
   { path: "/company-announcements", changefreq: "daily", priority: "0.7" },
   { path: "/financial-literacy", changefreq: "weekly", priority: "0.6" },
   { path: "/financial-literacy/academy", changefreq: "weekly", priority: "0.6" },

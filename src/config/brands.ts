@@ -149,6 +149,7 @@ export const brands: Record<BrandId, BrandConfig> = {
     navItems: [
       { label: "Explore", href: "/explore" },
       { label: "News", href: "/explore/news" },
+      { label: "Funding", href: "/funding?sector=tourism" },
       { label: "Nicosia City & Countryside", href: "/explore/nicosia-countryside" },
       { label: "Conference Venues", href: "/explore/conference-venues" },
       { label: "Directory", href: "/directory" },

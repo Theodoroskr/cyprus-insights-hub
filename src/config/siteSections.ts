@@ -11,6 +11,7 @@ export const PRIMARY_NAV: NavItem[] = [
     { label: "Tourism: Nicosia City & Countryside", href: "/explore/nicosia-countryside" },
     { label: "Conference Venues", href: "/explore/conference-venues" },
   ] },
+  { label: "Funding", href: "/funding" },
   { label: "Economy", href: "/economy" },
   { label: "Trade", href: "/trade" },
   { label: "Real Estate", href: "/real-estate" },
@@ -48,6 +49,7 @@ export const MENU_SECTIONS: { title: string; links: NavLink[] }[] = [
   ] },
   { title: "Guides & tools", links: [
     { label: "Financial Literacy", href: "/financial-literacy" },
+    { label: "Funding & Subsidies", href: "/funding" },
     { label: "SME Toolkit", href: "/sme" },
     { label: "Resource Hub", href: "/resources" },
   ] },

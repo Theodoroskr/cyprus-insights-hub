@@ -33,6 +33,7 @@ import { FacebookAutopostPanel } from "@/components/admin/FacebookAutopostPanel"
 import { AnnouncementsPanel } from "@/components/admin/AnnouncementsPanel";
 import { CompliancePanel } from "@/components/admin/CompliancePanel";
 import { TourismPanel } from "@/components/admin/TourismPanel";
+import { FundingPanel } from "@/components/admin/FundingPanel";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -308,9 +309,9 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "academy" | "announcements" | "compliance" | "tourism">(() => {
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "academy" | "announcements" | "compliance" | "tourism" | "funding">(() => {
     const tab = new URLSearchParams(window.location.search).get("tab");
-    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : tab === "compliance" ? "compliance" : tab === "tourism" ? "tourism" : "articles";
+    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : tab === "compliance" ? "compliance" : tab === "tourism" ? "tourism" : tab === "funding" ? "funding" : "articles";
   });
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
@@ -602,6 +603,9 @@ const EditorialDashboard = () => {
             <Button size="sm" variant={activePanel === "tourism" ? "default" : "ghost"} onClick={() => setActivePanel("tourism")} className="gap-1.5">
               TourismHub
             </Button>
+            <Button size="sm" variant={activePanel === "funding" ? "default" : "ghost"} onClick={() => setActivePanel("funding")} className="gap-1.5">
+              Funding
+            </Button>
           </div>
         </div>
 
@@ -633,6 +637,8 @@ const EditorialDashboard = () => {
           <CompliancePanel />
         ) : activePanel === "tourism" ? (
           <TourismPanel />
+        ) : activePanel === "funding" ? (
+          <FundingPanel />
         ) : activePanel === "facebook" ? (
           <FacebookAutopostPanel />
         ) : (

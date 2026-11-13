@@ -19,3 +19,11 @@
 - [x] Own "tourism" news section (stored on each story), TourismHub "News" tab + page, News page tab
 - [x] New stories routed to Tourism at collection time; existing tourism stories moved over
 - [x] Read-only audit of Tourism & Hospitality sources (uploaded brief)
+
+## Funding & Subsidies
+- [x] Database, access rules, 3-call public preview
+- [x] Importer: EU portal, RIF, reachable national sources; manual URL intake
+- [x] /funding listing, filters, views, detail pages (EN/EL), TourismHub link, story links
+- [x] Editorial Funding tab, daily schedules, tests
+- [ ] Funding Programmes Portal, MECI, Interreg GR–CY: blocked from our servers, manual submission until access works
+- [ ] Editors to verify the review queue and pick the 3 public previews

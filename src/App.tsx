@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthReturn } from "@/components/auth/AuthReturn";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "./components/CookieConsent";
 import { RouteSEODefaults } from "./components/RouteSEODefaults";
@@ -49,6 +50,8 @@ const ExplorePage = lazy(() => import("./pages/ExplorePage"));
 const ExploreDestinationPage = lazy(() => import("./pages/ExploreDestinationPage"));
 const ExplorePlacePage = lazy(() => import("./pages/ExplorePlacePage"));
 const ExploreNewsPage = lazy(() => import("./pages/ExploreNewsPage"));
+const FundingPage = lazy(() => import("./pages/FundingPage"));
+const FundingCallPage = lazy(() => import("./pages/FundingCallPage"));
 const NicosiaCountrysidePage = lazy(() => import("./pages/NicosiaCountrysidePage"));
 const ConferenceVenuesPage = lazy(() => import("./pages/ConferenceVenuesPage"));
 const EconomyPage = lazy(() => import("./pages/EconomyPage"));
@@ -116,6 +119,7 @@ const App = () => (
             <BrowserRouter>
               <RouteSEODefaults />
               <Suspense fallback={<RouteLoader />}>
+                <AuthReturn />
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/profile/:id" element={<Navigate to="/whoiswho" replace />} />
@@ -142,6 +146,9 @@ const App = () => (
                   <Route path="/explore" element={<ExplorePage />} />
                   <Route path="/explore/place/:slug" element={<ExplorePlacePage />} />
                   <Route path="/explore/news" element={<ExploreNewsPage />} />
+                  <Route path="/explore/funding" element={<Navigate to="/funding?sector=tourism" replace />} />
+                  <Route path="/funding" element={<FundingPage />} />
+                  <Route path="/funding/:slug" element={<FundingCallPage />} />
                   <Route path="/explore/nicosia-countryside" element={<NicosiaCountrysidePage />} />
                   <Route path="/explore/conference-venues" element={<ConferenceVenuesPage />} />
                   <Route path="/explore/:destination" element={<ExploreDestinationPage />} />

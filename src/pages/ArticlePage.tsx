@@ -8,6 +8,7 @@ import { AdSlot } from "@/components/banners/AdSlot";
 import { groupArticleImages } from "@/lib/groupArticleImages";
 import { storyImage } from "@/lib/fallbackImage";
 import { useParams, Link } from "react-router-dom";
+import { RelatedFunding } from "@/components/funding/RelatedFunding";
 import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Facebook, Mail, Flame, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -379,6 +380,8 @@ export default function ArticlePage() {
               )}
             </aside>
           </div>
+
+          {id && <RelatedFunding articleId={id} />}
 
           {/* Related articles */}
           {related.length > 0 && (

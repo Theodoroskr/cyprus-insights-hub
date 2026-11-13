@@ -45,7 +45,7 @@ export default function FundingCallPage() {
       <SEOHead title={c?.title_en ?? p?.title_en ?? t("Funding opportunity", "Ευκαιρία χρηματοδότησης")} description={c?.summary_en ?? p?.eligibility_summary ?? "Funding opportunity open to applicants in Cyprus."} path={`/funding/${slug}`} />
       {/* Full call pages are for members; only the /funding landing page is indexed. */}
       <Helmet><meta name="robots" content="noindex, follow" /></Helmet>
-      <TopNavigation />
+      <TopNavigation onSearch={() => {}} />
       <main className="max-w-[900px] mx-auto px-4 md:px-6 py-8">
         <Link to={`/funding${lang === "el" ? "?lang=el" : ""}`} className="inline-flex items-center gap-1 text-sm text-secondary hover:underline mb-5"><ArrowLeft className="h-4 w-4" />{t("All funding opportunities", "Όλες οι ευκαιρίες")}</Link>
         {!user ? (

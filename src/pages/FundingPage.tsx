@@ -98,7 +98,7 @@ export default function FundingPage() {
         description="Verified national and EU funding calls open to applicants in Cyprus: grants, subsidies and vouchers from RIF, ministries and the European Commission, with deadlines and official application links."
         path="/funding"
       />
-      <TopNavigation />
+      <TopNavigation onSearch={() => {}} />
       <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-8">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b-4 border-foreground pb-5 mb-6">
           <div>

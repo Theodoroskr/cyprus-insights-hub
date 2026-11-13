@@ -89,7 +89,7 @@ describe("rankings", () => {
 
 describe("top menu", () => {
   it("shows nine main links, including Rankings", () => {
-    expect(PRIMARY_NAV).toHaveLength(9);
+    expect(PRIMARY_NAV).toHaveLength(10);
     expect(PRIMARY_NAV.map((i) => i.href)).toContain("/rankings");
   });
 

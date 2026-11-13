@@ -108,7 +108,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
             {visibleNav.map((item, i) => item.children ? (
               <DropdownMenu key={item.label}>
                 <DropdownMenuTrigger
-                  className={`inline-flex items-center gap-0.5 px-2 py-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] whitespace-nowrap shrink-0 transition-colors outline-none
+                  className={`inline-flex items-center gap-0.5 px-1.5 py-1.5 text-[11.5px] font-semibold uppercase tracking-[0.04em] whitespace-nowrap shrink-0 transition-colors outline-none
                     ${isActive(item.href, item.children) ? "text-foreground" : "text-muted-foreground hover:text-foreground"}
                     ${i > 0 ? "border-l border-border" : ""}`}
                 >
@@ -125,7 +125,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                 key={item.label}
                 to={item.href}
                 className={`
-                  px-2 py-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] whitespace-nowrap shrink-0 transition-colors
+                  px-1.5 py-1.5 text-[11.5px] font-semibold uppercase tracking-[0.04em] whitespace-nowrap shrink-0 transition-colors
                   ${isActive(item.href)
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"

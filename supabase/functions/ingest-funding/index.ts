@@ -325,7 +325,7 @@ Deno.serve(async (req) => {
 
   const { data: all } = await sb.from("funding_sources").select("*").eq("enabled", true).neq("method", "manual");
   const now = Date.now();
-  const due = (all ?? []).filter((s: Any) => body.slug ? s.slug === body.slug : body.force || !s.last_attempt_at || now - Date.parse(s.last_attempt_at) > s.check_interval_hours * 3600_000 * 0.9);
+  const due = (all ?? []).filter((s: Any) => !(body.skip_api && s.method === "api")).filter((s: Any) => body.slug ? s.slug === body.slug : body.force || !s.last_attempt_at || now - Date.parse(s.last_attempt_at) > s.check_interval_hours * 3600_000 * 0.9);
   const results = [];
   for (const s of due) results.push(await runSource(sb, s));
   await refreshStates(sb);
