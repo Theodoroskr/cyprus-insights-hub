@@ -1,6 +1,6 @@
 import { useActiveBanner } from "@/hooks/useActiveBanner";
 
-type AdSize = "leaderboard" | "banner" | "mrec" | "skyscraper" | "billboard" | "half-billboard";
+type AdSize = "leaderboard" | "banner" | "mrec" | "skyscraper" | "billboard" | "wide-banner";
 
 interface AdSlotProps {
   size?: AdSize;
@@ -15,18 +15,18 @@ const AD_SIZES: Record<AdSize, string> = {
   mrec: "max-w-[300px] aspect-[300/250]",
   skyscraper: "max-w-[160px] aspect-[160/600]",
   billboard: "max-w-[970px] aspect-[970/250]",
-  "half-billboard": "max-w-[485px] aspect-[485/250]",
+  "wide-banner": "max-w-[970px] aspect-[970/125]",
 };
 
-const DIMENSIONS: Record<AdSize, string> = {
-  leaderboard: "728×90", banner: "468×60", mrec: "300×250", skyscraper: "160×600", billboard: "970×250", "half-billboard": "485×250",
+export const AD_DIMENSIONS: Record<AdSize, string> = {
+  leaderboard: "728×90", banner: "468×60", mrec: "300×250", skyscraper: "160×600", billboard: "970×250", "wide-banner": "970×125",
 };
 
 /** Homepage slots show a labelled placeholder while unsold. */
 export const PLACEHOLDER_SLOTS = new Set(["custom-studio", "homepage-stories", "homepage-footer", "homepage-top", "homepage-feed-top", "homepage-mid", "fintech-top", "compliance-top", "regtech-top", "tourism-top"]);
 
 export function BannerPlaceholder({ size, label }: { size: AdSize; label?: string }) {
-  const compact = size === "leaderboard" || size === "banner";
+  const compact = size === "leaderboard" || size === "banner" || size === "wide-banner";
   return (
     <div className="flex justify-center">
       <a
@@ -34,7 +34,7 @@ export function BannerPlaceholder({ size, label }: { size: AdSize; label?: strin
         className={`w-full ${AD_SIZES[size]} rounded-lg border-2 border-dashed border-border bg-muted/50 flex ${compact ? "flex-row gap-3" : "flex-col gap-1"} items-center justify-center text-center text-muted-foreground hover:border-primary hover:text-foreground transition-colors`}
       >
         <span className="text-[10px] uppercase tracking-widest">{label ?? "Advertise here"}</span>
-        <span className="text-xs">{DIMENSIONS[size]}</span>
+        <span className="text-xs">{AD_DIMENSIONS[size]}</span>
         <span className="text-xs font-semibold text-primary">Partner with us →</span>
       </a>
     </div>

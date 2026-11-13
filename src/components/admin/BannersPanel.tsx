@@ -23,10 +23,10 @@ const SLOT_OPTIONS = [
   { value: "homepage-feed-top", label: "Homepage — Above News Feed (970×250)" },
   { value: "homepage-mid", label: "Homepage — Between Hub Rows (728×90)" },
   { value: "hub-top", label: "Hub pages — Below Menu (728×90)" },
-  { value: "fintech-top", label: "FinTechHub top (485×250)" },
-  { value: "compliance-top", label: "ComplianceHub top (485×250)" },
-  { value: "regtech-top", label: "RegTechHub top (485×250)" },
-  { value: "tourism-top", label: "TourismHub top (485×250)" },
+  { value: "fintech-top", label: "FinTechHub top (970×125)" },
+  { value: "compliance-top", label: "ComplianceHub top (970×125)" },
+  { value: "regtech-top", label: "RegTechHub top (970×125)" },
+  { value: "tourism-top", label: "TourismHub top (970×125)" },
   { value: "article-inline", label: "Articles — Mid-article (728×90)" },
 ];
 

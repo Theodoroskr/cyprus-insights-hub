@@ -31,7 +31,7 @@ export function HubMasthead({ brand, kicker, intro, links = [], extra }: {
   const date = new Date().toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
   return (
     <div>
-      {slot && <div className="py-5"><AdSlot size="half-billboard" slotId={slot} /></div>}
+      {slot && <div className="py-5"><AdSlot size="wide-banner" slotId={slot} /></div>}
       <div className={`h-[3px] ${accent.bg}`} />
       <div className="py-6 text-center border-b border-border">
         <p className={`section-label mb-2 ${accent.text}`}>{kicker}</p>
