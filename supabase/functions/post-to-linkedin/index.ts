@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import {
   articleLink, buildPostMessage, countPostedToday, cyprusClock, hubImage, libraryImageFor, pickArticles, postImageFor,
@@ -95,8 +96,13 @@ async function publish(org: string, a: CandidateArticle, recentlyUsed: string[])
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const caller = await requireTrustedCaller(req, sb);
-  if (!caller.ok) return deniedResponse(caller, corsHeaders);
+  // Managed hourly schedule (Bearer cron secret), or an admin.
+  let caller: { ok: true; via: string } = { ok: true, via: "cron" };
+  if (authenticateCronRequest(req) !== null) {
+    const c = await requireTrustedCaller(req, sb);
+    if (!c.ok) return deniedResponse(c, corsHeaders);
+    caller = c as { ok: true; via: string };
+  }
 
   let action = "run", force = false;
   try {
