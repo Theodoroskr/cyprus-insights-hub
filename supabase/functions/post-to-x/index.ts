@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import {
   articleLink, countPostedToday, cyprusClock, pickArticles, postsThisRun, LAST_POST_HOUR, type CandidateArticle,
@@ -58,10 +59,15 @@ async function tweet(text: string): Promise<string> {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const caller = await requireTrustedCaller(req, sb);
-  if (!caller.ok) return deniedResponse(caller, corsHeaders);
+  // Managed hourly schedule (Bearer cron secret), or an admin pressing "post now".
+  let isAdmin = false;
+  if (authenticateCronRequest(req) !== null) {
+    const caller = await requireTrustedCaller(req, sb);
+    if (!caller.ok) return deniedResponse(caller, corsHeaders);
+    isAdmin = caller.via === "admin";
+  }
   const body = req.method === "POST" ? await req.json().catch(() => ({})) : {};
-  const force = body?.force === true && caller.via === "admin";
+  const force = body?.force === true && isAdmin;
 
   try {
     const { data: s } = await sb.from("x_autopost_settings").select("*").eq("id", true).maybeSingle();
