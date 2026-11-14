@@ -6136,6 +6136,60 @@ export type Database = {
           },
         ]
       }
+      x_autopost_settings: {
+        Row: {
+          daily_limit: number
+          enabled: boolean
+          id: boolean
+          last_error: string | null
+          last_run_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          daily_limit?: number
+          enabled?: boolean
+          id?: boolean
+          last_error?: string | null
+          last_run_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          daily_limit?: number
+          enabled?: boolean
+          id?: boolean
+          last_error?: string | null
+          last_run_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      x_posts: {
+        Row: {
+          article_id: string
+          created_at: string
+          error: string | null
+          id: string
+          status: string
+          tweet_id: string | null
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          error?: string | null
+          id?: string
+          status?: string
+          tweet_id?: string | null
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          error?: string | null
+          id?: string
+          status?: string
+          tweet_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
