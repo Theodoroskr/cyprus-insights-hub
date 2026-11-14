@@ -48,7 +48,7 @@ export const MENU_SECTIONS: { title: string; links: NavLink[] }[] = [
     { label: "ComplianceHub.cy", href: "/compliance" },
     { label: "RegTechHub.cy", href: "/regtech" },
     { label: "TourismHub.cy", href: "/explore" },
-    { label: "EnergyHub.cy — Energy / Ενέργεια", href: "/energy" },
+    { label: "EnergyHub.cy", href: "/energy" },
   ] },
   { title: "Guides & tools", links: [
     { label: "Financial Literacy", href: "/financial-literacy" },
