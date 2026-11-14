@@ -3,6 +3,7 @@ import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { Link } from "react-router-dom";
 import { RssFeedLinks } from "@/components/RssFeedLinks";
 import { SOCIAL_LINKS } from "@/config/social";
+import { XIcon } from "@/components/icons/XIcon";
 import { Building2, Mail, Phone, MapPin, Linkedin, Facebook, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone, Compass } from "lucide-react";
 
 export function Footer() {
@@ -30,6 +31,9 @@ export function Footer() {
               </a>
               <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" aria-label="BusinessHub.cy on Facebook" title="BusinessHub.cy on Facebook" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
                 <Facebook className="h-4 w-4" />
+              </a>
+              <a href={SOCIAL_LINKS.x} target="_blank" rel="noopener noreferrer" aria-label="BusinessHub.cy on X" title="BusinessHub.cy on X" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
+                <XIcon className="h-3.5 w-3.5" />
               </a>
             </div>
           </div>
