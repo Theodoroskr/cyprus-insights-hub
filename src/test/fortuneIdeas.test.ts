@@ -88,9 +88,14 @@ describe("rankings", () => {
 });
 
 describe("top menu", () => {
-  it("shows ten main links, including Rankings and Energy", () => {
+  it("shows eleven main links, with All news and Rankings flat in the header", () => {
     expect(PRIMARY_NAV).toHaveLength(11);
-    expect(PRIMARY_NAV.map((i) => i.href)).toContain("/rankings");
+    expect(PRIMARY_NAV.slice(0, 2).map((i) => [i.label, i.href])).toEqual([
+      ["All news", "/news"],
+      ["Rankings", "/rankings"],
+    ]);
+    expect(PRIMARY_NAV[0].children).toBeUndefined();
+    expect(PRIMARY_NAV[1].children).toBeUndefined();
     expect(PRIMARY_NAV.map((i) => i.href)).toContain("/energy");
   });
 

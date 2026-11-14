@@ -1,10 +1,10 @@
-/** The BusinessHub top menu: nine main links, with every section listed behind the Menu button. */
+/** The BusinessHub top menu: eleven main links, with every section listed behind the Menu button. */
 
 export type NavLink = { label: string; href: string };
 export type NavItem = NavLink & { children?: NavLink[] };
 
 export const PRIMARY_NAV: NavItem[] = [
-  { label: "News", href: "/news", children: [{ label: "All news", href: "/news" }, { label: "Company Announcements", href: "/company-announcements" }, { label: "Energy / Ενέργεια", href: "/energy" }] },
+  { label: "All news", href: "/news" },
   { label: "Rankings", href: "/rankings" },
   { label: "Directory", href: "/directory", children: [
     { label: "Business Directory", href: "/directory" },
