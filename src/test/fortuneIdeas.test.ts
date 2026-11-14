@@ -88,9 +88,10 @@ describe("rankings", () => {
 });
 
 describe("top menu", () => {
-  it("shows nine main links, including Rankings", () => {
-    expect(PRIMARY_NAV).toHaveLength(10);
+  it("shows ten main links, including Rankings and Energy", () => {
+    expect(PRIMARY_NAV).toHaveLength(11);
     expect(PRIMARY_NAV.map((i) => i.href)).toContain("/rankings");
+    expect(PRIMARY_NAV.map((i) => i.href)).toContain("/energy");
   });
 
   it("lists every main link behind the Menu button too", () => {

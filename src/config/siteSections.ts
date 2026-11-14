@@ -18,6 +18,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { label: "Compliance", href: "/compliance" },
   { label: "FinTech", href: "/fintech" },
   { label: "RegTech", href: "/regtech" },
+  { label: "Energy", href: "/energy" },
 ];
 
 export const MENU_SECTIONS: { title: string; links: NavLink[] }[] = [
