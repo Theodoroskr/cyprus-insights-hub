@@ -336,8 +336,12 @@ Deno.serve(async (req) => {
       query = query.range(offset, offset + limit - 1);
     }
 
-    const { data: sources, error: srcError } = await query;
+    const { data: fetched, error: srcError } = await query;
     if (srcError) throw new Error(`Failed to fetch sources: ${srcError.message}`);
+    // Scheduled runs skip sources checked within their own interval (e.g. 24h = once a day).
+    const now = Date.now();
+    const sources = targetSlug ? fetched : (fetched || []).filter((s: any) =>
+      !s.last_scraped_at || now - new Date(s.last_scraped_at).getTime() >= (s.scrape_interval_hours || 6) * 3600_000 - 10 * 60_000);
     if (!sources || sources.length === 0) {
       return new Response(
         JSON.stringify({ success: true, message: "No active sources to scrape" }),
