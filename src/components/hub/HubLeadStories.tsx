@@ -2,7 +2,7 @@ import { ReactNode, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import { storyImage } from "@/lib/fallbackImage";
+import { storyImage, distinctNeighbours } from "@/lib/fallbackImage";
 import { estimateReadingTime } from "@/lib/readingTime";
 import { useBlendedNews } from "@/hooks/useBlendedNews";
 import { partitionHomepage } from "@/lib/homepageStories";
@@ -22,15 +22,18 @@ function Kicker({ children }: { children: ReactNode }) {
 
 /** Fortune-style lead panel, three stories and a newest-first "Latest" column. Shared by the homepage and every hub. */
 export function LeadStoriesView({ hub, latest, aside, below, allNewsHref = "/news" }: { hub: any[]; latest: any[]; aside?: ReactNode; below?: ReactNode; allNewsHref?: string }) {
-  const featured = useMemo(() => hub.map((a) => ({
+  const featured = useMemo(() => {
+    const imgs = distinctNeighbours(hub.map((a) => storyImage(a.image_url, a.vertical, a.id, a.body_markdown)), hub.map((a) => a.vertical));
+    return hub.map((a, i) => ({
     id: a.id as string,
     title: (a.title || a.what_happened) as string,
     summary: (a.summary || a.what_happened || "") as string,
-    image: storyImage(a.image_url, a.vertical, a.id, a.body_markdown),
+    image: imgs[i],
     category: verticalLabel(a.vertical),
     publishedAt: a.published_at as string,
     readTime: estimateReadingTime(a.what_happened, a.why_it_matters, a.what_to_do, a.summary, a.body_markdown),
-  })), [hub]);
+  }));
+  }, [hub]);
   const [lead, ...secondary] = featured;
   if (!lead) return null;
 

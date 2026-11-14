@@ -49,3 +49,21 @@ export function storyImage(url?: string | null, vertical?: string | null, seed?:
   const m = (body || "").match(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)[^)]*\)/);
   return articleImage(url || (m ? m[1] : null), vertical, seed);
 }
+
+/** Swap any picture that matches the one right before it for a different hub photo, so neighbouring cards never look the same. */
+export function distinctNeighbours(images: string[], verticals: (string | null | undefined)[] = []): string[] {
+  const out: string[] = [];
+  images.forEach((img, i) => {
+    const prev = out[i - 1];
+    if (i === 0 || img !== prev) { out.push(img); return; }
+    const list = BY_VERTICAL[ALIAS[(verticals[i] || "").toLowerCase()] || "business"];
+    const start = Math.max(0, list.indexOf(img)) + 1;
+    let pick = img;
+    for (let k = 0; k < list.length; k++) {
+      const c = list[(start + k) % list.length];
+      if (c !== prev) { pick = c; break; }
+    }
+    out.push(pick);
+  });
+  return out;
+}

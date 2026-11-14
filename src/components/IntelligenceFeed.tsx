@@ -1,3 +1,4 @@
+import { storyImage, distinctNeighbours } from "@/lib/fallbackImage";
 import { useEffect, useState } from "react";
 import { Crown, ArrowRight, Building2, Users, Briefcase } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -122,6 +123,7 @@ export function IntelligenceFeed() {
   };
 
   if (dbArticles.length === 0) return null;
+  const feedImages = distinctNeighbours(dbArticles.map((a) => storyImage(a.image_url, a.vertical, a.id, a.body_markdown)), dbArticles.map((a) => a.vertical));
 
   return (
     <section className="section-rule section-rule-thick">
@@ -152,7 +154,7 @@ export function IntelligenceFeed() {
                   whyItMatters={article.why_it_matters}
                   whatToDo={article.what_to_do}
                   hub={verticalToHub(article.vertical)}
-                  imageUrl={article.image_url}
+                  imageUrl={feedImages[index]}
                   articleId={article.id}
                   vertical={article.vertical}
                   href={`/article/${article.id}`}

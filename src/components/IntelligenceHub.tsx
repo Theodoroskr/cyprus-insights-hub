@@ -1,4 +1,4 @@
-import { articleImage, storyImage } from "@/lib/fallbackImage";
+import { articleImage, storyImage, distinctNeighbours } from "@/lib/fallbackImage";
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Flame } from "lucide-react";
@@ -59,11 +59,12 @@ export function IntelligenceHub() {
       .rpc("get_most_read_articles", { _limit: 5 })
       .then(({ data, error }) => {
         if (!error && data && data.length > 0) {
-          setMostRead(data.map((d: any) => ({
+          const imgs = distinctNeighbours(data.map((d: any) => storyImage(d.image_url, d.vertical, d.article_id ?? d.id, d.body_markdown)), data.map((d: any) => d.vertical));
+          setMostRead(data.map((d: any, i: number) => ({
             id: d.article_id,
             title: d.title,
             category: verticalLabel(d.vertical),
-            image: storyImage(d.image_url, d.vertical, d.article_id ?? d.id, d.body_markdown),
+            image: imgs[i],
             view_count: Number(d.view_count),
           })));
         }
