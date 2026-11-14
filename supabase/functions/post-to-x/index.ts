@@ -79,7 +79,7 @@ Deno.serve(async (req) => {
     const { data: recent } = await sb.from("x_posts").select("created_at").eq("status", "posted")
       .gte("created_at", new Date(now.getTime() - 30 * 3600_000).toISOString());
     const postedToday = countPostedToday((recent ?? []).map((r) => r.created_at), now);
-    const limit = s?.daily_limit ?? 15;
+    const limit = s?.daily_limit ?? 3;
     const quota = force ? Math.min(Math.max(0, limit - postedToday), 1) : Math.min(2, postsThisRun(limit, postedToday, now));
     if (quota === 0) {
       await sb.from("x_autopost_settings").update({ last_run_at: now.toISOString() }).eq("id", true);
