@@ -35,3 +35,4 @@
 - Company Announcements: rules in `supabase/functions/ingest-announcements/AGENTS.md`. Why: one event, one page, every claim sourced.
 - ComplianceHub: only editor-published `compliance_items`/`fatf_releases` are public; pipeline rules in `supabase/functions/ingest-compliance/AGENTS.md`. Why: every claim verified and sourced.
 - Funding & Subsidies: rules in `supabase/functions/ingest-funding/AGENTS.md`. Why: one record per call, nothing unverified public, paywall in the database.
+- X auto-posting: hourly `post-to-x` (managed schedule) reuses `_shared/facebookPosting.ts` hours/cap/headline-dedupe; one `posted` row per article in `x_posts`. Why: same no-repeat rules on every social account.
