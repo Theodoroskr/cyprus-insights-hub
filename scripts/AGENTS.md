@@ -1,0 +1,1 @@
+- `generate-page-heads.ts` (postbuild) writes per-page HTML heads with self canonical (`src/lib/pageHeads.ts`); company sitemaps list only `indexableCompanies`. Why: robots read HTML before JS; identical shells got another canonical.

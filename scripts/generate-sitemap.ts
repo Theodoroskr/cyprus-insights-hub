@@ -15,6 +15,7 @@ import {
   dateOnly,
   type SitemapEntry,
 } from "../src/lib/sitemap";
+import { indexableCompanies } from "./indexableCompanies";
 
 function readEnv(): Record<string, string> {
   const env: Record<string, string> = {};
@@ -63,7 +64,8 @@ async function main() {
       "select=slug,article_type,published_at&is_published=eq.true&order=published_at.desc.nullslast,id.asc",
     ),
     fetchAll<{ slug: string }>("resources", "select=slug&is_published=eq.true&order=slug.asc"),
-    fetchAll<{ slug: string }>("directory_companies", "select=slug&slug=not.is.null&order=id.asc"),
+    // Only companies that also get their own page head at publish (see generate-page-heads.ts).
+    indexableCompanies(fetchAll),
     fetchAll<{ slug: string; updated_at: string | null }>(
       "company_announcements",
       "select=slug,updated_at&status=eq.published&order=source_published_at.desc.nullslast,id.asc",
