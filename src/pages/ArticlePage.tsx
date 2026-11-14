@@ -1,4 +1,5 @@
 import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
+import { SOCIAL_SAME_AS } from "@/config/social";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { canonicalUrl } from "@/lib/seo";
@@ -228,6 +229,7 @@ export default function ArticlePage() {
             name: "BusinessHub.cy",
             url: "https://businesshub.cy/",
             logo: { "@type": "ImageObject", url: "https://businesshub.cy/apple-touch-icon.png" },
+            sameAs: SOCIAL_SAME_AS,
           },
         }}
       />

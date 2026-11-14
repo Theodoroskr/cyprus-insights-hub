@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Building2, Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
+import { SOCIAL_LINKS } from "@/config/social";
+import { Building2, Mail, Phone, MapPin, Linkedin, Facebook } from "lucide-react";
 import { BrandConfig, hubLinks } from "@/config/brands";
 import { RssFeedLinks } from "@/components/RssFeedLinks";
 
@@ -37,11 +38,11 @@ export function HubFooter({ brand }: HubFooterProps) {
               </Link>
             )}
             <div className="flex gap-3 mt-4">
-              <a href="#" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
+              <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" aria-label="BusinessHub.cy on LinkedIn" title="BusinessHub.cy on LinkedIn" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
                 <Linkedin className="h-4 w-4" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
-                <Twitter className="h-4 w-4" />
+              <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" aria-label="BusinessHub.cy on Facebook" title="BusinessHub.cy on Facebook" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
+                <Facebook className="h-4 w-4" />
               </a>
             </div>
           </div>
