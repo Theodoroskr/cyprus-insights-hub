@@ -6254,6 +6254,7 @@ export type Database = {
         | "general"
         | "regtech"
         | "tourism"
+        | "energy"
       directory_article_type: "news" | "interview" | "insight" | "whoiswho"
       user_tier: "free" | "premium"
     }
@@ -6392,6 +6393,7 @@ export const Constants = {
         "general",
         "regtech",
         "tourism",
+        "energy",
       ],
       directory_article_type: ["news", "interview", "insight", "whoiswho"],
       user_tier: ["free", "premium"],

@@ -4,7 +4,7 @@ export type NavLink = { label: string; href: string };
 export type NavItem = NavLink & { children?: NavLink[] };
 
 export const PRIMARY_NAV: NavItem[] = [
-  { label: "News", href: "/news", children: [{ label: "All news", href: "/news" }, { label: "Company Announcements", href: "/company-announcements" }] },
+  { label: "News", href: "/news", children: [{ label: "All news", href: "/news" }, { label: "Company Announcements", href: "/company-announcements" }, { label: "Energy / Ενέργεια", href: "/energy" }] },
   { label: "Rankings", href: "/rankings" },
   { label: "Directory", href: "/directory", children: [
     { label: "Business Directory", href: "/directory" },
@@ -24,6 +24,7 @@ export const MENU_SECTIONS: { title: string; links: NavLink[] }[] = [
   { title: "News", links: [
     { label: "All news", href: "/news" },
     { label: "Company Announcements", href: "/company-announcements" },
+    { label: "Energy news", href: "/energy/news" },
     { label: "Interviews", href: "/interviews" },
   ] },
   { title: "Data & rankings", links: [
@@ -46,6 +47,7 @@ export const MENU_SECTIONS: { title: string; links: NavLink[] }[] = [
     { label: "ComplianceHub.cy", href: "/compliance" },
     { label: "RegTechHub.cy", href: "/regtech" },
     { label: "TourismHub.cy", href: "/explore" },
+    { label: "EnergyHub.cy — Energy / Ενέργεια", href: "/energy" },
   ] },
   { title: "Guides & tools", links: [
     { label: "Financial Literacy", href: "/financial-literacy" },

@@ -48,6 +48,10 @@ export default {
           DEFAULT: "hsl(var(--tourism))",
           light: "hsl(var(--tourism-light))",
         },
+        energy: {
+          DEFAULT: "hsl(var(--energy))",
+          light: "hsl(var(--energy-light))",
+        },
         finlit: {
           "1": "hsl(var(--fl-1))",
           "2": "hsl(var(--fl-2))",

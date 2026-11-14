@@ -13,6 +13,7 @@ export const STORY_VERTICALS: { value: Vertical; label: string }[] = [
   { value: "compliance", label: "Compliance" },
   { value: "regtech", label: "RegTech" },
   { value: "tourism", label: "Tourism & Hospitality" },
+  { value: "energy", label: "Energy (EnergyHub)" },
 ];
 
 export interface ManualStoryInput {

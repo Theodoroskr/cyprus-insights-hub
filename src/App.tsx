@@ -15,6 +15,7 @@ import { RouteSEODefaults } from "./components/RouteSEODefaults";
 // Lazy-loaded route components
 const Index = lazy(() => import("./pages/Index"));
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
+const EnergyPage = lazy(() => import("./pages/EnergyPage"));
 const CompliancePage = lazy(() => import("./pages/CompliancePage"));
 const ComplianceUpdatesPage = lazy(() => import("./pages/ComplianceUpdatesPage"));
 const ComplianceItemPage = lazy(() => import("./pages/ComplianceItemPage"));
@@ -135,6 +136,8 @@ const App = () => (
                   <Route path="/resources/:slug" element={<ResourceDetailPage />} />
                   <Route path="/sme" element={<SMEPage />} />
                   <Route path="/regtech" element={<RegTechPage />} />
+                  <Route path="/energy" element={<EnergyPage />} />
+                  <Route path="/energy/news" element={<EnergyPage archive />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
                   <Route path="/reset-password" element={<ResetPasswordPage />} />
                   <Route path="/editorial" element={<EditorialDashboard />} />

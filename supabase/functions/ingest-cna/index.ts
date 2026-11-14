@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import { isTourismStory } from "../_shared/tourismNews.ts";
+import { isEnergyStory } from "../_shared/energyNews.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -36,6 +37,7 @@ const VERTICAL_KEYWORDS: Record<string, string[]> = {
 
 function classifyVertical(title: string, body: string): string {
   if (isTourismStory(title)) return "tourism";
+  if (isEnergyStory(title)) return "energy";
   const text = `${title} ${body}`.toLowerCase();
   const scores: Record<string, number> = { compliance: 0, fintech: 0, sme: 0 };
 

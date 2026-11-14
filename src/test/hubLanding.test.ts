@@ -4,7 +4,7 @@ import { PLACEHOLDER_SLOTS, AD_DIMENSIONS } from "@/components/banners/AdSlot";
 
 describe("hub top banners", () => {
   it("gives each hub front page its own top banner place", () => {
-    expect(HUB_TOP_SLOTS).toEqual({ fintechhub: "fintech-top", compliancehub: "compliance-top", regtechhub: "regtech-top", tourismhub: "tourism-top" });
+    expect(HUB_TOP_SLOTS).toEqual({ fintechhub: "fintech-top", compliancehub: "compliance-top", regtechhub: "regtech-top", tourismhub: "tourism-top", energyhub: "energy-top" });
     const slots = Object.values(HUB_TOP_SLOTS);
     expect(new Set(slots).size).toBe(slots.length);
   });
@@ -12,7 +12,7 @@ describe("hub top banners", () => {
     for (const s of Object.values(HUB_TOP_SLOTS)) expect(PLACEHOLDER_SLOTS.has(s!)).toBe(true);
   });
   it("gives each hub its own mid-page banner, different from its top one", () => {
-    expect(HUB_MID_SLOTS).toEqual({ fintechhub: "fintech-mid", compliancehub: "compliance-mid", regtechhub: "regtech-mid", tourismhub: "tourism-mid" });
+    expect(HUB_MID_SLOTS).toEqual({ fintechhub: "fintech-mid", compliancehub: "compliance-mid", regtechhub: "regtech-mid", tourismhub: "tourism-mid", energyhub: "energy-mid" });
     for (const s of Object.values(HUB_MID_SLOTS)) expect(PLACEHOLDER_SLOTS.has(s!)).toBe(true);
     expect(PLACEHOLDER_SLOTS.has("homepage-lead")).toBe(true);
   });

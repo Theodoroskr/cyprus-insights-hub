@@ -10,6 +10,7 @@ export const HUB_TOP_SLOTS: Partial<Record<BrandId, string>> = {
   compliancehub: "compliance-top",
   regtechhub: "regtech-top",
   tourismhub: "tourism-top",
+  energyhub: "energy-top",
 };
 
 /** Each hub front page's own mid-page banner place, under the three lead stories (728×90). */
@@ -18,6 +19,7 @@ export const HUB_MID_SLOTS: Partial<Record<BrandId, string>> = {
   compliancehub: "compliance-mid",
   regtechhub: "regtech-mid",
   tourismhub: "tourism-mid",
+  energyhub: "energy-mid",
 };
 
 const ACCENT: Partial<Record<BrandId, { text: string; bg: string }>> = {
@@ -25,6 +27,7 @@ const ACCENT: Partial<Record<BrandId, { text: string; bg: string }>> = {
   compliancehub: { text: "text-compliance", bg: "bg-compliance" },
   regtechhub: { text: "text-regtech", bg: "bg-regtech" },
   tourismhub: { text: "text-tourism", bg: "bg-tourism" },
+  energyhub: { text: "text-energy", bg: "bg-energy" },
 };
 
 export interface HubQuickLink { label: string; href: string }

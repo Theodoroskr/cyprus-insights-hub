@@ -1,6 +1,6 @@
-import { Landmark, Shield, Building2, Briefcase, Cpu, Compass } from "lucide-react";
+import { Landmark, Shield, Building2, Briefcase, Cpu, Compass, Zap } from "lucide-react";
 
-export type BrandId = "businesshub" | "fintechhub" | "compliancehub" | "smehub" | "regtechhub" | "tourismhub";
+export type BrandId = "businesshub" | "fintechhub" | "compliancehub" | "smehub" | "regtechhub" | "tourismhub" | "energyhub";
 
 export interface BrandConfig {
   id: BrandId;
@@ -156,6 +156,24 @@ export const brands: Record<BrandId, BrandConfig> = {
     ],
     parentBadge: true,
   },
+  energyhub: {
+    id: "energyhub",
+    home: "/energy",
+    badgeClass: "bg-energy",
+    name: "EnergyHub",
+    domain: ".cy",
+    tagline: "Cyprus energy news — electricity, solar, grid and policy",
+    logoLetter: "E",
+    icon: Zap,
+    colors: { primary: "energy", accent: "secondary" },
+    navItems: [
+      { label: "Energy", href: "/energy" },
+      { label: "News", href: "/energy/news" },
+      { label: "Funding", href: "/funding?sector=energy" },
+      { label: "Directory", href: "/directory" },
+    ],
+    parentBadge: true,
+  },
 };
 
 export const hubLinks = [
@@ -164,4 +182,5 @@ export const hubLinks = [
   { brand: brands.compliancehub, href: "/compliance" },
   { brand: brands.regtechhub, href: "/regtech" },
   { brand: brands.tourismhub, href: "/explore" },
+  { brand: brands.energyhub, href: "/energy" },
 ];

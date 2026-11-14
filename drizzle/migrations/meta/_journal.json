@@ -274,6 +274,13 @@
       "when": 1794585998064,
       "tag": "0038_drop_unused_venue_media_storage_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1794637632315,
+      "tag": "0039_add_energy_vertical",
+      "breakpoints": true
     }
   ]
 }

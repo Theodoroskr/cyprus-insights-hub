@@ -11,7 +11,7 @@ import { HUB_MID_SLOTS } from "@/components/hub/HubMasthead";
 import type { BrandId } from "@/config/brands";
 
 const verticalLabel = (v: string) =>
-  ({ compliance: "Compliance", fintech: "FinTech", sme: "SME", general: "Business", regtech: "RegTech", tourism: "Tourism" } as Record<string, string>)[v] || v;
+  ({ compliance: "Compliance", fintech: "FinTech", sme: "SME", general: "Business", regtech: "RegTech", tourism: "Tourism", energy: "Energy" } as Record<string, string>)[v] || v;
 const fullDate = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
 const ago = (iso?: string | null) => (iso ? formatDistanceToNow(new Date(iso), { addSuffix: true }) : "");
