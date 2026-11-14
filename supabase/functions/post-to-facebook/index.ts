@@ -170,7 +170,7 @@ Deno.serve(async (req) => {
     if (!force && (hour < FIRST_POST_HOUR || hour > LAST_POST_HOUR)) return json({ skipped: "Outside posting hours" });
 
     const since = new Date(now.getTime() - 30 * 3600_000).toISOString();
-    const { data: recent } = await sb.from("facebook_posts").select("created_at")
+    const { data: recent } = await sb.from("facebook_posts").select("created_at,article_id")
       .eq("page_id", settings.page_id).eq("status", "posted").gte("created_at", since);
     const postedToday = countPostedToday((recent ?? []).map((r) => r.created_at), now);
     const quota = force
@@ -202,7 +202,12 @@ Deno.serve(async (req) => {
       ? await sb.from("facebook_posts").select("article_id").eq("page_id", settings.page_id).in("article_id", ids)
       : { data: [] };
     const usable = (candidates ?? []).filter((c) => !describesMissingPage(c.summary, c.what_happened));
-    const picks = pickArticles(usable as CandidateArticle[], new Set((done ?? []).map((d) => d.article_id)), quota, postedTitles);
+    // Stories already posted today: the next picks come from other sections/publishers and never reuse their picture.
+    const todayIds = (recent ?? []).filter((r) => countPostedToday([r.created_at], now) === 1).map((r) => r.article_id);
+    const { data: todayArts } = todayIds.length
+      ? await sb.from("cna_articles").select("id,title,summary,what_happened,vertical,source_id,published_at,image_url").in("id", todayIds)
+      : { data: [] };
+    const picks = pickArticles(usable as CandidateArticle[], new Set((done ?? []).map((d) => d.article_id)), quota, postedTitles, todayArts as CandidateArticle[]);
     if (!picks.length) {
       await sb.from("facebook_autopost_settings").update({ last_run_at: now.toISOString(), last_error: null }).eq("id", true);
       return json({ posted: 0, postedToday, reason: "No new stories" });

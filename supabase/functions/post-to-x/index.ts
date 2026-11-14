@@ -76,7 +76,7 @@ Deno.serve(async (req) => {
     const { hour } = cyprusClock(now);
     if (!force && (hour < FIRST_POST_HOUR || hour > LAST_POST_HOUR)) return json({ skipped: "Outside posting hours" });
 
-    const { data: recent } = await sb.from("x_posts").select("created_at").eq("status", "posted")
+    const { data: recent } = await sb.from("x_posts").select("created_at,article_id").eq("status", "posted")
       .gte("created_at", new Date(now.getTime() - 30 * 3600_000).toISOString());
     const postedToday = countPostedToday((recent ?? []).map((r) => r.created_at), now);
     const limit = s?.daily_limit ?? 3;
@@ -102,7 +102,12 @@ Deno.serve(async (req) => {
     const postedTitles = (postedArts ?? []).map((r) => r.title).filter(Boolean) as string[];
     const ids = (cands ?? []).map((c) => c.id);
     const { data: done } = ids.length ? await sb.from("x_posts").select("article_id").in("article_id", ids) : { data: [] };
-    const picks = pickArticles((cands ?? []) as CandidateArticle[], new Set((done ?? []).map((d) => d.article_id)), quota, postedTitles);
+    // Stories already posted today: the next picks come from other sections/publishers and never reuse their picture.
+    const todayIds = (recent ?? []).filter((r) => countPostedToday([r.created_at], now) === 1).map((r) => r.article_id);
+    const { data: todayArts } = todayIds.length
+      ? await sb.from("cna_articles").select("id,title,summary,what_happened,vertical,source_id,published_at,image_url").in("id", todayIds)
+      : { data: [] };
+    const picks = pickArticles((cands ?? []) as CandidateArticle[], new Set((done ?? []).map((d) => d.article_id)), quota, postedTitles, todayArts as CandidateArticle[]);
     if (!picks.length) {
       await sb.from("x_autopost_settings").update({ last_run_at: now.toISOString(), last_error: null }).eq("id", true);
       return json({ posted: 0, reason: "No new stories" });

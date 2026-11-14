@@ -91,35 +91,51 @@ export function postsThisRun(dailyLimit: number, postedToday: number, now: Date)
   return Math.min(remaining, MAX_PER_RUN, Math.ceil(remaining / runsLeft));
 }
 
+/** Publisher of a story: the part of `source_id` before ":" (e.g. "oecd:some-release" -> "oecd"). */
+export function sourceKey(a: Pick<CandidateArticle, "source_id">): string {
+  return (a.source_id ?? "").split(":")[0];
+}
+
+/** The story's own picture address, or null when it has none (the post then uses a section picture). */
+function ownPicture(a: CandidateArticle): string | null {
+  return hasOwnPhoto(a) ? a.image_url!.trim() : null;
+}
+
 /**
- * Pick up to `n` not-yet-posted stories, newest first, alternating between
- * sections and sources so one scrape batch does not fill the page.
+ * Pick up to `n` not-yet-posted stories, newest first, mixing sections and publishers:
+ * first stories whose section and publisher were not posted today nor in this run, then ones new to this run, then any.
+ * A story whose picture was already used today (or in this run) is never picked, so posts don't repeat a photo.
+ * `postedToday` = stories already posted today on this account.
  */
-export function pickArticles(candidates: CandidateArticle[], alreadyPosted: Set<string>, n: number, postedTitles: string[] = []): CandidateArticle[] {
+export function pickArticles(
+  candidates: CandidateArticle[], alreadyPosted: Set<string>, n: number,
+  postedTitles: string[] = [], postedToday: CandidateArticle[] = [],
+): CandidateArticle[] {
   if (n <= 0) return [];
   const seen = [...postedTitles];
   const fresh = candidates
     .filter((a) => a.title?.trim() && a.published_at && !alreadyPosted.has(a.id) && !postedTitles.some((t) => isSameHeadline(a.title, t)))
     .sort((a, b) => (b.published_at! < a.published_at! ? -1 : b.published_at! > a.published_at! ? 1 : 0));
   const picked: CandidateArticle[] = [];
-  const usedSections = new Set<string>();
-  const usedSources = new Set<string>();
-  // First pass: one per section+source; then relax to fill.
-  for (const strict of [true, false]) {
+  const pictures = new Set(postedToday.map(ownPicture).filter(Boolean) as string[]);
+  const todaySections = new Set(postedToday.map((a) => a.vertical ?? "general"));
+  const todaySources = new Set(postedToday.map(sourceKey));
+  // Tier 0: new section + publisher for today; tier 1: new for this run; tier 2: fill.
+  for (const tier of [0, 1, 2]) {
     for (const a of fresh) {
       if (picked.length >= n) break;
       if (picked.includes(a)) continue;
       const section = a.vertical ?? "general";
-      const source = a.source_id ?? "";
-      if (strict && (usedSections.has(section) || usedSources.has(source))) continue;
+      const source = sourceKey(a);
+      if (tier === 0 && (todaySections.has(section) || todaySources.has(source))) continue;
+      if (tier <= 1 && picked.some((p) => (p.vertical ?? "general") === section || sourceKey(p) === source)) continue;
+      const pic = ownPicture(a);
+      if (pic && pictures.has(pic)) continue;
       if (seen.some((t) => isSameHeadline(a.title, t))) continue;
       picked.push(a);
       seen.push(a.title!);
-      usedSections.add(section);
-      usedSources.add(source);
+      if (pic) pictures.add(pic);
     }
-    usedSections.clear();
-    usedSources.clear();
   }
   return picked;
 }

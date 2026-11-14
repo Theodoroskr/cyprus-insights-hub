@@ -31,6 +31,28 @@ describe("story selection", () => {
     ], new Set(), 2);
     expect(picked.map((p) => p.id)).toEqual(["1", "3"]);
   });
+  it("treats stories from one publisher as the same source (oecd:a and oecd:b)", () => {
+    const picked = pickArticles([
+      art("1", "2026-11-14T10:00:00Z", "sme", "oecd:unemployment"),
+      art("2", "2026-11-14T09:59:00Z", "energy", "oecd:inflation"),
+      art("3", "2026-11-14T09:00:00Z", "fintech", "cbc:rates"),
+    ], new Set(), 2);
+    expect(picked.map((p) => p.id)).toEqual(["1", "3"]);
+  });
+  it("prefers a section not already posted today", () => {
+    const today = [art("t", "2026-11-14T08:00:00Z", "general", "philenews:x")];
+    const picked = pickArticles([
+      art("1", "2026-11-14T10:00:00Z", "general", "cyprus-mail:a"),
+      art("2", "2026-11-14T09:00:00Z", "compliance", "cysec:b"),
+    ], new Set(), 1, [], today);
+    expect(picked.map((p) => p.id)).toEqual(["2"]);
+  });
+  it("never posts a picture already used today", () => {
+    const img = "https://www.oecd.org/fallback.png";
+    const today = [{ ...art("t", "2026-11-14T08:00:00Z", "sme", "oecd:x"), image_url: img }];
+    const picked = pickArticles([{ ...art("1", "2026-11-14T10:00:00Z", "energy", "eu:y"), image_url: img }], new Set(), 1, [], today);
+    expect(picked).toHaveLength(0);
+  });
   it("links to the article on businesshub.cy", () => expect(articleLink("abc")).toBe("https://businesshub.cy/article/abc"));
 });
 
