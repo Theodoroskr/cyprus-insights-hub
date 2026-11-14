@@ -56,3 +56,21 @@ describe("post picture", () => {
   it("caption ends with a link to the article", () =>
     expect(buildPhotoCaption(art("xyz", "2026-11-09T05:00:00Z"))).toMatch(/Read more: https:\/\/businesshub\.cy\/article\/xyz$/));
 });
+
+import { isSameHeadline } from "../../supabase/functions/_shared/facebookPosting";
+describe("same story from two sources", () => {
+  it("treats the Moldova release from two EU sites as one story", () => {
+    expect(isSameHeadline(
+      "High-Level Platform meets in Moldova to strengthen digital connectivity between the EU and Central Asia",
+      "High-Level Platform meets in Moldova to strengthen digital connectivity between the EU, the Black Sea region, South-Caucasus and Central Asia",
+    )).toBe(true);
+  });
+  it("keeps different days and different countries apart", () => {
+    expect(isSameHeadline("Daily news - Nov 12, 2026", "Daily news - Nov 11, 2026")).toBe(false);
+    expect(isSameHeadline("Commission greenlights Luxembourg's final payment request for €80 million", "Commission greenlights Estonia's final payment request for €80 million")).toBe(false);
+  });
+  it("skips a candidate whose headline was already posted", () => {
+    const a = { id: "x", title: "Monetary policy decisions", summary: null, what_happened: null, vertical: "general", source_id: "ecb", published_at: "2026-11-14T08:00:00Z" };
+    expect(pickArticles([a], new Set(), 3, ["Monetary policy decisions"])).toHaveLength(0);
+  });
+});

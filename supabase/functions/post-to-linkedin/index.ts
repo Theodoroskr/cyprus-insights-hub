@@ -131,11 +131,19 @@ Deno.serve(async (req) => {
       .lte("published_at", now.toISOString())
       .order("published_at", { ascending: false }).limit(200);
     if (error) throw error;
+    // Headlines posted in the last 30 days, so the same story from another source is not posted again.
+    const { data: postedRows } = await sb.from("linkedin_posts").select("article_id")
+      .eq("organization_urn", s.organization_urn).gte("created_at", new Date(now.getTime() - 30 * 86400_000).toISOString()).limit(1000);
+    const postedIds = (postedRows ?? []).map((r) => r.article_id);
+    const { data: postedArts } = postedIds.length
+      ? await sb.from("cna_articles").select("title").in("id", postedIds)
+      : { data: [] };
+    const postedTitles = (postedArts ?? []).map((r) => r.title).filter(Boolean) as string[];
     const ids = (cands ?? []).map((c) => c.id);
     const { data: done } = ids.length
       ? await sb.from("linkedin_posts").select("article_id").eq("organization_urn", s.organization_urn).in("article_id", ids)
       : { data: [] };
-    const picks = pickArticles((cands ?? []) as CandidateArticle[], new Set((done ?? []).map((d) => d.article_id)), quota);
+    const picks = pickArticles((cands ?? []) as CandidateArticle[], new Set((done ?? []).map((d) => d.article_id)), quota, postedTitles);
     if (!picks.length) {
       await sb.from("linkedin_autopost_settings").update({ last_run_at: now.toISOString(), last_error: null }).eq("id", true);
       return json({ posted: 0, reason: "No new stories" });

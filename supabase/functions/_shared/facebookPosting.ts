@@ -95,10 +95,11 @@ export function postsThisRun(dailyLimit: number, postedToday: number, now: Date)
  * Pick up to `n` not-yet-posted stories, newest first, alternating between
  * sections and sources so one scrape batch does not fill the page.
  */
-export function pickArticles(candidates: CandidateArticle[], alreadyPosted: Set<string>, n: number): CandidateArticle[] {
+export function pickArticles(candidates: CandidateArticle[], alreadyPosted: Set<string>, n: number, postedTitles: string[] = []): CandidateArticle[] {
   if (n <= 0) return [];
+  const seen = [...postedTitles];
   const fresh = candidates
-    .filter((a) => a.title?.trim() && a.published_at && !alreadyPosted.has(a.id))
+    .filter((a) => a.title?.trim() && a.published_at && !alreadyPosted.has(a.id) && !postedTitles.some((t) => isSameHeadline(a.title, t)))
     .sort((a, b) => (b.published_at! < a.published_at! ? -1 : b.published_at! > a.published_at! ? 1 : 0));
   const picked: CandidateArticle[] = [];
   const usedSections = new Set<string>();
@@ -111,7 +112,9 @@ export function pickArticles(candidates: CandidateArticle[], alreadyPosted: Set<
       const section = a.vertical ?? "general";
       const source = a.source_id ?? "";
       if (strict && (usedSections.has(section) || usedSources.has(source))) continue;
+      if (seen.some((t) => isSameHeadline(a.title, t))) continue;
       picked.push(a);
+      seen.push(a.title!);
       usedSections.add(section);
       usedSources.add(source);
     }
@@ -119,6 +122,26 @@ export function pickArticles(candidates: CandidateArticle[], alreadyPosted: Set<
     usedSources.clear();
   }
   return picked;
+}
+
+const STOP = new Set(["the", "and", "for", "with", "from", "into", "that", "this", "its", "are", "was", "has", "have", "new", "between", "about"]);
+function headlineWords(t: string): string[] {
+  return (t.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").match(/[\p{L}\p{N}]+/gu) ?? [])
+    .filter((w) => /\d/.test(w) || (w.length >= 3 && !STOP.has(w)));
+}
+
+/**
+ * True when two headlines describe the same story (e.g. the same release picked up from two sources):
+ * identical wording, or every key word of the shorter headline appears in the longer one with the same numbers.
+ */
+export function isSameHeadline(a: string | null | undefined, b: string | null | undefined): boolean {
+  const wa = headlineWords(a ?? ""), wb = headlineWords(b ?? "");
+  if (!wa.length || !wb.length) return false;
+  if (wa.join(" ") === wb.join(" ")) return true;
+  const nums = (w: string[]) => w.filter((x) => /\d/.test(x)).sort().join(",");
+  if (nums(wa) !== nums(wb)) return false;
+  const [short, long] = wa.length <= wb.length ? [wa, new Set(wb)] : [wb, new Set(wa)];
+  return short.length >= 5 && short.every((w) => long.has(w));
 }
 
 export function articleLink(id: string): string {
