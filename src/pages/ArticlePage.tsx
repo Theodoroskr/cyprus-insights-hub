@@ -1,3 +1,4 @@
+import { isInternationalStory, INTERNATIONAL_LABEL } from "@/lib/storyOrigin";
 import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { SOCIAL_SAME_AS } from "@/config/social";
 import { useEffect, useState, useMemo, useRef } from "react";
@@ -247,6 +248,7 @@ export default function ArticlePage() {
               <Badge variant="outline" className={verticalColor[article.vertical] || verticalColor.general}>
                 {verticalLabel[article.vertical] || article.vertical}
               </Badge>
+              {isInternationalStory(article) && <Badge variant="outline">{INTERNATIONAL_LABEL}</Badge>}
               {article.tags?.includes(PRESS_RELEASE_TAG) && <Badge variant="secondary">Press release</Badge>}
               {source && <span className="font-medium text-foreground">{source}</span>}
               {date && <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{date}</span>}

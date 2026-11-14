@@ -1,3 +1,4 @@
+import { isInternationalStory, INTERNATIONAL_LABEL } from "@/lib/storyOrigin";
 import { fallbackFor , storyImage } from "@/lib/fallbackImage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +32,7 @@ interface IntelligenceListItemProps {
 const ORIGIN_KEYWORDS: Record<string, { label: string; className: string }> = {
   cyprus: { label: "Cyprus", className: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" },
   eu: { label: "EU", className: "bg-blue-500/15 text-blue-700 dark:text-blue-400 border-blue-500/20" },
-  global: { label: "Global", className: "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/20" },
+  global: { label: INTERNATIONAL_LABEL, className: "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/20" },
 };
 
 function getOriginTags(tags: string[] | null | undefined, title: string): { label: string; className: string }[] {
@@ -41,7 +42,7 @@ function getOriginTags(tags: string[] | null | undefined, title: string): { labe
     results.push(ORIGIN_KEYWORDS.cyprus);
   if (text.includes("eu ") || text.includes("european") || text.includes("brussels") || text.includes("directive") || text.includes("mica") || text.includes("psd") || text.includes("amla"))
     results.push(ORIGIN_KEYWORDS.eu);
-  if (text.includes("global") || text.includes("international") || text.includes("world") || text.includes("imf") || text.includes("oecd") || text.includes("fatf"))
+  if (isInternationalStory({ title, tags }))
     results.push(ORIGIN_KEYWORDS.global);
   return results;
 }

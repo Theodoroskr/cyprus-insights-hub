@@ -1,3 +1,4 @@
+import { isInternationalStory, INTERNATIONAL_LABEL } from "@/lib/storyOrigin";
 import { ReactNode, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -30,6 +31,7 @@ export function LeadStoriesView({ hub, latest, aside, below, allNewsHref = "/new
     summary: (a.summary || a.what_happened || "") as string,
     image: imgs[i],
     category: verticalLabel(a.vertical),
+    intl: isInternationalStory(a),
     publishedAt: a.published_at as string,
     readTime: estimateReadingTime(a.what_happened, a.why_it_matters, a.what_to_do, a.summary, a.body_markdown),
   }));
@@ -44,7 +46,7 @@ export function LeadStoriesView({ hub, latest, aside, below, allNewsHref = "/new
           <img src={lead.image} alt={lead.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
         </div>
         <div className="md:col-span-5 flex flex-col justify-center py-2">
-          <Kicker>{lead.category}</Kicker>
+          <Kicker>{lead.category}{lead.intl && <span className="ml-2 text-secondary">· {INTERNATIONAL_LABEL}</span>}</Kicker>
           <h2 className="font-serif font-bold text-foreground text-2xl md:text-[2.15rem] leading-[1.15] mb-3 line-clamp-5 group-hover:text-secondary transition-colors">{lead.title}</h2>
           {lead.summary && <p className="text-muted-foreground text-base leading-relaxed mb-4 line-clamp-3">{lead.summary}</p>}
           <p className="text-sm text-foreground">By <span className="font-medium">BusinessHub Editorial</span></p>
@@ -61,7 +63,7 @@ export function LeadStoriesView({ hub, latest, aside, below, allNewsHref = "/new
                 <img src={a.image} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
               </div>
               <div className="flex items-center gap-2">
-                <Kicker>{a.category}</Kicker>
+                <Kicker>{a.category}{a.intl && <span className="ml-2 text-secondary">· {INTERNATIONAL_LABEL}</span>}</Kicker>
                 {idx === 0 && (
                   <span className="mb-2 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-secondary">
                     <span className="w-1.5 h-1.5 rounded-full bg-secondary inline-block" /> Premium
@@ -84,6 +86,7 @@ export function LeadStoriesView({ hub, latest, aside, below, allNewsHref = "/new
                 <Link to={`/article/${a.id}`} className="block font-serif text-[15px] font-semibold text-foreground leading-snug hover:text-secondary transition-colors line-clamp-3">
                   {a.title || a.what_happened}
                 </Link>
+                {isInternationalStory(a) && <span className="text-[10px] font-semibold uppercase tracking-wider text-secondary mr-2">{INTERNATIONAL_LABEL}</span>}
                 <time dateTime={a.published_at} title={fullDate(a.published_at)} className="text-xs text-muted-foreground">{ago(a.published_at)}</time>
               </li>
             ))}

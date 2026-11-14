@@ -1,3 +1,4 @@
+import { isInternationalStory, INTERNATIONAL_LABEL } from "@/lib/storyOrigin";
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Newspaper, Calendar } from "lucide-react";
@@ -52,7 +53,7 @@ export default function NewsListPage() {
   const items: Item[] = useMemo(() => {
     const a: Item[] = blendNews(news as any[]).map((n: any) => ({
       id: n.id, title: n.title, excerpt: n.summary, href: `/article/${n.id}`, date: n.published_at,
-      image: storyImage(n.image_url, n.vertical, n.id, n.body_markdown), label: LABEL[n.vertical] || "News", vertical: n.vertical,
+      image: storyImage(n.image_url, n.vertical, n.id, n.body_markdown), label: (LABEL[n.vertical] || "News") + (isInternationalStory(n) ? ` · ${INTERNATIONAL_LABEL}` : ""), vertical: n.vertical,
     }));
     if (hub !== "all") return a;
     const oldest = news.length && more ? news[news.length - 1].published_at : null;
