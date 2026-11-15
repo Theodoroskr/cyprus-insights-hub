@@ -3,6 +3,7 @@
 // If the database can't be reached, it skips without failing the publish.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
+import { articlePath } from "../src/lib/articleUrl";
 import { buildStoryHtml, type PreviewStory } from "../src/lib/storyPreview";
 
 function readEnv(): Record<string, string> {
@@ -37,7 +38,10 @@ async function main() {
     if (!/^[0-9a-f-]{36}$/i.test(s.id)) continue;
     const dir = resolve("dist/article", s.id);
     mkdirSync(dir, { recursive: true });
-    writeFileSync(resolve(dir, "index.html"), buildStoryHtml(template, s));
+    const html = buildStoryHtml(template, s);
+    writeFileSync(resolve(dir, "index.html"), html);
+    const full = resolve("dist" + articlePath(s.id, s.title));
+    if (full !== dir) { mkdirSync(full, { recursive: true }); writeFileSync(resolve(full, "index.html"), html); }
   }
   console.log(`story previews: wrote ${stories.length} pages`);
 }

@@ -6,7 +6,7 @@ const tpl = `<html><head><title>Site</title>\n<meta data-rh="true" property="og:
 describe("story link previews", () => {
   it("uses the story's own title, photo and address", () => {
     const html = buildStoryHtml(tpl, { id: "abc", title: 'Bank "X" & Co', summary: "Sum", image_url: "https://img.example.com/a.jpg", vertical: "business" });
-    expect(html).toContain('property="og:url" content="https://businesshub.cy/article/abc"');
+    expect(html).toContain('property="og:url" content="https://businesshub.cy/article/abc/bank-x-and-co"');
     expect(html).toContain('property="og:image" content="https://img.example.com/a.jpg"');
     expect(html).toContain("Bank &quot;X&quot; &amp; Co");
     expect(html.match(/property="og:title"/g)?.length).toBe(1);

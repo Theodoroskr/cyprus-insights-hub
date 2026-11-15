@@ -1,5 +1,6 @@
 // Builds per-story HTML (copy of built index.html with that story's head tags) so
 // link-preview robots (Facebook, WhatsApp, LinkedIn) see the story's own title/photo.
+import { articlePath } from "./articleUrl";
 const SITE = "https://businesshub.cy";
 
 export interface PreviewStory {
@@ -40,15 +41,15 @@ export function previewImage(story: Pick<PreviewStory, "image_url" | "vertical">
   return HUB_IMAGES[story.vertical ?? ""] ?? `${SITE}/images/og-businesshub.png`;
 }
 
-export function storyUrl(id: string): string {
-  return `${SITE}/article/${id}`;
+export function storyUrl(id: string, title?: string | null): string {
+  return `${SITE}${articlePath(id, title)}`;
 }
 
 export function buildStoryHtml(template: string, story: PreviewStory): string {
   const title = escapeAttr(`${plainText(story.title, 110)} | BusinessHub.cy`);
   const desc = escapeAttr(plainText(story.summary || story.what_happened) || "Cyprus business intelligence from BusinessHub.cy.");
   const img = escapeAttr(previewImage(story));
-  const url = escapeAttr(storyUrl(story.id));
+  const url = escapeAttr(storyUrl(story.id, story.title));
   const isOwnImage = img.startsWith(`${SITE}/images/og-`);
   // Drop the site-wide fallback tags; replace with this story's.
   let html = template.replace(/\s*<meta data-rh="true"[^>]*>/g, "").replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`);

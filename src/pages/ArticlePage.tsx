@@ -10,7 +10,8 @@ import { AdSlot } from "@/components/banners/AdSlot";
 import { groupArticleImages } from "@/lib/groupArticleImages";
 import { StoryVideo } from "@/components/StoryVideo";
 import { storyImage } from "@/lib/fallbackImage";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
+import { articlePath } from "@/lib/articleUrl";
 import { RelatedFunding } from "@/components/funding/RelatedFunding";
 import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Facebook, Mail, Flame, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -70,6 +71,15 @@ export default function ArticlePage() {
   const [mostRead, setMostRead] = useState<{ article_id: string; title: string }[]>([]);
   const viewTracked = useRef(false);
   const articleRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Show the headline in the address bar: /article/<id>/<headline>.
+  useEffect(() => {
+    if (!article) return;
+    const want = articlePath(article.id, article.title);
+    if (location.pathname !== want) navigate(want + location.search + location.hash, { replace: true });
+  }, [article, location.pathname, location.search, location.hash, navigate]);
 
   // Track view via IntersectionObserver — fires once when article content is visible
   useEffect(() => {
@@ -186,7 +196,7 @@ export default function ArticlePage() {
   const readTime = estimateReadingTime(article.what_happened, article.why_it_matters, article.what_to_do, hasBody ? cleanBody : article.summary);
   const isLong = cleanBody.length > 2500;
   const shareText = encodeURIComponent(headline);
-  const shareUrl = encodeURIComponent(canonicalUrl(`/article/${article.id}`));
+  const shareUrl = encodeURIComponent(canonicalUrl(articlePath(article.id, article.title)));
 
   const cards = [
     { key: "what", text: article.what_happened, label: "What happened", Icon: Zap, tone: "secondary" },
@@ -204,14 +214,14 @@ export default function ArticlePage() {
       <SEOHead
         title={headline}
         description={article.summary || article.why_it_matters || ""}
-        path={`/article/${article.id}`}
+        path={articlePath(article.id, article.title)}
         image={previewImage(article)}
         vertical={article.vertical}
         type="article"
         breadcrumbs={[
           { name: "Home", href: "/" },
           { name: "News", href: "/news" },
-          { name: headline.slice(0, 110), href: `/article/${article.id}` },
+          { name: headline.slice(0, 110), href: articlePath(article.id, article.title) },
         ]}
         jsonLd={{
           "@context": "https://schema.org",
@@ -224,7 +234,7 @@ export default function ArticlePage() {
           articleSection: verticalLabel[article.vertical] || article.vertical,
           keywords: article.tags?.join(", ") || undefined,
           abstract: article.why_it_matters || undefined,
-          mainEntityOfPage: `https://businesshub.cy/article/${article.id}`,
+          mainEntityOfPage: `https://businesshub.cy${articlePath(article.id, article.title)}`,
           isBasedOn: article.source_url || undefined,
           author: { "@type": "Organization", name: "BusinessHub.cy", url: "https://businesshub.cy/" },
           publisher: {
