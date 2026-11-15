@@ -35,4 +35,3 @@
 - Company Announcements: rules in `supabase/functions/ingest-announcements/AGENTS.md`. Why: one event, one page, every claim sourced.
 - ComplianceHub: only editor-published `compliance_items`/`fatf_releases` are public; pipeline rules in `supabase/functions/ingest-compliance/AGENTS.md`. Why: every claim verified and sourced.
 - Funding & Subsidies: rules in `supabase/functions/ingest-funding/AGENTS.md`. Why: one record per call, nothing unverified public, paywall in the database.
-- Story pictures: publisher logos/default share images (`_shared/genericImage.ts`) and photos another story already uses are never stored as `image_url`; story lists choose pictures via `distinctNeighbours`/`listImage`. Why: nearby stories must not look identical.
