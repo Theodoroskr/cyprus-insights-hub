@@ -51,6 +51,26 @@ describe("cleanArticleMarkdown", () => {
   });
 });
 
+describe("site feedback banners", () => {
+  it("drops the 'welcome to the new website' banner, even when scraped twice", () => {
+    const story =
+      "CPMI and IOSCO are seeking input from stakeholders on a cyber resilience toolkit for financial market infrastructures and on risks from third-party service providers.";
+    const banner =
+      'Welcome to the new BIS website. Please share your [feedback](https://forms.office.com/e/pnfWztYpyA "(opens in a new window)") to help us improve.';
+    const raw = `${story}\n\n${banner}\n\n${banner}`;
+    const out = cleanArticleMarkdown(raw);
+    expect(out).toBe(story);
+    expect(out).not.toContain("Welcome to the new");
+    expect(out).not.toContain("forms.office.com");
+  });
+
+  it("keeps a story that only mentions feedback in its own words", () => {
+    const story =
+      "The consultation invites banks to share their feedback on the draft standard before the deadline of 01 December 2026, which the secretariat will publish alongside responses.";
+    expect(cleanArticleMarkdown(story)).toBe(story);
+  });
+});
+
 describe("source listings", () => {
   it("cuts Related Press & News and Latest Publications", () => {
     const story = "ESMA published its annual work programme today, setting out priorities for supervision, data and simplification of reporting across the EU markets.";

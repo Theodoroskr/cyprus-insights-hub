@@ -10,6 +10,9 @@ const FOOTER_HEADING =
 const CUT_LINE =
   /^(related (press( & news)?|news|articles|stories|publications)|latest (publications|news)|more news|other news|see also|read more|download (all|selected) files.*)$/i;
 const DATE_ONLY = /^(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{1,2}\s+[a-z]{3,9}\.?\s+\d{4})$/i;
+/** Site-wide "we rebuilt the site, tell us what you think" banners, often scraped twice */
+const SITE_FEEDBACK =
+  /^(welcome to the new .{0,60} website|please share your feedback|share your feedback to help us improve|was this page helpful|did you find this page helpful|have a comment about this page)/i;
 const NOISE_LINE =
   /^(print|share|skip to (main )?content|back to top|available languages:.*|press release\s.*\d{4}.*|\d+\.\s*\.\.\.|search|menu|en|el)$/i;
 
@@ -67,6 +70,7 @@ export function cleanArticleMarkdown(raw: string | null | undefined): string {
   body = body.filter((b, i) => {
     const p = plain(b);
     if (DATE_ONLY.test(p)) return false;
+    if (SITE_FEEDBACK.test(p)) return false;
     if (i > 0 && DATE_ONLY.test(plain(body[i - 1])) && !/[.!?"”]$/.test(p)) return false;
     if (/^\s*\|/.test(b)) {
       const cells = b.split("|").map((c) => c.trim()).filter((c) => c && !/^-+$/.test(c));
@@ -81,7 +85,7 @@ export function cleanArticleMarkdown(raw: string | null | undefined): string {
     .map((b) =>
       b
         .split("\n")
-        .filter((l) => !NOISE_LINE.test(plain(l)))
+        .filter((l) => !NOISE_LINE.test(plain(l)) && !SITE_FEEDBACK.test(plain(l)))
         .join("\n")
         .trim(),
     )
