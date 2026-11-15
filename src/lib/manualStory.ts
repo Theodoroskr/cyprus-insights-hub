@@ -1,5 +1,6 @@
 // Editors write a story or press release by hand for the main news feed (cna_articles).
 import { canonicalArticleUrl } from "../../supabase/functions/scrape-sources/listingPage";
+import { videoProblem } from "@/lib/videoEmbed";
 import type { Database } from "@/integrations/supabase/types";
 
 type Vertical = Database["public"]["Enums"]["article_vertical"];
@@ -30,12 +31,13 @@ export interface ManualStoryInput {
   contact: string;  // optional press contact shown under the release
   tags: string;     // comma-separated
   imageUrl: string;
+  videoUrl: string; // optional YouTube link, shown as a player under the headline
   publishNow: boolean;
 }
 
 export const EMPTY_STORY: ManualStoryInput = {
   kind: "story", headline: "", summary: "", vertical: "general", body: "", whatHappened: "", whyItMatters: "", whatToDo: "",
-  sourceUrl: "", issuer: "", contact: "", tags: "", imageUrl: "", publishNow: false,
+  sourceUrl: "", issuer: "", contact: "", tags: "", imageUrl: "", videoUrl: "", publishNow: false,
 };
 
 /** Returns an error message, or null when the form can be saved. */
@@ -46,6 +48,8 @@ export function storyProblem(f: ManualStoryInput): string | null {
   if (f.kind === "press_release" && !f.issuer.trim()) return "Name the company or organisation issuing the press release";
   if (f.sourceUrl.trim() && !/^https?:\/\/\S+\.\S+/i.test(f.sourceUrl.trim())) return "The original link must start with https://";
   if (f.imageUrl.trim() && !/^https:\/\/\S+/i.test(f.imageUrl.trim())) return "The picture link must start with https://";
+  const video = videoProblem(f.videoUrl);
+  if (video) return video;
   return null;
 }
 
@@ -73,6 +77,7 @@ export function storyRow(f: ManualStoryInput, now = new Date()) {
     source_url: url,
     canonical_url: url,
     image_url: f.imageUrl.trim() || null,
+    video_url: f.videoUrl.trim() || null,
     tags,
     event_type: isPr ? "press_release" : "editorial",
     original_language: "en",

@@ -1,0 +1,1 @@
+alter table public.cna_articles add column if not exists video_url text;

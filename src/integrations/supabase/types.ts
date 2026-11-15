@@ -490,6 +490,7 @@ export type Database = {
           title: string
           updated_at: string
           vertical: Database["public"]["Enums"]["article_vertical"]
+          video_url: string | null
           what_happened: string | null
           what_to_do: string | null
           why_it_matters: string | null
@@ -513,6 +514,7 @@ export type Database = {
           title: string
           updated_at?: string
           vertical?: Database["public"]["Enums"]["article_vertical"]
+          video_url?: string | null
           what_happened?: string | null
           what_to_do?: string | null
           why_it_matters?: string | null
@@ -536,6 +538,7 @@ export type Database = {
           title?: string
           updated_at?: string
           vertical?: Database["public"]["Enums"]["article_vertical"]
+          video_url?: string | null
           what_happened?: string | null
           what_to_do?: string | null
           why_it_matters?: string | null

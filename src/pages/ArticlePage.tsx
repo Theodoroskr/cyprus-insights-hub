@@ -8,6 +8,7 @@ import { previewImage } from "@/lib/storyPreview";
 import ReactMarkdown from "react-markdown";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { groupArticleImages } from "@/lib/groupArticleImages";
+import { StoryVideo } from "@/components/StoryVideo";
 import { storyImage } from "@/lib/fallbackImage";
 import { useParams, Link } from "react-router-dom";
 import { RelatedFunding } from "@/components/funding/RelatedFunding";
@@ -31,6 +32,7 @@ interface Article {
   what_to_do: string | null;
   body_markdown: string | null;
   image_url: string | null;
+  video_url?: string | null;
   vertical: string;
   published_at: string | null;
   source_url: string | null;
@@ -261,6 +263,8 @@ export default function ArticlePage() {
               <p className="text-lg md:text-xl text-muted-foreground font-source-serif leading-relaxed">{article.summary}</p>
             )}
           </header>
+
+          <StoryVideo url={article.video_url} title={headline} />
 
           {(
             <figure className="mb-10">

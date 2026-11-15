@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { EMPTY_STORY, STORY_VERTICALS, storyProblem, storyRow, type ManualStoryInput } from "@/lib/manualStory";
+import { videoEmbed, videoProblem } from "@/lib/videoEmbed";
 
 /** Editors write a story or paste a press release for the main news feed. */
 export function NewStoryDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
@@ -97,6 +98,10 @@ export function NewStoryDialog({ open, onOpenChange }: { open: boolean; onOpenCh
             </div>
             {f.imageUrl && <img src={f.imageUrl} alt="" className="h-24 rounded-md object-cover" />}
           </div>
+
+          <label className="text-xs block">Video link (YouTube, optional)<Input placeholder="https://www.youtube.com/watch?v=…" value={f.videoUrl} onChange={set("videoUrl")} /></label>
+          {videoProblem(f.videoUrl) && <p className="text-xs text-destructive">{videoProblem(f.videoUrl)}</p>}
+          {videoEmbed(f.videoUrl) && <img src={videoEmbed(f.videoUrl)!.thumbUrl} alt="" className="h-24 rounded-md object-cover" />}
 
           <div className="flex gap-2 justify-end pt-2">
             <Button variant="outline" disabled={busy || uploading} onClick={() => save(false)}>Save as draft</Button>

@@ -36,6 +36,7 @@ import { TourismPanel } from "@/components/admin/TourismPanel";
 import { FundingPanel } from "@/components/admin/FundingPanel";
 import { VenuesPanel } from "@/components/admin/VenuesPanel";
 import { NewStoryDialog } from "@/components/admin/NewStoryDialog";
+import { videoEmbed, videoProblem } from "@/lib/videoEmbed";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -430,6 +431,7 @@ const EditorialDashboard = () => {
       summary: article.summary,
       vertical: article.vertical,
       image_url: article.image_url,
+      video_url: article.video_url,
       what_happened: article.what_happened,
       why_it_matters: article.why_it_matters,
       what_to_do: article.what_to_do,
@@ -896,6 +898,20 @@ const EditorialDashboard = () => {
               />
               {editForm.image_url && (
                 <img src={editForm.image_url} alt="Preview" className="mt-2 h-32 w-full object-cover rounded-lg border border-border" />
+              )}
+            </div>
+            <div>
+              <label className="section-label">Video link (YouTube)</label>
+              <Input
+                placeholder="https://www.youtube.com/watch?v=…"
+                value={editForm.video_url ?? ""}
+                onChange={(e) => setEditForm({ ...editForm, video_url: e.target.value })}
+              />
+              {editForm.video_url && !videoEmbed(editForm.video_url) && (
+                <p className="text-xs text-destructive mt-1">{videoProblem(editForm.video_url)}</p>
+              )}
+              {videoEmbed(editForm.video_url) && (
+                <img src={videoEmbed(editForm.video_url)!.thumbUrl} alt="Video preview" className="mt-2 h-32 w-full object-cover rounded-lg border border-border" />
               )}
             </div>
             <div>
