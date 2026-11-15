@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { videoEmbed, videoProblem, youTubeVideoId } from "@/lib/videoEmbed";
+import { isUprightPicture, videoEmbed, videoProblem, youTubeVideoId } from "@/lib/videoEmbed";
 
 describe("YouTube video links on stories", () => {
   it("accepts the YouTube link shapes editors paste", () => {
@@ -21,7 +21,7 @@ describe("YouTube video links on stories", () => {
   });
 
   it("gives the story page a privacy-friendly player address", () => {
-    expect(videoEmbed("https://youtu.be/dQw4w9WgXcQ")).toEqual({
+    expect(videoEmbed("https://youtu.be/dQw4w9WgXcQ")).toMatchObject({
       id: "dQw4w9WgXcQ",
       embedUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
       thumbUrl: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
@@ -34,5 +34,18 @@ describe("YouTube video links on stories", () => {
     expect(videoProblem("   ")).toBeNull();
     expect(videoProblem("https://www.youtube.com/watch?v=dQw4w9WgXcQ")).toBeNull();
     expect(videoProblem("https://vimeo.com/76979871")).toContain("must be a YouTube link");
+  });
+});
+
+describe("vertical videos (Shorts)", () => {
+  it("treats a pasted Shorts link as vertical and a normal watch link as not (until checked)", () => {
+    expect(videoEmbed("https://www.youtube.com/shorts/AQ3w_ozIuCs")?.vertical).toBe(true);
+    expect(videoEmbed("https://www.youtube.com/watch?v=AQ3w_ozIuCs")?.vertical).toBe(false);
+  });
+  it("checks the upright picture YouTube keeps for Shorts", () => {
+    expect(videoEmbed("https://youtu.be/AQ3w_ozIuCs")?.uprightThumbUrl).toBe("https://i.ytimg.com/vi/AQ3w_ozIuCs/oardefault.jpg");
+    expect(isUprightPicture(1080, 1920)).toBe(true);
+    expect(isUprightPicture(120, 90)).toBe(false);
+    expect(isUprightPicture(0, 0)).toBe(false);
   });
 });

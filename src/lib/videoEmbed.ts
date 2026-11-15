@@ -31,6 +31,15 @@ export interface VideoEmbed {
   embedUrl: string;
   /** Picture shown before the visitor presses play. */
   thumbUrl: string;
+  /** Upright picture YouTube only has for Shorts; it loads taller than wide for a vertical video. */
+  uprightThumbUrl: string;
+  /** True when the pasted link itself says it is a Short (vertical video). */
+  vertical: boolean;
+}
+
+/** A video is vertical when its upright picture is taller than it is wide. */
+export function isUprightPicture(width: number, height: number): boolean {
+  return width > 0 && height > width;
 }
 
 /** The player address for a pasted YouTube link, or null when it is not a YouTube video. */
@@ -41,6 +50,8 @@ export function videoEmbed(raw: string | null | undefined): VideoEmbed | null {
     id,
     embedUrl: `https://www.youtube-nocookie.com/embed/${id}`,
     thumbUrl: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+    uprightThumbUrl: `https://i.ytimg.com/vi/${id}/oardefault.jpg`,
+    vertical: /\/shorts\//i.test(raw ?? ""),
   };
 }
 
