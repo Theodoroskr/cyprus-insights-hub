@@ -19,3 +19,15 @@ describe("matchesScope", () => {
     expect(matchesScope(local, "all")).toBe(true);
   });
 });
+describe("short Cyprus codes", () => {
+  it("does not mistake ordinary words like 'each' for Cyprus", () => {
+    expect(isInternationalStory({ title: "Egypt economy", summary: "Each reform helped; ceramic exports rose." })).toBe(true);
+    expect(isInternationalStory({ title: "CSE index rises" })).toBe(false);
+  });
+});
+describe("tagger tags", () => {
+  it("a 'Cyprus Economy' tag alone does not make an Egypt story local", () => {
+    expect(isInternationalStory({ title: "Egypt's Economy Defied Expectations", tags: ["Egypt", "Cyprus-Egypt Trade", "Cyprus Economy", "global"] })).toBe(true);
+    expect(isInternationalStory({ title: "Port traffic rises", tags: ["cyprus"] })).toBe(false);
+  });
+});
