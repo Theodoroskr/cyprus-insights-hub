@@ -478,6 +478,7 @@ export type Database = {
           created_at: string
           entities_extracted_at: string | null
           event_type: string | null
+          featured_until: string | null
           id: string
           image_url: string | null
           original_language: string | null
@@ -502,6 +503,7 @@ export type Database = {
           created_at?: string
           entities_extracted_at?: string | null
           event_type?: string | null
+          featured_until?: string | null
           id?: string
           image_url?: string | null
           original_language?: string | null
@@ -526,6 +528,7 @@ export type Database = {
           created_at?: string
           entities_extracted_at?: string | null
           event_type?: string | null
+          featured_until?: string | null
           id?: string
           image_url?: string | null
           original_language?: string | null

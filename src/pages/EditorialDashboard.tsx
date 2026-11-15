@@ -17,8 +17,10 @@ import {
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
   AlertTriangle, Users, Image, ShieldCheck, Rss,
   ExternalLink, Loader2, Send,
-  GraduationCap, Megaphone,
+  GraduationCap, Megaphone, Star,
 } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { HIGHLIGHT_HOURS, highlightUntil, isHighlighted } from "@/lib/highlight";
 import { formatDistanceToNow } from "date-fns";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
 import { BannersPanel } from "@/components/admin/BannersPanel";
@@ -373,6 +375,22 @@ const EditorialDashboard = () => {
     onSuccess: (_, { status }) => {
       queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
       toast.success(`Article has been ${status} successfully.`);
+    },
+    onError: (err) => toast.error((err as Error).message),
+  });
+
+  // Highlight: keep a published story at the top of the homepage for a few hours
+  const highlightMutation = useMutation({
+    mutationFn: async ({ id, hours }: { id: string; hours: number | null }) => {
+      const featured_until = hours ? highlightUntil(hours) : null;
+      const { error } = await supabase.from("cna_articles").update({ featured_until }).eq("id", id);
+      if (error) throw error;
+      return hours;
+    },
+    onSuccess: (hours) => {
+      queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
+      queryClient.invalidateQueries({ queryKey: ["blended-homepage-news"] });
+      toast.success(hours ? `Story highlighted at the top of the homepage for ${hours} hour${hours > 1 ? "s" : ""}.` : "Highlight removed.");
     },
     onError: (err) => toast.error((err as Error).message),
   });
@@ -787,6 +805,11 @@ const EditorialDashboard = () => {
                       <Badge variant="outline" className={`text-[10px] ${sCfg.color}`}>
                         {sCfg.label}
                       </Badge>
+                      {article.status === "published" && isHighlighted(article) && (
+                        <Badge className="text-[10px] gap-1">
+                          <Star className="w-3 h-3" /> Highlighted until {new Date(article.featured_until!).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                        </Badge>
+                      )}
                     </div>
                     <h3 className="font-semibold text-foreground truncate">{article.title}</h3>
                     <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
@@ -811,6 +834,30 @@ const EditorialDashboard = () => {
                       >
                         <CheckCircle className="w-4 h-4 mr-1" /> Publish
                       </Button>
+                    )}
+                    {article.status === "published" && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="sm" variant={isHighlighted(article) ? "default" : "outline"} disabled={highlightMutation.isPending}>
+                            <Star className="w-4 h-4 mr-1" /> Highlight
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          {HIGHLIGHT_HOURS.map((h) => (
+                            <DropdownMenuItem key={h} onClick={() => highlightMutation.mutate({ id: article.id, hours: h })}>
+                              Top of homepage for {h} hour{h > 1 ? "s" : ""}
+                            </DropdownMenuItem>
+                          ))}
+                          {isHighlighted(article) && (
+                            <>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem onClick={() => highlightMutation.mutate({ id: article.id, hours: null })}>
+                                Stop highlighting
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     )}
                     {article.status === "published" && (
                       <Button
