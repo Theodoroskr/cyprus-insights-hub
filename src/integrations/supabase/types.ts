@@ -6303,6 +6303,7 @@ export type Database = {
         Returns: undefined
       }
       normalize_company_name: { Args: { _name: string }; Returns: string }
+      track_banner: { Args: { _id: string; _kind: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

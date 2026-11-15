@@ -309,6 +309,13 @@
       "when": 1794755384555,
       "tag": "0043_article_highlight_until",
       "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1794771296072,
+      "tag": "0044_banner_tracking",
+      "breakpoints": true
     }
   ]
 }

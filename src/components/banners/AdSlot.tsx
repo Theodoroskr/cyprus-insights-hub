@@ -1,4 +1,11 @@
+import { useEffect, useRef } from "react";
 import { useActiveBanner } from "@/hooks/useActiveBanner";
+import { supabase } from "@/integrations/supabase/client";
+
+const seen = new Set<string>();
+function track(id: string, kind: "impression" | "click") {
+  supabase.rpc("track_banner" as any, { _id: id, _kind: kind } as any).then(() => {});
+}
 
 type AdSize = "leaderboard" | "banner" | "mrec" | "skyscraper" | "billboard" | "wide-banner";
 
@@ -44,6 +51,23 @@ export function BannerPlaceholder({ size, label }: { size: AdSize; label?: strin
 /** Renders a live banner; homepage slots show a placeholder, others render nothing. */
 export function AdSlot({ size = "leaderboard", slotId, label }: AdSlotProps) {
   const banner = useActiveBanner(slotId ?? size);
+  const ref = useRef<HTMLDivElement>(null);
+  const bannerId = banner?.image_url ? banner.id : null;
+  useEffect(() => {
+    const el = ref.current;
+    if (!bannerId || !el) return;
+    const key = `${bannerId}:${slotId ?? size}:${location.pathname}`;
+    if (seen.has(key)) return;
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting && e.intersectionRatio >= 0.5) && !seen.has(key)) {
+        seen.add(key);
+        track(bannerId, "impression");
+        io.disconnect();
+      }
+    }, { threshold: 0.5 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [bannerId, slotId, size]);
   if (!banner?.image_url) {
     return slotId && PLACEHOLDER_SLOTS.has(slotId) ? <BannerPlaceholder size={size} label={label} /> : null;
   }
@@ -52,9 +76,10 @@ export function AdSlot({ size = "leaderboard", slotId, label }: AdSlotProps) {
   const internal = banner.click_url.startsWith("/");
 
   return (
-    <div className="flex justify-center" data-banner-slot={slotId ?? size}>
+    <div ref={ref} className="flex justify-center" data-banner-slot={slotId ?? size}>
       <a
         href={banner.click_url}
+        onClick={() => track(banner.id, "click")}
         {...(internal ? {} : { target: "_blank", rel: "noopener noreferrer sponsored" })}
         className={`relative block w-full rounded-lg overflow-hidden bg-muted ${spec}`}
       >
