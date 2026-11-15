@@ -1,4 +1,5 @@
-import { isInternationalStory, INTERNATIONAL_LABEL } from "@/lib/storyOrigin";
+import { isInternationalStory, INTERNATIONAL_LABEL, matchesScope, readScope, writeScope, type StoryScope } from "@/lib/storyOrigin";
+import { ScopeToggle } from "@/components/ScopeToggle";
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Newspaper, Calendar } from "lucide-react";
@@ -28,6 +29,8 @@ export default function NewsListPage() {
   const [hub, setHub] = useState<string>(() => new URLSearchParams(window.location.search).get("hub") || "all");
   const [news, setNews] = useState<any[]>([]);
   const [own, setOwn] = useState<any[]>([]);
+  const [scope, setScopeState] = useState<StoryScope>(readScope);
+  const setScope = (v: StoryScope) => { setScopeState(v); writeScope(v); };
   const [page, setPage] = useState(1);
   const [more, setMore] = useState(true);
 
@@ -51,11 +54,11 @@ export default function NewsListPage() {
   }, [hub, page]);
 
   const items: Item[] = useMemo(() => {
-    const a: Item[] = blendNews(news as any[]).map((n: any) => ({
+    const a: Item[] = blendNews(news as any[]).filter((n: any) => matchesScope(n, scope)).map((n: any) => ({
       id: n.id, title: n.title, excerpt: n.summary, href: `/article/${n.id}`, date: n.published_at,
       image: storyImage(n.image_url, n.vertical, n.id, n.body_markdown), label: (LABEL[n.vertical] || "News") + (isInternationalStory(n) ? ` · ${INTERNATIONAL_LABEL}` : ""), vertical: n.vertical,
     }));
-    if (hub !== "all") return a;
+    if (hub !== "all" || scope === "international") return a;
     const oldest = news.length && more ? news[news.length - 1].published_at : null;
     const b: Item[] = own
       .filter((d) => !oldest || (d.published_at && d.published_at >= oldest))
@@ -68,7 +71,7 @@ export default function NewsListPage() {
       out.splice(i === -1 ? out.length : i, 0, d);
     }
     return out;
-  }, [news, own, hub, more]);
+  }, [news, own, hub, more, scope]);
 
   const featured = items[0];
   const rest = items.slice(1);
@@ -84,7 +87,8 @@ export default function NewsListPage() {
             <h1 className="text-3xl font-serif font-bold text-foreground">News & Insights</h1>
           </div>
           <p className="text-muted-foreground mt-2">Latest business news, analysis, and market intelligence from Cyprus</p>
-          <div className="flex flex-wrap gap-2 mt-6">
+          <ScopeToggle value={scope} onChange={setScope} className="mt-6" />
+          <div className="flex flex-wrap gap-2 mt-4">
             {HUBS.map((h) => (
               <Button key={h.key} size="sm" variant={hub === h.key ? "default" : "outline"} onClick={() => setHub(h.key)}>{h.label}</Button>
             ))}

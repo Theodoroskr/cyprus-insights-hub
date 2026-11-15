@@ -8,3 +8,22 @@ export function isInternationalStory(s: { title?: string | null; summary?: strin
 }
 
 export const INTERNATIONAL_LABEL = "International";
+
+export type StoryScope = "all" | "cyprus" | "international";
+export const SCOPES: { key: StoryScope; label: string }[] = [
+  { key: "all", label: "All" }, { key: "cyprus", label: "Cyprus" }, { key: "international", label: INTERNATIONAL_LABEL },
+];
+/** Keep only stories in the chosen scope; untagged (empty) stories count as Cyprus. */
+export function matchesScope(s: Parameters<typeof isInternationalStory>[0], scope: StoryScope): boolean {
+  if (scope === "all") return true;
+  return isInternationalStory(s) === (scope === "international");
+}
+export function readScope(): StoryScope {
+  const v = new URLSearchParams(window.location.search).get("scope");
+  return v === "cyprus" || v === "international" ? v : "all";
+}
+export function writeScope(scope: StoryScope) {
+  const u = new URL(window.location.href);
+  if (scope === "all") u.searchParams.delete("scope"); else u.searchParams.set("scope", scope);
+  window.history.replaceState(window.history.state, "", u.toString());
+}

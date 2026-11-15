@@ -1,5 +1,7 @@
 import { storyImage, distinctNeighbours } from "@/lib/fallbackImage";
 import { useEffect, useState } from "react";
+import { ScopeToggle } from "@/components/ScopeToggle";
+import { matchesScope, readScope, writeScope, type StoryScope } from "@/lib/storyOrigin";
 import { Crown, ArrowRight, Building2, Users, Briefcase } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -101,7 +103,10 @@ function StickySidebar() {
 export function IntelligenceFeed() {
   // Stories not already shown in the lead section, the Latest column or the Full coverage block
   const { feed, linksSettled } = useHomepageStories();
-  const dbArticles = linksSettled ? feed : [];
+  const [scope, setScopeState] = useState<StoryScope>(readScope);
+  const setScope = (v: StoryScope) => { setScopeState(v); writeScope(v); };
+  const allArticles = linksSettled ? feed : [];
+  const dbArticles = allArticles.filter((a: any) => matchesScope(a, scope));
 
   const verticalToHub = (v: string) => {
     if (v === "fintech") return "fintechhub" as const;
@@ -122,7 +127,7 @@ export function IntelligenceFeed() {
     return map[v] || "Business Intelligence";
   };
 
-  if (dbArticles.length === 0) return null;
+  if (allArticles.length === 0) return null;
   const feedImages = distinctNeighbours(dbArticles.map((a) => storyImage(a.image_url, a.vertical, a.id, a.body_markdown)), dbArticles.map((a) => a.vertical));
 
   return (
@@ -130,14 +135,16 @@ export function IntelligenceFeed() {
       <div className="container mx-auto px-4">
         <div className="flex items-center gap-3 mb-6">
           <span className="section-label">Latest Stories</span>
+          <ScopeToggle value={scope} onChange={setScope} />
           <div className="flex-1 h-px bg-border" />
-          <span className="text-xs text-muted-foreground italic font-source-serif">
+          <span className="hidden md:inline text-xs text-muted-foreground italic font-source-serif">
             What happened · Why it matters · What to do
           </span>
         </div>
 
         <div className="flex gap-8">
           <div className="flex-1 min-w-0">
+            {dbArticles.length === 0 && <p className="text-sm text-muted-foreground py-6">No stories in this view right now.</p>}
             {dbArticles.map((article, index) => (
               <div key={article.id}>
                 {/* Premium label for every 4th article — FC style inline indicator */}

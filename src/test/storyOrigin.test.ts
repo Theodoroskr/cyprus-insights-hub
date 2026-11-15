@@ -9,3 +9,13 @@ describe("isInternationalStory", () => {
     expect(isInternationalStory({ title: "IMF review", summary: "The IMF says Cyprus growth will hold." })).toBe(false);
   });
 });
+import { matchesScope } from "@/lib/storyOrigin";
+describe("matchesScope", () => {
+  it("splits Cyprus and International", () => {
+    const nepal = { title: "Nepal Stabilizes Its Economy" }, local = { title: "Limassol port traffic rises" };
+    expect(matchesScope(nepal, "international")).toBe(true);
+    expect(matchesScope(nepal, "cyprus")).toBe(false);
+    expect(matchesScope(local, "cyprus")).toBe(true);
+    expect(matchesScope(local, "all")).toBe(true);
+  });
+});
