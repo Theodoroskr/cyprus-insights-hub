@@ -10,7 +10,7 @@ import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { safeTerm, searchSection, searchSource } from "@/lib/searchTerms";
-import { storyImage } from "@/lib/fallbackImage";
+import { storyImage, listImage } from "@/lib/fallbackImage";
 import { formatDistanceToNow } from "date-fns";
 
 const SECTION_LABEL: Record<string, string> = { compliance: "Compliance", fintech: "FinTech", regtech: "RegTech", tourism: "Tourism", sme: "SME", general: "Business" };
@@ -92,9 +92,9 @@ export default function SearchPage() {
                   <div>
                     <h3 className="font-semibold text-foreground flex items-center gap-2 mb-3"><Newspaper className="h-4 w-4 text-secondary" /> News stories</h3>
                     <div className="space-y-2">
-                      {stories.slice(0, 8).map((s) => (
+                      {stories.slice(0, 8).map((s, i) => (
                   <Link key={s.id} to={`/article/${s.id}`} className="flex items-center gap-4 p-3 border border-border rounded-lg hover:shadow-md transition-all group bg-card">
-                    <img src={storyImage(s.image_url, s.vertical, s.id, s.body_markdown)} alt="" className="w-24 h-16 rounded object-cover flex-shrink-0" />
+                    <img src={listImage(stories, i)} alt="" className="w-24 h-16 rounded object-cover flex-shrink-0" />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <Badge variant="outline" className="text-[10px] uppercase tracking-wider">{SECTION_LABEL[s.vertical] ?? s.vertical}</Badge>
@@ -162,9 +162,9 @@ export default function SearchPage() {
 
             <TabsContent value="stories">
               <div className="space-y-2">
-                {stories.map((s) => (
+                {stories.map((s, i) => (
                   <Link key={s.id} to={`/article/${s.id}`} className="flex items-center gap-4 p-3 border border-border rounded-lg hover:shadow-md transition-all group bg-card">
-                    <img src={storyImage(s.image_url, s.vertical, s.id, s.body_markdown)} alt="" className="w-24 h-16 rounded object-cover flex-shrink-0" />
+                    <img src={listImage(stories, i)} alt="" className="w-24 h-16 rounded object-cover flex-shrink-0" />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <Badge variant="outline" className="text-[10px] uppercase tracking-wider">{SECTION_LABEL[s.vertical] ?? s.vertical}</Badge>

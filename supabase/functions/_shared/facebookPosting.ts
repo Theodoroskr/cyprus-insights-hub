@@ -1,4 +1,5 @@
 // Pure helpers for automatic Facebook Page posting (used by post-to-facebook and tests).
+import { isGenericImage } from "./genericImage.ts";
 
 export const SITE_URL = "https://businesshub.cy";
 /** Last Cyprus-time hour in which the hourly job posts. */
@@ -56,7 +57,7 @@ export function libraryImageFor(vertical: string | null | undefined, recentlyUse
 }
 
 export function hasOwnPhoto(a: CandidateArticle): boolean {
-  return /^https:\/\//i.test((a.image_url ?? "").trim());
+  return /^https:\/\//i.test((a.image_url ?? "").trim()) && !isGenericImage(a.image_url);
 }
 
 /** Picture for the Facebook post: the story's own photo, else a rotating picture from its section's library. */

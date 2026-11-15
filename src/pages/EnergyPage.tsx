@@ -8,7 +8,7 @@ import { HubMasthead, HUB_MID_SLOTS } from "@/components/hub/HubMasthead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { SEOHead } from "@/components/SEOHead";
 import { Input } from "@/components/ui/input";
-import { storyImage } from "@/lib/fallbackImage";
+import { storyImage, listImage } from "@/lib/fallbackImage";
 import { ENERGY_TOPICS } from "@/lib/energyNews";
 
 type Lang = "en" | "el";
@@ -121,10 +121,10 @@ export default function EnergyPage({ archive = false }: { archive?: boolean }) {
             <h2 className="section-label mb-4">{topic ? topicLabel(topic) : T(lang, "Latest news", "Τελευταίες ειδήσεις")}</h2>
             {latest.length === 0 ? <p className="text-sm text-muted-foreground mb-8">{T(lang, "No stories match.", "Καμία ειδήση.")}</p> : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                {latest.map((a) => (
+                {latest.map((a, i) => (
                   <Link key={a.id} to={`/article/${a.id}`} className="group block">
                     <div className="aspect-[16/10] overflow-hidden bg-muted mb-3">
-                      <img src={storyImage(a.image_url, a.vertical, a.id, a.body_markdown)} alt="" loading="lazy" className="w-full h-full object-cover" />
+                      <img src={listImage(latest, i)} alt="" loading="lazy" className="w-full h-full object-cover" />
                     </div>
                     <p className="text-[10px] font-semibold uppercase tracking-wider text-energy mb-1">{storyTopics(a).map(topicLabel)[0] || "Energy"}</p>
                     <h3 className="font-serif text-lg font-semibold leading-snug line-clamp-3 group-hover:text-secondary transition-colors">{a.title}</h3>

@@ -48,7 +48,7 @@ describe("story selection", () => {
     expect(picked.map((p) => p.id)).toEqual(["2"]);
   });
   it("never posts a picture already used today", () => {
-    const img = "https://www.oecd.org/fallback.png";
+    const img = "https://www.oecd.org/content/dam/oecd/en/photos/harbour-2026.jpg";
     const today = [{ ...art("t", "2026-11-14T08:00:00Z", "sme", "oecd:x"), image_url: img }];
     const picked = pickArticles([{ ...art("1", "2026-11-14T10:00:00Z", "energy", "eu:y"), image_url: img }], new Set(), 1, [], today);
     expect(picked).toHaveLength(0);

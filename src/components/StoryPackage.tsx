@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import { storyImage } from "@/lib/fallbackImage";
+import { storyImage, listImage } from "@/lib/fallbackImage";
 import { useHomepageStories } from "@/hooks/useHomepageStories";
 
 /** "Full coverage": several recent stories about one company or topic, grouped like a news package. */
@@ -33,11 +33,11 @@ export function StoryPackage() {
             <p className="text-xs text-muted-foreground mt-1">{ago(first.published_at)}</p>
           </Link>
           <ul className="md:col-span-6 divide-y divide-border">
-            {rest.map((s) => (
+            {rest.map((s, i) => (
               <li key={s.id}>
                 <Link to={`/article/${s.id}`} className="group flex gap-4 py-3 first:pt-0">
                   <div className="w-24 h-16 flex-shrink-0 overflow-hidden bg-muted">
-                    <img src={storyImage(s.image_url, s.vertical, s.id, s.body_markdown)} alt="" className="w-full h-full object-cover" />
+                    <img src={listImage(rest, i)} alt="" className="w-full h-full object-cover" />
                   </div>
                   <div className="min-w-0">
                     <h3 className="font-serif text-[15px] font-semibold text-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-3">{s.title || s.what_happened}</h3>

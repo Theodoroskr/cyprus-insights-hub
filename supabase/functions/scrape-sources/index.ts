@@ -1,4 +1,5 @@
 import { sourceImageFor } from "../_shared/sourceImages.ts";
+import { ownStoryImage } from "../_shared/genericImage.ts";
 import { isGreek, translateToEnglish } from "../_shared/translateToEnglish.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
 import { articlePageProblem, canonicalArticleUrl, describesMissingPage, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
@@ -491,6 +492,13 @@ Deno.serve(async (req) => {
             if (describesMissingPage(intelligence.summary, intelligence.what_happened)) { console.warn(`  Rejected (AI saw a missing page): ${article.url}`); sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
             const status = source.auto_publish ? "published" : "draft";
 
+            // A publisher logo, or a photo another story already uses, is not this story's own picture.
+            let storyPicture = ownStoryImage(articleImageUrl);
+            if (storyPicture) {
+              const { data: samePicture } = await supabase.from("cna_articles").select("id").eq("image_url", storyPicture).limit(1);
+              if (samePicture?.length) storyPicture = null;
+            }
+
             const { error: insertError } = await supabase
               .from("cna_articles")
               .insert({
@@ -501,7 +509,7 @@ Deno.serve(async (req) => {
                 source_id: sourceId,
                 canonical_url: canonicalUrl,
                 content_hash: contentHash,
-                image_url: sourceImageFor(source.slug) ?? articleImageUrl,
+                image_url: sourceImageFor(source.slug) ?? storyPicture,
                 vertical,
                 summary: intelligence.summary,
                 what_happened: intelligence.what_happened,

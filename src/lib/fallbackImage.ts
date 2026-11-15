@@ -1,3 +1,6 @@
+import { isGenericImage, ownStoryImage } from "../../supabase/functions/_shared/genericImage";
+export { isGenericImage };
+
 const files = import.meta.glob("@/assets/fallback/branded/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
 
 const BY_VERTICAL: Record<string, string[]> = {};
@@ -23,7 +26,7 @@ export function fallbackFor(vertical?: string | null, seed?: string | null): str
 
 /** Use the article image when present, otherwise one of our own images for that hub. */
 export function articleImage(url?: string | null, vertical?: string | null, seed?: string | null): string {
-  return url && url.trim() ? url : fallbackFor(vertical, seed);
+  return ownStoryImage(url) ?? fallbackFor(vertical, seed);
 }
 
 /** Swap any broken article/story photo for our own image (skips logos, avatars, banners). */
@@ -46,24 +49,33 @@ export function installImageFallback() {
 
 /** Story photo: its own main photo, else first photo in its text, else our hub photo. */
 export function storyImage(url?: string | null, vertical?: string | null, seed?: string | null, body?: string | null): string {
-  const m = (body || "").match(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)[^)]*\)/);
-  return articleImage(url || (m ? m[1] : null), vertical, seed);
+  const inText = [...(body || "").matchAll(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)[^)]*\)/g)].map((m) => m[1]).find((u) => !isGenericImage(u));
+  return articleImage(ownStoryImage(url) ?? inText ?? null, vertical, seed);
 }
 
-/** Swap any picture that matches the one right before it for a different hub photo, so neighbouring cards never look the same. */
+/** Swap a picture that repeats one shown just before it (within the last few cards) for a different hub photo, so nearby cards never look the same. */
 export function distinctNeighbours(images: string[], verticals: (string | null | undefined)[] = []): string[] {
   const out: string[] = [];
   images.forEach((img, i) => {
-    const prev = out[i - 1];
-    if (i === 0 || img !== prev) { out.push(img); return; }
     const list = BY_VERTICAL[ALIAS[(verticals[i] || "").toLowerCase()] || "business"];
+    const recent = out.slice(Math.max(0, i - (list.length - 1)));
+    if (!recent.includes(img)) { out.push(img); return; }
     const start = Math.max(0, list.indexOf(img)) + 1;
-    let pick = img;
-    for (let k = 0; k < list.length; k++) {
-      const c = list[(start + k) % list.length];
-      if (c !== prev) { pick = c; break; }
-    }
+    let pick = list.map((_, k) => list[(start + k) % list.length]).find((c) => !recent.includes(c));
+    if (!pick) pick = list.map((_, k) => list[(start + k) % list.length]).find((c) => c !== out[i - 1]) ?? img;
     out.push(pick);
   });
   return out;
+}
+
+type StoryRow = { id?: string | null; image_url?: string | null; vertical?: string | null; body_markdown?: string | null };
+const listCache = new WeakMap<readonly StoryRow[], string[]>();
+/** Picture for row `i` of a story list, chosen so nearby rows never show the same picture. */
+export function listImage(rows: readonly StoryRow[], i: number): string {
+  let imgs = listCache.get(rows);
+  if (!imgs) {
+    imgs = distinctNeighbours(rows.map((a) => storyImage(a.image_url, a.vertical, a.id, a.body_markdown)), rows.map((a) => a.vertical));
+    listCache.set(rows, imgs);
+  }
+  return imgs[i];
 }

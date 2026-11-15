@@ -123,15 +123,16 @@ export function HubLeadStories({ verticals, brand, allNewsHref }: { verticals: s
 
 /** Compact two-column list that fills the space under the three lead cards. */
 export function MoreStories({ items, heading = "More stories" }: { items: any[]; heading?: string }) {
+  const imgs = distinctNeighbours(items.map((a) => storyImage(a.image_url, a.vertical, a.id, a.body_markdown)), items.map((a) => a.vertical));
   if (items.length === 0) return null;
   return (
     <div className="mt-8 pt-4 border-t border-border">
       <h3 className="section-label mb-3">{heading}</h3>
       <div className="grid sm:grid-cols-2 gap-x-6 divide-y sm:divide-y-0 divide-border">
-        {items.map((a) => (
+        {items.map((a, i) => (
           <Link key={a.id} to={`/article/${a.id}`} className="group flex gap-3 py-3 sm:border-b border-border">
             <div className="w-24 h-16 shrink-0 overflow-hidden bg-muted">
-              <img src={storyImage(a.image_url, a.vertical, a.id, a.body_markdown)} alt="" className="w-full h-full object-cover" loading="lazy" />
+              <img src={imgs[i]} alt="" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="min-w-0">
               <Kicker>{verticalLabel(a.vertical)}</Kicker>

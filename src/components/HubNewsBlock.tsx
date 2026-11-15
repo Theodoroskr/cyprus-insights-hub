@@ -5,7 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useBlendedNews } from "@/hooks/useBlendedNews";
-import { storyImage } from "@/lib/fallbackImage";
+import { storyImage, distinctNeighbours } from "@/lib/fallbackImage";
 import { estimateReadingTime } from "@/lib/readingTime";
 
 const LABEL: Record<string, string> = { compliance: "Compliance", fintech: "FinTech", regtech: "RegTech", tourism: "Tourism", sme: "SME", general: "Business" };
@@ -31,22 +31,26 @@ export function HubNewsBlock({ title, verticals, hubKey, accent = "text-secondar
     });
   }, [verticals.join(",")]);
 
-  const items = useMemo(() => stories.map((a: any) => ({
+  const items = useMemo(() => {
+    const imgs = distinctNeighbours(stories.map((a: any) => storyImage(a.image_url, a.vertical, a.id, a.body_markdown)), stories.map((a: any) => a.vertical));
+    return stories.map((a: any, i: number) => ({
     id: a.id,
     title: a.title || a.what_happened,
     summary: a.summary || a.what_happened || "",
-    image: storyImage(a.image_url, a.vertical, a.id, a.body_markdown),
+    image: imgs[i],
     label: LABEL[a.vertical] ?? a.vertical,
     date: a.published_at ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true }) : "",
     readTime: estimateReadingTime(a.what_happened, a.why_it_matters, a.what_to_do, a.summary, a.body_markdown),
-  })), [stories]);
+  }));
+  }, [stories]);
 
   if (!items.length) return null;
   const [lead, ...rest] = items;
   const secondary = rest.slice(0, 4);
   const feed = rest.slice(4, 10);
+  const sideImgs = distinctNeighbours(mostRead.map((d) => storyImage(d.image_url, d.vertical, d.article_id)), mostRead.map((d) => d.vertical));
   const sideList = mostRead.length
-    ? mostRead.map((d) => ({ id: d.article_id, title: d.title, label: LABEL[d.vertical] ?? d.vertical, image: storyImage(d.image_url, d.vertical, d.article_id) }))
+    ? mostRead.map((d, i) => ({ id: d.article_id, title: d.title, label: LABEL[d.vertical] ?? d.vertical, image: sideImgs[i] }))
     : rest.slice(10, 15);
 
   return (

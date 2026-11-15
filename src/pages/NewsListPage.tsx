@@ -10,7 +10,7 @@ import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { format, formatDistanceToNow } from "date-fns";
 import { blendNews } from "@/lib/blendNews";
-import { storyImage } from "@/lib/fallbackImage";
+import { storyImage, distinctNeighbours } from "@/lib/fallbackImage";
 
 const PAGE = 24;
 const HUBS = [
@@ -58,7 +58,10 @@ export default function NewsListPage() {
       id: n.id, title: n.title, excerpt: n.summary, href: `/article/${n.id}`, date: n.published_at,
       image: storyImage(n.image_url, n.vertical, n.id, n.body_markdown), label: (LABEL[n.vertical] || "News") + (isInternationalStory(n) ? ` · ${INTERNATIONAL_LABEL}` : ""), vertical: n.vertical,
     }));
-    if (hub !== "all" || scope === "international") return a;
+    if (hub !== "all" || scope === "international") {
+      const imgs = distinctNeighbours(a.map((x) => x.image), a.map((x) => x.vertical));
+      return a.map((x, i) => ({ ...x, image: imgs[i] }));
+    }
     const oldest = news.length && more ? news[news.length - 1].published_at : null;
     const b: Item[] = own
       .filter((d) => !oldest || (d.published_at && d.published_at >= oldest))
@@ -70,7 +73,8 @@ export default function NewsListPage() {
       const i = out.findIndex((x) => (x.date || "") < (d.date || ""));
       out.splice(i === -1 ? out.length : i, 0, d);
     }
-    return out;
+    const imgs = distinctNeighbours(out.map((x) => x.image), out.map((x) => x.vertical));
+    return out.map((x, i) => ({ ...x, image: imgs[i] }));
   }, [news, own, hub, more, scope]);
 
   const featured = items[0];
