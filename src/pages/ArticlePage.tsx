@@ -76,10 +76,12 @@ export default function ArticlePage() {
 
   // Show the headline in the address bar: /article/<id>/<headline>.
   useEffect(() => {
-    if (!article) return;
+    // Only rewrite once the loaded story matches the address; while the next
+    // story is loading, `article` still holds the previous one.
+    if (!article || article.id !== id) return;
     const want = articlePath(article.id, article.title);
     if (location.pathname !== want) navigate(want + location.search + location.hash, { replace: true });
-  }, [article, location.pathname, location.search, location.hash, navigate]);
+  }, [article, id, location.pathname, location.search, location.hash, navigate]);
 
   // Track view via IntersectionObserver — fires once when article content is visible
   useEffect(() => {
@@ -104,6 +106,8 @@ export default function ArticlePage() {
 
   useEffect(() => {
     if (!id) return;
+    let stale = false;
+    viewTracked.current = false;
     setLoading(true);
     supabase
       .from("cna_articles")
@@ -111,6 +115,7 @@ export default function ArticlePage() {
       .eq("id", id)
       .single()
       .then(({ data, error }) => {
+        if (stale) return;
         if (data) {
           setArticle(data as Article);
           // Track view via IntersectionObserver (fires once when article is visible)
@@ -124,11 +129,12 @@ export default function ArticlePage() {
             .order("published_at", { ascending: false })
             .limit(4)
             .then(({ data: rel }) => {
-              if (rel) setRelated(rel as Article[]);
+              if (!stale && rel) setRelated(rel as Article[]);
             });
         }
         setLoading(false);
       });
+    return () => { stale = true; };
   }, [id]);
 
   useEffect(() => {
@@ -392,7 +398,7 @@ export default function ArticlePage() {
                     {mostRead.filter((m) => m.article_id !== article.id).slice(0, 5).map((m, i) => (
                       <li key={m.article_id} className="flex gap-3">
                         <span className="font-serif font-black text-xl text-muted-foreground/30 leading-none">{i + 1}</span>
-                        <Link to={`/article/${m.article_id}`} className="text-sm font-serif leading-snug hover:text-secondary line-clamp-3">{m.title}</Link>
+                        <Link to={articlePath(m.article_id, m.title)} className="text-sm font-serif leading-snug hover:text-secondary line-clamp-3">{m.title}</Link>
                       </li>
                     ))}
                   </ol>
@@ -409,7 +415,7 @@ export default function ArticlePage() {
               <h3 className="section-label mb-6">Related Intelligence</h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {related.map((r) => (
-                  <Link key={r.id} to={`/article/${r.id}`} className="group">
+                  <Link key={r.id} to={articlePath(r.id, r.title)} className="group">
                     <div className="rounded-lg overflow-hidden border border-border bg-card hover:shadow-md transition-shadow h-full">
                       {(
                         <img src={articleImage(r.image_url, r.vertical, r.id)} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500" />
