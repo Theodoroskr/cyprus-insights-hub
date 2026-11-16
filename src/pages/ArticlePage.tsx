@@ -9,7 +9,7 @@ import ReactMarkdown from "react-markdown";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { groupArticleImages } from "@/lib/groupArticleImages";
 import { StoryVideo } from "@/components/StoryVideo";
-import { storyImage } from "@/lib/fallbackImage";
+import { storyImage, listImage } from "@/lib/fallbackImage";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { articlePath } from "@/lib/articleUrl";
 import { RelatedFunding } from "@/components/funding/RelatedFunding";
@@ -414,11 +414,11 @@ export default function ArticlePage() {
             <div className="mt-12 pt-8 border-t border-border">
               <h3 className="section-label mb-6">Related Intelligence</h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {related.map((r) => (
+                {related.map((r, ri) => (
                   <Link key={r.id} to={articlePath(r.id, r.title)} className="group">
                     <div className="rounded-lg overflow-hidden border border-border bg-card hover:shadow-md transition-shadow h-full">
                       {(
-                        <img src={articleImage(r.image_url, r.vertical, r.id)} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <img src={listImage(related, ri)} alt="" className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500" />
                       )}
                       <div className="p-3">
                         <Badge variant="outline" className="text-[9px] mb-2">{verticalLabel[r.vertical] || r.vertical}</Badge>

@@ -1,4 +1,5 @@
-import { articleImage, storyImage, distinctNeighbours } from "@/lib/fallbackImage";
+import { storyImage, distinctNeighbours } from "@/lib/fallbackImage";
+import { articlePath } from "@/lib/articleUrl";
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Flame } from "lucide-react";
@@ -89,9 +90,9 @@ export function IntelligenceHub() {
                 <ol className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                   {mostRead.map((article, index) => (
                     <li key={article.id}>
-                      <Link to={`/article/${article.id}`} className="group block">
+                      <Link to={articlePath(article.id, article.title)} className="group block">
                         <div className="relative aspect-[4/3] overflow-hidden bg-muted mb-2">
-                          <img src={articleImage(article.image, null, String(article.id))} alt="" className="w-full h-full object-cover" loading="lazy" />
+                          <img src={article.image} alt="" className="w-full h-full object-cover" loading="lazy" />
                           <span className="absolute top-1 left-1 bg-background/90 text-foreground font-serif font-black text-sm w-6 h-6 flex items-center justify-center">{index + 1}</span>
                         </div>
                         <h3 className="font-serif text-[13px] font-bold text-foreground leading-snug line-clamp-3 group-hover:text-secondary transition-colors">{article.title}</h3>
