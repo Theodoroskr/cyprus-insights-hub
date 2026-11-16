@@ -102,7 +102,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Cyprus Business Intelligence" description="Real-time business intelligence for Cyprus — compliance, fintech, trade data, company directory, and SME tools." path="/" />
+      <SEOHead title="Cyprus Business News, Companies & Official Data" description="Daily Cyprus business news, company profiles with CySEC and Central Bank licences, and official economy, property and trade data for professionals." path="/" />
       {/* Live Business Ticker */}
       <BusinessTicker />
       <NewsTicker />
