@@ -1,8 +1,8 @@
 export const SITE_NAME = "BusinessHub.cy";
 export const SITE_URL = "https://businesshub.cy";
-export const SITE_TITLE = "BusinessHub.cy — Cyprus Business Intelligence Platform";
+export const SITE_TITLE = "Cyprus Business News, Companies & Official Data | BusinessHub.cy";
 export const SITE_DESCRIPTION =
-  "Cyprus business intelligence — company directory, compliance updates, fintech regulation, trade data, and SME tools for professionals.";
+  "Daily Cyprus business news, company profiles with CySEC and Central Bank licences, and official economy, property and trade data for professionals.";
 export const SITE_IMAGE = `${SITE_URL}/images/og-businesshub.png`;
 
 /**
