@@ -323,6 +323,13 @@
       "when": 1794916455074,
       "tag": "0045_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1794916662279,
+      "tag": "0046_tighten_public_reference_policies",
+      "breakpoints": true
     }
   ]
 }

@@ -3338,6 +3338,7 @@ export type Database = {
           description_en: string | null
           directory_company_id: string | null
           id: string
+          is_public: boolean
           kind: string
           name_el: string | null
           name_en: string
@@ -3352,6 +3353,7 @@ export type Database = {
           description_en?: string | null
           directory_company_id?: string | null
           id?: string
+          is_public?: boolean
           kind?: string
           name_el?: string | null
           name_en: string
@@ -3366,6 +3368,7 @@ export type Database = {
           description_en?: string | null
           directory_company_id?: string | null
           id?: string
+          is_public?: boolean
           kind?: string
           name_el?: string | null
           name_en?: string
