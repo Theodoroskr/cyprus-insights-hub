@@ -330,6 +330,20 @@
       "when": 1794916662279,
       "tag": "0046_tighten_public_reference_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1794917439043,
+      "tag": "0047_most_read_cyprus_edition",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1794917514073,
+      "tag": "0048_connect_greek_bank_and_exchange_sources",
+      "breakpoints": true
     }
   ]
 }

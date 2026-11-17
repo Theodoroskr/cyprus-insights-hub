@@ -8,7 +8,19 @@ export function isGreek(text: string | null | undefined): boolean {
 
 export type TranslatableFields = Record<string, string | null | undefined>;
 
-export async function translateToEnglish<T extends TranslatableFields>(fields: T, apiKey: string): Promise<T> {
+const TO_ENGLISH = "Translate every field into clear, professional British English for business readers. Keep Markdown formatting, links and numbers exactly. Keep names of people, companies, laws and institutions; for Greek-only names use the official English name if one exists, otherwise transliterate. Do not summarise or omit anything.";
+const TO_GREEK = "Μετάφρασε κάθε πεδίο σε σαφή, επαγγελματικά νέα ελληνικά για επιχειρηματικούς αναγνώστες. Κράτησε ακριβώς τη μορφοποίηση Markdown, τους συνδέσμους και τους αριθμούς. Κράτησε τα ονόματα εταιρειών και θεσμών με την επίσημη ελληνική τους μορφή αν υπάρχει. Μην συνοψίζεις και μην παραλείπεις τίποτα.";
+
+export function translateToEnglish<T extends TranslatableFields>(fields: T, apiKey: string): Promise<T> {
+  return translateFields(fields, apiKey, TO_ENGLISH);
+}
+
+/** Greek versions of English fields (used for the Greece edition's *_el columns). */
+export function translateToGreek<T extends TranslatableFields>(fields: T, apiKey: string): Promise<T> {
+  return translateFields(fields, apiKey, TO_GREEK);
+}
+
+async function translateFields<T extends TranslatableFields>(fields: T, apiKey: string, instruction: string): Promise<T> {
   const keys = Object.keys(fields).filter((k) => fields[k]);
   const properties = Object.fromEntries(keys.map((k) => [k, { type: "string" }]));
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -19,8 +31,7 @@ export async function translateToEnglish<T extends TranslatableFields>(fields: T
       messages: [
         {
           role: "system",
-          content:
-            "Translate every field into clear, professional British English for business readers. Keep Markdown formatting, links and numbers exactly. Keep names of people, companies, laws and institutions; for Greek-only names use the official English name if one exists, otherwise transliterate. Do not summarise or omit anything.",
+          content: instruction,
         },
         { role: "user", content: JSON.stringify(Object.fromEntries(keys.map((k) => [k, fields[k]]))) },
       ],

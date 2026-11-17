@@ -38,7 +38,7 @@ export default function EnergyPage({ archive = false }: { archive?: boolean }) {
     queryFn: async () => {
       const { data, error } = await supabase.from("cna_articles")
         .select("id, title, summary, image_url, vertical, published_at, body_markdown, tags, what_happened")
-        .eq("status", "published").eq("vertical", "energy")
+        .eq("status", "published").contains("edition", ["cy"]).eq("vertical", "energy")
         .order("published_at", { ascending: false }).limit(300);
       if (error) throw error;
       return (data ?? []) as Row[];

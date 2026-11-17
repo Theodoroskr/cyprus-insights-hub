@@ -21,7 +21,7 @@ import { LoginModal } from "@/components/auth/LoginModal";
 function LatestRegulatory() {
   const [items, setItems] = useState<{ id: string; title: string; published_at: string }[]>([]);
   useEffect(() => {
-    supabase.from("cna_articles").select("id, title, published_at, vertical, source_id, source_url").eq("status", "published")
+    supabase.from("cna_articles").select("id, title, published_at, vertical, source_id, source_url").eq("status", "published").contains("edition", ["cy"])
       .in("vertical", ["compliance", "regtech"]).order("published_at", { ascending: false }).limit(60)
       .then(({ data }) => data && setItems(blendNews(data).slice(0, 6)));
   }, []);

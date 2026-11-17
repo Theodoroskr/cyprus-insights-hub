@@ -20,7 +20,7 @@ export function HeroBanner() {
     supabase
       .from("cna_articles")
       .select("tags")
-      .eq("status", "published")
+      .eq("status", "published").contains("edition", ["cy"])
       .order("published_at", { ascending: false })
       .limit(20)
       .then(({ data }) => {

@@ -183,7 +183,7 @@ Deno.serve(async (req) => {
 
     const { data: candidates, error } = await sb.from("cna_articles")
       .select("id,title,summary,what_happened,vertical,source_id,published_at,image_url")
-      .eq("status", "published")
+      .eq("status", "published").contains("edition", ["cy"])
       .gte("published_at", new Date(now.getTime() - 36 * 3600_000).toISOString())
       .lte("published_at", now.toISOString())
       .order("published_at", { ascending: false })

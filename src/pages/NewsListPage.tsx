@@ -43,7 +43,7 @@ export default function NewsListPage() {
 
   useEffect(() => {
     let q = supabase.from("cna_articles").select("id, title, summary, image_url, vertical, published_at, body_markdown, source_id, source_url")
-      .eq("status", "published").order("published_at", { ascending: false }).range((page - 1) * PAGE, page * PAGE - 1);
+      .eq("status", "published").contains("edition", ["cy"]).order("published_at", { ascending: false }).range((page - 1) * PAGE, page * PAGE - 1);
     const h = HUBS.find((x) => x.key === hub) as any;
     if (h?.verticals) q = q.in("vertical", h.verticals);
     q.then(({ data }) => {

@@ -24,7 +24,7 @@ export function PremiumCarousel() {
     supabase
       .from("cna_articles")
       .select("id, title, summary, image_url, vertical")
-      .eq("status", "published")
+      .eq("status", "published").contains("edition", ["cy"])
       .order("published_at", { ascending: false })
       .range(6, 11)
       .then(({ data }) => {

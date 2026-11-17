@@ -39,7 +39,7 @@ export default function SearchPage() {
       supabase.from("directory_companies").select("id, company_name, slug, city, activity_description, registration_no").or(`company_name.ilike.${q},registration_no.ilike.${q}`).limit(20),
       supabase.from("people").select("id, name, slug, photo, title, is_whoiswho").ilike("name", q).limit(20),
       supabase.from("directory_articles").select("id, title, slug, excerpt, article_type, cover_image").eq("is_published", true).ilike("title", q).limit(20),
-      supabase.from("cna_articles").select("id, title, summary, image_url, vertical, published_at, body_markdown").eq("status", "published").or(filters.join(",")).order("published_at", { ascending: false }).limit(30),
+      supabase.from("cna_articles").select("id, title, summary, image_url, vertical, published_at, body_markdown").eq("status", "published").contains("edition", ["cy"]).or(filters.join(",")).order("published_at", { ascending: false }).limit(30),
     ]).then(([c, p, a, n]) => {
       setCompanies(c.data ?? []);
       setPeople(p.data ?? []);

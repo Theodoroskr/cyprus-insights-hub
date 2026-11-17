@@ -8,7 +8,7 @@ export function NewsTicker() {
     queryKey: ["news-ticker"],
     queryFn: async () => {
       const { data, error } = await supabase.from("cna_articles")
-        .select("id, title").eq("status", "published")
+        .select("id, title").eq("status", "published").contains("edition", ["cy"])
         .order("published_at", { ascending: false }).limit(12);
       if (error) throw error;
       return data ?? [];

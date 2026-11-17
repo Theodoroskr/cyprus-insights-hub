@@ -123,7 +123,7 @@ export default function ArticlePage() {
           supabase
             .from("cna_articles")
             .select("id, title, what_happened, image_url, vertical, published_at, summary")
-            .eq("status", "published")
+            .eq("status", "published").contains("edition", ["cy"])
             .eq("vertical", data.vertical)
             .neq("id", data.id)
             .order("published_at", { ascending: false })

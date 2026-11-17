@@ -12,8 +12,8 @@ export function useBlendedNews(verticals?: string[]) {
     staleTime: 60_000,
     refetchInterval: 2 * 60_000,
     queryFn: async () => {
-      let q = supabase.from("cna_articles").select(COLUMNS).eq("status", "published");
-      let h = supabase.from("cna_articles").select(COLUMNS).eq("status", "published").gt("featured_until", new Date().toISOString());
+      let q = supabase.from("cna_articles").select(COLUMNS).eq("status", "published").contains("edition", ["cy"]);
+      let h = supabase.from("cna_articles").select(COLUMNS).eq("status", "published").contains("edition", ["cy"]).gt("featured_until", new Date().toISOString());
       if (verticals?.length) { q = q.in("vertical", verticals as any); h = h.in("vertical", verticals as any); }
       const [{ data, error }, highlighted] = await Promise.all([
         q.order("published_at", { ascending: false }).order("id", { ascending: true }).limit(120),

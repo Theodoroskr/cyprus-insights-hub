@@ -47,7 +47,7 @@ async function main() {
   const [latest, stories, ...perHub] = await Promise.all([
     get<NewsRow>(
       "cna_articles",
-      `${NEWS_COLS}&status=eq.published&published_at=not.is.null&order=published_at.desc&limit=${RSS_ITEM_LIMIT}`,
+      `${NEWS_COLS}&status=eq.published&edition=cs.{cy}&published_at=not.is.null&order=published_at.desc&limit=${RSS_ITEM_LIMIT}`,
     ),
     get<StoryRow>(
       "directory_articles",
@@ -56,7 +56,7 @@ async function main() {
     ...RSS_HUBS.map((h) =>
       get<NewsRow>(
         "cna_articles",
-        `${NEWS_COLS}&status=eq.published&vertical=eq.${h.vertical}&published_at=not.is.null&order=published_at.desc&limit=${RSS_ITEM_LIMIT}`,
+        `${NEWS_COLS}&status=eq.published&edition=cs.{cy}&vertical=eq.${h.vertical}&published_at=not.is.null&order=published_at.desc&limit=${RSS_ITEM_LIMIT}`,
       ),
     ),
   ]);

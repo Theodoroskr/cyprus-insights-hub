@@ -79,7 +79,7 @@ serve(async (req) => {
     const { data: articles, error: articlesError } = await supabase
       .from("cna_articles")
       .select("id, title, vertical, summary, what_happened, why_it_matters, what_to_do, published_at, source_url, tags")
-      .eq("status", "published")
+      .eq("status", "published").contains("edition", ["cy"])
       .gte("published_at", since.toISOString())
       .order("published_at", { ascending: false })
       .limit(50);

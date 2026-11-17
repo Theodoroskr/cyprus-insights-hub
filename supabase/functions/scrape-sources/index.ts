@@ -1,6 +1,7 @@
 import { sourceImageFor } from "../_shared/sourceImages.ts";
 import { ownStoryImage } from "../_shared/genericImage.ts";
-import { isGreek, translateToEnglish } from "../_shared/translateToEnglish.ts";
+import { isGreek, translateToEnglish, translateToGreek } from "../_shared/translateToEnglish.ts";
+import { grEditionFields } from "../_shared/greeceEdition.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
 import { articlePageProblem, canonicalArticleUrl, describesMissingPage, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
@@ -473,6 +474,7 @@ Deno.serve(async (req) => {
             if (articlePageProblem(fullBody, deepStatus)) { console.warn(`  Rejected error page: ${article.url}`); sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
 
             let originalLanguage = "en";
+            const originalTitle = article.title;
             if (isGreek(article.title + " " + fullBody)) {
               try {
                 const t = await translateToEnglish({ title: article.title, body_markdown: fullBody.slice(0, 20000) }, LOVABLE_API_KEY);
@@ -499,9 +501,21 @@ Deno.serve(async (req) => {
               if (samePicture?.length) storyPicture = null;
             }
 
+            // Greek sources file into the Greece edition only, with Greek headline and summary.
+            const gr = grEditionFields(source, article.title, fullBody);
+            let greek: { title_el?: string | null; summary_el?: string | null } = {};
+            if (gr) {
+              if (originalLanguage === "el") greek.title_el = originalTitle;
+              try {
+                const t = await translateToGreek({ title: greek.title_el ? null : article.title, summary: intelligence.summary }, LOVABLE_API_KEY);
+                greek = { title_el: greek.title_el ?? t.title ?? null, summary_el: t.summary ?? null };
+              } catch (e) { console.error("greek translate failed", (e as Error).message); }
+            }
+
             const { error: insertError } = await supabase
               .from("cna_articles")
               .insert({
+                ...(gr ? { edition: gr.edition, gr_section: gr.gr_section, organisation_slug: gr.organisation_slug, ...greek } : {}),
                 title: article.title,
                 body_markdown: fullBody,
                 original_language: originalLanguage,
@@ -515,7 +529,7 @@ Deno.serve(async (req) => {
                 what_happened: intelligence.what_happened,
                 why_it_matters: intelligence.why_it_matters,
                 what_to_do: intelligence.what_to_do,
-                tags: [...intelligence.tags, source.slug, source.category],
+                tags: [...new Set([...intelligence.tags, ...(gr?.extraTags ?? []), source.slug, source.category])],
                 status,
                 published_at: status === "published" ? new Date().toISOString() : null,
               });

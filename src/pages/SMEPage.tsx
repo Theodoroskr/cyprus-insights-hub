@@ -269,7 +269,7 @@ export default function SMEPage() {
     supabase
       .from("cna_articles")
       .select("id, title, summary, image_url, published_at")
-      .eq("status", "published")
+      .eq("status", "published").contains("edition", ["cy"])
       .eq("vertical", "sme")
       .order("published_at", { ascending: false })
       .limit(4)

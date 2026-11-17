@@ -28,7 +28,7 @@ export function SearchResults({ query, onClose }: SearchResultsProps) {
       supabase
         .from("cna_articles")
         .select("id, title, summary, vertical, published_at")
-        .eq("status", "published")
+        .eq("status", "published").contains("edition", ["cy"])
         .or(`title.ilike.${q},summary.ilike.${q}`)
         .order("published_at", { ascending: false })
         .limit(10),

@@ -22,7 +22,7 @@ export default function ExploreNewsPage() {
     queryFn: async ({ pageParam }) => {
       const { data, error } = await supabase.from("cna_articles")
         .select("id, title, summary, image_url, vertical, published_at, body_markdown")
-        .eq("status", "published").eq("vertical", "tourism")
+        .eq("status", "published").contains("edition", ["cy"]).eq("vertical", "tourism")
         .order("published_at", { ascending: false }).range(pageParam * PAGE, pageParam * PAGE + PAGE - 1);
       if (error) throw error;
       return data ?? [];
