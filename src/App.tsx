@@ -1,3 +1,4 @@
+import { MobileTabBar } from "@/components/mobile/MobileTabBar";
 import { WhoIsWhoRoute } from "@/components/auth/WhoIsWhoGate";
 import { lazy, Suspense } from "react";
 
@@ -211,6 +212,7 @@ const App = () => (
                 </Routes>
               </Suspense>
               <CookieConsent />
+              <MobileTabBar />
             </BrowserRouter>
           </TooltipProvider>
         </AuthProvider>

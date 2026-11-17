@@ -12,3 +12,5 @@
 - Story pictures: publisher logos/default share images (`_shared/genericImage.ts`) and photos another story already uses are never stored as `image_url`; story lists choose pictures via `distinctNeighbours`/`listImage`. Why: nearby stories must not look identical.
 - Story URLs are `/article/<id>/<headline-slug>` via `articlePath` (`src/lib/articleUrl.ts`); the id-only URL still loads and is rewritten, and postbuild previews are written at both. Why: readable links without breaking old shares.
 - Banner views/clicks go through `src/lib/bannerTracking.ts` (`trackBanner` keepalive call to `track_banner`, `useBannerImpression`); own-page banner links navigate in-app after recording. Why: a page change must not cancel the count.
+
+- Phone app shell: `public/manifest.webmanifest` (install only, no service worker) + `MobileTabBar` (md:hidden; Menu fires `bh:open-menu`, opened by TopNavigation). Why: installable without stale-cache risk; one menu drawer.

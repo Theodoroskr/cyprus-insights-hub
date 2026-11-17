@@ -1,6 +1,7 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
 import { NewsTicker } from "@/components/NewsTicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { OPEN_MENU_EVENT } from "@/components/mobile/MobileTabBar";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, User, PenTool, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -37,6 +38,12 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
     },
     enabled: !!user,
   });
+
+  useEffect(() => {
+    const open = () => setIsMobileMenuOpen(true);
+    window.addEventListener(OPEN_MENU_EVENT, open);
+    return () => window.removeEventListener(OPEN_MENU_EVENT, open);
+  }, []);
 
   const visibleNav = PRIMARY_NAV;
   const menuSections = visibleMenuSections(WHOISWHO_PUBLIC);
