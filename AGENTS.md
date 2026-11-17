@@ -35,3 +35,4 @@
 - Company Announcements: rules in `supabase/functions/ingest-announcements/AGENTS.md`. Why: one event, one page, every claim sourced.
 - ComplianceHub: only editor-published `compliance_items`/`fatf_releases` are public; pipeline rules in `supabase/functions/ingest-compliance/AGENTS.md`. Why: every claim verified and sourced.
 - Funding & Subsidies: rules in `supabase/functions/ingest-funding/AGENTS.md`. Why: one record per call, nothing unverified public, paywall in the database.
+- Phone app shell: `public/manifest.webmanifest` (install only, no service worker; any + maskable icons) and iOS launch screens in `public/splash/` linked from `index.html`; `MobileTabBar` Menu fires `bh:open-menu`. Why: installable without stale-cache risk.
