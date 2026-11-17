@@ -2,6 +2,7 @@ import { sourceImageFor } from "../_shared/sourceImages.ts";
 import { ownStoryImage } from "../_shared/genericImage.ts";
 import { isGreek, translateToEnglish, translateToGreek } from "../_shared/translateToEnglish.ts";
 import { grEditionFields } from "../_shared/greeceEdition.ts";
+import { isGreeceRelated } from "../_shared/greeceRelated.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
 import { articlePageProblem, canonicalArticleUrl, describesMissingPage, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
@@ -530,6 +531,8 @@ Deno.serve(async (req) => {
                 why_it_matters: intelligence.why_it_matters,
                 what_to_do: intelligence.what_to_do,
                 tags: [...new Set([...intelligence.tags, ...(gr?.extraTags ?? []), source.slug, source.category])],
+                // Editors' label for stories to present on BusinessHub.gr later; does not change the edition.
+                greece_related: isGreeceRelated({ title: article.title, summary: intelligence.summary, body: fullBody, tags: intelligence.tags, edition: gr?.edition }),
                 status,
                 published_at: status === "published" ? new Date().toISOString() : null,
               });

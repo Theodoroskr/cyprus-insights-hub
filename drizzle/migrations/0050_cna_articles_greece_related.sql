@@ -1,0 +1,2 @@
+ALTER TABLE public.cna_articles ADD COLUMN IF NOT EXISTS greece_related boolean NOT NULL DEFAULT false;
+CREATE INDEX IF NOT EXISTS cna_articles_greece_related_idx ON public.cna_articles (published_at DESC) WHERE greece_related;

@@ -1,6 +1,7 @@
 // Editors write a story or press release by hand for the main news feed (cna_articles).
 import { canonicalArticleUrl } from "../../supabase/functions/scrape-sources/listingPage";
 import { videoProblem } from "@/lib/videoEmbed";
+import { isGreeceRelated } from "@/lib/greeceRelated";
 import type { Database } from "@/integrations/supabase/types";
 
 type Vertical = Database["public"]["Enums"]["article_vertical"];
@@ -125,6 +126,10 @@ export function storyRow(f: ManualStoryInput, now = new Date()) {
     organisation_slug: gr ? t(f.organisationSlug) : null,
     cross_border_note: gr ? t(f.crossBorderNote) : null,
     edition: edition === "both" ? ["cy", "gr"] : [edition],
+    greece_related: isGreeceRelated({
+      title: `${f.headline} ${f.headlineEl ?? ""}`, summary: `${f.summary} ${f.summaryEl ?? ""}`,
+      body: `${f.body} ${f.bodyEl ?? ""}`, tags, edition: edition === "cy" ? ["cy"] : ["gr"],
+    }),
     source_url: url,
     canonical_url: url,
     image_url: f.imageUrl.trim() || null,

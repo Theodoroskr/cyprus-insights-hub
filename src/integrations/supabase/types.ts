@@ -483,6 +483,7 @@ export type Database = {
           event_type: string | null
           featured_until: string | null
           gr_section: string | null
+          greece_related: boolean
           id: string
           image_url: string | null
           organisation_slug: string | null
@@ -518,6 +519,7 @@ export type Database = {
           event_type?: string | null
           featured_until?: string | null
           gr_section?: string | null
+          greece_related?: boolean
           id?: string
           image_url?: string | null
           organisation_slug?: string | null
@@ -553,6 +555,7 @@ export type Database = {
           event_type?: string | null
           featured_until?: string | null
           gr_section?: string | null
+          greece_related?: boolean
           id?: string
           image_url?: string | null
           organisation_slug?: string | null

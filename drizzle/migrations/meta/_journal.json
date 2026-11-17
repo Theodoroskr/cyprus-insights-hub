@@ -351,6 +351,13 @@
       "when": 1794918085532,
       "tag": "0049_greek_analysis_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1794924049795,
+      "tag": "0050_cna_articles_greece_related",
+      "breakpoints": true
     }
   ]
 }

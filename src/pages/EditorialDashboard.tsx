@@ -17,7 +17,7 @@ import {
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
   AlertTriangle, Users, Image, ShieldCheck, Rss,
   ExternalLink, Loader2, Send,
-  GraduationCap, Megaphone, Star,
+  GraduationCap, Megaphone, Star, Flag,
 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { HIGHLIGHT_HOURS, highlightUntil, isHighlighted } from "@/lib/highlight";
@@ -323,6 +323,8 @@ const EditorialDashboard = () => {
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  // Greece-related label: stories to present on BusinessHub.gr later
+  const [greeceOnly, setGreeceOnly] = useState(false);
   const [page, setPage] = useState(0);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [editForm, setEditForm] = useState<Partial<Article>>({});
@@ -343,7 +345,7 @@ const EditorialDashboard = () => {
 
   // Fetch articles (admins see all statuses via RLS)
   const { data: articlesData, isLoading } = useQuery({
-    queryKey: ["editorial-articles", statusFilter, verticalFilter, searchQuery, page],
+    queryKey: ["editorial-articles", statusFilter, verticalFilter, searchQuery, greeceOnly, page],
     queryFn: async () => {
       let query = supabase
         .from("cna_articles")
@@ -355,6 +357,7 @@ const EditorialDashboard = () => {
       if (statusFilter !== "all") query = query.eq("status", statusFilter);
       if (verticalFilter !== "all") query = query.eq("vertical", verticalFilter);
       if (searchQuery.trim()) query = query.ilike("title", `%${searchQuery}%`);
+      if (greeceOnly) query = query.eq("greece_related", true);
 
       const { data, count, error } = await query;
       if (error) throw error;
@@ -393,6 +396,20 @@ const EditorialDashboard = () => {
       queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
       queryClient.invalidateQueries({ queryKey: ["blended-homepage-news"] });
       toast.success(hours ? `Story highlighted at the top of the homepage for ${hours} hour${hours > 1 ? "s" : ""}.` : "Highlight removed.");
+    },
+    onError: (err) => toast.error((err as Error).message),
+  });
+
+  // Greece-related label on/off (editors correct the automatic label)
+  const greeceMutation = useMutation({
+    mutationFn: async ({ id, value }: { id: string; value: boolean }) => {
+      const { error } = await supabase.from("cna_articles").update({ greece_related: value }).eq("id", id);
+      if (error) throw error;
+      return value;
+    },
+    onSuccess: (value) => {
+      queryClient.invalidateQueries({ queryKey: ["editorial-articles"] });
+      toast.success(value ? "Labelled Greece-related — kept for BusinessHub.gr." : "Greece-related label removed.");
     },
     onError: (err) => toast.error((err as Error).message),
   });
@@ -743,6 +760,13 @@ const EditorialDashboard = () => {
               <SelectItem value="energy">Energy</SelectItem>
             </SelectContent>
           </Select>
+          <Button
+            variant={greeceOnly ? "default" : "outline"}
+            aria-pressed={greeceOnly}
+            onClick={() => { setGreeceOnly((v) => !v); setPage(0); }}
+          >
+            <Flag className="w-4 h-4 mr-2" /> Greece-related
+          </Button>
         </div>
 
         {/* Bulk Action Bar */}
@@ -820,6 +844,11 @@ const EditorialDashboard = () => {
                       <Badge variant="outline" className={`text-[10px] ${sCfg.color}`}>
                         {sCfg.label}
                       </Badge>
+                      {article.greece_related && (
+                        <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary" title="To present on BusinessHub.gr">
+                          <Flag className="w-3 h-3" /> Greece
+                        </Badge>
+                      )}
                       {article.status === "published" && isHighlighted(article) && (
                         <Badge className="text-[10px] gap-1">
                           <Star className="w-3 h-3" /> Highlighted until {new Date(article.featured_until!).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
@@ -839,6 +868,16 @@ const EditorialDashboard = () => {
                   <div className="flex items-center gap-2 shrink-0">
                     <Button size="sm" variant="outline" onClick={() => openEditor(article)}>
                       <FileEdit className="w-4 h-4 mr-1" /> Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={article.greece_related ? "default" : "outline"}
+                      aria-pressed={article.greece_related}
+                      title={article.greece_related ? "Remove the Greece-related label" : "Label as Greece-related (for BusinessHub.gr)"}
+                      onClick={() => greeceMutation.mutate({ id: article.id, value: !article.greece_related })}
+                      disabled={greeceMutation.isPending}
+                    >
+                      <Flag className="w-4 h-4 mr-1" /> {article.greece_related ? "Greece ✓" : "Greece"}
                     </Button>
                     {article.status === "draft" && (
                       <Button
