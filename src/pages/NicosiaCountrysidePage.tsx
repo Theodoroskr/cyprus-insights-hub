@@ -77,7 +77,7 @@ export default function NicosiaCountrysidePage() {
             </div>
           )}
 
-          <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-30">
+          <div className="lg:hidden fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] md:bottom-4 left-1/2 -translate-x-1/2 z-30">
             <button type="button" onClick={() => update("view", view === "map" ? "" : "map")}
               className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-3 text-sm font-semibold shadow-lg">
               {view === "map" ? <><List className="h-4 w-4" />{EL(lang, "Show list", "Λίστα")}</> : <><MapIcon className="h-4 w-4" />{EL(lang, "Show map", "Χάρτης")}</>}

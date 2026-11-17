@@ -24,7 +24,7 @@ export function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 animate-in slide-in-from-bottom-4 duration-500">
+    <div className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] md:bottom-0 left-0 right-0 z-[60] p-4 md:p-6 animate-in slide-in-from-bottom-4 duration-500">
       <div className="container mx-auto max-w-4xl">
         <div className="bg-card border border-border rounded-xl shadow-2xl p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
           <Cookie className="h-8 w-8 text-secondary shrink-0 hidden md:block" />

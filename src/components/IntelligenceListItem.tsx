@@ -130,8 +130,8 @@ export function IntelligenceListItem({
           {whyItMatters}
         </p>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 min-w-0">
             {linkedPerson && (
               <div className="flex items-center gap-2">
                 <img
@@ -175,9 +175,9 @@ export function IntelligenceListItem({
   }
 
   return (
-    <article className={`group flex gap-5 py-5 border-b border-border last:border-b-0 hover:bg-muted/20 transition-colors px-2 -mx-2 rounded-lg cursor-pointer`} onClick={handleClick}>
+    <article className={`group flex gap-3 sm:gap-5 py-5 border-b border-border last:border-b-0 hover:bg-muted/20 transition-colors px-2 -mx-2 rounded-lg cursor-pointer`} onClick={handleClick}>
       {/* Image — left side */}
-      <div className="flex-shrink-0 w-[200px] h-[140px] rounded-lg overflow-hidden relative">
+      <div className="flex-shrink-0 w-28 h-20 sm:w-[200px] sm:h-[140px] rounded-lg overflow-hidden relative">
         <img
           src={imageUrl || fallbackImage} data-vertical={vertical ?? undefined} data-seed={articleId}
           alt={whatHappened}
@@ -219,8 +219,8 @@ export function IntelligenceListItem({
         </p>
 
         {/* Bottom: person + action items */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 min-w-0">
             {linkedPerson && (
               <div className="flex items-center gap-2">
                 <img
@@ -231,7 +231,7 @@ export function IntelligenceListItem({
                 <span className="text-xs text-muted-foreground">{linkedPerson.name}</span>
               </div>
             )}
-            <div className="flex items-center gap-3 text-[10px] uppercase tracking-wider font-semibold">
+            <div className="hidden sm:flex items-center gap-3 text-[10px] uppercase tracking-wider font-semibold">
               <span className="flex items-center gap-1 text-secondary">
                 <Zap className="h-3 w-3" /> What
               </span>
@@ -244,7 +244,7 @@ export function IntelligenceListItem({
             </div>
           </div>
 
-          <span className={`inline-flex items-center gap-1 text-xs font-medium ${colors.accent} hover:opacity-80 transition-opacity group/link opacity-0 group-hover:opacity-100`}>
+          <span className={`hidden sm:inline-flex shrink-0 items-center gap-1 text-xs font-medium ${colors.accent} hover:opacity-80 transition-opacity group/link opacity-0 group-hover:opacity-100`}>
             Read full analysis
             <ArrowRight className="h-3 w-3 group-hover/link:translate-x-0.5 transition-transform" />
           </span>
