@@ -23,7 +23,7 @@ function useGreeceStories(section?: string, tag?: string, org?: string) {
     queryKey: ["gr-stories", section, tag, org],
     queryFn: async () => {
       let q = supabase.from("cna_articles")
-        .select("id,title,title_el,summary,summary_el,published_at,image_url,vertical,tags,gr_section,cross_border_note")
+        .select("id,title,title_el,summary,summary_el,published_at,image_url,vertical,tags,gr_section,cross_border_note,body_markdown")
         .eq("status", "published").contains("edition", ["gr"]).order("published_at", { ascending: false }).limit(30);
       if (section) q = q.eq("gr_section", section);
       if (tag) q = q.contains("tags", [tag]);

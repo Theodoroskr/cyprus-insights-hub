@@ -6,6 +6,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { canonicalUrl } from "@/lib/seo";
 import { previewImage } from "@/lib/storyPreview";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { groupArticleImages } from "@/lib/groupArticleImages";
 import { StoryVideo } from "@/components/StoryVideo";
@@ -359,7 +360,7 @@ export default function ArticlePage() {
                       {groupArticleImages(cleanBody, heroSrc).map((seg, i) =>
                         seg.type === "text" ? (
                           <div key={i}>
-                            <ReactMarkdown>{seg.markdown}</ReactMarkdown>
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{seg.markdown}</ReactMarkdown>
                             {i === 0 && <div className="not-prose my-8"><AdSlot size="leaderboard" slotId="article-inline" /></div>}
                           </div>
                         ) : (

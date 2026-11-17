@@ -154,9 +154,10 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
             <Link
               to={location.pathname.startsWith("/greece") ? "/" : "/greece"}
               className="px-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground whitespace-nowrap"
-              title="Κύπρος / Ελλάδα"
+              title="Cyprus / Greece"
+              onClick={() => { if (!location.pathname.startsWith("/greece")) localStorage.setItem("gr-lang", "en"); }}
             >
-              {location.pathname.startsWith("/greece") ? "Κύπρος / CY" : "Ελλάδα / GR"}
+              {location.pathname.startsWith("/greece") ? "Cyprus / CY" : "Greece / EN"}
             </Link>
             {isSearchOpen ? (
               <form onSubmit={handleSearch} className="flex items-center gap-2 animate-slide-in-right">
