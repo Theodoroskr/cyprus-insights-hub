@@ -1,4 +1,5 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
+import { onGrHost } from "@/lib/edition";
 import { NewsTicker } from "@/components/NewsTicker";
 import { useEffect, useState } from "react";
 import { OPEN_MENU_EVENT } from "@/components/mobile/MobileTabBar";
@@ -107,7 +108,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
               </div>
               <div className="hidden sm:block">
                 <span className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                  BusinessHub<span className="text-secondary">.cy</span>
+                  BusinessHub<span className="text-secondary">{onGrHost() ? ".gr" : ".cy"}</span>
                 </span>
               </div>
             </Link>

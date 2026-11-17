@@ -14,6 +14,7 @@ import {
   type NewsRow,
   type StoryRow,
 } from "../src/lib/rss";
+import { GREECE_RSS_PATH, greeceRss, type GreeceRow } from "../src/lib/greeceFeeds";
 
 function readEnv(): Record<string, string> {
   const env: Record<string, string> = {};
@@ -92,7 +93,14 @@ async function main() {
     );
   });
 
-  console.log(`rss written: ${allItems.length} items in /rss.xml, ${RSS_HUBS.length} hub feeds`);
+  // Greece edition feed, in Greek.
+  const greece = await get<GreeceRow>(
+    "cna_articles",
+    `select=id,title,title_el,summary,summary_el,image_url,published_at,gr_section&status=eq.published&edition=cs.{gr}&published_at=not.is.null&order=published_at.desc&limit=${RSS_ITEM_LIMIT}`,
+  );
+  writeFileSync(resolve(`public${GREECE_RSS_PATH}`), greeceRss(greece));
+
+  console.log(`rss written: ${allItems.length} items in /rss.xml, ${RSS_HUBS.length} hub feeds, ${greece.length} Greece stories`);
 }
 
 main().catch((err) => {

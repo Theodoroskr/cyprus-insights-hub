@@ -126,13 +126,13 @@ export function recentNews<T extends { published_at: string | null }>(rows: T[],
   return rows.filter((r) => r.published_at && now - Date.parse(r.published_at) <= 48 * 3600 * 1000 && Date.parse(r.published_at) <= now);
 }
 
-export function buildNewsSitemap(items: NewsSitemapItem[], base = SITE_URL): string {
+export function buildNewsSitemap(items: NewsSitemapItem[], base = SITE_URL, publication = "BusinessHub.cy"): string {
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">',
     ...items.map((i) => [
       "  <url>", `    <loc>${escapeXml(base + i.path)}</loc>`, "    <news:news>",
-      "      <news:publication><news:name>BusinessHub.cy</news:name>" + `<news:language>${i.language}</news:language></news:publication>`,
+      `      <news:publication><news:name>${escapeXml(publication)}</news:name>` + `<news:language>${i.language}</news:language></news:publication>`,
       `      <news:publication_date>${i.publishedAt}</news:publication_date>`, `      <news:title>${escapeXml(i.title)}</news:title>`,
       "    </news:news>", "  </url>"].join("\n")),
     "</urlset>", "",

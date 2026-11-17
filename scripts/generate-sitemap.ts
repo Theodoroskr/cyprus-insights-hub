@@ -4,6 +4,7 @@
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "fs";
 import { resolve } from "path";
+import { GREECE_NEWS_SITEMAP_PATH, GREECE_SITEMAP_PATH, greeceBase, greeceNewsSitemap, greeceSitemap, robotsWithSitemaps, type GreeceRow } from "../src/lib/greeceFeeds";
 import {
   COMPANIES_PER_SITEMAP,
   STATIC_ENTRIES,
@@ -54,10 +55,11 @@ async function fetchAll<T>(table: string, query: string): Promise<T[]> {
 async function main() {
   if (!API_URL || !API_KEY) throw new Error("database URL/key not set");
 
-  const [articles, stories, resources, companies, announcements, complianceItems, tourDests, tourPlaces] = await Promise.all([
+  const [articles, stories, resources, companies, announcements, complianceItems, tourDests, tourPlaces, greeceRows, greeceOrgs] = await Promise.all([
+    // Cyprus Edition stories; Greece-only stories go in the Greece sitemap below.
     fetchAll<{ id: string; title: string; published_at: string | null }>(
       "cna_articles",
-      "select=id,title,published_at&status=eq.published&order=published_at.desc.nullslast,id.asc",
+      "select=id,title,published_at&status=eq.published&edition=cs.{cy}&order=published_at.desc.nullslast,id.asc",
     ),
     fetchAll<{ slug: string; article_type: string; published_at: string | null }>(
       "directory_articles",
@@ -78,6 +80,11 @@ async function main() {
       .catch(() => [] as { slug: string; updated_at: string | null }[]),
     fetchAll<{ slug: string; updated_at: string | null }>("tour_listings", "select=slug,updated_at&status=eq.published&order=slug.asc")
       .catch(() => [] as { slug: string; updated_at: string | null }[]),
+    fetchAll<GreeceRow>(
+      "cna_articles",
+      "select=id,title,title_el,summary,summary_el,image_url,published_at,gr_section&status=eq.published&edition=cs.{gr}&order=published_at.desc.nullslast,id.asc",
+    ),
+    fetchAll<{ slug: string }>("organisations", "select=slug&country=eq.GR&order=slug.asc").catch(() => [] as { slug: string }[]),
   ]);
 
   const staticEntries: SitemapEntry[] = [
@@ -149,6 +156,18 @@ async function main() {
   console.log(`news sitemap written: ${fresh.length} stories from the last 48 hours`);
 
   writeFileSync(resolve("public/sitemap.xml"), buildSitemapIndex(files));
+
+  // Greece edition: its own sitemap + Google News sitemap, listed in robots.txt.
+  writeFileSync(resolve(`public${GREECE_SITEMAP_PATH}`), greeceSitemap(greeceRows, greeceOrgs.map((o) => o.slug)));
+  writeFileSync(resolve(`public${GREECE_NEWS_SITEMAP_PATH}`), greeceNewsSitemap(greeceRows));
+  const robotsFile = resolve("public/robots.txt");
+  writeFileSync(robotsFile, robotsWithSitemaps(readFileSync(robotsFile, "utf8"), [
+    "https://businesshub.cy/sitemap.xml",
+    "https://businesshub.cy/news-sitemap.xml",
+    `${greeceBase()}${GREECE_SITEMAP_PATH}`,
+    `${greeceBase()}${GREECE_NEWS_SITEMAP_PATH}`,
+  ]));
+  console.log(`greece sitemap written: ${greeceRows.length} stories, ${greeceOrgs.length} organisations`);
   console.log(
     `sitemap written: ${staticEntries.length} pages, ${articleEntries.length} articles, ${companies.length} companies in ${files.length} files`,
   );

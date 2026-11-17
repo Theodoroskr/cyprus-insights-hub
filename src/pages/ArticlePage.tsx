@@ -23,7 +23,7 @@ import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { PRESS_RELEASE_TAG } from "@/lib/manualStory";
-import { ANALYSIS_LABELS, GR_SECTIONS } from "@/lib/edition";
+import { ANALYSIS_LABELS, GR_DOMAIN_LIVE, GR_SECTIONS, greeceUrl, grHref, onGrHost } from "@/lib/edition";
 import { storyLanguage, storyText, type StoryLang } from "@/lib/storyLanguage";
 
 interface Article {
@@ -219,7 +219,12 @@ export default function ArticlePage() {
   const readTime = estimateReadingTime(tx.what_happened, tx.why_it_matters, tx.what_to_do, hasBody ? cleanBody : tx.summary);
   const isLong = cleanBody.length > 2500;
   const shareText = encodeURIComponent(headline);
-  const shareUrl = encodeURIComponent(canonicalUrl(articlePath(article.id, article.title)));
+  // Greece-only stories belong to businesshub.gr once it is live; everything else to businesshub.cy.
+  const ownUrl = greekOnly && (GR_DOMAIN_LIVE || onGrHost()) ? greeceUrl(articlePath(article.id, article.title), true) : canonicalUrl(articlePath(article.id, article.title));
+  if (greekOnly && GR_DOMAIN_LIVE && !onGrHost() && typeof window !== "undefined" && window.location.hostname.endsWith("businesshub.cy")) {
+    window.location.replace(ownUrl);
+  }
+  const shareUrl = encodeURIComponent(ownUrl);
 
   const cards = [
     { key: "what", text: tx.what_happened, label: ANALYSIS_LABELS[lang][0], Icon: Zap, tone: "secondary" },
@@ -238,6 +243,7 @@ export default function ArticlePage() {
         title={headline}
         description={tx.summary || tx.why_it_matters || ""}
         path={articlePath(article.id, article.title)}
+        canonical={ownUrl}
         image={previewImage(article)}
         vertical={article.vertical}
         type="article"
@@ -275,7 +281,7 @@ export default function ArticlePage() {
       <main lang={isEl ? "el" : "en"} className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
-            <Link to={greekOnly ? "/greece" : "/"} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Link to={greekOnly || onGrHost() ? grHref("/greece") : "/"} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ArrowLeft className="h-4 w-4" /> {greekOnly ? "Πίσω" : "Back"}
             </Link>
             {canSwitch && (

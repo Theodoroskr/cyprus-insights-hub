@@ -110,6 +110,8 @@ export interface FeedMeta {
   selfPath: string;
   /** Page the feed represents, e.g. "/" or "/fintech". */
   pagePath?: string;
+  /** Feed language; English unless set (the Greece feed is "el"). */
+  language?: string;
 }
 
 const HUB_IMAGES: Record<string, string> = {
@@ -151,7 +153,7 @@ export function buildRssFeed(meta: FeedMeta, items: RssItem[], base = SITE_URL, 
     `    <title>${escapeXml(meta.title)}</title>`,
     `    <link>${escapeXml(base + (meta.pagePath ?? "/"))}</link>`,
     `    <description>${escapeXml(meta.description)}</description>`,
-    "    <language>en</language>",
+    `    <language>${meta.language ?? "en"}</language>`,
     `    <lastBuildDate>${lastBuild.toUTCString()}</lastBuildDate>`,
     `    <atom:link href="${escapeXml(base + meta.selfPath)}" rel="self" type="application/rss+xml" />`,
     "    <image>",

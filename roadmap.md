@@ -38,3 +38,10 @@
 
 ## Editorial (Nov 13)
 - [x] Articles tab: write a story or press release by hand (draft or publish now), press releases labelled
+
+## BusinessHub.gr domain (Nov 17)
+- [ ] Connect businesshub.gr — waiting on you: connect it in Domains and unset businesshub.cy as primary
+- [x] businesshub.gr serves the Greece edition at its own addresses; Greece pages on .cy move there once live (switch on after the domain connects)
+- [x] Home page blend: mainly Greece, plus a Cyprus block and an International block
+- [x] Greece sitemap + Google News sitemap + Greek news feed (RSS)
+- [x] businesshub.gr masthead: show BusinessHub.gr logo instead of BusinessHub.cy on the .gr domain

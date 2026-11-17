@@ -1,4 +1,4 @@
-import { greeceCanonical } from "@/lib/edition";
+import { greeceCanonical, grHostToAppPath, onGrHost } from "@/lib/edition";
 export const SITE_NAME = "BusinessHub.cy";
 export const SITE_URL = "https://businesshub.cy";
 export const SITE_TITLE = "Cyprus Business News, Companies & Official Data | BusinessHub.cy";
@@ -15,6 +15,8 @@ export function canonicalUrl(pathname: string): string {
   if (!path.startsWith("/")) path = `/${path}`;
   path = path.replace(/\/{2,}/g, "/");
   if (path.length > 1) path = path.replace(/\/+$/, "");
+  // On businesshub.gr, "/banking" is the app's "/greece/banking".
+  if (onGrHost()) path = grHostToAppPath(path);
   const gr = greeceCanonical(path, SITE_URL);
   if (gr) return gr;
   return path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`;

@@ -20,3 +20,5 @@ Disallow: /demo/
 
 Sitemap: https://businesshub.cy/sitemap.xml
 Sitemap: https://businesshub.cy/news-sitemap.xml
+Sitemap: https://businesshub.cy/sitemap-gr.xml
+Sitemap: https://businesshub.cy/news-sitemap-gr.xml

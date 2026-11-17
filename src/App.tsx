@@ -12,10 +12,12 @@ import { AuthReturn } from "@/components/auth/AuthReturn";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "./components/CookieConsent";
 import { RouteSEODefaults } from "./components/RouteSEODefaults";
+import { onGrHost } from "./lib/edition";
 
 // Lazy-loaded route components
 const Index = lazy(() => import("./pages/Index"));
 const GreecePage = lazy(() => import("./pages/greece/GreecePage"));
+const ON_GR_HOST = onGrHost();
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
 const EnergyPage = lazy(() => import("./pages/EnergyPage"));
 const CompliancePage = lazy(() => import("./pages/CompliancePage"));
@@ -124,6 +126,17 @@ const App = () => (
               <RouteSEODefaults />
               <Suspense fallback={<RouteLoader />}>
                 <AuthReturn />
+                {ON_GR_HOST ? (
+                  // businesshub.gr: the Greece edition at its own addresses, plus story pages.
+                  <Routes>
+                    <Route path="/" element={<GreecePage />} />
+                    <Route path="/org/:slug" element={<GreecePage />} />
+                    <Route path="/:section" element={<GreecePage />} />
+                    <Route path="/article/:id" element={<ArticlePage />} />
+                    <Route path="/article/:id/:slug" element={<ArticlePage />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                ) : (
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/profile/:id" element={<Navigate to="/whoiswho" replace />} />
@@ -214,6 +227,7 @@ const App = () => (
 
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+                )}
               </Suspense>
               <CookieConsent />
               <MobileTabBar />

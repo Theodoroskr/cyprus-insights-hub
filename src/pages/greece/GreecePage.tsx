@@ -7,7 +7,9 @@ import { SEOHead } from "@/components/SEOHead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { articlePath } from "@/lib/articleUrl";
 import { useState } from "react";
-import { BANKING_FILTERS, GR_SECTIONS } from "@/lib/edition";
+import { BANKING_FILTERS, CY_HOST, GR_SECTIONS, grHref, onGrHost } from "@/lib/edition";
+import { blendBlocks } from "@/lib/greeceBlend";
+import { Helmet } from "react-helmet-async";
 
 type Lang = "el" | "en";
 type Story = { id: string; title: string; title_el: string | null; summary: string | null; summary_el: string | null;
@@ -51,18 +53,21 @@ function StoryList({ items, lang }: { items: Story[]; lang: Lang }) {
 function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: (l: Lang) => void; title: string; path: string; children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background">
+      <Helmet><link rel="alternate" type="application/rss+xml" title="BusinessHub.gr — Ελλάδα" href="/rss/greece.xml" /></Helmet>
       <SEOHead title={`${title} | BusinessHub.gr`} description="Επιχειρηματική ενημέρωση για την Ελλάδα — τράπεζες, εταιρικές ανακοινώσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." path={path} />
       <TopNavigation onSearch={() => {}} />
       <div className="border-b border-border bg-muted/40">
         <div className="container mx-auto px-4 py-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
-          <Link to="/greece" className="font-bold uppercase tracking-wider">BusinessHub<span className="text-secondary">.gr</span></Link>
+          <Link to={grHref("/greece")} className="font-bold uppercase tracking-wider">BusinessHub<span className="text-secondary">.gr</span></Link>
           <nav className="flex flex-wrap gap-x-3 gap-y-1">{GR_SECTIONS.map((s) => (
-            <Link key={s.slug} to={`/greece/${s.slug}`} className="text-muted-foreground hover:text-foreground">{lang === "el" ? s.el : s.en}</Link>))}
+            <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className="text-muted-foreground hover:text-foreground">{lang === "el" ? s.el : s.en}</Link>))}
           </nav>
           <div className="ml-auto flex items-center gap-2">
             <button onClick={() => setLang("el")} className={lang === "el" ? "font-bold" : "text-muted-foreground"}>EL</button>
             <button onClick={() => setLang("en")} className={lang === "en" ? "font-bold" : "text-muted-foreground"}>EN</button>
-            <Link to="/" className="underline">← Cyprus Edition</Link>
+            {onGrHost()
+              ? <a href={`${CY_HOST}/`} className="underline">← Cyprus Edition</a>
+              : <Link to="/" className="underline">← Cyprus Edition</Link>}
           </div>
         </div>
       </div>
@@ -73,8 +78,23 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
   );
 }
 
+/** The home page's smaller Cyprus and International blocks, from Cyprus Edition stories (Greece-related first). */
+function useBlend() {
+  return useQuery({
+    queryKey: ["gr-blend"],
+    queryFn: async () => {
+      const { data } = await supabase.from("cna_articles")
+        .select("id,title,title_el,summary,summary_el,what_happened,published_at,image_url,tags,gr_section,cross_border_note,greece_related")
+        .eq("status", "published").contains("edition", ["cy"]).not("edition", "cs", "{gr}")
+        .order("published_at", { ascending: false }).limit(60);
+      return blendBlocks((data ?? []) as (Story & { what_happened: string | null; greece_related: boolean })[]);
+    },
+  });
+}
+
 function Home({ lang }: { lang: Lang }) {
   const { data = [] } = useGreeceStories();
+  const { data: blend } = useBlend();
   const [lead, ...rest] = data;
   const block = (slug: string) => data.filter((s) => s.gr_section === slug).slice(0, 4);
   return <>
@@ -95,8 +115,14 @@ function Home({ lang }: { lang: Lang }) {
       {(["banking", "announcements", "funding", "indicators"] as const).map((slug) => {
         const sec = GR_SECTIONS.find((s) => s.slug === slug)!;
         return <section key={slug}><h2 className="font-serif text-xl font-bold border-b border-foreground pb-1 mb-2">
-          <Link to={`/greece/${slug}`}>{lang === "el" ? sec.el : sec.en}</Link></h2><StoryList items={block(slug)} lang={lang} /></section>;
+          <Link to={grHref(`/greece/${slug}`)}>{lang === "el" ? sec.el : sec.en}</Link></h2><StoryList items={block(slug)} lang={lang} /></section>;
       })}
+    </div>
+    <div className="grid md:grid-cols-2 gap-8 mt-10 pt-6 border-t border-border">
+      <section aria-labelledby="gr-blend-cy"><h2 id="gr-blend-cy" className="font-serif text-xl font-bold border-b border-foreground pb-1 mb-2">{lang === "el" ? "Από την Κύπρο" : "From Cyprus"}</h2>
+        <StoryList items={blend?.cyprus ?? []} lang={lang} /></section>
+      <section aria-labelledby="gr-blend-intl"><h2 id="gr-blend-intl" className="font-serif text-xl font-bold border-b border-foreground pb-1 mb-2">{lang === "el" ? "Διεθνή" : "International"}</h2>
+        <StoryList items={blend?.international ?? []} lang={lang} /></section>
     </div>
   </>;
 }
@@ -118,7 +144,7 @@ function Section({ slug, lang }: { slug: string; lang: Lang }) {
         <button className={chip(!tag)} onClick={() => setParams({})}>{lang === "el" ? "Όλα" : "All"}</button>
         {BANKING_FILTERS.map((f) => <button key={f.tag} className={chip(tag === f.tag)} onClick={() => setParams({ filter: f.tag })}>{lang === "el" ? f.el : f.tag}</button>)}
       </div>
-      <div className="flex flex-wrap gap-3 mb-6 text-sm">{orgs.map((o) => <Link key={o.slug} to={`/greece/org/${o.slug}`} className="underline">{pick(lang, o.name_el, o.name_en)}</Link>)}</div>
+      <div className="flex flex-wrap gap-3 mb-6 text-sm">{orgs.map((o) => <Link key={o.slug} to={grHref(`/greece/org/${o.slug}`)} className="underline">{pick(lang, o.name_el, o.name_en)}</Link>)}</div>
     </>}
     {slug === "announcements" && <div className="flex gap-2 mb-4">
       <button className={chip(tab === "listed")} onClick={() => setParams({})}>Listed Company Disclosures</button>

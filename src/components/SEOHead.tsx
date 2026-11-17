@@ -12,6 +12,8 @@ interface SEOHeadProps {
   title: string;
   description?: string;
   path?: string;
+  /** Full canonical address when it differs from this site's own (e.g. a Greece-only story on businesshub.gr). */
+  canonical?: string;
   image?: string;
   /** Hub vertical — picks the branded share image when `image` is absent. */
   vertical?: string;
@@ -26,16 +28,18 @@ export function SEOHead({
   title,
   description = "Cyprus business intelligence platform — compliance, fintech, trade, and company directory.",
   path,
+  canonical,
   image,
   vertical,
   type = "website",
   breadcrumbs,
   jsonLd,
 }: SEOHeadProps) {
-  const fullTitle = `${title} | ${SITE_NAME}`;
+  // Titles that already name their site (e.g. "… | BusinessHub.gr") keep it.
+  const fullTitle = /\| BusinessHub\.(cy|gr)$/.test(title) ? title : `${title} | ${SITE_NAME}`;
   const location = useLocation();
   // Self-referencing canonical: default to the current route when no path is given.
-  const url = canonicalUrl(path ?? location.pathname);
+  const url = canonical ?? canonicalUrl(path ?? location.pathname);
   const ogImage = image || ogImageFor(vertical);
 
   const breadcrumbJsonLd = breadcrumbs?.length
