@@ -66,7 +66,7 @@ export function NewStoryDialog({ open, onOpenChange, preset }: {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-        <DialogHeader><DialogTitle>{gr && !en ? (isPr ? "Νέο δελτίο τύπου — Greece Edition" : "Νέο άρθρο — Greece Edition") : "New story or press release"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle>{gr && !en ? (isPr ? "New press release — Greece Edition" : "New story — Greece Edition") : "New story or press release"}</DialogTitle></DialogHeader>
         <div className="space-y-3">
           <div className="flex flex-wrap gap-2 items-center">
             <div className="flex gap-1 border border-border rounded-lg p-1 w-fit">

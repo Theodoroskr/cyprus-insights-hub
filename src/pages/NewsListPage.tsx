@@ -96,6 +96,7 @@ export default function NewsListPage() {
             {HUBS.map((h) => (
               <Button key={h.key} size="sm" variant={hub === h.key ? "default" : "outline"} onClick={() => setHub(h.key)}>{h.label}</Button>
             ))}
+            <Button asChild size="sm" variant="outline"><Link to="/greece">Greece</Link></Button>
           </div>
         </div>
       </div>

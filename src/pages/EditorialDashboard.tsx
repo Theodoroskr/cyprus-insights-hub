@@ -687,7 +687,7 @@ const EditorialDashboard = () => {
 
         <div className="flex flex-wrap justify-end gap-2 mb-4">
           <Button variant="outline" onClick={() => { setNewStoryPreset({ edition: "gr", kind: "press_release" }); setNewStoryOpen(true); }} className="gap-1.5">
-            <FileEdit className="h-4 w-4" /> Greek press release · Δελτίο Τύπου
+            <FileEdit className="h-4 w-4" /> Greek press release
           </Button>
           <Button onClick={() => { setNewStoryPreset({ edition: "cy", kind: "story" }); setNewStoryOpen(true); }} className="gap-1.5"><FileEdit className="h-4 w-4" /> New story / press release</Button>
         </div>

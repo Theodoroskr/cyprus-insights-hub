@@ -25,6 +25,7 @@ export const MENU_SECTIONS: { title: string; links: NavLink[] }[] = [
     { label: "All news", href: "/news" },
     { label: "Company Announcements", href: "/company-announcements" },
     { label: "Energy news", href: "/energy/news" },
+    { label: "Greece", href: "/greece" },
     { label: "Interviews", href: "/interviews" },
   ] },
   { title: "Data & rankings", links: [
