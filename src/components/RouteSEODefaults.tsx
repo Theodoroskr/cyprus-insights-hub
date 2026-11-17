@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useLocation } from "react-router-dom";
+import { useInRouterContext, useLocation } from "react-router-dom";
 import { ogImageFor } from "@/lib/ogImage";
 import { canonicalUrl, readStaticPreview, routeMeta, SITE_DESCRIPTION, SITE_IMAGE, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
 
@@ -16,6 +16,13 @@ const INITIAL_PREVIEW = typeof document !== "undefined" ? readStaticPreview(docu
  * generic ones, so share robots that snapshot before the story loads still see the story.
  */
 export function RouteSEODefaults() {
+  // During a live preview update an old and a new copy of the router can briefly
+  // coexist; head tags are optional, so skip them rather than blank the whole page.
+  if (!useInRouterContext()) return null;
+  return <RouteSEODefaultTags />;
+}
+
+function RouteSEODefaultTags() {
   const { pathname } = useLocation();
   const url = canonicalUrl(pathname);
   const own = INITIAL_PREVIEW && url === INITIAL_PATH ? INITIAL_PREVIEW : null;
