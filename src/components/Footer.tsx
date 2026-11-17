@@ -111,7 +111,7 @@ export function Footer() {
               <li className="flex items-center gap-1.5"><Building2 className="h-3 w-3 text-secondary" />Featured listings</li>
             </ul>
             <a
-              href="mailto:advertise@businesshub.cy"
+              href="mailto:info@businesshub.cy"
               className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-secondary hover:opacity-80 transition-opacity"
             >
               Get media kit <ArrowRight className="h-3 w-3" />

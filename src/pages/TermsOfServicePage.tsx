@@ -71,7 +71,7 @@ export default function TermsOfServicePage() {
           <h2 className="text-xl font-semibold mt-8 mb-3">11. Contact</h2>
           <p className="text-muted-foreground leading-relaxed">
             For questions about these terms, contact us at{" "}
-            <a href="mailto:legal@businesshub.cy" className="text-secondary hover:underline">legal@businesshub.cy</a>.
+            <a href="mailto:info@businesshub.cy" className="text-secondary hover:underline">info@businesshub.cy</a>.
           </p>
         </div>
       </div>

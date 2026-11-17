@@ -32,7 +32,7 @@ export function BannerPlaceholder({ size, label }: { size: AdSize; label?: strin
   return (
     <div className="flex justify-center">
       <a
-        href="mailto:advertise@businesshub.cy?subject=Banner%20enquiry"
+        href="mailto:info@businesshub.cy?subject=Banner%20enquiry"
         className={`w-full ${AD_SIZES[size]} rounded-lg border-2 border-dashed border-border bg-muted/50 flex ${compact ? "flex-row gap-3" : "flex-col gap-1"} items-center justify-center text-center text-muted-foreground hover:border-primary hover:text-foreground transition-colors`}
       >
         <span className="text-[10px] uppercase tracking-widest">{label ?? "Advertise here"}</span>

@@ -99,8 +99,8 @@ export function HubFooter({ brand }: HubFooterProps) {
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-secondary" />
-                <a href={`mailto:info@${brand.name.toLowerCase()}.cy`} className="hover:text-secondary transition-colors">
-                  info@{brand.name.toLowerCase()}.cy
+                <a href={"mailto:info@businesshub.cy"} className="hover:text-secondary transition-colors">
+                  info@businesshub.cy
                 </a>
               </li>
             </ul>

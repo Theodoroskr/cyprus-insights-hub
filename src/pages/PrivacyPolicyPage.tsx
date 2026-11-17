@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
           <h2 className="text-xl font-semibold mt-8 mb-3">8. Contact Us</h2>
           <p className="text-muted-foreground leading-relaxed">
             For privacy-related inquiries, please contact us at{" "}
-            <a href="mailto:privacy@businesshub.cy" className="text-secondary hover:underline">privacy@businesshub.cy</a>.
+            <a href="mailto:info@businesshub.cy" className="text-secondary hover:underline">info@businesshub.cy</a>.
           </p>
         </div>
       </div>
