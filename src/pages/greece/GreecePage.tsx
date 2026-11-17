@@ -8,7 +8,8 @@ import { AdSlot } from "@/components/banners/AdSlot";
 import { articlePath } from "@/lib/articleUrl";
 import { useState } from "react";
 import { BANKING_FILTERS, CY_HOST, GR_SECTIONS, grHref, onGrHost } from "@/lib/edition";
-import { blendBlocks } from "@/lib/greeceBlend";
+import { blendBlocks, sectionFill } from "@/lib/greeceBlend";
+import { isInternationalStory } from "@/lib/storyOrigin";
 import { listImage } from "@/lib/fallbackImage";
 import { Helmet } from "react-helmet-async";
 
@@ -48,6 +49,7 @@ function StoryList({ items, lang }: { items: Story[]; lang: Lang }) {
     <li key={s.id} className="py-3 flex gap-3">
       <Link to={grHref(articlePath(s.id, s.title))} className="shrink-0"><img src={listImage(rows, i)} alt="" loading="lazy" data-vertical={s.vertical ?? undefined} data-seed={s.id} className="w-24 h-16 sm:w-28 sm:h-[72px] object-cover rounded bg-muted" /></Link>
       <div className="min-w-0">
+      {!s.gr_section && <span lang={lang} className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">{isInternationalStory(s) ? (lang === "el" ? "Διεθνή" : "International") : (lang === "el" ? "Κύπρος" : "Cyprus")}</span>}
       {s.tags?.includes("Press release") && <span lang={lang} className="block text-[11px] font-semibold uppercase tracking-wider text-secondary mb-0.5">{lang === "el" ? "Δελτίο Τύπου" : "Press release"}</span>}
       <Link to={grHref(articlePath(s.id, s.title))} lang={lang} className="font-serif text-lg font-semibold hover:underline break-words">{pick(lang, s.title_el, s.title)}</Link>
       {pick(lang, s.summary_el, s.summary) && <p lang={lang} className="text-sm text-muted-foreground mt-1">{pick(lang, s.summary_el, s.summary)}</p>}
@@ -84,25 +86,38 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
   );
 }
 
-/** The home page's smaller Cyprus and International blocks, from Cyprus Edition stories (Greece-related first). */
-function useBlend() {
+type Other = Story & { what_happened: string | null; greece_related: boolean };
+/** Recent Cyprus Edition stories (not also in the Greece edition), used to fill out the Greece pages. */
+function useOthers() {
   return useQuery({
-    queryKey: ["gr-blend"],
+    queryKey: ["gr-others"],
     queryFn: async () => {
       const { data } = await supabase.from("cna_articles")
         .select("id,title,title_el,summary,summary_el,what_happened,published_at,image_url,vertical,tags,gr_section,cross_border_note,greece_related")
         .eq("status", "published").contains("edition", ["cy"]).not("edition", "cs", "{gr}")
-        .order("published_at", { ascending: false }).limit(60);
-      return blendBlocks((data ?? []) as (Story & { what_happened: string | null; greece_related: boolean })[]);
+        .order("published_at", { ascending: false }).limit(250);
+      return (data ?? []) as Other[];
     },
   });
+}
+/** The home page's smaller Cyprus and International blocks (Greece-related first). */
+function useBlend(exclude: Set<string> = new Set()) {
+  const { data } = useOthers();
+  return { data: data ? blendBlocks(data.filter((s) => !exclude.has(s.id)).slice(0, 60)) : undefined };
 }
 
 function Home({ lang }: { lang: Lang }) {
   const { data = [] } = useGreeceStories();
-  const { data: blend } = useBlend();
+  const { data: others = [] } = useOthers();
   const [lead, ...rest] = data;
-  const block = (slug: string) => data.filter((s) => s.gr_section === slug).slice(0, 4);
+  // Each borrowed story appears in one block only.
+  const blocks = new Map<string, Story[]>(); const used = new Set<string>();
+  for (const slug of ["banking", "announcements", "funding", "indicators"]) {
+    const rows = sectionFill(slug, data.filter((s) => s.gr_section === slug), others.filter((o) => !used.has(o.id)), { size: 4, cyprusMax: 1 });
+    rows.forEach((r) => used.add(r.id)); blocks.set(slug, rows);
+  }
+  const block = (slug: string) => blocks.get(slug) ?? [];
+  const { data: blend } = useBlend(used);
   return <>
     <h1 className="font-serif text-3xl md:text-4xl font-bold">Επιχειρηματική ενημέρωση για την Ελλάδα</h1>
     <p className="text-muted-foreground mt-2">Εταιρικές ανακοινώσεις, τράπεζες, επενδύσεις, χρηματοδοτήσεις και οικονομικά δεδομένα.</p>
@@ -138,7 +153,10 @@ function Section({ slug, lang }: { slug: string; lang: Lang }) {
   const tag = params.get("filter") ?? undefined;
   const tab = params.get("tab") === "deals" ? "deals" : "listed";
   const sec = GR_SECTIONS.find((s) => s.slug === slug);
-  const { data = [] } = useGreeceStories(slug, slug === "announcements" ? (tab === "deals" ? "Funding & Investment Deals" : "Listed Company Disclosures") : tag);
+  const { data: own = [] } = useGreeceStories(slug, slug === "announcements" ? (tab === "deals" ? "Funding & Investment Deals" : "Listed Company Disclosures") : tag);
+  const { data: others = [] } = useOthers();
+  // Banking filters and announcement tabs stay Greece-only; plain section pages add matching International/Cyprus stories.
+  const data = tag || slug === "announcements" ? own : sectionFill(slug, own, others, { size: 30 });
   const { data: orgs = [] } = useQuery({ queryKey: ["gr-orgs"], enabled: slug === "banking",
     queryFn: async () => (await supabase.from("organisations").select("slug,name_en,name_el").eq("country", "GR").order("name_en")).data ?? [] });
   if (!sec) return <Empty lang={lang} />;

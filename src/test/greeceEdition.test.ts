@@ -16,3 +16,25 @@ describe("Greece edition filing", () => {
   it("own-share purchases get the Corporate Announcements filter", () =>
     expect(grBankingTags("ANNOUNCEMENT - PURCHASE OF OWN SHARES")).toEqual(["Corporate Announcements"]));
 });
+
+import { sectionFill } from "@/lib/greeceBlend";
+describe("Greece section fill", () => {
+  const cy = (id: string, title: string, extra: Record<string, unknown> = {}) => ({ id, title, summary: null, tags: null, greece_related: false, vertical: "general", ...extra });
+  it("puts Greek stories first, then Greece-related, then International, then a few Cyprus", () => {
+    const out = sectionFill("banking", [{ id: "g1" }], [
+      cy("c1", "Cyprus banks report deposits rise"),
+      cy("i1", "ECB holds interest rates"),
+      cy("r1", "Greek banks lead euro bond rally", { greece_related: true }),
+      cy("x1", "Tourism arrivals up"),
+    ]);
+    expect(out.map((s) => s.id)).toEqual(["g1", "r1", "i1", "c1"]);
+  });
+  it("Greece–Cyprus takes only Greece-related stories", () => {
+    const out = sectionFill("greece-cyprus", [], [cy("a", "ECB holds rates"), cy("b", "Athens and Nicosia sign deal", { greece_related: true })]);
+    expect(out.map((s) => s.id)).toEqual(["b"]);
+  });
+  it("caps Cyprus stories", () => {
+    const many = Array.from({ length: 10 }, (_, i) => cy(`c${i}`, `Cyprus bank loans ${i}`));
+    expect(sectionFill("banking", [], many, { cyprusMax: 2 }).length).toBe(2);
+  });
+});
