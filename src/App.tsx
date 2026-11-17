@@ -15,6 +15,7 @@ import { RouteSEODefaults } from "./components/RouteSEODefaults";
 
 // Lazy-loaded route components
 const Index = lazy(() => import("./pages/Index"));
+const GreecePage = lazy(() => import("./pages/greece/GreecePage"));
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
 const EnergyPage = lazy(() => import("./pages/EnergyPage"));
 const CompliancePage = lazy(() => import("./pages/CompliancePage"));
@@ -193,6 +194,9 @@ const App = () => (
                   <Route path="/people/:slug" element={<WhoIsWhoRoute><PeopleProfilePage /></WhoIsWhoRoute>} />
                   <Route path="/whoiswho" element={<WhoIsWhoRoute><WhoIsWhoPage /></WhoIsWhoRoute>} />
                   <Route path="/whoiswho/:slug" element={<WhoIsWhoRoute><WhoIsWhoProfilePage /></WhoIsWhoRoute>} />
+                  <Route path="/greece" element={<GreecePage />} />
+                  <Route path="/greece/org/:slug" element={<GreecePage />} />
+                  <Route path="/greece/:section" element={<GreecePage />} />
                   <Route path="/news" element={<NewsListPage />} />
                   <Route path="/company-announcements" element={<CompanyAnnouncementsPage />} />
                   <Route path="/company-announcements/:slug" element={<CompanyAnnouncementPage />} />

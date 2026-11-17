@@ -150,6 +150,13 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
           {/* Search & Actions */}
           <div className="flex items-center gap-1">
+            <Link
+              to={location.pathname.startsWith("/greece") ? "/" : "/greece"}
+              className="px-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground whitespace-nowrap"
+              title="Κύπρος / Ελλάδα"
+            >
+              {location.pathname.startsWith("/greece") ? "Κύπρος / CY" : "Ελλάδα / GR"}
+            </Link>
             {isSearchOpen ? (
               <form onSubmit={handleSearch} className="flex items-center gap-2 animate-slide-in-right">
                 <Input

@@ -472,23 +472,30 @@ export type Database = {
       }
       cna_articles: {
         Row: {
+          body_el: string | null
           body_markdown: string | null
           canonical_url: string | null
           content_hash: string | null
           created_at: string
+          cross_border_note: string | null
+          edition: string[]
           entities_extracted_at: string | null
           event_type: string | null
           featured_until: string | null
+          gr_section: string | null
           id: string
           image_url: string | null
+          organisation_slug: string | null
           original_language: string | null
           published_at: string | null
           source_id: string | null
           source_url: string | null
           status: Database["public"]["Enums"]["article_status"]
           summary: string | null
+          summary_el: string | null
           tags: string[] | null
           title: string
+          title_el: string | null
           updated_at: string
           vertical: Database["public"]["Enums"]["article_vertical"]
           video_url: string | null
@@ -497,23 +504,30 @@ export type Database = {
           why_it_matters: string | null
         }
         Insert: {
+          body_el?: string | null
           body_markdown?: string | null
           canonical_url?: string | null
           content_hash?: string | null
           created_at?: string
+          cross_border_note?: string | null
+          edition?: string[]
           entities_extracted_at?: string | null
           event_type?: string | null
           featured_until?: string | null
+          gr_section?: string | null
           id?: string
           image_url?: string | null
+          organisation_slug?: string | null
           original_language?: string | null
           published_at?: string | null
           source_id?: string | null
           source_url?: string | null
           status?: Database["public"]["Enums"]["article_status"]
           summary?: string | null
+          summary_el?: string | null
           tags?: string[] | null
           title: string
+          title_el?: string | null
           updated_at?: string
           vertical?: Database["public"]["Enums"]["article_vertical"]
           video_url?: string | null
@@ -522,23 +536,30 @@ export type Database = {
           why_it_matters?: string | null
         }
         Update: {
+          body_el?: string | null
           body_markdown?: string | null
           canonical_url?: string | null
           content_hash?: string | null
           created_at?: string
+          cross_border_note?: string | null
+          edition?: string[]
           entities_extracted_at?: string | null
           event_type?: string | null
           featured_until?: string | null
+          gr_section?: string | null
           id?: string
           image_url?: string | null
+          organisation_slug?: string | null
           original_language?: string | null
           published_at?: string | null
           source_id?: string | null
           source_url?: string | null
           status?: Database["public"]["Enums"]["article_status"]
           summary?: string | null
+          summary_el?: string | null
           tags?: string[] | null
           title?: string
+          title_el?: string | null
           updated_at?: string
           vertical?: Database["public"]["Enums"]["article_vertical"]
           video_url?: string | null
@@ -834,6 +855,7 @@ export type Database = {
           deal_stage: string | null
           directory_company_id: string | null
           discovery_url: string | null
+          edition: string[]
           event_date: string | null
           external_ids: string[]
           id: string
@@ -875,6 +897,7 @@ export type Database = {
           deal_stage?: string | null
           directory_company_id?: string | null
           discovery_url?: string | null
+          edition?: string[]
           event_date?: string | null
           external_ids?: string[]
           id?: string
@@ -916,6 +939,7 @@ export type Database = {
           deal_stage?: string | null
           directory_company_id?: string | null
           discovery_url?: string | null
+          edition?: string[]
           event_date?: string | null
           external_ids?: string[]
           id?: string
@@ -1420,12 +1444,17 @@ export type Database = {
           active: boolean
           auto_publish: boolean
           category: string
+          country: string
           created_at: string
           id: string
+          ingestion_status: string
           last_error: string | null
           last_error_at: string | null
           last_scraped_at: string | null
+          markets: string[]
           name: string
+          priority: string | null
+          publisher: string | null
           records_duplicate: number
           records_imported: number
           records_rejected: number
@@ -1433,6 +1462,8 @@ export type Database = {
           scrape_interval_hours: number
           scrape_path: string
           slug: string
+          source_notes: string | null
+          source_type: string | null
           target_section: string | null
           target_vertical: string
           trust_level: string
@@ -1444,12 +1475,17 @@ export type Database = {
           active?: boolean
           auto_publish?: boolean
           category?: string
+          country?: string
           created_at?: string
           id?: string
+          ingestion_status?: string
           last_error?: string | null
           last_error_at?: string | null
           last_scraped_at?: string | null
+          markets?: string[]
           name: string
+          priority?: string | null
+          publisher?: string | null
           records_duplicate?: number
           records_imported?: number
           records_rejected?: number
@@ -1457,6 +1493,8 @@ export type Database = {
           scrape_interval_hours?: number
           scrape_path?: string
           slug: string
+          source_notes?: string | null
+          source_type?: string | null
           target_section?: string | null
           target_vertical?: string
           trust_level?: string
@@ -1468,12 +1506,17 @@ export type Database = {
           active?: boolean
           auto_publish?: boolean
           category?: string
+          country?: string
           created_at?: string
           id?: string
+          ingestion_status?: string
           last_error?: string | null
           last_error_at?: string | null
           last_scraped_at?: string | null
+          markets?: string[]
           name?: string
+          priority?: string | null
+          publisher?: string | null
           records_duplicate?: number
           records_imported?: number
           records_rejected?: number
@@ -1481,6 +1524,8 @@ export type Database = {
           scrape_interval_hours?: number
           scrape_path?: string
           slug?: string
+          source_notes?: string | null
+          source_type?: string | null
           target_section?: string | null
           target_vertical?: string
           trust_level?: string
@@ -2443,6 +2488,7 @@ export type Database = {
           deadline_time: string | null
           dedupe_key: string
           documents: Json
+          edition: string[]
           editor_locked_fields: string[]
           eligibility_summary: string | null
           eligible_costs: string | null
@@ -2486,6 +2532,7 @@ export type Database = {
           deadline_time?: string | null
           dedupe_key: string
           documents?: Json
+          edition?: string[]
           editor_locked_fields?: string[]
           eligibility_summary?: string | null
           eligible_costs?: string | null
@@ -2529,6 +2576,7 @@ export type Database = {
           deadline_time?: string | null
           dedupe_key?: string
           documents?: Json
+          edition?: string[]
           editor_locked_fields?: string[]
           eligibility_summary?: string | null
           eligible_costs?: string | null
@@ -3279,6 +3327,51 @@ export type Database = {
           title_en?: string
           updated_at?: string
           upstream_url?: string | null
+        }
+        Relationships: []
+      }
+      organisations: {
+        Row: {
+          country: string
+          created_at: string
+          description_el: string | null
+          description_en: string | null
+          directory_company_id: string | null
+          id: string
+          kind: string
+          name_el: string | null
+          name_en: string
+          official_links: Json
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          country?: string
+          created_at?: string
+          description_el?: string | null
+          description_en?: string | null
+          directory_company_id?: string | null
+          id?: string
+          kind?: string
+          name_el?: string | null
+          name_en: string
+          official_links?: Json
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          description_el?: string | null
+          description_en?: string | null
+          directory_company_id?: string | null
+          id?: string
+          kind?: string
+          name_el?: string | null
+          name_en?: string
+          official_links?: Json
+          slug?: string
+          updated_at?: string
         }
         Relationships: []
       }
