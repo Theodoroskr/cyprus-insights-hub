@@ -66,6 +66,12 @@ const STATUS_CONFIG: Record<ArticleStatus, { label: string; icon: typeof Clock; 
 
 const PAGE_SIZE = 12;
 
+/** Tall enough to show the whole story text (up to 40 lines, then it scrolls). */
+const bodyRows = (t?: string | null) => {
+  const lines = (t ?? "").split("\n").reduce((n, l) => n + Math.max(1, Math.ceil(l.length / 110)), 0);
+  return Math.min(40, Math.max(12, lines + 1));
+};
+
 const REG_SOURCES = ["cysec", "cbc", "icpac", "bar", "cifa"] as const;
 
 function RegulatoryPanel() {
@@ -963,7 +969,7 @@ const EditorialDashboard = () => {
 
       {/* Edit Dialog */}
       <Dialog open={!!editingArticle} onOpenChange={(o) => !o && setEditingArticle(null)}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Article</DialogTitle>
           </DialogHeader>
@@ -1027,14 +1033,14 @@ const EditorialDashboard = () => {
               />
             </div>
             <div>
-              <label className="section-label">Story text (Markdown)</label>
-              <Textarea id="ed-body" rows={8} value={editForm.body_markdown ?? ""} onChange={(e) => setEditForm({ ...editForm, body_markdown: e.target.value })} />
+              <label className="section-label">Story text (Markdown) · {(editForm.body_markdown ?? "").length.toLocaleString()} characters</label>
+              <Textarea id="ed-body" rows={bodyRows(editForm.body_markdown)} className="resize-y font-mono text-xs leading-relaxed" value={editForm.body_markdown ?? ""} onChange={(e) => setEditForm({ ...editForm, body_markdown: e.target.value })} />
               <BodyImageButton targetId="ed-body" value={editForm.body_markdown ?? ""} onChange={(v) => setEditForm((p) => ({ ...p, body_markdown: v }))} />
             </div>
             {(editingArticle?.edition ?? []).includes("gr") && (
               <div>
                 <label className="section-label">Κείμενο (Greek, Markdown)</label>
-                <Textarea id="ed-body-el" rows={8} value={editForm.body_el ?? ""} onChange={(e) => setEditForm({ ...editForm, body_el: e.target.value })} />
+                <Textarea id="ed-body-el" rows={bodyRows(editForm.body_el)} className="resize-y font-mono text-xs leading-relaxed" value={editForm.body_el ?? ""} onChange={(e) => setEditForm({ ...editForm, body_el: e.target.value })} />
                 <BodyImageButton targetId="ed-body-el" label="Insert picture · Εικόνα στο κείμενο" value={editForm.body_el ?? ""} onChange={(v) => setEditForm((p) => ({ ...p, body_el: v }))} />
               </div>
             )}
