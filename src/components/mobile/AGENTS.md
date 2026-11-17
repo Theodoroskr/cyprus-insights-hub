@@ -1,0 +1,1 @@
+- `MobileTabBar` (md:hidden) Menu tab fires `bh:open-menu`, which TopNavigation listens for to open its drawer. Why: one menu drawer.
