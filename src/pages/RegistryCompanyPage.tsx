@@ -171,16 +171,16 @@ export default function RegistryCompanyPage() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-start gap-5 mb-8">
-            <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Building2 className="h-8 w-8 text-primary" />
+          <div className="flex items-start gap-3 sm:gap-5 mb-8">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Building2 className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{company.company_name}</h1>
+                <div className="min-w-0">
+                  <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground [overflow-wrap:anywhere]">{company.company_name}</h1>
                   {formerNames.length > 0 && (
-                    <p className="text-sm text-muted-foreground mt-1">Also known as: {formerNames.join(", ")}</p>
+                    <p className="text-sm text-muted-foreground mt-1 [overflow-wrap:anywhere]">Also known as: {formerNames.join(", ")}</p>
                   )}
                 </div>
                 {user && company?.id && (
@@ -455,7 +455,7 @@ function KYBPurchaseModal({ company, user, onClose }: { company: any; user: any;
 
         <div className="bg-muted/40 p-3 mb-4">
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Report for:</p>
-          <p className="font-semibold text-foreground">{company.company_name}</p>
+          <p className="font-semibold text-foreground [overflow-wrap:anywhere]">{company.company_name}</p>
           {company.registration_no && (
             <p className="text-xs text-muted-foreground">Reg. {company.registration_no}</p>
           )}

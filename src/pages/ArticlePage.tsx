@@ -272,11 +272,11 @@ export default function ArticlePage() {
               {date && <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{date}</span>}
               <span>{readTime}</span>
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-tight mb-4 line-clamp-4">
+            <h1 className="text-[1.75rem] sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-tight mb-4 break-words">
               {headline}
             </h1>
             {article.summary && (
-              <p className="text-lg md:text-xl text-muted-foreground font-source-serif leading-relaxed">{article.summary}</p>
+              <p className="text-lg md:text-xl text-muted-foreground font-source-serif leading-relaxed break-words">{article.summary}</p>
             )}
           </header>
 
@@ -303,7 +303,7 @@ export default function ArticlePage() {
                         <Icon className="h-4 w-4" />
                         <span className="text-xs font-bold uppercase tracking-wider">{label}</span>
                       </div>
-                      <p className="text-foreground leading-relaxed">{text}</p>
+                      <p className="text-foreground leading-relaxed break-words">{text}</p>
                     </div>
                   ))}
                 </div>
@@ -313,7 +313,7 @@ export default function ArticlePage() {
                 <div className="mb-10">
                   <h2 className="section-label mb-4">Full article</h2>
                   <div className={`relative ${isLong && !expanded ? "max-h-[900px] overflow-hidden" : ""}`}>
-                    <div className="prose prose-lg max-w-[68ch] text-foreground prose-headings:font-serif prose-a:text-secondary prose-img:rounded-lg">
+                    <div className="prose prose-base sm:prose-lg max-w-[68ch] text-foreground break-words prose-headings:font-serif prose-a:text-secondary prose-a:[overflow-wrap:anywhere] prose-img:rounded-lg prose-img:max-w-full prose-img:h-auto prose-pre:overflow-x-auto prose-table:block prose-table:overflow-x-auto">
                       {groupArticleImages(cleanBody, heroSrc).map((seg, i) =>
                         seg.type === "text" ? (
                           <div key={i}>

@@ -71,9 +71,9 @@ export default function CompanyProfilePage() {
         <div className="container mx-auto px-4 py-10">
           <div className="flex flex-col md:flex-row items-start gap-6">
             <img src={company.logo || "/placeholder.svg"} alt={company.name} className="w-20 h-20 rounded-xl object-cover border border-border" />
-            <div className="flex-1">
+            <div className="flex-1 min-w-0 w-full">
               <div className="flex items-start justify-between gap-4">
-                <h1 className="text-3xl font-serif font-bold text-foreground">{company.name}</h1>
+                <h1 className="text-2xl sm:text-3xl font-serif font-bold text-foreground min-w-0 [overflow-wrap:anywhere]">{company.name}</h1>
                 {user && (
                   <Button
                     variant={isWatching(company.id) ? "default" : "outline"}
@@ -118,7 +118,7 @@ export default function CompanyProfilePage() {
               </TabsList>
 
               <TabsContent value="overview">
-                <div className="prose max-w-none">
+                <div className="prose max-w-none break-words">
                   <h3 className="font-serif text-xl font-bold text-foreground mb-4">About {company.name}</h3>
                   <p className="text-muted-foreground leading-relaxed">{company.description}</p>
                 </div>
