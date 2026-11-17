@@ -9,11 +9,12 @@ import { articlePath } from "@/lib/articleUrl";
 import { useState } from "react";
 import { BANKING_FILTERS, CY_HOST, GR_SECTIONS, grHref, onGrHost } from "@/lib/edition";
 import { blendBlocks } from "@/lib/greeceBlend";
+import { listImage } from "@/lib/fallbackImage";
 import { Helmet } from "react-helmet-async";
 
 type Lang = "el" | "en";
 type Story = { id: string; title: string; title_el: string | null; summary: string | null; summary_el: string | null;
-  published_at: string | null; image_url: string | null; tags: string[] | null; gr_section: string | null; cross_border_note: string | null };
+  published_at: string | null; image_url: string | null; vertical?: string | null; tags: string[] | null; gr_section: string | null; cross_border_note: string | null };
 
 const pick = (lang: Lang, el: string | null | undefined, en: string | null | undefined) => (lang === "el" ? el || en : en || el) || "";
 
@@ -22,7 +23,7 @@ function useGreeceStories(section?: string, tag?: string, org?: string) {
     queryKey: ["gr-stories", section, tag, org],
     queryFn: async () => {
       let q = supabase.from("cna_articles")
-        .select("id,title,title_el,summary,summary_el,published_at,image_url,tags,gr_section,cross_border_note")
+        .select("id,title,title_el,summary,summary_el,published_at,image_url,vertical,tags,gr_section,cross_border_note")
         .eq("status", "published").contains("edition", ["gr"]).order("published_at", { ascending: false }).limit(30);
       if (section) q = q.eq("gr_section", section);
       if (tag) q = q.contains("tags", [tag]);
@@ -40,13 +41,18 @@ function Empty({ lang }: { lang: Lang }) {
 }
 
 function StoryList({ items, lang }: { items: Story[]; lang: Lang }) {
-  if (!items.length) return <Empty lang={lang} />;
-  return <ul className="divide-y divide-border">{items.map((s) => (
-    <li key={s.id} className="py-3">
+  // In Greek, show only stories that have a Greek headline, so the page never mixes languages.
+  const rows = lang === "el" ? items.filter((s) => s.title_el) : items;
+  if (!rows.length) return <Empty lang={lang} />;
+  return <ul className="divide-y divide-border">{rows.map((s, i) => (
+    <li key={s.id} className="py-3 flex gap-3">
+      <Link to={grHref(articlePath(s.id, s.title))} className="shrink-0"><img src={listImage(rows, i)} alt="" loading="lazy" data-vertical={s.vertical ?? undefined} data-seed={s.id} className="w-24 h-16 sm:w-28 sm:h-[72px] object-cover rounded bg-muted" /></Link>
+      <div className="min-w-0">
       {s.tags?.includes("Press release") && <span lang={lang} className="block text-[11px] font-semibold uppercase tracking-wider text-secondary mb-0.5">{lang === "el" ? "Δελτίο Τύπου" : "Press release"}</span>}
-      <Link to={articlePath(s.id, s.title)} className="font-serif text-lg font-semibold hover:underline">{pick(lang, s.title_el, s.title)}</Link>
-      {pick(lang, s.summary_el, s.summary) && <p className="text-sm text-muted-foreground mt-1">{pick(lang, s.summary_el, s.summary)}</p>}
+      <Link to={grHref(articlePath(s.id, s.title))} lang={lang} className="font-serif text-lg font-semibold hover:underline break-words">{pick(lang, s.title_el, s.title)}</Link>
+      {pick(lang, s.summary_el, s.summary) && <p lang={lang} className="text-sm text-muted-foreground mt-1">{pick(lang, s.summary_el, s.summary)}</p>}
       {s.cross_border_note && <p className="text-xs mt-1 text-secondary-foreground">↔ {s.cross_border_note}</p>}
+      </div>
     </li>))}</ul>;
 }
 
@@ -84,7 +90,7 @@ function useBlend() {
     queryKey: ["gr-blend"],
     queryFn: async () => {
       const { data } = await supabase.from("cna_articles")
-        .select("id,title,title_el,summary,summary_el,what_happened,published_at,image_url,tags,gr_section,cross_border_note,greece_related")
+        .select("id,title,title_el,summary,summary_el,what_happened,published_at,image_url,vertical,tags,gr_section,cross_border_note,greece_related")
         .eq("status", "published").contains("edition", ["cy"]).not("edition", "cs", "{gr}")
         .order("published_at", { ascending: false }).limit(60);
       return blendBlocks((data ?? []) as (Story & { what_happened: string | null; greece_related: boolean })[]);
@@ -102,8 +108,8 @@ function Home({ lang }: { lang: Lang }) {
     <p className="text-muted-foreground mt-2">Εταιρικές ανακοινώσεις, τράπεζες, επενδύσεις, χρηματοδοτήσεις και οικονομικά δεδομένα.</p>
     <div className="grid md:grid-cols-3 gap-8 mt-6">
       <section className="md:col-span-2">
-        {lead ? <Link to={articlePath(lead.id, lead.title)} className="block">
-          {lead.image_url && <img src={lead.image_url} alt="" className="w-full aspect-video object-cover" />}
+        {lead ? <Link to={grHref(articlePath(lead.id, lead.title))} className="block">
+          <img src={listImage(data, 0)} alt="" data-vertical={lead.vertical ?? undefined} data-seed={lead.id} className="w-full aspect-video object-cover rounded bg-muted" />
           <h2 className="font-serif text-2xl font-bold mt-3">{pick(lang, lead.title_el, lead.title)}</h2>
           <p className="text-muted-foreground mt-1">{pick(lang, lead.summary_el, lead.summary)}</p>
         </Link> : <Empty lang={lang} />}

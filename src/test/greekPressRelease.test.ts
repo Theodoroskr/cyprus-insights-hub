@@ -47,3 +47,14 @@ describe("Greek press releases", () => {
     expect(storyText(both, "el").title).toBe("Νέο πρόγραμμα για ΜμΕ");
   });
 });
+
+describe("Greece edition reading language", () => {
+  const both = { edition: ["cy"], title: "T", title_el: "Τ", summary: null, body_markdown: null, what_happened: null, why_it_matters: null, what_to_do: null };
+  it("Cyprus stories read in Greek on the Greece edition, and the reader can switch to English", () => {
+    expect(storyLanguage(both, null, true)).toBe("el");
+    expect(storyLanguage(both, "en", true)).toBe("en");
+  });
+  it("Greece-only stories can be read in English when chosen", () => {
+    expect(storyLanguage({ ...both, edition: ["gr"] }, "en")).toBe("en");
+  });
+});

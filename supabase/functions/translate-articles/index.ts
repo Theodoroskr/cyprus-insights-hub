@@ -1,6 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
-import { isGreek, translateToEnglish } from "../_shared/translateToEnglish.ts";
+import { isGreek, translateToEnglish, translateToGreek } from "../_shared/translateToEnglish.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 
 /** Backfill: translates saved Greek articles into English, a few at a time. */
@@ -16,6 +16,26 @@ Deno.serve(async (req) => {
     const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const caller = await requireTrustedCaller(req, supabase);
     if (!caller.ok) return deniedResponse(caller, corsHeaders);
+
+    // mode "greek": Greek headline + summary for recent Cyprus Edition stories (shown on BusinessHub.gr).
+    if (body?.mode === "greek") {
+      const n = Math.min(Math.max(Number(body?.limit) || 20, 1), 60);
+      const { data: list, error: e1 } = await supabase.from("cna_articles").select("id,title,summary")
+        .eq("status", "published").contains("edition", ["cy"]).is("title_el", null)
+        .order("published_at", { ascending: false }).limit(n);
+      if (e1) throw e1;
+      let done = 0; const errs: string[] = [];
+      const work = [...(list ?? [])];
+      await Promise.all(Array.from({ length: 6 }, async () => {
+        for (let r = work.shift(); r; r = work.shift()) {
+          try {
+            const t = await translateToGreek({ title: r.title, summary: r.summary }, apiKey);
+            if (t.title) { await supabase.from("cna_articles").update({ title_el: t.title, summary_el: t.summary || null }).eq("id", r.id); done++; }
+          } catch (e) { errs.push(`${r.id}: ${(e as Error).message}`); }
+        }
+      }));
+      return json({ translated: done, errors: errs });
+    }
 
     const { data: rows, error } = await supabase
       .from("cna_articles")

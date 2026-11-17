@@ -78,7 +78,8 @@ export default function ArticlePage() {
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [langChoice, setLangChoice] = useState<StoryLang | null>(null);
+  const [langChoice, setLangChoiceState] = useState<StoryLang | null>(null);
+  const setLangChoice = (l: StoryLang) => { try { localStorage.setItem("gr-lang", l); } catch { /* ignore */ } setLangChoiceState(l); };
   const [mostRead, setMostRead] = useState<{ article_id: string; title: string }[]>([]);
   const viewTracked = useRef(false);
   const articleRef = useRef<HTMLDivElement>(null);
@@ -119,7 +120,7 @@ export default function ArticlePage() {
     if (!id) return;
     let stale = false;
     viewTracked.current = false;
-    setLangChoice(null);
+    setLangChoiceState(null);
     setLoading(true);
     supabase
       .from("cna_articles")
@@ -203,14 +204,17 @@ export default function ArticlePage() {
     );
   }
 
+  // On the Greece edition the reader's EL/EN choice (shared with the Greece pages) carries over.
+  const greekSite = onGrHost() || !(article.edition ?? ["cy"]).includes("cy");
+  const saved = greekSite ? (localStorage.getItem("gr-lang") as StoryLang | null) : null;
+  const lang = storyLanguage(article, langChoice ?? saved, greekSite);
   const date = article.published_at
-    ? new Date(article.published_at).toLocaleDateString(!(article.edition ?? ["cy"]).includes("cy") ? "el-GR" : "en-GB", { day: "numeric", month: "long", year: "numeric" })
+    ? new Date(article.published_at).toLocaleDateString(lang === "el" ? "el-GR" : "en-GB", { day: "numeric", month: "long", year: "numeric" })
     : "";
-  const lang = storyLanguage(article, langChoice);
   const tx = storyText(article, lang);
   const isEl = lang === "el";
   const greekOnly = !(article.edition ?? ["cy"]).includes("cy");
-  const canSwitch = !greekOnly && !!article.title_el;
+  const canSwitch = !!article.title_el;
   const headline = tx.title || (tx.what_happened || "").split(/(?<=\.)\s/)[0];
   const source = article.source_url ? new URL(article.source_url).hostname.replace(/^www\./, "") : null;
   const cleanBody = cleanArticleMarkdown(tx.body_markdown);
@@ -282,7 +286,7 @@ export default function ArticlePage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
             <Link to={greekOnly || onGrHost() ? grHref("/greece") : "/"} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <ArrowLeft className="h-4 w-4" /> {greekOnly ? "Πίσω" : "Back"}
+              <ArrowLeft className="h-4 w-4" /> {isEl ? "Πίσω" : "Back"}
             </Link>
             {canSwitch && (
               <div className="flex gap-2 text-xs" aria-label="Language">
@@ -297,14 +301,14 @@ export default function ArticlePage() {
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground mb-4">
               {greekOnly ? (
                 <Badge variant="outline" className={verticalColor.general}>
-                  {GR_SECTIONS.find((g) => g.slug === article.gr_section)?.el ?? "Greece Edition"}
+                  {(() => { const g = GR_SECTIONS.find((x) => x.slug === article.gr_section); return g ? (isEl ? g.el : g.en) : "Greece Edition"; })()}
                 </Badge>
               ) : (
                 <Badge variant="outline" className={verticalColor[article.vertical] || verticalColor.general}>
                   {verticalLabel[article.vertical] || article.vertical}
                 </Badge>
               )}
-              {!greekOnly && isInternationalStory(article) && <Badge variant="outline">{INTERNATIONAL_LABEL}</Badge>}
+              {!greekOnly && isInternationalStory(article) && <Badge variant="outline">{isEl ? "Διεθνή" : INTERNATIONAL_LABEL}</Badge>}
               {article.tags?.includes(PRESS_RELEASE_TAG) && <Badge variant="secondary">{isEl ? "Δελτίο Τύπου" : "Press release"}</Badge>}
               {source && <span className="font-medium text-foreground">{source}</span>}
               {date && <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{date}</span>}
@@ -323,7 +327,7 @@ export default function ArticlePage() {
           {(
             <figure className="mb-10">
               <img src={heroSrc} alt={headline} data-vertical={article.vertical} data-seed={article.id} onLoad={(e) => { const im = e.currentTarget; const r = im.naturalWidth / (im.naturalHeight || 1); if (im.naturalWidth < 480 || r > 2.4) im.classList.add("img-contain"); else if (r < 0.9) im.classList.add("img-portrait"); else if (r < 1.1) im.classList.add("img-square"); }} className="w-full max-w-3xl mx-auto aspect-[16/9] object-cover rounded-lg bg-muted [&.img-contain]:object-contain [&.img-contain]:max-h-[240px] [&.img-contain]:p-6 [&.img-portrait]:object-[50%_55%] [&.img-square]:object-contain" />
-              {article.image_url && source && <figcaption className="text-xs text-muted-foreground mt-2">Image: {source}</figcaption>}
+              {article.image_url && source && <figcaption className="text-xs text-muted-foreground mt-2">{isEl ? "Εικόνα" : "Image"}: {source}</figcaption>}
             </figure>
           )}
 
@@ -380,7 +384,7 @@ export default function ArticlePage() {
                   </div>
                   {isLong && !expanded && (
                     <Button variant="outline" className="mt-4 gap-2" onClick={() => setExpanded(true)}>
-                      Continue reading <ChevronDown className="h-4 w-4" />
+                      {isEl ? "Συνέχεια" : "Continue reading"} <ChevronDown className="h-4 w-4" />
                     </Button>
                   )}
                 </div>
@@ -393,7 +397,7 @@ export default function ArticlePage() {
                 <a href={article.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex">
                   <Button variant={hasBody ? "ghost" : "default"} className="gap-2 mb-10">
                     <ExternalLink className="h-4 w-4" />
-                    {hasBody ? `Read original at ${source}` : `Read the full release at ${source}`}
+                    {isEl ? (hasBody ? `Πρωτότυπο στο ${source}` : `Ολόκληρη η ανακοίνωση στο ${source}`) : hasBody ? `Read original at ${source}` : `Read the full release at ${source}`}
                   </Button>
                 </a>
               )}
@@ -402,7 +406,7 @@ export default function ArticlePage() {
             {/* Sidebar */}
             <aside className="space-y-6 lg:sticky lg:top-24 self-start">
               <div className="rounded-xl border border-border bg-card p-4">
-                <p className="section-label mb-3">Share</p>
+                <p className="section-label mb-3">{isEl ? "Κοινοποίηση" : "Share"}</p>
                 <div className="flex items-center gap-4 text-muted-foreground">
                   {user && (
                     <button onClick={toggleBookmark} className="hover:text-secondary transition-colors" title="Bookmark">
@@ -431,7 +435,7 @@ export default function ArticlePage() {
 
               {mostRead.length > 0 && (
                 <div className="rounded-xl border border-border bg-card p-4">
-                  <p className="section-label mb-3 flex items-center gap-1.5"><Flame className="h-3.5 w-3.5 text-destructive" />Most read</p>
+                  <p className="section-label mb-3 flex items-center gap-1.5"><Flame className="h-3.5 w-3.5 text-destructive" />{isEl ? "Δημοφιλέστερα" : "Most read"}</p>
                   <ol className="space-y-3">
                     {mostRead.filter((m) => m.article_id !== article.id).slice(0, 5).map((m, i) => (
                       <li key={m.article_id} className="flex gap-3">
@@ -450,7 +454,7 @@ export default function ArticlePage() {
           {/* Related articles */}
           {related.length > 0 && (
             <div className="mt-12 pt-8 border-t border-border">
-              <h3 className="section-label mb-6">Related Intelligence</h3>
+              <h3 className="section-label mb-6">{isEl ? "Σχετικά άρθρα" : "Related Intelligence"}</h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {related.map((r, ri) => (
                   <Link key={r.id} to={articlePath(r.id, r.title)} className="group">

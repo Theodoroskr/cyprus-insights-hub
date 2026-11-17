@@ -10,10 +10,11 @@ type Bilingual = {
   what_happened_el?: string | null; why_it_matters_el?: string | null; what_to_do_el?: string | null;
 };
 
-export function storyLanguage(s: Bilingual, choice: StoryLang | null): StoryLang {
+/** `greekFirst`: the reader is on the Greece edition, so Greek is the default. */
+export function storyLanguage(s: Bilingual, choice: StoryLang | null, greekFirst = false): StoryLang {
   if (!s.title_el) return "en";
-  if (!(s.edition ?? ["cy"]).includes("cy")) return "el";
-  return choice ?? "en";
+  if (choice) return choice;
+  return greekFirst || !(s.edition ?? ["cy"]).includes("cy") ? "el" : "en";
 }
 
 /** Text in the chosen language, falling back to the other language field by field. */
