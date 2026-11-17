@@ -12,6 +12,11 @@ import { blendBlocks, sectionFill } from "@/lib/greeceBlend";
 import { isInternationalStory } from "@/lib/storyOrigin";
 import { listImage } from "@/lib/fallbackImage";
 import { Helmet } from "react-helmet-async";
+import { Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { format, formatDistanceToNow } from "date-fns";
+import { el as elLocale } from "date-fns/locale";
 
 type Lang = "el" | "en";
 type Story = { id: string; title: string; title_el: string | null; summary: string | null; summary_el: string | null;
@@ -56,6 +61,57 @@ function StoryList({ items, lang }: { items: Story[]; lang: Lang }) {
       {s.cross_border_note && <p className="text-xs mt-1 text-secondary-foreground">↔ {s.cross_border_note}</p>}
       </div>
     </li>))}</ul>;
+}
+
+/** Section pages: same lead card + 3-column card grid as the Cyprus Edition news pages. */
+function StoryGrid({ items, lang }: { items: Story[]; lang: Lang }) {
+  const rows = lang === "el" ? items.filter((s) => s.title_el) : items;
+  if (!rows.length) return <Empty lang={lang} />;
+  const loc = lang === "el" ? { locale: elLocale } : undefined;
+  const label = (s: Story) => {
+    if (s.tags?.includes("Press release")) return lang === "el" ? "Δελτίο Τύπου" : "Press release";
+    if (!s.gr_section) return isInternationalStory(s) ? (lang === "el" ? "Διεθνή" : "International") : (lang === "el" ? "Κύπρος" : "Cyprus");
+    const sec = GR_SECTIONS.find((g) => g.slug === s.gr_section);
+    return sec ? (lang === "el" ? sec.el : sec.en) : (lang === "el" ? "Ελλάδα" : "Greece");
+  };
+  const meta = (d: string | null, long: boolean) => d && (
+    <div className="flex items-center gap-2 text-xs text-muted-foreground mt-3">
+      <Calendar className="h-3 w-3" />
+      <span>{format(new Date(d), long ? "d MMM yyyy, HH:mm" : "d MMM yyyy", loc)}</span>
+      <span className="w-1 h-1 rounded-full bg-muted-foreground/40" />
+      <span>{formatDistanceToNow(new Date(d), { addSuffix: true, ...loc })}</span>
+    </div>);
+  const [lead, ...rest] = rows;
+  const href = (s: Story) => grHref(articlePath(s.id, s.title));
+  return <div lang={lang}>
+    <Link to={href(lead)} className="group block mb-10">
+      <div className="grid md:grid-cols-2 gap-6 border border-border rounded-xl overflow-hidden bg-card hover:shadow-xl transition-all">
+        <div className="relative aspect-[16/9] overflow-hidden">
+          <img src={listImage(rows, 0)} alt="" data-vertical={lead.vertical ?? undefined} data-seed={lead.id} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        </div>
+        <div className="p-8 flex flex-col justify-center">
+          <Badge variant="outline" className="w-fit mb-3">{label(lead)}</Badge>
+          <h2 className="text-2xl font-serif font-bold text-foreground group-hover:text-secondary transition-colors leading-snug line-clamp-3">{pick(lang, lead.title_el, lead.title)}</h2>
+          {pick(lang, lead.summary_el, lead.summary) && <p className="text-muted-foreground mt-3 line-clamp-3">{pick(lang, lead.summary_el, lead.summary)}</p>}
+          {meta(lead.published_at, true)}
+        </div>
+      </div>
+    </Link>
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {rest.map((s, i) => (
+        <Link key={s.id} to={href(s)} className="group border border-border rounded-lg overflow-hidden bg-card hover:shadow-lg transition-all">
+          <div className="relative aspect-[16/9] overflow-hidden">
+            <img src={listImage(rows, i + 1)} alt="" loading="lazy" data-vertical={s.vertical ?? undefined} data-seed={s.id} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <Badge className="absolute top-3 left-3 bg-foreground/80 text-background text-xs">{label(s)}</Badge>
+          </div>
+          <div className="p-4">
+            <h3 className="font-serif font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-2">{pick(lang, s.title_el, s.title)}</h3>
+            {pick(lang, s.summary_el, s.summary) && <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{pick(lang, s.summary_el, s.summary)}</p>}
+            {meta(s.published_at, false)}
+          </div>
+        </Link>))}
+    </div>
+  </div>;
 }
 
 function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: (l: Lang) => void; title: string; path: string; children: React.ReactNode }) {
@@ -160,21 +216,23 @@ function Section({ slug, lang }: { slug: string; lang: Lang }) {
   const { data: orgs = [] } = useQuery({ queryKey: ["gr-orgs"], enabled: slug === "banking",
     queryFn: async () => (await supabase.from("organisations").select("slug,name_en,name_el").eq("country", "GR").order("name_en")).data ?? [] });
   if (!sec) return <Empty lang={lang} />;
-  const chip = (active: boolean) => `px-3 py-1 text-xs border ${active ? "bg-foreground text-background border-foreground" : "border-border"}`;
+  const chip = (active: boolean) => (active ? "default" : "outline") as "default" | "outline";
   return <>
-    <h1 className="font-serif text-3xl font-bold mb-4">{lang === "el" ? sec.el : sec.en}</h1>
+    <div className="bg-card border border-border rounded-xl p-6 md:p-8 mb-10">
+    <h1 className="text-3xl font-serif font-bold text-foreground">{lang === "el" ? sec.el : sec.en}</h1>
     {slug === "banking" && <>
-      <div className="flex flex-wrap gap-2 mb-3">
-        <button className={chip(!tag)} onClick={() => setParams({})}>{lang === "el" ? "Όλα" : "All"}</button>
-        {BANKING_FILTERS.map((f) => <button key={f.tag} className={chip(tag === f.tag)} onClick={() => setParams({ filter: f.tag })}>{lang === "el" ? f.el : f.tag}</button>)}
+      <div className="flex flex-wrap gap-2 mt-5">
+        <Button size="sm" variant={chip(!tag)} onClick={() => setParams({})}>{lang === "el" ? "Όλα" : "All"}</Button>
+        {BANKING_FILTERS.map((f) => <Button key={f.tag} size="sm" variant={chip(tag === f.tag)} onClick={() => setParams({ filter: f.tag })}>{lang === "el" ? f.el : f.tag}</Button>)}
       </div>
-      <div className="flex flex-wrap gap-3 mb-6 text-sm">{orgs.map((o) => <Link key={o.slug} to={grHref(`/greece/org/${o.slug}`)} className="underline">{pick(lang, o.name_el, o.name_en)}</Link>)}</div>
+      <div className="flex flex-wrap gap-3 mt-4 text-sm">{orgs.map((o) => <Link key={o.slug} to={grHref(`/greece/org/${o.slug}`)} className="underline">{pick(lang, o.name_el, o.name_en)}</Link>)}</div>
     </>}
-    {slug === "announcements" && <div className="flex gap-2 mb-4">
-      <button className={chip(tab === "listed")} onClick={() => setParams({})}>Listed Company Disclosures</button>
-      <button className={chip(tab === "deals")} onClick={() => setParams({ tab: "deals" })}>Funding & Investment Deals</button>
+    {slug === "announcements" && <div className="flex flex-wrap gap-2 mt-5">
+      <Button size="sm" variant={chip(tab === "listed")} onClick={() => setParams({})}>{lang === "el" ? "Ανακοινώσεις εισηγμένων εταιρειών" : "Listed Company Disclosures"}</Button>
+      <Button size="sm" variant={chip(tab === "deals")} onClick={() => setParams({ tab: "deals" })}>{lang === "el" ? "Χρηματοδοτήσεις & Επενδυτικές Συμφωνίες" : "Funding & Investment Deals"}</Button>
     </div>}
-    <StoryList items={data} lang={lang} />
+    </div>
+    <StoryGrid items={data} lang={lang} />
   </>;
 }
 
@@ -187,8 +245,8 @@ function Org({ slug, lang }: { slug: string; lang: Lang }) {
   return <>
     <h1 className="font-serif text-3xl font-bold">{pick(lang, org.name_el, org.name_en)}</h1>
     <p className="text-muted-foreground mt-1">{pick(lang, org.description_el, org.description_en)}</p>
-    <ul className="flex flex-wrap gap-4 my-4 text-sm">{links.map((l) => <li key={l.url}><a href={l.url} target="_blank" rel="noopener noreferrer" className="underline">{l.label} ↗</a></li>)}</ul>
-    <StoryList items={data} lang={lang} />
+    <ul className="flex flex-wrap gap-4 my-4 mb-8 text-sm">{links.map((l) => <li key={l.url}><a href={l.url} target="_blank" rel="noopener noreferrer" className="underline">{l.label} ↗</a></li>)}</ul>
+    <StoryGrid items={data} lang={lang} />
   </>;
 }
 
