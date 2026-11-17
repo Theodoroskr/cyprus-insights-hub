@@ -38,3 +38,17 @@ describe("Greece section fill", () => {
     expect(sectionFill("banking", [], many, { cyprusMax: 2 }).length).toBe(2);
   });
 });
+
+import { isGreekText, readableIn } from "@/lib/greeceBlend";
+import { PLACEHOLDER_SLOTS as GR_SLOTS } from "@/components/banners/AdSlot";
+describe("Greece pages language and banners", () => {
+  it("in Greek keeps only stories whose Greek headline is really Greek", () => {
+    const rows = [{ id: "a", title_el: "Τράπεζες" }, { id: "b", title_el: "Publication: Bulletin" }, { id: "c", title_el: null }];
+    expect(readableIn("el", rows).map((r) => r.id)).toEqual(["a"]);
+    expect(readableIn("en", rows).length).toBe(3);
+    expect(isGreekText("Publication: Bulletin")).toBe(false);
+  });
+  it("shows Advertise here placeholders in the three Greece banner places", () => {
+    for (const s of ["greece-top", "greece-mid", "greece-footer"]) expect(GR_SLOTS.has(s)).toBe(true);
+  });
+});

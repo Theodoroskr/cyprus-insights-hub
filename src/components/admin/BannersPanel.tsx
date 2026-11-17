@@ -35,6 +35,9 @@ const SLOT_OPTIONS = [
   { value: "regtech-mid", label: "RegTechHub — Under the lead stories (728×90)" },
   { value: "tourism-mid", label: "TourismHub — Under the destinations (728×90)" },
   { value: "article-inline", label: "Articles — Mid-article (728×90)" },
+  { value: "greece-top", label: "Greece edition — Top of every page (970×125)" },
+  { value: "greece-mid", label: "Greece edition — Under the lead stories / mid-list (728×90)" },
+  { value: "greece-footer", label: "Greece edition home — Above Cyprus & International (728×90)" },
 ];
 
 type Banner = {

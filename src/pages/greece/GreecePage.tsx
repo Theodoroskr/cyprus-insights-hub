@@ -6,9 +6,9 @@ import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { articlePath } from "@/lib/articleUrl";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { BANKING_FILTERS, CY_HOST, GR_SECTIONS, grHref, onGrHost } from "@/lib/edition";
-import { blendBlocks, sectionFill } from "@/lib/greeceBlend";
+import { blendBlocks, readableIn, sectionFill } from "@/lib/greeceBlend";
 import { isInternationalStory } from "@/lib/storyOrigin";
 import { listImage } from "@/lib/fallbackImage";
 import { Helmet } from "react-helmet-async";
@@ -46,9 +46,9 @@ function Empty({ lang }: { lang: Lang }) {
   </p>;
 }
 
-function StoryList({ items, lang }: { items: Story[]; lang: Lang }) {
+function StoryList({ items, lang, compact }: { items: Story[]; lang: Lang; compact?: boolean }) {
   // In Greek, show only stories that have a Greek headline, so the page never mixes languages.
-  const rows = lang === "el" ? items.filter((s) => s.title_el) : items;
+  const rows = readableIn(lang, items);
   if (!rows.length) return <Empty lang={lang} />;
   return <ul className="divide-y divide-border">{rows.map((s, i) => (
     <li key={s.id} className="py-3 flex gap-3">
@@ -56,8 +56,8 @@ function StoryList({ items, lang }: { items: Story[]; lang: Lang }) {
       <div className="min-w-0">
       {!s.gr_section && <span lang={lang} className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">{isInternationalStory(s) ? (lang === "el" ? "Διεθνή" : "International") : (lang === "el" ? "Κύπρος" : "Cyprus")}</span>}
       {s.tags?.includes("Press release") && <span lang={lang} className="block text-[11px] font-semibold uppercase tracking-wider text-secondary mb-0.5">{lang === "el" ? "Δελτίο Τύπου" : "Press release"}</span>}
-      <Link to={grHref(articlePath(s.id, s.title))} lang={lang} className="font-serif text-lg font-semibold hover:underline break-words">{pick(lang, s.title_el, s.title)}</Link>
-      {pick(lang, s.summary_el, s.summary) && <p lang={lang} className="text-sm text-muted-foreground mt-1">{pick(lang, s.summary_el, s.summary)}</p>}
+      <Link to={grHref(articlePath(s.id, s.title))} lang={lang} className={`font-serif font-semibold hover:underline break-words line-clamp-3 ${compact ? "text-base leading-snug" : "text-lg"}`}>{pick(lang, s.title_el, s.title)}</Link>
+      {!compact && pick(lang, s.summary_el, s.summary) && <p lang={lang} className="text-sm text-muted-foreground mt-1 line-clamp-2">{pick(lang, s.summary_el, s.summary)}</p>}
       {s.cross_border_note && <p className="text-xs mt-1 text-secondary-foreground">↔ {s.cross_border_note}</p>}
       </div>
     </li>))}</ul>;
@@ -65,7 +65,7 @@ function StoryList({ items, lang }: { items: Story[]; lang: Lang }) {
 
 /** Section pages: same lead card + 3-column card grid as the Cyprus Edition news pages. */
 function StoryGrid({ items, lang }: { items: Story[]; lang: Lang }) {
-  const rows = lang === "el" ? items.filter((s) => s.title_el) : items;
+  const rows = readableIn(lang, items);
   if (!rows.length) return <Empty lang={lang} />;
   const loc = lang === "el" ? { locale: elLocale } : undefined;
   const label = (s: Story) => {
@@ -98,8 +98,9 @@ function StoryGrid({ items, lang }: { items: Story[]; lang: Lang }) {
       </div>
     </Link>
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {rest.map((s, i) => (
-        <Link key={s.id} to={href(s)} className="group border border-border rounded-lg overflow-hidden bg-card hover:shadow-lg transition-all">
+      {rest.map((s, i) => (<Fragment key={s.id}>
+        {i === 6 && <div className="md:col-span-2 lg:col-span-3 py-2"><AdSlot size="leaderboard" slotId="greece-mid" label={adLabel(lang)} /></div>}
+        <Link to={href(s)} className="group border border-border rounded-lg overflow-hidden bg-card hover:shadow-lg transition-all">
           <div className="relative aspect-[16/9] overflow-hidden">
             <img src={listImage(rows, i + 1)} alt="" loading="lazy" data-vertical={s.vertical ?? undefined} data-seed={s.id} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             <Badge className="absolute top-3 left-3 bg-foreground/80 text-background text-xs">{label(s)}</Badge>
@@ -109,10 +110,13 @@ function StoryGrid({ items, lang }: { items: Story[]; lang: Lang }) {
             {pick(lang, s.summary_el, s.summary) && <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{pick(lang, s.summary_el, s.summary)}</p>}
             {meta(s.published_at, false)}
           </div>
-        </Link>))}
+        </Link></Fragment>))}
     </div>
+    {rest.length <= 6 && <div className="mt-8"><AdSlot size="leaderboard" slotId="greece-mid" label={adLabel(lang)} /></div>}
   </div>;
 }
+
+const adLabel = (lang: Lang) => (lang === "el" ? "Διαφημιστείτε εδώ" : "Advertise here");
 
 function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: (l: Lang) => void; title: string; path: string; children: React.ReactNode }) {
   return (
@@ -135,7 +139,7 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-4 py-3"><AdSlot size="leaderboard" slotId="hub-top" /></div>
+      <div className="container mx-auto px-4 pt-5"><AdSlot size="wide-banner" slotId="greece-top" label={adLabel(lang)} /></div>
       <main className="container mx-auto px-4 py-6">{children}</main>
       <Footer />
     </div>
@@ -156,51 +160,75 @@ function useOthers() {
     },
   });
 }
-/** The home page's smaller Cyprus and International blocks (Greece-related first). */
-function useBlend(exclude: Set<string> = new Set()) {
-  const { data } = useOthers();
-  return { data: data ? blendBlocks(data.filter((s) => !exclude.has(s.id)).slice(0, 60)) : undefined };
+/** Small picture card used under the home lead story. */
+function MiniCard({ s, rows, i, lang }: { s: Story; rows: Story[]; i: number; lang: Lang }) {
+  return <Link to={grHref(articlePath(s.id, s.title))} lang={lang} className="group block">
+    <div className="aspect-[16/9] overflow-hidden rounded bg-muted">
+      <img src={listImage(rows, i)} alt="" loading="lazy" data-vertical={s.vertical ?? undefined} data-seed={s.id} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+    </div>
+    <h3 className="font-serif font-semibold leading-snug mt-2 line-clamp-3 group-hover:underline">{pick(lang, s.title_el, s.title)}</h3>
+    {s.published_at && <p className="text-xs text-muted-foreground mt-1">{format(new Date(s.published_at), "d MMM yyyy", lang === "el" ? { locale: elLocale } : undefined)}</p>}
+  </Link>;
 }
 
+const HOME_BLOCKS = ["banking", "announcements", "funding", "indicators", "business", "fintech"] as const;
+
 function Home({ lang }: { lang: Lang }) {
-  const { data = [] } = useGreeceStories();
-  const { data: others = [] } = useOthers();
+  const { data: raw = [] } = useGreeceStories();
+  const { data: rawOthers = [] } = useOthers();
+  // Pick only stories readable in the chosen language first, so no block is emptied afterwards.
+  const data = readableIn(lang, raw);
+  const others = readableIn(lang, rawOthers);
   const [lead, ...rest] = data;
-  // Each borrowed story appears in one block only.
-  const blocks = new Map<string, Story[]>(); const used = new Set<string>();
-  for (const slug of ["banking", "announcements", "funding", "indicators"]) {
-    const rows = sectionFill(slug, data.filter((s) => s.gr_section === slug), others.filter((o) => !used.has(o.id)), { size: 4, cyprusMax: 1 });
-    rows.forEach((r) => used.add(r.id)); blocks.set(slug, rows);
+  const side = rest.slice(0, 7), under = rest.slice(7, 11);
+  // Each story appears once on the page: top stories, then each block, then the Cyprus/International blend.
+  const used = new Set<string>([lead, ...side, ...under].filter(Boolean).map((s) => s!.id));
+  const blocks: { slug: string; rows: Story[] }[] = [];
+  for (const slug of HOME_BLOCKS) {
+    const rows = sectionFill(slug, data.filter((s) => s.gr_section === slug && !used.has(s.id)), others.filter((o) => !used.has(o.id)), { size: 4, cyprusMax: 1 });
+    rows.forEach((r) => used.add(r.id));
+    if (rows.length) blocks.push({ slug, rows });
   }
-  const block = (slug: string) => blocks.get(slug) ?? [];
-  const { data: blend } = useBlend(used);
+  // Keep the two-column grid even so no half-row is left blank.
+  const shown = blocks.length % 2 ? blocks.slice(0, -1) : blocks;
+  const blend = blendBlocks(others.filter((s) => !used.has(s.id)).slice(0, 80));
+  const blendCols = [
+    { id: "gr-blend-cy", title: lang === "el" ? "Από την Κύπρο" : "From Cyprus", rows: blend.cyprus },
+    { id: "gr-blend-intl", title: lang === "el" ? "Διεθνή" : "International", rows: blend.international },
+  ].filter((c) => c.rows.length);
+  const heading = (title: string, to?: string, id?: string) => <h2 id={id} className="font-serif text-xl font-bold border-b border-foreground pb-1 mb-2">{to ? <Link to={to} className="hover:underline">{title}</Link> : title}</h2>;
   return <>
     <h1 className="font-serif text-3xl md:text-4xl font-bold">{lang === "el" ? "Επιχειρηματική ενημέρωση για την Ελλάδα" : "Business intelligence for Greece"}</h1>
     <p className="text-muted-foreground mt-2">{lang === "el" ? "Εταιρικές ανακοινώσεις, τράπεζες, επενδύσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." : "Company announcements, banking, investment, funding and economic data."}</p>
-    <div className="grid md:grid-cols-3 gap-8 mt-6">
-      <section className="md:col-span-2">
-        {lead ? <Link to={grHref(articlePath(lead.id, lead.title))} className="block">
-          <img src={listImage(data, 0)} alt="" data-vertical={lead.vertical ?? undefined} data-seed={lead.id} className="w-full aspect-video object-cover rounded bg-muted" />
-          <h2 className="font-serif text-2xl font-bold mt-3">{pick(lang, lead.title_el, lead.title)}</h2>
-          <p className="text-muted-foreground mt-1">{pick(lang, lead.summary_el, lead.summary)}</p>
+    <div className="grid lg:grid-cols-3 gap-8 mt-6">
+      <section className="lg:col-span-2 min-w-0">
+        {lead ? <Link to={grHref(articlePath(lead.id, lead.title))} lang={lang} className="group block">
+          <div className="aspect-video overflow-hidden rounded bg-muted">
+            <img src={listImage(data, 0)} alt="" data-vertical={lead.vertical ?? undefined} data-seed={lead.id} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <h2 className="font-serif text-2xl md:text-3xl font-bold mt-3 leading-tight group-hover:underline">{pick(lang, lead.title_el, lead.title)}</h2>
+          <p className="text-muted-foreground mt-2 line-clamp-3">{pick(lang, lead.summary_el, lead.summary)}</p>
         </Link> : <Empty lang={lang} />}
+        {under.length > 0 && <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-border">
+          {under.map((s, i) => <MiniCard key={s.id} s={s} rows={data} i={8 + i} lang={lang} />)}
+        </div>}
       </section>
-      <aside><h2 className="text-xs font-bold uppercase tracking-wider mb-2">{lang === "el" ? "Τελευταίες ανακοινώσεις" : "Latest announcements"}</h2>
-        <StoryList items={rest.slice(0, 6)} lang={lang} /></aside>
+      <aside className="min-w-0">
+        <h2 className="text-xs font-bold uppercase tracking-wider border-b border-foreground pb-1">{lang === "el" ? "Τελευταίες ανακοινώσεις" : "Latest announcements"}</h2>
+        <StoryList items={side} lang={lang} compact />
+      </aside>
     </div>
-    <div className="grid md:grid-cols-2 gap-8 mt-10">
-      {(["banking", "announcements", "funding", "indicators"] as const).map((slug) => {
+    <div className="mt-10"><AdSlot size="leaderboard" slotId="greece-mid" label={adLabel(lang)} /></div>
+    {shown.length > 0 && <div className="grid md:grid-cols-2 gap-x-8 gap-y-10 mt-10">
+      {shown.map(({ slug, rows }) => {
         const sec = GR_SECTIONS.find((s) => s.slug === slug)!;
-        return <section key={slug}><h2 className="font-serif text-xl font-bold border-b border-foreground pb-1 mb-2">
-          <Link to={grHref(`/greece/${slug}`)}>{lang === "el" ? sec.el : sec.en}</Link></h2><StoryList items={block(slug)} lang={lang} /></section>;
+        return <section key={slug} className="min-w-0">{heading(lang === "el" ? sec.el : sec.en, grHref(`/greece/${slug}`))}<StoryList items={rows} lang={lang} /></section>;
       })}
-    </div>
-    <div className="grid md:grid-cols-2 gap-8 mt-10 pt-6 border-t border-border">
-      <section aria-labelledby="gr-blend-cy"><h2 id="gr-blend-cy" className="font-serif text-xl font-bold border-b border-foreground pb-1 mb-2">{lang === "el" ? "Από την Κύπρο" : "From Cyprus"}</h2>
-        <StoryList items={blend?.cyprus ?? []} lang={lang} /></section>
-      <section aria-labelledby="gr-blend-intl"><h2 id="gr-blend-intl" className="font-serif text-xl font-bold border-b border-foreground pb-1 mb-2">{lang === "el" ? "Διεθνή" : "International"}</h2>
-        <StoryList items={blend?.international ?? []} lang={lang} /></section>
-    </div>
+    </div>}
+    <div className="mt-10"><AdSlot size="leaderboard" slotId="greece-footer" label={adLabel(lang)} /></div>
+    {blendCols.length > 0 && <div className={`grid gap-8 mt-10 pt-6 border-t border-border ${blendCols.length === 2 ? "md:grid-cols-2" : ""}`}>
+      {blendCols.map((c) => <section key={c.id} aria-labelledby={c.id} className="min-w-0">{heading(c.title, undefined, c.id)}<StoryList items={c.rows} lang={lang} /></section>)}
+    </div>}
   </>;
 }
 
@@ -211,8 +239,9 @@ function Section({ slug, lang }: { slug: string; lang: Lang }) {
   const sec = GR_SECTIONS.find((s) => s.slug === slug);
   const { data: own = [] } = useGreeceStories(slug, slug === "announcements" ? (tab === "deals" ? "Funding & Investment Deals" : "Listed Company Disclosures") : tag);
   const { data: others = [] } = useOthers();
-  // Banking filters and announcement tabs stay Greece-only; plain section pages add matching International/Cyprus stories.
-  const data = tag || slug === "announcements" ? own : sectionFill(slug, own, others, { size: 30 });
+  // Banking filters stay Greece-only; other pages (and both announcement tabs) add matching International/Cyprus stories.
+  const fillSlug = slug === "announcements" && tab === "deals" ? "deals" : slug;
+  const data = tag ? readableIn(lang, own) : sectionFill(fillSlug, readableIn(lang, own), readableIn(lang, others), { size: 30 });
   const { data: orgs = [] } = useQuery({ queryKey: ["gr-orgs"], enabled: slug === "banking",
     queryFn: async () => (await supabase.from("organisations").select("slug,name_en,name_el").eq("country", "GR").order("name_en")).data ?? [] });
   if (!sec) return <Empty lang={lang} />;

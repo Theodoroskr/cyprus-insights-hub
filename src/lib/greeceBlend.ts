@@ -23,6 +23,8 @@ export const SECTION_TOPICS: Record<string, { verticals?: string[]; re?: RegExp 
   funding: { re: /\b(fund(s|ing)?|grants?|tenders?|subsid\w*|investments?|venture|eib|eif|recovery and resilience|rrf|programme)\b|χρηματοδότ|επιδότ|διαγωνισμ/i },
   indicators: { re: /\b(inflation|gdp|unemployment|employment|index|statistic\w*|eurostat|cystat|elstat|growth|deficit|surplus|debt|prices|quarter)\b|πληθωρισμ|ανεργ|ΑΕΠ/i },
   fintech: { verticals: ["fintech", "regtech", "compliance"] },
+  // Company Announcements "Funding & Investment Deals" tab.
+  deals: { re: /\b(acquisitions?|acquires?|merger|deal|raises?|funding round|series [a-d]|stake|investments?|invests?)\b|εξαγορ|συγχώνευσ|επένδυσ/i },
   "greece-cyprus": {},
 };
 
@@ -46,4 +48,12 @@ export function sectionFill<G extends { id: string }, C extends FillStory>(slug:
   const cyprus = matched.filter((s) => !s.greece_related && !isInternationalStory(s)).slice(0, cyprusMax);
   const seen = new Set<string>();
   return [...greece, ...related, ...intl, ...cyprus].filter((s) => !seen.has(s.id) && !!seen.add(s.id)).slice(0, size);
+}
+
+/** True when a headline is actually written in Greek (some sources copy the English title into the Greek field). */
+export const isGreekText = (t: string | null | undefined) => !!t && /[\u0370-\u03FF\u1F00-\u1FFF]/.test(t);
+
+/** Stories that can be shown in the chosen language without mixing: in Greek, only those with a real Greek headline. */
+export function readableIn<T extends { title_el?: string | null }>(lang: "el" | "en", rows: T[]): T[] {
+  return lang === "el" ? rows.filter((r) => isGreekText(r.title_el)) : rows;
 }
