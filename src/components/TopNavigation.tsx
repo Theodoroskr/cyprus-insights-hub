@@ -3,6 +3,7 @@ import { onGrHost } from "@/lib/edition";
 import { NewsTicker } from "@/components/NewsTicker";
 import { useEffect, useState } from "react";
 import { OPEN_MENU_EVENT } from "@/components/mobile/MobileTabBar";
+import { InstallAppButton } from "@/components/mobile/InstallAppButton";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, User, PenTool, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -237,6 +238,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
             ) : (
               <Button size="sm" className="w-full" onClick={() => { setIsMobileMenuOpen(false); setShowLogin(true); }}>Sign In</Button>
             )}
+            <div className="mt-2"><InstallAppButton onDone={() => setIsMobileMenuOpen(false)} /></div>
           </div>
           <nav className="mt-6 space-y-6" aria-label="All sections">
             {menuSections.map((section) => (
