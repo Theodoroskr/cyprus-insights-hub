@@ -500,8 +500,11 @@ export type Database = {
           vertical: Database["public"]["Enums"]["article_vertical"]
           video_url: string | null
           what_happened: string | null
+          what_happened_el: string | null
           what_to_do: string | null
+          what_to_do_el: string | null
           why_it_matters: string | null
+          why_it_matters_el: string | null
         }
         Insert: {
           body_el?: string | null
@@ -532,8 +535,11 @@ export type Database = {
           vertical?: Database["public"]["Enums"]["article_vertical"]
           video_url?: string | null
           what_happened?: string | null
+          what_happened_el?: string | null
           what_to_do?: string | null
+          what_to_do_el?: string | null
           why_it_matters?: string | null
+          why_it_matters_el?: string | null
         }
         Update: {
           body_el?: string | null
@@ -564,8 +570,11 @@ export type Database = {
           vertical?: Database["public"]["Enums"]["article_vertical"]
           video_url?: string | null
           what_happened?: string | null
+          what_happened_el?: string | null
           what_to_do?: string | null
+          what_to_do_el?: string | null
           why_it_matters?: string | null
+          why_it_matters_el?: string | null
         }
         Relationships: []
       }

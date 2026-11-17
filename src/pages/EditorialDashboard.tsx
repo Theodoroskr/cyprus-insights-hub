@@ -328,6 +328,7 @@ const EditorialDashboard = () => {
   const [editForm, setEditForm] = useState<Partial<Article>>({});
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [newStoryOpen, setNewStoryOpen] = useState(false);
+  const [newStoryPreset, setNewStoryPreset] = useState<{ edition: "cy" | "gr"; kind: "story" | "press_release" }>({ edition: "cy", kind: "story" });
 
   // Check admin role
   const { data: isAdmin, isLoading: roleLoading } = useQuery({
@@ -684,10 +685,13 @@ const EditorialDashboard = () => {
         ) : (
         <>
 
-        <div className="flex justify-end mb-4">
-          <Button onClick={() => setNewStoryOpen(true)} className="gap-1.5"><FileEdit className="h-4 w-4" /> New story / press release</Button>
+        <div className="flex flex-wrap justify-end gap-2 mb-4">
+          <Button variant="outline" onClick={() => { setNewStoryPreset({ edition: "gr", kind: "press_release" }); setNewStoryOpen(true); }} className="gap-1.5">
+            <FileEdit className="h-4 w-4" /> Greek press release · Δελτίο Τύπου
+          </Button>
+          <Button onClick={() => { setNewStoryPreset({ edition: "cy", kind: "story" }); setNewStoryOpen(true); }} className="gap-1.5"><FileEdit className="h-4 w-4" /> New story / press release</Button>
         </div>
-        <NewStoryDialog open={newStoryOpen} onOpenChange={setNewStoryOpen} />
+        <NewStoryDialog key={newStoryPreset.edition} open={newStoryOpen} onOpenChange={setNewStoryOpen} preset={newStoryPreset} />
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">

@@ -23,6 +23,8 @@ import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { PRESS_RELEASE_TAG } from "@/lib/manualStory";
+import { ANALYSIS_LABELS, GR_SECTIONS } from "@/lib/edition";
+import { storyLanguage, storyText, type StoryLang } from "@/lib/storyLanguage";
 
 interface Article {
   id: string;
@@ -40,6 +42,14 @@ interface Article {
   tags: string[] | null;
   original_language?: string | null;
   updated_at?: string | null;
+  edition?: string[] | null;
+  title_el?: string | null;
+  summary_el?: string | null;
+  body_el?: string | null;
+  what_happened_el?: string | null;
+  why_it_matters_el?: string | null;
+  what_to_do_el?: string | null;
+  gr_section?: string | null;
 }
 
 const verticalLabel: Record<string, string> = {
@@ -68,6 +78,7 @@ export default function ArticlePage() {
   const { user } = useAuth();
   const [bookmarked, setBookmarked] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [langChoice, setLangChoice] = useState<StoryLang | null>(null);
   const [mostRead, setMostRead] = useState<{ article_id: string; title: string }[]>([]);
   const viewTracked = useRef(false);
   const articleRef = useRef<HTMLDivElement>(null);
@@ -108,6 +119,7 @@ export default function ArticlePage() {
     if (!id) return;
     let stale = false;
     viewTracked.current = false;
+    setLangChoice(null);
     setLoading(true);
     supabase
       .from("cna_articles")
@@ -192,22 +204,27 @@ export default function ArticlePage() {
   }
 
   const date = article.published_at
-    ? new Date(article.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+    ? new Date(article.published_at).toLocaleDateString(!(article.edition ?? ["cy"]).includes("cy") ? "el-GR" : "en-GB", { day: "numeric", month: "long", year: "numeric" })
     : "";
-  const headline = article.title || (article.what_happened || "").split(/(?<=\.)\s/)[0];
+  const lang = storyLanguage(article, langChoice);
+  const tx = storyText(article, lang);
+  const isEl = lang === "el";
+  const greekOnly = !(article.edition ?? ["cy"]).includes("cy");
+  const canSwitch = !greekOnly && !!article.title_el;
+  const headline = tx.title || (tx.what_happened || "").split(/(?<=\.)\s/)[0];
   const source = article.source_url ? new URL(article.source_url).hostname.replace(/^www\./, "") : null;
-  const cleanBody = cleanArticleMarkdown(article.body_markdown);
+  const cleanBody = cleanArticleMarkdown(tx.body_markdown);
   const heroSrc = storyImage(article.image_url, article.vertical, article.id, article.body_markdown);
   const hasBody = cleanedWordCount(cleanBody) >= 60;
-  const readTime = estimateReadingTime(article.what_happened, article.why_it_matters, article.what_to_do, hasBody ? cleanBody : article.summary);
+  const readTime = estimateReadingTime(tx.what_happened, tx.why_it_matters, tx.what_to_do, hasBody ? cleanBody : tx.summary);
   const isLong = cleanBody.length > 2500;
   const shareText = encodeURIComponent(headline);
   const shareUrl = encodeURIComponent(canonicalUrl(articlePath(article.id, article.title)));
 
   const cards = [
-    { key: "what", text: article.what_happened, label: "What happened", Icon: Zap, tone: "secondary" },
-    { key: "why", text: article.why_it_matters, label: "Why it matters", Icon: Target, tone: "destructive" },
-    { key: "do", text: article.what_to_do, label: "What to do", Icon: Lightbulb, tone: "success" },
+    { key: "what", text: tx.what_happened, label: ANALYSIS_LABELS[lang][0], Icon: Zap, tone: "secondary" },
+    { key: "why", text: tx.why_it_matters, label: ANALYSIS_LABELS[lang][1], Icon: Target, tone: "destructive" },
+    { key: "do", text: tx.what_to_do, label: ANALYSIS_LABELS[lang][2], Icon: Lightbulb, tone: "success" },
   ].filter((c) => c.text);
   const toneClass: Record<string, string> = {
     secondary: "border-secondary text-secondary",
@@ -219,7 +236,7 @@ export default function ArticlePage() {
     <div className="min-h-screen bg-background">
       <SEOHead
         title={headline}
-        description={article.summary || article.why_it_matters || ""}
+        description={tx.summary || tx.why_it_matters || ""}
         path={articlePath(article.id, article.title)}
         image={previewImage(article)}
         vertical={article.vertical}
@@ -233,13 +250,14 @@ export default function ArticlePage() {
           "@context": "https://schema.org",
           "@type": "NewsArticle",
           headline: headline.slice(0, 110),
-          description: article.summary || undefined,
+          description: tx.summary || undefined,
+          inLanguage: isEl ? "el" : "en",
           datePublished: article.published_at || undefined,
           dateModified: article.updated_at || article.published_at || undefined,
           image: heroSrc.startsWith("http") ? [heroSrc] : [`https://businesshub.cy${heroSrc}`],
           articleSection: verticalLabel[article.vertical] || article.vertical,
           keywords: article.tags?.join(", ") || undefined,
-          abstract: article.why_it_matters || undefined,
+          abstract: tx.why_it_matters || undefined,
           mainEntityOfPage: `https://businesshub.cy${articlePath(article.id, article.title)}`,
           isBasedOn: article.source_url || undefined,
           author: { "@type": "Organization", name: "BusinessHub.cy", url: "https://businesshub.cy/" },
@@ -254,29 +272,43 @@ export default function ArticlePage() {
       />
       <TopNavigation onSearch={() => {}} />
 
-      <main className="container mx-auto px-4 py-8">
+      <main lang={isEl ? "el" : "en"} className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
-            <ArrowLeft className="h-4 w-4" /> Back
-          </Link>
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
+            <Link to={greekOnly ? "/greece" : "/"} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <ArrowLeft className="h-4 w-4" /> {greekOnly ? "Πίσω" : "Back"}
+            </Link>
+            {canSwitch && (
+              <div className="flex gap-2 text-xs" aria-label="Language">
+                <button onClick={() => setLangChoice("en")} className={!isEl ? "font-bold" : "text-muted-foreground"}>EN</button>
+                <button onClick={() => setLangChoice("el")} className={isEl ? "font-bold" : "text-muted-foreground"}>EL</button>
+              </div>
+            )}
+          </div>
 
           {/* Header */}
           <header className="max-w-4xl mb-8">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground mb-4">
-              <Badge variant="outline" className={verticalColor[article.vertical] || verticalColor.general}>
-                {verticalLabel[article.vertical] || article.vertical}
-              </Badge>
-              {isInternationalStory(article) && <Badge variant="outline">{INTERNATIONAL_LABEL}</Badge>}
-              {article.tags?.includes(PRESS_RELEASE_TAG) && <Badge variant="secondary">Press release</Badge>}
+              {greekOnly ? (
+                <Badge variant="outline" className={verticalColor.general}>
+                  {GR_SECTIONS.find((g) => g.slug === article.gr_section)?.el ?? "Greece Edition"}
+                </Badge>
+              ) : (
+                <Badge variant="outline" className={verticalColor[article.vertical] || verticalColor.general}>
+                  {verticalLabel[article.vertical] || article.vertical}
+                </Badge>
+              )}
+              {!greekOnly && isInternationalStory(article) && <Badge variant="outline">{INTERNATIONAL_LABEL}</Badge>}
+              {article.tags?.includes(PRESS_RELEASE_TAG) && <Badge variant="secondary">{isEl ? "Δελτίο Τύπου" : "Press release"}</Badge>}
               {source && <span className="font-medium text-foreground">{source}</span>}
               {date && <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{date}</span>}
-              <span>{readTime}</span>
+              <span>{isEl ? readTime.replace("min read", "λεπτά ανάγνωσης") : readTime}</span>
             </div>
             <h1 className="text-[1.75rem] sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-tight mb-4 break-words">
               {headline}
             </h1>
-            {article.summary && (
-              <p className="text-lg md:text-xl text-muted-foreground font-source-serif leading-relaxed break-words">{article.summary}</p>
+            {tx.summary && (
+              <p className="text-lg md:text-xl text-muted-foreground font-source-serif leading-relaxed break-words">{tx.summary}</p>
             )}
           </header>
 
@@ -293,7 +325,7 @@ export default function ArticlePage() {
             {/* Article column */}
             <article ref={articleRef} className="min-w-0">
               {cards.length > 0 && (
-                <h2 className="section-label mb-4">BusinessHub analysis</h2>
+                <h2 className="section-label mb-4">{isEl ? "Ανάλυση BusinessHub" : "BusinessHub analysis"}</h2>
               )}
               {cards.length > 0 && (
                 <div className="grid gap-4 mb-10">
@@ -311,7 +343,7 @@ export default function ArticlePage() {
 
               {hasBody ? (
                 <div className="mb-10">
-                  <h2 className="section-label mb-4">Full article</h2>
+                  <h2 className="section-label mb-4">{isEl ? "Πλήρες κείμενο" : "Full article"}</h2>
                   <div className={`relative ${isLong && !expanded ? "max-h-[900px] overflow-hidden" : ""}`}>
                     <div className="prose prose-base sm:prose-lg max-w-[68ch] text-foreground break-words prose-headings:font-serif prose-a:text-secondary prose-a:[overflow-wrap:anywhere] prose-img:rounded-lg prose-img:max-w-full prose-img:h-auto prose-pre:overflow-x-auto prose-table:block prose-table:overflow-x-auto">
                       {groupArticleImages(cleanBody, heroSrc).map((seg, i) =>
@@ -348,7 +380,7 @@ export default function ArticlePage() {
                 </div>
               ) : null}
 
-              {article.original_language === "el" && (
+              {article.original_language === "el" && !isEl && (
                 <p className="text-sm text-muted-foreground italic mb-3">Translated from Greek.</p>
               )}
               {article.source_url && (

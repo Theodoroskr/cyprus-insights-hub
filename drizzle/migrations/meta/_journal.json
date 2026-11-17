@@ -344,6 +344,13 @@
       "when": 1794917514073,
       "tag": "0048_connect_greek_bank_and_exchange_sources",
       "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1794918085532,
+      "tag": "0049_greek_analysis_fields",
+      "breakpoints": true
     }
   ]
 }

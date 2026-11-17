@@ -41,6 +41,7 @@ function StoryList({ items, lang }: { items: Story[]; lang: Lang }) {
   if (!items.length) return <Empty lang={lang} />;
   return <ul className="divide-y divide-border">{items.map((s) => (
     <li key={s.id} className="py-3">
+      {s.tags?.includes("Press release") && <span lang={lang} className="block text-[11px] font-semibold uppercase tracking-wider text-secondary mb-0.5">{lang === "el" ? "Δελτίο Τύπου" : "Press release"}</span>}
       <Link to={articlePath(s.id, s.title)} className="font-serif text-lg font-semibold hover:underline">{pick(lang, s.title_el, s.title)}</Link>
       {pick(lang, s.summary_el, s.summary) && <p className="text-sm text-muted-foreground mt-1">{pick(lang, s.summary_el, s.summary)}</p>}
       {s.cross_border_note && <p className="text-xs mt-1 text-secondary-foreground">↔ {s.cross_border_note}</p>}
