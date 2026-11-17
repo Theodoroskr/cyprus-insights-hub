@@ -36,8 +36,18 @@ async function li(path: string, init: RequestInit = {}) {
 }
 
 /** Company pages this token can post for. */
+// BusinessHub.cy company page (linkedin.com/company/businesshub-cy). Used when the token
+// may post but LinkedIn withholds the page-listing permission (partner-only).
+const BUSINESSHUB_ORG = { urn: "urn:li:organization:145443072", name: "BusinessHub.cy", role: "ADMINISTRATOR" };
+
 async function listOrgs() {
-  const { body } = await li("/rest/organizationAcls?q=roleAssignee&state=APPROVED&count=50");
+  let body: { elements?: { organization: string; role: string }[] };
+  try {
+    body = (await li("/rest/organizationAcls?q=roleAssignee&state=APPROVED&count=50")).body;
+  } catch (e) {
+    if (String(e).includes("[403]")) return [BUSINESSHUB_ORG];
+    throw e;
+  }
   const out: { urn: string; name: string; role: string }[] = [];
   for (const e of body.elements ?? []) {
     const urn = e.organization as string;
