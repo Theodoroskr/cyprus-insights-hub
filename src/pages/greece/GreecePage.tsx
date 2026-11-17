@@ -62,7 +62,7 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
   return (
     <div className="min-h-screen bg-background">
       <Helmet><link rel="alternate" type="application/rss+xml" title="BusinessHub.gr — Ελλάδα" href="/rss/greece.xml" /></Helmet>
-      <SEOHead title={`${title} | BusinessHub.gr`} description="Επιχειρηματική ενημέρωση για την Ελλάδα — τράπεζες, εταιρικές ανακοινώσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." path={path} />
+      <SEOHead title={`${title} | BusinessHub.gr`} description={lang === "el" ? "Επιχειρηματική ενημέρωση για την Ελλάδα — τράπεζες, εταιρικές ανακοινώσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." : "Business intelligence for Greece — banking, company announcements, funding and economic data."} path={path} />
       <TopNavigation onSearch={() => {}} />
       <div className="border-b border-border bg-muted/40">
         <div className="container mx-auto px-4 py-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
@@ -119,8 +119,8 @@ function Home({ lang }: { lang: Lang }) {
   const block = (slug: string) => blocks.get(slug) ?? [];
   const { data: blend } = useBlend(used);
   return <>
-    <h1 className="font-serif text-3xl md:text-4xl font-bold">Επιχειρηματική ενημέρωση για την Ελλάδα</h1>
-    <p className="text-muted-foreground mt-2">Εταιρικές ανακοινώσεις, τράπεζες, επενδύσεις, χρηματοδοτήσεις και οικονομικά δεδομένα.</p>
+    <h1 className="font-serif text-3xl md:text-4xl font-bold">{lang === "el" ? "Επιχειρηματική ενημέρωση για την Ελλάδα" : "Business intelligence for Greece"}</h1>
+    <p className="text-muted-foreground mt-2">{lang === "el" ? "Εταιρικές ανακοινώσεις, τράπεζες, επενδύσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." : "Company announcements, banking, investment, funding and economic data."}</p>
     <div className="grid md:grid-cols-3 gap-8 mt-6">
       <section className="md:col-span-2">
         {lead ? <Link to={grHref(articlePath(lead.id, lead.title))} className="block">
@@ -196,7 +196,8 @@ export default function GreecePage() {
   const { section, slug } = useParams();
   const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("gr-lang") === "en" ? "en" : "el"));
   const changeLang = (l: Lang) => { localStorage.setItem("gr-lang", l); setLang(l); };
-  const title = slug ? "Οργανισμός" : section ? (GR_SECTIONS.find((s) => s.slug === section)?.el ?? "Ελλάδα") : "Επιχειρηματική ενημέρωση για την Ελλάδα";
+  const el = lang === "el"; const sec = section ? GR_SECTIONS.find((s) => s.slug === section) : undefined;
+  const title = slug ? (el ? "Οργανισμός" : "Organisation") : section ? ((el ? sec?.el : sec?.en) ?? (el ? "Ελλάδα" : "Greece")) : (el ? "Επιχειρηματική ενημέρωση για την Ελλάδα" : "Business intelligence for Greece");
   const path = slug ? `/greece/org/${slug}` : section ? `/greece/${section}` : "/greece";
   return <Shell lang={lang} setLang={changeLang} title={title} path={path}>
     {slug ? <Org slug={slug} lang={lang} /> : section ? <Section slug={section} lang={lang} /> : <Home lang={lang} />}
