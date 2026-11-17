@@ -1,1 +1,0 @@
-- Phone app shell: `manifest.webmanifest` is install-only (no service worker), with any + maskable icons; iOS launch screens live in `splash/`, one per portrait device size, each linked from `index.html`. Why: installable without stale-cache risk.
