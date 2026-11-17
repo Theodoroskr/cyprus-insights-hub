@@ -176,13 +176,13 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                   <>
                     {isAdmin && (
                       <Link to="/editorial">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex" title="Editorial Dashboard">
+                        <Button variant="ghost" size="icon" className="h-8 w-8" title="Editorial Dashboard">
                           <PenTool className="h-4 w-4" />
                         </Button>
                       </Link>
                     )}
-                    <Link to="/dashboard">
-                      <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:flex">
+                    <Link to="/dashboard" aria-label="My account">
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
                         <User className="h-4 w-4" />
                       </Button>
                     </Link>
@@ -191,7 +191,7 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="hidden sm:flex h-8 text-xs font-semibold uppercase tracking-wider"
+                    className="h-8 px-2 text-xs font-semibold uppercase tracking-wider"
                     onClick={() => setShowLogin(true)}
                   >
                     Sign In
@@ -219,6 +219,16 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
               aria-label="Search"
             />
           </form>
+          <div className="mt-4">
+            {user ? (
+              <div className="flex gap-2">
+                <Button asChild size="sm" variant="outline" className="flex-1"><Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>My account</Link></Button>
+                <Button size="sm" variant="ghost" onClick={() => { setIsMobileMenuOpen(false); signOut(); }}>Sign out</Button>
+              </div>
+            ) : (
+              <Button size="sm" className="w-full" onClick={() => { setIsMobileMenuOpen(false); setShowLogin(true); }}>Sign In</Button>
+            )}
+          </div>
           <nav className="mt-6 space-y-6" aria-label="All sections">
             {menuSections.map((section) => (
               <div key={section.title}>
@@ -242,11 +252,6 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
               <Link to="/editorial" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-secondary">
                 <PenTool className="h-3.5 w-3.5" /> Editorial dashboard
               </Link>
-            )}
-            {!user && (
-              <Button size="sm" variant="outline" className="w-full sm:hidden" onClick={() => { setIsMobileMenuOpen(false); setShowLogin(true); }}>
-                Sign In
-              </Button>
             )}
           </nav>
         </SheetContent>
