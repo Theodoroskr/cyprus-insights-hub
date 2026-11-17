@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { BodyImageButton } from "@/components/admin/BodyImageButton";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { EMPTY_STORY, STORY_EDITIONS, STORY_VERTICALS, storyProblem, storyRow, type ManualStoryInput } from "@/lib/manualStory";
 import { ANALYSIS_LABELS, GR_SECTIONS } from "@/lib/edition";
@@ -91,7 +92,7 @@ export function NewStoryDialog({ open, onOpenChange, preset }: {
               <legend className="text-xs font-semibold px-1">English — Cyprus Edition</legend>
               <label className="text-xs block">Headline<Input value={f.headline} onChange={set("headline")} /></label>
               <label className="text-xs block">Summary (one or two sentences, shown on cards)<Textarea rows={2} value={f.summary} onChange={set("summary")} /></label>
-              <label className="text-xs block">Story text (Markdown: **bold**, ## heading, - list)<Textarea rows={8} value={f.body} onChange={set("body")} /></label>
+              <div><label className="text-xs block">Story text (Markdown: **bold**, ## heading, - list)<Textarea id="ns-body" rows={8} value={f.body} onChange={set("body")} /></label><BodyImageButton targetId="ns-body" value={f.body} onChange={(v) => setF((p) => ({ ...p, body: v }))} /></div>
               <details className="border rounded-md p-2">
                 <summary className="text-xs font-medium cursor-pointer">BusinessHub analysis (optional): What happened / Why it matters / What to do</summary>
                 <div className="space-y-2 mt-2">
@@ -108,7 +109,7 @@ export function NewStoryDialog({ open, onOpenChange, preset }: {
               <legend className="text-xs font-semibold px-1">Ελληνικά — Greece Edition</legend>
               <label className="text-xs block">Τίτλος<Input value={f.headlineEl} onChange={set("headlineEl")} /></label>
               <label className="text-xs block">Περίληψη (μία ή δύο προτάσεις)<Textarea rows={2} value={f.summaryEl} onChange={set("summaryEl")} /></label>
-              <label className="text-xs block">Κείμενο (Markdown: **έντονα**, ## επικεφαλίδα, - λίστα)<Textarea rows={8} value={f.bodyEl} onChange={set("bodyEl")} /></label>
+              <div><label className="text-xs block">Κείμενο (Markdown: **έντονα**, ## επικεφαλίδα, - λίστα)<Textarea id="ns-body-el" rows={8} value={f.bodyEl} onChange={set("bodyEl")} /></label><BodyImageButton targetId="ns-body-el" label="Insert picture · Εικόνα στο κείμενο" value={f.bodyEl} onChange={(v) => setF((p) => ({ ...p, bodyEl: v }))} /></div>
               <details className="border rounded-md p-2" open={!en}>
                 <summary className="text-xs font-medium cursor-pointer">Ανάλυση BusinessHub (προαιρετικά): {ANALYSIS_LABELS.el.join(" / ")}</summary>
                 <div className="space-y-2 mt-2">

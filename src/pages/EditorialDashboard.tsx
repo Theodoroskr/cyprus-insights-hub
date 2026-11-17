@@ -23,6 +23,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { HIGHLIGHT_HOURS, highlightUntil, isHighlighted } from "@/lib/highlight";
 import { formatDistanceToNow } from "date-fns";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
+import { BodyImageButton } from "@/components/admin/BodyImageButton";
 import { BannersPanel } from "@/components/admin/BannersPanel";
 import { DirectoryArticlesPanel } from "@/components/admin/DirectoryArticlesPanel";
 import { ResourcesPanel } from "@/components/admin/ResourcesPanel";
@@ -473,6 +474,8 @@ const EditorialDashboard = () => {
       why_it_matters: article.why_it_matters,
       what_to_do: article.what_to_do,
       tags: article.tags,
+      body_markdown: article.body_markdown,
+      body_el: article.body_el,
     });
   };
 
@@ -1023,6 +1026,18 @@ const EditorialDashboard = () => {
                 onChange={(e) => setEditForm({ ...editForm, summary: e.target.value })}
               />
             </div>
+            <div>
+              <label className="section-label">Story text (Markdown)</label>
+              <Textarea id="ed-body" rows={8} value={editForm.body_markdown ?? ""} onChange={(e) => setEditForm({ ...editForm, body_markdown: e.target.value })} />
+              <BodyImageButton targetId="ed-body" value={editForm.body_markdown ?? ""} onChange={(v) => setEditForm((p) => ({ ...p, body_markdown: v }))} />
+            </div>
+            {(editingArticle?.edition ?? []).includes("gr") && (
+              <div>
+                <label className="section-label">Κείμενο (Greek, Markdown)</label>
+                <Textarea id="ed-body-el" rows={8} value={editForm.body_el ?? ""} onChange={(e) => setEditForm({ ...editForm, body_el: e.target.value })} />
+                <BodyImageButton targetId="ed-body-el" label="Insert picture · Εικόνα στο κείμενο" value={editForm.body_el ?? ""} onChange={(v) => setEditForm((p) => ({ ...p, body_el: v }))} />
+              </div>
+            )}
             <div>
               <label className="section-label">What Happened</label>
               <Textarea
