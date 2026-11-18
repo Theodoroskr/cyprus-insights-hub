@@ -1,6 +1,7 @@
 import { sourceImageFor } from "../_shared/sourceImages.ts";
 import { ownStoryImage } from "../_shared/genericImage.ts";
 import { isGreek, translateToEnglish, translateToGreek } from "../_shared/translateToEnglish.ts";
+import { removeStrayGreek } from "../_shared/strayGreek.ts";
 import { grEditionFields } from "../_shared/greeceEdition.ts";
 import { isGreeceRelated } from "../_shared/greeceRelated.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
@@ -483,6 +484,17 @@ Deno.serve(async (req) => {
                 fullBody = t.body_markdown || fullBody;
                 originalLanguage = "el";
               } catch (e) { console.error("translate failed", (e as Error).message); }
+            } else {
+              // English page with Greek leftovers (web-team notes, language switchers, Greek footer):
+              // remove the chrome; translate any Greek content that is left so the story reads in one language.
+              const sg = removeStrayGreek(fullBody);
+              if (sg.body.length >= 200) fullBody = sg.body;
+              if (sg.greekLeft) {
+                try {
+                  const t = await translateToEnglish({ body_markdown: fullBody.slice(0, 20000) }, LOVABLE_API_KEY);
+                  fullBody = t.body_markdown || fullBody;
+                } catch (e) { console.error("translate mixed body failed", (e as Error).message); }
+              }
             }
             // Association sources route each item on its own (e.g. CCCI forum → Business News, ICPAC circular → ComplianceHub)
             const route = routeSourceItem(source.routing_profile, article.title, fullBody);

@@ -9,7 +9,7 @@
 - Custom Studio uses the `custom-studio` banner placement and shows a labelled "Advertise here" placeholder (as do the other homepage slots) when no live, in-date image is available; sponsored article pages remain separate. Why: reuse banner scheduling without reserving empty homepage space.
 - Homepage banner slots are a fixed list in `PLACEHOLDER_SLOTS` (`AdSlot.tsx`) mirrored in the Banners admin; each slot ID appears once per page; hubs/articles use `hub-top`/`article-inline`, Greece pages `greece-top`/`greece-mid`/`greece-footer`. Why: prevent repeated ads and keep placements bookable.
 - Homepage lead/feed share `useBlendedNews`: dedupe, then mix publishers (`source_id` slug) and topics within 24h of the newest story; dates unchanged. Why: one batch must not fill the lead.
-- `cna_articles` are stored in English; Greek sources are translated at scrape time (and backfilled via `translate-articles`) with `original_language` recording the source language. Why: one-language editorial product.
+- `cna_articles` are stored in English; Greek sources are translated at scrape time (and backfilled via `translate-articles`) with `original_language` recording the source language; English pages pass `removeStrayGreek` (`_shared/strayGreek.ts`), leftover Greek is translated. Why: one-language editorial product.
 - CySEC licences come only from the official register pages, parsed directly by `_shared/cysecRegister.ts` (no AI); a company's CySEC badge is always recomputed from all its `regulated_entities` CySEC rows, preferring a current licence. Why: real licence numbers/statuses, and one firm can hold old and new licences.
 - Central Bank authorisations come only from the official CBC credit-institutions page and its EMI/PI `.xlsx` registers, parsed by `_shared/cbcRegister.ts` (no AI); a company's `cbc_*` badge is recomputed from all its CBC `regulated_entities` rows. Regulator imports fold unregistered placeholder profiles into the registered record via the service-only `merge_directory_placeholder`. Why: one firm, one profile, with real licence data.
 - News duplicate checks use `canonicalArticleUrl` (keeps meaningful query strings like `?guid=`/`?id=`, drops tracking params), and a listing page that is a 404/“not found” screen or yields no articles is recorded as the source's `last_error`. Error-screen articles (`articlePageProblem`, `_shared/missingPage.ts`) are never stored or posted. Why: moved pages and file-handler links otherwise fail silently.
@@ -26,9 +26,9 @@
 - RSS: prebuild `generate-rss.ts` writes `public/rss*`. Why: feeds on the site domain.
 - Facebook auto-posting: hourly `post-to-facebook` (07:00–21:00 Cyprus) posts new `cna_articles` within the admin daily limit, max 3 per run, once per article (`facebook_posts`, rules in `_shared/facebookPosting.ts`); token only in the connector. Why: no duplicates, floods or stored tokens.
 - Head tags: `RouteSEODefaults` (App.tsx) sets a self-referencing canonical/og:url via `canonicalUrl()` + `ROUTE_META` text (`src/lib/seo.ts`); pages without `SEOHead` need a `ROUTE_META` entry; `index.html` has no canonical and its fallback meta tags carry `data-rh="true"`. Why: one canonical/description per page.
-- `ping-indexnow` pings Bing once per page.
+- `ping-indexnow`: one Bing ping per page.
 - CySEC firms page lists licences, never warnings. Why: licence data only.
-- Postbuild writes per-story preview heads. Why: robots skip JS.
+- Postbuild writes story preview heads. Why: robots skip JS.
 - `fin_lit_findings` are public only after admin approval. Why: PDF figures need checks.
 - Academy rows public only when published and past `publish_at` (RLS). Why: no unreviewed lessons.
 - CBC stats: `source=ecb` rows via `ingest-eurostat`; OECD via Crossref. Why: official APIs.
