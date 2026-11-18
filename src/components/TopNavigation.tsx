@@ -1,5 +1,5 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
-import { onGrHost } from "@/lib/edition";
+import { CY_HOST, onGrHost } from "@/lib/edition";
 import { NewsTicker } from "@/components/NewsTicker";
 import { useEffect, useState } from "react";
 import { OPEN_MENU_EVENT } from "@/components/mobile/MobileTabBar";
@@ -152,14 +152,22 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
           {/* Search & Actions */}
           <div className="flex items-center gap-1">
-            <Link
-              to={location.pathname.startsWith("/greece") ? "/" : "/greece"}
-              className="px-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground whitespace-nowrap"
-              title="Cyprus / Greece"
-              onClick={() => { if (!location.pathname.startsWith("/greece")) localStorage.setItem("gr-lang", "en"); }}
-            >
-              {location.pathname.startsWith("/greece") ? "Cyprus / CY" : "Greece / EN"}
-            </Link>
+            {(() => {
+              // On businesshub.gr every page is the Greece edition, so the switch always leads back to businesshub.cy.
+              const onGreece = onGrHost() || location.pathname.startsWith("/greece");
+              const cls = "px-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground whitespace-nowrap";
+              if (onGrHost()) return <a href={CY_HOST} className={cls} title="Cyprus / Greece">Cyprus / CY</a>;
+              return (
+                <Link
+                  to={onGreece ? "/" : "/greece"}
+                  className={cls}
+                  title="Cyprus / Greece"
+                  onClick={() => { if (!onGreece) localStorage.setItem("gr-lang", "en"); }}
+                >
+                  {onGreece ? "Cyprus / CY" : "Greece / EN"}
+                </Link>
+              );
+            })()}
             {isSearchOpen ? (
               <form onSubmit={handleSearch} className="flex items-center gap-2 animate-slide-in-right">
                 <Input

@@ -86,3 +86,13 @@ describe("businesshub.gr home blend", () => {
     expect(international.map((x) => x.title)).toEqual(["ECB holds rates"]);
   });
 });
+
+describe("in-app links on businesshub.gr", () => {
+  it("menu and tab-bar destinations open on businesshub.cy, Greece sections stay", () => {
+    for (const p of ["/news", "/directory", "/search", "/rankings", "/explore/nicosia-countryside"]) {
+      expect(hostRedirect("businesshub.gr", p)).toBe(`https://businesshub.cy${p}`);
+    }
+    expect(hostRedirect("businesshub.gr", "/indicators")).toBeNull();
+    expect(hostRedirect("businesshub.gr", "/greece")).toBe("https://businesshub.gr/");
+  });
+});

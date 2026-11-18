@@ -1,18 +1,18 @@
 import { MobileTabBar } from "@/components/mobile/MobileTabBar";
 import { WhoIsWhoRoute } from "@/components/auth/WhoIsWhoGate";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, type ReactNode } from "react";
 
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AuthReturn } from "@/components/auth/AuthReturn";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "./components/CookieConsent";
 import { RouteSEODefaults } from "./components/RouteSEODefaults";
-import { onGrHost } from "./lib/edition";
+import { hostRedirect, onGrHost } from "./lib/edition";
 
 // Lazy-loaded route components
 const Index = lazy(() => import("./pages/Index"));
@@ -115,6 +115,18 @@ function RouteLoader() {
   );
 }
 
+/**
+ * businesshub.gr: menu, footer and tab-bar links point at Cyprus sections (/news, /directory…).
+ * In-app clicks skip the start-up redirect in main.tsx, so re-check every address change and
+ * open Cyprus-only pages on businesshub.cy instead of showing an empty Greece section.
+ */
+function GrHostGuard({ children }: { children: ReactNode }) {
+  const { pathname, search } = useLocation();
+  const target = hostRedirect(window.location.hostname, pathname, search);
+  useEffect(() => { if (target) window.location.assign(target); }, [target]);
+  return target ? <RouteLoader /> : <>{children}</>;
+}
+
 const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
@@ -128,6 +140,7 @@ const App = () => (
                 <AuthReturn />
                 {ON_GR_HOST ? (
                   // businesshub.gr: the Greece edition at its own addresses, plus story pages.
+                  <GrHostGuard>
                   <Routes>
                     <Route path="/" element={<GreecePage />} />
                     <Route path="/org/:slug" element={<GreecePage />} />
@@ -136,6 +149,7 @@ const App = () => (
                     <Route path="/article/:id/:slug" element={<ArticlePage />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
+                  </GrHostGuard>
                 ) : (
                 <Routes>
                   <Route path="/" element={<Index />} />
