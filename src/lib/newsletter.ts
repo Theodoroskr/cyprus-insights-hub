@@ -32,6 +32,10 @@ export interface NewsletterBanner {
 
 export const isInternational = (s: NewsletterStory) => isInternationalStory(s);
 
+/** Routine notices that are read a lot but make a poor briefing: left out of the automatic pick (editors can still add them). */
+const ROUTINE = /^(official journal\b|cysec warnings?\b|press briefing transcript\b)|fraudulent websites|\bclones?\b|greenlights .* payment request|disburses .* to ukraine/i;
+export const isRoutineNotice = (s: Pick<NewsletterStory, "title">) => ROUTINE.test(s.title ?? "");
+
 /** Score = views this week first, then having its own picture, then recency. */
 function rank(stories: NewsletterStory[], views: Record<string, number>): NewsletterStory[] {
   return [...stories].sort((a, b) =>
@@ -64,14 +68,18 @@ function takeVaried(pool: NewsletterStory[], n: number): NewsletterStory[] {
  * If one side runs short, the other side fills the gap. Cyprus stories come first.
  */
 export function pickStories(stories: NewsletterStory[], views: Record<string, number>, total: number, cyprusShare: number): NewsletterStory[] {
-  const pool = dedupeStories(rank(stories, views));
+  const pool = dedupeStories(rank(stories.filter((s) => !isRoutineNotice(s)), views));
   const local = pool.filter((s) => !isInternational(s));
   const intl = pool.filter((s) => isInternational(s));
   let wantLocal = Math.round(total * cyprusShare);
   let wantIntl = total - wantLocal;
   if (intl.length < wantIntl) { wantLocal += wantIntl - intl.length; wantIntl = intl.length; }
   if (local.length < wantLocal) { wantIntl = Math.min(intl.length, wantIntl + wantLocal - local.length); wantLocal = local.length; }
-  return [...takeVaried(local, wantLocal), ...takeVaried(intl, wantIntl)];
+  const pickedLocal = takeVaried(local, wantLocal);
+  // Lead with a story that has its own photo when one is in the top three.
+  const photo = pickedLocal.slice(0, 3).findIndex((s) => !!ownStoryImage(s.image_url));
+  if (photo > 0) pickedLocal.unshift(...pickedLocal.splice(photo, 1));
+  return [...pickedLocal, ...takeVaried(intl, wantIntl)];
 }
 
 /** Banners that are switched on, have a picture and are within their dates; paid ones before house ads. */
@@ -113,6 +121,14 @@ export interface NewsletterOptions {
   preheader?: string;
   stories: NewsletterStory[];
   banners: { top?: NewsletterBanner | null; mid?: NewsletterBanner | null; footer?: NewsletterBanner | null };
+  /** Story pictures that failed to load; they are left out so the email never shows a broken image. */
+  brokenImages?: Set<string>;
+}
+
+/** The https picture a story would use in the email, if any. */
+export function newsletterImage(s: NewsletterStory, broken?: Set<string>): string | null {
+  const img = https(ownStoryImage(s.image_url));
+  return img && !broken?.has(img) ? img : null;
 }
 
 export function defaultSubject(issue: number, lead?: NewsletterStory): string {
@@ -142,9 +158,9 @@ function storyText(s: NewsletterStory): { body: string; why: string } {
   return { body: clip(plain(s.what_happened) || plain(s.summary), 240), why: clip(plain(s.why_it_matters), 180) };
 }
 
-function leadRow(s: NewsletterStory, campaign: string): string {
+function leadRow(s: NewsletterStory, campaign: string, broken?: Set<string>): string {
   const href = withUtm(articlePath(s.id, s.title), campaign);
-  const img = https(ownStoryImage(s.image_url));
+  const img = newsletterImage(s, broken);
   const { body, why } = storyText(s);
   return `<tr><td style="padding:8px 24px 20px;">
 ${img ? `<a href="${esc(href)}" target="_blank"><img src="${esc(img)}" alt="" width="552" style="display:block;width:100%;max-width:552px;height:auto;border:0;margin-bottom:14px;"></a>` : ""}
@@ -156,9 +172,9 @@ ${why ? `<p style="font:14px/1.5 ${SANS};color:${MUTED};margin:8px 0 0;"><strong
 </td></tr>`;
 }
 
-function storyRow(s: NewsletterStory, campaign: string): string {
+function storyRow(s: NewsletterStory, campaign: string, broken?: Set<string>): string {
   const href = withUtm(articlePath(s.id, s.title), campaign);
-  const img = https(ownStoryImage(s.image_url));
+  const img = newsletterImage(s, broken);
   const { body, why } = storyText(s);
   const text = `<div style="font:bold 10px ${SANS};letter-spacing:1px;color:${GOLD};padding-bottom:4px;">${esc(label(s))}</div>
 <a href="${esc(href)}" target="_blank" style="font:bold 17px/1.3 ${SERIF};color:${INK};text-decoration:none;">${esc(s.title)}</a>
@@ -203,10 +219,10 @@ export function buildNewsletterHtml(o: NewsletterOptions): string {
 ${intro ? `<div style="padding-top:14px;">${intro}</div>` : ""}
 </td></tr>
 ${bannerRow(o.banners.top, o.campaign)}
-${lead ? sectionHead("Lead story") + leadRow(lead, o.campaign) : ""}
-${restLocal.length ? sectionHead("Cyprus this week") + restLocal.map((s) => storyRow(s, o.campaign)).join("\n") : ""}
+${lead ? sectionHead("Lead story") + leadRow(lead, o.campaign, o.brokenImages) : ""}
+${restLocal.length ? sectionHead("Cyprus this week") + restLocal.map((s) => storyRow(s, o.campaign, o.brokenImages)).join("\n") : ""}
 ${bannerRow(o.banners.mid, o.campaign)}
-${restIntl.length ? sectionHead("International") + restIntl.map((s) => storyRow(s, o.campaign)).join("\n") : ""}
+${restIntl.length ? sectionHead("International") + restIntl.map((s) => storyRow(s, o.campaign, o.brokenImages)).join("\n") : ""}
 <tr><td align="center" style="padding:24px;"><a href="${esc(home)}" target="_blank" style="display:inline-block;background:${NAVY};color:#ffffff;font:bold 14px ${SANS};padding:12px 22px;text-decoration:none;">More news on BusinessHub.cy</a></td></tr>
 ${bannerRow(o.banners.footer, o.campaign)}
 <tr><td style="background:${PAPER};padding:18px 24px;font:12px/1.5 ${SANS};color:${MUTED};" align="center">

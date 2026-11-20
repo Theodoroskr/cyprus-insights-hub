@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { ArrowDown, ArrowUp, Copy, Download, Loader2, Mail, Plus, RefreshCw, X } from "lucide-react";
 import {
-  buildNewsletterHtml, defaultSubject, isInternational, liveBanners, pickStories,
+  buildNewsletterHtml, defaultSubject, isInternational, liveBanners, newsletterImage, pickStories,
   type NewsletterBanner, type NewsletterStory,
 } from "@/lib/newsletter";
 
@@ -97,11 +97,26 @@ export function NewsletterPanel() {
   const autoSubject = defaultSubject(issue, ordered[0]);
   const finalSubject = subjectEdited ? subject : autoSubject;
 
+  // Try each story picture once; ones that don't load are left out of the email.
+  const [broken, setBroken] = useState<Set<string>>(new Set());
+  const imageKey = ordered.map((s) => newsletterImage(s) ?? "").join("|");
+  useEffect(() => {
+    for (const s of ordered) {
+      const src = newsletterImage(s);
+      if (!src) continue;
+      const probe = new window.Image();
+      probe.onerror = () => setBroken((cur) => (cur.has(src) ? cur : new Set(cur).add(src)));
+      probe.onload = () => { if (probe.naturalWidth < 50) setBroken((cur) => (cur.has(src) ? cur : new Set(cur).add(src))); };
+      probe.src = src;
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageKey]);
+
   const html = useMemo(() => buildNewsletterHtml({
-    issue, dateLabel, campaign, intro, stories: ordered,
+    issue, dateLabel, campaign, intro, stories: ordered, brokenImages: broken,
     banners: { top: bannerById(bannerIds?.top), mid: bannerById(bannerIds?.mid), footer: bannerById(bannerIds?.footer) },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [issue, dateLabel, campaign, intro, ordered.map((s) => s.id).join(), bannerIds, banners]);
+  }), [issue, dateLabel, campaign, intro, ordered.map((s) => s.id).join(), bannerIds, banners, broken]);
 
   const move = (id: string, dir: -1 | 1) => {
     const group = ordered.filter((s) => isInternational(s) === isInternational(byId.get(id)!)).map((s) => s.id);

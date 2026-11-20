@@ -29,6 +29,18 @@ describe("weekly briefing story mix", () => {
   });
 });
 
+describe("weekly briefing routine notices", () => {
+  it("leaves Official Journal and CySEC warning notices out of the automatic pick", () => {
+    const picked = pickStories([
+      story("oj", "Official Journal 15/11/2026"),
+      story("w", "CySEC Warning regarding the website apex-capitalltd.com - 06/02/2025"),
+      ...cy(4),
+    ], { oj: 100, w: 90 }, 4, 1);
+    expect(picked.map((s) => s.id)).not.toContain("oj");
+    expect(picked.map((s) => s.id)).not.toContain("w");
+  });
+});
+
 describe("weekly briefing banners", () => {
   const b = (id: string, extra: Partial<NewsletterBanner>): NewsletterBanner => ({
     id, name: id, slot_id: "homepage-top", image_url: `https://x/${id}.png`, click_url: null, is_active: true, starts_at: null, ends_at: null, ...extra,
