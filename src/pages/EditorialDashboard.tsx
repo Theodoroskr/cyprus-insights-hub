@@ -23,6 +23,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { HIGHLIGHT_HOURS, highlightUntil, isHighlighted } from "@/lib/highlight";
 import { formatDistanceToNow } from "date-fns";
 import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
+import { NewsletterPanel } from "@/components/admin/NewsletterPanel";
 import { BodyImageButton } from "@/components/admin/BodyImageButton";
 import { BannersPanel } from "@/components/admin/BannersPanel";
 import { DirectoryArticlesPanel } from "@/components/admin/DirectoryArticlesPanel";
@@ -323,9 +324,9 @@ const EditorialDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "linkedin" | "academy" | "announcements" | "compliance" | "tourism" | "funding" | "venues">(() => {
+  const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "newsletter" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "linkedin" | "academy" | "announcements" | "compliance" | "tourism" | "funding" | "venues">(() => {
     const tab = new URLSearchParams(window.location.search).get("tab");
-    return tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "linkedin" ? "linkedin" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : tab === "compliance" ? "compliance" : tab === "tourism" ? "tourism" : tab === "funding" ? "funding" : tab === "venues" ? "venues" : "articles";
+    return tab === "newsletter" ? "newsletter" : tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "linkedin" ? "linkedin" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : tab === "compliance" ? "compliance" : tab === "tourism" ? "tourism" : tab === "funding" ? "funding" : tab === "venues" ? "venues" : "articles";
   });
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");
@@ -550,6 +551,14 @@ const EditorialDashboard = () => {
             </Button>
             <Button
               size="sm"
+              variant={activePanel === "newsletter" ? "default" : "ghost"}
+              onClick={() => setActivePanel("newsletter")}
+              className="gap-1.5"
+            >
+              <Send className="h-3.5 w-3.5" /> Newsletter
+            </Button>
+            <Button
+              size="sm"
               variant={activePanel === "banners" ? "default" : "ghost"}
               onClick={() => setActivePanel("banners")}
               className="gap-1.5"
@@ -674,6 +683,8 @@ const EditorialDashboard = () => {
 
         {activePanel === "subscribers" ? (
           <SubscribersPanel />
+        ) : activePanel === "newsletter" ? (
+          <NewsletterPanel />
         ) : activePanel === "banners" ? (
           <BannersPanel />
         ) : activePanel === "regulatory" ? (
