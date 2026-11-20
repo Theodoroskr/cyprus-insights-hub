@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { KeyRound, PlugZap, Trash2 } from "lucide-react";
+import { Download, KeyRound, PlugZap, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -76,6 +76,18 @@ export function GemiAccessCard() {
           <Button type="button" variant="outline" disabled={busy || !s?.configured} onClick={async () => { const r = await call({ action: "test" }); if (r) report(r.test); }}>
             <PlugZap className="h-4 w-4 mr-1" /> Test connection
           </Button>
+          <Button type="button" variant="secondary" disabled={busy || !s?.configured} onClick={async () => {
+            setBusy(true);
+            const { data, error } = await supabase.functions.invoke("ingest-gemi", { body: {} });
+            setBusy(false);
+            qc.invalidateQueries({ queryKey: ["gemi-status"] }); qc.invalidateQueries({ queryKey: ["od-sources"] }); qc.invalidateQueries({ queryKey: ["stat-revisions"] });
+            if (error || !data?.ok) { toast.error(data?.error ?? error?.message ?? "Import failed"); return; }
+            const n = data.new_registrations ?? {};
+            toast.success(`Active businesses: ${data.active?.value?.toLocaleString("en-GB") ?? "—"}. New-registration months added: ${n.added ?? 0}${n.revisions ? `, ${n.revisions} changed figure(s) sent for approval` : ""}.`);
+            if (n.next) toast.message("More months are still being counted in the background; refresh in a few minutes.");
+          }}>
+            <Download className="h-4 w-4 mr-1" /> Import now
+          </Button>
           {s?.configured && (
             <Button type="button" variant="ghost" disabled={busy} onClick={async () => { if (!confirm("Remove the saved GEMI key?")) return; if (await call({ action: "remove" })) toast.success("Key removed"); }}>
               <Trash2 className="h-4 w-4 mr-1" /> Remove
@@ -84,7 +96,7 @@ export function GemiAccessCard() {
         </form>
         <p className="text-xs text-muted-foreground">
           The key is stored on the server and is never shown again, not even to admins. A key GEMI rejects is not saved.
-          The test makes one read-only call (list of legal forms); nothing is imported. Business-register cards stay "Data unavailable" until an import is run.
+          The test makes one read-only call (list of legal forms). "Import now" tests the key again, then counts active businesses and new registrations per month since January 2024 for Greece Business Pulse; it also runs every morning. Changed past figures wait for approval under Eurostat statistics.
         </p>
       </CardContent>
     </Card>

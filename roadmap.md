@@ -49,4 +49,5 @@
 ## Nov 20 (evening)
 - [x] Greece stories read in one language (Greek analysis + full text, backfill running every 10 min)
 - [x] GEMI access key: secure admin setting + "Test connection"
-- [ ] GEMI register import — waiting for the real GEMI key to pass the test
+- [x] GEMI register importer (active businesses + monthly new registrations), daily 05:40 UTC
+- [ ] First real GEMI import — waiting for the GEMI key to be saved and pass the test
