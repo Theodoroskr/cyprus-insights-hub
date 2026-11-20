@@ -274,7 +274,22 @@ export default function RegistryCompanyPage() {
             <InfoCard icon={Briefcase} label="Activity" value={company.activity_description || "—"} />
             <InfoCard icon={Tag} label="Organisation Type" value={company.organisation_type || "—"} />
             {company.nace_code && <InfoCard icon={Hash} label="NACE Code" value={company.nace_code} />}
+            {company.nace21_code && (
+              <InfoCard
+                icon={Hash}
+                label="NACE Rev. 2.1"
+                value={`${company.nace21_code}${company.nace21_description ? ` · ${company.nace21_description}` : ""}`}
+              />
+            )}
           </div>
+          {company.cystat_register_date && (
+            <p className="-mt-5 mb-8 flex items-center gap-1.5 text-xs text-muted-foreground">
+              <CheckCircle2 className="h-3.5 w-3.5 text-secondary" />
+              Listed as an active enterprise in the CYSTAT Business Register (
+              {new Date(company.cystat_register_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+              ). Activity codes from the same register.
+            </p>
+          )}
 
           <div className="border border-border rounded-xl overflow-hidden">
             <div className="bg-muted/40 px-6 py-4 border-b border-border flex items-center justify-between">

@@ -1691,6 +1691,45 @@ export type Database = {
           },
         ]
       }
+      cystat_business_register: {
+        Row: {
+          company_name: string
+          directory_company_id: string | null
+          imported_at: string
+          match_type: string | null
+          nace2_code: string | null
+          nace2_description: string | null
+          nace21_code: string | null
+          nace21_description: string | null
+          register_date: string
+          registration_no: string
+        }
+        Insert: {
+          company_name: string
+          directory_company_id?: string | null
+          imported_at?: string
+          match_type?: string | null
+          nace2_code?: string | null
+          nace2_description?: string | null
+          nace21_code?: string | null
+          nace21_description?: string | null
+          register_date: string
+          registration_no: string
+        }
+        Update: {
+          company_name?: string
+          directory_company_id?: string | null
+          imported_at?: string
+          match_type?: string | null
+          nace2_code?: string | null
+          nace2_description?: string | null
+          nace21_code?: string | null
+          nace21_description?: string | null
+          register_date?: string
+          registration_no?: string
+        }
+        Relationships: []
+      }
       dashboard_settings: {
         Row: {
           id: string
@@ -1903,11 +1942,14 @@ export type Database = {
           cysec_license_type: string | null
           cysec_licensed: boolean | null
           cysec_status: string | null
+          cystat_register_date: string | null
           icpac_registered: boolean | null
           id: string
           map_lat: number | null
           map_lng: number | null
           nace_code: string | null
+          nace21_code: string | null
+          nace21_description: string | null
           name_key: string | null
           organisation_status: string | null
           organisation_sub_type: string | null
@@ -1934,11 +1976,14 @@ export type Database = {
           cysec_license_type?: string | null
           cysec_licensed?: boolean | null
           cysec_status?: string | null
+          cystat_register_date?: string | null
           icpac_registered?: boolean | null
           id?: string
           map_lat?: number | null
           map_lng?: number | null
           nace_code?: string | null
+          nace21_code?: string | null
+          nace21_description?: string | null
           name_key?: string | null
           organisation_status?: string | null
           organisation_sub_type?: string | null
@@ -1965,11 +2010,14 @@ export type Database = {
           cysec_license_type?: string | null
           cysec_licensed?: boolean | null
           cysec_status?: string | null
+          cystat_register_date?: string | null
           icpac_registered?: boolean | null
           id?: string
           map_lat?: number | null
           map_lng?: number | null
           nace_code?: string | null
+          nace21_code?: string | null
+          nace21_description?: string | null
           name_key?: string | null
           organisation_status?: string | null
           organisation_sub_type?: string | null
