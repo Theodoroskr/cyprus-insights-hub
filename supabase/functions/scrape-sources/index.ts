@@ -477,7 +477,9 @@ Deno.serve(async (req) => {
 
             let originalLanguage = "en";
             const originalTitle = article.title;
+            let originalGreekBody: string | null = null;
             if (isGreek(article.title + " " + fullBody)) {
+              originalGreekBody = fullBody;
               try {
                 const t = await translateToEnglish({ title: article.title, body_markdown: fullBody.slice(0, 20000) }, LOVABLE_API_KEY);
                 article.title = t.title || article.title;
@@ -516,12 +518,22 @@ Deno.serve(async (req) => {
 
             // Greek sources file into the Greece edition only, with Greek headline and summary.
             const gr = grEditionFields(source, article.title, fullBody);
-            let greek: { title_el?: string | null; summary_el?: string | null } = {};
+            // Every reader-facing field gets a Greek twin, so the story page never reads half in each language.
+            let greek: Record<string, string | null> = {};
             if (gr) {
-              if (originalLanguage === "el") greek.title_el = originalTitle;
+              const ownGreek = originalLanguage === "el";
+              if (ownGreek) { greek.title_el = originalTitle; greek.body_el = originalGreekBody; }
               try {
-                const t = await translateToGreek({ title: greek.title_el ? null : article.title, summary: intelligence.summary }, LOVABLE_API_KEY);
-                greek = { title_el: greek.title_el ?? t.title ?? null, summary_el: t.summary ?? null };
+                const t = await translateToGreek({
+                  title: ownGreek ? null : article.title, summary: intelligence.summary,
+                  what_happened: intelligence.what_happened, why_it_matters: intelligence.why_it_matters, what_to_do: intelligence.what_to_do,
+                  body_markdown: ownGreek ? null : fullBody.slice(0, 20000),
+                }, LOVABLE_API_KEY);
+                greek = {
+                  title_el: greek.title_el ?? t.title ?? null, summary_el: t.summary ?? null,
+                  what_happened_el: t.what_happened ?? null, why_it_matters_el: t.why_it_matters ?? null, what_to_do_el: t.what_to_do ?? null,
+                  body_el: greek.body_el ?? t.body_markdown ?? null,
+                };
               } catch (e) { console.error("greek translate failed", (e as Error).message); }
             }
 

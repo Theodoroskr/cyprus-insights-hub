@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { RealEstatePanel } from "@/components/admin/RealEstatePanel";
 import { EurostatAdminPanel } from "@/components/admin/EurostatAdminPanel";
+import { GemiAccessCard } from "@/components/admin/GemiAccessCard";
 
 const fmt = (d: string | null) => (d ? new Date(d).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" }) : "—");
 
@@ -76,6 +77,8 @@ export function OpenDataSourcesPanel() {
           </table>
         </CardContent>
       </Card>
+
+      <GemiAccessCard />
 
       <Card>
         <CardHeader className="pb-2"><CardTitle className="text-base">Tourism figures changed by CYSTAT, awaiting approval ({revisions.data?.length ?? 0})</CardTitle></CardHeader>

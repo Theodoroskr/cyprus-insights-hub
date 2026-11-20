@@ -25,7 +25,7 @@ import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { PRESS_RELEASE_TAG } from "@/lib/manualStory";
 import { ANALYSIS_LABELS, GR_DOMAIN_LIVE, GR_SECTIONS, greeceUrl, grHref, onGrHost } from "@/lib/edition";
-import { storyLanguage, storyText, type StoryLang } from "@/lib/storyLanguage";
+import { hasGreekText, storyLanguage, storyText, type StoryLang } from "@/lib/storyLanguage";
 
 interface Article {
   id: string;
@@ -215,7 +215,7 @@ export default function ArticlePage() {
   const tx = storyText(article, lang);
   const isEl = lang === "el";
   const greekOnly = !(article.edition ?? ["cy"]).includes("cy");
-  const canSwitch = !!article.title_el;
+  const canSwitch = hasGreekText(article);
   const headline = tx.title || (tx.what_happened || "").split(/(?<=\.)\s/)[0];
   const source = article.source_url ? new URL(article.source_url).hostname.replace(/^www\./, "") : null;
   const cleanBody = cleanArticleMarkdown(tx.body_markdown);

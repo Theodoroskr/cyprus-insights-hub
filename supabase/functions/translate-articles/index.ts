@@ -41,6 +41,40 @@ Deno.serve(async (req) => {
       return json({ translated: done, errors: errs });
     }
 
+    // mode "greek_full": Greek analysis + full text for Greece-edition stories, so the page reads in one language.
+    if (body?.mode === "greek_full") {
+      const n = Math.min(Math.max(Number(body?.limit) || 6, 1), 12);
+      const { data: list, error: e1 } = await supabase.from("cna_articles")
+        .select("id,summary,summary_el,what_happened,why_it_matters,what_to_do,body_markdown")
+        .contains("edition", ["gr"]).not("title_el", "is", null)
+        .is("what_happened_el", null).is("body_el", null)
+        .or("what_happened.not.is.null,body_markdown.not.is.null")
+        .order("published_at", { ascending: false, nullsFirst: false }).limit(n);
+      if (e1) throw e1;
+      let done = 0; const errs: string[] = [];
+      const work = [...(list ?? [])];
+      await Promise.all(Array.from({ length: 4 }, async () => {
+        for (let r = work.shift(); r; r = work.shift()) {
+          try {
+            const t = await translateToGreek({
+              summary: r.summary_el ? null : r.summary,
+              what_happened: r.what_happened, why_it_matters: r.why_it_matters, what_to_do: r.what_to_do,
+              body_markdown: r.body_markdown?.slice(0, 20000) ?? null,
+            }, apiKey);
+            const upd: Record<string, string | null> = {
+              what_happened_el: t.what_happened || null, why_it_matters_el: t.why_it_matters || null,
+              what_to_do_el: t.what_to_do || null, body_el: t.body_markdown || null,
+            };
+            if (!r.summary_el && t.summary) upd.summary_el = t.summary;
+            if (!upd.what_happened_el && !upd.body_el) throw new Error("empty translation");
+            await supabase.from("cna_articles").update(upd).eq("id", r.id);
+            done++;
+          } catch (e) { errs.push(`${r.id}: ${(e as Error).message}`); }
+        }
+      }));
+      return json({ translated: done, errors: errs });
+    }
+
     const { data: rows, error } = await supabase
       .from("cna_articles")
       .select("id,title,summary,what_happened,why_it_matters,what_to_do,body_markdown")

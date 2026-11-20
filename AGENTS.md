@@ -35,4 +35,4 @@
 - CBC stats: `source=ecb` rows via `ingest-eurostat`; OECD via Crossref. Why: official APIs.
 - Company Announcements: rules in `supabase/functions/ingest-announcements/AGENTS.md`. Why: one event, one page, every claim sourced.
 - ComplianceHub: only editor-published `compliance_items`/`fatf_releases` are public; pipeline rules in `supabase/functions/ingest-compliance/AGENTS.md`. Why: every claim verified and sourced.
-- Funding & Subsidies: rules in `supabase/functions/ingest-funding/AGENTS.md`. Why: one record per call, nothing unverified public, paywall in the database.
+- Funding & Subsidies: rules in `supabase/functions/ingest-funding/AGENTS.md`.

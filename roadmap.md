@@ -45,3 +45,8 @@
 - [x] Home page blend: mainly Greece, plus a Cyprus block and an International block
 - [x] Greece sitemap + Google News sitemap + Greek news feed (RSS)
 - [x] businesshub.gr masthead: show BusinessHub.gr logo instead of BusinessHub.cy on the .gr domain
+
+## Nov 20 (evening)
+- [x] Greece stories read in one language (Greek analysis + full text, backfill running every 10 min)
+- [x] GEMI access key: secure admin setting + "Test connection"
+- [ ] GEMI register import — waiting for the real GEMI key to pass the test
