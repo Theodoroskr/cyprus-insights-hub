@@ -50,7 +50,8 @@
 - [x] Greece stories read in one language (Greek analysis + full text, backfill running every 10 min)
 - [x] GEMI access key: secure admin setting + "Test connection"
 - [x] GEMI register importer (active businesses + monthly new registrations), daily 05:40 UTC
-- [ ] First real GEMI import — waiting for the GEMI key to be saved and pass the test
+- [x] Saving a working GEMI key starts the import straight away
+- [ ] First real GEMI import — waiting on you: no key is saved yet (the last key tried was rejected by GEMI)
 
 ## Greece Business Pulse — Bank of Greece cards (Nov 20, late)
 - [x] Travel receipts card: quarterly Bank of Greece figures via Eurostat, checked daily

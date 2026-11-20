@@ -48,7 +48,19 @@ Deno.serve(async (req) => {
       const { error } = await supabase.from("internal_secrets").insert({ name: GEMI_KEY_NAME, value: key });
       if (error) throw error;
       await record(t);
-      return json({ saved: true, test: t, ...(await status()) });
+      // A key that passed the test starts the first import straight away (in the background; the daily run carries on after).
+      let importStarted = false;
+      if (t.ok) {
+        const run = fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/ingest-gemi`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`, "Content-Type": "application/json" },
+          body: JSON.stringify({}),
+        }).catch(() => undefined);
+        // deno-lint-ignore no-explicit-any
+        (globalThis as any).EdgeRuntime?.waitUntil?.(run);
+        importStarted = true;
+      }
+      return json({ saved: true, import_started: importStarted, test: t, ...(await status()) });
     }
 
     if (action === "test") {

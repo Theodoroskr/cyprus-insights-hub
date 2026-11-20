@@ -34,7 +34,7 @@ export function GemiAccessCard() {
     qc.invalidateQueries({ queryKey: ["gemi-status"] });
     qc.invalidateQueries({ queryKey: ["od-sources"] });
     if (error || data?.error) { toast.error(data?.error ?? error?.message ?? "Failed"); return null; }
-    return data as Status & { saved?: boolean; test?: TestResult };
+    return data as Status & { saved?: boolean; import_started?: boolean; test?: TestResult };
   };
 
   const report = (t?: TestResult) => { if (t) (t.ok ? toast.success : toast.error)(t.message); };
@@ -65,6 +65,10 @@ export function GemiAccessCard() {
             if (!r) return;
             if (r.saved) { setKey(""); toast.success("Key saved"); } else toast.error("Key not saved");
             report(r.test);
+            if (r.import_started) {
+              toast.message("Importing active businesses and new registrations now. The Greece Business Pulse cards fill in within a few minutes.");
+              setTimeout(() => { qc.invalidateQueries({ queryKey: ["od-sources"] }); qc.invalidateQueries({ queryKey: ["stat-series"] }); }, 90_000);
+            }
           }}
         >
           <Input
@@ -95,7 +99,7 @@ export function GemiAccessCard() {
           )}
         </form>
         <p className="text-xs text-muted-foreground">
-          The key is stored on the server and is never shown again, not even to admins. A key GEMI rejects is not saved.
+          The key is stored on the server and is never shown again, not even to admins. A key GEMI rejects is not saved; a key that passes starts the first import straight away.
           The test makes one read-only call (list of legal forms). "Import now" tests the key again, then counts active businesses and new registrations per month since January 2024 for Greece Business Pulse; it also runs every morning. Changed past figures wait for approval under Eurostat statistics.
         </p>
       </CardContent>
