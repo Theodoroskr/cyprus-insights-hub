@@ -1,7 +1,7 @@
 // Pure builders for the Greece edition's own sitemap, Google News sitemap and Greek RSS feed
 // (written by scripts/generate-sitemap.ts and scripts/generate-rss.ts). Addresses are on
 // businesshub.gr once GR_DOMAIN_LIVE is on, and on businesshub.cy/greece until then.
-import { CY_HOST, GR_DOMAIN_LIVE, GR_HOST, GR_SECTIONS, grHref } from "./edition";
+import { COMPARE_PATH, CY_HOST, GR_DOMAIN_LIVE, GR_HOST, GR_PAGES, GR_SECTIONS, grHref } from "./edition";
 import { articlePath } from "./articleUrl";
 import { buildNewsSitemap, buildUrlset, dateOnly, recentNews, type SitemapEntry } from "./sitemap";
 import { buildRssFeed, plainSummary, selectItems, type RssItem } from "./rss";
@@ -36,6 +36,8 @@ export function greeceSitemap(rows: GreeceRow[], orgSlugs: string[], live = GR_D
   const entries: SitemapEntry[] = [
     { path: "/greece", changefreq: "daily", priority: "1.0" },
     ...GR_SECTIONS.map((s) => ({ path: `/greece/${s.slug}`, changefreq: "daily" as const, priority: "0.8" })),
+    ...GR_PAGES.map((s) => ({ path: `/greece/${s.slug}`, changefreq: "daily" as const, priority: "0.8" })),
+    { path: COMPARE_PATH, changefreq: "weekly" as const, priority: "0.7" },
     ...orgSlugs.map((slug) => ({ path: `/greece/org/${encodeURIComponent(slug)}`, changefreq: "weekly" as const, priority: "0.6" })),
     ...rows.filter((r) => r.published_at).map((r) => ({
       path: articlePath(r.id, r.title), lastmod: dateOnly(r.published_at), changefreq: "monthly" as const, priority: "0.6",

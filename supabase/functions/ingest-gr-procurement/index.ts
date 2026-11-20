@@ -109,6 +109,16 @@ Deno.serve(async (req) => {
     await sb.from("open_data_sources").update({ status: "error", last_error: msg }).eq("slug", SOURCE_SLUG);
     return json({ ok: false, error: msg, added, updated, skipped, rejected, scanned, ...report }, 502);
   }
+  // Scheduled runs carry on in a fresh call when the time budget runs out (admins see "next" and run again).
+  if (nextPage && (via === "schedule" || via === "service") && Number(body.hop ?? 0) < 8) {
+    const cont = fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/ingest-gr-procurement`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ kind: nextPage.kind, days, date_to: isoDay(to), start_page: nextPage.page, hop: Number(body.hop ?? 0) + 1 }),
+    }).catch(() => undefined);
+    // deno-lint-ignore no-explicit-any
+    (globalThis as any).EdgeRuntime?.waitUntil?.(cont);
+  }
   return json({ ok: true, added, updated, skipped, rejected, scanned, rejects, next: nextPage, ...report });
 });
 
@@ -126,7 +136,9 @@ async function sendDigests(sb: any) {
     if (hits.length) {
       await sb.from("notifications").insert({
         user_id: s.user_id, type: "gr_tender_digest",
-        title: `${hits.length} new ${f.kind === "award" ? "contract award" : "Greek tender"}${hits.length === 1 ? "" : "s"} for “${s.name}”`,
+        title: f.kind === "award"
+          ? `${hits.length} νέες αναθέσεις / new contract awards — «${s.name}»`
+          : `${hits.length} νέοι διαγωνισμοί / new Greek tenders — «${s.name}»`,
         body: hits.slice(0, 3).map((h: { title: string }) => h.title).join(" · ").slice(0, 400),
         href: `/greece/opportunities?saved=${s.id}`,
       });

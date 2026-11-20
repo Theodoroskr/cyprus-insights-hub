@@ -17,6 +17,7 @@ import { hostRedirect, onGrHost } from "./lib/edition";
 // Lazy-loaded route components
 const Index = lazy(() => import("./pages/Index"));
 const GreecePage = lazy(() => import("./pages/greece/GreecePage"));
+const CompareGreeceCyprusPage = lazy(() => import("./pages/CompareGreeceCyprusPage"));
 const ON_GR_HOST = onGrHost();
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
 const EnergyPage = lazy(() => import("./pages/EnergyPage"));
@@ -143,6 +144,7 @@ const App = () => (
                   <GrHostGuard>
                   <Routes>
                     <Route path="/" element={<GreecePage />} />
+                    <Route path="/compare/greece-cyprus" element={<CompareGreeceCyprusPage />} />
                     <Route path="/org/:slug" element={<GreecePage />} />
                     <Route path="/:section" element={<GreecePage />} />
                     <Route path="/article/:id" element={<ArticlePage />} />
@@ -222,6 +224,7 @@ const App = () => (
                   <Route path="/whoiswho" element={<WhoIsWhoRoute><WhoIsWhoPage /></WhoIsWhoRoute>} />
                   <Route path="/whoiswho/:slug" element={<WhoIsWhoRoute><WhoIsWhoProfilePage /></WhoIsWhoRoute>} />
                   <Route path="/greece" element={<GreecePage />} />
+                  <Route path="/compare/greece-cyprus" element={<CompareGreeceCyprusPage />} />
                   <Route path="/greece/org/:slug" element={<GreecePage />} />
                   <Route path="/greece/:section" element={<GreecePage />} />
                   <Route path="/news" element={<NewsListPage />} />

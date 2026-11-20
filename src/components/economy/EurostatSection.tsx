@@ -15,7 +15,10 @@ const COLORS: Record<string, string> = { CY: "hsl(var(--re-1))", EU27_2020: "hsl
 async function loadAll(): Promise<{ datasets: StatDataset[]; obs: StatObs[] }> {
   const { data: ds, error } = await supabase.rpc("get_public_stat_datasets");
   if (error) throw error;
-  const datasets = ((ds ?? []) as StatDataset[]).filter((d) => d.source !== "ecb");
+  // Cyprus page: Cyprus household indicators only; Greece and comparison series live on the Greece pages.
+  const datasets = ((ds ?? []) as StatDataset[])
+    .filter((d) => d.source !== "ecb" && d.category !== "compare" && !d.category.startsWith("gr_") && d.geos.includes("CY"))
+    .map((d) => ({ ...d, geos: d.geos.filter((g) => g !== "EL") }));
   const obs: StatObs[] = [];
   for (let from = 0; ; from += 1000) {
     const { data, error: e } = await supabase.from("stat_observations").select("dataset_id, geo, period, period_date, value, status_flag")

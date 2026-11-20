@@ -29,7 +29,7 @@ export function grHostToAppPath(path: string): string {
   if (p === "/") return GR_PREFIX;
   if (/^\/org\/[^/]+$/.test(p)) return `${GR_PREFIX}${p}`;
   const one = /^\/([^/]+)$/.exec(p);
-  if (one && GR_SECTIONS.some((s) => s.slug === one[1])) return `${GR_PREFIX}${p}`;
+  if (one && (GR_SECTIONS.some((s) => s.slug === one[1]) || GR_PAGES.some((s) => s.slug === one[1]))) return `${GR_PREFIX}${p}`;
   return p;
 }
 
@@ -41,7 +41,7 @@ export function grHref(appPath: string, gr: boolean = onGrHost()): string {
 
 /** Paths businesshub.gr shows itself: the Greece edition and story pages (incl. the Cyprus/International blend). */
 export function servedOnGrHost(path: string): boolean {
-  return isGreecePath(grHostToAppPath(path)) || path === "/article" || path.startsWith("/article/");
+  return isGreecePath(grHostToAppPath(path)) || path === "/article" || path.startsWith("/article/") || path === COMPARE_PATH;
 }
 
 const CY_HOSTS = ["businesshub.cy", "www.businesshub.cy", "cyprus-biz-connect.lovable.app"];
@@ -87,6 +87,15 @@ export function useEdition(): Edition {
   const { pathname } = useLocation();
   return editionFromLocation(typeof window !== "undefined" ? window.location.hostname : "", pathname);
 }
+
+/** Greece–Cyprus comparison: same address on both domains. */
+export const COMPARE_PATH = "/compare/greece-cyprus";
+
+/** Data pages of the Greece edition (not story sections). */
+export const GR_PAGES = [
+  { slug: "business-pulse", el: "Οικονομικοί Δείκτες Ελλάδας", en: "Greece Business Pulse" },
+  { slug: "opportunities", el: "Δημόσιοι Διαγωνισμοί", en: "Opportunities" },
+] as const;
 
 export const GR_SECTIONS = [
   { slug: "business", el: "Επιχειρήσεις", en: "Business" },

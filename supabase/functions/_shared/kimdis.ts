@@ -142,7 +142,9 @@ export type SearchFilters = {
 };
 type Matchable = OpenCheck & { title: string; authority_name: string | null; focus: string[]; value_without_vat: number | null; published_at: string | null };
 
-const fold = (s: string) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+/** Lower case, no accents, final ς as σ — matches the database search columns. */
+export const foldGreek = (s: string) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().replace(/ς/g, "σ");
+const fold = foldGreek;
 
 /** Same filter rules for the Opportunities page and the daily digest. Open-tender rule applies to kind "tender". */
 export function matchesSearch(n: Matchable, f: SearchFilters, now: Date = new Date()): boolean {

@@ -2785,6 +2785,7 @@ export type Database = {
           amends_reference: string | null
           authority_code: string | null
           authority_name: string | null
+          authority_search: string | null
           cancelled: boolean
           contract_type: string | null
           cpv_codes: string[]
@@ -2804,6 +2805,7 @@ export type Database = {
           procedure_type: string | null
           published_at: string | null
           reference_number: string
+          search_text: string | null
           signed_date: string | null
           source_updated_at: string | null
           superseded_by: string | null
@@ -2817,6 +2819,7 @@ export type Database = {
           amends_reference?: string | null
           authority_code?: string | null
           authority_name?: string | null
+          authority_search?: string | null
           cancelled?: boolean
           contract_type?: string | null
           cpv_codes?: string[]
@@ -2836,6 +2839,7 @@ export type Database = {
           procedure_type?: string | null
           published_at?: string | null
           reference_number: string
+          search_text?: string | null
           signed_date?: string | null
           source_updated_at?: string | null
           superseded_by?: string | null
@@ -2849,6 +2853,7 @@ export type Database = {
           amends_reference?: string | null
           authority_code?: string | null
           authority_name?: string | null
+          authority_search?: string | null
           cancelled?: boolean
           contract_type?: string | null
           cpv_codes?: string[]
@@ -2868,6 +2873,7 @@ export type Database = {
           procedure_type?: string | null
           published_at?: string | null
           reference_number?: string
+          search_text?: string | null
           signed_date?: string | null
           source_updated_at?: string | null
           superseded_by?: string | null

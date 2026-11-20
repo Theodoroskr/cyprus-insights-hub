@@ -7,7 +7,9 @@ import { SEOHead } from "@/components/SEOHead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { articlePath } from "@/lib/articleUrl";
 import { Fragment, useState } from "react";
-import { BANKING_FILTERS, CY_HOST, GR_SECTIONS, grHref, onGrHost } from "@/lib/edition";
+import { BANKING_FILTERS, CY_HOST, GR_PAGES, GR_SECTIONS, grHref, onGrHost } from "@/lib/edition";
+import { BusinessPulse } from "@/components/greece/BusinessPulse";
+import { Opportunities } from "@/components/greece/Opportunities";
 import { blendBlocks, readableIn, sectionFill } from "@/lib/greeceBlend";
 import { isInternationalStory } from "@/lib/storyOrigin";
 import { listImage } from "@/lib/fallbackImage";
@@ -129,6 +131,9 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
           <Link to={grHref("/greece")} className="font-bold uppercase tracking-wider">BusinessHub<span className="text-secondary">.gr</span></Link>
           <nav className="flex flex-wrap gap-x-3 gap-y-1">{GR_SECTIONS.map((s) => (
             <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className="text-muted-foreground hover:text-foreground">{lang === "el" ? s.el : s.en}</Link>))}
+            {GR_PAGES.map((s) => (
+            <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className="font-medium text-foreground hover:underline">{lang === "el" ? s.el : s.en}</Link>))}
+            <Link to="/compare/greece-cyprus" className="font-medium text-foreground hover:underline">{lang === "el" ? "Σύγκριση με την Κύπρο" : "Compare with Cyprus"}</Link>
           </nav>
           <div className="ml-auto flex items-center gap-2">
             <button onClick={() => setLang("el")} className={lang === "el" ? "font-bold" : "text-muted-foreground"}>EL</button>
@@ -283,10 +288,13 @@ export default function GreecePage() {
   const { section, slug } = useParams();
   const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("gr-lang") === "en" ? "en" : "el"));
   const changeLang = (l: Lang) => { localStorage.setItem("gr-lang", l); setLang(l); };
-  const el = lang === "el"; const sec = section ? GR_SECTIONS.find((s) => s.slug === section) : undefined;
+  const el = lang === "el"; const sec = section ? (GR_SECTIONS.find((s) => s.slug === section) ?? GR_PAGES.find((s) => s.slug === section)) : undefined;
   const title = slug ? (el ? "Οργανισμός" : "Organisation") : section ? ((el ? sec?.el : sec?.en) ?? (el ? "Ελλάδα" : "Greece")) : (el ? "Επιχειρηματική ενημέρωση για την Ελλάδα" : "Business intelligence for Greece");
   const path = slug ? `/greece/org/${slug}` : section ? `/greece/${section}` : "/greece";
   return <Shell lang={lang} setLang={changeLang} title={title} path={path}>
-    {slug ? <Org slug={slug} lang={lang} /> : section ? <Section slug={section} lang={lang} /> : <Home lang={lang} />}
+    {slug ? <Org slug={slug} lang={lang} />
+      : section === "business-pulse" ? <BusinessPulse lang={lang} />
+      : section === "opportunities" ? <Opportunities lang={lang} />
+      : section ? <Section slug={section} lang={lang} /> : <Home lang={lang} />}
   </Shell>;
 }

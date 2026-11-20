@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ResponsiveContainer, LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, Legend, ReferenceLine } from "recharts";
-import { TrendingUp, Download, ExternalLink } from "lucide-react";
+import { TrendingUp, Download, ExternalLink, ArrowRightLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { TopNavigation } from "@/components/TopNavigation";
 import { Footer } from "@/components/Footer";
@@ -109,6 +110,7 @@ export default function EconomyPage() {
               <SelectContent>{[5, 10, 20, 30].map((n) => <SelectItem key={n} value={String(n)}>Last {n} years</SelectItem>)}</SelectContent>
             </Select>
             <Button variant="outline" size="sm" onClick={() => csv(rows)} disabled={!rows.length}><Download className="h-4 w-4 mr-1" /> Download CSV</Button>
+            <Button variant="outline" size="sm" asChild><Link to="/compare/greece-cyprus"><ArrowRightLeft className="h-4 w-4 mr-1" /> Compare with Greece</Link></Button>
           </div>
         </header>
 
