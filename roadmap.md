@@ -51,3 +51,8 @@
 - [x] GEMI access key: secure admin setting + "Test connection"
 - [x] GEMI register importer (active businesses + monthly new registrations), daily 05:40 UTC
 - [ ] First real GEMI import — waiting for the GEMI key to be saved and pass the test
+
+## Greece Business Pulse — Bank of Greece cards (Nov 20, late)
+- [x] Travel receipts card: quarterly Bank of Greece figures via Eurostat, checked daily
+- [x] Inbound travellers card: admin upload of the Bank of Greece file with preview, plus "newer file available" check via data.gov.gr
+- [ ] First travellers upload — waiting on you: download the file in your browser and upload it in Editorial → Data sources (once per quarter)

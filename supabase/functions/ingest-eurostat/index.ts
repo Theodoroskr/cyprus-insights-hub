@@ -44,7 +44,7 @@ const SOURCES = {
 } as const;
 
 const GREECE_REGISTER = [
-  { slug: "eurostat-greece", head: "hicp_all", codes: ["gdp_growth", "hicp_all", "unemployment"] },
+  { slug: "eurostat-greece", head: "hicp_all", codes: ["gdp_growth", "hicp_all", "unemployment", "gr_travel_receipts"] },
   { slug: "elstat-goods-trade", head: "gr_goods_exports", codes: ["gr_goods_exports", "gr_goods_imports"] },
 ];
 

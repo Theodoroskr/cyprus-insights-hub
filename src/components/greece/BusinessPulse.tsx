@@ -11,15 +11,14 @@ import { grHref } from "@/lib/edition";
 type Bi = { en: string; el: string };
 type PulseCard =
   | { id: string; title: Bi; code: string; unit: Bi; yoy: "points" | "percent"; source: { label: string; href: string }[]; emptyNote?: Bi }
-  | { id: string; title: Bi; balance: true; source: { label: string; href: string }[] }
-  | { id: string; title: Bi; pending: Bi; source: { label: string; href: string }[] };
+  | { id: string; title: Bi; balance: true; source: { label: string; href: string }[] };
 
 const ELSTAT = { label: "ELSTAT", href: "https://www.statistics.gr/en/home/" };
 const EUROSTAT = (code: string) => ({ label: `Eurostat ${code}`, href: databrowserUrl(code) });
 const GEMI = { label: "GEMI", href: "https://opendata.businessportal.gr/" };
 const BOG = { label: "Bank of Greece", href: "https://www.bankofgreece.gr/en/statistics/external-sector/balance-of-payments/travel-services" };
 const GEMI_WAITING: Bi = { en: "Waiting for the first import from the GEMI register.", el: "Αναμένεται η πρώτη εισαγωγή από το ΓΕΜΗ." };
-const BOG_PENDING: Bi = { en: "Pending verification: the Bank of Greece file must be imported by an admin.", el: "Εκκρεμεί επαλήθευση: το επίσημο αρχείο της Τράπεζας της Ελλάδος θα εισαχθεί από διαχειριστή." };
+const BOG_WAITING: Bi = { en: "Waiting for the Bank of Greece file to be imported.", el: "Αναμένεται η εισαγωγή του αρχείου της Τράπεζας της Ελλάδος." };
 
 export const PULSE_CARDS: PulseCard[] = [
   { id: "gdp", title: { en: "Real GDP growth", el: "Πραγματική αύξηση ΑΕΠ" }, code: "gdp_growth", unit: { en: "% vs same quarter last year", el: "% σε ετήσια βάση (τρίμηνο)" }, yoy: "points", source: [EUROSTAT("namq_10_gdp")] },
@@ -30,8 +29,8 @@ export const PULSE_CARDS: PulseCard[] = [
   { id: "balance", title: { en: "Goods trade balance", el: "Εμπορικό ισοζύγιο αγαθών" }, balance: true, source: [ELSTAT, EUROSTAT("ei_eteu27_2020_m")] },
   { id: "active-businesses", title: { en: "Active registered businesses", el: "Ενεργές εγγεγραμμένες επιχειρήσεις" }, code: "gr_gemi_active", unit: { en: "businesses with active status in GEMI", el: "επιχειρήσεις σε ενεργή κατάσταση στο ΓΕΜΗ" }, yoy: "percent", source: [GEMI], emptyNote: GEMI_WAITING },
   { id: "new-registrations", title: { en: "New business registrations", el: "Νέες εγγραφές επιχειρήσεων" }, code: "gr_gemi_new", unit: { en: "businesses incorporated in the month", el: "επιχειρήσεις που συστάθηκαν τον μήνα" }, yoy: "percent", source: [GEMI], emptyNote: GEMI_WAITING },
-  { id: "travellers", title: { en: "Inbound travellers", el: "Αφίξεις ταξιδιωτών από το εξωτερικό" }, pending: BOG_PENDING, source: [BOG] },
-  { id: "receipts", title: { en: "Travel receipts", el: "Ταξιδιωτικές εισπράξεις" }, pending: BOG_PENDING, source: [BOG] },
+  { id: "travellers", title: { en: "Inbound travellers", el: "Αφίξεις ταξιδιωτών από το εξωτερικό" }, code: "gr_travellers", unit: { en: "thousand non-resident travellers", el: "χιλ. ταξιδιώτες μη κάτοικοι" }, yoy: "percent", source: [BOG], emptyNote: BOG_WAITING },
+  { id: "receipts", title: { en: "Travel receipts", el: "Ταξιδιωτικές εισπράξεις" }, code: "gr_travel_receipts", unit: { en: "€ million spent by visitors in Greece", el: "€ εκατ. δαπάνες επισκεπτών στην Ελλάδα" }, yoy: "percent", source: [BOG, EUROSTAT("bop_c6_q")] },
 ];
 
 const t = (lang: Lang, b: Bi) => b[lang];
@@ -55,14 +54,10 @@ function Sources({ list }: { list: { label: string; href: string }[] }) {
 
 export function BusinessPulse({ lang }: { lang: Lang }) {
   const el = lang === "el";
-  const q = useStatSeries(["gdp_growth", "hicp_all", "unemployment", "gr_goods_exports", "gr_goods_imports", "gr_gemi_active", "gr_gemi_new"]);
+  const q = useStatSeries(["gdp_growth", "hicp_all", "unemployment", "gr_goods_exports", "gr_goods_imports", "gr_gemi_active", "gr_gemi_new", "gr_travellers", "gr_travel_receipts"]);
   const unavailable = el ? "Μη διαθέσιμα δεδομένα" : "Data unavailable";
 
   const body = (c: PulseCard) => {
-    if ("pending" in c) return <>
-      <p className="text-xl font-semibold font-serif text-muted-foreground">{unavailable}</p>
-      <p className="text-xs text-muted-foreground flex gap-1"><AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" />{t(lang, c.pending)}</p>
-    </>;
     const ex = q.data?.datasets["gr_goods_exports"];
     const ds = "code" in c ? q.data?.datasets[c.code] : ex;
     const series = "code" in c
@@ -110,8 +105,8 @@ export function BusinessPulse({ lang }: { lang: Lang }) {
       </CardContent></Card>)}
     </div>
     <p className="text-xs text-muted-foreground mt-6 max-w-4xl">{el
-      ? "Πηγές: Eurostat (CC BY 4.0), ΕΛΣΤΑΤ μέσω Eurostat και ανοικτά δεδομένα ΓΕΜΗ. Ελέγχονται καθημερινά· οι αναθεωρήσεις παλαιότερων τιμών ελέγχονται πριν αλλάξουν εδώ. Περίοδοι που δεν έχουν δημοσιευτεί δεν εμφανίζονται ποτέ ως μηδέν."
-      : "Sources: Eurostat (CC BY 4.0), ELSTAT via Eurostat and GEMI open data. Checked daily; revisions to past figures are reviewed before they change here. Periods not yet published are never shown as zero."}
+      ? "Πηγές: Eurostat (CC BY 4.0), ΕΛΣΤΑΤ μέσω Eurostat, Τράπεζα της Ελλάδος (Έρευνα Συνόρων, CC BY 4.0) και ανοικτά δεδομένα ΓΕΜΗ. Ελέγχονται καθημερινά· οι αναθεωρήσεις παλαιότερων τιμών ελέγχονται πριν αλλάξουν εδώ. Περίοδοι που δεν έχουν δημοσιευτεί δεν εμφανίζονται ποτέ ως μηδέν."
+      : "Sources: Eurostat (CC BY 4.0), ELSTAT via Eurostat, Bank of Greece (Border Survey, CC BY 4.0) and GEMI open data. Checked daily; revisions to past figures are reviewed before they change here. Periods not yet published are never shown as zero."}
       {last && <> {el ? "Τελευταία επιτυχής ενημέρωση" : "Last successful refresh"} {new Date(last).toLocaleString(el ? "el-GR" : "en-GB", { dateStyle: "medium", timeStyle: "short" })}.</>}
       {" "}<Link to={grHref("/greece/opportunities")} className="underline">{el ? "Δημόσιοι διαγωνισμοί →" : "Public tenders →"}</Link></p>
   </div>;
