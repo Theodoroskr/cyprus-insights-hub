@@ -365,6 +365,13 @@
       "when": 1795178441315,
       "tag": "0051_cystat_business_register",
       "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "7",
+      "when": 1795187137480,
+      "tag": "0052_greece_opportunities",
+      "breakpoints": true
     }
   ]
 }

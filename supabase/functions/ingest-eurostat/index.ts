@@ -43,6 +43,11 @@ const SOURCES = {
   ecb: { slug: "cbc-household-banking", head: "cbc_hh_loans", name: "Central Bank" },
 } as const;
 
+const GREECE_REGISTER = [
+  { slug: "eurostat-greece", head: "hicp_all", codes: ["gdp_growth", "hicp_all", "unemployment"] },
+  { slug: "elstat-goods-trade", head: "gr_goods_exports", codes: ["gr_goods_exports", "gr_goods_imports"] },
+];
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -141,7 +146,8 @@ Deno.serve(async (req) => {
           totals.added += diff.inserts.length; totals.unchanged += diff.unchanged + diff.flagUpdates.length; totals.revisions += diff.revisions.length;
           summary = `${diff.inserts.length} new, ${diff.revisions.length} revised, ${diff.flagUpdates.length} flag updates`;
         }
-        const { data: latest } = await sb.from("stat_observations").select("period").eq("dataset_id", ds.id).eq("geo", "CY").eq("status", "published").order("period_date", { ascending: false }).limit(1);
+        const mainGeo = ds.geos.includes("CY") ? "CY" : ds.geos[0];
+        const { data: latest } = await sb.from("stat_observations").select("period").eq("dataset_id", ds.id).eq("geo", mainGeo).eq("status", "published").order("period_date", { ascending: false }).limit(1);
         await sb.from("stat_datasets").update({ status: "ok", last_error: null, last_checked_at: now.toISOString(), last_success_at: now.toISOString(), source_updated_at: parsed.updated ?? ds.source_updated_at, latest_period: latest?.[0]?.period ?? null }).eq("id", ds.id);
         results[ds.code] = `ok: ${summary}`;
       } catch (e) {
@@ -167,6 +173,20 @@ Deno.serve(async (req) => {
       await sb.from("open_data_sources").update(errors === ran
         ? { status: "error", last_error: `${errors} ${SOURCES[source].name} dataset(s) failed`, last_checked_at: nowIso }
         : { status: "ok", last_error: errors ? `${errors} dataset(s) failed` : null, last_checked_at: nowIso, last_success_at: nowIso, latest_period: head?.[0]?.period_date ?? null }).eq("slug", SOURCES[source].slug);
+    }
+    // Greece rows in the source register follow their own datasets (records imported = new observations).
+    if (source === "eurostat") {
+      for (const reg of GREECE_REGISTER) {
+        const codes = reg.codes.filter((c) => results[c] && !results[c].startsWith("skipped"));
+        if (!codes.length) continue;
+        const failed = codes.filter((c) => results[c].startsWith("error"));
+        const nowIso = new Date().toISOString();
+        const { data: head } = await sb.from("stat_observations").select("period_date, stat_datasets!inner(code)").eq("stat_datasets.code", reg.head).eq("geo", "EL").order("period_date", { ascending: false }).limit(1);
+        const added = codes.reduce((n, c) => n + Number(/^ok: (\d+) new/.exec(results[c])?.[1] ?? 0), 0);
+        await sb.from("open_data_sources").update(failed.length === codes.length
+          ? { status: "error", last_error: failed.map((c) => `${c}: ${results[c]}`).join("; ").slice(0, 500), last_checked_at: nowIso }
+          : { status: "ok", last_error: failed.length ? failed.map((c) => `${c}: ${results[c]}`).join("; ").slice(0, 500) : null, last_checked_at: nowIso, last_success_at: nowIso, records_imported: added, latest_period: head?.[0]?.period_date ?? null }).eq("slug", reg.slug);
+      }
     }
     return json({ ok: status !== "failed", job_id: job.id, status, ...totals, datasets: results }, status === "failed" ? 500 : 200);
   } catch (e) {

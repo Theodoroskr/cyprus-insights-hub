@@ -2780,6 +2780,135 @@ export type Database = {
         }
         Relationships: []
       }
+      gr_procurement_notices: {
+        Row: {
+          amends_reference: string | null
+          authority_code: string | null
+          authority_name: string | null
+          cancelled: boolean
+          contract_type: string | null
+          cpv_codes: string[]
+          cpv_labels: string[]
+          currency: string | null
+          deadline_at: string | null
+          diavgeia_url: string | null
+          first_seen_at: string
+          focus: string[]
+          id: string
+          kind: string
+          last_seen_at: string
+          notice_type: string | null
+          nuts_code: string | null
+          nuts_label: string | null
+          official_url: string
+          procedure_type: string | null
+          published_at: string | null
+          reference_number: string
+          signed_date: string | null
+          source_updated_at: string | null
+          superseded_by: string | null
+          title: string
+          updated_at: string
+          value_with_vat: number | null
+          value_without_vat: number | null
+          winners: string[]
+        }
+        Insert: {
+          amends_reference?: string | null
+          authority_code?: string | null
+          authority_name?: string | null
+          cancelled?: boolean
+          contract_type?: string | null
+          cpv_codes?: string[]
+          cpv_labels?: string[]
+          currency?: string | null
+          deadline_at?: string | null
+          diavgeia_url?: string | null
+          first_seen_at?: string
+          focus?: string[]
+          id?: string
+          kind: string
+          last_seen_at?: string
+          notice_type?: string | null
+          nuts_code?: string | null
+          nuts_label?: string | null
+          official_url: string
+          procedure_type?: string | null
+          published_at?: string | null
+          reference_number: string
+          signed_date?: string | null
+          source_updated_at?: string | null
+          superseded_by?: string | null
+          title: string
+          updated_at?: string
+          value_with_vat?: number | null
+          value_without_vat?: number | null
+          winners?: string[]
+        }
+        Update: {
+          amends_reference?: string | null
+          authority_code?: string | null
+          authority_name?: string | null
+          cancelled?: boolean
+          contract_type?: string | null
+          cpv_codes?: string[]
+          cpv_labels?: string[]
+          currency?: string | null
+          deadline_at?: string | null
+          diavgeia_url?: string | null
+          first_seen_at?: string
+          focus?: string[]
+          id?: string
+          kind?: string
+          last_seen_at?: string
+          notice_type?: string | null
+          nuts_code?: string | null
+          nuts_label?: string | null
+          official_url?: string
+          procedure_type?: string | null
+          published_at?: string | null
+          reference_number?: string
+          signed_date?: string | null
+          source_updated_at?: string | null
+          superseded_by?: string | null
+          title?: string
+          updated_at?: string
+          value_with_vat?: number | null
+          value_without_vat?: number | null
+          winners?: string[]
+        }
+        Relationships: []
+      }
+      gr_procurement_saved_searches: {
+        Row: {
+          created_at: string
+          daily_digest: boolean
+          filters: Json
+          id: string
+          last_notified_at: string | null
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          daily_digest?: boolean
+          filters?: Json
+          id?: string
+          last_notified_at?: string | null
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          daily_digest?: boolean
+          filters?: Json
+          id?: string
+          last_notified_at?: string | null
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       hs_sector_mapping: {
         Row: {
           display_order: number
@@ -3325,6 +3454,7 @@ export type Database = {
           module: string
           portal_url: string | null
           publisher: string
+          records_imported: number | null
           slug: string
           status: string
           title_el: string | null
@@ -3353,6 +3483,7 @@ export type Database = {
           module?: string
           portal_url?: string | null
           publisher: string
+          records_imported?: number | null
           slug: string
           status?: string
           title_el?: string | null
@@ -3381,6 +3512,7 @@ export type Database = {
           module?: string
           portal_url?: string | null
           publisher?: string
+          records_imported?: number | null
           slug?: string
           status?: string
           title_el?: string | null
