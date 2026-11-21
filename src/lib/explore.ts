@@ -115,7 +115,7 @@ export function filterListings(listings: Listing[], f: ExploreFilters, destNameB
   });
 }
 
-/** Listings that may be pinned on a map. */
+/** Listings whose coordinates are confirmed against an official source. */
 export const mappable = (ls: Listing[]) => ls.filter((l) => l.coords_verified && l.lat != null && l.lng != null);
 
 /** De-duplicate a listing set by id (a listing linked to several destinations is one place). */

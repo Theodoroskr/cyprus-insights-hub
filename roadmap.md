@@ -59,4 +59,4 @@
 - [ ] First travellers upload — waiting on you: download the file in your browser and upload it in Editorial → Data sources (once per quarter)
 
 ## Nov 21
-- [ ] Remove Google Maps: no embedded map on Explore, Nicosia, Conference Venues or village pages; "Directions" button kept; unlink the Google Maps connection
+- [x] Remove Google Maps: no embedded map on Explore, Nicosia, Conference Venues or village pages; "Directions" button kept; Google Maps connection unlinked and its key removed
