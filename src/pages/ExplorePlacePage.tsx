@@ -4,8 +4,7 @@ import { isUnconfirmedVenue } from "@/lib/venues";
 import { ExploreShell } from "@/components/explore/ExploreShell";
 import { SEOHead } from "@/components/SEOHead";
 import { useExploreData } from "@/hooks/useExplore";
-import { catLabel, directionsUrl, EL, mappable, pick, placeLine } from "@/lib/explore";
-import { ExploreMap } from "@/components/explore/ExploreMap";
+import { catLabel, directionsUrl, EL, pick, placeLine } from "@/lib/explore";
 import { EventEditions, LinkedFrom, VenueRooms, VillageSections } from "@/components/explore/PlaceSections";
 import { VenueQuoteForm } from "@/components/explore/VenueQuoteForm";
 import { VenueOwnerActions } from "@/components/explore/VenueOwnerActions";
@@ -20,7 +19,6 @@ export default function ExplorePlacePage() {
   if (!l) return <NotFound />;
   const dests = data.destinations.filter((d) => l.destination_ids?.includes(d.id));
   const linkedIds = new Set(data.listingLinks.filter((k) => k.from_listing_id === l.id).map((k) => k.to_listing_id));
-  const villageMap = l.category === "villages" ? mappable([l, ...data.listings.filter((x) => linkedIds.has(x.id))]) : [];
   const isNicosia = l.district === "Nicosia" && ["villages", "museums-heritage", "accommodation", "events", "routes"].includes(l.category);
   return (
     <ExploreShell title={(lang) => pick(lang, l.name_en, l.name_el)}>
@@ -71,9 +69,6 @@ export default function ExplorePlacePage() {
               {l.booking_url && <a href={l.booking_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 border border-foreground px-4 py-2 text-sm font-semibold">{EL(lang, "Book", "Κράτηση")}</a>}
               <a href={directionsUrl(l)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 border border-border px-4 py-2 text-sm"><Navigation className="h-4 w-4" />{EL(lang, "Directions", "Οδηγίες")}</a>
             </div>
-            {l.category === "villages" && villageMap.length > 0 && (
-              <section className="mt-8"><h3 className="section-label mb-2">{EL(lang, "Map", "Χάρτης")}</h3><ExploreMap listings={villageMap} lang={lang} heightClass="h-[320px]" note={false} /></section>
-            )}
             {l.category === "villages" && <VillageSections l={l} lang={lang} listings={data.listings} links={data.listingLinks} editions={data.editions} />}
             {l.category === "events" && <EventEditions l={l} lang={lang} editions={data.editions} />}
             {l.category === "conference-venues" && <><VenueGallery l={l} lang={lang} /><VenueRooms rooms={data.roomsByListing[l.id] ?? []} lang={lang} /><VenueQuoteForm l={l} lang={lang} /><VenueOwnerActions l={l} lang={lang} /></>}

@@ -40,7 +40,7 @@ export default function ExplorePage() {
           </div>
           <div className="grid md:grid-cols-2 gap-3 mb-8">
             <Link to={`/explore/nicosia-countryside${lang === "el" ? "?lang=el" : ""}`} className="block border border-foreground bg-card p-5 hover:bg-muted transition-colors">
-              <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary">{EL(lang, "New · Map & list", "Νέο · Χάρτης & λίστα")}</p>
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-secondary">{EL(lang, "New · Guide", "Νέο · Οδηγός")}</p>
               <p className="font-serif text-xl font-bold">{EL(lang, "Nicosia City & Countryside", "Λευκωσία — Πόλη και Ύπαιθρος")}</p>
               <p className="text-sm text-muted-foreground">{EL(lang, "Villages, heritage sites, stays, events and routes — starting with Fikardou.", "Χωριά, μνημεία, διαμονή, εκδηλώσεις και διαδρομές — ξεκινώντας από το Φικάρδου.")}</p>
             </Link>

@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, List, Map as MapIcon } from "lucide-react";
-import { ExploreMap } from "./ExploreMap";
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import type { Lang } from "@/lib/academy";
 import { DISTRICTS, districtLabel, EL, EXPLORE_CATEGORIES, filterListings, type Listing } from "@/lib/explore";
@@ -13,7 +12,6 @@ export function ExploreBrowser({ listings, destNameById, lang, destinationId, sh
 }) {
   const [params, setParams] = useSearchParams();
   const q = params.get("q") ?? "", category = params.get("category") ?? "", district = params.get("district") ?? "", locality = params.get("locality") ?? "";
-  const view = params.get("view") === "map" ? "map" : "list";
   const set = (k: string, v: string) => { const p = new URLSearchParams(params); v ? p.set(k, v) : p.delete(k); setParams(p, { replace: true }); };
   const localities = useMemo(() => {
     const m = new Map<string, string>();
@@ -45,14 +43,8 @@ export function ExploreBrowser({ listings, destNameById, lang, destinationId, sh
           {localities.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
         </select>
       </div>
-      <div className="flex items-center justify-between mb-3">
-        <p className="text-xs text-muted-foreground">{results.length} {EL(lang, "places", "μέρη")}</p>
-        <div className="inline-flex border border-border" role="group" aria-label={EL(lang, "View", "Προβολή")}>
-          <button type="button" onClick={() => set("view", "")} aria-pressed={view === "list"} className={`px-3 py-1.5 text-xs inline-flex items-center gap-1 ${view === "list" ? "bg-foreground text-background" : "text-muted-foreground"}`}><List className="h-3.5 w-3.5" />{EL(lang, "List", "Λίστα")}</button>
-          <button type="button" onClick={() => set("view", "map")} aria-pressed={view === "map"} className={`px-3 py-1.5 text-xs inline-flex items-center gap-1 ${view === "map" ? "bg-foreground text-background" : "text-muted-foreground"}`}><MapIcon className="h-3.5 w-3.5" />{EL(lang, "Map", "Χάρτης")}</button>
-        </div>
-      </div>
-      {view === "map" ? <ExploreMap listings={results} lang={lang} /> : results.length ? (
+      <p className="text-xs text-muted-foreground mb-3">{results.length} {EL(lang, "places", "μέρη")}</p>
+      {results.length ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{results.map((l) => <ListingCard key={l.id} l={l} lang={lang} />)}</div>
       ) : (
         <p className="text-sm text-muted-foreground py-8 text-center">{EL(lang, "No verified places match yet.", "Δεν υπάρχουν ακόμη επιβεβαιωμένα μέρη.")}</p>

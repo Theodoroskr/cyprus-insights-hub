@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { List, Map as MapIcon, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { ExploreShell } from "@/components/explore/ExploreShell";
-import { ExploreMap } from "@/components/explore/ExploreMap";
 import { ListingCard } from "@/components/explore/ListingCard";
 import { SEOHead } from "@/components/SEOHead";
 import { Input } from "@/components/ui/input";
@@ -21,7 +20,6 @@ export default function ConferenceVenuesPage() {
   const vtype = params.get("type") ?? "";
   const plans = useVenuePlans().data ?? [];
   const featured = (l: { plan_code?: string; plan_expires_at?: string | null }) => !!planFor(currentPlanCode(l), plans)?.featured;
-  const view = params.get("view") === "map" ? "map" : "list";
   const update = (k: string, v: string) => { const p = new URLSearchParams(params); v ? p.set(k, v) : p.delete(k); setParams(p, { replace: true }); };
   const rooms = data?.roomsByListing ?? {};
   const venues = useMemo(() => (data?.listings ?? []).filter((l) => l.category === "conference-venues"), [data]);
@@ -57,14 +55,8 @@ export default function ConferenceVenuesPage() {
               {ROOM_LAYOUTS.map((x) => <option key={x.id} value={x.id}>{x[lang]}</option>)}
             </select>
           </div>
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-xs text-muted-foreground">{results.length} {EL(lang, "venues", "χώροι")}{(delegates || layout) ? EL(lang, " · only venues that publish a fitting room", " · μόνο χώροι με δημοσιευμένη κατάλληλη αίθουσα") : ""}</p>
-            <div className="inline-flex border border-border" role="group" aria-label={EL(lang, "View", "Προβολή")}>
-              <button type="button" onClick={() => update("view", "")} aria-pressed={view === "list"} className={`px-3 py-1.5 text-xs inline-flex items-center gap-1 ${view === "list" ? "bg-foreground text-background" : "text-muted-foreground"}`}><List className="h-3.5 w-3.5" />{EL(lang, "List", "Λίστα")}</button>
-              <button type="button" onClick={() => update("view", "map")} aria-pressed={view === "map"} className={`px-3 py-1.5 text-xs inline-flex items-center gap-1 ${view === "map" ? "bg-foreground text-background" : "text-muted-foreground"}`}><MapIcon className="h-3.5 w-3.5" />{EL(lang, "Map", "Χάρτης")}</button>
-            </div>
-          </div>
-          {isLoading ? <p className="text-sm text-muted-foreground">…</p> : view === "map" ? <ExploreMap listings={results} lang={lang} /> : results.length ? (
+          <p className="text-xs text-muted-foreground mb-3">{results.length} {EL(lang, "venues", "χώροι")}{(delegates || layout) ? EL(lang, " · only venues that publish a fitting room", " · μόνο χώροι με δημοσιευμένη κατάλληλη αίθουσα") : ""}</p>
+          {isLoading ? <p className="text-sm text-muted-foreground">…</p> : results.length ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{results.map((l) => {
               const cap = maxCapacity(rooms[l.id] ?? [], layout);
               return <ListingCard key={l.id} l={l} lang={lang} editor={editor} extra={(featured(l) ? "Featured · " : "") + (cap ? EL(lang, `Up to ${cap} delegates${layout ? ` (${ROOM_LAYOUTS.find((x) => x.id === layout)!.en.toLowerCase()})` : ""}`, `Έως ${cap} σύνεδροι`) : "") || null} />;

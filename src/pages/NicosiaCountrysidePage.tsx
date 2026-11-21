@@ -1,24 +1,22 @@
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { List, Map as MapIcon, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { ExploreShell } from "@/components/explore/ExploreShell";
-import { ExploreMap } from "@/components/explore/ExploreMap";
 import { ListingCard } from "@/components/explore/ListingCard";
 import { SEOHead } from "@/components/SEOHead";
 import { Input } from "@/components/ui/input";
 import { useExploreData, useIsTourismEditor } from "@/hooks/useExplore";
-import { EL, filterListings, mappable, needsCoords, NICOSIA_FILTERS, nicosiaListings } from "@/lib/explore";
+import { EL, filterListings, needsCoords, NICOSIA_FILTERS, nicosiaListings } from "@/lib/explore";
 
 export const NICOSIA_TITLE = { en: "Nicosia City & Countryside", el: "Λευκωσία — Πόλη και Ύπαιθρος" };
 
-/** Bilingual Nicosia pilot: one filtered set drives both the list and the map; filters live in the address so switching view keeps them. */
+/** Bilingual Nicosia pilot: one filtered set drives the list; filters live in the address so they survive reloads and shared links. */
 export default function NicosiaCountrysidePage() {
   const { data, isLoading } = useExploreData();
   const editor = useIsTourismEditor();
   const [params, setParams] = useSearchParams();
   const q = params.get("q") ?? "";
   const types = (params.get("types") ?? "").split(",").filter(Boolean);
-  const view = params.get("view") === "map" ? "map" : "list";
   const update = (k: string, v: string) => { const p = new URLSearchParams(params); v ? p.set(k, v) : p.delete(k); setParams(p, { replace: true }); };
   const toggle = (id: string) => update("types", (types.includes(id) ? types.filter((t) => t !== id) : [...types, id]).join(","));
 
@@ -29,9 +27,9 @@ export default function NicosiaCountrysidePage() {
   return (
     <ExploreShell title={(lang) => NICOSIA_TITLE[lang]}>
       {(lang) => (
-        <div className="container mx-auto px-4 py-6 pb-24 lg:pb-8">
+        <div className="container mx-auto px-4 py-6 pb-8">
           <SEOHead title={EL(lang, "Nicosia City & Countryside — villages, heritage, stays, events & routes | TourismHub.cy", "Λευκωσία — Πόλη και Ύπαιθρος: χωριά, μνημεία, διαμονή, εκδηλώσεις & διαδρομές | TourismHub.cy")}
-            description={EL(lang, "Map and list of Nicosia's villages, heritage sites, museums, places to stay, events and routes — each checked against an official source.", "Χάρτης και λίστα με χωριά, μνημεία, μουσεία, διαμονή, εκδηλώσεις και διαδρομές της Λευκωσίας — όλα ελεγμένα από επίσημη πηγή.")}
+            description={EL(lang, "A checked list of Nicosia's villages, heritage sites, museums, places to stay, events and routes — each against an official source.", "Λίστα με χωριά, μνημεία, μουσεία, διαμονή, εκδηλώσεις και διαδρομές της Λευκωσίας — όλα ελεγμένα από επίσημη πηγή.")}
             path="/explore/nicosia-countryside" breadcrumbs={[{ name: EL(lang, "Explore Cyprus", "Εξερευνήστε την Κύπρο"), href: "/explore" }]} />
           <nav className="text-xs text-muted-foreground mb-3">
             <Link to="/explore" className="hover:underline">{EL(lang, "Explore Cyprus", "Εξερευνήστε την Κύπρο")}</Link> / {NICOSIA_TITLE[lang]}
@@ -60,29 +58,13 @@ export default function NicosiaCountrysidePage() {
           </div>
 
           <p className="text-xs text-muted-foreground mb-3">
-            {results.length} {EL(lang, "places", "μέρη")} · {mappable(results).length} {EL(lang, "on the map", "στον χάρτη")}
+            {results.length} {EL(lang, "places", "μέρη")}
             {editor && missing > 0 && <span className="text-destructive font-semibold"> · {missing} need coordinates</span>}
           </p>
 
-          {isLoading ? <p className="text-sm text-muted-foreground">…</p> : (
-            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-6">
-              <div className={view === "map" ? "hidden lg:block" : ""}>
-                {results.length ? (
-                  <div className="grid sm:grid-cols-2 gap-4">{results.map((l) => <ListingCard key={l.id} l={l} lang={lang} editor={editor} />)}</div>
-                ) : <p className="text-sm text-muted-foreground py-8 text-center">{EL(lang, "No confirmed places match yet.", "Δεν υπάρχουν ακόμη επιβεβαιωμένα μέρη.")}</p>}
-              </div>
-              <div className={`${view === "list" ? "hidden lg:block" : ""} lg:sticky lg:top-44 lg:self-start`}>
-                <ExploreMap listings={results} lang={lang} heightClass="h-[70vh] lg:h-[calc(100vh-13rem)]" />
-              </div>
-            </div>
-          )}
-
-          <div className="lg:hidden fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] md:bottom-4 left-1/2 -translate-x-1/2 z-30">
-            <button type="button" onClick={() => update("view", view === "map" ? "" : "map")}
-              className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-3 text-sm font-semibold shadow-lg">
-              {view === "map" ? <><List className="h-4 w-4" />{EL(lang, "Show list", "Λίστα")}</> : <><MapIcon className="h-4 w-4" />{EL(lang, "Show map", "Χάρτης")}</>}
-            </button>
-          </div>
+          {isLoading ? <p className="text-sm text-muted-foreground">…</p> : results.length ? (
+            <div className="grid sm:grid-cols-2 gap-4">{results.map((l) => <ListingCard key={l.id} l={l} lang={lang} editor={editor} />)}</div>
+          ) : <p className="text-sm text-muted-foreground py-8 text-center">{EL(lang, "No confirmed places match yet.", "Δεν υπάρχουν ακόμη επιβεβαιωμένα μέρη.")}</p>}
         </div>
       )}
     </ExploreShell>

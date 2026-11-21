@@ -57,3 +57,6 @@
 - [x] Travel receipts card: quarterly Bank of Greece figures via Eurostat, checked daily
 - [x] Inbound travellers card: admin upload of the Bank of Greece file with preview, plus "newer file available" check via data.gov.gr
 - [ ] First travellers upload — waiting on you: download the file in your browser and upload it in Editorial → Data sources (once per quarter)
+
+## Nov 21
+- [ ] Remove Google Maps: no embedded map on Explore, Nicosia, Conference Venues or village pages; "Directions" button kept; unlink the Google Maps connection
