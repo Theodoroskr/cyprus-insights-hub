@@ -6,7 +6,7 @@ import { SOCIAL_LINKS } from "@/config/social";
 import { XIcon } from "@/components/icons/XIcon";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { INTL_HOST } from "@/lib/networkEditions";
-import { Building2, Mail, Phone, MapPin, Linkedin, Facebook, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone, Compass } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Linkedin, Facebook, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone, Compass, Zap } from "lucide-react";
 
 export function Footer() {
   const { visible: showPeople } = useWhoIsWhoVisible();
@@ -58,9 +58,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* BusinessHub.cy Group */}
+          {/* BHub Network */}
           <div>
-            <h4 className="font-semibold mb-4 text-secondary">BusinessHub.cy Group</h4>
+            <h4 className="font-semibold mb-4 text-secondary">BHub Network</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/70">
               <li>
                 <Link to="/" className="flex items-center gap-2 hover:text-secondary transition-colors">
@@ -90,6 +90,12 @@ export function Footer() {
                 <Link to="/explore" className="flex items-center gap-2 hover:text-secondary transition-colors">
                   <Compass className="h-4 w-4 text-secondary" />
                   <span>TourismHub.cy</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/energy" className="flex items-center gap-2 hover:text-secondary transition-colors">
+                  <Zap className="h-4 w-4 text-secondary" />
+                  <span>EnergyHub.cy</span>
                 </Link>
               </li>
             </ul>

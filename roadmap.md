@@ -60,6 +60,7 @@
 
 ## Nov 21
 - [x] Remove Google Maps: no embedded map on Explore, Nicosia, Conference Venues or village pages; "Directions" button kept; Google Maps connection unlinked and its key removed
+- [x] Top network bar: only "BHub Network" + International · Cyprus · Greece; hub links (FinTechHub.cy, ComplianceHub.cy, RegTechHub.cy, TourismHub.cy, EnergyHub.cy) live in the footer only
 
 ## BHub Network & BusinessHub Ελλάδα (Nov 21)
 - [x] Phase 1: BH logo (drawn version), three edition logos, International · Cyprus · Greece switcher, "Part of BHub Network" footer link

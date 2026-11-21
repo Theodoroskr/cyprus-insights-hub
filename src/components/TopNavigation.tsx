@@ -2,6 +2,7 @@ import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
 import { grHref, useEdition } from "@/lib/edition";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { EditionSwitcher } from "@/components/brand/EditionSwitcher";
+import { NetworkHomeLink } from "@/components/brand/NetworkHomeLink";
 import { NewsTicker } from "@/components/NewsTicker";
 import { useEffect, useState } from "react";
 import { OPEN_MENU_EVENT } from "@/components/mobile/MobileTabBar";
@@ -78,20 +79,10 @@ export function TopNavigation({ onSearch, lang: langProp }: TopNavigationProps) 
   return (
     <>
       {location.pathname !== "/" && <NewsTicker />}
-      {/* BusinessHub.cy Group Strip */}
+      {/* BHub Network strip: the network name and the edition switcher only — the hubs live in the footer */}
       <div className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase font-sans">
         <div className="container mx-auto px-4 flex items-center justify-between h-7">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="font-semibold text-secondary hidden sm:inline">
-              BusinessHub.cy Group
-            </Link>
-            <span className="w-px h-3 bg-background/30 hidden sm:inline-block" />
-            <Link to="/fintech" className="hover:text-secondary transition-colors hidden sm:inline">FinTechHub.cy</Link>
-            <Link to="/compliance" className="hover:text-secondary transition-colors hidden sm:inline">ComplianceHub.cy</Link>
-            <Link to="/regtech" className="hover:text-secondary transition-colors hidden md:inline">RegTechHub.cy</Link>
-            <Link to="/explore" className="hover:text-secondary transition-colors hidden md:inline">TourismHub.cy</Link>
-            <Link to="/energy" className="hover:text-secondary transition-colors hidden lg:inline">EnergyHub.cy</Link>
-          </div>
+          <NetworkHomeLink className="font-semibold text-secondary hover:text-background transition-colors" />
           <EditionSwitcher lang={lang} tone="dark" className="ml-auto sm:ml-0" />
         </div>
       </div>

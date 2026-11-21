@@ -4,11 +4,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Search, User, Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BrandConfig, hubLinks } from "@/config/brands";
+import { BrandConfig } from "@/config/brands";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { NotificationDropdown } from "@/components/notifications/NotificationDropdown";
 import { EditionSwitcher } from "@/components/brand/EditionSwitcher";
+import { NetworkHomeLink } from "@/components/brand/NetworkHomeLink";
 
 interface HubNavigationProps {
   brand: BrandConfig;
@@ -41,26 +42,10 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
   return (
     <>
       {location.pathname !== "/" && <NewsTicker />}
-      {/* BusinessHub.cy Group Strip */}
+      {/* BHub Network strip: the network name and the edition switcher only — the hubs live in the footer */}
       <div className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase font-sans">
         <div className="container mx-auto px-4 flex items-center justify-between h-7">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="font-semibold text-secondary hidden sm:inline">
-              BusinessHub.cy Group
-            </Link>
-            <span className="w-px h-3 bg-background/30 hidden sm:inline-block" />
-            {hubLinks.map((hub) => (
-              <Link
-                key={hub.href}
-                to={hub.href}
-                className={`hover:text-secondary transition-colors hidden sm:inline ${
-                  hub.brand.id === brand.id ? "text-secondary font-semibold" : ""
-                }`}
-              >
-                {hub.brand.name}{hub.brand.domain}
-              </Link>
-            ))}
-          </div>
+          <NetworkHomeLink className="font-semibold text-secondary hover:text-background transition-colors" />
           <EditionSwitcher tone="dark" className="shrink-0 ml-auto sm:ml-0" />
         </div>
       </div>

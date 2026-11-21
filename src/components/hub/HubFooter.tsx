@@ -35,7 +35,7 @@ export function HubFooter({ brand }: HubFooterProps) {
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors text-xs mb-4"
               >
                 <Building2 className="h-3 w-3" />
-                Part of BusinessHub.cy Group
+                Part of BHub Network
               </Link>
             )}
             <div className="flex gap-3 mt-4">
@@ -65,9 +65,9 @@ export function HubFooter({ brand }: HubFooterProps) {
             </ul>
           </div>
 
-          {/* BusinessHub.cy Group */}
+          {/* BHub Network */}
           <div>
-            <h4 className="font-semibold mb-4 text-secondary">BusinessHub.cy Group</h4>
+            <h4 className="font-semibold mb-4 text-secondary">BHub Network</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/70">
               {hubLinks.map((hub) => (
                 <li key={hub.href}>
@@ -110,7 +110,7 @@ export function HubFooter({ brand }: HubFooterProps) {
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
           <p>
-            © {new Date().getFullYear()} {brand.name}{brand.domain} — Part of <Link to="/" className="text-secondary hover:underline">BusinessHub.cy Group</Link>. All rights reserved. | 
+            © {new Date().getFullYear()} {brand.name}{brand.domain} — Part of <Link to="/" className="text-secondary hover:underline">BHub Network</Link>. All rights reserved. | 
             <a href="#" className="hover:text-secondary"> Privacy Policy</a> | 
             <a href="#" className="hover:text-secondary"> Terms of Service</a>
           </p>

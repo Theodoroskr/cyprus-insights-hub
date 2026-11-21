@@ -29,6 +29,11 @@ export function editionLinks(lang: "en" | "el", onGr: boolean): EditionLink[] {
   });
 }
 
+/** Where the network name points: the International edition, at the address of the current host. */
+export function networkHome(onGr: boolean): { href: string; external: boolean } {
+  return onGr ? { href: `${CY_HOST}${INTL_PATH}`, external: true } : { href: INTL_PATH, external: false };
+}
+
 /** Which edition a page belongs to, for highlighting the switcher. */
 export function currentNetworkEdition(edition: "cy" | "gr", pathname: string, search: string): NetworkEdition {
   if (edition === "gr") return "gr";
