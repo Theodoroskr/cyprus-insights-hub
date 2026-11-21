@@ -1,5 +1,6 @@
 import { grHref } from "@/lib/edition";
-import { cyprusHome, greeceHome, intlHome, type HostKind, type NetworkEdition } from "@/lib/networkEditions";
+import { intlSectionPath, type IntlSectionSlug } from "@/lib/internationalSections";
+import { cyprusHome, greeceHome, type HostKind, type NetworkEdition } from "@/lib/networkEditions";
 /** The BusinessHub top menu: ten main links, with every section listed behind the Menu button. */
 
 export type NavLink = { label: string; href: string };
@@ -67,12 +68,12 @@ export function visibleMenuSections(whoIsWhoPublic: boolean) {
     .filter((s) => s.links.length > 0);
 }
 
-/** Top links of the International edition: shortcuts to the blocks of its homepage, plus the market editions. */
+/** Top links of the International edition: each opens its own section page (/intl/<section>). */
 export function intlNav(host: HostKind): NavItem[] {
-  const home = intlHome(host).href;
-  const at = (id: string) => `${home === "/" ? "/" : home}#${id}`;
+  const at = (slug: IntlSectionSlug) => intlSectionPath(slug);
   return [
     { label: "Markets", href: at("markets"), children: [
+      { label: "All markets", href: at("markets") },
       { label: "Cyprus edition", href: cyprusHome(host).href },
       { label: "Greece edition", href: greeceHome(host).href },
       { label: "Greece–Cyprus comparison", href: "/compare/greece-cyprus" },

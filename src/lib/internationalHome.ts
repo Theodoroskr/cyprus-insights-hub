@@ -33,6 +33,7 @@ const BRIEF_EXCLUDE_RE = /\b(spokes(man|woman|person)|meeting with journalists|p
 /** Business subjects a Greece–Cyprus story must touch. */
 const BUSINESS_RE = /\b(trade|exports?|imports?|invest\w*|business\w*|banks?|banking|compan(y|ies)|firms?|market\w*|energy|interconnector|shipping|tourism|hotels?|real estate|property|innovation|start-?ups?|tech\w*|ict|digital|deals?|acqui\w+|merger|listed|stock exchange|funding|tenders?|chamber|entrepreneur\w*|industry|manufactur\w*)\b/i;
 const FINTECH_RE = /\b(fintech|paytech|regtech|crypto\w*|mica|digital euro|e-money|electronic money|stablecoins?|tokeni[sz]\w*|blockchain|neobank\w*|defi|open banking|digital (payments?|assets?|wallets?)|instant payments?|cross-border payments?|payment (services?|institutions?|providers?|gateways?|systems?|cards?|accounts?)|card payments?|psd[23]|psps?|bnpl|buy now,? pay later)\b/i;
+const FINTECH_EXCLUDE_RE = /\b(balance of payments|current account (deficit|surplus|balance))\b/i;
 const COMPLIANCE_RE = /\b(aml|anti-money laundering|money laundering|sanctions?|dora|nis2|cyber\w*|compliance|fatf|fine[sd]?|penalt\w+|enforcement|data protection|gdpr|vulnerabilit\w+|security updates?|kyc|whistleblow\w*|breach\w*|ransomware|phishing)\b/i;
 const EXPANSION_RE = /\b(expands?|expansion|enters? the \w+ market|opens? (a |an |its |new )*(office|branch|plant|factory|hub|store|hotel|subsidiary)s?)\b/i;
 
@@ -47,8 +48,9 @@ export const BLOCK_RULES = {
     return linked && !ROUTINE_RE.test(s.title) && !BRIEF_EXCLUDE_RE.test(text(s)) && BUSINESS_RE.test(text(s));
   },
   /** Fintech: payments technology, digital finance and crypto; a plain "payment" (dividends, EU funds) is not fintech. */
-  fintech: (s: IntlStory) => !ROUTINE_RE.test(s.title)
-    && (hasTag(s, ["Payments & FinTech", "Instant Payments", "RegTech"]) || FINTECH_RE.test(text(s))),
+  // The "RegTech" tag is given to EU digital-policy items (democracy, disinformation) too freely to count; macro "balance of payments" is not fintech.
+  fintech: (s: IntlStory) => !ROUTINE_RE.test(s.title) && !FINTECH_EXCLUDE_RE.test(text(s))
+    && (hasTag(s, ["Payments & FinTech", "Instant Payments"]) || FINTECH_RE.test(text(s))),
   /** Compliance: financial crime, sanctions, cyber risk and enforcement; a regulator's name alone is not enough. */
   compliance: (s: IntlStory) => !ROUTINE_RE.test(s.title)
     && (hasTag(s, ["Cybersecurity", "Sanctions", "AML"]) || COMPLIANCE_RE.test(text(s))),
@@ -73,6 +75,17 @@ export function mixMarkets<T extends IntlStory>(rows: T[]): T[] {
   return out;
 }
 
+/** Stories with an English headline, each headline once (the same story filed by two sources shows once). */
+export function englishUnique<T extends IntlStory>(rows: T[]): T[] {
+  const seen = new Set<string>();
+  return rows.filter((r) => r.title && !isGreekText(r.title)).filter((r) => {
+    const key = r.title.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export interface IntlHome<T extends IntlStory> {
   lead: T | null; latest: T[]; more: T[];
   brief: T[]; companies: T[]; fintech: T[]; compliance: T[];
@@ -84,13 +97,7 @@ export interface IntlHome<T extends IntlStory> {
  */
 export function buildIntlHome<T extends IntlStory>(rows: T[], opts: { now?: Date; blockSize?: number } = {}): IntlHome<T> {
   const size = opts.blockSize ?? 5;
-  const seenTitle = new Set<string>();
-  const english = rows.filter((r) => r.title && !isGreekText(r.title)).filter((r) => {
-    const key = r.title.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-    if (seenTitle.has(key)) return false;
-    seenTitle.add(key);
-    return true;
-  });
+  const english = englishUnique(rows);
   const ordered = pinHighlighted(mixMarkets(english), [], opts.now ?? new Date());
   const used = new Set<string>();
   const take = (list: T[], n: number) => { const out = list.filter((s) => !used.has(s.id)).slice(0, n); out.forEach((s) => used.add(s.id)); return out; };

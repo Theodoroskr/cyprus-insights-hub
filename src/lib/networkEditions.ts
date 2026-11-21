@@ -60,7 +60,7 @@ export function networkHome(host: HostKind, live: boolean = INTL_DOMAIN_LIVE): {
 /** Which edition a page belongs to, for the logo, the menu and the switcher. */
 export function currentNetworkEdition(edition: "cy" | "gr", pathname: string, host: HostKind = "cy"): NetworkEdition {
   if (edition === "gr") return "gr";
-  if (pathname === INTL_PATH || (host === "intl" && pathname === "/")) return "intl";
+  if (pathname === INTL_PATH || pathname.startsWith(`${INTL_PATH}/`) || (host === "intl" && pathname === "/")) return "intl";
   return "cy";
 }
 

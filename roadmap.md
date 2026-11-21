@@ -71,3 +71,7 @@
 - [x] Tighten International topic blocks (Fintech, Compliance, Companies, Greece–Cyprus brief)
 - [ ] Move the International homepage to bhubnetwork.com/ (flip INTL_DOMAIN_LIVE) — waits on: user setting businesshub.cy as primary domain
 - [ ] Phase 4: editorial fields (International edition, promote to network), per-edition social links, checks
+
+## International edition pages (Nov 21)
+- [x] Own pages for Markets, Companies & Investment, Fintech, Compliance, Funding, Data (/intl/...), linked from the header and the homepage blocks
+- [ ] bhubnetwork.com opening on the International edition — waiting on you: make businesshub.cy the primary address in Domains

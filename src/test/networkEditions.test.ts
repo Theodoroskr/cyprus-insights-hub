@@ -23,6 +23,8 @@ describe("edition switcher", () => {
   it("highlights the edition of the page", () => {
     expect(currentNetworkEdition("gr", "/greece/banking")).toBe("gr");
     expect(currentNetworkEdition("cy", "/intl")).toBe("intl");
+    expect(currentNetworkEdition("cy", "/intl/fintech")).toBe("intl");
+    expect(currentNetworkEdition("cy", "/fintech")).toBe("cy");
     expect(currentNetworkEdition("cy", "/", "intl")).toBe("intl");
     expect(currentNetworkEdition("cy", "/")).toBe("cy");
     expect(currentNetworkEdition("cy", "/news")).toBe("cy");
@@ -33,11 +35,10 @@ describe("top links per edition", () => {
   const labels = (e: Parameters<typeof editionNav>[0], lang: "en" | "el" = "en") => editionNav(e, lang, "cy").map((i) => i.label);
   it("International: Markets, Companies & Investment, Fintech, Compliance, Funding, Data", () =>
     expect(labels("intl")).toEqual(["Markets", "Companies & Investment", "Fintech", "Compliance", "Funding", "Data"]));
-  it("International links jump to blocks of the International homepage", () => {
-    for (const i of editionNav("intl", "en", "cy").slice(1)) expect(i.href.startsWith("/intl#")).toBe(true);
-  });
-  it("International Markets lists the Cyprus and Greece editions", () =>
-    expect(editionNav("intl", "en", "cy")[0].children?.map((c) => c.href)).toEqual(["/", "/greece", "/compare/greece-cyprus"]));
+  it("each International link opens its own section page", () =>
+    expect(editionNav("intl", "en", "cy").map((i) => i.href)).toEqual(["/intl/markets", "/intl/companies", "/intl/fintech", "/intl/compliance", "/intl/funding", "/intl/data"]));
+  it("International Markets lists all markets plus the Cyprus and Greece editions", () =>
+    expect(editionNav("intl", "en", "cy")[0].children?.map((c) => c.href)).toEqual(["/intl/markets", "/", "/greece", "/compare/greece-cyprus"]));
   it("Greece links open Greece pages, in Greek on Greek pages", () => {
     const nav = editionNav("gr", "el", "cy");
     expect(nav[0].label).toBe("Επιχειρήσεις");
@@ -58,5 +59,11 @@ describe("bhubnetwork.com address", () => {
     expect(hostRedirect("bhubnetwork.com", "/intl", "", false, true)).toBe("https://bhubnetwork.com/");
     expect(hostRedirect("businesshub.cy", "/intl", "", false, true)).toBe("https://bhubnetwork.com/");
     expect(hostRedirect("businesshub.cy", "/intl", "", false, false)).toBeNull();
+  });
+  it("section pages keep their /intl/ address on bhubnetwork.com, so they never clash with Cyprus pages", () => {
+    expect(hostRedirect("bhubnetwork.com", "/intl/fintech", "", false, true)).toBeNull();
+    expect(hostRedirect("bhubnetwork.com", "/fintech", "", false, true)).toBe("https://businesshub.cy/fintech");
+    expect(hostRedirect("businesshub.cy", "/intl/data", "", false, true)).toBe("https://bhubnetwork.com/intl/data");
+    expect(hostRedirect("businesshub.cy", "/intl/data", "", false, false)).toBeNull();
   });
 });

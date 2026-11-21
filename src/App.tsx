@@ -20,6 +20,7 @@ const GreecePage = lazy(() => import("./pages/greece/GreecePage"));
 const CompareGreeceCyprusPage = lazy(() => import("./pages/CompareGreeceCyprusPage"));
 const ON_GR_HOST = onGrHost();
 const InternationalPage = lazy(() => import("./pages/InternationalPage"));
+const InternationalSectionPage = lazy(() => import("./pages/InternationalSectionPage"));
 // bhubnetwork.com opens on the International edition once INTL_DOMAIN_LIVE is on.
 const ON_INTL_HOST = onIntlHost();
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
@@ -162,6 +163,7 @@ const App = () => (
                 <Routes>
                   <Route path="/" element={ON_INTL_HOST ? <InternationalPage /> : <Index />} />
                   <Route path="/intl" element={<InternationalPage />} />
+                  <Route path="/intl/:section" element={<InternationalSectionPage />} />
                   <Route path="/profile/:id" element={<Navigate to="/whoiswho" replace />} />
                   <Route path="/fintech" element={<FinTechPage />} />
                   <Route path="/compliance" element={<CompliancePage />} />

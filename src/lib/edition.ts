@@ -29,9 +29,9 @@ export function onIntlHost(live: boolean = INTL_DOMAIN_LIVE): boolean {
   return live && typeof window !== "undefined" && isIntlHostname(window.location.hostname);
 }
 
-/** Paths bhubnetwork.com shows itself once live: the International home, story pages and the Greece–Cyprus comparison. */
+/** Paths bhubnetwork.com shows itself once live: the International home and its /intl/<section> pages, story pages and the Greece–Cyprus comparison. */
 export function servedOnIntlHost(path: string): boolean {
-  return path === "/" || path === INTL_PATH || path === "/article" || path.startsWith("/article/") || path === COMPARE_PATH;
+  return path === "/" || path === INTL_PATH || path.startsWith(`${INTL_PATH}/`) || path === "/article" || path.startsWith("/article/") || path === COMPARE_PATH;
 }
 
 /** businesshub.gr or www.businesshub.gr. */
@@ -93,6 +93,7 @@ export function hostRedirect(hostname: string, pathname: string, search = "", li
   }
   if (!CY_HOSTS.includes(h)) return null; // previews and local development stay put
   if (intlLive && pathname === INTL_PATH) return `${INTL_HOST}/${search}`;
+  if (intlLive && pathname.startsWith(`${INTL_PATH}/`)) return `${INTL_HOST}${pathname}${search}`;
   if (live && isGreecePath(pathname)) return `${GR_HOST}${grHref(pathname, true)}${search}`;
   return h === "businesshub.cy" ? null : `${CY_HOST}${pathname}${search}`;
 }
