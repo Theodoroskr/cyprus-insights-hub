@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildIntlHome, storyMarket, type IntlStory } from "@/lib/internationalHome";
+import { BLOCK_RULES, buildIntlHome, storyMarket, type IntlStory } from "@/lib/internationalHome";
 
 let n = 0;
 const story = (p: Partial<IntlStory>): IntlStory => ({
@@ -49,5 +49,49 @@ describe("International homepage selection", () => {
     const related = story({ title: "Bank of Cyprus opens Athens desk", greece_related: true, published_at: "2026-01-01T00:00:00Z" });
     const h = buildIntlHome([...filler, related]);
     expect(h.brief.map((s) => s.id)).toContain(related.id);
+  });
+});
+
+describe("International homepage topic rules", () => {
+  it("fintech ignores a plain dividend or EU-fund payment", () => {
+    expect(BLOCK_RULES.fintech(story({ title: "Distribution of non-mandatory reserves", summary: "Interim dividend scheduled for payment in late November.", vertical: "fintech" }))).toBe(false);
+    expect(BLOCK_RULES.fintech(story({ title: "Daily news", summary: "Commission approves Cyprus recovery payment." }))).toBe(false);
+  });
+
+  it("fintech takes stablecoin and instant-payment stories", () => {
+    expect(BLOCK_RULES.fintech(story({ title: "MoonPay applies for bank charter to expand stablecoin services" }))).toBe(true);
+    expect(BLOCK_RULES.fintech(story({ title: "Banks roll out instant payments" }))).toBe(true);
+  });
+
+  it("compliance needs a compliance subject, not just a regulator's name", () => {
+    expect(BLOCK_RULES.compliance(story({ title: "Resignation (Engineer)", summary: "Resigned from the Cyprus Energy Regulatory Authority." }))).toBe(false);
+    expect(BLOCK_RULES.compliance(story({ title: "Regulator publishes annual calendar", summary: "Supervisory dates for 2027." }))).toBe(false);
+    expect(BLOCK_RULES.compliance(story({ title: "NCA urges security updates for Java vulnerability" }))).toBe(true);
+  });
+
+  it("routine voting-rights notices stay out of compliance", () => {
+    expect(BLOCK_RULES.compliance(story({ title: "Notification of important changes concerning voting rights", summary: "Filed in compliance with L.3556/2007." }))).toBe(false);
+  });
+
+  it("the Greece–Cyprus brief leaves out political briefings and EU payment approvals", () => {
+    expect(BLOCK_RULES.brief(story({ title: "Government Spokesman – Meeting with journalists", summary: "Cyprus spokesman briefed journalists in Thessaloniki on business ties.", greece_related: true }))).toBe(false);
+    expect(BLOCK_RULES.brief(story({ title: "Commission greenlights Greece's final payment requests", summary: "Cyprus and Greece investment milestones.", greece_related: true }))).toBe(false);
+  });
+
+  it("the Greece–Cyprus brief needs both countries named, not only the Greece-related label", () => {
+    expect(BLOCK_RULES.brief(story({ title: "Avenia raises $25 million for stablecoin infrastructure", summary: "Global fintech funding.", greece_related: true }))).toBe(false);
+    expect(BLOCK_RULES.brief(story({ title: "Greek and Cypriot firms sign energy trade deal", summary: "Athens and Nicosia companies agree." }))).toBe(true);
+  });
+
+  it("a crypto expansion story goes to Fintech, not Companies & Investment", () => {
+    const filler = Array.from({ length: 12 }, (_, i) => story({ title: `Cyprus filler ${i}` }));
+    const moon = story({ title: "Cyprus-licensed MoonPay applies for bank charter to expand stablecoin services", published_at: "2026-01-01T00:00:00Z" });
+    const h = buildIntlHome([...filler, moon]);
+    expect(h.fintech.map((s) => s.id)).toContain(moon.id);
+    expect(h.companies.map((s) => s.id)).not.toContain(moon.id);
+  });
+
+  it("staff appointments stay out of Companies & Investment", () => {
+    expect(BLOCK_RULES.companies(story({ title: "Economist appointed EIB Group Chief Economist", summary: "Joins the investment bank." }))).toBe(false);
   });
 });

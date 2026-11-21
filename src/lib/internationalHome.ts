@@ -26,21 +26,36 @@ const hasTag = (s: IntlStory, tags: string[]) => (s.tags ?? []).some((t) => tags
 const GREECE_RE = /\b(greece|greek|athens|piraeus|thessaloniki)\b/i;
 const CYPRUS_RE = /\b(cyprus|cypriot|nicosia|limassol|larnaca)\b/i;
 
-/** Topic rules for the homepage blocks, matched on headline, summary, tags or section. */
+/** Routine notices (staff moves, filings, meetings) that never carry a topic block. */
+export const ROUTINE_RE = /\b(resign\w*|appoint\w*|voting rights|financial calendar|general meeting|own shares|share buyback|notification of (important )?changes|correct repetition|newsletter|daily news)\b/i;
+/** Political or EU-paperwork items that mention both countries but are not business between them. */
+const BRIEF_EXCLUDE_RE = /\b(spokes(man|woman|person)|meeting with journalists|press (briefing|conference)|payment requests?|nextgenerationeu|court of justice|infringement|refers? greece)\b/i;
+/** Business subjects a Greece–Cyprus story must touch. */
+const BUSINESS_RE = /\b(trade|exports?|imports?|invest\w*|business\w*|banks?|banking|compan(y|ies)|firms?|market\w*|energy|interconnector|shipping|tourism|hotels?|real estate|property|innovation|start-?ups?|tech\w*|ict|digital|deals?|acqui\w+|merger|listed|stock exchange|funding|tenders?|chamber|entrepreneur\w*|industry|manufactur\w*)\b/i;
+const FINTECH_RE = /\b(fintech|paytech|regtech|crypto\w*|mica|digital euro|e-money|electronic money|stablecoins?|tokeni[sz]\w*|blockchain|neobank\w*|defi|open banking|digital (payments?|assets?|wallets?)|instant payments?|cross-border payments?|payment (services?|institutions?|providers?|gateways?|systems?|cards?|accounts?)|card payments?|psd[23]|psps?|bnpl|buy now,? pay later)\b/i;
+const COMPLIANCE_RE = /\b(aml|anti-money laundering|money laundering|sanctions?|dora|nis2|cyber\w*|compliance|fatf|fine[sd]?|penalt\w+|enforcement|data protection|gdpr|vulnerabilit\w+|security updates?|kyc|whistleblow\w*|breach\w*|ransomware|phishing)\b/i;
+const EXPANSION_RE = /\b(expands?|expansion|enters? the \w+ market|opens? (a |an |its |new )*(office|branch|plant|factory|hub|store|hotel|subsidiary)s?)\b/i;
+
+/** Topic rules for the homepage blocks, matched on headline, summary or tags (never the collector's broad section alone). */
 export const BLOCK_RULES = {
-  /** Greece–Cyprus Business Brief: stories that link the two markets. */
-  brief: (s: IntlStory) => s.gr_section === "greece-cyprus" || !!s.cross_border_note
-    || (!!s.greece_related && (s.edition ?? []).includes("cy"))
-    || (GREECE_RE.test(text(s)) && CYPRUS_RE.test(text(s))),
-  /** Companies & Investment: deals, company announcements and expansion. */
-  companies: (s: IntlStory) => hasTag(s, ["Funding & Investment Deals", "Listed Company Disclosures", "Corporate Announcements", "Financial Results"])
-    || !!SECTION_TOPICS.deals.re?.test(text(s)) || !!SECTION_TOPICS.announcements.re?.test(text(s)) || /\b(expan\w+|opens?|launch\w*)\b/i.test(s.title),
-  /** Fintech: payments, digital finance and crypto (the topic, not the collector's section, which is too broad). */
-  fintech: (s: IntlStory) => hasTag(s, ["Payments & FinTech"])
-    || /\b(payments?|fintech|crypto\w*|mica|digital euro|instant payments|e-money|stablecoins?|tokeni[sz]\w*|blockchain|neobank\w*)\b/i.test(text(s)),
-  /** Compliance: regulation, risk and cybersecurity. */
-  compliance: (s: IntlStory) => hasTag(s, ["Cybersecurity", "Sanctions"])
-    || /\b(aml|anti-money|sanctions?|regulat\w+|supervis\w+|dora|nis2|cyber\w*|compliance|vulnerabilit\w+|fines?d?)\b/i.test(text(s)),
+  /** Greece–Cyprus Business Brief: business between the two markets, not political briefings or EU paperwork. */
+  brief: (s: IntlStory) => {
+    // AI tags such as "Greece-Cyprus Trade" are given too freely to count on their own.
+    if (s.gr_section === "greece-cyprus" || !!s.cross_border_note) return true;
+    // Both countries must be named in the headline or summary; the "Greece-related" label alone also covers unrelated stories.
+    const linked = GREECE_RE.test(text(s)) && CYPRUS_RE.test(text(s));
+    return linked && !ROUTINE_RE.test(s.title) && !BRIEF_EXCLUDE_RE.test(text(s)) && BUSINESS_RE.test(text(s));
+  },
+  /** Fintech: payments technology, digital finance and crypto; a plain "payment" (dividends, EU funds) is not fintech. */
+  fintech: (s: IntlStory) => !ROUTINE_RE.test(s.title)
+    && (hasTag(s, ["Payments & FinTech", "Instant Payments", "RegTech"]) || FINTECH_RE.test(text(s))),
+  /** Compliance: financial crime, sanctions, cyber risk and enforcement; a regulator's name alone is not enough. */
+  compliance: (s: IntlStory) => !ROUTINE_RE.test(s.title)
+    && (hasTag(s, ["Cybersecurity", "Sanctions", "AML"]) || COMPLIANCE_RE.test(text(s))),
+  /** Companies & Investment: deals, company announcements, results and expansion (no staff moves). */
+  companies: (s: IntlStory) => !/\b(resign\w*|appoint\w*|speech|press conference|press statement|remarks|keynote)\b/i.test(s.title)
+    && (hasTag(s, ["Funding & Investment Deals", "Listed Company Disclosures", "Corporate Announcements", "Financial Results"])
+      || !!SECTION_TOPICS.deals.re?.test(text(s)) || !!SECTION_TOPICS.announcements.re?.test(text(s)) || EXPANSION_RE.test(s.title)),
 } as const;
 
 /** Newest first, alternating between markets, so no single edition fills a block. */
@@ -88,9 +103,10 @@ export function buildIntlHome<T extends IntlStory>(rows: T[], opts: { now?: Date
   const latest = take(ordered, 6);
   const more = take(ordered, 4);
   const block = (rule: (s: IntlStory) => boolean) => take(mixMarkets(english.filter(rule)), size);
+  // Specialist blocks pick before the broad Companies block, so a crypto or cyber story lands where readers look for it.
   const brief = block(BLOCK_RULES.brief);
-  const companies = block(BLOCK_RULES.companies);
   const fintech = block(BLOCK_RULES.fintech);
   const compliance = block(BLOCK_RULES.compliance);
+  const companies = block(BLOCK_RULES.companies);
   return { lead, latest, more, brief, companies, fintech, compliance };
 }

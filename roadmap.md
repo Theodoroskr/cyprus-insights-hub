@@ -68,5 +68,6 @@
 - [ ] Set businesshub.cy as the main address in Settings → Domains — user action
 - [ ] Phase 2: /gr/ addresses + bhubnetwork.com address handling (after businesshub.cy is main again)
 - [x] Phase 3: International homepage (/intl) with edition-specific header links for International, Cyprus and Greece
+- [x] Tighten International topic blocks (Fintech, Compliance, Companies, Greece–Cyprus brief)
 - [ ] Move the International homepage to bhubnetwork.com/ (flip INTL_DOMAIN_LIVE) — waits on: user setting businesshub.cy as primary domain
 - [ ] Phase 4: editorial fields (International edition, promote to network), per-edition social links, checks
