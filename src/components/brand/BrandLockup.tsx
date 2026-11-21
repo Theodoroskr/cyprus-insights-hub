@@ -9,7 +9,7 @@ export function BrandLockup({ edition, inverse = false, className, compact = fal
     <span className={cn("inline-flex items-center gap-2", className)}>
       <BhMark inverse={inverse} className={compact ? "h-7" : "h-8"} />
       <span className={cn("font-brand font-extrabold uppercase leading-none tracking-[0.06em]", ink, compact ? "hidden sm:inline" : "")}>
-        {edition === "intl" && <span className="text-[14px] sm:text-[17px]">BHub Network</span>}
+        {edition === "intl" && <span className="text-[14px] sm:text-[17px]">BHub <span className="font-medium">Network</span></span>}
         {edition === "cy" && <span className="text-[14px] sm:text-[17px]">BusinessHub<span className="text-brand-sky">.cy</span></span>}
         {edition === "gr" && (
           <span className="flex flex-col">

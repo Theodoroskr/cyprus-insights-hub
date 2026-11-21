@@ -1,23 +1,23 @@
 import { cn } from "@/lib/utils";
 
 /**
- * BH monogram: navy B and H, the H's right leg rising as a light-blue arrow.
- * Drawn in code until the approved logo file is supplied.
+ * BH monogram traced from the approved BHub Network logo: bold B, tall H,
+ * and a light-blue arrow running into the H's crossbar.
  */
 export function BhMark({ className, inverse = false }: { className?: string; inverse?: boolean }) {
   const ink = inverse ? "fill-primary-foreground" : "fill-foreground";
   return (
-    <svg viewBox="0 0 52 48" className={cn("h-8 w-auto shrink-0", className)} role="img" aria-label="BH">
+    <svg viewBox="0 0 41 27" className={cn("h-8 w-auto shrink-0", className)} role="img" aria-label="BH">
       {/* B */}
       <path
         className={ink}
         fillRule="evenodd"
-        d="M3 8h13.5a7.5 7.5 0 0 1 5.6 12.5A8.6 8.6 0 0 1 17.5 40H3V8Zm6 5.5v6.5h7a3.25 3.25 0 0 0 0-6.5H9Zm0 12v9h8a4.5 4.5 0 0 0 0-9H9Z"
+        d="M0.5 0.5H12a6.2 6.2 0 0 1 4.6 10.6A7.4 7.4 0 0 1 12.6 26.5H0.5Zm4.8 4.4v5.3h6a2.65 2.65 0 0 0 0-5.3Zm0 9.6v7.6h6.6a3.8 3.8 0 0 0 0-7.6Z"
       />
-      {/* H: left leg, crossbar, lower right leg */}
-      <path className={ink} d="M28 8h6v32h-6zM34 22h6v6h-6zM40 25h6v15h-6z" />
-      {/* Arrow: the right leg of the H shooting up */}
-      <path className="fill-brand-sky" d="M40 25V15h-4.5L43 5l7.5 10H46v10z" />
+      {/* H: left leg, right leg, crossbar tab */}
+      <path className={ink} d="M20.7 0.5h4.8v26h-4.8zM35.7 0.5h4.8v26h-4.8zM27 11.2h8.7v3.9H27.6a0.6 0.6 0 0 1-0.6-0.6z" />
+      {/* Arrow inside the crossbar */}
+      <path className="fill-brand-sky" d="M28.2 12.8h3.4v-1l2 1.35-2 1.35v-1h-3.4z" />
     </svg>
   );
 }
