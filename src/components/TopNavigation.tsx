@@ -28,7 +28,8 @@ interface TopNavigationProps {
 
 const grHome = () => grHref("/greece");
 
-export function TopNavigation({ onSearch, lang = "en" }: TopNavigationProps) {
+export function TopNavigation({ onSearch, lang: langProp }: TopNavigationProps) {
+  const lang = langProp ?? "en";
   const edition = useEdition();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -111,7 +112,7 @@ export function TopNavigation({ onSearch, lang = "en" }: TopNavigationProps) {
             </Button>
             {/* Logo — editorial masthead style */}
             <Link to={edition === "gr" ? grHome() : "/"} className="flex items-center shrink-0" aria-label={edition === "gr" ? "BusinessHub Ελλάδα" : "BusinessHub.cy"}>
-              <BrandLockup edition={edition} />
+              <BrandLockup edition={edition} lang={langProp} />
             </Link>
             </div>
 

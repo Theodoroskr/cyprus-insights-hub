@@ -3,7 +3,9 @@ import { BhMark } from "./BhMark";
 import type { NetworkEdition } from "@/lib/networkEditions";
 
 /** Horizontal lockup: BH mark on the left, edition name on the right. No tagline. */
-export function BrandLockup({ edition, inverse = false, className, compact = false }: { edition: NetworkEdition; inverse?: boolean; className?: string; compact?: boolean }) {
+export function BrandLockup({ edition, inverse = false, className, compact = false, lang: langProp }: { edition: NetworkEdition; inverse?: boolean; className?: string; compact?: boolean; lang?: "en" | "el" }) {
+  // Greece pages remember the EN/EL choice; pages that do not pass it use that saved choice.
+  const lang = langProp ?? (typeof localStorage !== "undefined" && localStorage.getItem("gr-lang") === "en" ? "en" : "el");
   const ink = inverse ? "text-primary-foreground" : "text-foreground";
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
@@ -14,7 +16,7 @@ export function BrandLockup({ edition, inverse = false, className, compact = fal
         {edition === "gr" && (
           <span className="flex flex-col">
             <span className="text-[13px] sm:text-[16px]">BusinessHub</span>
-            <span className="mt-0.5 text-[10px] tracking-[0.42em] text-brand-sky">Ελλάδα</span>
+            <span className="mt-0.5 text-[10px] tracking-[0.42em] text-brand-sky">{lang === "en" ? "Greece" : "Ελλάδα"}</span>
           </span>
         )}
       </span>
