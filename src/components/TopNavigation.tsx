@@ -1,5 +1,7 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
-import { CY_HOST, onGrHost } from "@/lib/edition";
+import { grHref, useEdition } from "@/lib/edition";
+import { BrandLockup } from "@/components/brand/BrandLockup";
+import { EditionSwitcher } from "@/components/brand/EditionSwitcher";
 import { NewsTicker } from "@/components/NewsTicker";
 import { useEffect, useState } from "react";
 import { OPEN_MENU_EVENT } from "@/components/mobile/MobileTabBar";
@@ -20,9 +22,14 @@ import { Input } from "@/components/ui/input";
 
 interface TopNavigationProps {
   onSearch: (query: string) => void;
+  /** Reading language of the page, for the edition switcher labels (Greece pages can be Greek). */
+  lang?: "en" | "el";
 }
 
-export function TopNavigation({ onSearch }: TopNavigationProps) {
+const grHome = () => grHref("/greece");
+
+export function TopNavigation({ onSearch, lang = "en" }: TopNavigationProps) {
+  const edition = useEdition();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -74,17 +81,17 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
       <div className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase font-sans">
         <div className="container mx-auto px-4 flex items-center justify-between h-7">
           <div className="flex items-center gap-3">
-            <Link to="/" className="font-semibold text-secondary">
+            <Link to="/" className="font-semibold text-secondary hidden sm:inline">
               BusinessHub.cy Group
             </Link>
-            <span className="w-px h-3 bg-background/30" />
+            <span className="w-px h-3 bg-background/30 hidden sm:inline-block" />
             <Link to="/fintech" className="hover:text-secondary transition-colors hidden sm:inline">FinTechHub.cy</Link>
             <Link to="/compliance" className="hover:text-secondary transition-colors hidden sm:inline">ComplianceHub.cy</Link>
             <Link to="/regtech" className="hover:text-secondary transition-colors hidden md:inline">RegTechHub.cy</Link>
             <Link to="/explore" className="hover:text-secondary transition-colors hidden md:inline">TourismHub.cy</Link>
             <Link to="/energy" className="hover:text-secondary transition-colors hidden lg:inline">EnergyHub.cy</Link>
           </div>
-          <span className="hidden md:inline text-background/50">Est. Nicosia, Cyprus</span>
+          <EditionSwitcher lang={lang} tone="dark" className="ml-auto sm:ml-0" />
         </div>
       </div>
 
@@ -103,15 +110,8 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
               <Menu className="h-5 w-5" /><span className="hidden xl:inline">Menu</span>
             </Button>
             {/* Logo — editorial masthead style */}
-            <Link to="/" className="flex items-center gap-2.5 shrink-0">
-              <div className="w-8 h-8 bg-foreground flex items-center justify-center">
-                <span className="text-background font-serif font-bold text-sm">B</span>
-              </div>
-              <div className="hidden sm:block">
-                <span className="font-serif font-bold text-lg text-foreground leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                  BusinessHub<span className="text-secondary">{onGrHost() ? ".gr" : ".cy"}</span>
-                </span>
-              </div>
+            <Link to={edition === "gr" ? grHome() : "/"} className="flex items-center shrink-0" aria-label={edition === "gr" ? "BusinessHub Ελλάδα" : "BusinessHub.cy"}>
+              <BrandLockup edition={edition} />
             </Link>
             </div>
 
@@ -152,22 +152,6 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
 
           {/* Search & Actions */}
           <div className="flex items-center gap-1">
-            {(() => {
-              // On businesshub.gr every page is the Greece edition, so the switch always leads back to businesshub.cy.
-              const onGreece = onGrHost() || location.pathname.startsWith("/greece");
-              const cls = "px-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground whitespace-nowrap";
-              if (onGrHost()) return <a href={CY_HOST} className={cls} title="Cyprus / Greece">Cyprus / CY</a>;
-              return (
-                <Link
-                  to={onGreece ? "/" : "/greece"}
-                  className={cls}
-                  title="Cyprus / Greece"
-                  onClick={() => { if (!onGreece) localStorage.setItem("gr-lang", "en"); }}
-                >
-                  {onGreece ? "Cyprus / CY" : "Greece / EN"}
-                </Link>
-              );
-            })()}
             {isSearchOpen ? (
               <form onSubmit={handleSearch} className="flex items-center gap-2 animate-slide-in-right">
                 <Input
@@ -247,6 +231,8 @@ export function TopNavigation({ onSearch }: TopNavigationProps) {
               <Button size="sm" className="w-full" onClick={() => { setIsMobileMenuOpen(false); setShowLogin(true); }}>Sign In</Button>
             )}
             <div className="mt-2"><InstallAppButton onDone={() => setIsMobileMenuOpen(false)} /></div>
+            <p className="mt-5 mb-2 text-[11px] font-sans font-semibold uppercase tracking-[0.18em] text-muted-foreground">{lang === "el" ? "Έκδοση" : "Edition"}</p>
+            <EditionSwitcher lang={lang} onPick={() => setIsMobileMenuOpen(false)} />
           </div>
           <nav className="mt-6 space-y-6" aria-label="All sections">
             {menuSections.map((section) => (

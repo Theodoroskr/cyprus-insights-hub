@@ -60,3 +60,11 @@
 
 ## Nov 21
 - [x] Remove Google Maps: no embedded map on Explore, Nicosia, Conference Venues or village pages; "Directions" button kept; Google Maps connection unlinked and its key removed
+
+## BHub Network & BusinessHub Ελλάδα (Nov 21)
+- [x] Phase 1: BH logo (drawn version), three edition logos, International · Cyprus · Greece switcher, "Part of BHub Network" footer link
+- [ ] Swap in the approved BH logo file — waiting for the user to attach the logo sheet
+- [ ] Set businesshub.cy as the main address in Settings → Domains — user action
+- [ ] Phase 2: /gr/ addresses + bhubnetwork.com address handling (after businesshub.cy is main again)
+- [ ] Phase 3: International homepage on bhubnetwork.com
+- [ ] Phase 4: editorial fields (International edition, promote to network), per-edition social links, checks

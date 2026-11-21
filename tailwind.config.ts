@@ -19,6 +19,7 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        "brand-sky": "hsl(var(--brand-sky))",
         navy: {
           DEFAULT: "hsl(var(--navy))",
           light: "hsl(var(--navy-light))",
@@ -119,6 +120,7 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         serif: ['Playfair Display', 'Georgia', 'serif'],
         'source-serif': ['Source Serif 4', 'Georgia', 'serif'],
+        brand: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {
