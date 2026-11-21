@@ -4,6 +4,7 @@ import { XIcon } from "@/components/icons/XIcon";
 import { Building2, Mail, Phone, MapPin, Linkedin, Facebook } from "lucide-react";
 import { BrandConfig, hubLinks } from "@/config/brands";
 import { RssFeedLinks } from "@/components/RssFeedLinks";
+import { NetworkHomeLink } from "@/components/brand/NetworkHomeLink";
 
 interface HubFooterProps {
   brand: BrandConfig;
@@ -30,13 +31,12 @@ export function HubFooter({ brand }: HubFooterProps) {
               {brand.tagline}
             </p>
             {brand.parentBadge && (
-              <Link
-                to="/"
+              <NetworkHomeLink
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors text-xs mb-4"
               >
                 <Building2 className="h-3 w-3" />
                 Part of BHub Network
-              </Link>
+              </NetworkHomeLink>
             )}
             <div className="flex gap-3 mt-4">
               <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" aria-label="BusinessHub.cy on LinkedIn" title="BusinessHub.cy on LinkedIn" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
@@ -110,7 +110,7 @@ export function HubFooter({ brand }: HubFooterProps) {
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
           <p>
-            © {new Date().getFullYear()} {brand.name}{brand.domain} — Part of <Link to="/" className="text-secondary hover:underline">BHub Network</Link>. All rights reserved. | 
+            © {new Date().getFullYear()} {brand.name}{brand.domain} — Part of <NetworkHomeLink className="text-secondary hover:underline" />. All rights reserved. | 
             <a href="#" className="hover:text-secondary"> Privacy Policy</a> | 
             <a href="#" className="hover:text-secondary"> Terms of Service</a>
           </p>

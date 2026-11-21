@@ -67,5 +67,6 @@
 - [ ] Swap in the approved BH logo file — waiting for the user to attach the logo sheet
 - [ ] Set businesshub.cy as the main address in Settings → Domains — user action
 - [ ] Phase 2: /gr/ addresses + bhubnetwork.com address handling (after businesshub.cy is main again)
-- [ ] Phase 3: International homepage on bhubnetwork.com
+- [x] Phase 3: International homepage (/intl) with edition-specific header links for International, Cyprus and Greece
+- [ ] Move the International homepage to bhubnetwork.com/ (flip INTL_DOMAIN_LIVE) — waits on: user setting businesshub.cy as primary domain
 - [ ] Phase 4: editorial fields (International edition, promote to network), per-edition social links, checks

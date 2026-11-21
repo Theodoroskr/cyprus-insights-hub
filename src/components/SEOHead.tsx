@@ -36,7 +36,7 @@ export function SEOHead({
   jsonLd,
 }: SEOHeadProps) {
   // Titles that already name their site (e.g. "… | BusinessHub.gr") keep it.
-  const fullTitle = /\| BusinessHub\.(cy|gr)$/.test(title) ? title : `${title} | ${SITE_NAME}`;
+  const fullTitle = /\| (BusinessHub\.(cy|gr)|BHub Network)$/.test(title) ? title : `${title} | ${SITE_NAME}`;
   const location = useLocation();
   // Self-referencing canonical: default to the current route when no path is given.
   const url = canonical ?? canonicalUrl(path ?? location.pathname);

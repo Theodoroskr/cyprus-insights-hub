@@ -31,6 +31,7 @@ export const SECTION_HEADS: Record<string, { title: string; description: string 
   D("/trade", "Cyprus Trade & Import Analytics — CYSTAT Trade Data", "Cyprus import and export trends, top trading partners and product categories from official CYSTAT statistics."),
   D("/real-estate", "Cyprus Real Estate Intelligence — Sales & Transfers", "Official Cyprus property sale contracts and transfers by district and month, from the Department of Lands and Surveys."),
   D("/tourism", "Cyprus Tourism Statistics — Arrivals by Month", "Monthly tourist arrivals to Cyprus by country of residence, from CYSTAT."),
+  D("/intl", "Business intelligence across markets | BHub Network", "Company developments, investment, regulation, funding and official economic data across Cyprus, Greece and the EU."),
   D("/economy", "Cyprus Economy Dashboard — Official Indicators", "Inflation, GDP, unemployment and other Cyprus economic indicators from CYSTAT and Eurostat."),
   D("/rankings", "Cyprus Rankings — Companies & Markets", "Rankings of Cyprus companies and markets built only from official data, each list sourced."),
   D("/funding", "Funding & Subsidies for Cyprus Businesses", "Open grants, subsidies and EU funding calls for Cyprus businesses, verified against official call documents."),

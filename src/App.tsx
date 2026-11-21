@@ -12,13 +12,16 @@ import { AuthReturn } from "@/components/auth/AuthReturn";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieConsent } from "./components/CookieConsent";
 import { RouteSEODefaults } from "./components/RouteSEODefaults";
-import { hostRedirect, onGrHost } from "./lib/edition";
+import { hostRedirect, onGrHost, onIntlHost } from "./lib/edition";
 
 // Lazy-loaded route components
 const Index = lazy(() => import("./pages/Index"));
 const GreecePage = lazy(() => import("./pages/greece/GreecePage"));
 const CompareGreeceCyprusPage = lazy(() => import("./pages/CompareGreeceCyprusPage"));
 const ON_GR_HOST = onGrHost();
+const InternationalPage = lazy(() => import("./pages/InternationalPage"));
+// bhubnetwork.com opens on the International edition once INTL_DOMAIN_LIVE is on.
+const ON_INTL_HOST = onIntlHost();
 const FinTechPage = lazy(() => import("./pages/FinTechPage"));
 const EnergyPage = lazy(() => import("./pages/EnergyPage"));
 const CompliancePage = lazy(() => import("./pages/CompliancePage"));
@@ -117,7 +120,8 @@ function RouteLoader() {
 }
 
 /**
- * businesshub.gr: menu, footer and tab-bar links point at Cyprus sections (/news, /directory…).
+ * businesshub.gr (and bhubnetwork.com once it carries the International edition): menu, footer and
+ * tab-bar links point at Cyprus sections (/news, /directory…).
  * In-app clicks skip the start-up redirect in main.tsx, so re-check every address change and
  * open Cyprus-only pages on businesshub.cy instead of showing an empty Greece section.
  */
@@ -153,8 +157,11 @@ const App = () => (
                   </Routes>
                   </GrHostGuard>
                 ) : (
+                // Also sends in-site links to the address that serves them (e.g. Cyprus pages from bhubnetwork.com once live).
+                <GrHostGuard>
                 <Routes>
-                  <Route path="/" element={<Index />} />
+                  <Route path="/" element={ON_INTL_HOST ? <InternationalPage /> : <Index />} />
+                  <Route path="/intl" element={<InternationalPage />} />
                   <Route path="/profile/:id" element={<Navigate to="/whoiswho" replace />} />
                   <Route path="/fintech" element={<FinTechPage />} />
                   <Route path="/compliance" element={<CompliancePage />} />
@@ -244,6 +251,7 @@ const App = () => (
 
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+                </GrHostGuard>
                 )}
               </Suspense>
               <CookieConsent />

@@ -9,6 +9,31 @@ export type Edition = "cy" | "gr";
 
 export const CY_HOST = "https://businesshub.cy";
 
+/**
+ * Flip to true once businesshub.cy is the primary domain (so it no longer forwards to bhubnetwork.com):
+ * bhubnetwork.com then opens on the International edition and sends Cyprus-only pages to businesshub.cy.
+ * Until then bhubnetwork.com still carries the whole Cyprus site, and the International edition lives at /intl.
+ */
+export const INTL_DOMAIN_LIVE = false;
+export const INTL_HOST = "https://bhubnetwork.com";
+/** The International edition's own address on every host (the home of bhubnetwork.com once live). */
+export const INTL_PATH = "/intl";
+
+/** bhubnetwork.com or www.bhubnetwork.com. */
+export function isIntlHostname(hostname: string): boolean {
+  return /(^|\.)bhubnetwork\.com$/i.test(hostname);
+}
+
+/** True in the browser when the page was opened on bhubnetwork.com and that address carries the International edition. */
+export function onIntlHost(live: boolean = INTL_DOMAIN_LIVE): boolean {
+  return live && typeof window !== "undefined" && isIntlHostname(window.location.hostname);
+}
+
+/** Paths bhubnetwork.com shows itself once live: the International home, story pages and the Greece–Cyprus comparison. */
+export function servedOnIntlHost(path: string): boolean {
+  return path === "/" || path === INTL_PATH || path === "/article" || path.startsWith("/article/") || path === COMPARE_PATH;
+}
+
 /** businesshub.gr or www.businesshub.gr. */
 export function isGrHostname(hostname: string): boolean {
   return /(^|\.)businesshub\.gr$/i.test(hostname);
@@ -50,16 +75,24 @@ const CY_HOSTS = ["businesshub.cy", "www.businesshub.cy", "cyprus-biz-connect.lo
  * Where a visitor must be sent before the app starts, or null to stay.
  * - businesshub.gr: /greece/... addresses lose the prefix; Cyprus-only sections open on businesshub.cy.
  * - businesshub.cy: once the .gr domain is live, Greece edition pages move to businesshub.gr.
+ * - bhubnetwork.com (once INTL_DOMAIN_LIVE): opens on the International edition; Cyprus-only pages open on businesshub.cy, and /intl elsewhere moves there.
  * - www.businesshub.cy and the old Lovable address keep sending visitors to businesshub.cy (also when it is not the primary domain).
  */
-export function hostRedirect(hostname: string, pathname: string, search = "", live: boolean = GR_DOMAIN_LIVE): string | null {
+export function hostRedirect(hostname: string, pathname: string, search = "", live: boolean = GR_DOMAIN_LIVE, intlLive: boolean = INTL_DOMAIN_LIVE): string | null {
   const h = hostname.toLowerCase();
+  if (isIntlHostname(h)) {
+    if (!intlLive) return null; // bhubnetwork.com still carries the whole site until businesshub.cy is primary
+    if (pathname === INTL_PATH) return `${INTL_HOST}/${search}`;
+    if (!servedOnIntlHost(pathname)) return `${CY_HOST}${pathname}${search}`;
+    return h === "bhubnetwork.com" ? null : `${INTL_HOST}${pathname}${search}`;
+  }
   if (isGrHostname(h)) {
     if (isGreecePath(pathname)) return `${GR_HOST}${grHref(pathname, true)}${search}`;
     if (!servedOnGrHost(pathname)) return `${CY_HOST}${pathname}${search}`;
     return h === "businesshub.gr" ? null : `${GR_HOST}${pathname}${search}`;
   }
   if (!CY_HOSTS.includes(h)) return null; // previews and local development stay put
+  if (intlLive && pathname === INTL_PATH) return `${INTL_HOST}/${search}`;
   if (live && isGreecePath(pathname)) return `${GR_HOST}${grHref(pathname, true)}${search}`;
   return h === "businesshub.cy" ? null : `${CY_HOST}${pathname}${search}`;
 }

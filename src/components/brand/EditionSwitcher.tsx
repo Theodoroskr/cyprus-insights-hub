@@ -1,16 +1,14 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { onGrHost, useEdition } from "@/lib/edition";
-import { currentNetworkEdition, editionLinks } from "@/lib/networkEditions";
+import { currentHost, editionLinks, useNetworkEdition } from "@/lib/networkEditions";
 
 /**
  * International · Cyprus · Greece. Chooses the edition only; the language switch lives elsewhere.
  * tone="dark" sits in the navy group strip above the masthead.
  */
 export function EditionSwitcher({ lang = "en", className, onPick, tone = "light" }: { lang?: "en" | "el"; className?: string; onPick?: () => void; tone?: "light" | "dark" }) {
-  const { pathname, search } = useLocation();
-  const current = currentNetworkEdition(useEdition(), pathname, search);
-  const links = editionLinks(lang, onGrHost());
+  const current = useNetworkEdition();
+  const links = editionLinks(lang, currentHost());
   const dark = tone === "dark";
   return (
     <nav

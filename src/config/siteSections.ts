@@ -1,3 +1,5 @@
+import { grHref } from "@/lib/edition";
+import { cyprusHome, greeceHome, intlHome, type HostKind, type NetworkEdition } from "@/lib/networkEditions";
 /** The BusinessHub top menu: ten main links, with every section listed behind the Menu button. */
 
 export type NavLink = { label: string; href: string };
@@ -63,4 +65,52 @@ export function visibleMenuSections(whoIsWhoPublic: boolean) {
   return MENU_SECTIONS
     .map((s) => ({ ...s, links: s.links.filter((l) => whoIsWhoPublic || l.href !== "/whoiswho") }))
     .filter((s) => s.links.length > 0);
+}
+
+/** Top links of the International edition: shortcuts to the blocks of its homepage, plus the market editions. */
+export function intlNav(host: HostKind): NavItem[] {
+  const home = intlHome(host).href;
+  const at = (id: string) => `${home === "/" ? "/" : home}#${id}`;
+  return [
+    { label: "Markets", href: at("markets"), children: [
+      { label: "Cyprus edition", href: cyprusHome(host).href },
+      { label: "Greece edition", href: greeceHome(host).href },
+      { label: "Greece–Cyprus comparison", href: "/compare/greece-cyprus" },
+    ] },
+    { label: "Companies & Investment", href: at("companies") },
+    { label: "Fintech", href: at("fintech") },
+    { label: "Compliance", href: at("compliance") },
+    { label: "Funding", href: at("funding") },
+    { label: "Data", href: at("data") },
+  ];
+}
+
+/** Top links of the Greece edition, in the reading language; every link opens a Greece page. */
+export function greeceNav(lang: "en" | "el"): NavItem[] {
+  const L = (el: string, en: string) => (lang === "el" ? el : en);
+  return [
+    { label: L("Επιχειρήσεις", "Business"), href: grHref("/greece/business") },
+    { label: L("Επενδύσεις", "Investment"), href: `${grHref("/greece/announcements")}?tab=deals` },
+    { label: L("Τράπεζες", "Banking"), href: grHref("/greece/banking") },
+    { label: "Fintech", href: grHref("/greece/fintech") },
+    { label: L("Χρηματοδοτήσεις", "Funding"), href: grHref("/greece/funding") },
+    { label: L("Οικονομικά Στοιχεία", "Data"), href: grHref("/greece/business-pulse") },
+  ];
+}
+
+/** Greece pages linked from the header, so the Greece section row repeats them only on smaller screens. */
+export const GREECE_NAV_SLUGS = ["business", "banking", "fintech", "funding", "business-pulse"];
+
+/** The top links for the edition the visitor is reading: Cyprus keeps its own menu. */
+export function editionNav(edition: NetworkEdition, lang: "en" | "el", host: HostKind): NavItem[] {
+  if (edition === "intl") return intlNav(host);
+  if (edition === "gr") return greeceNav(lang);
+  return PRIMARY_NAV;
+}
+
+/** The edition's own links, listed first in the Menu drawer (the Cyprus menu already holds its sections). */
+export function editionMenuSection(edition: NetworkEdition, lang: "en" | "el", host: HostKind): { title: string; links: NavLink[] } | null {
+  if (edition === "cy") return null;
+  const flat = editionNav(edition, lang, host).flatMap((i) => (i.children ? i.children : [i]));
+  return { title: edition === "intl" ? "BHub Network" : "BusinessHub Ελλάδα", links: flat };
 }

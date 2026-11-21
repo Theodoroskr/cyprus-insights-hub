@@ -38,6 +38,9 @@ const SLOT_OPTIONS = [
   { value: "greece-top", label: "Greece edition — Top of every page (970×125)" },
   { value: "greece-mid", label: "Greece edition — Under the lead stories / mid-list (728×90)" },
   { value: "greece-footer", label: "Greece edition home — Above Cyprus & International (728×90)" },
+  { value: "intl-top", label: "International edition home — Top (970×125)" },
+  { value: "intl-mid", label: "International edition home — Under the top stories (728×90)" },
+  { value: "intl-footer", label: "International edition home — Above Data & insights (728×90)" },
 ];
 
 type Banner = {

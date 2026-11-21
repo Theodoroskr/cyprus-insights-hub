@@ -5,11 +5,13 @@ import { RssFeedLinks } from "@/components/RssFeedLinks";
 import { SOCIAL_LINKS } from "@/config/social";
 import { XIcon } from "@/components/icons/XIcon";
 import { BrandLockup } from "@/components/brand/BrandLockup";
-import { INTL_HOST } from "@/lib/networkEditions";
+import { NetworkHomeLink } from "@/components/brand/NetworkHomeLink";
+import { useNetworkEdition } from "@/lib/networkEditions";
 import { Building2, Mail, Phone, MapPin, Linkedin, Facebook, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone, Compass, Zap } from "lucide-react";
 
 export function Footer() {
   const { visible: showPeople } = useWhoIsWhoVisible();
+  const edition = useNetworkEdition();
   return (
     <footer className="navy-gradient text-primary-foreground py-12">
       <div className="container mx-auto px-4">
@@ -17,10 +19,12 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="mb-4">
-              <BrandLockup edition="cy" inverse />
+              <BrandLockup edition={edition} inverse />
             </div>
             <p className="text-sm text-primary-foreground/70 mb-4">
-              Your comprehensive platform for Cyprus business intelligence, regulatory compliance, and EU funding opportunities.
+              {edition === "intl"
+                ? "Business intelligence across Cyprus, Greece and the EU: companies, investment, regulation, funding and official data."
+                : "Your comprehensive platform for Cyprus business intelligence, regulatory compliance, and EU funding opportunities."}
             </p>
             <div className="flex gap-3">
               <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" aria-label="BusinessHub.cy on LinkedIn" title="BusinessHub.cy on LinkedIn" className="w-8 h-8 rounded-full bg-navy-light hover:bg-secondary/20 flex items-center justify-center transition-colors">
@@ -147,7 +151,7 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
           <p>© {new Date().getFullYear()} BusinessHub.cy Group. All rights reserved. | <Link to="/privacy" className="hover:text-secondary transition-colors">Privacy Policy</Link> | <Link to="/terms" className="hover:text-secondary transition-colors">Terms of Service</Link> | <Link to="/cookies" className="hover:text-secondary transition-colors">Cookie Policy</Link></p>
           <p className="mt-2">
-            <a href={INTL_HOST} className="hover:text-secondary transition-colors">Part of <span className="font-brand font-bold">BHub Network</span></a>
+            Part of <NetworkHomeLink className="font-brand font-bold hover:text-secondary transition-colors" />
           </p>
           <p className="mt-2 inline-flex items-center gap-1">
             Made with <span aria-label="love" className="text-secondary">♥</span> by{" "}

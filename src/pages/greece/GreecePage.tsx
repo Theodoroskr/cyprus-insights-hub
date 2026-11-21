@@ -8,6 +8,7 @@ import { AdSlot } from "@/components/banners/AdSlot";
 import { articlePath } from "@/lib/articleUrl";
 import { Fragment, useState } from "react";
 import { BANKING_FILTERS, GR_PAGES, GR_SECTIONS, grHref } from "@/lib/edition";
+import { GREECE_NAV_SLUGS } from "@/config/siteSections";
 import { BusinessPulse } from "@/components/greece/BusinessPulse";
 import { Opportunities } from "@/components/greece/Opportunities";
 import { blendBlocks, readableIn, sectionFill } from "@/lib/greeceBlend";
@@ -129,10 +130,11 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
       <div className="border-b border-border bg-muted/40">
         <div className="container mx-auto px-4 py-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
           <Link to={grHref("/greece")} className="font-brand font-extrabold uppercase tracking-wider">BusinessHub <span className="text-brand-sky">Ελλάδα</span></Link>
+          {/* On wide screens the header carries the main Greece links; this row keeps them for phones and tablets. */}
           <nav className="flex flex-wrap gap-x-3 gap-y-1">{GR_SECTIONS.map((s) => (
-            <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className="text-muted-foreground hover:text-foreground">{lang === "el" ? s.el : s.en}</Link>))}
+            <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className={`text-muted-foreground hover:text-foreground ${GREECE_NAV_SLUGS.includes(s.slug) ? "lg:hidden" : ""}`}>{lang === "el" ? s.el : s.en}</Link>))}
             {GR_PAGES.map((s) => (
-            <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className="font-medium text-foreground hover:underline">{lang === "el" ? s.el : s.en}</Link>))}
+            <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className={`font-medium text-foreground hover:underline ${GREECE_NAV_SLUGS.includes(s.slug) ? "lg:hidden" : ""}`}>{lang === "el" ? s.el : s.en}</Link>))}
             <Link to="/compare/greece-cyprus" className="font-medium text-foreground hover:underline">{lang === "el" ? "Σύγκριση με την Κύπρο" : "Compare with Cyprus"}</Link>
           </nav>
           <div className="ml-auto flex items-center gap-2">

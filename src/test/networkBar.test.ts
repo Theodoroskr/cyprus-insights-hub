@@ -46,13 +46,17 @@ describe("top network bar", () => {
 });
 
 describe("networkHome", () => {
-  it("points the network name at the International edition on the Cyprus host", () => {
-    expect(networkHome(false)).toEqual({ href: INTL_PATH, external: false });
+  it("points the network name at the International homepage on the Cyprus site", () => {
+    expect(networkHome("cy", false)).toEqual({ href: INTL_PATH, external: false });
+    expect(INTL_PATH).toBe("/intl");
   });
 
   it("points it back at the Cyprus address from the Greece host", () => {
-    const { href, external } = networkHome(true);
-    expect(external).toBe(true);
-    expect(href).toBe(`https://businesshub.cy${INTL_PATH}`);
+    expect(networkHome("gr", false)).toEqual({ href: `https://businesshub.cy${INTL_PATH}`, external: true });
+  });
+
+  it("points it at bhubnetwork.com once that address carries the International edition", () => {
+    expect(networkHome("cy", true)).toEqual({ href: "https://bhubnetwork.com/", external: true });
+    expect(networkHome("intl", true)).toEqual({ href: "/", external: false });
   });
 });

@@ -1,16 +1,17 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
-import { grHref, useEdition } from "@/lib/edition";
+import { grHref } from "@/lib/edition";
+import { cyprusHome, currentHost, intlHome, useNetworkEdition } from "@/lib/networkEditions";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { EditionSwitcher } from "@/components/brand/EditionSwitcher";
 import { NetworkHomeLink } from "@/components/brand/NetworkHomeLink";
 import { NewsTicker } from "@/components/NewsTicker";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState, type AnchorHTMLAttributes } from "react";
 import { OPEN_MENU_EVENT } from "@/components/mobile/MobileTabBar";
 import { InstallAppButton } from "@/components/mobile/InstallAppButton";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, User, PenTool, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { PRIMARY_NAV, visibleMenuSections } from "@/config/siteSections";
+import { editionMenuSection, editionNav, visibleMenuSections } from "@/config/siteSections";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -29,9 +30,18 @@ interface TopNavigationProps {
 
 const grHome = () => grHref("/greece");
 
+/** A menu link: inside the site it navigates in place, an address on another domain opens normally. */
+const NavAnchor = forwardRef<HTMLAnchorElement, Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & { href: string }>(
+  ({ href, children, ...rest }, ref) => /^https?:/.test(href)
+    ? <a ref={ref} href={href} {...rest}>{children}</a>
+    : <Link ref={ref} to={href} {...rest}>{children}</Link>,
+);
+NavAnchor.displayName = "NavAnchor";
+
 export function TopNavigation({ onSearch, lang: langProp }: TopNavigationProps) {
   const lang = langProp ?? "en";
-  const edition = useEdition();
+  const edition = useNetworkEdition();
+  const host = currentHost();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,15 +66,20 @@ export function TopNavigation({ onSearch, lang: langProp }: TopNavigationProps) 
     return () => window.removeEventListener(OPEN_MENU_EVENT, open);
   }, []);
 
-  const visibleNav = PRIMARY_NAV;
-  const menuSections = visibleMenuSections(WHOISWHO_PUBLIC);
+  // Each edition shows its own top links; the Menu drawer lists that edition's links first.
+  const visibleNav = editionNav(edition, lang, host);
+  const ownSection = editionMenuSection(edition, lang, host);
+  const menuSections = [...(ownSection ? [ownSection] : []), ...visibleMenuSections(WHOISWHO_PUBLIC)];
+  const home = edition === "intl" ? intlHome(host) : edition === "gr" ? { href: grHome(), external: false } : cyprusHome(host);
 
-  const isActive = (href: string, children?: { href: string }[]) => {
-    if (children?.some((c) => c.href !== href && location.pathname.startsWith(c.href))) return true;
-    const path = href.split("#")[0];
-    if (path === "/") return location.pathname === "/";
-    return location.pathname.startsWith(path);
+  /** A link is current when its page is open; shortcuts to a block of one page (#…) and other domains never are. */
+  const opens = (href: string) => {
+    if (/^https?:/.test(href) || href.includes("#")) return false;
+    const path = href.split("?")[0];
+    if (path === "/" || path === "/greece") return location.pathname === path;
+    return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
+  const isActive = (href: string, children?: { href: string }[]) => opens(href) || !!children?.some((c) => opens(c.href));
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,13 +117,14 @@ export function TopNavigation({ onSearch, lang: langProp }: TopNavigationProps) 
               <Menu className="h-5 w-5" /><span className="hidden xl:inline">Menu</span>
             </Button>
             {/* Logo — editorial masthead style */}
-            <Link to={edition === "gr" ? grHome() : "/"} className="flex items-center shrink-0" aria-label={edition === "gr" ? "BusinessHub Ελλάδα" : "BusinessHub.cy"}>
+            <NavAnchor href={home.href} className="flex items-center shrink-0">
+              <span className="sr-only">{edition === "intl" ? "BHub Network" : edition === "gr" ? "BusinessHub Ελλάδα" : "BusinessHub.cy"}</span>
               <BrandLockup edition={edition} lang={langProp} />
-            </Link>
+            </NavAnchor>
             </div>
 
           {/* Desktop Navigation — clean horizontal links */}
-          <nav className="hidden lg:flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <nav lang={lang} className="hidden lg:flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {visibleNav.map((item, i) => item.children ? (
               <DropdownMenu key={item.label}>
                 <DropdownMenuTrigger
@@ -120,14 +136,14 @@ export function TopNavigation({ onSearch, lang: langProp }: TopNavigationProps) 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
                   {item.children.map((c) => (
-                    <DropdownMenuItem key={c.href} asChild><Link to={c.href}>{c.label}</Link></DropdownMenuItem>
+                    <DropdownMenuItem key={c.href} asChild><NavAnchor href={c.href}>{c.label}</NavAnchor></DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link
+              <NavAnchor
                 key={item.label}
-                to={item.href}
+                href={item.href}
                 className={`
                   px-1.5 py-1.5 text-[11.5px] font-semibold uppercase tracking-[0.04em] whitespace-nowrap shrink-0 transition-colors
                   ${isActive(item.href)
@@ -138,7 +154,7 @@ export function TopNavigation({ onSearch, lang: langProp }: TopNavigationProps) 
                 `}
               >
                 {item.label}
-              </Link>
+              </NavAnchor>
             ))}
           </nav>
 
@@ -233,13 +249,13 @@ export function TopNavigation({ onSearch, lang: langProp }: TopNavigationProps) 
                 <ul className="space-y-0.5">
                   {section.links.map((l) => (
                     <li key={l.href}>
-                      <Link
-                        to={l.href}
+                      <NavAnchor
+                        href={l.href}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={`block py-1.5 font-serif text-[17px] transition-colors ${location.pathname === l.href ? "text-secondary font-semibold" : "text-foreground hover:text-secondary"}`}
                       >
                         {l.label}
-                      </Link>
+                      </NavAnchor>
                     </li>
                   ))}
                 </ul>
