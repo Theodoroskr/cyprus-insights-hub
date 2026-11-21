@@ -4,7 +4,7 @@
 
 /* BusinessHub.cy Design System - Cyprus Business Intelligence */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
 @layer base {
   :root {
@@ -14,6 +14,8 @@
     --gold: 40 47% 56%;
     --gold-light: 40 47% 70%;
     --gold-muted: 40 30% 85%;
+    /* Network brand: light-blue arrow of the BH mark */
+    --brand-sky: 203 82% 52%;
     
     /* Hub Brand Colors */
     --fintech: 174 62% 32%;
@@ -112,6 +114,7 @@
   }
 
   .dark {
+    --brand-sky: 203 85% 62%;
     --background: 213 100% 8%;
     --foreground: 0 0% 95%;
 

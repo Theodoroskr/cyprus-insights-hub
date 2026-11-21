@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { RssFeedLinks } from "@/components/RssFeedLinks";
 import { SOCIAL_LINKS } from "@/config/social";
 import { XIcon } from "@/components/icons/XIcon";
+import { BrandLockup } from "@/components/brand/BrandLockup";
+import { INTL_HOST } from "@/lib/networkEditions";
 import { Building2, Mail, Phone, MapPin, Linkedin, Facebook, Landmark, Shield, Newspaper, Briefcase, Cpu, ArrowRight, Megaphone, Compass } from "lucide-react";
 
 export function Footer() {
@@ -14,13 +16,8 @@ export function Footer() {
         <div className="grid md:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
-                <span className="font-bold text-lg text-secondary-foreground">B</span>
-              </div>
-              <div>
-                <h3 className="font-bold text-lg">BusinessHub<span className="text-secondary">.cy</span></h3>
-              </div>
+            <div className="mb-4">
+              <BrandLockup edition="cy" inverse />
             </div>
             <p className="text-sm text-primary-foreground/70 mb-4">
               Your comprehensive platform for Cyprus business intelligence, regulatory compliance, and EU funding opportunities.
@@ -143,6 +140,9 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
           <p>© {new Date().getFullYear()} BusinessHub.cy Group. All rights reserved. | <Link to="/privacy" className="hover:text-secondary transition-colors">Privacy Policy</Link> | <Link to="/terms" className="hover:text-secondary transition-colors">Terms of Service</Link> | <Link to="/cookies" className="hover:text-secondary transition-colors">Cookie Policy</Link></p>
+          <p className="mt-2">
+            <a href={INTL_HOST} className="hover:text-secondary transition-colors">Part of <span className="font-brand font-bold">BHub Network</span></a>
+          </p>
           <p className="mt-2 inline-flex items-center gap-1">
             Made with <span aria-label="love" className="text-secondary">♥</span> by{" "}
             <a href="https://blenddigital.com" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors underline-offset-2 hover:underline">Blend Digital</a>

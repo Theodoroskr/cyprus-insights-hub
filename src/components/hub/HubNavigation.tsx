@@ -8,6 +8,7 @@ import { BrandConfig, hubLinks } from "@/config/brands";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { NotificationDropdown } from "@/components/notifications/NotificationDropdown";
+import { EditionSwitcher } from "@/components/brand/EditionSwitcher";
 
 interface HubNavigationProps {
   brand: BrandConfig;
@@ -44,10 +45,10 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
       <div className="bg-foreground text-background text-[10px] tracking-[0.15em] uppercase font-sans">
         <div className="container mx-auto px-4 flex items-center justify-between h-7">
           <div className="flex items-center gap-3">
-            <Link to="/" className="font-semibold text-secondary">
+            <Link to="/" className="font-semibold text-secondary hidden sm:inline">
               BusinessHub.cy Group
             </Link>
-            <span className="w-px h-3 bg-background/30" />
+            <span className="w-px h-3 bg-background/30 hidden sm:inline-block" />
             {hubLinks.map((hub) => (
               <Link
                 key={hub.href}
@@ -60,7 +61,7 @@ export function HubNavigation({ brand, onSearch }: HubNavigationProps) {
               </Link>
             ))}
           </div>
-          <span className="hidden md:inline text-background/50">Est. Nicosia, Cyprus</span>
+          <EditionSwitcher tone="dark" className="shrink-0 ml-auto sm:ml-0" />
         </div>
       </div>
 

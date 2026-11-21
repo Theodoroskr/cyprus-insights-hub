@@ -7,7 +7,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { articlePath } from "@/lib/articleUrl";
 import { Fragment, useState } from "react";
-import { BANKING_FILTERS, CY_HOST, GR_PAGES, GR_SECTIONS, grHref, onGrHost } from "@/lib/edition";
+import { BANKING_FILTERS, GR_PAGES, GR_SECTIONS, grHref } from "@/lib/edition";
 import { BusinessPulse } from "@/components/greece/BusinessPulse";
 import { Opportunities } from "@/components/greece/Opportunities";
 import { blendBlocks, readableIn, sectionFill } from "@/lib/greeceBlend";
@@ -125,10 +125,10 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
     <div className="min-h-screen bg-background">
       <Helmet><link rel="alternate" type="application/rss+xml" title="BusinessHub.gr — Ελλάδα" href="/rss/greece.xml" /></Helmet>
       <SEOHead title={`${title} | BusinessHub.gr`} description={lang === "el" ? "Επιχειρηματική ενημέρωση για την Ελλάδα — τράπεζες, εταιρικές ανακοινώσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." : "Business intelligence for Greece — banking, company announcements, funding and economic data."} path={path} />
-      <TopNavigation onSearch={() => {}} />
+      <TopNavigation onSearch={() => {}} lang={lang} />
       <div className="border-b border-border bg-muted/40">
         <div className="container mx-auto px-4 py-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
-          <Link to={grHref("/greece")} className="font-bold uppercase tracking-wider">BusinessHub<span className="text-secondary">.gr</span></Link>
+          <Link to={grHref("/greece")} className="font-brand font-extrabold uppercase tracking-wider">BusinessHub <span className="text-brand-sky">Ελλάδα</span></Link>
           <nav className="flex flex-wrap gap-x-3 gap-y-1">{GR_SECTIONS.map((s) => (
             <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className="text-muted-foreground hover:text-foreground">{lang === "el" ? s.el : s.en}</Link>))}
             {GR_PAGES.map((s) => (
@@ -138,9 +138,6 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
           <div className="ml-auto flex items-center gap-2">
             <button onClick={() => setLang("el")} className={lang === "el" ? "font-bold" : "text-muted-foreground"}>EL</button>
             <button onClick={() => setLang("en")} className={lang === "en" ? "font-bold" : "text-muted-foreground"}>EN</button>
-            {onGrHost()
-              ? <a href={`${CY_HOST}/`} className="underline">← Cyprus Edition</a>
-              : <Link to="/" className="underline">← Cyprus Edition</Link>}
           </div>
         </div>
       </div>
