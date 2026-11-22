@@ -32,6 +32,7 @@ import { ContentHealthPanel } from "@/components/admin/ContentHealthPanel";
 import { ReviewQueuePanel } from "@/components/admin/ReviewQueuePanel";
 import { AcademyPanel } from "@/components/admin/AcademyPanel";
 import { OpenDataSourcesPanel } from "@/components/admin/OpenDataSourcesPanel";
+import { IntegrityPanel } from "@/components/admin/IntegrityPanel";
 import { MastercardAdminPanel } from "@/components/admin/MastercardAdminPanel";
 import { FacebookAutopostPanel } from "@/components/admin/FacebookAutopostPanel";
 import { LinkedInAutopostPanel } from "@/components/admin/LinkedInAutopostPanel";
@@ -700,7 +701,7 @@ const EditorialDashboard = () => {
         ) : activePanel === "review" ? (
           <ReviewQueuePanel />
         ) : activePanel === "realestate" ? (
-          <OpenDataSourcesPanel />
+          <><OpenDataSourcesPanel /><IntegrityPanel /></>
         ) : activePanel === "mastercard" ? (
           <MastercardAdminPanel />
         ) : activePanel === "academy" ? (

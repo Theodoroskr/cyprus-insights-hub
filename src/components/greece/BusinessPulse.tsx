@@ -95,6 +95,7 @@ export function BusinessPulse({ lang }: { lang: Lang }) {
           : "Official figures for the Greek economy. Each card shows the reference period of the latest release and its source."}</p>
       </div>
       <Link to="/compare/greece-cyprus" className="inline-flex items-center gap-2 border border-border rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"><ArrowRightLeft className="h-4 w-4" />{el ? "Σύγκριση με την Κύπρο" : "Compare with Cyprus"}</Link>
+      <Link to={el ? "/research/corruption-perceptions/greece" : "/research/corruption-perceptions/greece?lang=en"} className="inline-flex items-center gap-2 border border-border rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">{el ? "Δείκτης Αντίληψης Διαφθοράς" : "Corruption perceptions"}</Link>
     </div>
     {q.isError && <p className="text-sm text-muted-foreground mb-4">{el ? "Τα στοιχεία δεν φορτώθηκαν. Δοκιμάστε ξανά αργότερα." : "Figures could not be loaded right now. Please try again later."}</p>}
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">

@@ -37,6 +37,7 @@ export const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/interviews", changefreq: "weekly", priority: "0.7" },
   { path: "/trade", changefreq: "weekly", priority: "0.7" },
   { path: "/real-estate", changefreq: "monthly", priority: "0.7" },
+  ...["cyprus", "greece", "global"].map((m) => ({ path: `/research/corruption-perceptions/${m}`, changefreq: "weekly" as const, priority: "0.6" })),
   { path: "/tourism", changefreq: "monthly", priority: "0.7" },
   { path: "/intl", changefreq: "daily", priority: "0.8" },
   { path: "/intl/markets", changefreq: "daily", priority: "0.7" },

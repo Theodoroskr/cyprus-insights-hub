@@ -103,7 +103,7 @@ export function MarketEditions({ more }: { more?: More } = {}) {
         </div>;
       })}
     </div>
-    <p className="text-sm mt-3"><Link to="/compare/greece-cyprus" className="underline">Compare Greece and Cyprus on official indicators</Link></p>
+    <p className="text-sm mt-3"><Link to="/compare/greece-cyprus" className="underline">Compare Greece and Cyprus on official indicators</Link> · <Link to="/research/corruption-perceptions/global" className="underline">Corruption Perceptions Index</Link></p>
   </section>;
 }
 

@@ -38,6 +38,7 @@ export const MENU_SECTIONS: { title: string; links: NavLink[] }[] = [
     { label: "Trade", href: "/trade" },
     { label: "Real Estate", href: "/real-estate" },
     { label: "Tourism statistics", href: "/tourism" },
+    { label: "Corruption perceptions", href: "/research/corruption-perceptions/cyprus" },
     { label: "Open data sources", href: "/open-data" },
   ] },
   { title: "Directory", links: [

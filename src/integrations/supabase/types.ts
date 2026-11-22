@@ -1632,6 +1632,117 @@ export type Database = {
         }
         Relationships: []
       }
+      cpi_benchmarks: {
+        Row: {
+          edition_year: number
+          id: string
+          scope: string
+          source_url: string | null
+          status: string
+          value: number | null
+        }
+        Insert: {
+          edition_year: number
+          id?: string
+          scope: string
+          source_url?: string | null
+          status?: string
+          value?: number | null
+        }
+        Update: {
+          edition_year?: number
+          id?: string
+          scope?: string
+          source_url?: string | null
+          status?: string
+          value?: number | null
+        }
+        Relationships: []
+      }
+      cpi_editions: {
+        Row: {
+          below_50: number | null
+          countries_covered: number | null
+          created_at: string
+          edition_year: number
+          eu_avg: number | null
+          global_avg: number | null
+          release_date: string | null
+          source_url: string
+          status: string
+          updated_at: string
+          verified_at: string | null
+        }
+        Insert: {
+          below_50?: number | null
+          countries_covered?: number | null
+          created_at?: string
+          edition_year: number
+          eu_avg?: number | null
+          global_avg?: number | null
+          release_date?: string | null
+          source_url?: string
+          status?: string
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Update: {
+          below_50?: number | null
+          countries_covered?: number | null
+          created_at?: string
+          edition_year?: number
+          eu_avg?: number | null
+          global_avg?: number | null
+          release_date?: string | null
+          source_url?: string
+          status?: string
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
+      cpi_results: {
+        Row: {
+          country_iso3: string
+          country_name: string
+          country_name_el: string | null
+          created_at: string
+          edition_year: number
+          id: string
+          rank: number | null
+          rank_tied: boolean
+          region: string | null
+          score: number | null
+          status: string
+        }
+        Insert: {
+          country_iso3: string
+          country_name: string
+          country_name_el?: string | null
+          created_at?: string
+          edition_year: number
+          id?: string
+          rank?: number | null
+          rank_tied?: boolean
+          region?: string | null
+          score?: number | null
+          status?: string
+        }
+        Update: {
+          country_iso3?: string
+          country_name?: string
+          country_name_el?: string | null
+          created_at?: string
+          edition_year?: number
+          id?: string
+          rank?: number | null
+          rank_tied?: boolean
+          region?: string | null
+          score?: number | null
+          status?: string
+        }
+        Relationships: []
+      }
       cta_events: {
         Row: {
           created_at: string
@@ -3014,6 +3125,123 @@ export type Database = {
           id?: string
           name?: string
           slug?: string
+        }
+        Relationships: []
+      }
+      integrity_check_runs: {
+        Row: {
+          error: string | null
+          finished_at: string | null
+          id: string
+          results: Json
+          started_at: string
+          status: string
+          trigger: string
+        }
+        Insert: {
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          results?: Json
+          started_at?: string
+          status?: string
+          trigger?: string
+        }
+        Update: {
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          results?: Json
+          started_at?: string
+          status?: string
+          trigger?: string
+        }
+        Relationships: []
+      }
+      integrity_source_updates: {
+        Row: {
+          article_ids: string[]
+          audience: string[]
+          canonical_url: string
+          checked_at: string
+          claim_status: string
+          content_hash: string
+          created_at: string
+          id: string
+          published_at: string | null
+          publisher: string
+          status: string
+          summary: string | null
+          title: string
+          title_el: string | null
+        }
+        Insert: {
+          article_ids?: string[]
+          audience?: string[]
+          canonical_url: string
+          checked_at?: string
+          claim_status?: string
+          content_hash: string
+          created_at?: string
+          id?: string
+          published_at?: string | null
+          publisher: string
+          status?: string
+          summary?: string | null
+          title: string
+          title_el?: string | null
+        }
+        Update: {
+          article_ids?: string[]
+          audience?: string[]
+          canonical_url?: string
+          checked_at?: string
+          claim_status?: string
+          content_hash?: string
+          created_at?: string
+          id?: string
+          published_at?: string | null
+          publisher?: string
+          status?: string
+          summary?: string | null
+          title?: string
+          title_el?: string | null
+        }
+        Relationships: []
+      }
+      integrity_survey_findings: {
+        Row: {
+          geo: string
+          id: string
+          metric: string
+          source_label: string
+          source_url: string
+          status: string
+          survey: string
+          survey_year: number
+          value_pct: number | null
+        }
+        Insert: {
+          geo: string
+          id?: string
+          metric: string
+          source_label: string
+          source_url: string
+          status?: string
+          survey: string
+          survey_year: number
+          value_pct?: number | null
+        }
+        Update: {
+          geo?: string
+          id?: string
+          metric?: string
+          source_label?: string
+          source_url?: string
+          status?: string
+          survey?: string
+          survey_year?: number
+          value_pct?: number | null
         }
         Relationships: []
       }
@@ -6633,6 +6861,7 @@ export type Database = {
         Returns: undefined
       }
       normalize_company_name: { Args: { _name: string }; Returns: string }
+      publish_cpi_edition: { Args: { _year: number }; Returns: undefined }
       track_banner: { Args: { _id: string; _kind: string }; Returns: undefined }
     }
     Enums: {

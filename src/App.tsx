@@ -55,6 +55,7 @@ const IndustryPage = lazy(() => import("./pages/IndustryPage"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const TradePage = lazy(() => import("./pages/TradePage"));
 const RealEstatePage = lazy(() => import("./pages/RealEstatePage"));
+const CorruptionPerceptionsPage = lazy(() => import("./pages/CorruptionPerceptionsPage"));
 const TourismPage = lazy(() => import("./pages/TourismPage"));
 const ExplorePage = lazy(() => import("./pages/ExplorePage"));
 const ExploreDestinationPage = lazy(() => import("./pages/ExploreDestinationPage"));
@@ -187,6 +188,8 @@ const App = () => (
                   <Route path="/article/:id/:slug" element={<ArticlePage />} />
                   <Route path="/trade" element={<TradePage />} />
                   <Route path="/real-estate" element={<RealEstatePage />} />
+                  <Route path="/research/corruption-perceptions" element={<Navigate to="/research/corruption-perceptions/cyprus" replace />} />
+                  <Route path="/research/corruption-perceptions/:market" element={<CorruptionPerceptionsPage />} />
                   <Route path="/tourism" element={<TourismPage />} />
                   <Route path="/explore" element={<ExplorePage />} />
                   <Route path="/explore/place/:slug" element={<ExplorePlacePage />} />
