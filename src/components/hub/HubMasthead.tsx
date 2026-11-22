@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Calendar } from "lucide-react";
-import { AdSlot } from "@/components/banners/AdSlot";
 import { brands, type BrandId } from "@/config/brands";
 
 /** Each hub front page's own top banner place (half the width of the homepage billboard). */
@@ -11,6 +10,24 @@ export const HUB_TOP_SLOTS: Partial<Record<BrandId, string>> = {
   regtechhub: "regtech-top",
   tourismhub: "tourism-top",
   energyhub: "energy-top",
+};
+
+/** Each hub front page's banner above its story feed (970×125), like the homepage feed-top slot. */
+export const HUB_FEED_SLOTS: Partial<Record<BrandId, string>> = {
+  fintechhub: "fintech-feed-top",
+  compliancehub: "compliance-feed-top",
+  regtechhub: "regtech-feed-top",
+  tourismhub: "tourism-feed-top",
+  energyhub: "energy-feed-top",
+};
+
+/** Each hub front page's banner above the footer (728×90), like the homepage footer slot. */
+export const HUB_FOOTER_SLOTS: Partial<Record<BrandId, string>> = {
+  fintechhub: "fintech-footer",
+  compliancehub: "compliance-footer",
+  regtechhub: "regtech-footer",
+  tourismhub: "tourism-footer",
+  energyhub: "energy-footer",
 };
 
 /** Each hub front page's own mid-page banner place, under the three lead stories (728×90). */
@@ -38,11 +55,9 @@ export function HubMasthead({ brand, kicker, intro, links = [], extra }: {
 }) {
   const b = brands[brand];
   const accent = ACCENT[brand] ?? { text: "text-secondary", bg: "bg-foreground" };
-  const slot = HUB_TOP_SLOTS[brand];
   const date = new Date().toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
   return (
     <div>
-      {slot && <div className="py-5"><AdSlot size="wide-banner" slotId={slot} /></div>}
       <div className={`h-[3px] ${accent.bg}`} />
       <div className="py-6 text-center border-b border-border">
         <p className={`section-label mb-2 ${accent.text}`}>{kicker}</p>

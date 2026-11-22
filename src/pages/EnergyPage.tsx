@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 import { HubLayout } from "@/layouts/HubLayout";
-import { HubMasthead, HUB_MID_SLOTS } from "@/components/hub/HubMasthead";
+import { HubMasthead, HUB_FEED_SLOTS } from "@/components/hub/HubMasthead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { SEOHead } from "@/components/SEOHead";
 import { Input } from "@/components/ui/input";
@@ -117,7 +117,7 @@ export default function EnergyPage({ archive = false }: { archive?: boolean }) {
                 </div>
               </Link>
             )}
-            {!archive && <div className="mb-8"><AdSlot size="leaderboard" slotId={HUB_MID_SLOTS.energyhub} /></div>}
+            {!archive && <div className="mb-8"><AdSlot size="wide-banner" slotId={HUB_FEED_SLOTS.energyhub} /></div>}
             <h2 className="section-label mb-4">{topic ? topicLabel(topic) : T(lang, "Latest news", "Τελευταίες ειδήσεις")}</h2>
             {latest.length === 0 ? <p className="text-sm text-muted-foreground mb-8">{T(lang, "No stories match.", "Καμία ειδήση.")}</p> : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">

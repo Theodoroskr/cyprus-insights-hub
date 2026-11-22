@@ -8,7 +8,7 @@ import { estimateReadingTime } from "@/lib/readingTime";
 import { useBlendedNews } from "@/hooks/useBlendedNews";
 import { partitionHomepage } from "@/lib/homepageStories";
 import { AdSlot } from "@/components/banners/AdSlot";
-import { HUB_MID_SLOTS } from "@/components/hub/HubMasthead";
+import { HUB_FEED_SLOTS } from "@/components/hub/HubMasthead";
 import type { BrandId } from "@/config/brands";
 
 const verticalLabel = (v: string) =>
@@ -105,15 +105,15 @@ export function LeadStoriesView({ hub, latest, aside, below, allNewsHref = "/new
 export function HubLeadStories({ verticals, brand, allNewsHref }: { verticals: string[]; brand: BrandId; allNewsHref?: string }) {
   const { data = [] } = useBlendedNews(verticals);
   const { hub, latest, feed } = useMemo(() => partitionHomepage(data), [data]);
-  const slot = HUB_MID_SLOTS[brand];
-  if (hub.length === 0) return slot ? <div className="container mx-auto px-4 py-6"><AdSlot size="leaderboard" slotId={slot} /></div> : null;
+  const slot = HUB_FEED_SLOTS[brand];
+  if (hub.length === 0) return slot ? <div className="container mx-auto px-4 py-6"><AdSlot size="wide-banner" slotId={slot} /></div> : null;
   return (
     <section className="section-rule">
       <div className="container mx-auto px-4">
         <LeadStoriesView hub={hub} latest={latest} allNewsHref={allNewsHref} below={
           <>
-            <MoreStories items={feed.slice(0, 4)} />
-            {slot && <div className="mt-8"><AdSlot size="leaderboard" slotId={slot} /></div>}
+            {slot && <div className="mt-8"><AdSlot size="wide-banner" slotId={slot} /></div>}
+            <MoreStories items={feed.slice(0, 10)} heading="Latest stories" />
           </>
         } />
       </div>
