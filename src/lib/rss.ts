@@ -191,3 +191,27 @@ export function inEditionFeed(row: ScopeRow, feed: EditionFeedKey): boolean {
   if ((row.edition ?? []).includes("gr")) return false;
   return !GREECE_RE.test([row.title, row.summary, row.what_happened].filter(Boolean).join(" "));
 }
+
+/** Share of each other edition's stories mixed into an edition feed; the rest is the edition's own. */
+export const EDITION_MIX = {
+  international: { greece: 0.15, cyprus: 0.1 },
+  greece: { international: 0.25, cyprus: 0.1 },
+  cyprus: { greece: 0.2, international: 0.2 },
+} as const;
+
+/** Take round(limit × share) newest items from each other pool, fill the rest from the edition's own; no link twice, newest first. Short pools are topped up from the own pool. */
+export function mixFeed(own: (RssItem | null)[], others: { items: (RssItem | null)[]; share: number }[], limit = RSS_ITEM_LIMIT): RssItem[] {
+  const used = new Set<string>();
+  const take = (pool: (RssItem | null)[], n: number) => {
+    const out: RssItem[] = [];
+    for (const i of selectItems(pool, Number.MAX_SAFE_INTEGER)) {
+      if (out.length >= n) break;
+      if (used.has(i.path)) continue;
+      used.add(i.path); out.push(i);
+    }
+    return out;
+  };
+  const mixed = others.flatMap((o) => take(o.items, Math.round(limit * o.share)));
+  const rest = take(own, limit - mixed.length);
+  return selectItems([...rest, ...mixed], limit);
+}

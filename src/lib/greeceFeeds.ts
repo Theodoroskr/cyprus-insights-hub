@@ -66,7 +66,7 @@ export function greeceRssItem(r: GreeceRow): RssItem | null {
   };
 }
 
-export function greeceRss(rows: GreeceRow[], live = GR_DOMAIN_LIVE, now = new Date()): string {
+export function greeceRss(rows: GreeceRow[], live = GR_DOMAIN_LIVE, now = new Date(), items?: RssItem[]): string {
   return buildRssFeed(
     {
       title: "BusinessHub.gr — Ελλάδα",
@@ -75,7 +75,7 @@ export function greeceRss(rows: GreeceRow[], live = GR_DOMAIN_LIVE, now = new Da
       pagePath: greecePath("/greece", live),
       language: "el",
     },
-    selectItems(rows.map(greeceRssItem)),
+    items ?? selectItems(rows.map(greeceRssItem)),
     greeceBase(live),
     now,
   );
