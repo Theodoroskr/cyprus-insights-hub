@@ -14,6 +14,7 @@ import { storyImage, listImage } from "@/lib/fallbackImage";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { articlePath } from "@/lib/articleUrl";
 import { RelatedFunding } from "@/components/funding/RelatedFunding";
+import { StoryBriefingSignup } from "@/components/StoryBriefingSignup";
 import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Facebook, Mail, Flame, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -403,6 +404,7 @@ export default function ArticlePage() {
                   </Button>
                 </a>
               )}
+              <StoryBriefingSignup greek={isEl} />
             </article>
 
             {/* Sidebar */}

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Mail, Check, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { briefingSignupRow, briefingSignupResult } from "@/lib/briefingSignup";
 
 const VERTICALS = [
   { id: "compliance", label: "Compliance & AML" },
@@ -36,28 +37,16 @@ export function NewsletterSignup() {
     if (!email.trim()) return;
 
     setSubmitting(true);
-    const { error } = await supabase.from("newsletter_subscribers").insert({
-      email: email.trim().toLowerCase(),
-      name: name.trim() || null,
-      company: company.trim() || null,
-      job_title: jobTitle.trim() || null,
-      verticals: selectedVerticals.length ? selectedVerticals : ["general"],
-      frequency: "daily",
-    });
-
+    const { error } = await supabase.from("newsletter_subscribers").insert(
+      briefingSignupRow(email, { name, company, job_title: jobTitle, verticals: selectedVerticals }),
+    );
     setSubmitting(false);
-
-    if (error) {
-      if (error.code === "23505") {
-        toast.info("You're already subscribed to our daily briefing.");
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+    if (briefingSignupResult(error) === "error") {
+      toast.error("Something went wrong. Please try again.");
       return;
     }
 
     setSubmitted(true);
-    toast.success("Welcome! We'll email you when the briefing launches.");
   };
 
   if (submitted) {
@@ -68,9 +57,9 @@ export function NewsletterSignup() {
             <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="h-6 w-6 text-secondary" />
             </div>
-            <h3 className="text-xl font-serif font-bold text-foreground mb-2">You're In</h3>
+            <h3 className="text-xl font-serif font-bold text-foreground mb-2">You're signed up</h3>
             <p className="text-sm text-muted-foreground">
-              You're on the list. We'll email you as soon as the daily intelligence briefing launches.
+              The free weekly Cyprus business briefing will arrive in your inbox.
             </p>
           </div>
         </div>
@@ -87,15 +76,15 @@ export function NewsletterSignup() {
             <div className="flex items-center gap-3 mb-2">
               <Mail className="h-5 w-5 text-secondary" />
               <span className="text-[10px] uppercase tracking-[0.15em] font-semibold text-secondary">
-                Daily Intelligence Briefing
+                Free weekly briefing
               </span>
             </div>
             <h2 className="text-xl md:text-2xl font-serif font-bold mb-2">
-              Get Cyprus Business Intelligence Delivered Daily
+              The week in Cyprus business, in one email
             </h2>
             <p className="text-primary-foreground/70 text-sm mb-6 max-w-lg">
               Curated for business professionals — compliance updates, fintech developments,
-              trade data, and SME opportunities. Free, every morning.
+              trade data, and SME opportunities. Free, once a week.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
