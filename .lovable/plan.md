@@ -1,19 +1,16 @@
-# Why three Greece Business Pulse cards say "Data unavailable"
+# RSS feeds: current state and missing feeds
 
-The import tools are built and ready, but the data they need has not been added yet:
+## What exists today
+- Main feed: /rss.xml (all stories)
+- Separate section feeds: /rss/business.xml, /rss/fintech.xml, /rss/compliance.xml, /rss/regtech.xml, /rss/sme.xml, /rss/greece.xml
 
-- **Active registered businesses / New business registrations (GEMI):** no GEMI access key is saved yet. The importer starts only after a working key is saved and tested.
-- **Inbound travellers (Bank of Greece):** the Bank of Greece blocks automatic downloads, so an editor has to upload its official spreadsheet once. Nothing has been uploaded yet.
+## Missing
+- Tourism, Energy, International edition, and a Cyprus-only feed.
 
-## What you need to do (nothing to build)
-
-1. Get a free GEMI Open Data key from opendata.businessportal.gr (register, then copy the API key).
-2. Go to Editorial → Open data → the GEMI card, paste the key and press **Test and save**. If the test passes, the first import starts by itself and both GEMI cards fill in within a few minutes.
-3. Download the Bank of Greece "Travel receipts / Inbound travellers" .xlsx from bankofgreece.gr (Statistics → External sector → Travel). In Editorial → Open data → Bank of Greece upload, choose the file, check the preview and press **Import**.
-
-## Optional change I can make
-
-Change the three "Data unavailable" messages so visitors see a softer "Coming soon" note instead, and only admins see the "waiting for import" reason.
+## Proposal
+1. Add /rss/tourism.xml, /rss/energy.xml, /rss/international.xml (non-Cyprus stories) and /rss/cyprus.xml.
+2. Advertise each feed in its hub's page header so feed readers find it automatically.
+3. Add a small "RSS feeds" list in the footer linking all feeds.
 
 ## Technical notes
-- Checked: `internal_secrets` has no `gemi_api_key`; `stat_observations` has 0 rows for `gr_gemi_active`, `gr_gemi_new`, `gr_travellers`.
+- Extend the prebuild RSS script that already writes public/rss*; reuse the same story filters as the International/hub pages.
