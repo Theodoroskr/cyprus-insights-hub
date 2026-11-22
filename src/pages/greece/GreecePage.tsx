@@ -128,6 +128,7 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
     <div className="min-h-screen bg-background">
       <Helmet><link rel="alternate" type="application/rss+xml" title="BusinessHub.gr — Ελλάδα" href="/rss/greece.xml" /></Helmet>
       <SEOHead title={`${title} | BusinessHub.gr`} description={lang === "el" ? "Επιχειρηματική ενημέρωση για την Ελλάδα — τράπεζες, εταιρικές ανακοινώσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." : "Business intelligence for Greece — banking, company announcements, funding and economic data."} path={path} />
+      <div className="py-3"><div className="container mx-auto px-4"><AdSlot size="wide-banner" slotId="greece-top" label={adLabel(lang)} /></div></div>
       <TopNavigation onSearch={() => {}} lang={lang} />
       <div className="border-b border-border bg-muted/40">
         <div className="container mx-auto px-4 py-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
@@ -145,7 +146,6 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-4 pt-5"><AdSlot size="wide-banner" slotId="greece-top" label={adLabel(lang)} /></div>
       <main className="container mx-auto px-4 py-6">{children}</main>
       <Footer />
     </div>
