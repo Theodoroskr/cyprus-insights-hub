@@ -1,11 +1,12 @@
 import { translateWith } from "./translateToEnglish.ts";
+import { readsInEnglish } from "./kimdisEnglish.ts";
 // English translations for KIMDIS notices (titles, contracting authorities) and CPV category names, via Lovable AI.
 // Only what the site shows is translated: open tenders and contract awards.
 
 type Item = { id: string; text: string };
 
 const NOTICE_RULES = "You translate Greek public-procurement records into clear British English for business readers. "
-  + "Translate faithfully and completely; do not summarise, add or omit anything. Keep reference numbers, law numbers, amounts and dates exactly. "
+  + "Translate faithfully and completely; do not summarise, add or omit anything. Keep reference numbers, law numbers, amounts and dates exactly; Greek-lettered reference codes (e.g. ΑΔΑ codes like Ρ1ΦΝ46ΜΑΖΤ-ΨΜΞ) stay as written, but write the labels ΑΔΑ as 'ADA' and ΑΔΑΜ as 'ADAM'. "
   + "Contracting authorities: use the official English form where one exists (e.g. ΔΗΜΟΣ ΑΘΗΝΑΙΩΝ → Municipality of Athens, ΥΠΟΥΡΓΕΙΟ ΟΙΚΟΝΟΜΙΚΩΝ → Ministry of Finance, ΠΕΡΙΦΕΡΕΙΑ → Region of), "
   + "otherwise translate the type and transliterate the place name. Never answer in capitals, even when the Greek is written in capitals: titles in sentence case, authority names in title case. Keep acronyms as written. Remove quotation marks that wrap the whole text.";
 const CPV_RULES = "Each item is a CPV 2008 code with its official Greek description. Return the official English CPV 2008 description for that code "
@@ -27,7 +28,7 @@ async function translateBatch(items: Item[], system: string, apiKey: string): Pr
     const v = got[`f${i}`];
     const en = typeof v === "string" ? v.trim() : "";
     // Only real translations: unchanged or still-Greek answers are left for the next run.
-    if (en && en !== it.text && !/[\u0370-\u03FF\u1F00-\u1FFF]{3,}/.test(en)) out.set(it.id, en.slice(0, 2000));
+    if (en && en !== it.text && readsInEnglish(en, it.text)) out.set(it.id, en.slice(0, 2000));
   });
   return out;
 }
@@ -64,9 +65,11 @@ export async function translateNotices(sb: any, apiKey: string, opts: { limit: n
       const got = await translateBatch(items, NOTICE_RULES, apiKey);
       for (const r of b) {
         const title_en = hasGreek(r.title) ? got.get(`t:${r.reference_number}`) : r.title;
-        if (!title_en) continue;
+        const authority_name_en = !r.authority_name ? null : hasGreek(r.authority_name) ? got.get(`a:${r.reference_number}`) ?? null : r.authority_name;
+        // Mark a record done only when both its title and its buyer read in English; otherwise the next round retries it.
+        if (!title_en || (r.authority_name && !authority_name_en)) continue;
         const { error: e } = await sb.from("gr_procurement_notices").update({
-          title_en, authority_name_en: !r.authority_name ? null : hasGreek(r.authority_name) ? got.get(`a:${r.reference_number}`) ?? null : r.authority_name, translated_at: new Date().toISOString(),
+          title_en, authority_name_en, translated_at: new Date().toISOString(),
         }).eq("reference_number", r.reference_number).eq("title", r.title);
         if (!e) done++;
       }
