@@ -1,3 +1,5 @@
+import { chcCompanyUrl } from "@/lib/companiesHouseCyprus";
+import { ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Search, Building2, MapPin, Factory, ShieldCheck, ChevronLeft, ChevronRight, Hash, Compass, Presentation } from "lucide-react";
@@ -390,8 +392,8 @@ export default function RegistryDirectoryPage() {
               {results.map((c) => {
                 const badges = companyCardBadges(c);
                 return (
+                  <div key={c.id}>
                   <Link
-                    key={c.id}
                     to={`/directory/company/${c.slug || c.id}`}
                     className="group flex items-center gap-4 p-4 border border-border rounded-lg bg-card hover:shadow-md hover:border-secondary/30 transition-all"
                   >
@@ -415,6 +417,15 @@ export default function RegistryDirectoryPage() {
                       {c.registration_no && <span className="flex items-center gap-1"><Hash className="h-3 w-3" />HE {c.registration_no}</span>}
                     </div>
                   </Link>
+                  <a
+                    href={chcCompanyUrl(c)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-secondary hover:underline mt-1 ml-4"
+                  >
+                    Get official documents on Companies House Cyprus <ExternalLink className="h-3 w-3" />
+                  </a>
+                  </div>
                 );
               })}
               {results.length === 0 && !loading && (

@@ -15,6 +15,7 @@ import { CompanyAnnouncements } from "@/components/announcements/CompanyAnnounce
 
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/seo";
+import { CHC_PRODUCTS, chcCompanyUrl } from "@/lib/companiesHouseCyprus";
 
 const CITY_LABELS: Record<string, string> = {
   nicosia: "Nicosia", limassol: "Limassol", larnaca: "Larnaca",
@@ -211,8 +212,8 @@ export default function RegistryCompanyPage() {
             </div>
           </div>
 
-          {/* KYB Report Card */}
-          <KYBReportCard company={company} />
+          {/* Official certificates & reports */}
+          <OfficialDocumentsCard company={company} />
 
           {/* Regulatory Status */}
           {hasRegulatory && (
@@ -358,178 +359,31 @@ export default function RegistryCompanyPage() {
   );
 }
 
-function KYBReportCard({ company }: { company: any }) {
-  const [showModal, setShowModal] = useState(false);
-  const { user } = useAuth();
-
-  const reportFeatures = [
-    "Directors & shareholders on record",
-    "Share capital & ownership structure",
-    "Registered charges & mortgages",
-    "CySEC / CBC / ICPAC regulatory status",
-    "Related intelligence articles",
-    "Auto-generated risk summary",
-    "Delivered as a PDF by email",
-  ];
-
+function OfficialDocumentsCard({ company }: { company: any }) {
+  const all = chcCompanyUrl(company);
   return (
-    <>
-      <div className="border border-secondary/30 bg-secondary/5 p-6 mb-8">
-        <div className="flex flex-col md:flex-row md:items-center gap-6">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <FileText className="h-5 w-5 text-secondary" />
-              <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-secondary">KYB Report</span>
-            </div>
-            <h3 className="font-serif font-bold text-foreground text-lg mb-1">Know Your Business Report</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Full company intelligence report including directors, shareholders, charges, and regulatory status. Request one and our team will be in touch.
-            </p>
-            <ul className="space-y-1.5">
-              {reportFeatures.map((f, i) => (
-                <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-secondary shrink-0" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <p className="text-[10px] text-muted-foreground mt-3 flex items-center gap-1">
-              <Lock className="h-3 w-3" />
-              No payment needed · No subscription · Our team confirms every request by email
-            </p>
-          </div>
-          <div className="text-center md:text-right flex flex-col items-center md:items-end gap-2">
-            <Badge className="bg-secondary/10 text-secondary border-secondary/20">Beta</Badge>
-            <p className="text-xs text-muted-foreground">Free to request during beta</p>
-            <Button
-              onClick={() => setShowModal(true)}
-              className="bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none gap-2 text-xs font-semibold uppercase tracking-wider w-full md:w-auto"
-            >
-              <FileText className="h-3.5 w-3.5" />
-              Request Company KYB Report
-            </Button>
-          </div>
-        </div>
+    <div className="border border-secondary/30 bg-secondary/5 p-6 mb-8">
+      <div className="flex items-center gap-2 mb-2">
+        <FileText className="h-5 w-5 text-secondary" />
+        <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-secondary">Companies House Cyprus</span>
       </div>
-
-      {showModal && (
-        <KYBPurchaseModal company={company} user={user} onClose={() => setShowModal(false)} />
-      )}
-    </>
-  );
-}
-
-function KYBPurchaseModal({ company, user, onClose }: { company: any; user: any; onClose: () => void }) {
-  const [email, setEmail] = useState(user?.email || "");
-  const [name, setName] = useState("");
-  const [buyerCompany, setBuyerCompany] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [sent, setSent] = useState(false);
-
-  const handleCheckout = async () => {
-    if (!email.trim()) { setError("Email is required"); return; }
-    setLoading(true);
-    setError("");
-
-    try {
-      const { data: report, error: dbErr } = await supabase
-        .from("kyb_reports")
-        .insert({
-          company_id: company.id,
-          company_name: company.company_name,
-          company_reg_number: company.registration_no,
-          buyer_email: email.trim().toLowerCase(),
-          buyer_name: name.trim() || null,
-          buyer_company: buyerCompany.trim() || null,
-          status: "pending",
-          user_id: user?.id || null,
-        })
-        .select()
-        .single();
-
-      if (dbErr) throw dbErr;
-
-      setSent(true);
-      setLoading(false);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-foreground/50 flex items-center justify-center p-4"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
-      <div className="bg-card border border-border w-full max-w-md p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-serif font-bold text-lg text-foreground">Request a KYB Report</h2>
-          <button onClick={onClose} className="text-muted-foreground hover:text-foreground text-xl">✕</button>
-        </div>
-
-        <div className="bg-muted/40 p-3 mb-4">
-          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Report for:</p>
-          <p className="font-semibold text-foreground [overflow-wrap:anywhere]">{company.company_name}</p>
-          {company.registration_no && (
-            <p className="text-xs text-muted-foreground">Reg. {company.registration_no}</p>
-          )}
-        </div>
-
-        <div className="space-y-3 mb-4">
-          <div>
-            <label className="text-xs font-medium text-foreground">Email for delivery *</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="w-full mt-1 px-3 py-2 border border-border bg-background text-foreground text-sm"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-medium text-foreground">Your name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Full name"
-              className="w-full mt-1 px-3 py-2 border border-border bg-background text-foreground text-sm"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-medium text-foreground">Your company</label>
-            <input
-              type="text"
-              value={buyerCompany}
-              onChange={(e) => setBuyerCompany(e.target.value)}
-              placeholder="Company name (optional)"
-              className="w-full mt-1 px-3 py-2 border border-border bg-background text-foreground text-sm"
-            />
-          </div>
-        </div>
-
-        {error && <p className="text-sm text-destructive mb-3">{error}</p>}
-
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <span className="text-sm font-semibold text-foreground">Beta request</span>
-            <span className="text-xs text-muted-foreground ml-1">no payment</span>
-          </div>
-          <Button
-            onClick={handleCheckout}
-            disabled={loading || sent}
-            className="bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none text-xs font-semibold uppercase tracking-wider"
-          >
-            {sent ? "Request received ✓" : loading ? "Sending..." : "Request report →"}
+      <h3 className="font-serif font-bold text-foreground text-lg mb-1">Official certificates &amp; reports</h3>
+      <p className="text-sm text-muted-foreground mb-4">
+        Order official documents for {company.company_name} from Companies House Cyprus.
+      </p>
+      <div className="flex flex-wrap gap-2 mb-3">
+        {CHC_PRODUCTS.map((p) => (
+          <Button key={p.id} asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-none gap-2 text-xs font-semibold uppercase tracking-wider">
+            <a href={chcCompanyUrl(company, p.id)} target="_blank" rel="noopener noreferrer">
+              {p.label} <ExternalLink className="h-3.5 w-3.5" />
+            </a>
           </Button>
-        </div>
-
-        <p className="text-[10px] text-muted-foreground text-center">
-          {sent ? "Thanks — our team will email you to confirm and arrange the report." : "No payment now. Our team will contact you by email to confirm your request."}
-        </p>
+        ))}
       </div>
+      <a href={all} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-secondary hover:underline inline-flex items-center gap-1">
+        All certificates <ExternalLink className="h-3.5 w-3.5" />
+      </a>
+      <p className="text-[10px] text-muted-foreground mt-3">Opens Companies House Cyprus in a new tab. Paid service provided by Companies House Cyprus.</p>
     </div>
   );
 }
