@@ -11,6 +11,7 @@ import { BANKING_FILTERS, GR_PAGES, GR_SECTIONS, grHref, grLangHref, langFromSea
 import { GREECE_NAV_SLUGS } from "@/config/siteSections";
 import { BusinessPulse } from "@/components/greece/BusinessPulse";
 import { CpiGreeceCard } from "@/components/greece/CpiGreeceCard";
+import { GreecePulseBanner } from "@/components/greece/GreecePulseBanner";
 import { Opportunities } from "@/components/greece/Opportunities";
 import { blendBlocks, readableIn, sectionFill } from "@/lib/greeceBlend";
 import { isInternationalStory } from "@/lib/storyOrigin";
@@ -203,6 +204,7 @@ function Home({ lang }: { lang: Lang }) {
   ].filter((c) => c.rows.length);
   const heading = (title: string, to?: string, id?: string) => <h2 id={id} className="font-serif text-xl font-bold border-b border-foreground pb-1 mb-2">{to ? <Link to={to} className="hover:underline">{title}</Link> : title}</h2>;
   return <>
+    <GreecePulseBanner lang={lang} />
     <h1 className="font-serif text-3xl md:text-4xl font-bold">{lang === "el" ? "Επιχειρηματική ενημέρωση για την Ελλάδα" : "Business intelligence for Greece"}</h1>
     <p className="text-muted-foreground mt-2">{lang === "el" ? "Εταιρικές ανακοινώσεις, τράπεζες, επενδύσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." : "Company announcements, banking, investment, funding and economic data."}</p>
     <div className="grid lg:grid-cols-3 gap-8 mt-6">
