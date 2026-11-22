@@ -4,7 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { SOURCE_STATUS_LABEL } from "@/lib/integrityHealth";
 
 /** Staff-only controls for the Corruption & Public Integrity section. */
 export function IntegrityPanel() {
@@ -29,6 +31,21 @@ export function IntegrityPanel() {
     else toast.success(r?.status ? `Check finished: ${r.status}` : "Done");
     qc.invalidateQueries({ queryKey: ["integrity-admin"] });
   };
+  const { data: sources } = useQuery({
+    queryKey: ["integrity-admin", "sources"],
+    queryFn: async () => (await supabase.functions.invoke("ingest-integrity", { body: { action: "sources" } })).data?.sources ?? [],
+  });
+  const [edit, setEdit] = useState<{ slug: string; url: string } | null>(null);
+  const testUrl = async () => {
+    if (!edit) return;
+    setBusy("url");
+    const { data: r } = await supabase.functions.invoke("ingest-integrity", { body: { action: "test", slug: edit.slug, url: edit.url } });
+    const res = r?.results?.[0];
+    if (!res?.ok) { setBusy(null); toast.error(`Not saved: ${res?.error ?? "test failed"}`); return; }
+    await supabase.functions.invoke("ingest-integrity", { body: { action: "set-source", slug: edit.slug, url: edit.url } });
+    setBusy(null); setEdit(null); toast.success(`Saved — address works (${res.found} items found)`);
+    call(`t-${edit.slug}`, { action: "test", slug: edit.slug });
+  };
   const stagedYears = [...new Set((data?.staged ?? []).map((s: any) => s.edition_year))];
 
   return (
@@ -39,6 +56,31 @@ export function IntegrityPanel() {
       </CardHeader>
       <CardContent className="space-y-6 text-sm">
         <p className="text-muted-foreground">Checked automatically every Monday at 09:00 Cyprus time. Public figures only change when you publish a staged edition.</p>
+
+        <div><h3 className="font-semibold mb-2">Source health</h3>
+          <div className="overflow-x-auto"><table className="w-full text-xs">
+            <thead><tr className="text-left text-muted-foreground"><th className="py-1 pr-2">Source</th><th className="pr-2">Status</th><th className="pr-2">Last success</th><th className="pr-2">Last attempt</th><th className="pr-2">Fails in a row</th><th className="pr-2">Items</th><th></th></tr></thead>
+            <tbody>{(sources ?? []).map((s: any) => {
+              const st = SOURCE_STATUS_LABEL[s.manual_only ? "manual" : (s.last_status ?? "unknown")] ?? SOURCE_STATUS_LABEL.unknown;
+              return (<tr key={s.slug} className="border-t align-top">
+                <td className="py-2 pr-2"><div className="font-medium">{s.publisher}</div>
+                  {edit?.slug === s.slug
+                    ? <div className="flex gap-1 mt-1"><Input className="h-7 text-xs" value={edit.url} onChange={(e) => setEdit({ ...edit, url: e.target.value })} /><Button size="sm" className="h-7" disabled={busy === "url"} onClick={testUrl}>{busy === "url" ? "Testing…" : "Test & save"}</Button><Button size="sm" variant="ghost" className="h-7" onClick={() => setEdit(null)}>Cancel</Button></div>
+                    : <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:underline break-all">{s.url}</a>}
+                  {s.last_error && <div className="text-destructive">{s.last_error}</div>}</td>
+                <td className="pr-2"><Badge variant={st.variant}>{st.label}</Badge></td>
+                <td className="pr-2">{s.last_success_at ? new Date(s.last_success_at).toLocaleString("en-GB") : "Never"}</td>
+                <td className="pr-2">{s.last_attempt_at ? new Date(s.last_attempt_at).toLocaleString("en-GB") : "—"}</td>
+                <td className="pr-2">{s.consecutive_failures ?? 0}</td>
+                <td className="pr-2">{s.last_found ?? "—"}</td>
+                <td className="whitespace-nowrap space-x-1">
+                  <Button size="sm" variant="outline" className="h-7" disabled={!!busy} onClick={() => call(`t-${s.slug}`, { action: "test", slug: s.slug })}>{busy === `t-${s.slug}` ? "Testing…" : "Test now"}</Button>
+                  {s.slug !== "ti-cpi" && <Button size="sm" variant="ghost" className="h-7" onClick={() => setEdit({ slug: s.slug, url: s.url })}>Edit address</Button>}
+                  <Button size="sm" variant="ghost" className="h-7" disabled={!!busy} onClick={() => call(`m-${s.slug}`, { action: "set-source", slug: s.slug, manual_only: !s.manual_only })}>{s.manual_only ? "Resume auto" : "Manual check"}</Button>
+                </td></tr>);
+            })}</tbody></table></div>
+          <p className="text-muted-foreground mt-1">Blocked sites refuse automated reading; mark them "Manual check" and open the link yourself. Admins get one alert when a source stops or starts working.</p>
+        </div>
 
         <div><h3 className="font-semibold mb-2">Staged CPI editions</h3>
           {stagedYears.length === 0 && <p className="text-muted-foreground">Nothing staged.</p>}

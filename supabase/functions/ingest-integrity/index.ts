@@ -2,7 +2,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import { nicosiaHour } from "../_shared/ecb.ts";
-import { INTEGRITY_SOURCES, extractLinks, contentFingerprint, nextCpiUrl, claimStatus } from "../_shared/integritySources.ts";
+import { INTEGRITY_SOURCES, extractLinks, contentFingerprint, nextCpiUrl, claimStatus, classifyFailure, healthChanged, isWorking, type SourceStatus } from "../_shared/integritySources.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -77,9 +77,34 @@ Deno.serve(async (req) => {
     return json({ ok: true });
   }
 
-  // check: never touches published figures; failures are recorded per source.
-  const { data: run } = await sb.from("integrity_check_runs").insert({ trigger: via === "schedule" ? "cron" : "manual" }).select("id").single();
-  const results: { source: string; ok: boolean; found?: number; added?: number; error?: string }[] = [];
+  if (action === "sources") {
+    const { data: h } = await sb.from("integrity_source_health").select("*");
+    const by = new Map((h ?? []).map((r: any) => [r.slug, r]));
+    const list = [{ slug: "ti-cpi", publisher: "Transparency International (CPI)", url: nextCpiUrl(2025) }, ...INTEGRITY_SOURCES]
+      .map((s) => ({ slug: s.slug, publisher: s.publisher, default_url: s.url, ...(by.get(s.slug) ?? {}), url: by.get(s.slug)?.url_override ?? s.url }));
+    return json({ ok: true, sources: list });
+  }
+
+  if (action === "set-source") {
+    const slug = String(body.slug ?? "");
+    if (!INTEGRITY_SOURCES.some((s) => s.slug === slug) && slug !== "ti-cpi") return json({ error: "Unknown source" }, 400);
+    const patch: Record<string, unknown> = { slug, updated_at: new Date().toISOString() };
+    if ("manual_only" in body) patch.manual_only = !!body.manual_only;
+    if ("url" in body) {
+      const u = body.url === null || body.url === "" ? null : String(body.url);
+      if (u && !/^https:\/\/[^\s]+$/.test(u)) return json({ error: "Address must start with https://" }, 400);
+      patch.url_override = u;
+    }
+    await sb.from("integrity_source_health").upsert(patch, { onConflict: "slug" });
+    return json({ ok: true });
+  }
+
+  // test / check: never touches published figures; failures are recorded per source.
+  const { data: run } = action === "test" ? { data: null } : await sb.from("integrity_check_runs").insert({ trigger: via === "schedule" ? "cron" : "manual" }).select("id").single();
+  const results: { source: string; ok: boolean; found?: number; added?: number; error?: string; status?: SourceStatus; http?: number }[] = [];
+  const isTest = action === "test";
+  const { data: healthRows } = await sb.from("integrity_source_health").select("*");
+  const health = new Map((healthRows ?? []).map((r: any) => [r.slug, r]));
   const only = typeof body.slug === "string" ? body.slug : null;
   const fetchUrl = typeof body.test_fail_url === "string" ? body.test_fail_url : null; // simulate a failing source
 
@@ -90,9 +115,9 @@ Deno.serve(async (req) => {
       const url = fetchUrl ?? nextCpiUrl(latest?.edition_year ?? 2025);
       const r = await fetch(url, { headers: UA, redirect: "follow" });
       const fresh = r.ok && new URL(r.url).pathname.includes(String((latest?.edition_year ?? 2025) + 1));
-      if (fetchUrl && !r.ok) throw new Error(`HTTP ${r.status}`);
-      results.push({ source: "ti-cpi", ok: true, found: fresh ? 1 : 0 });
-      if (fresh) {
+      if (!r.ok && (fetchUrl || r.status !== 404)) throw new Error(`HTTP ${r.status}`); // 404 = next edition not out yet
+      results.push({ source: "ti-cpi", ok: true, found: fresh ? 1 : 0, status: "ok", http: r.status });
+      if (fresh && !isTest) {
         await sb.from("integrity_source_updates").upsert({
           publisher: "Transparency International", title: `New Corruption Perceptions Index edition detected (${(latest?.edition_year ?? 2025) + 1})`,
           canonical_url: url, content_hash: contentFingerprint(url), audience: ["cy", "gr", "intl"], claim_status: "development",
@@ -100,29 +125,56 @@ Deno.serve(async (req) => {
         }, { onConflict: "canonical_url,content_hash", ignoreDuplicates: true });
       }
       await sb.from("open_data_sources").update({ last_checked_at: new Date().toISOString() }).eq("slug", "ti-cpi");
-    } catch (e) { results.push({ source: "ti-cpi", ok: false, error: String(e instanceof Error ? e.message : e) }); }
+    } catch (e) { const c = classifyFailure(e, /HTTP (\d+)/.exec(String(e))?.[1] ? Number(/HTTP (\d+)/.exec(String(e))![1]) : undefined); results.push({ source: "ti-cpi", ok: false, error: c.reason, status: c.status }); }
   }
 
   // 2. Official developments.
   for (const s of INTEGRITY_SOURCES) {
     if (only && only !== s.slug) continue;
+    const h = health.get(s.slug);
+    if (h?.manual_only && !only) { results.push({ source: s.slug, ok: true, status: h.last_status, found: 0, error: "manual check" }); continue; }
+    const url = typeof body.url === "string" && only === s.slug ? body.url : (h?.url_override ?? s.url);
+    let http: number | undefined;
     try {
-      const r = await fetch(s.url, { headers: UA, redirect: "follow", signal: AbortSignal.timeout(20000) });
+      const r = await fetch(url, { headers: UA, redirect: "follow", signal: AbortSignal.timeout(20000) });
+      http = r.status;
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const links = extractLinks(await r.text(), r.url, s.keywords);
       let added = 0;
-      for (const l of links) {
+      if (!isTest) for (const l of links) {
         const { data } = await sb.from("integrity_source_updates").upsert({
           publisher: s.publisher, title: l.title, canonical_url: l.url, content_hash: contentFingerprint(l.title),
           audience: s.audience, claim_status: claimStatus(l.title),
         }, { onConflict: "canonical_url,content_hash", ignoreDuplicates: true }).select("id");
         added += data?.length ?? 0;
       }
-      results.push({ source: s.slug, ok: true, found: links.length, added });
-    } catch (e) { results.push({ source: s.slug, ok: false, error: String(e instanceof Error ? e.message : e) }); }
+      results.push({ source: s.slug, ok: true, found: links.length, added, status: links.length ? "ok" : "empty", http });
+    } catch (e) {
+      const c = classifyFailure(e, http);
+      results.push({ source: s.slug, ok: false, error: c.reason, status: c.status, http });
+    }
   }
 
-  const failed = results.filter((r) => !r.ok);
+  // per-source health + alerts on state change (tests with a candidate URL don't record)
+  const now = new Date().toISOString();
+  const changes: string[] = [];
+  for (const r of results) {
+    if (r.error === "manual check" || typeof body.url === "string" || fetchUrl) continue;
+    const prev = health.get(r.source);
+    const st = (r.status ?? (r.ok ? "ok" : "error")) as SourceStatus;
+    if (healthChanged(prev?.last_status, st)) changes.push(`${r.source}: ${isWorking(st) ? "working again" : r.error}`);
+    await sb.from("integrity_source_health").upsert({
+      slug: r.source, last_status: st, last_http_code: r.http ?? null, last_error: r.ok ? null : r.error, last_found: r.found ?? null,
+      last_attempt_at: now, ...(r.ok ? { last_success_at: now, consecutive_failures: 0 } : { consecutive_failures: (prev?.consecutive_failures ?? 0) + 1 }), updated_at: now,
+    }, { onConflict: "slug" });
+  }
+  if (changes.length) {
+    const { data: admins } = await sb.from("user_roles").select("user_id").eq("role", "admin");
+    if (admins?.length) await sb.from("notifications").insert(admins.map((a: any) => ({ user_id: a.user_id, type: "integrity_source", title: "Corruption data source status changed", body: changes.join("; ").slice(0, 900), href: "/editorial" })));
+  }
+  if (isTest) return json({ ok: true, status: results[0]?.ok ? "ok" : "failed", results });
+
+  const failed = results.filter((r) => !r.ok && r.error !== "manual check");
   const status = failed.length === 0 ? "ok" : failed.length === results.length ? "failed" : "partial";
   if (run) await sb.from("integrity_check_runs").update({ finished_at: new Date().toISOString(), status, results, error: failed.map((f) => `${f.source}: ${f.error}`).join("; ") || null }).eq("id", run.id);
   return json({ ok: true, status, results });

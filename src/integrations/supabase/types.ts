@@ -3158,6 +3158,48 @@ export type Database = {
         }
         Relationships: []
       }
+      integrity_source_health: {
+        Row: {
+          consecutive_failures: number
+          last_attempt_at: string | null
+          last_error: string | null
+          last_found: number | null
+          last_http_code: number | null
+          last_status: string
+          last_success_at: string | null
+          manual_only: boolean
+          slug: string
+          updated_at: string
+          url_override: string | null
+        }
+        Insert: {
+          consecutive_failures?: number
+          last_attempt_at?: string | null
+          last_error?: string | null
+          last_found?: number | null
+          last_http_code?: number | null
+          last_status?: string
+          last_success_at?: string | null
+          manual_only?: boolean
+          slug: string
+          updated_at?: string
+          url_override?: string | null
+        }
+        Update: {
+          consecutive_failures?: number
+          last_attempt_at?: string | null
+          last_error?: string | null
+          last_found?: number | null
+          last_http_code?: number | null
+          last_status?: string
+          last_success_at?: string | null
+          manual_only?: boolean
+          slug?: string
+          updated_at?: string
+          url_override?: string | null
+        }
+        Relationships: []
+      }
       integrity_source_updates: {
         Row: {
           article_ids: string[]
