@@ -175,11 +175,46 @@ export const EDITION_FEEDS = [
   { key: "international", label: "International", pagePath: "/intl" },
 ] as const;
 export type EditionFeedKey = (typeof EDITION_FEEDS)[number]["key"];
-export const RSS_FEED_LINKS = [
-  { label: "Cyprus", path: "/rss/cyprus.xml" },
-  { label: "Greece", path: "/rss/greece.xml" },
-  { label: "International", path: "/rss/international.xml" },
-] as const;
+export interface RssFeedLink {
+  label: string;
+  /** Feed file on the site, e.g. "/rss/cyprus.xml". */
+  path: string;
+  /** Short qualifier shown beside the label, e.g. "Greek". */
+  note?: string;
+}
+
+export interface RssFeedGroup {
+  title: string;
+  /** One line telling a reader what this group is for. */
+  blurb: string;
+  feeds: RssFeedLink[];
+}
+
+/** Every feed the site publishes, grouped the way the footer presents them. */
+export const RSS_FEED_GROUPS: RssFeedGroup[] = [
+  {
+    title: "Editions",
+    blurb: "One edition's own stories, with a slice of the others.",
+    feeds: [
+      { label: "Cyprus", path: "/rss/cyprus.xml" },
+      { label: "Greece", path: "/rss/greece.xml", note: "Greek" },
+      { label: "International", path: "/rss/international.xml" },
+    ],
+  },
+  {
+    title: "Topics",
+    blurb: "A single subject, across every edition.",
+    feeds: RSS_HUBS.map((h) => ({ label: h.label, path: `/rss/${h.key}.xml` })),
+  },
+  {
+    title: "Everything",
+    blurb: "The whole site in one feed.",
+    feeds: [{ label: "All stories", path: "/rss.xml" }],
+  },
+];
+
+/** Flat list of every advertised feed, for tests and feed auto-discovery. */
+export const RSS_FEED_LINKS: RssFeedLink[] = RSS_FEED_GROUPS.flatMap((g) => g.feeds);
 
 const GREECE_RE = /\b(greece|greek|hellenic|athens|thessaloniki|piraeus)\b|(ελλάδ|ελλην|αθήν)/i;
 type ScopeRow = NewsRow & { tags?: string[] | null; edition?: string[] | null };

@@ -104,9 +104,10 @@ export function HubFooter({ brand }: HubFooterProps) {
                 </a>
               </li>
             </ul>
-            <RssFeedLinks />
           </div>
         </div>
+
+        <RssFeedLinks />
 
         <div className="mt-12 pt-8 border-t border-navy-light text-center text-sm text-primary-foreground/50">
           <p>
