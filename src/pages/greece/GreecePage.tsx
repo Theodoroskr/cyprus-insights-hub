@@ -10,6 +10,7 @@ import { Fragment, useEffect, useState } from "react";
 import { BANKING_FILTERS, GR_PAGES, GR_SECTIONS, grHref, grLangHref, langFromSearch } from "@/lib/edition";
 import { GREECE_NAV_SLUGS } from "@/config/siteSections";
 import { BusinessPulse } from "@/components/greece/BusinessPulse";
+import { CpiGreeceCard } from "@/components/greece/CpiGreeceCard";
 import { Opportunities } from "@/components/greece/Opportunities";
 import { blendBlocks, readableIn, sectionFill } from "@/lib/greeceBlend";
 import { isInternationalStory } from "@/lib/storyOrigin";
@@ -222,6 +223,7 @@ function Home({ lang }: { lang: Lang }) {
         <StoryList items={side} lang={lang} compact />
       </aside>
     </div>
+    <CpiGreeceCard lang={lang} />
     <div className="mt-10"><AdSlot size="leaderboard" slotId="greece-mid" label={adLabel(lang)} /></div>
     {shown.length > 0 && <div className="grid md:grid-cols-2 gap-x-8 gap-y-10 mt-10">
       {shown.map(({ slug, rows }) => {
