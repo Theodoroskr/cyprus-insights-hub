@@ -50,13 +50,29 @@ export function trend(results: CpiResult[], isos: string[], years: number[]) {
   });
 }
 
-/** Ranking for one edition sorted by rank then score; search matches English or Greek names. */
-export function ranking(results: CpiResult[], year: number, q = "") {
+export { CPI_REGIONS } from "../../supabase/functions/_shared/cpiWorkbook";
+import { CPI_REGIONS } from "../../supabase/functions/_shared/cpiWorkbook";
+/** Region label for a stored TI region code (older rows already hold the label). */
+export const regionLabel = (r: string | null | undefined) => (r ? CPI_REGIONS[r] ?? r : "");
+
+export type CpiSort = "rank" | "name" | "score";
+/** Ranking for one edition; search matches English or Greek names or the code; optional region filter and sort.
+ * Sorting never changes a row's own rank or tie flag. */
+export function ranking(results: CpiResult[], year: number, q = "", opts: { region?: string; sort?: CpiSort; desc?: boolean } = {}) {
   const s = q.trim().toLowerCase();
-  return results
+  const byRank = (a: CpiResult, b: CpiResult) => (a.rank ?? 999) - (b.rank ?? 999) || (b.score ?? -1) - (a.score ?? -1) || a.country_name.localeCompare(b.country_name);
+  const cmp: Record<CpiSort, (a: CpiResult, b: CpiResult) => number> = {
+    rank: byRank,
+    name: (a, b) => a.country_name.localeCompare(b.country_name),
+    score: (a, b) => (b.score ?? -1) - (a.score ?? -1) || byRank(a, b),
+  };
+  const sort = opts.sort ?? "rank";
+  const out = results
     .filter((r) => r.edition_year === year)
+    .filter((r) => !opts.region || regionLabel(r.region) === regionLabel(opts.region))
     .filter((r) => !s || r.country_name.toLowerCase().includes(s) || (r.country_name_el ?? "").toLowerCase().includes(s) || r.country_iso3.toLowerCase() === s)
-    .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999) || (b.score ?? -1) - (a.score ?? -1));
+    .sort(cmp[sort]);
+  return opts.desc ? out.reverse() : out;
 }
 
 export const MAX_COMPARE = 3;

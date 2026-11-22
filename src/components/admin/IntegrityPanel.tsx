@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { SOURCE_STATUS_LABEL } from "@/lib/integrityHealth";
+import { CpiChanges, CpiUpload } from "@/components/admin/CpiUpload";
 
 /** Staff-only controls for the Corruption & Public Integrity section. */
 export function IntegrityPanel() {
@@ -18,17 +19,22 @@ export function IntegrityPanel() {
       const [runs, ups, staged] = await Promise.all([
         supabase.from("integrity_check_runs").select("*").order("started_at", { ascending: false }).limit(8),
         supabase.from("integrity_source_updates").select("*").eq("status", "pending").order("created_at", { ascending: false }).limit(40),
-        supabase.from("cpi_results").select("edition_year,country_iso3,country_name,score,rank,rank_tied").eq("status", "staged").limit(500),
+        supabase.from("cpi_results").select("edition_year,country_iso3,country_name,region,score,rank,rank_tied").eq("status", "staged").limit(1000),
       ]);
-      return { runs: runs.data ?? [], updates: ups.data ?? [], staged: staged.data ?? [] };
+      const years = [...new Set((staged.data ?? []).map((s: any) => s.edition_year))];
+      const pub = years.length ? (await supabase.from("cpi_results").select("edition_year,country_iso3,country_name,score,rank").eq("status", "published").in("edition_year", years).limit(1000)).data ?? [] : [];
+      return { runs: runs.data ?? [], updates: ups.data ?? [], staged: staged.data ?? [], published: pub };
     },
   });
   const call = async (key: string, body: Record<string, unknown>) => {
     setBusy(key);
     const { data: r, error } = await supabase.functions.invoke("ingest-integrity", { body });
     setBusy(null);
-    if (error || r?.error) toast.error(r?.error ?? error?.message ?? "Failed");
-    else toast.success(r?.status ? `Check finished: ${r.status}` : "Done");
+    if (error || r?.error) {
+      let msg = r?.error ?? error?.message ?? "Failed";
+      try { const j = await (error as any)?.context?.json?.(); if (j?.error) msg = [j.error, ...(j.errors ?? [])].join(" · "); } catch { /* keep message */ }
+      toast.error(msg);
+    } else toast.success(r?.status ? `Check finished: ${r.status}` : r?.staged ? `CPI ${r.year} staged: ${r.staged} countries` : "Done");
     qc.invalidateQueries({ queryKey: ["integrity-admin"] });
   };
   const { data: sources } = useQuery({
@@ -82,13 +88,18 @@ export function IntegrityPanel() {
           <p className="text-muted-foreground mt-1">Blocked sites refuse automated reading; mark them "Manual check" and open the link yourself. Admins get one alert when a source stops or starts working.</p>
         </div>
 
+        <div><h3 className="font-semibold mb-2">Upload edition</h3>
+          <CpiUpload busy={!!busy} onStage={(table, release) => call("stage", { action: "stage-cpi", table, release_date: release || undefined })}
+            publishedFor={async (y) => (await supabase.from("cpi_results").select("country_iso3,country_name,score,rank").eq("status", "published").eq("edition_year", y).limit(1000)).data ?? []} />
+        </div>
+
         <div><h3 className="font-semibold mb-2">Staged CPI editions</h3>
           {stagedYears.length === 0 && <p className="text-muted-foreground">Nothing staged.</p>}
           {stagedYears.map((y) => {
             const rows = (data?.staged ?? []).filter((s: any) => s.edition_year === y);
             return (<div key={y} className="border rounded p-3 space-y-2">
-              <p className="font-medium">CPI {y} — {rows.length} countries staged</p>
-              <ul className="max-h-40 overflow-auto text-xs">{rows.slice(0, 50).map((r: any) => <li key={r.country_iso3}>{r.country_name}: {r.score ?? "Unavailable"} · {r.rank_tied ? "=" : ""}{r.rank ?? "—"}</li>)}</ul>
+              <p className="font-medium">CPI {y} — {rows.length} countries staged · preview changes</p>
+              <CpiChanges published={(data?.published ?? []).filter((p: any) => p.edition_year === y)} next={rows.map((r: any) => ({ ...r, score: Number(r.score) }))} />
               <Button size="sm" disabled={!!busy} onClick={() => call(`pub-${y}`, { action: "publish-cpi", year: y })}>Publish CPI {y}</Button>
             </div>);
           })}

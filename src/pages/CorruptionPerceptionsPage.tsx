@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { articlePath } from "@/lib/articleUrl";
 import {
   CPI_SOURCES, MARKET_ISO, type CpiEdition, type CpiMarket, type CpiResult, type Lang,
-  cpiPath, defaultLang, fmtScore, gapToEu, ranking, rankLabel, toggleCompare, trend, yoy, MAX_COMPARE,
+  cpiPath, defaultLang, fmtScore, gapToEu, ranking, rankLabel, regionLabel, toggleCompare, trend, yoy, MAX_COMPARE, type CpiSort,
 } from "@/lib/cpi";
 
 const LINE = ["hsl(var(--primary))", "hsl(var(--destructive))", "hsl(var(--muted-foreground))"];
@@ -32,6 +32,7 @@ const T = {
     survey: "Business survey findings", surveyNote: "Survey results: share of companies saying corruption is a problem when doing business. These are not CPI scores.",
     updates: "Procurement and public integrity updates", none: "No approved updates yet.",
     related: "Related on ComplianceHub", source: "Source", unavailable: "Unavailable", year: "Edition",
+    country: "Country or territory", region: "Region", allRegions: "All regions", sortBy: "Sort by", sortRank: "Rank", sortName: "Name", sortScore: "Score", compareCol: "Compare", showing: "Showing", tiesNote: "Ties shown with “=”.", title: null as string | null,
   },
   el: {
     switch: { cyprus: "Κύπρος", greece: "Ελλάδα", global: "Διεθνώς" },
@@ -44,6 +45,7 @@ const T = {
     survey: "Ευρήματα έρευνας επιχειρήσεων", surveyNote: "Αποτελέσματα έρευνας: ποσοστό επιχειρήσεων που θεωρούν τη διαφθορά πρόβλημα στις δραστηριότητές τους. Δεν είναι βαθμολογίες CPI.",
     updates: "Εξελίξεις σε δημόσιες συμβάσεις και ακεραιότητα", none: "Δεν υπάρχουν εγκεκριμένες εξελίξεις ακόμη.",
     related: "Σχετικά στο ComplianceHub", source: "Πηγή", unavailable: "Μη διαθέσιμο", year: "Έκδοση",
+    country: "Χώρα ή περιοχή", region: "Περιοχή", allRegions: "Όλες οι περιοχές", sortBy: "Ταξινόμηση", sortRank: "Κατάταξη", sortName: "Όνομα", sortScore: "Βαθμολογία", compareCol: "Σύγκριση", showing: "Εμφανίζονται", tiesNote: "Οι ισοβαθμίες σημειώνονται με «=».", title: "Δείκτης Αντίληψης Διαφθοράς στην Ελλάδα" as string | null,
   },
 };
 
@@ -82,17 +84,20 @@ export default function CorruptionPerceptionsPage() {
   const [q, setQ] = useState("");
   const [yearSel, setYearSel] = useState<number | null>(null);
   const [compare, setCompare] = useState<string[]>([]);
+  const [region, setRegion] = useState("");
+  const [sort, setSort] = useState<CpiSort>("rank");
 
   const { data } = useQuery({
     queryKey: ["cpi-all"],
     queryFn: async () => {
-      const [e, r, s, u] = await Promise.all([
+      const [e, r, s, u, b] = await Promise.all([
         supabase.from("cpi_editions").select("*").order("edition_year"),
         supabase.from("cpi_results").select("*").range(0, 4999),
         supabase.from("integrity_survey_findings").select("*"),
         supabase.from("integrity_source_updates").select("*").order("published_at", { ascending: false, nullsFirst: false }).limit(30),
+        supabase.from("cpi_benchmarks").select("edition_year,scope,value,source_url"),
       ]);
-      return { editions: (e.data ?? []) as CpiEdition[], results: (r.data ?? []) as CpiResult[], surveys: s.data ?? [], updates: u.data ?? [] };
+      return { editions: (e.data ?? []) as CpiEdition[], results: ((r.data ?? []) as CpiResult[]).map((x) => ({ ...x, score: x.score == null ? null : Number(x.score) })), surveys: s.data ?? [], updates: u.data ?? [], benchmarks: (b.data ?? []) as { edition_year: number; scope: string; value: number; source_url: string }[] };
     },
     staleTime: 10 * 60 * 1000,
   });
@@ -112,10 +117,16 @@ export default function CorruptionPerceptionsPage() {
   const year = yearSel ?? latest?.edition_year ?? 2025;
   const ed = editions.find((e) => e.edition_year === year) ?? latest;
   const years = editions.map((e) => e.edition_year);
+  // Benchmarks are separately sourced rows; the edition's own figures are only a fallback.
+  const bench = (scope: "eu" | "global") => (data?.benchmarks ?? []).find((x) => x.edition_year === year && x.scope === scope);
+  const euAvg = bench("eu")?.value ?? ed?.eu_avg ?? null;
+  const globalAvg = bench("global")?.value ?? ed?.global_avg ?? null;
+  const tableYears = years.filter((y) => results.filter((r) => r.edition_year === y).length > 10);
   const iso = m === "global" ? null : MARKET_ISO[m];
   const own = iso ? results.find((r) => r.country_iso3 === iso && r.edition_year === year) : undefined;
   const change = iso ? yoy(results, iso, year) : null;
-  const rows = useMemo(() => ranking(results, year, q), [results, year, q]);
+  const rows = useMemo(() => ranking(results, year, q, { region, sort }), [results, year, q, region, sort]);
+  const regions = useMemo(() => [...new Set(results.filter((r) => r.edition_year === year).map((r) => regionLabel(r.region)).filter(Boolean))].sort(), [results, year]);
   const top = ranking(results, year)[0];
   const chartIsos = m === "global" ? (compare.length ? compare : ["CYP", "GRC"]) : [iso!];
   const chart = trend(results, chartIsos, years);
@@ -126,11 +137,12 @@ export default function CorruptionPerceptionsPage() {
   const updates = (data?.updates ?? []).filter((u: any) => (u.audience ?? []).includes(aud));
   const date = (d: string | null | undefined) => (d ? new Date(d).toLocaleDateString(lang === "el" ? "el-GR" : "en-GB", { day: "numeric", month: "long", year: "numeric" }) : t.unavailable);
   const tiSrc = { href: m === "cyprus" ? CPI_SOURCES.cyprus : m === "greece" ? CPI_SOURCES.greece : CPI_SOURCES.cpi, label: `${t.source}: Transparency International` };
-  const euSrc = { href: CPI_SOURCES.eu, label: `${t.source}: Transparency International (EU)` };
+  const euSrc = { href: bench("eu")?.source_url ?? CPI_SOURCES.eu, label: `${t.source}: Transparency International (EU)` };
+  const globalSrc = { href: bench("global")?.source_url ?? CPI_SOURCES.cpi, label: `${t.source}: Transparency International` };
 
   if (!MARKETS.includes(m)) return <Navigate to="/research/corruption-perceptions/cyprus" replace />;
   const setLang = (l: Lang) => { const p = new URLSearchParams(params); if (l === defaultLang(m)) p.delete("lang"); else p.set("lang", l); setParams(p, { replace: true }); };
-  const h1 = latest ? headline(m, lang, own?.score ?? results.find((r) => r.country_iso3 === iso && r.edition_year === latest.edition_year)?.score, latest.eu_avg, latest.global_avg) : "";
+  const h1 = latest ? headline(m, lang, own?.score ?? results.find((r) => r.country_iso3 === iso && r.edition_year === latest.edition_year)?.score, euAvg, globalAvg) : "";
 
   return (
     <div className="min-h-screen bg-background" lang={lang}>
@@ -153,18 +165,21 @@ export default function CorruptionPerceptionsPage() {
 
         <header className="space-y-3">
           <p className="text-xs uppercase tracking-widest text-muted-foreground">{t.kicker}</p>
-          <h1 className="font-serif text-3xl md:text-4xl font-bold leading-tight">{h1}</h1>
+          {m === "greece" && t.title ? (<>
+            <h1 className="font-serif text-3xl md:text-4xl font-bold leading-tight">{t.title}</h1>
+            <p className="font-serif text-xl md:text-2xl leading-snug">{h1}</p>
+          </>) : <h1 className="font-serif text-3xl md:text-4xl font-bold leading-tight">{h1}</h1>}
           <p className="text-muted-foreground max-w-3xl">{t.about}</p>
           <dl className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-            <div><dt className="inline text-muted-foreground">{t.edition}: </dt><dd className="inline font-medium">CPI {latest?.edition_year}</dd></div>
-            <div><dt className="inline text-muted-foreground">{t.released}: </dt><dd className="inline font-medium">{date(latest?.release_date)}</dd></div>
+            <div><dt className="inline text-muted-foreground">{t.edition}: </dt><dd className="inline font-medium">CPI {ed?.edition_year}</dd></div>
+            <div><dt className="inline text-muted-foreground">{t.released}: </dt><dd className="inline font-medium">{date(ed?.release_date)}</dd></div>
             <div><dt className="inline text-muted-foreground">{t.verified}: </dt><dd className="inline font-medium">{date(latest?.verified_at)}</dd></div>
           </dl>
         </header>
 
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {m === "global" ? (<>
-            <Kpi label={t.global} value={fmtScore(ed?.global_avg, lang)} note={`CPI ${year}`} src={{ href: CPI_SOURCES.cpi, label: `${t.source}: Transparency International` }} />
+            <Kpi label={t.global} value={fmtScore(globalAvg, lang)} note={`CPI ${year}`} src={globalSrc} />
             <Kpi label={t.countries} value={ed?.countries_covered?.toString() ?? t.unavailable} src={{ href: CPI_SOURCES.cpi, label: `${t.source}: Transparency International` }} />
             <Kpi label={t.below50} value={ed?.below_50?.toString() ?? t.unavailable} src={{ href: CPI_SOURCES.cpi, label: `${t.source}: Transparency International` }} />
             <Kpi label={t.top} value={top ? `${nameOf(top.country_iso3)} ${fmtScore(top.score, lang)}` : t.unavailable} src={{ href: CPI_SOURCES.cpi, label: `${t.source}: Transparency International` }} />
@@ -172,13 +187,13 @@ export default function CorruptionPerceptionsPage() {
             <Kpi label={t.score} value={fmtScore(own?.score, lang)} note={`CPI ${year}`} src={tiSrc} />
             <Kpi label={t.change} value={change == null ? t.unavailable : `${change > 0 ? "+" : ""}${change}`} note={`vs CPI ${year - 1}`} src={tiSrc} />
             <Kpi label={t.rank} value={rankLabel(own, ed?.countries_covered, lang)} src={tiSrc} />
-            <Kpi label={t.eu} value={fmtScore(ed?.eu_avg, lang)} note={m === "cyprus" ? `${t.global}: ${fmtScore(ed?.global_avg, lang)}` : undefined} src={euSrc} />
+            <Kpi label={t.eu} value={fmtScore(euAvg, lang)} note={`${t.global}: ${fmtScore(globalAvg, lang)}`} src={euSrc} />
           </>)}
         </section>
 
-        {years.length > 1 && (
-          <div className="flex items-center gap-2 text-sm"><span className="text-muted-foreground">{t.year}:</span>
-            {years.map((y) => <Button key={y} size="sm" variant={y === year ? "default" : "outline"} onClick={() => setYearSel(y)}>{y}</Button>)}
+        {(m === "global" ? tableYears : years).length > 1 && (
+          <div className="flex flex-wrap items-center gap-2 text-sm"><span className="text-muted-foreground">{t.year}:</span>
+            {(m === "global" ? tableYears : years).map((y) => <Button key={y} size="sm" variant={y === year ? "default" : "outline"} onClick={() => setYearSel(y)}>{y}</Button>)}
           </div>
         )}
 
@@ -190,7 +205,7 @@ export default function CorruptionPerceptionsPage() {
                 <LineChart data={chart}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                   <XAxis dataKey="year" /><YAxis domain={[0, 100]} /><Tooltip /><Legend />
-                  {latest?.eu_avg != null && <ReferenceLine y={latest.eu_avg} strokeDasharray="4 4" label={`${t.eu} ${latest.edition_year}: ${latest.eu_avg}`} />}
+                  {euAvg != null && <ReferenceLine y={euAvg} strokeDasharray="4 4" label={`${t.eu} ${year}: ${euAvg}`} />}
                   {chartIsos.map((i, k) => <Line key={i} dataKey={i} name={nameOf(i)} stroke={LINE[k % 3]} strokeWidth={2} connectNulls={false} dot />)}
                 </LineChart>
               </ResponsiveContainer>
@@ -201,23 +216,43 @@ export default function CorruptionPerceptionsPage() {
 
         {m === "global" && (
           <Card>
-            <CardHeader className="space-y-2"><CardTitle className="font-serif">{t.ranking} — CPI {year}</CardTitle>
-              <Input placeholder={t.search} value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" aria-label={t.search} />
+            <CardHeader className="space-y-3"><CardTitle className="font-serif">{t.ranking} — CPI {year}</CardTitle>
+              <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2">
+                <Input placeholder={t.search} value={q} onChange={(e) => setQ(e.target.value)} aria-label={t.search} />
+                <select aria-label={t.region} value={region} onChange={(e) => setRegion(e.target.value)} className="h-10 rounded-md border border-input bg-background px-3 text-sm">
+                  <option value="">{t.allRegions}</option>
+                  {regions.map((r) => <option key={r} value={r}>{r}</option>)}
+                </select>
+                <select aria-label={t.sortBy} value={sort} onChange={(e) => setSort(e.target.value as CpiSort)} className="h-10 rounded-md border border-input bg-background px-3 text-sm">
+                  <option value="rank">{t.sortBy}: {t.sortRank}</option>
+                  <option value="score">{t.sortBy}: {t.sortScore}</option>
+                  <option value="name">{t.sortBy}: {t.sortName}</option>
+                </select>
+              </div>
               <p className="text-xs text-muted-foreground">{t.compare}</p>
             </CardHeader>
             <CardContent>
-              <table className="w-full text-sm">
-                <thead><tr className="text-left text-muted-foreground border-b"><th className="py-2">#</th><th>Country</th><th>Score</th><th>Compare</th></tr></thead>
-                <tbody>{rows.map((r) => (
-                  <tr key={r.country_iso3} className="border-b last:border-0">
-                    <td className="py-2">{r.rank == null ? "—" : `${r.rank_tied ? "=" : ""}${r.rank}`}</td>
-                    <td>{nameOf(r.country_iso3)}</td><td>{fmtScore(r.score)}</td>
-                    <td><input type="checkbox" aria-label={`Compare ${r.country_name}`} checked={compare.includes(r.country_iso3)}
-                      disabled={!compare.includes(r.country_iso3) && compare.length >= MAX_COMPARE} onChange={() => setCompare((c) => toggleCompare(c, r.country_iso3))} /></td>
-                  </tr>))}</tbody>
-              </table>
-              <p className="mt-2 text-xs text-muted-foreground">{ed?.countries_covered} countries and territories in CPI {year}. Ties shown with “=”. Full table loads once the official dataset is imported.</p>
-              <Src href={CPI_SOURCES.cpi} label={`${t.source}: Transparency International`} />
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm min-w-[480px]">
+                  <thead><tr className="text-left text-muted-foreground border-b">
+                    {([["rank", "#"], ["name", t.country]] as [CpiSort, string][]).map(([k, l]) => (
+                      <th key={k} className="py-2 pr-2"><button type="button" onClick={() => setSort(k)} className={sort === k ? "font-semibold text-foreground" : "hover:text-foreground"}>{l}</button></th>))}
+                    <th className="pr-2">{t.region}</th>
+                    <th className="pr-2"><button type="button" onClick={() => setSort("score")} className={sort === "score" ? "font-semibold text-foreground" : "hover:text-foreground"}>{t.sortScore}</button></th>
+                    <th>{t.compareCol}</th></tr></thead>
+                  <tbody>{rows.map((r) => (
+                    <tr key={r.country_iso3} className="border-b last:border-0" data-testid="cpi-row">
+                      <td className="py-2 pr-2 tabular-nums">{r.rank == null ? "—" : `${r.rank_tied ? "=" : ""}${r.rank}`}</td>
+                      <td className="pr-2">{nameOf(r.country_iso3)}</td>
+                      <td className="pr-2 text-muted-foreground">{regionLabel(r.region)}</td>
+                      <td className="pr-2 tabular-nums">{r.score ?? t.unavailable}</td>
+                      <td><input type="checkbox" aria-label={`Compare ${r.country_name}`} checked={compare.includes(r.country_iso3)}
+                        disabled={!compare.includes(r.country_iso3) && compare.length >= MAX_COMPARE} onChange={() => setCompare((c) => toggleCompare(c, r.country_iso3))} /></td>
+                    </tr>))}</tbody>
+                </table>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">{t.showing} {rows.length} / {results.filter((r) => r.edition_year === year).length} · {ed?.countries_covered} countries and territories in CPI {year}. {t.tiesNote}</p>
+              <Src href={ed?.source_url ?? CPI_SOURCES.cpi} label={`${t.source}: Transparency International, CPI ${year}`} />
             </CardContent>
           </Card>
         )}

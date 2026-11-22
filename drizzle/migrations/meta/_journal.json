@@ -400,6 +400,13 @@
       "when": 1795351299141,
       "tag": "0056_integrity_source_health",
       "breakpoints": true
+    },
+    {
+      "idx": 57,
+      "version": "7",
+      "when": 1795353768352,
+      "tag": "0057_cpi_publish_counts",
+      "breakpoints": true
     }
   ]
 }

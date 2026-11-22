@@ -2,6 +2,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import { nicosiaHour } from "../_shared/ecb.ts";
+import { parseCpiSheet } from "../_shared/cpiWorkbook.ts";
 import { INTEGRITY_SOURCES, extractLinks, contentFingerprint, nextCpiUrl, claimStatus, classifyFailure, healthChanged, isWorking, type SourceStatus } from "../_shared/integritySources.ts";
 
 const corsHeaders = {
@@ -42,6 +43,29 @@ Deno.serve(async (req) => {
     if (!Number.isInteger(year)) return json({ error: "year required" }, 400);
     const { error } = await sb.rpc("publish_cpi_edition", { _year: year });
     return error ? json({ error: error.message }, 400) : json({ ok: true });
+  }
+
+  // Editor upload: validate the whole workbook, then replace the staged copy of that edition.
+  // Published figures are untouched until "publish-cpi".
+  if (action === "stage-cpi") {
+    const parsed = parseCpiSheet(Array.isArray(body.table) ? (body.table as unknown[][]) : []);
+    if ("errors" in parsed) return json({ error: "Workbook rejected", errors: parsed.errors }, 400);
+    if (parsed.rows.length < 100) return json({ error: `Only ${parsed.rows.length} countries found; a full edition is expected` }, 400);
+    const year = parsed.year;
+    const release = typeof body.release_date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(body.release_date) ? body.release_date : null;
+    const { data: names } = await sb.from("cpi_results").select("country_iso3,country_name_el").not("country_name_el", "is", null);
+    const el = new Map((names ?? []).map((n: any) => [n.country_iso3, n.country_name_el]));
+    const { data: ed } = await sb.from("cpi_editions").select("edition_year,status").eq("edition_year", year).maybeSingle();
+    if (!ed) {
+      const { error } = await sb.from("cpi_editions").insert({ edition_year: year, status: "staged", release_date: release, countries_covered: parsed.rows.length, source_url: `https://www.transparency.org/en/cpi/${year}` });
+      if (error) return json({ error: error.message }, 400);
+    } else if (release && ed.status !== "published") {
+      await sb.from("cpi_editions").update({ release_date: release }).eq("edition_year", year);
+    }
+    await sb.from("cpi_results").delete().eq("edition_year", year).eq("status", "staged");
+    const { error } = await sb.from("cpi_results").insert(parsed.rows.map((r) => ({ ...r, edition_year: year, status: "staged", country_name_el: el.get(r.country_iso3) ?? null })));
+    if (error) return json({ error: error.message }, 400);
+    return json({ ok: true, year, staged: parsed.rows.length });
   }
 
   if (action === "approve-update") {
