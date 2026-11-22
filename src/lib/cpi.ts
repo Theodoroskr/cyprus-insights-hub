@@ -67,3 +67,13 @@ export function toggleCompare(sel: string[], iso: string): string[] {
 
 /** Points below the EU benchmark, e.g. Cyprus 55 vs 62 → 7. */
 export const gapToEu = (score: number | null | undefined, eu: number | null | undefined) => (score == null || eu == null ? null : eu - score);
+
+/** Homepage card summary for the latest edition; null when nothing is published. */
+export function homeSummary(editions: CpiEdition[], results: CpiResult[]) {
+  const ed = [...editions].sort((a, b) => b.edition_year - a.edition_year)[0];
+  if (!ed) return null;
+  const cy = results.find((r) => r.country_iso3 === "CYP" && r.edition_year === ed.edition_year);
+  if (!cy || cy.score == null) return null;
+  const gr = results.find((r) => r.country_iso3 === "GRC" && r.edition_year === ed.edition_year);
+  return { edition: ed, cyprus: cy, greece: gr ?? null, change: yoy(results, "CYP", ed.edition_year) };
+}

@@ -23,6 +23,7 @@ import { DirectoryPreview } from "@/components/DirectoryPreview";
 import { DirectoryCtaBanner } from "@/components/DirectoryCtaBanner";
 import { UtilityBar } from "@/components/UtilityBar";
 import { AdSlot } from "@/components/banners/AdSlot";
+import { CpiHomeCard } from "@/components/home/CpiHomeCard";
 
 function HubTripleRow() {
   const hubs = [
@@ -160,6 +161,7 @@ const Index = () => {
 
         {/* Featured Companies by City */}
         <DirectoryCtaBanner />
+        <CpiHomeCard />
 
         <LeaderboardAdSlot slotId="homepage-mid" />
 
