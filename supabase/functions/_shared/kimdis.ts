@@ -140,7 +140,7 @@ export type SearchFilters = {
   kind?: ProcurementKind; q?: string; authority?: string; focus?: FocusCategory | "";
   minValue?: number | null; maxValue?: number | null; from?: string | null; to?: string | null;
 };
-type Matchable = OpenCheck & { title: string; authority_name: string | null; focus: string[]; value_without_vat: number | null; published_at: string | null };
+type Matchable = OpenCheck & { title: string; authority_name: string | null; title_en?: string | null; authority_name_en?: string | null; focus: string[]; value_without_vat: number | null; published_at: string | null };
 
 /** Lower case, no accents, final ς as σ — matches the database search columns. */
 export const foldGreek = (s: string) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().replace(/ς/g, "σ");
@@ -152,8 +152,9 @@ export function matchesSearch(n: Matchable, f: SearchFilters, now: Date = new Da
   if (n.kind !== kind) return false;
   if (kind === "tender" && !isOpenTender(n, now)) return false;
   if (n.superseded_by) return false;
-  if (f.q && !fold(n.title).includes(fold(f.q.trim()))) return false;
-  if (f.authority && !fold(n.authority_name ?? "").includes(fold(f.authority.trim()))) return false;
+  // Keywords match the official Greek text or its English translation.
+  if (f.q && ![n.title, n.title_en].some((t) => t && fold(t).includes(fold(f.q!.trim())))) return false;
+  if (f.authority && ![n.authority_name, n.authority_name_en].some((t) => t && fold(t).includes(fold(f.authority!.trim())))) return false;
   if (f.focus && !n.focus.includes(f.focus)) return false;
   if (f.minValue != null && (n.value_without_vat == null || n.value_without_vat < f.minValue)) return false;
   if (f.maxValue != null && (n.value_without_vat == null || n.value_without_vat > f.maxValue)) return false;
@@ -161,4 +162,51 @@ export function matchesSearch(n: Matchable, f: SearchFilters, now: Date = new Da
   if (f.from && (!day || day < f.from)) return false;
   if (f.to && (!day || day > f.to)) return false;
   return true;
+}
+
+/**
+ * English names for the fixed KIMDIS vocabulary (notice, procedure and contract types).
+ * Terms not listed here are shown as published, in Greek.
+ */
+export const KIMDIS_TERMS_EN: Record<string, string> = {
+  "Πρόσκληση": "Invitation to tender",
+  "Προκήρυξη": "Call for competition",
+  "Διακήρυξη": "Contract notice",
+  "Ανάθεση": "Award decision",
+  "Κατακύρωση": "Final award",
+  "Απευθείας ανάθεση": "Direct award",
+  "Ανοιχτή διαδικασία": "Open procedure",
+  "Κλειστή διαδικασία": "Restricted procedure",
+  "Ανταγωνιστικός διάλογος": "Competitive dialogue",
+  "Ανταγωνιστική διαδικασία με διαπραγμάτευση": "Competitive procedure with negotiation",
+  "Διαπραγμάτευση χωρίς προηγούμενη δημοσίευση": "Negotiated procedure without prior publication",
+  "Διαπραγμάτευση με προηγούμενη προκήρυξη διαγωνισμού (αρ.266 του ν. 4412/2016)": "Negotiated procedure with prior call for competition (Art. 266, Law 4412/2016)",
+  "Διαδικασία άρθρου 119 του ν.4412/16": "Procedure under Art. 119, Law 4412/2016",
+  "Διαδικασία άρθρου 128 του ν.4412/16": "Procedure under Art. 128, Law 4412/2016",
+  "Υπηρεσίες": "Services",
+  "Προμήθειες": "Supplies",
+  "Έργα": "Works",
+  "Μελέτες": "Studies",
+  "Τεχνικές ή λοιπές συναφείς υπηρεσίες": "Technical and related services",
+};
+
+/** A KIMDIS term in the reader's language: English when known, otherwise the published Greek. */
+export function kimdisTerm(v: string | null | undefined, lang: "en" | "el"): string | null {
+  if (!v) return null;
+  return lang === "en" ? KIMDIS_TERMS_EN[v.trim()] ?? v : v;
+}
+
+type Readable = { title: string; title_en?: string | null; authority_name: string | null; authority_name_en?: string | null };
+/**
+ * Title and contracting authority for the reader's language. Greek readers always get the official text;
+ * English readers get the stored translation, or the Greek original (flagged) until it exists.
+ */
+export function noticeText(n: Readable, lang: "en" | "el"): { title: string; authority: string | null; titleLang: "en" | "el"; authorityLang: "en" | "el"; translated: boolean } {
+  if (lang === "el") return { title: n.title, authority: n.authority_name, titleLang: "el", authorityLang: "el", translated: false };
+  const t = n.title_en?.trim(); const a = n.authority_name_en?.trim();
+  return {
+    title: t || n.title, titleLang: t ? "en" : "el",
+    authority: a || n.authority_name, authorityLang: a || !n.authority_name ? "en" : "el",
+    translated: !!t,
+  };
 }

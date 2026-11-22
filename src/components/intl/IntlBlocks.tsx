@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { articlePath } from "@/lib/articleUrl";
 import { listImage } from "@/lib/fallbackImage";
-import { grHref } from "@/lib/edition";
+import { grHref, grEnHref } from "@/lib/edition";
 import { cyprusHome, currentHost, greeceHome } from "@/lib/networkEditions";
 import { MARKET_LABEL, MARKET_SOURCE, storyMarket, type IntlStory } from "@/lib/internationalHome";
 import { useStatSeries } from "@/hooks/useStatSeries";
@@ -86,7 +86,7 @@ export function MarketEditions({ more }: { more?: More } = {}) {
     { key: "cy" as const, home: cyprusHome(host), text: "Cyprus business news, 61,000+ registered companies with regulator licences, and official economy, property and trade data.",
       links: [{ to: "/directory", label: "Company directory" }, { to: "/economy", label: "Economy" }, { to: "/funding", label: "Funding" }] },
     { key: "gr" as const, home: greeceHome(host), text: "Greek business news in Greek and English: banks, company announcements, funding, public tenders and official economic data.",
-      links: [{ to: grHref("/greece/business-pulse"), label: "Business Pulse" }, { to: grHref("/greece/opportunities"), label: "Tenders" }, { to: grHref("/greece/banking"), label: "Banking" }] },
+      links: [{ to: grEnHref("/greece/business-pulse"), label: "Business Pulse" }, { to: grEnHref("/greece/opportunities"), label: "Tenders" }, { to: grEnHref("/greece/banking"), label: "Banking" }] },
   ];
   return <section aria-labelledby="markets" className="mt-12">
     <Heading id="markets" more={more}>Market editions</Heading>
@@ -127,7 +127,7 @@ export function FundingBlock({ more = { to: "/funding", label: "All funding call
         {f.official_url && <a href={f.official_url} target="_blank" rel="noopener noreferrer" className="mt-auto pt-3 inline-flex items-center gap-1 text-xs text-muted-foreground underline">Official call <ExternalLink className="h-3 w-3" /></a>}
       </div>)}
     </div>
-    <p className="text-sm mt-3"><Link to={grHref("/greece/funding")} className="underline">Greece: funding and public tenders</Link></p>
+    <p className="text-sm mt-3"><Link to={grEnHref("/greece/funding")} className="underline">Greece: funding and public tenders</Link></p>
   </section>;
 }
 

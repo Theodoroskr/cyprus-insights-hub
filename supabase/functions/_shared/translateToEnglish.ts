@@ -20,6 +20,11 @@ export function translateToGreek<T extends TranslatableFields>(fields: T, apiKey
   return translateFields(fields, apiKey, TO_GREEK);
 }
 
+/** Same translator with a task-specific instruction (e.g. procurement records). */
+export function translateWith<T extends TranslatableFields>(fields: T, apiKey: string, instruction: string): Promise<T> {
+  return translateFields(fields, apiKey, instruction);
+}
+
 async function translateFields<T extends TranslatableFields>(fields: T, apiKey: string, instruction: string): Promise<T> {
   const keys = Object.keys(fields).filter((k) => fields[k]);
   const properties = Object.fromEntries(keys.map((k) => [k, { type: "string" }]));

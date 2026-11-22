@@ -13,12 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FOCUS_LABELS, KIMDIS_SEARCH_URL, foldGreek, matchesSearch, type FocusCategory, type ProcurementKind, type SearchFilters } from "../../../supabase/functions/_shared/kimdis";
+import { FOCUS_LABELS, KIMDIS_SEARCH_URL, foldGreek, kimdisTerm, matchesSearch, noticeText, type FocusCategory, type ProcurementKind, type SearchFilters } from "../../../supabase/functions/_shared/kimdis";
 import { grHref } from "@/lib/edition";
 import type { Lang } from "@/lib/greecePulse";
 
 type Notice = {
-  reference_number: string; kind: ProcurementKind; title: string; authority_name: string | null; notice_type: string | null; procedure_type: string | null;
+  reference_number: string; kind: ProcurementKind; title: string; title_en: string | null; authority_name: string | null; authority_name_en: string | null; notice_type: string | null; procedure_type: string | null;
   contract_type: string | null; published_at: string | null; deadline_at: string | null; value_without_vat: number | null; currency: string | null;
   cpv_codes: string[]; cpv_labels: string[]; focus: string[]; cancelled: boolean; superseded_by: string | null; amends_reference: string | null;
   winners: string[]; official_url: string; diavgeia_url: string | null; nuts_label: string | null;
@@ -26,7 +26,7 @@ type Notice = {
 type Saved = { id: string; name: string; filters: SearchFilters; daily_digest: boolean };
 
 const PAGE = 60;
-const COLS = "reference_number,kind,title,authority_name,notice_type,procedure_type,contract_type,published_at,deadline_at,value_without_vat,currency,cpv_codes,cpv_labels,focus,cancelled,superseded_by,amends_reference,winners,official_url,diavgeia_url,nuts_label";
+const COLS = "reference_number,kind,title,title_en,authority_name,authority_name_en,notice_type,procedure_type,contract_type,published_at,deadline_at,value_without_vat,currency,cpv_codes,cpv_labels,focus,cancelled,superseded_by,amends_reference,winners,official_url,diavgeia_url,nuts_label";
 const like = (s: string) => `%${foldGreek(s.trim()).replace(/[%_,()]/g, " ")}%`;
 
 function useNotices(f: SearchFilters, limit: number) {
@@ -36,8 +36,9 @@ function useNotices(f: SearchFilters, limit: number) {
       const kind = f.kind ?? "tender";
       let q = supabase.from("gr_procurement_notices").select(COLS, { count: "exact" }).eq("kind", kind).is("superseded_by", null);
       if (kind === "tender") q = q.eq("cancelled", false).gt("deadline_at", new Date().toISOString());
-      if (f.q) q = q.ilike("search_text", like(f.q));
-      if (f.authority) q = q.ilike("authority_search", like(f.authority));
+      // Keywords match the official Greek text or its English translation.
+      if (f.q) q = q.or(`search_text.ilike.${like(f.q)},search_text_en.ilike.${like(f.q)}`);
+      if (f.authority) q = q.or(`authority_search.ilike.${like(f.authority)},authority_search_en.ilike.${like(f.authority)}`);
       if (f.focus) q = q.contains("focus", [f.focus]);
       if (f.minValue != null) q = q.gte("value_without_vat", f.minValue);
       if (f.maxValue != null) q = q.lte("value_without_vat", f.maxValue);
@@ -68,6 +69,18 @@ function paramsFrom(f: SearchFilters): Record<string, string> {
   return o;
 }
 
+/** English CPV descriptions for the codes on screen (Greek readers keep the official Greek labels). */
+function useCpvEnglish(codes: string[], enabled: boolean) {
+  const key = [...new Set(codes)].sort();
+  return useQuery({
+    queryKey: ["gr-cpv-en", key], enabled: enabled && key.length > 0, staleTime: 3_600_000,
+    queryFn: async () => {
+      const { data } = await supabase.from("gr_cpv_labels").select("code,label_en").in("code", key).not("label_en", "is", null);
+      return new Map((data ?? []).map((r) => [r.code, r.label_en as string]));
+    },
+  });
+}
+
 export function Opportunities({ lang }: { lang: Lang }) {
   const el = lang === "el";
   const { user } = useAuth();
@@ -78,6 +91,9 @@ export function Opportunities({ lang }: { lang: Lang }) {
   useEffect(() => setDraft(f), [f]);
   const [limit, setLimit] = useState(PAGE);
   const { data, isLoading, isError } = useNotices(f, limit);
+  const { data: cpvEn } = useCpvEnglish((data?.rows ?? []).flatMap((n) => n.cpv_codes), !el);
+  const cpvText = (n: Notice) => n.cpv_codes.map((c, i) => `${c} ${(!el && cpvEn?.get(c)) || n.cpv_labels[i] || ""}`.trim()).join(" · ");
+  const cpvLang = (n: Notice) => (el || n.cpv_codes.some((c) => !cpvEn?.get(c)) ? "el" : "en");
   const NA = el ? "Μη διαθέσιμο" : "Unavailable";
   const dt = (d: string | null, time = false) => (d ? new Date(d).toLocaleString(el ? "el-GR" : "en-GB", time ? { dateStyle: "medium", timeStyle: "short", timeZone: "Europe/Athens" } : { dateStyle: "medium", timeZone: "Europe/Athens" }) : NA);
   const money = (v: number | null, cur: string | null) => (v == null ? NA : `${v.toLocaleString(el ? "el-GR" : "en-GB", { maximumFractionDigits: 2 })} ${cur ?? ""}`.trim() + (el ? " χωρίς ΦΠΑ" : " excl. VAT"));
@@ -154,33 +170,35 @@ export function Opportunities({ lang }: { lang: Lang }) {
     </div>
 
     <p className="text-xs text-muted-foreground mt-4">{isLoading ? "…" : isError ? (el ? "Τα στοιχεία δεν φορτώθηκαν." : "Could not load notices.") : `${data?.count ?? 0} ${kind === "tender" ? (el ? "ανοιχτοί διαγωνισμοί" : "open tenders") : (el ? "αναθέσεις" : "contract awards")}`}</p>
-    <ul className="divide-y divide-border mt-2">{(data?.rows ?? []).map((n) => (
+    <ul className="divide-y divide-border mt-2">{(data?.rows ?? []).map((n) => { const t = noticeText(n, lang); return (
       <li key={n.reference_number} className="py-4">
         <div className="flex flex-wrap gap-1.5 mb-1">
           {n.focus.map((x) => <Badge key={x} variant="outline" className="text-[10px]">{FOCUS_LABELS[x as FocusCategory]?.[lang] ?? x}</Badge>)}
           {n.amends_reference && <Badge variant="secondary" className="text-[10px]">{el ? "Τροποποίηση" : "Amended"}</Badge>}
           {n.cancelled && <Badge variant="destructive" className="text-[10px]">{el ? "Ματαιώθηκε" : "Cancelled"}</Badge>}
+          {!el && !t.translated && <Badge variant="secondary" className="text-[10px]">English translation pending</Badge>}
         </div>
-        <a href={n.official_url} target="_blank" rel="noopener noreferrer" lang="el" className="font-serif font-semibold text-lg hover:underline break-words">{n.title}</a>
+        <a href={n.official_url} target="_blank" rel="noopener noreferrer" lang={t.titleLang} className="font-serif font-semibold text-lg hover:underline break-words">{t.title}</a>
+        {t.translated && <details className="text-xs text-muted-foreground mt-1"><summary className="cursor-pointer w-fit">Original Greek title</summary><p lang="el" className="mt-1">{n.title}</p></details>}
         <dl className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-1 text-sm mt-2">
-          <div><dt className="text-xs text-muted-foreground">{el ? "Αναθέτουσα αρχή" : "Contracting authority"}</dt><dd lang="el">{n.authority_name ?? NA}</dd></div>
+          <div><dt className="text-xs text-muted-foreground">{el ? "Αναθέτουσα αρχή" : "Contracting authority"}</dt><dd lang={t.authorityLang}>{t.authority ?? NA}</dd></div>
           <div><dt className="text-xs text-muted-foreground">{el ? "Δημοσίευση" : "Published"}</dt><dd>{dt(n.published_at)}</dd></div>
           {kind === "tender"
             ? <div><dt className="text-xs text-muted-foreground">{el ? "Προθεσμία υποβολής" : "Submission deadline"}</dt><dd className="font-medium">{dt(n.deadline_at, true)}</dd></div>
             : <div><dt className="text-xs text-muted-foreground">{el ? "Ανάδοχος" : "Awarded to"}</dt><dd lang="el">{n.winners.length ? n.winners.join(", ") : NA}</dd></div>}
           <div><dt className="text-xs text-muted-foreground">{el ? "Αξία" : "Value"}</dt><dd>{money(n.value_without_vat, n.currency)}</dd></div>
-          <div className="sm:col-span-2"><dt className="text-xs text-muted-foreground">{el ? "Κατηγορία (CPV)" : "Procurement category (CPV)"}</dt><dd lang="el" className="line-clamp-2">{n.cpv_codes.length ? n.cpv_codes.map((c, i) => `${c} ${n.cpv_labels[i] ?? ""}`.trim()).join(" · ") : NA}</dd></div>
-          <div><dt className="text-xs text-muted-foreground">{el ? "Διαδικασία" : "Procedure"}</dt><dd lang="el">{[n.notice_type, n.procedure_type].filter(Boolean).join(" · ") || NA}</dd></div>
+          <div className="sm:col-span-2"><dt className="text-xs text-muted-foreground">{el ? "Κατηγορία (CPV)" : "Procurement category (CPV)"}</dt><dd lang={cpvLang(n)} className="line-clamp-2">{n.cpv_codes.length ? cpvText(n) : NA}</dd></div>
+          <div><dt className="text-xs text-muted-foreground">{el ? "Διαδικασία" : "Procedure"}</dt><dd lang={lang}>{[kimdisTerm(n.notice_type, lang), kimdisTerm(n.procedure_type, lang)].filter(Boolean).join(" · ") || NA}</dd></div>
           <div><dt className="text-xs text-muted-foreground">{el ? "Κωδικός ΑΔΑΜ" : "Reference (ADAM)"}</dt><dd className="font-mono text-xs">{n.reference_number}</dd></div>
         </dl>
         <p className="flex flex-wrap gap-4 text-xs mt-2">
           <a href={n.official_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 underline">{el ? "Επίσημο έγγραφο (ΚΗΜΔΗΣ)" : "Official notice (KIMDIS)"}<ExternalLink className="h-3 w-3" /></a>
           {n.diavgeia_url && <a href={n.diavgeia_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 underline">Διαύγεια<ExternalLink className="h-3 w-3" /></a>}
         </p>
-      </li>))}</ul>
+      </li>); })}</ul>
     {!isLoading && !data?.rows.length && <p className="border border-dashed border-border p-6 text-sm text-muted-foreground">{el ? "Δεν βρέθηκαν αποτελέσματα για αυτά τα φίλτρα." : "No notices match these filters."}</p>}
     {(data?.count ?? 0) > limit && <Button variant="outline" className="mt-4" onClick={() => setLimit(limit + PAGE)}>{el ? "Περισσότερα" : "Show more"}</Button>}
-    <p className="text-xs text-muted-foreground mt-8 max-w-4xl">{el ? "Πηγή: ΚΗΜΔΗΣ Open Data API. Ελέγξτε πάντα το επίσημο έγγραφο πριν υποβάλετε προσφορά." : "Source: KIMDIS Open Data API. Always check the official notice before bidding."}{" "}
+    <p className="text-xs text-muted-foreground mt-8 max-w-4xl">{el ? "Πηγή: ΚΗΜΔΗΣ Open Data API. Ελέγξτε πάντα το επίσημο έγγραφο πριν υποβάλετε προσφορά." : "Source: KIMDIS Open Data API. Titles, authority names and categories are machine-translated from the official Greek; the Greek notice is the legal text. Always check the official notice before bidding."}{" "}
       <a href={KIMDIS_SEARCH_URL} target="_blank" rel="noopener noreferrer" className="underline">{el ? "Αναζήτηση στο ΚΗΜΔΗΣ" : "Official KIMDIS search"}</a> · <Link to={grHref("/greece/business-pulse")} className="underline">{el ? "Οικονομικοί Δείκτες Ελλάδας" : "Greece Business Pulse"}</Link></p>
   </div>;
 }

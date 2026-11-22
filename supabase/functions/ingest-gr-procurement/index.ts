@@ -2,6 +2,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
+import { translateNotices } from "../_shared/kimdisTranslate.ts";
 import { KIMDIS_API, KIMDIS_ENDPOINT, mapRecord, matchesSearch, type ProcurementKind, type ProcurementRow, type SearchFilters } from "../_shared/kimdis.ts";
 
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -49,6 +50,26 @@ Deno.serve(async (req) => {
   const action = String(body.action ?? "ingest");
 
   if (action === "digest") return json(await sendDigests(sb));
+  if (action === "translate") {
+    const apiKey = Deno.env.get("LOVABLE_API_KEY");
+    if (!apiKey) return json({ error: "Translation is not configured" }, 500);
+    // Small rounds (one AI call per worker) finish well inside the background time limit; the rest chains on.
+    const limit = Math.min(Math.max(Number(body.limit ?? 60) || 60, 1), 60);
+    const hop = Number(body.hop ?? 0);
+    // Work runs in the background so a caller that hangs up (schedules wait about a minute) does not stop it.
+    const work = (async () => {
+      try {
+        const t0 = Date.now();
+        const r = await translateNotices(sb, apiKey, { limit, cpvLimit: 150, deadlineMs: Date.now() + 60_000 });
+        console.log("translate", JSON.stringify({ hop, ms: Date.now() - t0, ...r }));
+        // Backfills carry on in a fresh call while work remains and progress is being made.
+        if ((r.notices_left > 0 || r.cpv_left > 0) && (r.notices > 0 || r.cpv > 0) && hop < 80) chain({ action: "translate", limit, hop: hop + 1 });
+      } catch (e) { console.error("translate failed", (e as Error).message); }
+    })();
+    // deno-lint-ignore no-explicit-any
+    (globalThis as any).EdgeRuntime?.waitUntil?.(work);
+    return json({ ok: true, started: true, hop }, 202);
+  }
   if (action !== "ingest") return json({ error: "Unknown action" }, 400);
 
   const kinds: ProcurementKind[] = body.kind === "award" ? ["award"] : body.kind === "tender" ? ["tender"] : ["tender", "award"];
@@ -87,6 +108,10 @@ Deno.serve(async (req) => {
           // Deduplicated by the official reference number (ΑΔΑΜ): a rerun or an amended record updates the same row.
           const { error } = await sb.from("gr_procurement_notices").upsert(rows.map((r) => ({ ...r, last_seen_at: now })), { onConflict: "reference_number" });
           if (error) throw error;
+          // New CPV categories join the label list so they get an English name too.
+          const cpv = new Map<string, string>();
+          for (const r of rows) r.cpv_codes.forEach((c, i) => { if (r.cpv_labels[i] && !cpv.has(c)) cpv.set(c, r.cpv_labels[i]); });
+          if (cpv.size) await sb.from("gr_cpv_labels").upsert([...cpv].map(([code, label_el]) => ({ code, label_el })), { onConflict: "code", ignoreDuplicates: true });
           for (const r of rows) known.has(r.reference_number) ? updated++ : added++;
           // An amendment replaces the notice it amends: the older one is marked as superseded.
           for (const r of rows.filter((x) => x.amends_reference)) {
@@ -119,8 +144,21 @@ Deno.serve(async (req) => {
     // deno-lint-ignore no-explicit-any
     (globalThis as any).EdgeRuntime?.waitUntil?.(cont);
   }
+  // Once a run has finished, new and changed notices get their English text.
+  if (!nextPage && added + updated > 0) chain({ action: "translate" });
   return json({ ok: true, added, updated, skipped, rejected, scanned, rejects, next: nextPage, ...report });
 });
+
+/** Starts another call of this function in the background (service caller). */
+function chain(payload: Record<string, unknown>) {
+  const p = fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/ingest-gr-procurement`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`, "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }).catch(() => undefined);
+  // deno-lint-ignore no-explicit-any
+  (globalThis as any).EdgeRuntime?.waitUntil?.(p);
+}
 
 // deno-lint-ignore no-explicit-any
 async function sendDigests(sb: any) {

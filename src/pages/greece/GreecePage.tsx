@@ -6,8 +6,8 @@ import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { articlePath } from "@/lib/articleUrl";
-import { Fragment, useState } from "react";
-import { BANKING_FILTERS, GR_PAGES, GR_SECTIONS, grHref } from "@/lib/edition";
+import { Fragment, useEffect, useState } from "react";
+import { BANKING_FILTERS, GR_PAGES, GR_SECTIONS, grHref, langFromSearch } from "@/lib/edition";
 import { GREECE_NAV_SLUGS } from "@/config/siteSections";
 import { BusinessPulse } from "@/components/greece/BusinessPulse";
 import { Opportunities } from "@/components/greece/Opportunities";
@@ -285,8 +285,17 @@ function Org({ slug, lang }: { slug: string; lang: Lang }) {
 
 export default function GreecePage() {
   const { section, slug } = useParams();
-  const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("gr-lang") === "en" ? "en" : "el"));
-  const changeLang = (l: Lang) => { localStorage.setItem("gr-lang", l); setLang(l); };
+  const [params, setParams] = useSearchParams();
+  const urlLang = langFromSearch(params.toString());
+  // A link that names the language (?lang=en from English pages) wins over the last choice on this device.
+  const [lang, setLang] = useState<Lang>(() => urlLang ?? (localStorage.getItem("gr-lang") === "en" ? "en" : "el"));
+  useEffect(() => { if (urlLang && urlLang !== lang) { setLang(urlLang); localStorage.setItem("gr-lang", urlLang); } }, [urlLang]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (urlLang) localStorage.setItem("gr-lang", urlLang); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const changeLang = (l: Lang) => {
+    localStorage.setItem("gr-lang", l); setLang(l);
+    // Keep the address in step so a shared link opens in the language on screen.
+    if (urlLang && urlLang !== l) { const next = new URLSearchParams(params); next.set("lang", l); setParams(next, { replace: true }); }
+  };
   const el = lang === "el"; const sec = section ? (GR_SECTIONS.find((s) => s.slug === section) ?? GR_PAGES.find((s) => s.slug === section)) : undefined;
   const title = slug ? (el ? "Οργανισμός" : "Organisation") : section ? ((el ? sec?.el : sec?.en) ?? (el ? "Ελλάδα" : "Greece")) : (el ? "Επιχειρηματική ενημέρωση για την Ελλάδα" : "Business intelligence for Greece");
   const path = slug ? `/greece/org/${slug}` : section ? `/greece/${section}` : "/greece";

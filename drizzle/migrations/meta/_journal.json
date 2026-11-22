@@ -379,6 +379,13 @@
       "when": 1795208714884,
       "tag": "0053_gr_procurement_search_text",
       "breakpoints": true
+    },
+    {
+      "idx": 54,
+      "version": "7",
+      "when": 1795330605071,
+      "tag": "0054_gr_procurement_english",
+      "breakpoints": true
     }
   ]
 }

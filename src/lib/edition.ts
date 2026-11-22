@@ -64,6 +64,18 @@ export function grHref(appPath: string, gr: boolean = onGrHost()): string {
   return appPath.slice(GR_PREFIX.length) || "/";
 }
 
+/** A Greece-edition link opened in English (used from English-only pages such as the International edition). */
+export function grEnHref(appPath: string, gr: boolean = onGrHost()): string {
+  const href = grHref(appPath, gr);
+  return `${href}${href.includes("?") ? "&" : "?"}lang=en`;
+}
+
+/** `?lang=en|el` on a Greece page, or null when the address does not choose a language. */
+export function langFromSearch(search: string): "en" | "el" | null {
+  const v = new URLSearchParams(search).get("lang");
+  return v === "en" || v === "el" ? v : null;
+}
+
 /** Paths businesshub.gr shows itself: the Greece edition and story pages (incl. the Cyprus/International blend). */
 export function servedOnGrHost(path: string): boolean {
   return isGreecePath(grHostToAppPath(path)) || path === "/article" || path.startsWith("/article/") || path === COMPARE_PATH;

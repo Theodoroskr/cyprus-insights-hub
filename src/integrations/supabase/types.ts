@@ -2780,12 +2780,35 @@ export type Database = {
         }
         Relationships: []
       }
+      gr_cpv_labels: {
+        Row: {
+          code: string
+          label_el: string
+          label_en: string | null
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          label_el: string
+          label_en?: string | null
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          label_el?: string
+          label_en?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gr_procurement_notices: {
         Row: {
           amends_reference: string | null
           authority_code: string | null
           authority_name: string | null
+          authority_name_en: string | null
           authority_search: string | null
+          authority_search_en: string | null
           cancelled: boolean
           contract_type: string | null
           cpv_codes: string[]
@@ -2806,10 +2829,13 @@ export type Database = {
           published_at: string | null
           reference_number: string
           search_text: string | null
+          search_text_en: string | null
           signed_date: string | null
           source_updated_at: string | null
           superseded_by: string | null
           title: string
+          title_en: string | null
+          translated_at: string | null
           updated_at: string
           value_with_vat: number | null
           value_without_vat: number | null
@@ -2819,7 +2845,9 @@ export type Database = {
           amends_reference?: string | null
           authority_code?: string | null
           authority_name?: string | null
+          authority_name_en?: string | null
           authority_search?: string | null
+          authority_search_en?: string | null
           cancelled?: boolean
           contract_type?: string | null
           cpv_codes?: string[]
@@ -2840,10 +2868,13 @@ export type Database = {
           published_at?: string | null
           reference_number: string
           search_text?: string | null
+          search_text_en?: string | null
           signed_date?: string | null
           source_updated_at?: string | null
           superseded_by?: string | null
           title: string
+          title_en?: string | null
+          translated_at?: string | null
           updated_at?: string
           value_with_vat?: number | null
           value_without_vat?: number | null
@@ -2853,7 +2884,9 @@ export type Database = {
           amends_reference?: string | null
           authority_code?: string | null
           authority_name?: string | null
+          authority_name_en?: string | null
           authority_search?: string | null
+          authority_search_en?: string | null
           cancelled?: boolean
           contract_type?: string | null
           cpv_codes?: string[]
@@ -2874,10 +2907,13 @@ export type Database = {
           published_at?: string | null
           reference_number?: string
           search_text?: string | null
+          search_text_en?: string | null
           signed_date?: string | null
           source_updated_at?: string | null
           superseded_by?: string | null
           title?: string
+          title_en?: string | null
+          translated_at?: string | null
           updated_at?: string
           value_with_vat?: number | null
           value_without_vat?: number | null

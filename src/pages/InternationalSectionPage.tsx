@@ -10,7 +10,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { Button } from "@/components/ui/button";
 import { listImage } from "@/lib/fallbackImage";
-import { grHref, INTL_PATH } from "@/lib/edition";
+import { grEnHref, INTL_PATH } from "@/lib/edition";
 import { currentHost, greeceHome, intlHome } from "@/lib/networkEditions";
 import { MARKET_LABEL, type Market } from "@/lib/internationalHome";
 import {
@@ -34,13 +34,13 @@ const RELATED: Record<StorySection, RelLink[]> = {
     { to: "/company-announcements", label: "Company announcements", note: "Cyprus disclosures, each linked to its filing" },
     { to: "/directory", label: "Business directory", note: "61,000+ registered Cyprus companies" },
     { to: "/rankings", label: "Cyprus rankings", note: "Companies and markets from official data" },
-    { to: grHref("/greece/announcements"), label: "Greek company announcements", note: "Results, deals and disclosures in Greece" },
+    { to: grEnHref("/greece/announcements"), label: "Greek company announcements", note: "Results, deals and disclosures in Greece" },
   ],
   fintech: [
     { to: "/fintech", label: "FinTechHub.cy", note: "Cyprus digital finance and payments" },
     { to: "/directory/cysec-licensed-firms", label: "CySEC-licensed firms", note: "From the official register" },
     { to: "/regtech", label: "RegTechHub.cy", note: "Technology for regulatory work" },
-    { to: grHref("/greece/fintech"), label: "Greece fintech", note: "Greek payments and digital banking" },
+    { to: grEnHref("/greece/fintech"), label: "Greece fintech", note: "Greek payments and digital banking" },
   ],
   compliance: [
     { to: "/compliance", label: "ComplianceHub.cy", note: "AML, sanctions and regulatory news" },
@@ -50,8 +50,8 @@ const RELATED: Record<StorySection, RelLink[]> = {
   ],
   funding: [
     { to: "/funding", label: "Funding & subsidies", note: "The full catalogue of Cyprus and EU calls" },
-    { to: grHref("/greece/funding"), label: "Greece funding", note: "Greek programmes and funding news" },
-    { to: grHref("/greece/opportunities"), label: "Greek public tenders", note: "Every open tender, searchable" },
+    { to: grEnHref("/greece/funding"), label: "Greece funding", note: "Greek programmes and funding news" },
+    { to: grEnHref("/greece/opportunities"), label: "Greek public tenders", note: "Every open tender, searchable" },
   ],
 };
 
@@ -141,19 +141,19 @@ function MarketsView() {
   </>;
 }
 
-type Tender = { reference_number: string; title: string; authority_name: string | null; deadline_at: string | null; value_without_vat: number | null; currency: string | null; official_url: string };
+type Tender = { reference_number: string; title: string; title_en: string | null; authority_name: string | null; authority_name_en: string | null; deadline_at: string | null; value_without_vat: number | null; currency: string | null; official_url: string };
 
 /** Smaller notices (office supplies, minor services) stay on the full tenders page. */
 const MIN_TENDER_VALUE = 100_000;
 
-/** Larger Greek public tenders closing soonest, as published on KIMDIS (titles stay in Greek). */
+/** Larger Greek public tenders closing soonest, as published on KIMDIS (English translation when available). */
 function GreekTenders() {
   const { data = [], isLoading } = useQuery({
     queryKey: ["intl-gr-tenders"],
     staleTime: 600_000,
     queryFn: async () => {
       const { data, error } = await supabase.from("gr_procurement_notices")
-        .select("reference_number,title,authority_name,deadline_at,value_without_vat,currency,official_url")
+        .select("reference_number,title,title_en,authority_name,authority_name_en,deadline_at,value_without_vat,currency,official_url")
         .eq("kind", "tender").is("superseded_by", null).eq("cancelled", false).gt("deadline_at", new Date().toISOString())
         .gte("value_without_vat", MIN_TENDER_VALUE).order("deadline_at", { ascending: true }).limit(6);
       if (error) throw error;
@@ -162,12 +162,12 @@ function GreekTenders() {
   });
   if (!isLoading && !data.length) return null;
   return <section aria-labelledby="tenders" className="mt-12">
-    <Heading id="tenders" more={{ to: grHref("/greece/opportunities"), label: "All Greek tenders" }}>Larger Greek public tenders closing soon</Heading>
-    <p className="text-xs text-muted-foreground">Over €100,000, from KIMDIS, Greece's official procurement register. Titles are shown in Greek, as published.</p>
+    <Heading id="tenders" more={{ to: grEnHref("/greece/opportunities"), label: "All Greek tenders" }}>Larger Greek public tenders closing soon</Heading>
+    <p className="text-xs text-muted-foreground">Over €100,000, from KIMDIS, Greece's official procurement register. Titles are machine-translated from the official Greek.</p>
     <ul className="divide-y divide-border mt-2">{data.map((t) => <li key={t.reference_number} className="py-3 grid sm:grid-cols-[1fr_auto] gap-x-6 gap-y-1">
       <div className="min-w-0">
-        <a href={t.official_url} target="_blank" rel="noopener noreferrer" lang="el" className="font-serif font-semibold hover:underline line-clamp-2">{t.title}</a>
-        {t.authority_name && <p className="text-xs text-muted-foreground mt-0.5" lang="el">{t.authority_name}</p>}
+        <a href={t.official_url} target="_blank" rel="noopener noreferrer" lang={t.title_en ? "en" : "el"} className="font-serif font-semibold hover:underline line-clamp-2">{t.title_en || t.title}</a>
+        {(t.authority_name_en || t.authority_name) && <p className="text-xs text-muted-foreground mt-0.5" lang={t.authority_name_en ? "en" : "el"}>{t.authority_name_en || t.authority_name}</p>}
       </div>
       <div className="text-sm sm:text-right whitespace-nowrap">
         {t.deadline_at && <p><span className="text-muted-foreground">Closes</span> {format(new Date(t.deadline_at), "d MMM yyyy")}</p>}
@@ -243,7 +243,7 @@ function DataView() {
     </section>}
     <div className="mt-10"><AdSlot size="leaderboard" slotId="intl-mid" /></div>
     {gr.length > 0 && <section aria-labelledby="gr-data" className="mt-12">
-      <Heading id="gr-data" more={{ to: grHref("/greece/business-pulse"), label: "Greece Business Pulse" }}>Greece: trade and travel</Heading>
+      <Heading id="gr-data" more={{ to: grEnHref("/greece/business-pulse"), label: "Greece Business Pulse" }}>Greece: trade and travel</Heading>
       <div className="grid md:grid-cols-3 gap-5 mt-4">{gr.map(({ ds, latest, change }) => <div key={ds.code} className="border border-border rounded-lg bg-card p-5">
         <h3 className="font-serif font-semibold text-lg">{ds.title_en}</h3>
         <p className="text-xs text-muted-foreground">{ds.unit_label} · {periodLabel(latest.period, "en")}</p>
@@ -254,7 +254,7 @@ function DataView() {
     </section>}
     <p className="text-sm mt-8 flex flex-wrap gap-x-5 gap-y-1">
       <Link to="/economy" className="underline">Cyprus economy dashboard</Link>
-      <Link to={grHref("/greece/business-pulse")} className="underline">Greece Business Pulse</Link>
+      <Link to={grEnHref("/greece/business-pulse")} className="underline">Greece Business Pulse</Link>
       <Link to="/compare/greece-cyprus" className="underline">Greece–Cyprus comparison</Link>
       <Link to="/open-data" className="underline">Open data sources</Link>
     </p>
