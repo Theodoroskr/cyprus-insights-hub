@@ -103,6 +103,20 @@ function across(rows: Cell[][], r: number, c0: number): Found {
   return best;
 }
 
+/** "From"/"To" date columns (the bank's current layout): 1 Jan – 31 Mar → "2025-Q1", a single month → "2025-01"; anything else stays as it is. */
+function spanLabel(from: Cell, to: Cell): string | null {
+  const isDate = (x: Cell): x is number => typeof x === "number" && x > 20000 && x < 80000;
+  if (!isDate(from) || !isDate(to)) return null;
+  const a = serialToIso(from), b = serialToIso(to);
+  const ya = Number(a.slice(0, 4)), ma = Number(a.slice(5, 7)), yb = Number(b.slice(0, 4)), mb = Number(b.slice(5, 7));
+  if (a.slice(8) !== "01" || ya !== yb) return null;
+  const end = new Date(Date.UTC(yb, mb, 0)).getUTCDate();
+  if (Number(b.slice(8)) !== end) return null;
+  if (mb === ma) return `${ya}-${pad(ma)}`;
+  if (mb - ma === 2 && (ma - 1) % 3 === 0) return `${ya}-Q${(ma + 2) / 3}`;
+  return "cumulative " + a + " " + b; // a longer span: never stored
+}
+
 /** Periods down the side, Total as a column header. A year on its own line applies to the quarter/month lines below it. */
 function down(rows: Cell[][], r: number, c: number): Found {
   let best: Found = { periods: new Map(), conflicts: [], skipped: [] };
@@ -112,7 +126,7 @@ function down(rows: Cell[][], r: number, c: number): Found {
     for (let i = r + 1; i < rows.length; i++) {
       const y = yearOf(rows[i]?.[lc] ?? null);
       if (y) { carry = y; }
-      pairs.push({ label: rows[i]?.[lc] ?? null, year: carry, value: rows[i]?.[c] ?? null });
+      pairs.push({ label: spanLabel(rows[i]?.[lc] ?? null, rows[i]?.[lc + 1] ?? null) ?? rows[i]?.[lc] ?? null, year: carry, value: rows[i]?.[c] ?? null });
       // a year cell can sit in the column left of the quarter label
       if (lc > 0) { const y2 = yearOf(rows[i]?.[lc - 1] ?? null); if (y2) carry = y2; }
     }

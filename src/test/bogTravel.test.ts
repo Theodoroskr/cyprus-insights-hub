@@ -44,6 +44,18 @@ describe("Bank of Greece travellers file", () => {
     expect(r.rows.map((x) => x.period)).toEqual(["2025-Q1", "2025-Q2"]);
   });
 
+  it("reads the bank's From/To date layout as quarters, not months", () => {
+    const d = (iso: string) => (Date.parse(iso) - Date.UTC(1899, 11, 30)) / 86_400_000;
+    const sheet = { name: "Sheet1", rows: [
+      ["From", "To", "EU", "TOTAL"],
+      [d("2025-01-01"), d("2025-03-31"), 1, 2576.3],
+      [d("2025-04-01"), d("2025-06-30"), 1, 10697.2],
+    ] };
+    const p = parseBogTravellers([sheet]);
+    expect(p.frequency).toBe("Q");
+    expect(p.rows.map((r) => r.period)).toEqual(["2025-Q1", "2025-Q2"]);
+    expect(p.rows[1].value).toBe(10697.2);
+  });
   it("refuses a file that gives two different totals for one quarter", () => {
     const rows = [["", "Q1 2025", "Q2 2025", "Q1 2025"], ["Total", 1650, 10200, 1700]];
     expect(() => parseBogTravellers([{ name: "S", rows }])).toThrow(/two different totals/);
