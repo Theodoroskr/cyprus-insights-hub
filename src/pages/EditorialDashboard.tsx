@@ -17,7 +17,7 @@ import {
   Search, Filter, RefreshCw, ChevronLeft, ChevronRight,
   AlertTriangle, Users, Image, ShieldCheck, Rss,
   ExternalLink, Loader2, Send,
-  GraduationCap, Megaphone, Star, Flag,
+  GraduationCap, Megaphone, Star, Flag, Plus, Pencil,
 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { HIGHLIGHT_HOURS, highlightUntil, isHighlighted } from "@/lib/highlight";
@@ -44,11 +44,13 @@ import { TourismPanel } from "@/components/admin/TourismPanel";
 import { FundingPanel } from "@/components/admin/FundingPanel";
 import { VenuesPanel } from "@/components/admin/VenuesPanel";
 import { NewStoryDialog } from "@/components/admin/NewStoryDialog";
+import { SourceFormDialog } from "@/components/admin/SourceFormDialog";
 import { videoEmbed, videoProblem } from "@/lib/videoEmbed";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Database } from "@/integrations/supabase/types";
 
 type Article = Database["public"]["Tables"]["cna_articles"]["Row"];
+type ContentSource = Database["public"]["Tables"]["content_sources"]["Row"];
 type ArticleStatus = Database["public"]["Enums"]["article_status"];
 type ArticleVertical = Database["public"]["Enums"]["article_vertical"];
 
@@ -198,6 +200,9 @@ function RegulatoryPanel() {
 function SourcesPanel() {
   const queryClient = useQueryClient();
   const [scrapingSlug, setScrapingSlug] = useState<string | null>(null);
+  const [formOpen, setFormOpen] = useState(false);
+  const [editing, setEditing] = useState<ContentSource | null>(null);
+  const [filter, setFilter] = useState("");
 
   const { data: sources, isLoading } = useQuery({
     queryKey: ["content-sources"],
@@ -217,7 +222,8 @@ function SourcesPanel() {
     try {
       const { data, error } = await supabase.functions.invoke("scrape-sources", { body: { slug } });
       if (error) throw error;
-      toast.success(`Found ${data.total_found} articles, ingested ${data.total_ingested} new.`);
+      if (data?.total_found === undefined) toast.info(data?.message || "Nothing to collect from this source yet.");
+      else toast.success(`Found ${data.total_found} articles, ingested ${data.total_ingested} new.`);
       queryClient.invalidateQueries({ queryKey: ["content-sources"] });
     } catch (e: any) {
       toast.error(e.message || "Scrape failed");
@@ -240,13 +246,25 @@ function SourcesPanel() {
     }
   };
 
+  const openNew = () => { setEditing(null); setFormOpen(true); };
+  const openEdit = (s: ContentSource) => { setEditing(s); setFormOpen(true); };
+
+  // Greece sources first by edition, then Cyprus/EU/Global, then anything else.
+  const groupOf = (s: ContentSource) =>
+    s.country === "GR" ? "greece" : s.country === "INT" ? "international" : ["cyprus", "eu", "global"].includes(s.category) ? s.category : "other";
   const groups = [
-    { key: "cyprus", title: "🏛 Cyprus — Regulators & Government" },
+    { key: "cyprus", title: "🏛 Cyprus — Regulators, Government & Companies" },
     { key: "eu", title: "🇪🇺 EU — Strategic Layer" },
     { key: "global", title: "🌍 Global Institutional" },
+    { key: "international", title: "🌐 International edition" },
+    { key: "greece", title: "🇬🇷 Greece edition" },
+    { key: "other", title: "Other Cyprus sources" },
   ];
 
-  const neverScraped = sources?.filter((s) => s.active && !s.last_scraped_at).length || 0;
+  const q = filter.trim().toLowerCase();
+  const shown = (sources || []).filter((s) => !q || `${s.name} ${s.url}${s.scrape_path} ${s.category}`.toLowerCase().includes(q));
+  const neverScraped = sources?.filter((s) => s.active && s.access_status === "active" && !s.last_scraped_at).length || 0;
+  const awaiting = sources?.filter((s) => s.access_status !== "active").length || 0;
   const stale = sources?.filter((s) => {
     if (!s.active || !s.last_scraped_at) return false;
     return Date.now() - new Date(s.last_scraped_at).getTime() > s.scrape_interval_hours * 60 * 60 * 1000 * 2;
@@ -254,45 +272,68 @@ function SourcesPanel() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-serif font-bold text-foreground mb-1">Content Sources</h2>
           <p className="text-sm text-muted-foreground">
             {sources?.length || 0} sources · {neverScraped > 0 && <span className="text-amber-600">{neverScraped} never scraped · </span>}
+            {awaiting > 0 && <span>{awaiting} awaiting permission · </span>}
             {stale > 0 && <span className="text-amber-600">{stale} overdue</span>}
           </p>
         </div>
-        <Button size="sm" onClick={triggerAll} disabled={!!scrapingSlug} className="gap-1.5">
-          {scrapingSlug === "__all__" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
-          Scrape All
-        </Button>
+        <div className="flex items-center gap-2">
+          <Input value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Find a source…" className="h-8 w-48" aria-label="Find a source" />
+          <Button size="sm" variant="outline" onClick={openNew} className="gap-1.5">
+            <Plus className="h-3.5 w-3.5" /> Add source
+          </Button>
+          <Button size="sm" onClick={triggerAll} disabled={!!scrapingSlug} className="gap-1.5">
+            {scrapingSlug === "__all__" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+            Scrape All
+          </Button>
+        </div>
       </div>
+
+      <SourceFormDialog
+        open={formOpen}
+        onOpenChange={setFormOpen}
+        source={editing}
+        allSources={sources || []}
+        onSaved={(slug, collect) => { if (collect) toast.info("Use the refresh button on its row to collect now.", { duration: 6000 }); }}
+      />
 
       {isLoading ? (
         <p className="text-sm text-muted-foreground text-center py-8">Loading sources…</p>
+      ) : shown.length === 0 ? (
+        <p className="text-sm text-muted-foreground text-center py-8">No sources match.</p>
       ) : (
         groups.map(({ key, title }) => {
-          const group = sources?.filter((s) => s.category === key) || [];
+          const group = shown.filter((s) => groupOf(s) === key);
           if (group.length === 0) return null;
           return (
             <div key={key}>
-              <h3 className="font-semibold text-foreground mb-3 text-sm">{title}</h3>
+              <h3 className="font-semibold text-foreground mb-3 text-sm">{title} <span className="text-muted-foreground font-normal">({group.length})</span></h3>
               <div className="border border-border rounded-lg overflow-hidden divide-y divide-border">
                 {group.map((source) => {
-                  const isOverdue = source.active && source.last_scraped_at &&
+                  const collectable = source.active && source.access_status === "active";
+                  const isOverdue = collectable && source.last_scraped_at &&
                     Date.now() - new Date(source.last_scraped_at).getTime() > source.scrape_interval_hours * 60 * 60 * 1000 * 2;
                   return (
-                    <div key={source.id} className={`flex items-center gap-3 px-4 py-3 bg-card ${!source.active ? "opacity-50" : ""}`}>
+                    <div key={source.id} className={`flex items-center gap-3 px-4 py-3 bg-card ${!collectable ? "opacity-60" : ""}`}>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-medium text-sm text-foreground truncate">{source.name}</span>
                           <Badge variant="outline" className="text-[10px] uppercase tracking-wider shrink-0">{source.target_vertical}</Badge>
+                          {source.auto_publish && <Badge variant="outline" className="text-[10px] shrink-0">Auto-publish</Badge>}
                           {!source.active && <Badge variant="secondary" className="text-[10px]">Paused</Badge>}
+                          {source.access_status !== "active" && <Badge variant="secondary" className="text-[10px]">Awaiting permission</Badge>}
                         </div>
                         <a href={`${source.url}${source.scrape_path}`} target="_blank" rel="noopener noreferrer"
-                          className="text-[11px] text-muted-foreground hover:text-foreground flex items-center gap-1 mt-0.5">
-                          <ExternalLink className="h-2.5 w-2.5" />{source.url}{source.scrape_path}
+                          className="text-[11px] text-muted-foreground hover:text-foreground flex items-center gap-1 mt-0.5 truncate">
+                          <ExternalLink className="h-2.5 w-2.5 shrink-0" />{source.url}{source.scrape_path}
                         </a>
+                        {source.last_error && collectable && (
+                          <p className="text-[11px] text-destructive mt-0.5 truncate" title={source.last_error}>Last problem: {source.last_error}</p>
+                        )}
                       </div>
                       <div className="text-right shrink-0">
                         {source.last_scraped_at ? (
@@ -306,8 +347,12 @@ function SourcesPanel() {
                           </span>
                         )}
                       </div>
-                      <Button size="sm" variant="ghost" className="h-7 w-7 p-0 shrink-0"
-                        disabled={!!scrapingSlug || !source.active}
+                      <Button size="sm" variant="ghost" className="h-7 w-7 p-0 shrink-0" aria-label={`Edit ${source.name}`}
+                        onClick={() => openEdit(source)}>
+                        <Pencil className="h-3.5 w-3.5" />
+                      </Button>
+                      <Button size="sm" variant="ghost" className="h-7 w-7 p-0 shrink-0" aria-label={`Collect ${source.name} now`}
+                        disabled={!!scrapingSlug || !collectable}
                         onClick={() => triggerScrape(source.slug)}>
                         {scrapingSlug === source.slug ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
                       </Button>
@@ -329,7 +374,7 @@ const EditorialDashboard = () => {
 
   const [activePanel, setActivePanel] = useState<"articles" | "subscribers" | "newsletter" | "banners" | "regulatory" | "sources" | "directory" | "resources" | "health" | "review" | "realestate" | "mastercard" | "facebook" | "linkedin" | "academy" | "announcements" | "compliance" | "tourism" | "funding" | "venues">(() => {
     const tab = new URLSearchParams(window.location.search).get("tab");
-    return tab === "newsletter" ? "newsletter" : tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "linkedin" ? "linkedin" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : tab === "compliance" ? "compliance" : tab === "tourism" ? "tourism" : tab === "funding" ? "funding" : tab === "venues" ? "venues" : "articles";
+    return tab === "newsletter" ? "newsletter" : tab === "sources" ? "sources" : tab === "open-data" ? "realestate" : tab === "mastercard" ? "mastercard" : tab === "facebook" ? "facebook" : tab === "linkedin" ? "linkedin" : tab === "academy" ? "academy" : tab === "announcements" ? "announcements" : tab === "compliance" ? "compliance" : tab === "tourism" ? "tourism" : tab === "funding" ? "funding" : tab === "venues" ? "venues" : "articles";
   });
   const [statusFilter, setStatusFilter] = useState<ArticleStatus | "all">("all");
   const [verticalFilter, setVerticalFilter] = useState<ArticleVertical | "all">("all");

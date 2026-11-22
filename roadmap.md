@@ -82,3 +82,6 @@
 ## ComplianceHub automation (Nov 22)
 - [x] Auto-publish CySEC circulars + CBC announcements (labelled not reviewed, switch per source in admin)
 - [x] Two ComplianceHub social posts a day (10:00, 16:00 Cyprus), admin preview / post now / history
+
+## Back office (Nov 22)
+- [x] Add / edit scraping sources in Editorial → Sources (reuse-permission check, drafts by default)

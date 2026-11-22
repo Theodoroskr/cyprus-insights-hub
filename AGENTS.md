@@ -5,6 +5,7 @@
 - People are never auto-merged by name; name matches go to `match_review_queue`. Why: identical names are common and errors are reputational.
 - Regulatory data is split by `record_type` (licensed, warning, enforcement); a warning must never be shown as a company's own sanction. Why: legal accuracy.
 - Scrapers only collect from sources with `access_status = 'active'`. Why: no collection until reuse rights are confirmed.
+- Scraping sources are added/edited in Editorial → Sources (`SourceFormDialog`, rules in `src/lib/contentSource.ts`): a new source is collected only when the editor confirms reuse rights (`access_status='active'`), auto-publish requires that, and stories otherwise land as drafts. Why: editors add sources without bypassing the reuse-rights rule.
 - `extract-entities` has its own hourly cron at :30 (after the :00 scrape), never triggered from `scrape-sources`. Why: linking must not wait on a scrape batch; one trigger, no duplicate runs.
 - Custom Studio uses the `custom-studio` banner placement and shows a labelled "Advertise here" placeholder (as do the other homepage slots) when no live, in-date image is available; sponsored article pages remain separate. Why: reuse banner scheduling without reserving empty homepage space.
 - Homepage banner slots are a fixed list in `PLACEHOLDER_SLOTS` (`AdSlot.tsx`) mirrored in the Banners admin; each slot ID appears once per page; hubs/articles use `hub-top`/`article-inline`, Greece pages `greece-top`/`greece-mid`/`greece-footer`. Why: prevent repeated ads and keep placements bookable.
