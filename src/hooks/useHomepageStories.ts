@@ -33,7 +33,7 @@ async function fetchPackageLinks(articleIds: string[]): Promise<PackageLink[]> {
 
 /** The homepage's story blocks, shared by the lead section, the story package and the feed. */
 export function useHomepageStories() {
-  const news = useBlendedNews();
+  const news = useBlendedNews(undefined, { cyprusMix: true });
   const pool = news.data ?? [];
   const ids = pool.map((s) => s.id);
   const links = useQuery({

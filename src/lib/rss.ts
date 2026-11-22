@@ -3,6 +3,7 @@
 
 import { SITE_URL, escapeXml } from "./sitemap";
 import { isInternationalStory } from "./storyOrigin";
+import { mixByShare } from "./editionMix";
 
 /** How many of the newest stories each feed carries. */
 export const RSS_ITEM_LIMIT = 50;
@@ -231,22 +232,11 @@ export function inEditionFeed(row: ScopeRow, feed: EditionFeedKey): boolean {
 export const EDITION_MIX = {
   international: { greece: 0.15, cyprus: 0.1 },
   greece: { international: 0.25, cyprus: 0.1 },
-  cyprus: { greece: 0.2, international: 0.2 },
+  cyprus: { international: 0.25, greece: 0.15 }, // same as the Cyprus homepage (CYPRUS_HOME_MIX)
 } as const;
 
-/** Take round(limit × share) newest items from each other pool, fill the rest from the edition's own; no link twice, newest first. Short pools are topped up from the own pool. */
+/** Mix other editions' items into an edition feed by share (see `mixByShare`); invalid dates dropped, no link twice, newest first. */
 export function mixFeed(own: (RssItem | null)[], others: { items: (RssItem | null)[]; share: number }[], limit = RSS_ITEM_LIMIT): RssItem[] {
-  const used = new Set<string>();
-  const take = (pool: (RssItem | null)[], n: number) => {
-    const out: RssItem[] = [];
-    for (const i of selectItems(pool, Number.MAX_SAFE_INTEGER)) {
-      if (out.length >= n) break;
-      if (used.has(i.path)) continue;
-      used.add(i.path); out.push(i);
-    }
-    return out;
-  };
-  const mixed = others.flatMap((o) => take(o.items, Math.round(limit * o.share)));
-  const rest = take(own, limit - mixed.length);
-  return selectItems([...rest, ...mixed], limit);
+  const clean = (pool: (RssItem | null)[]) => selectItems(pool, Number.MAX_SAFE_INTEGER);
+  return mixByShare(clean(own), others.map((o) => ({ items: clean(o.items), share: o.share })), limit, (i) => i.path, (i) => Date.parse(i.publishedAt));
 }

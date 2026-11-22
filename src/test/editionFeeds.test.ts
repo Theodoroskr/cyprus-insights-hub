@@ -30,9 +30,9 @@ describe("edition mix in a 50-story feed", () => {
     const f = mixFeed(items("gr", 80), [{ items: items("intl", 80), share: EDITION_MIX.greece.international }, { items: items("cy", 80), share: EDITION_MIX.greece.cyprus }]);
     expect([count(f, "intl"), count(f, "cy"), count(f, "gr")]).toEqual([13, 5, 32]);
   });
-  it("Cyprus carries 20% Greece and 20% International", () => {
-    const f = mixFeed(items("cy", 80), [{ items: items("gr", 80), share: EDITION_MIX.cyprus.greece }, { items: items("intl", 80), share: EDITION_MIX.cyprus.international }]);
-    expect([count(f, "gr"), count(f, "intl"), count(f, "cy")]).toEqual([10, 10, 30]);
+  it("Cyprus carries 25% International and 15% Greece (60% Cyprus)", () => {
+    const f = mixFeed(items("cy", 80), [{ items: items("intl", 80), share: EDITION_MIX.cyprus.international }, { items: items("gr", 80), share: EDITION_MIX.cyprus.greece }]);
+    expect([count(f, "cy"), count(f, "intl"), count(f, "gr")]).toEqual([30, 13, 7]);
   });
   it("tops up from the edition's own stories when another edition is short", () => {
     const f = mixFeed(items("cy", 80), [{ items: items("gr", 3), share: 0.2 }]);

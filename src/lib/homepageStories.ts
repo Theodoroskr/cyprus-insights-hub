@@ -110,7 +110,8 @@ export function pickStoryPackage(pool: HomeStory[], links: PackageLink[], shown:
 export function partitionHomepage<T extends HomeStory>(pool: T[], links: PackageLink[] = []) {
   const hub = pool.slice(0, HUB_COUNT);
   const shown = new Set(hub.map((s) => s.id));
-  const latest = pool.slice(HUB_COUNT).sort(newestFirst).slice(0, LATEST_COUNT);
+  // Next stories in pool order (keeps the edition mix), shown newest first.
+  const latest = pool.slice(HUB_COUNT, HUB_COUNT + LATEST_COUNT).sort(newestFirst);
   latest.forEach((s) => shown.add(s.id));
   const pkg = pickStoryPackage(pool, links, shown);
   pkg?.stories.forEach((s) => shown.add(s.id));

@@ -75,3 +75,6 @@
 ## International edition pages (Nov 21)
 - [x] Own pages for Markets, Companies & Investment, Fintech, Compliance, Funding, Data (/intl/...), linked from the header and the homepage blocks
 - [ ] bhubnetwork.com opening on the International edition — waiting on you: make businesshub.cy the primary address in Domains
+
+## Cyprus edition mix (Nov 22)
+- [x] Cyprus homepage + Cyprus RSS: 60% Cyprus, 25% International, 15% Greece

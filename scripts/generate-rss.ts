@@ -109,7 +109,7 @@ async function main() {
   const en = (rows: PoolRow[]) => rows.map(newsToItem);
   const el = (rows: PoolRow[]) => rows.filter((r) => r.title_el?.trim()).map(greeceRssItem); // Greek feed stays in Greek
   const feeds = {
-    cyprus: mixFeed(en(cyRows), [{ items: en(greece), share: EDITION_MIX.cyprus.greece }, { items: en(intlRows), share: EDITION_MIX.cyprus.international }]),
+    cyprus: mixFeed(en(cyRows), [{ items: en(intlRows), share: EDITION_MIX.cyprus.international }, { items: en(greece), share: EDITION_MIX.cyprus.greece }]),
     international: mixFeed(en(intlRows), [{ items: en(greece), share: EDITION_MIX.international.greece }, { items: en(cyRows), share: EDITION_MIX.international.cyprus }]),
   };
   for (const f of EDITION_FEEDS) {
