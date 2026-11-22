@@ -332,3 +332,18 @@ export async function sha256(text: string): Promise<string> {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
+
+// ---------------- automatic publishing ----------------
+/**
+ * Whether a record may publish without an editor: its source is on the auto-publish list, it is still
+ * waiting in review, an editor has never touched it (an editor's unpublish or reject is final), the
+ * official source has not changed since it was filed, and the English title and summary are drafted.
+ */
+export function canAutoPublish(
+  item: { status: string; is_test?: boolean | null; reviewed_at?: string | null; change_pending?: boolean | null; title_en?: string | null; summary_en?: string | null },
+  source: { auto_publish?: boolean | null; status?: string | null } | null | undefined,
+): boolean {
+  if (!source?.auto_publish || source.status !== "active") return false;
+  if (item.status !== "review" || item.is_test || item.reviewed_at || item.change_pending) return false;
+  return !!item.title_en?.trim() && !!item.summary_en?.trim();
+}

@@ -78,3 +78,7 @@
 
 ## Cyprus edition mix (Nov 22)
 - [x] Cyprus homepage + Cyprus RSS: 60% Cyprus, 25% International, 15% Greece
+
+## ComplianceHub automation (Nov 22)
+- [x] Auto-publish CySEC circulars + CBC announcements (labelled not reviewed, switch per source in admin)
+- [x] Two ComplianceHub social posts a day (10:00, 16:00 Cyprus), admin preview / post now / history

@@ -1,7 +1,9 @@
 // ComplianceHub importer: reads official regulator / sanctions / FATF sources and files every new or changed
-// record for editor review. Nothing is published from here; failed or incomplete reads never touch stored records.
+// record for editor review. Only sources marked auto_publish publish by themselves (once drafted, labelled as not yet
+// editor-reviewed, see C.canAutoPublish); failed or incomplete reads never touch stored records.
 //   phase "collect"   – run each due source (per-source interval), dedupe, detect revisions
 //   phase "summarise" – draft summaries/translations for review items (dates only as quoted suggestions)
+//   phase "publish"   – publish drafted records from auto_publish sources (also runs after "summarise"/"all")
 //   action "validate" – test-read a configured source without importing
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { authenticateCronRequest } from "../_shared/cron-auth.ts";
@@ -400,6 +402,21 @@ async function runSummaries(sb: Sb, deadline: number, limit: number) {
   return { drafted: done, failed, blocked };
 }
 
+// ---------------- automatic publishing (trusted sources only) ----------------
+/** Publishes drafted review records from sources marked auto_publish; they stay labelled until an editor reviews them. */
+async function runAutoPublish(sb: Sb, sources: Row[]) {
+  const trusted = sources.filter((s) => s.auto_publish && s.status === "active");
+  if (!trusted.length) return { published: 0 };
+  const byId = new Map(trusted.map((s) => [s.id, s]));
+  const { data: rows } = await sb.from("compliance_items").select("id,status,is_test,reviewed_at,change_pending,title_en,summary_en,source_id")
+    .eq("status", "review").in("source_id", [...byId.keys()]).is("reviewed_at", null).eq("is_test", false).limit(200);
+  const ids = (rows ?? []).filter((r: Row) => C.canAutoPublish(r, byId.get(r.source_id))).map((r: Row) => r.id);
+  if (!ids.length) return { published: 0 };
+  const { error } = await sb.from("compliance_items").update({ status: "published", auto_published: true }).in("id", ids).eq("status", "review");
+  if (error) return { published: 0, error: error.message };
+  return { published: ids.length };
+}
+
 // ---------------- validate (configured sources without a reader) ----------------
 async function validateSource(src: Row) {
   const url = src.endpoint_urls?.[0] ?? src.homepage_url;
@@ -444,6 +461,7 @@ Deno.serve(async (req) => {
     const result: Row = { phase, via };
     if (phase === "collect" || phase === "all") result.collect = await runCollect(sb, sources, body.force === true, deadline, body.source_slug ? String(body.source_slug) : undefined);
     if ((phase === "summarise" || phase === "all") && Date.now() < deadline - 40000) result.summaries = await runSummaries(sb, deadline, Math.min(Number(body.limit ?? 8), 20));
+    if (phase === "summarise" || phase === "all" || phase === "publish") result.auto_published = await runAutoPublish(sb, sources);
     return json({ ok: true, ...result });
   } catch (e) {
     console.error(e);

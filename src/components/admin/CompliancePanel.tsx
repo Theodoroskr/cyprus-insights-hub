@@ -86,7 +86,7 @@ function ItemEditor({ id, onClose, onSaved }: { id: string; onClose: () => void;
       topics: f.topics, sectors: f.sectors, publication_date: nul(f.publication_date), application_date: nul(f.application_date), effective_date: nul(f.effective_date),
       deadline_date: nul(f.deadline_date), deadline_type: f.deadline_date ? nul(f.deadline_type) ?? "other" : null, deadline_note: nul(f.deadline_note),
       legal_act_ref: nul(f.legal_act_ref), regime: nul(f.regime), measure_type: nul(f.measure_type), countries: list(f.countries_txt ?? ""), audience: nul(f.audience), related_acts: list(f.related_txt ?? ""),
-      reviewed_at: new Date().toISOString(), ...(status ? { status } : {}),
+      reviewed_at: new Date().toISOString(), auto_published: false, ...(status ? { status } : {}),
     };
     const { data: u } = await supabase.auth.getUser();
     patch.reviewed_by = u.user?.id ?? null;
@@ -116,7 +116,7 @@ function ItemEditor({ id, onClose, onSaved }: { id: string; onClose: () => void;
     <div className="border-2 border-foreground p-4 space-y-4 bg-card">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <Badge variant="outline">{f.status}</Badge> <span className="text-xs text-muted-foreground">{f.authority} · {f.official_id ?? "no official ID"} · found {fmt(f.created_at)}</span>
+          <Badge variant="outline">{f.status}</Badge> {f.auto_published && <Badge variant="secondary">published automatically — not yet reviewed</Badge>} <span className="text-xs text-muted-foreground">{f.authority} · {f.official_id ?? "no official ID"} · found {fmt(f.created_at)}</span>
           <a href={f.canonical_url} target="_blank" rel="noopener noreferrer" className="block text-sm text-secondary hover:underline mt-1 break-all">{f.canonical_url} <ExternalLink className="inline h-3 w-3" /></a>
         </div>
         <Button size="sm" variant="ghost" onClick={onClose}><X className="h-4 w-4" /></Button>
@@ -247,8 +247,8 @@ function ItemsTab({ openId, setOpenId }: { openId: string | null; setOpenId: (v:
   const items = useQuery({
     queryKey: ["cmp-items", status, section],
     queryFn: async () => {
-      let query = db.from("compliance_items").select("id, status, authority, official_title, title_en, publication_date, deadline_date, sections, change_pending, summary_en, document_type, is_test").order("publication_date", { ascending: false, nullsFirst: false }).limit(400);
-      if (status === "changed") query = query.eq("change_pending", true); else if (status !== "all") query = query.eq("status", status);
+      let query = db.from("compliance_items").select("id, status, authority, official_title, title_en, publication_date, deadline_date, sections, change_pending, summary_en, document_type, is_test, auto_published").order("publication_date", { ascending: false, nullsFirst: false }).limit(400);
+      if (status === "changed") query = query.eq("change_pending", true); else if (status === "auto") query = query.eq("status", "published").eq("auto_published", true); else if (status !== "all") query = query.eq("status", status);
       if (section !== "all") query = query.contains("sections", [section]);
       return ((await query).data ?? []) as Row[];
     },
@@ -258,7 +258,7 @@ function ItemsTab({ openId, setOpenId }: { openId: string | null; setOpenId: (v:
     <div className="space-y-3">
       <div className="flex flex-wrap gap-2">
         <select className={sel} value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="review">Awaiting review</option><option value="changed">Source changed</option><option value="published">Published</option><option value="rejected">Rejected</option><option value="merged">Linked into another</option><option value="all">All</option>
+          <option value="review">Awaiting review</option><option value="changed">Source changed</option><option value="published">Published</option><option value="auto">Published automatically, not yet reviewed</option><option value="rejected">Rejected</option><option value="merged">Linked into another</option><option value="all">All</option>
         </select>
         <select className={sel} value={section} onChange={(e) => setSection(e.target.value)}><option value="all">All sections</option>{SECTIONS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select>
         <Input className="w-64" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
@@ -277,6 +277,7 @@ function ItemsTab({ openId, setOpenId }: { openId: string | null; setOpenId: (v:
                     {!i.summary_en && <Badge variant="secondary" className="text-[9px]">no summary yet</Badge>}
                     {i.change_pending && <Badge variant="destructive" className="text-[9px]">source changed</Badge>}
                     {i.deadline_date && <Badge variant="secondary" className="text-[9px]">deadline {i.deadline_date}</Badge>}
+                    {i.auto_published && <Badge variant="secondary" className="text-[9px]">auto-published · not reviewed</Badge>}
                     {i.is_test && <Badge variant="secondary" className="text-[9px]">test</Badge>}</span>
                 </span>
               </button>
@@ -308,7 +309,7 @@ function SourcesTab() {
     <div className="overflow-x-auto border border-border">
       <table className="w-full text-xs">
         <thead className="bg-muted/50 text-left uppercase tracking-wider text-muted-foreground"><tr>
-          <th className="p-2">Source</th><th className="p-2">Method</th><th className="p-2">Status</th><th className="p-2">Every (h)</th><th className="p-2">Last attempt</th><th className="p-2">Last success</th><th className="p-2">Found / new / changed</th><th className="p-2">Latest error</th><th className="p-2"></th></tr></thead>
+          <th className="p-2">Source</th><th className="p-2">Method</th><th className="p-2">Status</th><th className="p-2" title="New records publish by themselves once drafted, labelled as not yet reviewed">Auto-publish</th><th className="p-2">Every (h)</th><th className="p-2">Last attempt</th><th className="p-2">Last success</th><th className="p-2">Found / new / changed</th><th className="p-2">Latest error</th><th className="p-2"></th></tr></thead>
         <tbody className="divide-y divide-border">
           {(sources.data ?? []).map((s) => (
             <tr key={s.id} className="align-top">
@@ -317,6 +318,7 @@ function SourcesTab() {
               <td className="p-2">{s.collection_method}</td>
               <td className="p-2"><select className={sel + " h-7 text-xs"} value={s.status} onChange={(e) => update(s.id, { status: e.target.value })}>
                 <option value="active">active</option><option value="pending_validation">pending validation</option><option value="manual">manual</option><option value="disabled">disabled</option></select></td>
+              <td className="p-2"><label className="inline-flex items-center gap-1"><input type="checkbox" aria-label={`Auto-publish ${s.name}`} checked={!!s.auto_publish} onChange={(e) => update(s.id, { auto_publish: e.target.checked })} />{s.auto_publish ? "on" : "off"}</label></td>
               <td className="p-2"><Input type="number" min={1} className="h-7 w-16 text-xs" defaultValue={s.check_interval_hours} onBlur={(e) => Number(e.target.value) !== s.check_interval_hours && update(s.id, { check_interval_hours: Number(e.target.value) })} /></td>
               <td className="p-2 whitespace-nowrap">{fmt(s.last_attempt_at)}</td>
               <td className="p-2 whitespace-nowrap">{fmt(s.last_success_at)}</td>
@@ -431,7 +433,7 @@ export function CompliancePanel() {
   const [running, setRunning] = useState(false);
   const runAll = async () => {
     setRunning(true);
-    try { const r = await invoke({ phase: "all" }); toast.success(`Checked ${r.collect?.length ?? 0} due sources · ${r.summaries?.drafted ?? 0} summaries drafted${r.summaries?.blocked ? ` · drafting paused: ${r.summaries.blocked}` : ""}`); }
+    try { const r = await invoke({ phase: "all" }); toast.success(`Checked ${r.collect?.length ?? 0} due sources · ${r.summaries?.drafted ?? 0} summaries drafted · ${r.auto_published?.published ?? 0} published automatically${r.summaries?.blocked ? ` · drafting paused: ${r.summaries.blocked}` : ""}`); }
     catch (e) { toast.error((e as Error).message); }
     setRunning(false);
   };
@@ -444,7 +446,7 @@ export function CompliancePanel() {
         ))}
         <Button size="sm" variant="ghost" className="ml-auto gap-1" disabled={running} onClick={runAll}><RefreshCw className={`h-3.5 w-3.5 ${running ? "animate-spin" : ""}`} />Check due sources now</Button>
       </div>
-      <p className="text-xs text-muted-foreground">New records and source changes wait here. Nothing appears on ComplianceHub until an editor verifies and publishes it.</p>
+      <p className="text-xs text-muted-foreground">New records and source changes wait here for an editor. Sources with auto-publish on (CySEC circulars, Central Bank announcements) publish new records by themselves once the summary is drafted; they show "not yet reviewed" on ComplianceHub, without the "what changed" and "action" notes, until an editor saves them. An editor's unpublish or reject is never overridden.</p>
       {tab === "items" ? <ItemsTab openId={openId} setOpenId={setOpenId} /> : tab === "sources" ? <SourcesTab /> : tab === "fatf" ? <FatfTab /> : <ManualTab onCreated={(id) => { setOpenId(id); setTab("items"); }} />}
     </div>
   );

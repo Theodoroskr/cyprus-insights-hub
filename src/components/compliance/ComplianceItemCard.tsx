@@ -33,6 +33,9 @@ export function ComplianceItemCard({ item, lang, compact }: { item: ComplianceIt
           <LanguageNote shownLang={s.shownLang} lang={lang} />
         </p>
       )}
+      {!compact && item.auto_published && s.text && (
+        <p className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">{ct("Automatic summary — not yet reviewed by an editor", lang)}</p>
+      )}
       <div className="flex flex-wrap items-center gap-1.5 mt-2">
         {!compact && item.sectors.slice(0, 3).map((x) => <Badge key={x} variant="secondary" className="rounded-none text-[10px] font-normal">{label(SECTOR_LABELS, x, lang)}</Badge>)}
         <a href={item.canonical_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11px] text-secondary hover:underline ml-auto">

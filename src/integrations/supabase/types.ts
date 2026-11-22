@@ -1212,6 +1212,7 @@ export type Database = {
           application_date: string | null
           audience: string | null
           authority: string
+          auto_published: boolean
           canonical_url: string
           change_note: string | null
           change_pending: boolean
@@ -1261,6 +1262,7 @@ export type Database = {
           application_date?: string | null
           audience?: string | null
           authority: string
+          auto_published?: boolean
           canonical_url: string
           change_note?: string | null
           change_pending?: boolean
@@ -1310,6 +1312,7 @@ export type Database = {
           application_date?: string | null
           audience?: string | null
           authority?: string
+          auto_published?: boolean
           canonical_url?: string
           change_note?: string | null
           change_pending?: boolean
@@ -1372,6 +1375,7 @@ export type Database = {
       compliance_sources: {
         Row: {
           authority: string
+          auto_publish: boolean
           check_interval_hours: number
           collection_method: string
           created_at: string
@@ -1398,6 +1402,7 @@ export type Database = {
         }
         Insert: {
           authority: string
+          auto_publish?: boolean
           check_interval_hours?: number
           collection_method?: string
           created_at?: string
@@ -1424,6 +1429,7 @@ export type Database = {
         }
         Update: {
           authority?: string
+          auto_publish?: boolean
           check_interval_hours?: number
           collection_method?: string
           created_at?: string
@@ -4796,6 +4802,53 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      social_compliance_posts: {
+        Row: {
+          created_at: string
+          error: string | null
+          id: string
+          image_url: string | null
+          item_id: string
+          message: string | null
+          platform: string
+          post_id: string | null
+          slot: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          image_url?: string | null
+          item_id: string
+          message?: string | null
+          platform: string
+          post_id?: string | null
+          slot: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          image_url?: string | null
+          item_id?: string
+          message?: string | null
+          platform?: string
+          post_id?: string | null
+          slot?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_compliance_posts_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_items"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       social_data_posts: {
         Row: {

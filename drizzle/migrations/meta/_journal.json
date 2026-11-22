@@ -414,6 +414,13 @@
       "when": 1795379691243,
       "tag": "0058_social_data_posts",
       "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "7",
+      "when": 1795381156437,
+      "tag": "0059_compliance_auto_publish_and_social",
+      "breakpoints": true
     }
   ]
 }

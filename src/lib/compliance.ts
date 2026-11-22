@@ -11,10 +11,12 @@ export interface ComplianceItem {
   deadline_date: string | null; deadline_type: string | null; deadline_note: string | null;
   legal_act_ref: string | null; regime: string | null; measure_type: string | null; countries: string[];
   audience: string | null; related_acts: string[];
+  /** Published automatically from a trusted source; not yet reviewed by an editor. */
+  auto_published?: boolean;
 }
 export interface ComplianceRef { id: string; item_id: string; authority: string; official_id: string | null; url: string; title: string | null; language: string; published_at: string | null; role: string }
 
-export const PUBLIC_ITEM_COLUMNS = "id, slug, status, sections, authority, jurisdiction, official_id, canonical_url, document_type, official_title, title_en, title_el, summary_en, summary_el, what_changed_en, what_changed_el, action_en, action_el, source_language, topics, sectors, publication_date, application_date, effective_date, deadline_date, deadline_type, deadline_note, legal_act_ref, regime, measure_type, countries, audience, related_acts";
+export const PUBLIC_ITEM_COLUMNS = "id, slug, status, sections, authority, jurisdiction, official_id, canonical_url, document_type, official_title, title_en, title_el, summary_en, summary_el, what_changed_en, what_changed_el, action_en, action_el, source_language, topics, sectors, publication_date, application_date, effective_date, deadline_date, deadline_type, deadline_note, legal_act_ref, regime, measure_type, countries, audience, related_acts, auto_published";
 
 type L = { en: string; el: string };
 export const TOPIC_LABELS: Record<string, L> = {
@@ -82,6 +84,8 @@ const EL: Record<string, string> = {
   "Deadline type": "Τύπος προθεσμίας", "All deadline types": "Όλοι οι τύποι προθεσμιών", "Back to Regulatory Updates": "Επιστροφή στις Ρυθμιστικές Εξελίξεις",
   "Official title": "Επίσημος τίτλος", "Source publication date": "Ημερομηνία δημοσίευσης πηγής", "Document type": "Τύπος εγγράφου",
   "FATF status is shown separately from EU sanctions: a FATF listing is not a sanction.": "Η κατάσταση FATF εμφανίζεται χωριστά από τις κυρώσεις της ΕΕ: η καταχώριση από τη FATF δεν αποτελεί κύρωση.",
+  "Automatic summary — not yet reviewed by an editor": "Αυτόματη περίληψη — δεν έχει ακόμη ελεγχθεί από συντάκτη",
+  "Published automatically from the official source. The summary was drafted automatically from the official document and has not yet been checked by an editor — always rely on the official document.": "Δημοσιεύθηκε αυτόματα από την επίσημη πηγή. Η περίληψη συντάχθηκε αυτόματα από το επίσημο έγγραφο και δεν έχει ακόμη ελεγχθεί από συντάκτη — βασιστείτε πάντα στο επίσημο έγγραφο.",
   "Information is for monitoring purposes and is not legal advice. Always rely on the official document.": "Οι πληροφορίες προορίζονται για παρακολούθηση και δεν αποτελούν νομική συμβουλή. Βασιστείτε πάντα στο επίσημο έγγραφο.",
 };
 export const ct = (s: string, lang: Lang) => (lang === "el" ? EL[s] ?? s : s);

@@ -37,6 +37,7 @@ import { MastercardAdminPanel } from "@/components/admin/MastercardAdminPanel";
 import { FacebookAutopostPanel } from "@/components/admin/FacebookAutopostPanel";
 import { LinkedInAutopostPanel } from "@/components/admin/LinkedInAutopostPanel";
 import { DataPostsCard } from "@/components/admin/DataPostsCard";
+import { CompliancePostsCard } from "@/components/admin/CompliancePostsCard";
 import { AnnouncementsPanel } from "@/components/admin/AnnouncementsPanel";
 import { CompliancePanel } from "@/components/admin/CompliancePanel";
 import { TourismPanel } from "@/components/admin/TourismPanel";
@@ -721,6 +722,7 @@ const EditorialDashboard = () => {
           <>
             <FacebookAutopostPanel />
             <DataPostsCard />
+            <CompliancePostsCard />
           </>
         ) : activePanel === "linkedin" ? (
           <LinkedInAutopostPanel />

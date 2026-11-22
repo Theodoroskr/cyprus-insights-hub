@@ -73,9 +73,15 @@ export default function ComplianceItemPage() {
             </div>
           )}
 
+          {item.auto_published && (
+            <p role="note" className="border-l-4 border-border bg-muted/40 p-3 mb-6 text-xs text-muted-foreground">
+              {ct("Published automatically from the official source. The summary was drafted automatically from the official document and has not yet been checked by an editor — always rely on the official document.", lang)}
+            </p>
+          )}
           <Block title="Summary" item={item} field="summary" lang={lang} />
-          <Block title="What changed" item={item} field="what_changed" lang={lang} />
-          <Block title="Action or deadline stated by the source" item={item} field="action" lang={lang} />
+          {/* What changed / required action are interpretations: shown only once an editor has reviewed the record. */}
+          {!item.auto_published && <Block title="What changed" item={item} field="what_changed" lang={lang} />}
+          {!item.auto_published && <Block title="Action or deadline stated by the source" item={item} field="action" lang={lang} />}
           {!item.summary_en && !item.summary_el && <p className="text-sm text-muted-foreground mb-6">{ct("Summary not yet available — see the official document.", lang)}</p>}
 
           {(item.legal_act_ref || item.regime || item.measure_type || item.countries.length > 0) && (
