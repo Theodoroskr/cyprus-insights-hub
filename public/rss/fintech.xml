@@ -2,20 +2,310 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>BusinessHub.cy — FinTech</title>
-    <link>https://businesshub.cy/fintech</link>
+    <link>https://bhubnetwork.com/fintech</link>
     <description>Latest FinTech stories from BusinessHub.cy, Cyprus Edition.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 17 Nov 2026 12:03:15 GMT</lastBuildDate>
-    <atom:link href="https://businesshub.cy/rss/fintech.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Nov 2026 18:48:30 GMT</lastBuildDate>
+    <atom:link href="https://bhubnetwork.com/rss/fintech.xml" rel="self" type="application/rss+xml" />
     <image>
-      <url>https://businesshub.cy/apple-touch-icon.png</url>
+      <url>https://bhubnetwork.com/apple-touch-icon.png</url>
       <title>BusinessHub.cy — FinTech</title>
-      <link>https://businesshub.cy/fintech</link>
+      <link>https://bhubnetwork.com/fintech</link>
     </image>
     <item>
+      <title>Binance hack laundering ramps up as $149 million in bitcoin mixed through coinjoins: Elliptic</title>
+      <link>https://bhubnetwork.com/article/23df787d-e70f-4508-a91c-709bf127626b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/23df787d-e70f-4508-a91c-709bf127626b</guid>
+      <pubDate>Sun, 22 Nov 2026 18:48:30 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Hackers have begun laundering $149 million in Bitcoin stolen from Binance in 2019 using privacy-enhancing CoinJoin mixers, according to blockchain analytics firm Elliptic.</description>
+      <media:content url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2026/11/ChatGPT-Image-Nov-1-2026-12_51_51-PM_clean-1200x675.png" medium="image" type="image/png" />
+      <enclosure url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2026/11/ChatGPT-Image-Nov-1-2026-12_51_51-PM_clean-1200x675.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>At a glance 2026</title>
+      <link>https://bhubnetwork.com/article/5e18fd20-3199-4c73-a132-1bf713a3bfe5</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/5e18fd20-3199-4c73-a132-1bf713a3bfe5</guid>
+      <pubDate>Sun, 22 Nov 2026 18:48:00 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The EIB Group has announced its 2026 strategic focus on clean energy, digitalization, and innovation, supported by updated operational codes and financial instruments.</description>
+      <media:content url="https://www.eib.org/photos/download.do?documentId=69bd573ef23fec6aa3472eaa&amp;binaryType=S4" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.eib.org/photos/download.do?documentId=69bd573ef23fec6aa3472eaa&amp;binaryType=S4" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Five Days, Three Cities: Europe’s AI Founders Swap Pitches for Proof</title>
+      <link>https://bhubnetwork.com/article/779c4e18-4a11-4ee8-a0c3-2930d61e9ee1</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/779c4e18-4a11-4ee8-a0c3-2930d61e9ee1</guid>
+      <pubDate>Sat, 21 Nov 2026 18:00:59 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The EIT AI Entrepreneurs Lab concluded its inaugural European tour, helping AI startups pivot toward commercial viability and alignment with the EU AI Act.</description>
+      <media:content url="https://www.eit.europa.eu/sites/default/files/styles/masonry_600/public/2026-11/Statie_Photography_178_resize.png?itok=4osy3MZy" medium="image" type="image/png" />
+      <enclosure url="https://www.eit.europa.eu/sites/default/files/styles/masonry_600/public/2026-11/Statie_Photography_178_resize.png?itok=4osy3MZy" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>RIF: Cyprus at SLUSH 2026 with 25 innovative companies participating in the national delegation</title>
+      <link>https://bhubnetwork.com/article/0cfb75d3-730f-4081-a00f-e307a61cbd37</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/0cfb75d3-730f-4081-a00f-e307a61cbd37</guid>
+      <pubDate>Sat, 21 Nov 2026 08:09:13 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Cyprus sent its largest-ever delegation of 25 innovative companies to SLUSH 2026 in Helsinki, signaling the rapid internationalization of the island&apos;s tech ecosystem.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>EU and EIB back Medusa to strengthen Mediterranean digital links and connect Jordan’s research community</title>
+      <link>https://bhubnetwork.com/article/a305f13f-aad5-4020-8816-6f21abef727b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a305f13f-aad5-4020-8816-6f21abef727b</guid>
+      <pubDate>Fri, 20 Nov 2026 22:01:09 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The EU and EIB are funding the extension of the Medusa submarine cable to Jordan, enhancing digital connectivity and research collaboration across the Mediterranean, including Cyprus.</description>
+      <media:content url="https://www.eib.org/photos/rs/6afeec3c36526375dd677e4f/largeprvw/image.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.eib.org/photos/rs/6afeec3c36526375dd677e4f/largeprvw/image.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>EIB Vice President Fayolle travels to South Africa to strengthen the partnership with the country, focusing on health, clean transport and critical minerals</title>
+      <link>https://bhubnetwork.com/article/cda815af-6be7-4fcd-aa9b-c857ca9abda8</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/cda815af-6be7-4fcd-aa9b-c857ca9abda8</guid>
+      <pubDate>Fri, 20 Nov 2026 22:00:57 GMT</pubDate>
+      <category>FinTech</category>
+      <description>EIB Vice-President Fayolle visits South Africa to finalize €425M+ in financing for critical minerals, vaccine production, and green transport infrastructure.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Beata Javorcik appointed EIB Group Chief Economist</title>
+      <link>https://bhubnetwork.com/article/74c7a02c-5ba4-4ee7-a47c-57c21d09f07d</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/74c7a02c-5ba4-4ee7-a47c-57c21d09f07d</guid>
+      <pubDate>Fri, 20 Nov 2026 22:00:41 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Beata Javorcik, current EBRD Chief Economist, will join the EIB Group in April 2027 to lead strategic economic analysis and investment priorities.</description>
+      <media:content url="https://www.eib.org/photos/rs/ 6b0060dc9a2401ee029fc44b/largeprvw/image.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.eib.org/photos/rs/ 6b0060dc9a2401ee029fc44b/largeprvw/image.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>MoonPay applies for national trust bank charter to expand stablecoin services</title>
+      <link>https://bhubnetwork.com/article/373be770-9ba4-4fa9-b499-09f948f0bc2c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/373be770-9ba4-4fa9-b499-09f948f0bc2c</guid>
+      <pubDate>Fri, 20 Nov 2026 21:39:01 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Crypto infrastructure provider MoonPay has applied for a US National Trust Bank charter to scale its stablecoin and custodial services globally.</description>
+      <media:content url="https://www.tbstat.com/cdn-cgi/image/w=1200,f=avif,q=50/wp/uploads/2026/11/GettyImages-1321781011-1013x675.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.tbstat.com/cdn-cgi/image/w=1200,f=avif,q=50/wp/uploads/2026/11/GettyImages-1321781011-1013x675.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>CFTC Chair Selig outlines how Hyperliquid and other onchain venues could enter the US</title>
+      <link>https://bhubnetwork.com/article/938888a7-f052-4497-b04d-03addc484fd3</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/938888a7-f052-4497-b04d-03addc484fd3</guid>
+      <pubDate>Fri, 20 Nov 2026 21:38:48 GMT</pubDate>
+      <category>FinTech</category>
+      <description>CFTC Chair Summer Mersinger outlined a regulatory roadmap for decentralized exchanges like Hyperliquid to operate legally in the US, highlighting significant shifts in crypto oversight.</description>
+      <media:content url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2026/11/selig-cftc-1012x675.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2026/11/selig-cftc-1012x675.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Opening Keynote speech by the Chief Scientist for Research, Innovation and Technology of the Republic of Cyprus, Mr Demetris Skourides, at the 5th CSN Greece ICT Conference 2026</title>
+      <link>https://bhubnetwork.com/article/c7c8ae0b-616e-40a2-8d42-f697ffe2325c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/c7c8ae0b-616e-40a2-8d42-f697ffe2325c</guid>
+      <pubDate>Fri, 20 Nov 2026 21:01:00 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Cyprus&apos; Chief Scientist outlines a strategy for AI integration in shipping, emphasizing reliability, human oversight, and the transition from data collection to predictive foresight.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Basel Committee discusses risks and vulnerabilities faced by global banking system</title>
+      <link>https://bhubnetwork.com/article/67aadc53-941b-48c2-9f4c-70f3ee433058</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/67aadc53-941b-48c2-9f4c-70f3ee433058</guid>
+      <pubDate>Fri, 20 Nov 2026 08:00:42 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The Basel Committee is updating global banking standards to address risks from AI financing, third-party dependencies, and cryptoassets, signaling tighter supervision for 2027-28.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>EIT Governing Board advances water innovation, extends urban mobility partnership and agrees to strengthen oversight</title>
+      <link>https://bhubnetwork.com/article/7c6d41c5-a913-4821-90ee-f338d0b890f6</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/7c6d41c5-a913-4821-90ee-f338d0b890f6</guid>
+      <pubDate>Thu, 19 Nov 2026 20:02:39 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The EIT has finalized the startup phase for EIT Water and extended EIT Urban Mobility&apos;s partnership, while implementing stricter financial oversight and compliance measures.</description>
+      <media:content url="https://www.eit.europa.eu/sites/default/files/styles/masonry_600/public/2026-11/GB%20meeting%20web%20banner1.png?itok=k1Ea0tla" medium="image" type="image/png" />
+      <enclosure url="https://www.eit.europa.eu/sites/default/files/styles/masonry_600/public/2026-11/GB%20meeting%20web%20banner1.png?itok=k1Ea0tla" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Address by the Deputy Minister of Research, Innovation and Digital Policy at the Cyprus Institute of Neurology and Genetics Graduation</title>
+      <link>https://bhubnetwork.com/article/eea705dc-7421-46a9-b947-b56f3d7400bd</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/eea705dc-7421-46a9-b947-b56f3d7400bd</guid>
+      <pubDate>Thu, 19 Nov 2026 18:01:40 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The Deputy Minister of Research addressed 70 new CING graduates, emphasizing the role of resilience in scientific innovation and the Institute&apos;s impact on Cyprus&apos;s biomedical sector.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Deputy Minister of Migration, Research Deputy Minister – Press Conference</title>
+      <link>https://bhubnetwork.com/article/c838d4d5-8edc-4931-9141-4850774f646a</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/c838d4d5-8edc-4931-9141-4850774f646a</guid>
+      <pubDate>Thu, 19 Nov 2026 18:01:28 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The Cyprus government announces the digitisation of Migration Department services to improve efficiency and support the national digital transformation strategy.</description>
+      <media:content url="https://www.gov.cy/media/2026/11/Yf-Met-Yf-Erevnas-5-384x256.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.gov.cy/media/2026/11/Yf-Met-Yf-Erevnas-5-384x256.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Temu and Mastercard expand collaboration on digital payments and local business support</title>
+      <link>https://bhubnetwork.com/article/7cba763f-373c-42df-8ef7-1bb1a33a709a</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/7cba763f-373c-42df-8ef7-1bb1a33a709a</guid>
+      <pubDate>Thu, 19 Nov 2026 15:40:31 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Temu and Mastercard have expanded their partnership to enhance digital payment security, streamline checkout processes, and explore financial tools for local sellers globally.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>It’s time to prepare for a post-quantum future today</title>
+      <link>https://bhubnetwork.com/article/b95225b5-32bd-45c2-a612-471dbde69096</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b95225b5-32bd-45c2-a612-471dbde69096</guid>
+      <pubDate>Thu, 19 Nov 2026 15:40:28 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Mastercard has launched a Quantum Advisory Practice and published guidance to help financial institutions prepare for &quot;harvest now, decrypt later&quot; cyber threats.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Ericsson and Mastercard enhance global digital money movement and accelerate digital financial inclusion</title>
+      <link>https://bhubnetwork.com/article/b1afdb37-0e3e-4b18-b820-e4f7e8f51c63</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b1afdb37-0e3e-4b18-b820-e4f7e8f51c63</guid>
+      <pubDate>Thu, 19 Nov 2026 15:40:23 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Ericsson and Mastercard have integrated their platforms to simplify global money movement for telecoms and fintechs, targeting unbanked populations via mobile wallets.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Annual inflation up to 4.0% in the euro area</title>
+      <link>https://bhubnetwork.com/article/0ea0cd10-8df3-4592-855a-9ccce0cf9870</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/0ea0cd10-8df3-4592-855a-9ccce0cf9870</guid>
+      <pubDate>Thu, 19 Nov 2026 14:01:55 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Euro area inflation hit 4.0% in October 2026, with Cyprus significantly exceeding the average at 5.4%, primarily driven by energy and services costs.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>CITEA AT THE FOREFRONT OF THE CYPRUS–INDIA TECHNOLOGY PARTNERSHIP</title>
+      <link>https://bhubnetwork.com/article/b40aea9f-6fe2-4439-8151-19f3c60b8377</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b40aea9f-6fe2-4439-8151-19f3c60b8377</guid>
+      <pubDate>Thu, 19 Nov 2026 05:48:32 GMT</pubDate>
+      <category>FinTech</category>
+      <description>CITEA is building strategic AI and technology partnerships with India to enhance the expertise of the Cyprus tech ecosystem beyond simple service outsourcing.</description>
+      <media:content url="https://citea.cy/wp-content/uploads/2026/05/20260521-BUSINESS-DELEGATION-TO-INDIA.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://citea.cy/wp-content/uploads/2026/05/20260521-BUSINESS-DELEGATION-TO-INDIA.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Netherlands: Gradyent secures €20 million European venture debt financing to scale smart heating systems</title>
+      <link>https://bhubnetwork.com/article/33b50e60-3bf6-48fa-a5e3-e3f7d12535bd</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/33b50e60-3bf6-48fa-a5e3-e3f7d12535bd</guid>
+      <pubDate>Thu, 19 Nov 2026 00:00:33 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Dutch energy-tech firm Gradyent secured a €20 million EIB venture loan to scale its AI-driven digital twin software for heating and cooling network optimization.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>PRESS RELEASE – Strengthening International Connections for Cypriot Innovation through the Plug and Play APAC Summit in Singapore</title>
+      <link>https://bhubnetwork.com/article/b8db0c99-da89-4f04-bab9-da27bf05ba1d</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b8db0c99-da89-4f04-bab9-da27bf05ba1d</guid>
+      <pubDate>Tue, 17 Nov 2026 22:02:46 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Cyprus strengthens its innovation ties with the Asia-Pacific region through participation in the Plug and Play APAC Summit 2026 in Singapore.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>RIF PRESS RELEASE – Cyprus Delegation in Silicon Valley: Building New Bridges for Investment, Innovation and International Growth</title>
+      <link>https://bhubnetwork.com/article/8b2f32b8-9b13-47a3-8363-ec13b936e1a9</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/8b2f32b8-9b13-47a3-8363-ec13b936e1a9</guid>
+      <pubDate>Tue, 17 Nov 2026 22:02:36 GMT</pubDate>
+      <category>FinTech</category>
+      <description>A high-level Cyprus delegation visited Silicon Valley to pitch local startups to major international venture funds and establish strategic innovation partnerships.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Press Release: RIF Director General Participates in Falling Walls Science Summit in Berlin</title>
+      <link>https://bhubnetwork.com/article/129b8560-0fb4-4d31-9ed3-9aaf17511a30</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/129b8560-0fb4-4d31-9ed3-9aaf17511a30</guid>
+      <pubDate>Tue, 17 Nov 2026 22:02:24 GMT</pubDate>
+      <category>FinTech</category>
+      <description>RIF Director General Theodoros Loukaidis engaged with European science leaders in Berlin to discuss innovation ecosystem coordination and strategic resilience.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>PRESS RELEASE – Cyprus Ranks 3rd in Southern Europe for Corporate Startup Activity</title>
+      <link>https://bhubnetwork.com/article/f2734029-9a27-4e3b-abe7-c2d583e859da</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/f2734029-9a27-4e3b-abe7-c2d583e859da</guid>
+      <pubDate>Tue, 17 Nov 2026 22:02:10 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Cyprus ranks 3rd in Southern Europe for corporate startup engagement in the 2026 Index, highlighted by strong performance from Bank of Cyprus and ASBISc.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>The 2026 EIT Awards finalists revealed!</title>
+      <link>https://bhubnetwork.com/article/a6342e5a-8043-48b8-bbe1-02e71c870852</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a6342e5a-8043-48b8-bbe1-02e71c870852</guid>
+      <pubDate>Tue, 17 Nov 2026 22:01:07 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The European Institute of Innovation and Technology (EIT) has announced its 2026 award finalists, highlighting top European ventures in mobility, health, and sustainable food.</description>
+      <media:content url="https://www.eit.europa.eu/sites/default/files/styles/masonry_600/public/2026-11/EIT_Website%20Banner_Finalist%20%281%29.png?itok=GdNrU2HB" medium="image" type="image/png" />
+      <enclosure url="https://www.eit.europa.eu/sites/default/files/styles/masonry_600/public/2026-11/EIT_Website%20Banner_Finalist%20%281%29.png?itok=GdNrU2HB" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Lighter reopens withdrawals after trader&apos;s API key leak, returns about $5 million in USDC</title>
+      <link>https://bhubnetwork.com/article/62474aea-3e64-4f98-9f0f-950b9e671e09</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/62474aea-3e64-4f98-9f0f-950b9e671e09</guid>
+      <pubDate>Tue, 17 Nov 2026 18:30:40 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Lighter decentralized exchange resumed withdrawals after a protocol pause triggered by an API key leak that risked $5 million in USDC.</description>
+      <media:content url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2026/01/lighter-1200x675.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2026/01/lighter-1200x675.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Stablecoin infrastructure firm Avenia raises $25 million in Series A extension</title>
+      <link>https://bhubnetwork.com/article/fb700925-e333-40c4-bcf1-685c29bdcbca</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/fb700925-e333-40c4-bcf1-685c29bdcbca</guid>
+      <pubDate>Tue, 17 Nov 2026 17:37:51 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Avenia secured $25 million to scale its stablecoin infrastructure, focusing on bridging traditional finance and digital assets through global regulatory-compliant payment solutions.</description>
+      <media:content url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2025/04/20250411_Funding_News-1200x675.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2025/04/20250411_Funding_News-1200x675.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Grayscale says crypto pullback offers &apos;compelling entry points&apos; as bitcoin falls to $64,000</title>
+      <link>https://bhubnetwork.com/article/a6e0e3d0-bf9b-4b9a-897a-b41b04b2305e</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a6e0e3d0-bf9b-4b9a-897a-b41b04b2305e</guid>
+      <pubDate>Tue, 17 Nov 2026 17:37:41 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Grayscale identifies Bitcoin&apos;s recent drop to $64,000 as a &quot;compelling entry point,&quot; citing strong fundamentals despite market volatility.</description>
+      <media:content url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2025/09/20250919_Greyscale_News_2-1200x675.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.tbstat.com/cdn-cgi/image/w=506,f=avif,q=50/wp/uploads/2025/09/20250919_Greyscale_News_2-1200x675.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Romanian city of Ploiești to upgrade tram network with €36 million in EIB financing and €9 million in EU grants</title>
+      <link>https://bhubnetwork.com/article/e8b8b04f-c22a-4fa6-9bdb-51784e0caee8</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e8b8b04f-c22a-4fa6-9bdb-51784e0caee8</guid>
+      <pubDate>Tue, 17 Nov 2026 15:02:11 GMT</pubDate>
+      <category>FinTech</category>
+      <description>The EIB and EU are providing €45 million to modernize Ploiești&apos;s tram network, marking Romania&apos;s first project under the Public Sector Loan Facility.</description>
+      <media:content url="https://www.eib.org/photos/rs/6afc261b36526375dd677e36/largeprvw/image.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.eib.org/photos/rs/6afc261b36526375dd677e36/largeprvw/image.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
       <title>EIB unlocks half of planned €800 million in financing for Romania’s Cernavodă nuclear plant refurbishment</title>
-      <link>https://businesshub.cy/article/be89d912-4cf7-4643-9ef7-1398f636901c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/be89d912-4cf7-4643-9ef7-1398f636901c</guid>
+      <link>https://bhubnetwork.com/article/be89d912-4cf7-4643-9ef7-1398f636901c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/be89d912-4cf7-4643-9ef7-1398f636901c</guid>
       <pubDate>Tue, 17 Nov 2026 12:03:15 GMT</pubDate>
       <category>FinTech</category>
       <description>The EIB has released €400 million of a planned €800 million loan to refurbish Romania&apos;s Cernavodă nuclear plant, securing long-term low-carbon energy for the region.</description>
@@ -24,18 +314,18 @@
     </item>
     <item>
       <title>Digital firms drive surge in business R&amp;D as government R&amp;D budgets across the OECD fall for a second consecutive year</title>
-      <link>https://businesshub.cy/article/a93def12-a74a-4574-a740-5728e2e7dd6c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/a93def12-a74a-4574-a740-5728e2e7dd6c</guid>
+      <link>https://bhubnetwork.com/article/a93def12-a74a-4574-a740-5728e2e7dd6c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a93def12-a74a-4574-a740-5728e2e7dd6c</guid>
       <pubDate>Tue, 17 Nov 2026 12:01:31 GMT</pubDate>
       <category>FinTech</category>
       <description>Global public R&amp;D budgets are declining for a second year while private sector digital and AI R&amp;D spending surges by double digits.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>EIC Fund companies highlight its role in supporting fundraising and growth</title>
-      <link>https://businesshub.cy/article/23cab852-b0f2-47f0-b7ce-c97230c290b8</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/23cab852-b0f2-47f0-b7ce-c97230c290b8</guid>
+      <link>https://bhubnetwork.com/article/23cab852-b0f2-47f0-b7ce-c97230c290b8</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/23cab852-b0f2-47f0-b7ce-c97230c290b8</guid>
       <pubDate>Tue, 17 Nov 2026 11:01:07 GMT</pubDate>
       <category>FinTech</category>
       <description>A new EIC Fund survey confirms its vital role in startup fundraising and credibility, while highlighting a growing focus on dual-use and defense technologies.</description>
@@ -44,8 +334,8 @@
     </item>
     <item>
       <title>Infocredit Group and Mastercard to Sponsor the 27th NextGen Payments &amp; RegTech Forum in Cyprus</title>
-      <link>https://businesshub.cy/article/2ed19a36-9e69-4ab3-8bf7-5edd73b82a57</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/2ed19a36-9e69-4ab3-8bf7-5edd73b82a57</guid>
+      <link>https://bhubnetwork.com/article/2ed19a36-9e69-4ab3-8bf7-5edd73b82a57</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/2ed19a36-9e69-4ab3-8bf7-5edd73b82a57</guid>
       <pubDate>Tue, 17 Nov 2026 09:58:01 GMT</pubDate>
       <category>FinTech</category>
       <description>Meet the team on 19 November 2026 at the Four Seasons Hotel in Limassol to discuss financial crime compliance, payment fraud prevention and third-party cyber risk.</description>
@@ -53,9 +343,19 @@
       <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/stories%2Fnextgen-payments-regtech-forum-cyprus-2026-169.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
+      <title>Mastercard and World Bank Group launch $500 million global risk facility to expand financial access</title>
+      <link>https://bhubnetwork.com/article/32165b47-2d67-4feb-bccf-a0095345d315</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/32165b47-2d67-4feb-bccf-a0095345d315</guid>
+      <pubDate>Mon, 16 Nov 2026 20:33:32 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Mastercard and the World Bank&apos;s IFC launch a $500M risk facility to expand digital payment access in emerging markets, including those in Europe.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
       <title>CYPRUS INFORMATION TECHNOLOGY ENTREPRISES ASSOCIATION EVENT</title>
-      <link>https://businesshub.cy/article/df576296-5a31-489d-a947-c682055cba09</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/df576296-5a31-489d-a947-c682055cba09</guid>
+      <link>https://bhubnetwork.com/article/df576296-5a31-489d-a947-c682055cba09</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/df576296-5a31-489d-a947-c682055cba09</guid>
       <pubDate>Mon, 16 Nov 2026 17:14:29 GMT</pubDate>
       <category>FinTech</category>
       <description>CITEA hosted a networking event to promote synergies among Cyprus IT companies and highlight international development opportunities through the Trade Service.</description>
@@ -64,8 +364,8 @@
     </item>
     <item>
       <title>Kava Lend loses roughly $3.8 million to hack, sending KAVA token down nearly 40%</title>
-      <link>https://businesshub.cy/article/e0cf7b0b-680a-4476-b93d-e6806ca03c58</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e0cf7b0b-680a-4476-b93d-e6806ca03c58</guid>
+      <link>https://bhubnetwork.com/article/e0cf7b0b-680a-4476-b93d-e6806ca03c58</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e0cf7b0b-680a-4476-b93d-e6806ca03c58</guid>
       <pubDate>Mon, 16 Nov 2026 17:14:14 GMT</pubDate>
       <category>FinTech</category>
       <description>DeFi lending protocol Kava Lend suffered a $3.8 million exploit, causing the KAVA token to plummet by 40% amid wider market stability concerns.</description>
@@ -73,9 +373,19 @@
       <enclosure url="https://www.tbstat.com/cdn-cgi/image/w=1200,f=avif,q=50/wp/uploads/2026/11/keplr-web3auth-art-1200x675.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
+      <title>Mastercard launches Wallet Pay to scale digital wallets worldwide</title>
+      <link>https://bhubnetwork.com/article/0297a9bd-56f1-4592-9d49-d185ec7e5eb3</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/0297a9bd-56f1-4592-9d49-d185ec7e5eb3</guid>
+      <pubDate>Mon, 16 Nov 2026 17:14:06 GMT</pubDate>
+      <category>FinTech</category>
+      <description>Mastercard&apos;s new Wallet Pay solution enables digital wallet providers to scale globally and achieve interoperability across millions of acceptance points.</description>
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
+    </item>
+    <item>
       <title>Scams: What to watch out for ahead of Black Friday and Christmas shopping traffic</title>
-      <link>https://businesshub.cy/article/b78e2885-9745-4c08-b183-658b9cf20b03</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b78e2885-9745-4c08-b183-658b9cf20b03</guid>
+      <link>https://bhubnetwork.com/article/b78e2885-9745-4c08-b183-658b9cf20b03</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b78e2885-9745-4c08-b183-658b9cf20b03</guid>
       <pubDate>Mon, 16 Nov 2026 17:02:45 GMT</pubDate>
       <category>FinTech</category>
       <description>Cyprus banks warn of a seasonal surge in phishing and social engineering scams targeting consumers during the Black Friday and Christmas shopping period.</description>
@@ -84,8 +394,8 @@
     </item>
     <item>
       <title>The European Innovation Council selects 35 deep tech companies for its Accelerator support</title>
-      <link>https://businesshub.cy/article/5e55b9fb-3854-4233-9045-69b1600a33b8</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/5e55b9fb-3854-4233-9045-69b1600a33b8</guid>
+      <link>https://bhubnetwork.com/article/5e55b9fb-3854-4233-9045-69b1600a33b8</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/5e55b9fb-3854-4233-9045-69b1600a33b8</guid>
       <pubDate>Mon, 16 Nov 2026 14:01:40 GMT</pubDate>
       <category>FinTech</category>
       <description>The European Innovation Council awards €84 million to 35 deep tech companies, offering grants and equity to scale breakthrough innovations across the EU.</description>
@@ -94,8 +404,8 @@
     </item>
     <item>
       <title>Bitcoin ETFs lose $1 billion for the second week in a row as crypto funds, except one, continue bleeding</title>
-      <link>https://businesshub.cy/article/fb4fcd08-91af-4f43-8e6a-6011d634a08d</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/fb4fcd08-91af-4f43-8e6a-6011d634a08d</guid>
+      <link>https://bhubnetwork.com/article/fb4fcd08-91af-4f43-8e6a-6011d634a08d</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/fb4fcd08-91af-4f43-8e6a-6011d634a08d</guid>
       <pubDate>Sun, 15 Nov 2026 19:26:17 GMT</pubDate>
       <category>FinTech</category>
       <description>Bitcoin ETFs recorded over $1 billion in weekly outflows for the second consecutive week, signaling a cooling of institutional crypto demand amid market volatility.</description>
@@ -104,8 +414,8 @@
     </item>
     <item>
       <title>CYPRUS SHAPES ITS DIGITAL FUTURE: CLOUD, TALENT AND ARTIFICIAL INTELLIGENCE IN THE SPOTLIGHT</title>
-      <link>https://businesshub.cy/article/3e7cff81-efa7-46ac-a531-c206b0c47461</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/3e7cff81-efa7-46ac-a531-c206b0c47461</guid>
+      <link>https://bhubnetwork.com/article/3e7cff81-efa7-46ac-a531-c206b0c47461</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/3e7cff81-efa7-46ac-a531-c206b0c47461</guid>
       <pubDate>Sun, 15 Nov 2026 14:42:00 GMT</pubDate>
       <category>FinTech</category>
       <description>CITEA and government officials convened to align on Cyprus&apos; National AI Strategy, &quot;Cloud First&quot; public sector policy, and international talent acquisition to drive digital competitiveness.</description>
@@ -114,8 +424,8 @@
     </item>
     <item>
       <title>TEMU PARTNERS WITH CITEA TO SUPPORT CYPRUS’ DIGITAL BUSINESS COMMUNITY</title>
-      <link>https://businesshub.cy/article/b07245a5-2b09-4172-8674-98f59e989efe</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b07245a5-2b09-4172-8674-98f59e989efe</guid>
+      <link>https://bhubnetwork.com/article/b07245a5-2b09-4172-8674-98f59e989efe</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b07245a5-2b09-4172-8674-98f59e989efe</guid>
       <pubDate>Sun, 15 Nov 2026 14:41:57 GMT</pubDate>
       <category>FinTech</category>
       <description>Global e-commerce giant Temu has partnered with CITEA to integrate Cyprus&apos;s ICT sector and local merchants into its international digital commerce ecosystem.</description>
@@ -124,8 +434,8 @@
     </item>
     <item>
       <title>CITEA AND INVEST CYPRUS STRENGTHEN COOPERATION FOR CYPRUS’ DIGITAL DEVELOPMENT AND INTERNATIONAL OUTREACH</title>
-      <link>https://businesshub.cy/article/1d516432-d2a7-4c84-b25f-cf2eed16ae6e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1d516432-d2a7-4c84-b25f-cf2eed16ae6e</guid>
+      <link>https://bhubnetwork.com/article/1d516432-d2a7-4c84-b25f-cf2eed16ae6e</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/1d516432-d2a7-4c84-b25f-cf2eed16ae6e</guid>
       <pubDate>Sun, 15 Nov 2026 14:41:55 GMT</pubDate>
       <category>FinTech</category>
       <description>CITEA and Invest Cyprus have signed an MoU to bridge local tech firms with international investors, focusing on AI strategy and digital transformation.</description>
@@ -134,8 +444,8 @@
     </item>
     <item>
       <title>Regulation as a Competitive Advantage: How the European Framework Strengthens Cyprus as an International Financial Centre</title>
-      <link>https://businesshub.cy/article/07c7103e-9713-4a1b-a056-afb8aa9c0413</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/07c7103e-9713-4a1b-a056-afb8aa9c0413</guid>
+      <link>https://bhubnetwork.com/article/07c7103e-9713-4a1b-a056-afb8aa9c0413</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/07c7103e-9713-4a1b-a056-afb8aa9c0413</guid>
       <pubDate>Sun, 15 Nov 2026 14:41:45 GMT</pubDate>
       <category>FinTech</category>
       <description>Cyprus is leveraging the EU&apos;s rigorous regulatory framework to pivot from a &apos;light-touch&apos; jurisdiction to a trusted, high-credibility hub for institutional investment and fintech operations.</description>
@@ -144,8 +454,8 @@
     </item>
     <item>
       <title>Strengthening Resilience in the Cyprus Funds Industry</title>
-      <link>https://businesshub.cy/article/1156d010-7f88-49a2-b88f-1b3caf74ad33</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1156d010-7f88-49a2-b88f-1b3caf74ad33</guid>
+      <link>https://bhubnetwork.com/article/1156d010-7f88-49a2-b88f-1b3caf74ad33</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/1156d010-7f88-49a2-b88f-1b3caf74ad33</guid>
       <pubDate>Sun, 15 Nov 2026 14:41:40 GMT</pubDate>
       <category>FinTech</category>
       <description>The Cyprus funds industry faces heightened operational risks due to the unprecedented scale and complexity of EU restrictive measures post-2022.</description>
@@ -154,8 +464,8 @@
     </item>
     <item>
       <title>ARTIFICIAL INTELLIGENCE AT THE CORE OF DIGITAL TRANSFORMATION AT THE 5th DIGITAL CYPRUS CONFERENCE 2026</title>
-      <link>https://businesshub.cy/article/a7a3ff13-b2fb-4939-a94b-c5d97df7293f</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/a7a3ff13-b2fb-4939-a94b-c5d97df7293f</guid>
+      <link>https://bhubnetwork.com/article/a7a3ff13-b2fb-4939-a94b-c5d97df7293f</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a7a3ff13-b2fb-4939-a94b-c5d97df7293f</guid>
       <pubDate>Sun, 15 Nov 2026 14:41:30 GMT</pubDate>
       <category>FinTech</category>
       <description>The 5th Digital Cyprus Conference highlighted Artificial Intelligence as the primary driver for national digital transformation and economic competitiveness in the Cypriot business landscape.</description>
@@ -164,8 +474,8 @@
     </item>
     <item>
       <title>REMARKABLE SUCCESS FOR THE 2ND CITEA DIGITAL CYPRUS CONFERENCE</title>
-      <link>https://businesshub.cy/article/864ff29e-2755-405d-80c4-7b1f5e7905cd</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/864ff29e-2755-405d-80c4-7b1f5e7905cd</guid>
+      <link>https://bhubnetwork.com/article/864ff29e-2755-405d-80c4-7b1f5e7905cd</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/864ff29e-2755-405d-80c4-7b1f5e7905cd</guid>
       <pubDate>Sun, 15 Nov 2026 14:41:09 GMT</pubDate>
       <category>FinTech</category>
       <description>The 2nd CITEA Digital Cyprus Conference drew 600+ delegates to discuss AI, cybersecurity, and digital transformation trends shaping the local business landscape.</description>
@@ -174,343 +484,33 @@
     </item>
     <item>
       <title>Global standard-setting bodies publish a toolkit for cyber resilience at FMIs and a discussion paper on FMIs’ reliance on third-party service providers</title>
-      <link>https://businesshub.cy/article/e5158442-8ae2-4548-907a-1b527a819b20</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e5158442-8ae2-4548-907a-1b527a819b20</guid>
+      <link>https://bhubnetwork.com/article/e5158442-8ae2-4548-907a-1b527a819b20</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e5158442-8ae2-4548-907a-1b527a819b20</guid>
       <pubDate>Sun, 15 Nov 2026 07:13:55 GMT</pubDate>
       <category>FinTech</category>
       <description>Global standard-setters CPMI-IOSCO have released a cyber resilience toolkit and a discussion paper on third-party risks for financial market infrastructures, seeking industry feedback.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Basel III risk-based capital and leverage ratios are stable while liquidity indicators show limited movements for large internationally active banks, latest Basel III monitoring exercise shows</title>
-      <link>https://businesshub.cy/article/ca67aaeb-d73d-4b52-9c3a-150a284fd0a4</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/ca67aaeb-d73d-4b52-9c3a-150a284fd0a4</guid>
+      <link>https://bhubnetwork.com/article/ca67aaeb-d73d-4b52-9c3a-150a284fd0a4</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/ca67aaeb-d73d-4b52-9c3a-150a284fd0a4</guid>
       <pubDate>Sun, 15 Nov 2026 07:13:46 GMT</pubDate>
       <category>FinTech</category>
       <description>The latest Basel III monitoring report shows stable capital and leverage ratios for major banks, with a minor increase in minimum required capital impact to 2.2%.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>International supervisory community meets to discuss the future of global bank supervision and regulation</title>
-      <link>https://businesshub.cy/article/14445404-0d8a-4bd1-a6bd-dba9423104ae</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/14445404-0d8a-4bd1-a6bd-dba9423104ae</guid>
+      <link>https://bhubnetwork.com/article/14445404-0d8a-4bd1-a6bd-dba9423104ae</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/14445404-0d8a-4bd1-a6bd-dba9423104ae</guid>
       <pubDate>Sun, 15 Nov 2026 07:13:37 GMT</pubDate>
       <category>FinTech</category>
       <description>Global banking supervisors met at ICBS 2026 to discuss modernizing regulation, digital finance impacts, and strengthening cross-border cooperation to ensure financial stability.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Basel Committee meets to advance supervisory and regulatory initiatives and discuss risks and vulnerabilities to the global banking system</title>
-      <link>https://businesshub.cy/article/732e35dd-a38d-482c-a1bc-4e927ffde2ac</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/732e35dd-a38d-482c-a1bc-4e927ffde2ac</guid>
-      <pubDate>Sun, 15 Nov 2026 07:13:29 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The Basel Committee is tightening regulations around AI integration, cryptoasset exposures, and machine-readable disclosures to mitigate systemic risks in the global banking sector.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Basel III applicable in almost all member jurisdictions by 2027</title>
-      <link>https://businesshub.cy/article/049616c3-757d-4ba3-bbca-f668e564dcf3</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/049616c3-757d-4ba3-bbca-f668e564dcf3</guid>
-      <pubDate>Sun, 15 Nov 2026 07:13:20 GMT</pubDate>
-      <category>FinTech</category>
-      <description>Basel III implementation enters its final phase, with nearly all member jurisdictions, including EU states, mandated to apply the full standards by April 2027.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Basel Committee finds Australia, Japan, Korea, Switzerland compliant, and Canada, United Kingdom largely compliant with its leverage ratio framework</title>
-      <link>https://businesshub.cy/article/d439d286-ad3b-4a17-967d-a504c6687c35</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d439d286-ad3b-4a17-967d-a504c6687c35</guid>
-      <pubDate>Sun, 15 Nov 2026 07:13:11 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The Basel Committee confirms high levels of compliance with its leverage ratio framework across major global financial hubs, signalling continued regulatory tightening in the banking sector.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Global standard-setting bodies publish final report on guidance for FMIs on general business risks and general business losses</title>
-      <link>https://businesshub.cy/article/f802470f-e362-4677-865e-766de5351f90</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/f802470f-e362-4677-865e-766de5351f90</guid>
-      <pubDate>Sun, 15 Nov 2026 07:13:04 GMT</pubDate>
-      <category>FinTech</category>
-      <description>Global standard-setters have finalized new guidance for Financial Market Infrastructures (FMIs) to improve management of general business risks and liquidity requirements.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Basel Committee finalises measures to address window-dressing in the G-SIB framework and consults on G-SIB methodology review</title>
-      <link>https://businesshub.cy/article/60f4edd6-2bb1-4161-8a2c-b1905d9c5906</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/60f4edd6-2bb1-4161-8a2c-b1905d9c5906</guid>
-      <pubDate>Sun, 15 Nov 2026 07:12:58 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The Basel Committee is introducing annual averaging for G-SIB indicators and raising reporting thresholds to curb &apos;window-dressing&apos; and refine systemic risk assessments by 2030.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>CPMI publishes analysis on how central banks support payment system safety and efficiency and trust in money in the rapidly changing payments ecosystem</title>
-      <link>https://businesshub.cy/article/56ee91d4-3e8c-49e3-86c4-94e3d2860684</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/56ee91d4-3e8c-49e3-86c4-94e3d2860684</guid>
-      <pubDate>Sun, 15 Nov 2026 07:12:49 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The BIS-CPMI report outlines how central banks must adapt their roles as issuers, operators, and overseers to maintain stability amid rapid fintech innovation and private payment growth.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Appointments to BIS global payments standard-setting body and Consultative Council for the Americas</title>
-      <link>https://businesshub.cy/article/532bd346-0af6-4845-9aa2-46cc31a92373</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/532bd346-0af6-4845-9aa2-46cc31a92373</guid>
-      <pubDate>Sun, 15 Nov 2026 07:12:42 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The BIS has appointed new leadership to the CPMI and CCA to oversee global payment standards and regional central bank cooperation in the Americas.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Resilience Under Pressure: Egypt&apos;s Economy Defied Expectations</title>
-      <link>https://businesshub.cy/article/3ebaa806-960c-4287-b710-0a1771d65cb0</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/3ebaa806-960c-4287-b710-0a1771d65cb0</guid>
-      <pubDate>Sat, 14 Nov 2026 17:02:18 GMT</pubDate>
-      <category>FinTech</category>
-      <description>Egypt&apos;s economy showed resilience against regional instability through policy shifts, yet requires deeper structural reforms to ensure long-term private sector growth.</description>
-      <media:content url="https://www.imf.org/-/media/images/imf/news/country-focus/2026/09/cf-egypt-roger-anis-imf-photo-ra240424031.jpg?h=2001&amp;iar=0&amp;w=3000" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.imf.org/-/media/images/imf/news/country-focus/2026/09/cf-egypt-roger-anis-imf-photo-ra240424031.jpg?h=2001&amp;iar=0&amp;w=3000" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Press Briefing Transcript: Julie Kozack, Director, Communications Department, November 12, 2026</title>
-      <link>https://businesshub.cy/article/50faf1a8-e32d-443d-b39c-9fb6095a1d3e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/50faf1a8-e32d-443d-b39c-9fb6095a1d3e</guid>
-      <pubDate>Sat, 14 Nov 2026 16:02:59 GMT</pubDate>
-      <category>FinTech</category>
-      <description>IMF leadership outlines upcoming missions focused on fintech, AI-driven statistics, and regional economic oversight, including visits to Malta and Singapore.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>AI adoption accelerates across the OECD, but major gaps persist among businesses and generations</title>
-      <link>https://businesshub.cy/article/755b65ea-6654-447f-877e-f9ae83ff2ebf</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/755b65ea-6654-447f-877e-f9ae83ff2ebf</guid>
-      <pubDate>Sat, 14 Nov 2026 12:01:39 GMT</pubDate>
-      <category>FinTech</category>
-      <description>OECD report highlights a widening AI divide between large corporations and SMEs, alongside a generational gap in generative AI usage that threatens broad productivity gains.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Tomorrow’s startups awarded: here are the EIT Jumpstarter 2026 winners</title>
-      <link>https://businesshub.cy/article/c4874767-b53d-422b-8758-d89a3f099d3d</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/c4874767-b53d-422b-8758-d89a3f099d3d</guid>
-      <pubDate>Sat, 14 Nov 2026 09:01:23 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The EIT Jumpstarter 2026 winners have been announced, showcasing innovative startups from 12 countries in sectors like energy, healthcare, and agritech following intensive market validation.</description>
-      <media:content url="https://www.eit.europa.eu/sites/default/files/styles/masonry_600/public/2026-11/IMG-20261113-WA0013.jpg?itok=3jcHRtsk" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eit.europa.eu/sites/default/files/styles/masonry_600/public/2026-11/IMG-20261113-WA0013.jpg?itok=3jcHRtsk" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>GDP up by 0.4% and employment stable in the euro area</title>
-      <link>https://businesshub.cy/article/460b3eac-eddb-474c-8133-2e8b390da6cd</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/460b3eac-eddb-474c-8133-2e8b390da6cd</guid>
-      <pubDate>Fri, 13 Nov 2026 22:01:44 GMT</pubDate>
-      <category>FinTech</category>
-      <description>Euro area GDP grew by 0.4% in Q3 2026 while employment remained stable, signaling a moderate economic expansion amid a cooling labor market.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Theodoros Loucaides leads “From Grant to Growth” panel at Plug and Play Cyprus Expo</title>
-      <link>https://businesshub.cy/article/e95bc982-7a93-4167-b067-940b5cf9301b</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e95bc982-7a93-4167-b067-940b5cf9301b</guid>
-      <pubDate>Fri, 13 Nov 2026 19:36:23 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The Research and Innovation Foundation’s Director General brought together a corporate investor, a venture capital co-founder and a startup founder to discuss how Cypriot companies can build on public funding and reach international markets.</description>
-      <media:content url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1794598399365.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1794598399365.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Türkiye to accelerate sustainable development as İLBANK teams up with EIB for advisory support</title>
-      <link>https://businesshub.cy/article/bcaaa3e2-62b8-4ae3-9c45-71d0ffc9be72</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/bcaaa3e2-62b8-4ae3-9c45-71d0ffc9be72</guid>
-      <pubDate>Fri, 13 Nov 2026 12:03:07 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The EIB and İLBANK have partnered to provide advisory support for developing low-carbon and climate-resilient municipal infrastructure projects in Turkey.</description>
-      <media:content url="https://www.eib.org/photos/rs/6af6cefe5638f0f49c13aa75/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/6af6cefe5638f0f49c13aa75/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Latvia to step up energy-efficient housing drive with EIB loan of €70 million to development finance entity Altum</title>
-      <link>https://businesshub.cy/article/de251ef2-e73f-4934-8635-50ec13820259</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/de251ef2-e73f-4934-8635-50ec13820259</guid>
-      <pubDate>Fri, 13 Nov 2026 12:02:58 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The EIB has granted a €70 million loan to Latvia&apos;s Altum to finance energy-efficient renovations for 3,900 apartments, aiming for a 40% reduction in energy consumption.</description>
-      <media:content url="https://www.eib.org/photos/rs/6af6d9405638f0f49c13aa77/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/6af6d9405638f0f49c13aa77/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Opening address by the Minister of Energy, Commerce and Industry, Mr Michael Damianos, at the Cyprus Fintech Summit...</title>
-      <link>https://businesshub.cy/article/60342992-5b30-490d-916e-29fba38f182a</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/60342992-5b30-490d-916e-29fba38f182a</guid>
-      <pubDate>Fri, 13 Nov 2026 12:01:36 GMT</pubDate>
-      <category>FinTech</category>
-      <description>Cyprus unveils a strategic vision to become a major Fintech gateway connecting Europe with India, the Gulf, and Africa through 2030.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/12112026_ypenergiasFintech-1-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/12112026_ypenergiasFintech-1-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Update to the Call for Proposals NCC-CY-NIS2/0826 and webinar</title>
-      <link>https://businesshub.cy/article/4c098c3a-0640-48a2-b376-4a902d917cb9</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/4c098c3a-0640-48a2-b376-4a902d917cb9</guid>
-      <pubDate>Fri, 13 Nov 2026 11:03:12 GMT</pubDate>
-      <category>FinTech</category>
-      <description>RIF has updated the selection process for the NCC-CY-NIS2/0826 cybersecurity funding call for SMEs, with a dedicated explanatory webinar scheduled for September 28, 2026.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>The Cyprus Stock Excahnge mourns the loss of its Acting General Manager</title>
-      <link>https://businesshub.cy/article/37b7c8ad-4dfd-4650-90a8-1a4226a2e833</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/37b7c8ad-4dfd-4650-90a8-1a4226a2e833</guid>
-      <pubDate>Fri, 13 Nov 2026 05:01:39 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The Cyprus Stock Exchange announces the passing of its Acting General Manager, Nikos Tripatsas, marking a period of leadership transition for the national exchange.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Keynote speech by the Shipping Deputy Minister of the Republic of Cyprus, Ms Marina Hadjimanolis, at the event entitled &quot;Is maritime technology delivering...&quot;</title>
-      <link>https://businesshub.cy/article/a800708b-ab7f-49aa-a202-b97b5de57341</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/a800708b-ab7f-49aa-a202-b97b5de57341</guid>
-      <pubDate>Thu, 12 Nov 2026 10:01:46 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The Cyprus Shipping Deputy Ministry is prioritizing practical maritime technology delivery and a &apos;one-stop-shop&apos; digital transformation to solidify the island&apos;s position as a global innovation hub.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/11112026_yfnaftiliasPlug-4-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/11112026_yfnaftiliasPlug-4-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Address by the Deputy Minister to the President of the Republic of Cyprus Irene Piki at the Plug and Play Cyprus Expo</title>
-      <link>https://businesshub.cy/article/dce95d6a-aee8-48b6-a0f0-f107e8373dcd</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/dce95d6a-aee8-48b6-a0f0-f107e8373dcd</guid>
-      <pubDate>Thu, 12 Nov 2026 10:01:35 GMT</pubDate>
-      <category>FinTech</category>
-      <description>Cyprus celebrates the first Plug and Play Expo, highlighting the nation&apos;s status as the EU&apos;s fastest-growing startup ecosystem and its push for international scalability.</description>
-      <media:content url="https://www.gov.cy/media/2024/06/YF_PROEDROU_PIKI-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2024/06/YF_PROEDROU_PIKI-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Deputy Minister to the President, Research Deputy Minister – Plug and Play Cyprus Expo 2026</title>
-      <link>https://businesshub.cy/article/26b96714-9561-4c13-a1f1-f8b51614b9c5</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/26b96714-9561-4c13-a1f1-f8b51614b9c5</guid>
-      <pubDate>Thu, 12 Nov 2026 10:01:16 GMT</pubDate>
-      <category>FinTech</category>
-      <description>High-level government representation at the Plug and Play Cyprus Expo 2026 signals continued state support for the island&apos;s burgeoning startup and fintech ecosystem.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/DMplagplay-3-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/DMplagplay-3-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>State Employees by Category: October 2026</title>
-      <link>https://businesshub.cy/article/1e9b5070-9dd5-4222-8915-19589521f7f6</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1e9b5070-9dd5-4222-8915-19589521f7f6</guid>
-      <pubDate>Thu, 12 Nov 2026 10:01:05 GMT</pubDate>
-      <category>FinTech</category>
-      <description>Cyprus state employment rose 0.6% to 55,317 in October 2026, driven by permanent staff and security forces, while short-term contracts saw a sharp decline.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>The Chief Scientist for Research, Innovation and Technology of the Republic of Cyprus contributes to international science diplomacy and AI quantum dialogue at UNESCO</title>
-      <link>https://businesshub.cy/article/e527aae8-1630-4800-b91d-2623b7378222</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e527aae8-1630-4800-b91d-2623b7378222</guid>
-      <pubDate>Thu, 12 Nov 2026 10:00:53 GMT</pubDate>
-      <category>FinTech</category>
-      <description>Cyprus&apos; Chief Scientist engaged in high-level UNESCO dialogues on science diplomacy and the transformative convergence of AI and quantum computing.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/11112026_epikefalisepistimonasRoundtable-1-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/11112026_epikefalisepistimonasRoundtable-1-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Agriculture Minister – 4th Pancyprian Conference “Rural Development – From Research to Practice”</title>
-      <link>https://businesshub.cy/article/aa28694d-0ef8-4345-8c44-3d9a27bebbcc</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/aa28694d-0ef8-4345-8c44-3d9a27bebbcc</guid>
-      <pubDate>Thu, 12 Nov 2026 10:00:43 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The 4th Pancyprian Conference on Rural Development focused on bridging the gap between scientific research and practical agricultural applications to modernize the Cypriot primary sector.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/MoagrConf-13-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/MoagrConf-13-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Survey on the Access to Finance of Enterprises in the euro area (SAFE)</title>
-      <link>https://businesshub.cy/article/9a3d77f5-639e-456e-9d47-5fac8b12255b</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/9a3d77f5-639e-456e-9d47-5fac8b12255b</guid>
-      <pubDate>Wed, 11 Nov 2026 16:00:40 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The ECB’s Q3 2026 SAFE report reveals tightened bank lending conditions and declining profits for euro area firms despite rising turnover.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>The 2026 EIC Pathfinder Challenges call attracts a record interest from breakthrough innovators</title>
-      <link>https://businesshub.cy/article/1f7dc72e-5bb7-482d-b97e-8939fa948e6f</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1f7dc72e-5bb7-482d-b97e-8939fa948e6f</guid>
-      <pubDate>Wed, 11 Nov 2026 12:00:31 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The EIC Pathfinder Challenges 2026 call received record-breaking interest with 1,138 proposals, signaling intense competition for €96 million in deep-tech and AI funding.</description>
-      <media:content url="https://eic.ec.europa.eu/sites/default/files/styles/oe_theme_ratio_3_2_medium/public/2026-11/EIC%20Pathfinder%20Proposals%20October%202026.png?h=8abcec71&amp;itok=pD5F47iv" medium="image" type="image/png" />
-      <enclosure url="https://eic.ec.europa.eu/sites/default/files/styles/oe_theme_ratio_3_2_medium/public/2026-11/EIC%20Pathfinder%20Proposals%20October%202026.png?h=8abcec71&amp;itok=pD5F47iv" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Completion of Proposal Submission for the NCC-CY-NIS2/0826 Call for Proposals</title>
-      <link>https://businesshub.cy/article/cab27b3a-d0b4-4cb0-8d59-a6dc19625396</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/cab27b3a-d0b4-4cb0-8d59-a6dc19625396</guid>
-      <pubDate>Tue, 10 Nov 2026 13:01:14 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The Research and Innovation Foundation closed its NCC-CY-NIS2 funding call with 21 proposals submitted to bolster cybersecurity compliance.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Major institutional investors join EIB Group and EU Member States to channel over €10 billion into European scale-ups</title>
-      <link>https://businesshub.cy/article/febb4b76-d120-4fbc-a177-e5be1e06c811</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/febb4b76-d120-4fbc-a177-e5be1e06c811</guid>
-      <pubDate>Tue, 10 Nov 2026 10:01:13 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The EIB Group and institutional investors launched a €10 billion+ initiative to provide growth capital for European tech scale-ups, aiming to mobilize €80 billion total.</description>
-      <media:content url="https://www.eib.org/photos/rs/6878d7f9d82cb90630e036b9/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/6878d7f9d82cb90630e036b9/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>EIB Group to showcase new climate finance actions at COP31</title>
-      <link>https://businesshub.cy/article/8827c39c-02d0-44fb-9b6c-62a4a6371239</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/8827c39c-02d0-44fb-9b6c-62a4a6371239</guid>
-      <pubDate>Tue, 10 Nov 2026 10:01:03 GMT</pubDate>
-      <category>FinTech</category>
-      <description>EIB launches a €30 billion Climate Adaptation Plan for 2026-2030, emphasizing green bonds and private capital mobilization for climate resilience projects.</description>
-      <media:content url="https://www.eib.org/photos/rs/6af195b8d2c9cd9264838f1d/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/6af195b8d2c9cd9264838f1d/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Monetary policy account</title>
-      <link>https://businesshub.cy/article/841c0335-ce1f-4baa-a804-df8dc7e03c24</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/841c0335-ce1f-4baa-a804-df8dc7e03c24</guid>
-      <pubDate>Tue, 10 Nov 2026 09:01:13 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The European Central Bank maintains a schedule for publishing monetary policy accounts, providing critical insights into the Governing Council&apos;s economic evaluations and decision-making processes.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Climate-related financial disclosures</title>
-      <link>https://businesshub.cy/article/31e4b54e-eb9f-4feb-9dcb-89e5ac16b357</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/31e4b54e-eb9f-4feb-9dcb-89e5ac16b357</guid>
-      <pubDate>Tue, 10 Nov 2026 09:01:05 GMT</pubDate>
-      <category>FinTech</category>
-      <description>The European Central Bank is standardizing climate-related financial disclosures to increase transparency regarding environmental risks within the Eurosystem&apos;s portfolios.</description>
-      <media:content url="https://businesshub.cy/images/og-fintechhub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-fintechhub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-fintechhub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-fintechhub.png" type="image/png" length="0" />
     </item>
   </channel>
 </rss>

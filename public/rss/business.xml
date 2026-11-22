@@ -2,90 +2,280 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>BusinessHub.cy — Business</title>
-    <link>https://businesshub.cy/news</link>
+    <link>https://bhubnetwork.com/news</link>
     <description>Latest Business stories from BusinessHub.cy, Cyprus Edition.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 17 Nov 2026 09:01:22 GMT</lastBuildDate>
-    <atom:link href="https://businesshub.cy/rss/business.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Nov 2026 18:48:17 GMT</lastBuildDate>
+    <atom:link href="https://bhubnetwork.com/rss/business.xml" rel="self" type="application/rss+xml" />
     <image>
-      <url>https://businesshub.cy/apple-touch-icon.png</url>
+      <url>https://bhubnetwork.com/apple-touch-icon.png</url>
       <title>BusinessHub.cy — Business</title>
-      <link>https://businesshub.cy/news</link>
+      <link>https://bhubnetwork.com/news</link>
     </image>
     <item>
-      <title>President of the Republic of Cyprus – Group MSC</title>
-      <link>https://businesshub.cy/article/ecf03648-5491-4afb-a45d-78b5b88b11e3</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/ecf03648-5491-4afb-a45d-78b5b88b11e3</guid>
-      <pubDate>Tue, 17 Nov 2026 09:01:22 GMT</pubDate>
+      <title>Statement by Eurogroup President Kyriakos Pierrakakis on the nominations for the post of ECB executive board members</title>
+      <link>https://bhubnetwork.com/article/e52ac80d-ec33-4755-929d-7bc92e13dc69</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e52ac80d-ec33-4755-929d-7bc92e13dc69</guid>
+      <pubDate>Sun, 22 Nov 2026 18:48:17 GMT</pubDate>
       <category>Business</category>
-      <description>President Christodoulides met with MSC Group CFO Alexa Aponte Vago to discuss the shipping giant&apos;s ongoing operations and strategic presence in Cyprus.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PRMSC-7-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PRMSC-7-384x256.jpg" type="image/jpeg" length="0" />
+      <description>France and Germany have nominated Laurence Boone and Markus Brunnermeier to fill two upcoming vacancies on the European Central Bank’s Executive Board.</description>
+      <media:content url="https://www.consilium.europa.eu/media/ipkpcovo/2026-eurogroup-statement-and-remarks-2_3-1.png" medium="image" type="image/png" />
+      <enclosure url="https://www.consilium.europa.eu/media/ipkpcovo/2026-eurogroup-statement-and-remarks-2_3-1.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>President of the Republic of Cyprus – Inauguration of the new premises of “Ethnikos Assias” Association</title>
-      <link>https://businesshub.cy/article/dfff1735-6649-4feb-b97a-8ac8aa1ad969</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/dfff1735-6649-4feb-b97a-8ac8aa1ad969</guid>
-      <pubDate>Tue, 17 Nov 2026 09:01:00 GMT</pubDate>
+      <title>Global Emerging Markets Risk Database (GEMs)</title>
+      <link>https://bhubnetwork.com/article/457ce0c7-466d-4cf4-b747-430fd9c2201c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/457ce0c7-466d-4cf4-b747-430fd9c2201c</guid>
+      <pubDate>Sun, 22 Nov 2026 18:48:06 GMT</pubDate>
       <category>Business</category>
-      <description>President Christodoulides inaugurated the new premises of the Ethnikos Assias Association in Strovolos, signaling continued state support for refugee-linked community organizations.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PR%CE%B1%CF%83%CF%83%CE%B9%CE%B1-44-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PR%CE%B1%CF%83%CF%83%CE%B9%CE%B1-44-384x256.jpg" type="image/jpeg" length="0" />
+      <description>The EIB and IFC have made the GEMs database, a 40-year repository of emerging market credit risk data, publicly accessible for investors.</description>
+      <media:content url="https://www.eib.org/photos/rs/6af5a95bd2c9cd92648390cd/largeprvw/image.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.eib.org/photos/rs/6af5a95bd2c9cd92648390cd/largeprvw/image.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>President of the Republic of Cyprus – 47th CIM-Cyprus Business School Graduation Ceremony</title>
-      <link>https://businesshub.cy/article/482ba391-426b-4a6d-b4e6-8db86ac4180f</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/482ba391-426b-4a6d-b4e6-8db86ac4180f</guid>
-      <pubDate>Tue, 17 Nov 2026 09:00:48 GMT</pubDate>
+      <title>Share of government debt held by resident financial corporations highest in Czechia and Sweden</title>
+      <link>https://bhubnetwork.com/article/ca5ad3aa-1b0f-47c0-9193-c2c6db5f225d</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/ca5ad3aa-1b0f-47c0-9193-c2c6db5f225d</guid>
+      <pubDate>Sat, 21 Nov 2026 21:03:25 GMT</pubDate>
       <category>Business</category>
-      <description>President Christodoulides addressed the 47th graduation ceremony of CIM-Cyprus Business School, highlighting the role of specialized education in driving the national economy.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/POR-18-6afb57df700e8-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/POR-18-6afb57df700e8-384x256.jpg" type="image/jpeg" length="0" />
+      <description>Cyprus ranks among the EU leaders for government debt held by non-residents, highlighting a significant reliance on international investors for sovereign financing.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>EU records over 560 000 mastectomies in 2024</title>
+      <link>https://bhubnetwork.com/article/89b00df4-7e84-456a-bda5-68bf96ad4a46</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/89b00df4-7e84-456a-bda5-68bf96ad4a46</guid>
+      <pubDate>Sat, 21 Nov 2026 21:03:14 GMT</pubDate>
+      <category>Business</category>
+      <description>Eurostat reports over 560,000 mastectomies across the EU in 2024, highlighting significant healthcare demands and the growing need for specialized oncology and rehabilitation services.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Children in the EU – check our new infographic for more</title>
+      <link>https://bhubnetwork.com/article/ae4c660d-2637-4e99-a372-60947439ce88</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/ae4c660d-2637-4e99-a372-60947439ce88</guid>
+      <pubDate>Sat, 21 Nov 2026 21:03:05 GMT</pubDate>
+      <category>Business</category>
+      <description>Eurostat has released a comprehensive new infographic detailing demographic and social statistics regarding children across the European Union, including Cyprus.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Are households with kids becoming less common in EU?</title>
+      <link>https://bhubnetwork.com/article/cdbfebb2-befd-46b6-b3ec-10ec6c876235</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/cdbfebb2-befd-46b6-b3ec-10ec6c876235</guid>
+      <pubDate>Sat, 21 Nov 2026 21:02:54 GMT</pubDate>
+      <category>Business</category>
+      <description>Eurostat data reveals a significant decline in EU households with children, with Cyprus experiencing one of the sharpest drops over the last decade.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>OECD Economic Survey of Indonesia 2026 – Thursday 26 November</title>
+      <link>https://bhubnetwork.com/article/22417566-64a9-417b-93a9-cb2cd6b8c500</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/22417566-64a9-417b-93a9-cb2cd6b8c500</guid>
+      <pubDate>Sat, 21 Nov 2026 12:01:37 GMT</pubDate>
+      <category>Business</category>
+      <description>The OECD is set to release its 2026 Economic Survey of Indonesia and a specialized report on the country&apos;s semiconductor ecosystem on November 25-26.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Slush 2026: RIF backs Cyprus’ largest delegation of 25 innovative companies</title>
+      <link>https://bhubnetwork.com/article/a3cdc8b2-025f-4f73-a023-8178b529de24</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a3cdc8b2-025f-4f73-a023-8178b529de24</guid>
+      <pubDate>Sat, 21 Nov 2026 08:14:45 GMT</pubDate>
+      <category>Business</category>
+      <description>RIF: Cyprus at SLUSH 2026 with 25 innovative companies participating in the national delegation For the first time, 25 Cypriot companies took part in the international innovation event in Helsinki, marking the sixth consecutive RIF-supported mission and highlighting the growth and evolution of…</description>
+      <media:content url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795248699646.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795248699646.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>The EIB Group establishes stricter ethical standards with clear rules on conflict of interest and cooling off periods</title>
+      <link>https://bhubnetwork.com/article/11b0b74d-f107-4fe3-97b3-326487f32da1</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/11b0b74d-f107-4fe3-97b3-326487f32da1</guid>
+      <pubDate>Fri, 20 Nov 2026 22:00:31 GMT</pubDate>
+      <category>Business</category>
+      <description>The EIB Group has updated its Staff Code of Conduct to strengthen ethical standards, conflict of interest rules, and cooling-off periods.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Establishment of Cyprus-Palestine Business Association</title>
+      <link>https://bhubnetwork.com/article/61465574-72e5-46b1-aa29-e71667aa953b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/61465574-72e5-46b1-aa29-e71667aa953b</guid>
+      <pubDate>Fri, 20 Nov 2026 14:57:03 GMT</pubDate>
+      <category>Business</category>
+      <description>The Cyprus Chamber of Commerce and Industry (CCCI) is seeking expressions of interest to form a Cyprus–Palestine Business Association to boost bilateral trade and investment.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Harmonized Index of Consumer Prices - Annual Rate of Change 5,4% (Oct 2026)</title>
+      <link>https://bhubnetwork.com/article/d97e6fd9-b230-4068-a6fc-ae91ebdfe926</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/d97e6fd9-b230-4068-a6fc-ae91ebdfe926</guid>
+      <pubDate>Thu, 19 Nov 2026 19:03:02 GMT</pubDate>
+      <category>Business</category>
+      <description>Cyprus&apos; Harmonized Index of Consumer Prices rose by 5.4% in October 2026, signaling persistent inflationary pressures across the local economy.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>GBCY Business Orientation Cyprus 2026 concludes with resounding success</title>
+      <link>https://bhubnetwork.com/article/9e5d67e7-0c1c-4b1f-8400-5c63208db273</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/9e5d67e7-0c1c-4b1f-8400-5c63208db273</guid>
+      <pubDate>Thu, 19 Nov 2026 15:40:13 GMT</pubDate>
+      <category>Business</category>
+      <description>The annual conference brought together business leaders, investors and advisers from Cyprus, the United Kingdom and beyond to explore investment opportunities and build cross-border relationships.</description>
+      <media:content url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795102752687.jpeg" medium="image" type="image/jpeg" />
+      <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795102752687.jpeg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>QUBE Events successfully concludes its 27th NextGen Payments &amp; RegTech Forum in Limassol</title>
+      <link>https://bhubnetwork.com/article/8bad3c5b-ede9-4e00-8fe5-49f2eb595376</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/8bad3c5b-ede9-4e00-8fe5-49f2eb595376</guid>
+      <pubDate>Thu, 19 Nov 2026 14:29:19 GMT</pubDate>
+      <category>Business</category>
+      <description>Payments leaders, RegTech specialists and compliance experts gathered at the Four Seasons Hotel to discuss agentic AI, real-time fraud prevention and the future of European payments.</description>
+      <media:content url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795098556146.jpeg" medium="image" type="image/jpeg" />
+      <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795098556146.jpeg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>8.5% EU people aged 15-74 had STEM tertiary education</title>
+      <link>https://bhubnetwork.com/article/50b87297-d336-46e9-8601-764f8ee694a9</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/50b87297-d336-46e9-8601-764f8ee694a9</guid>
+      <pubDate>Thu, 19 Nov 2026 14:01:18 GMT</pubDate>
+      <category>Business</category>
+      <description>Eurostat data reveals that 8.5% of the EU population holds a STEM tertiary degree, highlighting significant talent gaps and gender disparities across the union.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>European Statistical Monitor: November edition</title>
+      <link>https://bhubnetwork.com/article/7bcf6dfc-7487-49f1-9ea1-d96541570e38</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/7bcf6dfc-7487-49f1-9ea1-d96541570e38</guid>
+      <pubDate>Thu, 19 Nov 2026 14:01:03 GMT</pubDate>
+      <category>Business</category>
+      <description>Eurostat’s November monitor highlights a mixed EU recovery with rising industrial production but persistent inflation, signaling the need for cautious financial planning in Cyprus.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Air travel made up 17.2% of trips in 2025</title>
+      <link>https://bhubnetwork.com/article/bb9420cf-99f3-434d-9073-9519ad284cb0</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/bb9420cf-99f3-434d-9073-9519ad284cb0</guid>
+      <pubDate>Thu, 19 Nov 2026 14:00:40 GMT</pubDate>
+      <category>Business</category>
+      <description>Eurostat reports air travel accounted for 17.2% of all EU tourism trips in 2025, highlighting the aviation sector&apos;s critical role in the regional travel market.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Infocredit Professional Education holds two-day credit management and debt collection seminar in Nicosia</title>
+      <link>https://bhubnetwork.com/article/84ff4845-ae9e-4ca4-925f-e39d7b787d26</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/84ff4845-ae9e-4ca4-925f-e39d7b787d26</guid>
+      <pubDate>Thu, 19 Nov 2026 07:44:21 GMT</pubDate>
+      <category>Business</category>
+      <description>Led by Nicos Ioannou, the seminar used real-world case studies to explore customer credit risk assessment, receivables management and negotiation techniques.</description>
+      <media:content url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795074213479.jpeg" medium="image" type="image/jpeg" />
+      <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795074213479.jpeg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>QUBE Events opens the 27th NextGen Payments &amp; RegTech Forum in Limassol</title>
+      <link>https://bhubnetwork.com/article/2c9f115c-63b2-41aa-928b-82091ff4b884</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/2c9f115c-63b2-41aa-928b-82091ff4b884</guid>
+      <pubDate>Thu, 19 Nov 2026 07:33:46 GMT</pubDate>
+      <category>Business</category>
+      <description>Payments, compliance and technology leaders from Cyprus, Europe and beyond gather to discuss real-time payments, agentic AI and the future of European financial regulation.</description>
+      <media:content url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795073560499.heic" medium="image" type="image/jpeg" />
+      <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1795073560499.heic" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Cyprus Participation in the 20th International Architecture Exhibition – La Biennale di Venezia 2027</title>
+      <link>https://bhubnetwork.com/article/bb1b4e84-1e62-46b6-b18a-8f50e4b26597</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/bb1b4e84-1e62-46b6-b18a-8f50e4b26597</guid>
+      <pubDate>Wed, 18 Nov 2026 22:02:53 GMT</pubDate>
+      <category>Business</category>
+      <description>Cyprus launches an open call for a Curator for its 2027 Venice Biennale pavilion, securing a prestigious new location within the Arsenale to showcase local architectural innovation.</description>
+      <media:content url="https://www.gov.cy/media/2026/11/17112026_YfPolitismou_Biennale-384x256.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.gov.cy/media/2026/11/17112026_YfPolitismou_Biennale-384x256.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>The Ambassador of Cyprus to Iran presents his credentials</title>
+      <link>https://bhubnetwork.com/article/5677b2e1-ead9-41ce-94aa-d6c54ec26fe2</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/5677b2e1-ead9-41ce-94aa-d6c54ec26fe2</guid>
+      <pubDate>Wed, 18 Nov 2026 22:02:39 GMT</pubDate>
+      <category>Business</category>
+      <description>Ambassador Antonis Mandritis officially presented his credentials to Iranian President Masoud Pezeshkian, reaffirming diplomatic ties and a commitment to regional stability.</description>
+      <media:content url="https://www.gov.cy/media/2026/11/17112026-Ekswterikwn_Diapisteftiria_Iran-1-384x256.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.gov.cy/media/2026/11/17112026-Ekswterikwn_Diapisteftiria_Iran-1-384x256.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>The High Commissioner of Cyprus to South Africa presents his credentials</title>
+      <link>https://bhubnetwork.com/article/6c904b9e-935d-4ede-b0d9-cf90e845de82</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/6c904b9e-935d-4ede-b0d9-cf90e845de82</guid>
+      <pubDate>Wed, 18 Nov 2026 22:02:30 GMT</pubDate>
+      <category>Business</category>
+      <description>The new High Commissioner to South Africa, Stelios Makriyiannis, presented his credentials, focusing on economic cooperation and the influential role of the Cypriot diaspora.</description>
+      <media:content url="https://www.gov.cy/media/2026/11/17112026_YpExwterikwn_Diapisteftiria_SouthAfrica-6-384x256.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.gov.cy/media/2026/11/17112026_YpExwterikwn_Diapisteftiria_SouthAfrica-6-384x256.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>EU counted 45 road fatalities per million people in 2024</title>
+      <link>https://bhubnetwork.com/article/b9e29ada-0ea3-49c6-bda1-b7d6b9e9e312</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b9e29ada-0ea3-49c6-bda1-b7d6b9e9e312</guid>
+      <pubDate>Tue, 17 Nov 2026 18:00:53 GMT</pubDate>
+      <category>Business</category>
+      <description>Cyprus recorded 37 road fatalities per million inhabitants in 2024, performing better than the EU average of 45 despite a slight increase in deaths compared to 2023.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Asylum applications in August 2026</title>
+      <link>https://bhubnetwork.com/article/e0701884-ecac-40e2-85dd-7f679f347cf1</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e0701884-ecac-40e2-85dd-7f679f347cf1</guid>
+      <pubDate>Tue, 17 Nov 2026 18:00:42 GMT</pubDate>
+      <category>Business</category>
+      <description>Cyprus recorded the highest rate of first-time asylum applications in the EU relative to its population for August 2026, maintaining significant pressure on national infrastructure.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Record number of students from abroad in the EU</title>
+      <link>https://bhubnetwork.com/article/43cb5224-2a70-4468-95f4-e78f92c35ed3</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/43cb5224-2a70-4468-95f4-e78f92c35ed3</guid>
+      <pubDate>Tue, 17 Nov 2026 18:00:29 GMT</pubDate>
+      <category>Business</category>
+      <description>New Eurostat data reveals a record number of international students across the EU, highlighting Cyprus&apos;s growing status as a regional educational hub.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>CITEA at the heart of China&apos;s Technology landscape: startegic engagements with HUAWEI, ALIBABA, TEMU AND MINIMAX</title>
+      <link>https://bhubnetwork.com/article/4a28fbe6-0168-4b32-a886-24c695afcdcf</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/4a28fbe6-0168-4b32-a886-24c695afcdcf</guid>
+      <pubDate>Tue, 17 Nov 2026 14:30:14 GMT</pubDate>
+      <category>Business</category>
+      <description>New opportunities for cooperation are emerging for Cypriot technology companies following CITEA’s recent mission to China, which focused on building connections with leading technology organisations, exchanging expertise and exploring synergies for the development and promotion of innovative…</description>
+      <media:content url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1794924869372.jpeg" medium="image" type="image/jpeg" />
+      <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1794924869372.jpeg" type="image/jpeg" length="0" />
     </item>
     <item>
       <title>Road Freight Transport - Freight transport in Cyprus +2,3% and from and to Cyprus +17,7% (2nd Quarter 2026)</title>
-      <link>https://businesshub.cy/article/f78b8dd4-10ef-412e-90c0-194362da171c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/f78b8dd4-10ef-412e-90c0-194362da171c</guid>
+      <link>https://bhubnetwork.com/article/f78b8dd4-10ef-412e-90c0-194362da171c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/f78b8dd4-10ef-412e-90c0-194362da171c</guid>
       <pubDate>Mon, 16 Nov 2026 18:00:54 GMT</pubDate>
       <category>Business</category>
       <description>Cyprus road freight transport grew in Q2 2026, with a significant 17.7% surge in international cargo alongside a modest 2.3% rise in domestic movement.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>President of the Republic of Cyprus – 13th annual memorial service of the former President of the...</title>
-      <link>https://businesshub.cy/article/44a59a22-bad2-4954-87f7-a46f1eb83045</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/44a59a22-bad2-4954-87f7-a46f1eb83045</guid>
-      <pubDate>Mon, 16 Nov 2026 13:02:14 GMT</pubDate>
-      <category>Business</category>
-      <description>President Nikos Christodoulides attended the 13th annual memorial service for former President Glafcos Clerides at the Apostolos Varnavas Cathedral in Nicosia.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PRklerides-6-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PRklerides-6-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>President of the Republic of Cyprus – Cyprus Universities Rectors’ Conference</title>
-      <link>https://businesshub.cy/article/56d74327-b0c8-4071-af51-a1bcda44facf</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/56d74327-b0c8-4071-af51-a1bcda44facf</guid>
-      <pubDate>Mon, 16 Nov 2026 13:02:02 GMT</pubDate>
-      <category>Business</category>
-      <description>President Christodoulides met with the Cyprus Universities Rectors’ Conference to discuss strategic developments in higher education and the sector&apos;s role in the national economy.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PRrectors-2-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PRrectors-2-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>President of the Republic of Cyprus – Cyprus Property Developers Association</title>
-      <link>https://businesshub.cy/article/b0a176f7-e6f0-4bc0-811d-804038a753f9</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b0a176f7-e6f0-4bc0-811d-804038a753f9</guid>
-      <pubDate>Mon, 16 Nov 2026 13:01:48 GMT</pubDate>
-      <category>Business</category>
-      <description>President Nikos Christodoulides met with the Cyprus Property Developers Association to discuss strategic challenges and legislative reforms in the real estate sector.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PRdev-4-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PRdev-4-384x256.jpg" type="image/jpeg" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>AbleBook’s Andreas Vasiliou Takes On His First Marathon as Community Team Runs and Rolls for Inclusion</title>
-      <link>https://businesshub.cy/article/09251449-8069-4c36-b31b-f0cff2a3f495</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/09251449-8069-4c36-b31b-f0cff2a3f495</guid>
+      <link>https://bhubnetwork.com/article/09251449-8069-4c36-b31b-f0cff2a3f495</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/09251449-8069-4c36-b31b-f0cff2a3f495</guid>
       <pubDate>Sun, 15 Nov 2026 15:00:47 GMT</pubDate>
       <category>Business</category>
       <description>AbleBook, Stoiximan Wheels of Change and Yparxo opened their 5 km Corporate Race team to the public, while Vasiliou and teammate Marios Antonios Marshall lined up for their first full marathon in Larnaka.</description>
@@ -94,18 +284,18 @@
     </item>
     <item>
       <title>Economist 22nd Annual Cyprus Summit Panagiotou</title>
-      <link>https://businesshub.cy/article/1834dbd6-411b-4be5-9ebd-830e240d8e00</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1834dbd6-411b-4be5-9ebd-830e240d8e00</guid>
+      <link>https://bhubnetwork.com/article/1834dbd6-411b-4be5-9ebd-830e240d8e00</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/1834dbd6-411b-4be5-9ebd-830e240d8e00</guid>
       <pubDate>Sun, 15 Nov 2026 14:41:38 GMT</pubDate>
       <category>Business</category>
       <description>The Economist 22nd Annual Cyprus Summit, scheduled for November 2026, will address regional cooperation, geopolitics, and investment opportunities in Nicosia.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>OEB promotes Hydrogen Valleys in Cyprus</title>
-      <link>https://businesshub.cy/article/d7de378e-cb9f-46ce-bd56-dd9bfcf39c62</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d7de378e-cb9f-46ce-bd56-dd9bfcf39c62</guid>
+      <link>https://bhubnetwork.com/article/d7de378e-cb9f-46ce-bd56-dd9bfcf39c62</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/d7de378e-cb9f-46ce-bd56-dd9bfcf39c62</guid>
       <pubDate>Sun, 15 Nov 2026 14:41:16 GMT</pubDate>
       <category>Business</category>
       <description>OEB participates in the EU-funded TRIERES project to develop Green Hydrogen Valleys, aiming to transfer technical expertise and sustainable energy infrastructure models to Cyprus.</description>
@@ -114,8 +304,8 @@
     </item>
     <item>
       <title>Media advisory - Foreign Affairs Council of 16 November 2026</title>
-      <link>https://businesshub.cy/article/56c6c312-3a06-4a11-8ffb-b2e79cc8faf5</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/56c6c312-3a06-4a11-8ffb-b2e79cc8faf5</guid>
+      <link>https://bhubnetwork.com/article/56c6c312-3a06-4a11-8ffb-b2e79cc8faf5</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/56c6c312-3a06-4a11-8ffb-b2e79cc8faf5</guid>
       <pubDate>Sun, 15 Nov 2026 14:37:49 GMT</pubDate>
       <category>Business</category>
       <description>EU Foreign Ministers will meet on November 16 to discuss winter support for Ukraine and counter-measures against Russian hybrid threats affecting member states.</description>
@@ -124,8 +314,8 @@
     </item>
     <item>
       <title>Infocredit Group’s ComplianceSuite wins Gold for Best Compliance Platform</title>
-      <link>https://businesshub.cy/article/1eb7da07-cf2d-4a40-a672-aa6d7299777d</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1eb7da07-cf2d-4a40-a672-aa6d7299777d</guid>
+      <link>https://bhubnetwork.com/article/1eb7da07-cf2d-4a40-a672-aa6d7299777d</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/1eb7da07-cf2d-4a40-a672-aa6d7299777d</guid>
       <pubDate>Sun, 15 Nov 2026 07:13:33 GMT</pubDate>
       <category>Business</category>
       <description>The Cyprus-developed platform, recognised at the 2026 Compliance Awards, brings customer onboarding, AML screening, transaction monitoring and case management into one workflow.</description>
@@ -134,8 +324,8 @@
     </item>
     <item>
       <title>Nepal Stabilizes Its Economy—and Sets Its Sights Higher</title>
-      <link>https://businesshub.cy/article/09728572-382a-408a-91c8-41f4da0b85ef</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/09728572-382a-408a-91c8-41f4da0b85ef</guid>
+      <link>https://bhubnetwork.com/article/09728572-382a-408a-91c8-41f4da0b85ef</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/09728572-382a-408a-91c8-41f4da0b85ef</guid>
       <pubDate>Sat, 14 Nov 2026 17:02:44 GMT</pubDate>
       <category>Business</category>
       <description>Nepal has achieved macroeconomic stability through structural reforms, shifting focus toward accelerating inclusive growth and long-term economic resilience.</description>
@@ -144,28 +334,28 @@
     </item>
     <item>
       <title>IMF Staff Reaches Staff Level Agreement with Armenia on the Second Review of the Stand-By Arrangement (SBA) and request for a Resilience and Sustainability Facility (RSF)</title>
-      <link>https://businesshub.cy/article/e7589be4-cd5d-4b13-817b-a4b5776ef125</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e7589be4-cd5d-4b13-817b-a4b5776ef125</guid>
+      <link>https://bhubnetwork.com/article/e7589be4-cd5d-4b13-817b-a4b5776ef125</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e7589be4-cd5d-4b13-817b-a4b5776ef125</guid>
       <pubDate>Sat, 14 Nov 2026 17:01:22 GMT</pubDate>
       <category>Business</category>
       <description>The IMF reaches a staff-level agreement with Armenia, potentially unlocking significant financial support and enhancing regional economic stability.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>IMF Staff Concludes Visit to Lebanon</title>
-      <link>https://businesshub.cy/article/bdaf70eb-db4f-46a5-a0f7-f255191aeb88</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/bdaf70eb-db4f-46a5-a0f7-f255191aeb88</guid>
+      <link>https://bhubnetwork.com/article/bdaf70eb-db4f-46a5-a0f7-f255191aeb88</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/bdaf70eb-db4f-46a5-a0f7-f255191aeb88</guid>
       <pubDate>Sat, 14 Nov 2026 16:02:17 GMT</pubDate>
       <category>Business</category>
       <description>IMF staff visited Lebanon to advance banking sector restructuring, but a final agreement remains pending as laws must align with international standards to ensure financial stability.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Pavlos Phokas calls for a stronger role for Cyprus shipyards in defence programmes</title>
-      <link>https://businesshub.cy/article/df244a63-8668-4b71-aec8-ff167314a5db</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/df244a63-8668-4b71-aec8-ff167314a5db</guid>
+      <link>https://bhubnetwork.com/article/df244a63-8668-4b71-aec8-ff167314a5db</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/df244a63-8668-4b71-aec8-ff167314a5db</guid>
       <pubDate>Sat, 14 Nov 2026 06:11:14 GMT</pubDate>
       <category>Business</category>
       <description>Multimarine Services’ Chief Commercial Officer highlighted how local shipyards and marine engineering firms could support Cyprus’ Ministry of Defence and help turn defence investment into skilled jobs.</description>
@@ -174,28 +364,28 @@
     </item>
     <item>
       <title>EU economy greenhouse gas emissions: -0.5% in Q2 2026</title>
-      <link>https://businesshub.cy/article/efb50e52-7fca-4834-b0c3-822afaf56a9a</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/efb50e52-7fca-4834-b0c3-822afaf56a9a</guid>
+      <link>https://bhubnetwork.com/article/efb50e52-7fca-4834-b0c3-822afaf56a9a</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/efb50e52-7fca-4834-b0c3-822afaf56a9a</guid>
       <pubDate>Fri, 13 Nov 2026 22:01:06 GMT</pubDate>
       <category>Business</category>
       <description>EU greenhouse gas emissions declined by 0.5% in Q2 2026 despite economic activity, highlighting a continued trend toward decoupling growth from environmental impact.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>EU consumption expenditure grows, alcohol &amp; tobacco dip</title>
-      <link>https://businesshub.cy/article/30eaf2fd-228d-4b21-b4cc-e3c9c70f455d</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/30eaf2fd-228d-4b21-b4cc-e3c9c70f455d</guid>
+      <link>https://bhubnetwork.com/article/30eaf2fd-228d-4b21-b4cc-e3c9c70f455d</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/30eaf2fd-228d-4b21-b4cc-e3c9c70f455d</guid>
       <pubDate>Fri, 13 Nov 2026 22:00:54 GMT</pubDate>
       <category>Business</category>
       <description>Eurostat data reveals a rise in overall EU household consumption expenditure, contrasting with a decline in spending on alcohol and tobacco products.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Ablebook co-founders present app for finding accessible places across Cyprus</title>
-      <link>https://businesshub.cy/article/be4daa44-2800-45ef-93eb-ebf8f45ab974</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/be4daa44-2800-45ef-93eb-ebf8f45ab974</guid>
+      <link>https://bhubnetwork.com/article/be4daa44-2800-45ef-93eb-ebf8f45ab974</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/be4daa44-2800-45ef-93eb-ebf8f45ab974</guid>
       <pubDate>Fri, 13 Nov 2026 20:06:55 GMT</pubDate>
       <category>Business</category>
       <description>Andreas Vasiliou and Symeon Stylianou presented Ablebook, a Cyprus-developed app that helps people with disabilities check venue facilities, find designated parking and plan visits in advance.</description>
@@ -204,8 +394,8 @@
     </item>
     <item>
       <title>ASBIS joins “From Grant to Growth” panel at Plug and Play Cyprus Expo</title>
-      <link>https://businesshub.cy/article/87d2db35-c48a-467c-8946-30d0bac0daae</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/87d2db35-c48a-467c-8946-30d0bac0daae</guid>
+      <link>https://bhubnetwork.com/article/87d2db35-c48a-467c-8946-30d0bac0daae</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/87d2db35-c48a-467c-8946-30d0bac0daae</guid>
       <pubDate>Fri, 13 Nov 2026 19:28:40 GMT</pubDate>
       <category>Business</category>
       <description>As a founding corporate partner ASBIS supported the Plug and Play Cyprus Expo alongside Mastercard, Tototheo Global and ECOMMBX. The Expo took place on November 11 at Etko in Limassol and marked the completion of the first cohort of the Plug and Play Cyprus Acceleration Program, with 10 startups…</description>
@@ -214,18 +404,18 @@
     </item>
     <item>
       <title>GDP Growth Rate - Growth Rate 3,1% (seasonally adjusted) - 3rd Quarter 2026 (Flash Estimate)</title>
-      <link>https://businesshub.cy/article/56428d54-6abb-4df4-970f-b4b54562e085</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/56428d54-6abb-4df4-970f-b4b54562e085</guid>
+      <link>https://bhubnetwork.com/article/56428d54-6abb-4df4-970f-b4b54562e085</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/56428d54-6abb-4df4-970f-b4b54562e085</guid>
       <pubDate>Fri, 13 Nov 2026 19:03:14 GMT</pubDate>
       <category>Business</category>
       <description>Cyprus GDP grew by 3.1% in Q3 2026, signaling sustained economic resilience and outperforming the broader Eurozone average.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Call Centre Cyprus wins Gold for Sophia for Children partnership</title>
-      <link>https://businesshub.cy/article/77b6d3ef-8bfc-4403-947b-2600fd2faca6</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/77b6d3ef-8bfc-4403-947b-2600fd2faca6</guid>
+      <link>https://bhubnetwork.com/article/77b6d3ef-8bfc-4403-947b-2600fd2faca6</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/77b6d3ef-8bfc-4403-947b-2600fd2faca6</guid>
       <pubDate>Fri, 13 Nov 2026 18:52:21 GMT</pubDate>
       <category>Business</category>
       <description>The initiative reactivated 64 sponsors and generated €5,220 in donations, helping 64 children continue receiving support through the Adopt a Child programme</description>
@@ -233,59 +423,9 @@
       <enclosure url="https://oralbierakmfxcqncjnz.supabase.co/storage/v1/object/public/banner-images/articles/manual-1794595846691.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>President of the Republic of Cyprus – Informal meeting of EU Heads of State or Government</title>
-      <link>https://businesshub.cy/article/b648335c-189d-4de7-8796-ab720b4adcea</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b648335c-189d-4de7-8796-ab720b4adcea</guid>
-      <pubDate>Fri, 13 Nov 2026 16:01:58 GMT</pubDate>
-      <category>Business</category>
-      <description>President Christodoulides participated in an informal EU summit in Dublin to discuss strategic European priorities and regional stability.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PoR-2-6af708884beb8-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PoR-2-6af708884beb8-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Interior Minister – President and delegation of Ammochostos Chamber of Commerce and Industry</title>
-      <link>https://businesshub.cy/article/ef1c029e-2073-4df8-b1fc-da6c40df2a9e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/ef1c029e-2073-4df8-b1fc-da6c40df2a9e</guid>
-      <pubDate>Fri, 13 Nov 2026 12:01:46 GMT</pubDate>
-      <category>Business</category>
-      <description>Interior Minister Constantinos Ioannou met with the Ammochostos Chamber of Commerce and Industry to discuss regional development and local governance issues.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/POR-5-6af595aa9c524-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/POR-5-6af595aa9c524-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>President of the Republic of Cyprus – EPC Summit 2026</title>
-      <link>https://businesshub.cy/article/76e6173f-6ac0-4674-a67b-3175f5fc5975</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/76e6173f-6ac0-4674-a67b-3175f5fc5975</guid>
-      <pubDate>Fri, 13 Nov 2026 12:01:27 GMT</pubDate>
-      <category>Business</category>
-      <description>President Nikos Christodoulides attends the 2026 European Political Community Summit in Dublin to engage in high-level discussions on regional security and political cooperation.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PoR-12-6af5e4f0a3783-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PoR-12-6af5e4f0a3783-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Deputy Minister to the President – CCCI and CSO</title>
-      <link>https://businesshub.cy/article/90520e4e-9a2a-4a46-9f99-2afa8838bf26</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/90520e4e-9a2a-4a46-9f99-2afa8838bf26</guid>
-      <pubDate>Fri, 13 Nov 2026 12:01:15 GMT</pubDate>
-      <category>Business</category>
-      <description>Deputy Minister Irene Piki met with CCCI and CSO representatives to discuss the intersection of business interests and sports development in Cyprus.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/DMpr%CE%9A%CE%9F%CE%91%CE%9A%CE%95%CE%92%CE%95-3-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/DMpr%CE%9A%CE%9F%CE%91%CE%9A%CE%95%CE%92%CE%95-3-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Interior Minister – Coordinating Committee of Keryneia’s Associations and Organisations</title>
-      <link>https://businesshub.cy/article/f03e71b0-92a1-496f-9df1-2e2dc874927a</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/f03e71b0-92a1-496f-9df1-2e2dc874927a</guid>
-      <pubDate>Fri, 13 Nov 2026 12:01:04 GMT</pubDate>
-      <category>Business</category>
-      <description>Interior Minister Constantinos Ioannou met with Keryneia district representatives to discuss refugee-related issues and local administration concerns.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/POR-2-6af6cfe2eba1b-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/POR-2-6af6cfe2eba1b-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
       <title>Value of agriculture output hits record high in 2025</title>
-      <link>https://businesshub.cy/article/f46ce65a-0672-4c3e-8798-27de59f1e902</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/f46ce65a-0672-4c3e-8798-27de59f1e902</guid>
+      <link>https://bhubnetwork.com/article/f46ce65a-0672-4c3e-8798-27de59f1e902</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/f46ce65a-0672-4c3e-8798-27de59f1e902</guid>
       <pubDate>Thu, 12 Nov 2026 15:02:12 GMT</pubDate>
       <category>Business</category>
       <description>The EU agricultural industry reached a record output value of €537.1 billion in 2025, driven by price increases despite fluctuating production volumes.</description>
@@ -294,8 +434,8 @@
     </item>
     <item>
       <title>2.3 million tonnes of textile waste generated in 2024</title>
-      <link>https://businesshub.cy/article/6218ccdf-41c9-438f-8118-43360a0df616</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/6218ccdf-41c9-438f-8118-43360a0df616</guid>
+      <link>https://bhubnetwork.com/article/6218ccdf-41c9-438f-8118-43360a0df616</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/6218ccdf-41c9-438f-8118-43360a0df616</guid>
       <pubDate>Thu, 12 Nov 2026 15:02:01 GMT</pubDate>
       <category>Business</category>
       <description>The EU produced 2.3 million tonnes of textile waste in 2024, signaling urgent regulatory shifts toward circular economy practices and mandatory collection across member states.</description>
@@ -304,8 +444,8 @@
     </item>
     <item>
       <title>Emergency oil stocks slightly down; commercial stocks up in July 2026</title>
-      <link>https://businesshub.cy/article/72237822-58f5-43b1-8f10-9c9faf4c017a</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/72237822-58f5-43b1-8f10-9c9faf4c017a</guid>
+      <link>https://bhubnetwork.com/article/72237822-58f5-43b1-8f10-9c9faf4c017a</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/72237822-58f5-43b1-8f10-9c9faf4c017a</guid>
       <pubDate>Thu, 12 Nov 2026 15:01:48 GMT</pubDate>
       <category>Business</category>
       <description>July 2026 data shows a slight decline in EU emergency oil stocks, partially offset by an increase in commercial reserves.</description>
@@ -313,19 +453,9 @@
       <enclosure url="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20261112-2/image.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Deputy Minister of Culture – Press conference</title>
-      <link>https://businesshub.cy/article/afd8f3ab-ba4c-49a5-b779-8f58cdc531d1</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/afd8f3ab-ba4c-49a5-b779-8f58cdc531d1</guid>
-      <pubDate>Thu, 12 Nov 2026 10:02:14 GMT</pubDate>
-      <category>Business</category>
-      <description>The Deputy Ministry of Culture has unveiled a new grant scheme specifically designed to fund and support publications focusing on Cypriot culture.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/POR-1-6af448f6b4cf0-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/POR-1-6af448f6b4cf0-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
       <title>Commissioner for Administration and the Protection of Human Rights – Regional Conference</title>
-      <link>https://businesshub.cy/article/1779a5f1-1fbf-4075-85ac-21cb3e9cd397</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1779a5f1-1fbf-4075-85ac-21cb3e9cd397</guid>
+      <link>https://bhubnetwork.com/article/1779a5f1-1fbf-4075-85ac-21cb3e9cd397</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/1779a5f1-1fbf-4075-85ac-21cb3e9cd397</guid>
       <pubDate>Thu, 12 Nov 2026 10:02:04 GMT</pubDate>
       <category>Business</category>
       <description>Cyprus celebrates the 35th anniversary of the Ombudsman institution, highlighting its role in human rights protection and administrative accountability within the Republic.</description>
@@ -333,39 +463,9 @@
       <enclosure url="https://www.gov.cy/media/2026/11/POR-3-6af45797bb1e6-384x256.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>President of the Republic of Cyprus – UN Climate Change Conference COP31</title>
-      <link>https://businesshub.cy/article/cee11280-df15-412e-8baf-bad4e586f6d3</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/cee11280-df15-412e-8baf-bad4e586f6d3</guid>
-      <pubDate>Thu, 12 Nov 2026 10:01:55 GMT</pubDate>
-      <category>Business</category>
-      <description>President Christodoulides represents Cyprus at COP31 in Antalya, focusing on regional climate resilience and international environmental policy alignment.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PoR-5-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PoR-5-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Interior Minister – General Assembly of the &quot;Nicosia – Capital of Cyprus&quot; Initiative</title>
-      <link>https://businesshub.cy/article/5fb8f1a6-b8aa-4068-8601-8e917732dd77</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/5fb8f1a6-b8aa-4068-8601-8e917732dd77</guid>
-      <pubDate>Thu, 12 Nov 2026 10:01:26 GMT</pubDate>
-      <category>Business</category>
-      <description>Interior Minister Constantinos Ioannou addressed the General Assembly of the &apos;Nicosia – Capital of Cyprus&apos; initiative, focusing on the city&apos;s strategic development and administrative role.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/POR-9-6af495a0c7b56-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/POR-9-6af495a0c7b56-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Deputy Minister to the President – High Commissioner of the Commonwealth of Australia to the Republic of Cyprus</title>
-      <link>https://businesshub.cy/article/e0972e86-e2db-44a8-b786-681ceb7e17ec</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e0972e86-e2db-44a8-b786-681ceb7e17ec</guid>
-      <pubDate>Thu, 12 Nov 2026 10:00:33 GMT</pubDate>
-      <category>Business</category>
-      <description>Deputy Minister Irene Piki met with Australian High Commissioner Emily Louise Pugin to discuss strengthening bilateral relations and diplomatic cooperation between Cyprus and Australia.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/DMprAustr-1-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/DMprAustr-1-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
       <title>Women made up 41% of EU scientists &amp; engineers in 2025</title>
-      <link>https://businesshub.cy/article/64af99ac-bd9b-47b2-9db5-63cc7638334c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/64af99ac-bd9b-47b2-9db5-63cc7638334c</guid>
+      <link>https://bhubnetwork.com/article/64af99ac-bd9b-47b2-9db5-63cc7638334c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/64af99ac-bd9b-47b2-9db5-63cc7638334c</guid>
       <pubDate>Wed, 11 Nov 2026 12:02:43 GMT</pubDate>
       <category>Business</category>
       <description>Eurostat data reveals women now represent 41% of the EU&apos;s 15.3 million scientists and engineers, highlighting a steady trend toward gender parity in technical sectors.</description>
@@ -374,8 +474,8 @@
     </item>
     <item>
       <title>Temporary protection for 4.37 million in September 2026</title>
-      <link>https://businesshub.cy/article/e55cb402-d9eb-42e3-bdce-2ce601a2827e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e55cb402-d9eb-42e3-bdce-2ce601a2827e</guid>
+      <link>https://bhubnetwork.com/article/e55cb402-d9eb-42e3-bdce-2ce601a2827e</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e55cb402-d9eb-42e3-bdce-2ce601a2827e</guid>
       <pubDate>Wed, 11 Nov 2026 12:02:30 GMT</pubDate>
       <category>Business</category>
       <description>As of September 2026, 4.37 million Ukrainians benefit from EU temporary protection, with Cyprus hosting 20,495 individuals, reflecting a steady labor pool and social service demand.</description>
@@ -384,8 +484,8 @@
     </item>
     <item>
       <title>Foreign direct investment: where is it coming from?</title>
-      <link>https://businesshub.cy/article/831bfe54-944e-4150-a238-793c93f8f4d9</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/831bfe54-944e-4150-a238-793c93f8f4d9</guid>
+      <link>https://bhubnetwork.com/article/831bfe54-944e-4150-a238-793c93f8f4d9</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/831bfe54-944e-4150-a238-793c93f8f4d9</guid>
       <pubDate>Wed, 11 Nov 2026 12:02:16 GMT</pubDate>
       <category>Business</category>
       <description>Eurostat data highlights the dominance of the US and UK in EU foreign direct investment, signaling critical trends for Cyprus as an international financial hub.</description>
@@ -394,8 +494,8 @@
     </item>
     <item>
       <title>Almost 30% unable to cope with unexpected expenses</title>
-      <link>https://businesshub.cy/article/8d8ed738-7b2c-4d65-83e0-523a5ee40c38</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/8d8ed738-7b2c-4d65-83e0-523a5ee40c38</guid>
+      <link>https://bhubnetwork.com/article/8d8ed738-7b2c-4d65-83e0-523a5ee40c38</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/8d8ed738-7b2c-4d65-83e0-523a5ee40c38</guid>
       <pubDate>Wed, 11 Nov 2026 12:02:05 GMT</pubDate>
       <category>Business</category>
       <description>Eurostat data reveals nearly 30% of the EU population lacks the financial reserves to handle unexpected expenses, highlighting significant household financial vulnerability.</description>
@@ -403,114 +503,14 @@
       <enclosure url="https://pormezz/stock.adobe.com" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Deputy Minister of Culture – “Culture boxes” handover ceremony</title>
-      <link>https://businesshub.cy/article/488c178e-29fb-4258-a2f0-1c98c9496900</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/488c178e-29fb-4258-a2f0-1c98c9496900</guid>
-      <pubDate>Wed, 11 Nov 2026 11:02:26 GMT</pubDate>
-      <category>Business</category>
-      <description>The Deputy Ministry of Culture launched the &apos;Culture Boxes&apos; initiative to foster artistic engagement and cultural identity among primary school students through the Cultural Ambassadors programme.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/DMCultureKouti-12-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/DMCultureKouti-12-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>President of the Republic of Cyprus – Vice President of Global Exploration at ExxonMobil</title>
-      <link>https://businesshub.cy/article/a0b83880-2a5a-4381-a4b0-edc2c04b7ade</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/a0b83880-2a5a-4381-a4b0-edc2c04b7ade</guid>
-      <pubDate>Wed, 11 Nov 2026 11:02:14 GMT</pubDate>
-      <category>Business</category>
-      <description>President Christodoulides met with ExxonMobil&apos;s VP of Global Exploration to discuss the energy giant&apos;s ongoing activities and future commitment to the Cyprus Exclusive Economic Zone.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Interior Minister – Presidents of Community Councils of Larnaka District</title>
-      <link>https://businesshub.cy/article/2f9ab192-d145-4768-af4b-3e58eae2220e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/2f9ab192-d145-4768-af4b-3e58eae2220e</guid>
-      <pubDate>Wed, 11 Nov 2026 11:01:36 GMT</pubDate>
-      <category>Business</category>
-      <description>Interior Minister Constantinos Ioannou met with Larnaka Community Council Presidents in Kivisili to discuss local governance issues and regional development within the district.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/POR-7-6af300b8bbf4a-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/POR-7-6af300b8bbf4a-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Transport Minister – Signing ceremony for Lefkosia Ring Road – Phase C</title>
-      <link>https://businesshub.cy/article/cbfd982f-fd41-4256-b0f1-da2ed39c1587</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/cbfd982f-fd41-4256-b0f1-da2ed39c1587</guid>
-      <pubDate>Wed, 11 Nov 2026 11:01:25 GMT</pubDate>
-      <category>Business</category>
-      <description>The Cyprus Minister of Transport has signed the contract for Phase C of the Nicosia Ring Road, advancing a critical infrastructure project to alleviate capital traffic congestion.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/POR-17-6af3128c2b9b6-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/POR-17-6af3128c2b9b6-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
       <title>New automated notification service for applications and residence documents</title>
-      <link>https://businesshub.cy/article/1fedcd01-7e74-40bb-bce9-43f7b2ec7662</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1fedcd01-7e74-40bb-bce9-43f7b2ec7662</guid>
+      <link>https://bhubnetwork.com/article/1fedcd01-7e74-40bb-bce9-43f7b2ec7662</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/1fedcd01-7e74-40bb-bce9-43f7b2ec7662</guid>
       <pubDate>Wed, 11 Nov 2026 11:01:12 GMT</pubDate>
       <category>Business</category>
       <description>The Migration Department has launched a new automated SMS and email notification system for residence applications and document expiries, requiring a CY Login account.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Are EU house prices outpacing income?</title>
-      <link>https://businesshub.cy/article/e7d87429-f897-40e7-96d1-66eff710b9b4</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e7d87429-f897-40e7-96d1-66eff710b9b4</guid>
-      <pubDate>Tue, 10 Nov 2026 06:01:56 GMT</pubDate>
-      <category>Business</category>
-      <description>Eurostat data reveals a widening gap between EU house prices and disposable income, signaling housing affordability challenges across the bloc since 2010.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>President of the Republic of Cyprus – Economists Enterprise’s 22nd Annual Cyprus Summit</title>
-      <link>https://businesshub.cy/article/0ee97c36-5797-4e35-8368-7ed00f54961c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/0ee97c36-5797-4e35-8368-7ed00f54961c</guid>
-      <pubDate>Tue, 10 Nov 2026 05:02:14 GMT</pubDate>
-      <category>Business</category>
-      <description>President Christodoulides addressed the 22nd Annual Economist Cyprus Summit, reinforcing the government&apos;s commitment to fiscal stability and structural reforms to attract foreign investment.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PReconomist-8-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PReconomist-8-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>President of the Republic of Cyprus – Joint meeting with the Personal Envoy of the UN Secretary-General and the leader of the Turkish Cypriot community</title>
-      <link>https://businesshub.cy/article/f1a05475-d11a-48ff-815f-1a1ec49a09d7</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/f1a05475-d11a-48ff-815f-1a1ec49a09d7</guid>
-      <pubDate>Tue, 10 Nov 2026 05:02:05 GMT</pubDate>
-      <category>Business</category>
-      <description>President Christodoulides met with the UN Personal Envoy and the Turkish Cypriot leader in Nicosia, signaling a potential revival of formal diplomatic discussions.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PRtalks09112026-14-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PRtalks09112026-14-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Interior Minister – Presentation of the Ministry’s budget for the year 2027</title>
-      <link>https://businesshub.cy/article/bc904649-353a-4546-95bc-c92f1467c88c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/bc904649-353a-4546-95bc-c92f1467c88c</guid>
-      <pubDate>Tue, 10 Nov 2026 05:01:48 GMT</pubDate>
-      <category>Business</category>
-      <description>Interior Minister Constantinos Ioannou presented the 2027 Ministry budget to the House Financial Committee, outlining future state spending on local government and housing.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/POR-1-6af19e138895b-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/POR-1-6af19e138895b-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>CY-Alert test notifications on 10 November 2026, between 11:00 and 15:00</title>
-      <link>https://businesshub.cy/article/ba35ac03-584a-4e85-a240-100473445410</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/ba35ac03-584a-4e85-a240-100473445410</guid>
-      <pubDate>Tue, 10 Nov 2026 05:01:38 GMT</pubDate>
-      <category>Business</category>
-      <description>Cyprus will test the CY-Alert public warning system on November 10, 2026, as part of a Mediterranean-wide tsunami simulation exercise.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Announcement of the Ministry of Finance of the Republic of Cyprus on the resumption of the National Solidary Fund&apos;s electronic service...</title>
-      <link>https://businesshub.cy/article/7ffdc80b-853c-4994-9347-cdbc19be8acb</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/7ffdc80b-853c-4994-9347-cdbc19be8acb</guid>
-      <pubDate>Tue, 10 Nov 2026 05:01:29 GMT</pubDate>
-      <category>Business</category>
-      <description>The Ministry of Finance has reopened the electronic portal for the National Solidarity Fund, allowing 2013 haircut victims who missed the first deadline to register for compensation.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
   </channel>
 </rss>

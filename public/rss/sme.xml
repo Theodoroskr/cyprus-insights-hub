@@ -2,50 +2,400 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>BusinessHub.cy — SME</title>
-    <link>https://businesshub.cy/sme</link>
+    <link>https://bhubnetwork.com/sme</link>
     <description>Latest SME stories from BusinessHub.cy, Cyprus Edition.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 17 Nov 2026 11:22:42 GMT</lastBuildDate>
-    <atom:link href="https://businesshub.cy/rss/sme.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Nov 2026 18:48:52 GMT</lastBuildDate>
+    <atom:link href="https://bhubnetwork.com/rss/sme.xml" rel="self" type="application/rss+xml" />
     <image>
-      <url>https://businesshub.cy/apple-touch-icon.png</url>
+      <url>https://bhubnetwork.com/apple-touch-icon.png</url>
       <title>BusinessHub.cy — SME</title>
-      <link>https://businesshub.cy/sme</link>
+      <link>https://bhubnetwork.com/sme</link>
     </image>
     <item>
+      <title>Equipping Europeans for the age of AI: Council approves conclusions</title>
+      <link>https://bhubnetwork.com/article/825d9526-7835-48b6-92a4-ad74c8241c8b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/825d9526-7835-48b6-92a4-ad74c8241c8b</guid>
+      <pubDate>Sun, 22 Nov 2026 18:48:52 GMT</pubDate>
+      <category>SME</category>
+      <description>The EU Council has approved a new framework to integrate AI literacy into education and professional training across all member states, including Cyprus.</description>
+      <media:content url="https://www.consilium.europa.eu/media/k0bfgo15/ai-press-release3-nov-26.png" medium="image" type="image/png" />
+      <enclosure url="https://www.consilium.europa.eu/media/k0bfgo15/ai-press-release3-nov-26.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>EIB Group Climate Adaptation Plan Phase 2 – 2026-2030</title>
+      <link>https://bhubnetwork.com/article/faed0112-1f93-4de2-91ee-2096571d5f54</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/faed0112-1f93-4de2-91ee-2096571d5f54</guid>
+      <pubDate>Sun, 22 Nov 2026 18:47:56 GMT</pubDate>
+      <category>SME</category>
+      <description>The EIB Group doubles its climate adaptation funding to €30 billion for 2026-2030, specifically targeting SMEs and resilient infrastructure to mitigate growing climate risks.</description>
+      <media:content url="https://www.eib.org/photos/rs/6ad9d25199f3091b877d9da8/largeprvw/image.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.eib.org/photos/rs/6ad9d25199f3091b877d9da8/largeprvw/image.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Statement by the Minister of Finance on the affirmation of the credit rating of the Republic of Cyprus</title>
+      <link>https://bhubnetwork.com/article/c6bb42ca-bbfe-4c7e-b8c4-c2ece70bcfc4</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/c6bb42ca-bbfe-4c7e-b8c4-c2ece70bcfc4</guid>
+      <pubDate>Sun, 22 Nov 2026 18:03:01 GMT</pubDate>
+      <category>SME</category>
+      <description>Moody&apos;s has affirmed Cyprus&apos;s A3 investment-grade credit rating with a stable outlook, reflecting strong fiscal performance despite geopolitical instability and internal legislative risks.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Reminder for submission of applications for student benefits for the academic year 2025/2026 until 30 November for families of Greek students and for repatriated families of Cypriots</title>
+      <link>https://bhubnetwork.com/article/b4d248e2-8b87-4025-9788-e5f04071fe7c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b4d248e2-8b87-4025-9788-e5f04071fe7c</guid>
+      <pubDate>Sun, 22 Nov 2026 17:01:27 GMT</pubDate>
+      <category>SME</category>
+      <description>The Ministry of Finance reminds Greek and repatriated Cypriot families to apply for student benefits for the 2025/2026 academic year by November 30.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Extension of the Validity of Reduced Excise Duty Rates on Motor Fuels for the period from 1 December 2026 to 31 March 2027</title>
+      <link>https://bhubnetwork.com/article/b8900896-eb90-4e70-9279-f9532abf0f41</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b8900896-eb90-4e70-9279-f9532abf0f41</guid>
+      <pubDate>Sun, 22 Nov 2026 17:01:14 GMT</pubDate>
+      <category>SME</category>
+      <description>The Cyprus government has extended reduced excise duty rates on motor fuels until March 31, 2027, to mitigate high energy costs for businesses and households.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Confirmation of the Republic of Cyprus&apos;s Credit Rating and Maintenance of Outlook by Moody’s Investors Service</title>
+      <link>https://bhubnetwork.com/article/522702fc-51a2-429d-94ad-c27f05ce15a7</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/522702fc-51a2-429d-94ad-c27f05ce15a7</guid>
+      <pubDate>Sun, 22 Nov 2026 17:01:02 GMT</pubDate>
+      <category>SME</category>
+      <description>Moody’s confirms Cyprus’s A3 rating with a stable outlook, citing fiscal resilience while warning of risks from labor reforms and infrastructure delays.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>OECD Steel Committee: Joining forces to address accelerating global steel excess capacity</title>
+      <link>https://bhubnetwork.com/article/fcc1b808-25a2-4446-88cd-df916cbabf3e</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/fcc1b808-25a2-4446-88cd-df916cbabf3e</guid>
+      <pubDate>Sat, 21 Nov 2026 12:01:44 GMT</pubDate>
+      <category>SME</category>
+      <description>The OECD warns of a global steel excess capacity crisis reaching 700 million tonnes, threatening market stability through overproduction and market-distorting subsidies.</description>
+      <media:content url="https://www.oecd.org/adobe/dynamicmedia/deliver/dm-aid--a744dffe-03e8-4e84-9873-97980e6eadac/shutterstock-2117007629.jpg?preferwebp=true&amp;quality=80" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.oecd.org/adobe/dynamicmedia/deliver/dm-aid--a744dffe-03e8-4e84-9873-97980e6eadac/shutterstock-2117007629.jpg?preferwebp=true&amp;quality=80" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Stronger public finances and higher productivity are key to sustained growth in Colombia</title>
+      <link>https://bhubnetwork.com/article/39218ab0-0d33-4f45-ac37-9b99777f2aa5</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/39218ab0-0d33-4f45-ac37-9b99777f2aa5</guid>
+      <pubDate>Sat, 21 Nov 2026 12:01:29 GMT</pubDate>
+      <category>SME</category>
+      <description>The OECD&apos;s latest survey on Colombia highlights the need for fiscal consolidation and digital transformation to sustain growth amid rising debt and high inflation.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Jordan: EU and EIB back flagship water system providing water for 11 million people from one of the world’s largest desalination plants</title>
+      <link>https://bhubnetwork.com/article/f353ab98-db5b-4e30-b786-003ecfc671c2</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/f353ab98-db5b-4e30-b786-003ecfc671c2</guid>
+      <pubDate>Fri, 20 Nov 2026 22:01:05 GMT</pubDate>
+      <category>SME</category>
+      <description>The EU and EIB are providing over €1.1 billion in financing for Jordan&apos;s massive Aqaba-Amman water desalination project to secure water for 11 million people.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Temporary Suspension of DAC2/CRS File Submission Service</title>
+      <link>https://bhubnetwork.com/article/716449cd-52e9-48f6-ab77-1e1c21e8826b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/716449cd-52e9-48f6-ab77-1e1c21e8826b</guid>
+      <pubDate>Fri, 20 Nov 2026 21:01:37 GMT</pubDate>
+      <category>SME</category>
+      <description>Cyprus Tax Department will suspend DAC2/CRS submissions from Dec 14, 2026, to Jan 17, 2027, to transition to the new XSD Schema v3.0 reporting standard.</description>
+      <media:content url="https://www.gov.cy/media/2024/06/TMHMA_FOROLOGIAS-384x256.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.gov.cy/media/2024/06/TMHMA_FOROLOGIAS-384x256.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>IMF Executive Board Concludes Sixteenth Periodic Monitoring Report on the Status of Management Implementation Plans in Response to Board-Endorsed IEO Recommendations</title>
+      <link>https://bhubnetwork.com/article/ce49f791-b7db-4365-bce1-5a6466286a6b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/ce49f791-b7db-4365-bce1-5a6466286a6b</guid>
+      <pubDate>Fri, 20 Nov 2026 20:01:07 GMT</pubDate>
+      <category>SME</category>
+      <description>The IMF has accelerated its internal reform implementation, closing 58% of open actions including social protection and capital flow advice, while introducing a new slippage risk framework.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Statement by IMF Deputy Managing Director Kenji Okamura at the Conclusion of His Visit to Malta</title>
+      <link>https://bhubnetwork.com/article/2c9ad627-d0ca-4aa6-9a86-ef552bdfeb88</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/2c9ad627-d0ca-4aa6-9a86-ef552bdfeb88</guid>
+      <pubDate>Fri, 20 Nov 2026 20:00:59 GMT</pubDate>
+      <category>SME</category>
+      <description>IMF Deputy Managing Director Kenji Okamura praised Malta&apos;s rapid economic growth while emphasizing the need for fiscal buffers and structural reforms to sustain long-term productivity.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>IMF End-of-Mission Statement on Togo’s Fifth Review under the Extended Credit Facility Arrangement</title>
+      <link>https://bhubnetwork.com/article/07cccfe2-9ad5-42e2-acff-69a35668f067</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/07cccfe2-9ad5-42e2-acff-69a35668f067</guid>
+      <pubDate>Fri, 20 Nov 2026 20:00:34 GMT</pubDate>
+      <category>SME</category>
+      <description>An IMF mission visited Togo to review economic reforms under the ECF and discuss new climate-related funding, with a focus on fiscal sustainability and private-sector growth.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>OECD to launch Africa&apos;s Development Dynamics 2026: Managing debt for transformation on 25 November</title>
+      <link>https://bhubnetwork.com/article/93302161-3751-4aa5-a9b8-97eca3067ece</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/93302161-3751-4aa5-a9b8-97eca3067ece</guid>
+      <pubDate>Fri, 20 Nov 2026 12:00:52 GMT</pubDate>
+      <category>SME</category>
+      <description>The OECD and African Union will launch a report on November 25th exploring how African nations can leverage sovereign debt to drive productivity and economic transformation.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>OECD work and activities during COP31</title>
+      <link>https://bhubnetwork.com/article/6f623b99-df40-4ecb-9400-918f794aac41</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/6f623b99-df40-4ecb-9400-918f794aac41</guid>
+      <pubDate>Fri, 20 Nov 2026 12:00:43 GMT</pubDate>
+      <category>SME</category>
+      <description>The OECD is partnering with Türkiye for COP31 to provide technical analysis and tools, including the Climate Action Monitor, to accelerate global climate policy and emissions reductions.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Launch of the national digital financial literacy portal &quot;moneypedia.cy&quot;</title>
+      <link>https://bhubnetwork.com/article/d45d4a0b-deec-4cf9-a7d8-45ef64c3819c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/d45d4a0b-deec-4cf9-a7d8-45ef64c3819c</guid>
+      <pubDate>Thu, 19 Nov 2026 20:01:03 GMT</pubDate>
+      <category>SME</category>
+      <description>Cyprus launches &apos;moneypedia.cy&apos;, a central digital portal dedicated to enhancing financial literacy and providing tools for informed economic decision-making.</description>
+      <media:content url="https://www.gov.cy/media/sites/11/2025/01/calculator-4285211_640.webp" medium="image" type="image/webp" />
+      <enclosure url="https://www.gov.cy/media/sites/11/2025/01/calculator-4285211_640.webp" type="image/webp" length="0" />
+    </item>
+    <item>
+      <title>Reaching Up for Faster Growth</title>
+      <link>https://bhubnetwork.com/article/4734ac6a-c66d-47ea-a05e-f8926b4ea9ae</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/4734ac6a-c66d-47ea-a05e-f8926b4ea9ae</guid>
+      <pubDate>Thu, 19 Nov 2026 20:00:32 GMT</pubDate>
+      <category>SME</category>
+      <description>Global growth is increasingly driven by AI and trade, but rising inflation and public debt necessitate cautious fiscal policies and urgent digital structural reforms for Cyprus businesses.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Price Index of Construction Materials - Annual Change +4,09% (Oct 2026)</title>
+      <link>https://bhubnetwork.com/article/4d972c8b-8cd5-40bf-a325-829c5e09d366</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/4d972c8b-8cd5-40bf-a325-829c5e09d366</guid>
+      <pubDate>Thu, 19 Nov 2026 19:03:11 GMT</pubDate>
+      <category>SME</category>
+      <description>The Price Index of Construction Materials in Cyprus rose by 4.09% year-on-year in October 2026, signaling continued upward pressure on building costs.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Production in construction up by 0.1% in the euro area</title>
+      <link>https://bhubnetwork.com/article/0f73efbb-8c05-43a1-80c6-06414bac505f</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/0f73efbb-8c05-43a1-80c6-06414bac505f</guid>
+      <pubDate>Thu, 19 Nov 2026 14:01:38 GMT</pubDate>
+      <category>SME</category>
+      <description>Euro area construction production edged up 0.1% in September 2026, though annual figures show a sustained decline, particularly in building construction.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Average gender employment gap in EU regions at 9.7 pp</title>
+      <link>https://bhubnetwork.com/article/e9d36feb-100b-40ec-abe3-a7069a3e20d6</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e9d36feb-100b-40ec-abe3-a7069a3e20d6</guid>
+      <pubDate>Thu, 19 Nov 2026 14:00:52 GMT</pubDate>
+      <category>SME</category>
+      <description>Eurostat reports an average EU gender employment gap of 9.7 percentage points, highlighting persistent labor market disparities across member states.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>OECD GDP growth slows slightly to 0.6% in the third quarter of 2026</title>
+      <link>https://bhubnetwork.com/article/e861ce8a-d260-4173-9b40-08c006361683</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e861ce8a-d260-4173-9b40-08c006361683</guid>
+      <pubDate>Thu, 19 Nov 2026 12:01:37 GMT</pubDate>
+      <category>SME</category>
+      <description>OECD GDP growth slowed slightly to 0.6% in Q3 2026, driven by weak net trade in G7 nations despite strong domestic demand in the US and UK.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>As AI transforms the data landscape, OECD strengthens safeguards for trustworthy statistics</title>
+      <link>https://bhubnetwork.com/article/3034b0d3-3efc-4530-a5df-151101363542</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/3034b0d3-3efc-4530-a5df-151101363542</guid>
+      <pubDate>Thu, 19 Nov 2026 12:01:27 GMT</pubDate>
+      <category>SME</category>
+      <description>The OECD updated its statistical quality framework to include AI safeguards, ensuring data credibility and &apos;AI-readiness&apos; amid shifting data sources and processing methods.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Price Index οf Construction Materials: October 2026</title>
+      <link>https://bhubnetwork.com/article/ef95a966-4d4d-474b-b37d-d9576b49a8a2</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/ef95a966-4d4d-474b-b37d-d9576b49a8a2</guid>
+      <pubDate>Wed, 18 Nov 2026 22:01:30 GMT</pubDate>
+      <category>SME</category>
+      <description>The Cyprus Construction Materials Price Index rose 4.09% year-on-year in October 2026, driven by sharp increases in metallic and electrical products.</description>
+      <media:content url="https://www.gov.cy/media/2026/11/18112026_statistikiIlika-EN-384x256.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.gov.cy/media/2026/11/18112026_statistikiIlika-EN-384x256.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Colombia: End-of-Mission Press Release</title>
+      <link>https://bhubnetwork.com/article/c4ab02b5-5d1d-4f13-b8bc-dec727c3f221</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/c4ab02b5-5d1d-4f13-b8bc-dec727c3f221</guid>
+      <pubDate>Wed, 18 Nov 2026 20:02:19 GMT</pubDate>
+      <category>SME</category>
+      <description>IMF mission to Colombia highlights urgent fiscal consolidation needs and the proposed Economic Rescue Law to stabilize debt and rebuild investor confidence following recent economic shocks.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>IMF Staff Concludes Staff Visit to Qatar</title>
+      <link>https://bhubnetwork.com/article/6bde7513-c873-4ba1-a34f-a65a50939b77</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/6bde7513-c873-4ba1-a34f-a65a50939b77</guid>
+      <pubDate>Wed, 18 Nov 2026 20:02:11 GMT</pubDate>
+      <category>SME</category>
+      <description>The IMF reports that Qatar&apos;s economy will contract 14.5% in 2026 due to regional conflict, but strong non-hydrocarbon resilience and LNG expansion point to a 2027 recovery.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>IMF Staff Completes 2026 Article IV Mission to United Arab Emirates</title>
+      <link>https://bhubnetwork.com/article/18f487bb-ef27-424c-9b41-d78cfc92304b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/18f487bb-ef27-424c-9b41-d78cfc92304b</guid>
+      <pubDate>Wed, 18 Nov 2026 20:02:02 GMT</pubDate>
+      <category>SME</category>
+      <description>IMF reports UAE economic resilience amid regional conflict, projecting a growth surge to 7.3% in 2027 as disruptions ease and non-hydrocarbon sectors recover.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Kazakhstan: Staff Concluding Statement for the 2026 Article IV Mission</title>
+      <link>https://bhubnetwork.com/article/bd368fd3-f5e2-4319-91d8-9cc4b5797400</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/bd368fd3-f5e2-4319-91d8-9cc4b5797400</guid>
+      <pubDate>Wed, 18 Nov 2026 20:01:50 GMT</pubDate>
+      <category>SME</category>
+      <description>IMF&apos;s 2026 Article IV mission reports moderated 4.6% growth in Kazakhstan with persistent inflation, advising tighter fiscal policy and structural reforms amid downside risks.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>IMF Staff Concludes Visit to Lithuania</title>
+      <link>https://bhubnetwork.com/article/5f244980-5ff6-429f-95cb-fb8fb787bd57</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/5f244980-5ff6-429f-95cb-fb8fb787bd57</guid>
+      <pubDate>Wed, 18 Nov 2026 20:01:36 GMT</pubDate>
+      <category>SME</category>
+      <description>The IMF warns that Lithuania&apos;s growth will moderate as inflation stays high, fueled by expansionary fiscal policies and strong wage growth, risking long-term competitiveness.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>A Quarter Century of Inflation Targeting in Latin America: Progress, Challenges, and the Road Ahead</title>
+      <link>https://bhubnetwork.com/article/fa321187-9c21-4372-b01e-4d2878b754bd</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/fa321187-9c21-4372-b01e-4d2878b754bd</guid>
+      <pubDate>Wed, 18 Nov 2026 20:01:25 GMT</pubDate>
+      <category>SME</category>
+      <description>IMF discusses Latin America&apos;s inflation targeting success and future risks, highlighting the importance of early policy action and central bank credibility in volatile global markets.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>IMF Staff Reaches Staff Level Agreement on Egypt’s Eighth Review Under the Extended Arrangement under the Extended Fund Facility and Third Review Under the Resilience and Sustainability Facility</title>
+      <link>https://bhubnetwork.com/article/262787f4-099a-4d53-b8e1-6851d6d339ef</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/262787f4-099a-4d53-b8e1-6851d6d339ef</guid>
+      <pubDate>Wed, 18 Nov 2026 20:01:13 GMT</pubDate>
+      <category>SME</category>
+      <description>The IMF has reached a staff-level agreement with Egypt for a $2.3 billion disbursement, signaling continued economic stabilization and reform in a key regional market for Cyprus.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>IMF Staff Completes 2026 Article IV Mission to the Republic of Korea</title>
+      <link>https://bhubnetwork.com/article/9811eef5-e573-4398-ae3a-5e22957cdc15</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/9811eef5-e573-4398-ae3a-5e22957cdc15</guid>
+      <pubDate>Tue, 17 Nov 2026 20:02:25 GMT</pubDate>
+      <category>SME</category>
+      <description>The IMF projects strong growth for South Korea driven by a global AI and semiconductor boom, though inflation risks and tech-sector concentration remain key concerns.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Sierra Leone: IMF Staff Reaches Staff-Level Agreement on the Fourth Review Under the Extended Credit Facility Arrangement and the First Review Under the Resilience and Sustainability Facility</title>
+      <link>https://bhubnetwork.com/article/3a30c337-35c7-4b9d-8340-ea6b159a2ee7</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/3a30c337-35c7-4b9d-8340-ea6b159a2ee7</guid>
+      <pubDate>Tue, 17 Nov 2026 20:02:08 GMT</pubDate>
+      <category>SME</category>
+      <description>IMF staff reached an agreement to unlock $78.2 million for Sierra Leone, pending board approval, amid efforts to stabilize inflation and address fiscal pressures.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>IMF Press Briefing | November 12, 2026</title>
+      <link>https://bhubnetwork.com/article/87f3eab6-3b83-4f68-a27f-404497c05570</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/87f3eab6-3b83-4f68-a27f-404497c05570</guid>
+      <pubDate>Tue, 17 Nov 2026 20:01:51 GMT</pubDate>
+      <category>SME</category>
+      <description>The IMF&apos;s November 2026 briefings focused on global economic shifts, the future of the U.S. dollar, and transition risks in a multipolar world.</description>
+      <media:content url="https://cf-images.us-east-1.prod.boltdns.net/v1/static/45228659001/def280bd-89c5-4b73-8613-3e11de7e52aa/43cf963a-8e6d-4629-8a5c-b350bbc374ad/160x90/match/image.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://cf-images.us-east-1.prod.boltdns.net/v1/static/45228659001/def280bd-89c5-4b73-8613-3e11de7e52aa/43cf963a-8e6d-4629-8a5c-b350bbc374ad/160x90/match/image.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Industrial production up by 0.2% in the euro area</title>
+      <link>https://bhubnetwork.com/article/449ed77b-2613-403c-a4ea-a6511ba0f6aa</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/449ed77b-2613-403c-a4ea-a6511ba0f6aa</guid>
+      <pubDate>Tue, 17 Nov 2026 18:01:05 GMT</pubDate>
+      <category>SME</category>
+      <description>Euro area industrial production saw a marginal 0.2% monthly increase in September 2026, though annual output remains down by 1.5% amid a sharp decline in non-durable consumer goods.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>EU severe material and social deprivation rate: 6.3%</title>
+      <link>https://bhubnetwork.com/article/652e51d0-c87a-4943-bced-e8c046a773b8</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/652e51d0-c87a-4943-bced-e8c046a773b8</guid>
+      <pubDate>Tue, 17 Nov 2026 17:03:18 GMT</pubDate>
+      <category>SME</category>
+      <description>Cyprus reports a 6.7% severe material and social deprivation rate, slightly exceeding the EU average of 6.3%, signaling underlying challenges in consumer purchasing power.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
       <title>Vulnerability profiles of least developed countries</title>
-      <link>https://businesshub.cy/article/7e2dd326-9f10-4944-8ff2-cccd55a7e834</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/7e2dd326-9f10-4944-8ff2-cccd55a7e834</guid>
+      <link>https://bhubnetwork.com/article/7e2dd326-9f10-4944-8ff2-cccd55a7e834</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/7e2dd326-9f10-4944-8ff2-cccd55a7e834</guid>
       <pubDate>Tue, 17 Nov 2026 11:22:42 GMT</pubDate>
       <category>SME</category>
       <description>UNCTAD has released updated vulnerability profiles for Least Developed Countries (LDCs) to assess their readiness for graduation from the LDC category.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Opening Keynote Address of the Chief Scientist for Research, Innovation and Technology of the Republic of Cyprus, Dr Demetris Skourides, at the 10th PMI Cyprus Chapter Project Management Conference</title>
-      <link>https://businesshub.cy/article/59191c2a-391f-4111-8339-3cfc8209d6f2</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/59191c2a-391f-4111-8339-3cfc8209d6f2</guid>
+      <link>https://bhubnetwork.com/article/59191c2a-391f-4111-8339-3cfc8209d6f2</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/59191c2a-391f-4111-8339-3cfc8209d6f2</guid>
       <pubDate>Tue, 17 Nov 2026 09:01:12 GMT</pubDate>
       <category>SME</category>
       <description>Chief Scientist Demetris Skourides calls for a paradigm shift in Cyprus&apos;s project management, emphasizing the integration of AI to move from execution to &apos;intelligent execution.&apos;</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Real household income in the OECD contracts slightly in Q2 2026</title>
-      <link>https://businesshub.cy/article/39272330-8b74-4ede-949c-210904a4794c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/39272330-8b74-4ede-949c-210904a4794c</guid>
+      <link>https://bhubnetwork.com/article/39272330-8b74-4ede-949c-210904a4794c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/39272330-8b74-4ede-949c-210904a4794c</guid>
       <pubDate>Mon, 16 Nov 2026 12:00:59 GMT</pubDate>
       <category>SME</category>
       <description>OECD real household income per capita edged down 0.1% in Q2 2026, as persistent inflation began outpacing nominal wage gains despite continued GDP growth.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>OEB: Award Ceremony of the Cyprus Innovation Awards of the OEB and the Cyprus Research Awards of the RIF</title>
-      <link>https://businesshub.cy/article/9e9651e1-1ec4-4371-953d-7d92aafdd12e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/9e9651e1-1ec4-4371-953d-7d92aafdd12e</guid>
+      <link>https://bhubnetwork.com/article/9e9651e1-1ec4-4371-953d-7d92aafdd12e</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/9e9651e1-1ec4-4371-953d-7d92aafdd12e</guid>
       <pubDate>Sun, 15 Nov 2026 14:42:07 GMT</pubDate>
       <category>SME</category>
       <description>OEB and RIF will host the joint 19th Cyprus Innovation and Research Awards on October 26, 2026, to honor excellence in business innovation and scientific research.</description>
@@ -54,58 +404,58 @@
     </item>
     <item>
       <title>Choosing Growth: Reforms for Innovation, Scale, and Resilience</title>
-      <link>https://businesshub.cy/article/04faa70e-3b1e-4c8f-be64-02d283ab681b</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/04faa70e-3b1e-4c8f-be64-02d283ab681b</guid>
+      <link>https://bhubnetwork.com/article/04faa70e-3b1e-4c8f-be64-02d283ab681b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/04faa70e-3b1e-4c8f-be64-02d283ab681b</guid>
       <pubDate>Sat, 14 Nov 2026 17:00:56 GMT</pubDate>
       <category>SME</category>
       <description>The IMF warns Europe to prioritize fiscal consolidation and structural reforms to counter rising sovereign yields, energy shocks, and stagnant growth.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>IMF Executive Board Concludes 2026 Article IV Consultation and Mid-Term Review and Request for Reduction of Access under Flexible Credit Line Arrangement with Mexico</title>
-      <link>https://businesshub.cy/article/8bb105a3-a9b7-498f-9c0b-f0da4c273fee</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/8bb105a3-a9b7-498f-9c0b-f0da4c273fee</guid>
+      <link>https://bhubnetwork.com/article/8bb105a3-a9b7-498f-9c0b-f0da4c273fee</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/8bb105a3-a9b7-498f-9c0b-f0da4c273fee</guid>
       <pubDate>Sat, 14 Nov 2026 17:00:25 GMT</pubDate>
       <category>SME</category>
       <description>The IMF approved Mexico&apos;s credit line reduction following improved economic stability, while advising tighter fiscal policies to manage debt and inflation despite a projected growth recovery through 2027.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Finland: Staff Concluding Statement of the 2027 Article IV Mission</title>
-      <link>https://businesshub.cy/article/9e450987-a032-4aeb-b6c0-e959c4a20a8c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/9e450987-a032-4aeb-b6c0-e959c4a20a8c</guid>
+      <link>https://bhubnetwork.com/article/9e450987-a032-4aeb-b6c0-e959c4a20a8c</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/9e450987-a032-4aeb-b6c0-e959c4a20a8c</guid>
       <pubDate>Sat, 14 Nov 2026 16:02:51 GMT</pubDate>
       <category>SME</category>
       <description>Finland&apos;s economy enters a recovery phase driven by exports and investment, though high unemployment and fiscal deficits necessitate structural reforms and consolidation.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>IMF Staff Concludes Visit to Georgia</title>
-      <link>https://businesshub.cy/article/63586965-e2b7-45b5-859f-43c385bbdf7b</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/63586965-e2b7-45b5-859f-43c385bbdf7b</guid>
+      <link>https://bhubnetwork.com/article/63586965-e2b7-45b5-859f-43c385bbdf7b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/63586965-e2b7-45b5-859f-43c385bbdf7b</guid>
       <pubDate>Sat, 14 Nov 2026 16:02:38 GMT</pubDate>
       <category>SME</category>
       <description>The IMF reports robust 7.2% growth for Georgia in 2026 driven by ICT and trade, while warning that persistent inflation may necessitate tighter monetary policy.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>IMF Staff Completes 2026 Article IV Mission to Vietnam</title>
-      <link>https://businesshub.cy/article/ae0e2aa8-c7c3-4337-9375-363b3b51302d</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/ae0e2aa8-c7c3-4337-9375-363b3b51302d</guid>
+      <link>https://bhubnetwork.com/article/ae0e2aa8-c7c3-4337-9375-363b3b51302d</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/ae0e2aa8-c7c3-4337-9375-363b3b51302d</guid>
       <pubDate>Sat, 14 Nov 2026 16:02:27 GMT</pubDate>
       <category>SME</category>
       <description>Vietnam&apos;s economy is projected to grow by 9.2% in 2026, driven by AI and tech, though inflation risks and trade uncertainties remain for international partners.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Creating the Conditions for Lasting Diversification in Algeria</title>
-      <link>https://businesshub.cy/article/3356e49d-39a1-41ae-9730-fc9cda280737</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/3356e49d-39a1-41ae-9730-fc9cda280737</guid>
+      <link>https://bhubnetwork.com/article/3356e49d-39a1-41ae-9730-fc9cda280737</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/3356e49d-39a1-41ae-9730-fc9cda280737</guid>
       <pubDate>Sat, 14 Nov 2026 16:01:49 GMT</pubDate>
       <category>SME</category>
       <description>Algeria is intensifying efforts to diversify its economy away from hydrocarbons through large-scale infrastructure projects and regulatory reforms to stimulate private sector growth.</description>
@@ -114,403 +464,53 @@
     </item>
     <item>
       <title>Inclusive Framework on Base Erosion and Profit Shifting Plenary Meeting Opening, remarks by OECD Secretary-General Mathias Cormann</title>
-      <link>https://businesshub.cy/article/d2416ca0-f62f-4025-b732-3160b8af002b</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d2416ca0-f62f-4025-b732-3160b8af002b</guid>
+      <link>https://bhubnetwork.com/article/d2416ca0-f62f-4025-b732-3160b8af002b</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/d2416ca0-f62f-4025-b732-3160b8af002b</guid>
       <pubDate>Sat, 14 Nov 2026 12:02:17 GMT</pubDate>
       <category>SME</category>
       <description>OECD Secretary-General Mathias Cormann highlights the global implementation of the 15% minimum tax and outlines future priorities for international tax cooperation and profit-shifting prevention.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>OECD unemployment rate stable at 5.0% in September 2026, while youth unemployment rate reaches 11.5%</title>
-      <link>https://businesshub.cy/article/2b8fd25c-54a4-4709-bc6a-25d2d1a73087</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/2b8fd25c-54a4-4709-bc6a-25d2d1a73087</guid>
+      <link>https://bhubnetwork.com/article/2b8fd25c-54a4-4709-bc6a-25d2d1a73087</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/2b8fd25c-54a4-4709-bc6a-25d2d1a73087</guid>
       <pubDate>Sat, 14 Nov 2026 12:02:01 GMT</pubDate>
       <category>SME</category>
       <description>The OECD unemployment rate held steady at 5.0% in September 2026, though youth unemployment rose to 11.5% and gender gaps persisted in Greece and the Eurozone.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Government support to agriculture grew by 15% in the last two years and much of it is distortive, says OECD</title>
-      <link>https://businesshub.cy/article/b88a1930-cbf1-4043-a8af-9f17f75b0434</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b88a1930-cbf1-4043-a8af-9f17f75b0434</guid>
+      <link>https://bhubnetwork.com/article/b88a1930-cbf1-4043-a8af-9f17f75b0434</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b88a1930-cbf1-4043-a8af-9f17f75b0434</guid>
       <pubDate>Sat, 14 Nov 2026 12:01:54 GMT</pubDate>
       <category>SME</category>
       <description>Global agricultural support rose 15% to $885 billion, largely through distortive subsidies that risk long-term productivity and increase consumer costs, according to the OECD.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Reforms can strengthen Belgium’s competitiveness, unlock its growth potential and support sustainable public finances</title>
-      <link>https://businesshub.cy/article/251bb589-717a-4f30-85f6-0c5f4152131f</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/251bb589-717a-4f30-85f6-0c5f4152131f</guid>
+      <link>https://bhubnetwork.com/article/251bb589-717a-4f30-85f6-0c5f4152131f</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/251bb589-717a-4f30-85f6-0c5f4152131f</guid>
       <pubDate>Sat, 14 Nov 2026 12:01:46 GMT</pubDate>
       <category>SME</category>
       <description>The OECD urges Belgium to implement structural reforms in wage-setting, public spending, and green energy to address rising debt and slowing GDP growth.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
       <title>Rising exposure to extreme heat and droughts poses growing risks to economies, OECD finds</title>
-      <link>https://businesshub.cy/article/aa6b46e0-c7f8-41d2-bbcf-94e2baeab2bd</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/aa6b46e0-c7f8-41d2-bbcf-94e2baeab2bd</guid>
+      <link>https://bhubnetwork.com/article/aa6b46e0-c7f8-41d2-bbcf-94e2baeab2bd</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/aa6b46e0-c7f8-41d2-bbcf-94e2baeab2bd</guid>
       <pubDate>Sat, 14 Nov 2026 12:01:29 GMT</pubDate>
       <category>SME</category>
       <description>The OECD reports a massive global increase in extreme heat and a decline in soil moisture, threatening agricultural stability, energy production, and international supply chains.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Migration to OECD countries declines for second consecutive year, but remains high by historical standards</title>
-      <link>https://businesshub.cy/article/566749c6-4cc1-4b42-9446-9d411a1dbcba</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/566749c6-4cc1-4b42-9446-9d411a1dbcba</guid>
-      <pubDate>Sat, 14 Nov 2026 12:01:12 GMT</pubDate>
-      <category>SME</category>
-      <description>OECD migration fell 1.6% in 2025 to 6.1 million, but remains historically high, highlighting the critical need for better skill utilization to drive productivity amidst labor shortages.</description>
-      <media:content url="https://www.oecd.org/adobe/dynamicmedia/deliver/dm-aid--3256f7f9-44dc-4fd6-bb3f-81f29679a5e6/a9eab36b-en.jpg?quality=80&amp;preferwebp=true" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.oecd.org/adobe/dynamicmedia/deliver/dm-aid--3256f7f9-44dc-4fd6-bb3f-81f29679a5e6/a9eab36b-en.jpg?quality=80&amp;preferwebp=true" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Large enterprises led EU services exports in 2024</title>
-      <link>https://businesshub.cy/article/921f7531-ae32-4574-92c7-0da21d962fd6</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/921f7531-ae32-4574-92c7-0da21d962fd6</guid>
-      <pubDate>Fri, 13 Nov 2026 22:01:18 GMT</pubDate>
-      <category>SME</category>
-      <description>Eurostat data reveals that large enterprises continue to dominate EU services exports, underscoring the competitive gap facing SMEs in international markets.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Welcome Speech by the Shipping Deputy Minister of the Republic of Cyprus, Ms Marina Hadjimanolis,...</title>
-      <link>https://businesshub.cy/article/c1a944df-f90b-44af-beb8-bc117a3a4189</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/c1a944df-f90b-44af-beb8-bc117a3a4189</guid>
-      <pubDate>Fri, 13 Nov 2026 16:02:08 GMT</pubDate>
-      <category>SME</category>
-      <description>Island Energies (formerly Island Oil) has rebranded to reflect its international expansion and commitment to sustainable maritime services and strategic growth within the Cyprus shipping cluster.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/13112026_YfNaftilias-3-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/13112026_YfNaftilias-3-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>EIB Group boosts support for Ukrainian businesses with EU-backed guarantees and grants</title>
-      <link>https://businesshub.cy/article/5329cae2-6ac0-403a-8e07-6ed5ad25fe69</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/5329cae2-6ac0-403a-8e07-6ed5ad25fe69</guid>
-      <pubDate>Fri, 13 Nov 2026 12:03:16 GMT</pubDate>
-      <category>SME</category>
-      <description>The EIB Group and EU have launched €286 million in guarantees and grants to support over 2,200 Ukrainian SMEs via local banks.</description>
-      <media:content url="https://www.eib.org/photos/rs/6af5d9045638f0f49c13aa70/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/6af5d9045638f0f49c13aa70/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Agenda: Committee on Financial and Budgetary Affairs - Meeting 16/11/2026 - REVISED</title>
-      <link>https://businesshub.cy/article/fe258a1b-3852-4763-8be0-84b18299260e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/fe258a1b-3852-4763-8be0-84b18299260e</guid>
-      <pubDate>Fri, 13 Nov 2026 03:00:56 GMT</pubDate>
-      <category>SME</category>
-      <description>The Cyprus House Finance Committee has scheduled a revised legislative meeting for November 16, 2026, to discuss critical budgetary and economic matters.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Agenda: Committee on Financial and Budgetary Affairs - Session 13/11/2026</title>
-      <link>https://businesshub.cy/article/cd234d3a-b073-436f-971c-58800d13e94e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/cd234d3a-b073-436f-971c-58800d13e94e</guid>
-      <pubDate>Fri, 13 Nov 2026 03:00:36 GMT</pubDate>
-      <category>SME</category>
-      <description>The Cyprus House of Representatives has scheduled key committee sessions for mid-November 2026, focusing on finance, trade, and human rights.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Dutch Biotech fighting ALS and other neuro-degenerative diseases gets European backing</title>
-      <link>https://businesshub.cy/article/dbdcea1b-bf9b-4f51-a2cb-a809ba0dddd7</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/dbdcea1b-bf9b-4f51-a2cb-a809ba0dddd7</guid>
-      <pubDate>Thu, 12 Nov 2026 15:00:51 GMT</pubDate>
-      <category>SME</category>
-      <description>The EIB is providing a €30 million loan to VectorY Therapeutics to advance vectorised antibody treatments for neurodegenerative diseases like ALS and Alzheimer&apos;s under the InvestEU programme.</description>
-      <media:content url="https://www.eib.org/photos/rs/6af43da65638f0f49c13aa60/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/6af43da65638f0f49c13aa60/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>State Employees by Category - Total Employment: 55.317 (Oct 2026)</title>
-      <link>https://businesshub.cy/article/80f87f44-9423-4f45-a40b-cd0a4c82cbb6</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/80f87f44-9423-4f45-a40b-cd0a4c82cbb6</guid>
-      <pubDate>Wed, 11 Nov 2026 15:02:06 GMT</pubDate>
-      <category>SME</category>
-      <description>Total employment in the Cyprus public sector reached 55,317 in October 2026, signaling a growing state footprint in the labor market.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Registration Of Motor Vehicles: January–October 2026</title>
-      <link>https://businesshub.cy/article/7aaf9039-88f1-4120-bd36-e26e2a86f665</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/7aaf9039-88f1-4120-bd36-e26e2a86f665</guid>
-      <pubDate>Wed, 11 Nov 2026 11:02:36 GMT</pubDate>
-      <category>SME</category>
-      <description>Cyprus motor vehicle registrations rose 8.7% in Jan-Oct 2026, driven by a significant shift toward hybrid saloon cars and increased demand for heavy goods vehicles.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>President of the Republic of Cyprus – Delegations from CCOD, CyFPA and Cyprus Third Age Observatory</title>
-      <link>https://businesshub.cy/article/ee0cc21c-7b6d-49cf-83bb-30ea6a090224</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/ee0cc21c-7b6d-49cf-83bb-30ea6a090224</guid>
-      <pubDate>Wed, 11 Nov 2026 11:02:03 GMT</pubDate>
-      <category>SME</category>
-      <description>President Christodoulides met with key civil society organizations focusing on human rights, family planning, and elderly care to discuss social policy and community support.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/PRorgan-4-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/PRorgan-4-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Government Spokesman – Media briefing</title>
-      <link>https://businesshub.cy/article/3a2bd55a-10c0-4073-b4e0-5ee7414105e2</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/3a2bd55a-10c0-4073-b4e0-5ee7414105e2</guid>
-      <pubDate>Wed, 11 Nov 2026 11:01:47 GMT</pubDate>
-      <category>SME</category>
-      <description>The Government Spokesman conducted a scheduled media briefing at the Presidential Palace to update the press on current executive affairs and government priorities.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/GSstat-12-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/GSstat-12-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Address by the Commissioner for the Environment and Animal Welfare of the Republic of Cyprus, Mr ...</title>
-      <link>https://businesshub.cy/article/0203e5c4-c7b6-457f-a261-5d19b055ba0a</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/0203e5c4-c7b6-457f-a261-5d19b055ba0a</guid>
-      <pubDate>Wed, 11 Nov 2026 11:01:01 GMT</pubDate>
-      <category>SME</category>
-      <description>Cyprus&apos; Environment Commissioner advocates for the adoption of the SUSEDI sustainability framework across public and private sectors to align operations with green transition goals.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/10112026_EpPerivallontos-susedi-1-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/10112026_EpPerivallontos-susedi-1-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Keynote Address by the Minister of Health of the Republic of Cyprus, Mr Neophytos Charalambides, ...</title>
-      <link>https://businesshub.cy/article/d2dc8c7c-33a2-4a61-94b5-53ed8076f48e</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d2dc8c7c-33a2-4a61-94b5-53ed8076f48e</guid>
-      <pubDate>Wed, 11 Nov 2026 11:00:49 GMT</pubDate>
-      <category>SME</category>
-      <description>Cyprus Health Minister emphasizes that national health resilience depends on digital security, supply chain autonomy, and European-level cooperation to mitigate regional and logistical vulnerabilities.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/10112026_YpYgeias_xeretismos-economist-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/10112026_YpYgeias_xeretismos-economist-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Building Permits - Decrease of 3,0% in the Number of Building Permits Jul 2026</title>
-      <link>https://businesshub.cy/article/dc97cb1c-e1b3-45dd-83f4-7ac1d29722b6</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/dc97cb1c-e1b3-45dd-83f4-7ac1d29722b6</guid>
-      <pubDate>Tue, 10 Nov 2026 12:02:11 GMT</pubDate>
-      <category>SME</category>
-      <description>Cyprus building permits dropped by 3.0% in July 2026, indicating a potential slowdown in upcoming construction activity and real estate supply.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Slovak region Banská Bystrica to upgrade infrastructure with €20 million EIB loan and €5 million EU grant</title>
-      <link>https://businesshub.cy/article/34425ead-748f-4037-a6ff-2ca890585dbd</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/34425ead-748f-4037-a6ff-2ca890585dbd</guid>
-      <pubDate>Tue, 10 Nov 2026 10:01:17 GMT</pubDate>
-      <category>SME</category>
-      <description>Slovakia’s Banská Bystrica region receives €25 million in EIB and EU funding for 100 infrastructure projects under the Just Transition Mechanism.</description>
-      <media:content url="https://www.eib.org/photos/rs/6af1cca85638f0f49c13aa23/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/6af1cca85638f0f49c13aa23/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Services production up by 0.3% in the euro area</title>
-      <link>https://businesshub.cy/article/b1e4aa11-e756-4433-b280-48823fb9e0a7</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b1e4aa11-e756-4433-b280-48823fb9e0a7</guid>
-      <pubDate>Tue, 10 Nov 2026 06:02:14 GMT</pubDate>
-      <category>SME</category>
-      <description>Euro area services production grew by 0.3% in August 2026, driven by strong gains in information and communication, despite a slight dip in professional services and hospitality.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Latest news on EIB&apos;s support for Ukraine</title>
-      <link>https://businesshub.cy/article/e45341ff-5768-4b2f-bd98-5ca1dd81a1de</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e45341ff-5768-4b2f-bd98-5ca1dd81a1de</guid>
-      <pubDate>Tue, 10 Nov 2026 06:01:14 GMT</pubDate>
-      <category>SME</category>
-      <description>The EIB has deployed over €4.5 billion since 2022 to support Ukraine&apos;s infrastructure, energy, and SMEs, with an additional €1.5 billion planned for 2025.</description>
-      <media:content url="https://www.eib.org/photos/rs/16d7bf03-11d9-447e-a6d2-69b0dec91263/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/16d7bf03-11d9-447e-a6d2-69b0dec91263/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>EIB Group Activity Report 2025: Powering Europe</title>
-      <link>https://businesshub.cy/article/93236ad7-3bd8-4203-ac3e-b47519a556cb</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/93236ad7-3bd8-4203-ac3e-b47519a556cb</guid>
-      <pubDate>Tue, 10 Nov 2026 06:01:04 GMT</pubDate>
-      <category>SME</category>
-      <description>The EIB Group reached a record €100 billion in financing in 2025, prioritizing European competitiveness, security, and climate resilience through strategic investments.</description>
-      <media:content url="https://www.eib.org/en/publications/20250236-eib-group-activity-report-2025/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/en/publications/20250236-eib-group-activity-report-2025/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>2026 field season of the “Life at the Furnace” project in the Peristerona Valley, Lefkosia District</title>
-      <link>https://businesshub.cy/article/7976dbf1-8bf6-4b3c-8ce5-512b9a4cceb3</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/7976dbf1-8bf6-4b3c-8ce5-512b9a4cceb3</guid>
-      <pubDate>Tue, 10 Nov 2026 05:01:14 GMT</pubDate>
-      <category>SME</category>
-      <description>International researchers completed the 2026 &apos;Life at the Furnace&apos; project season, uncovering long-term settlement patterns and Roman copper production history in the Peristerona Valley.</description>
-      <media:content url="https://www.gov.cy/media/2024/06/TMHMA_ARXAIOTHTWN-384x256.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2024/06/TMHMA_ARXAIOTHTWN-384x256.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>The Minister of Finance participated in the EU Economic and Financial Affairs Council</title>
-      <link>https://businesshub.cy/article/d7ce69aa-9b8a-44b1-b869-d9b352092f7c</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d7ce69aa-9b8a-44b1-b869-d9b352092f7c</guid>
-      <pubDate>Tue, 10 Nov 2026 03:01:43 GMT</pubDate>
-      <category>SME</category>
-      <description>Cyprus supports EU tobacco tax modernization and simplification of business regulations at ECOFIN, emphasizing balanced fiscal policy and defense investment.</description>
-      <media:content url="https://www.gov.cy/media/2026/11/09112026_YpOikonomikon_ECOFIN-10.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.gov.cy/media/2026/11/09112026_YpOikonomikon_ECOFIN-10.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Foreign Trade Statistics - Sep 2026 (Provisional Data) and Aug 2026 (Final Data)</title>
-      <link>https://businesshub.cy/article/95ba461d-115f-424e-9a40-9968a2601eeb</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/95ba461d-115f-424e-9a40-9968a2601eeb</guid>
-      <pubDate>Mon, 09 Nov 2026 11:01:13 GMT</pubDate>
-      <category>SME</category>
-      <description>Cyprus trade deficit widens in late 2026, driven by rising imports and volatile export performance according to latest provisional and final data from Cystat.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>LABOUR MARKET INDICATORS</title>
-      <link>https://businesshub.cy/article/d6f8266a-9329-41f6-8198-6babbf30d65d</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d6f8266a-9329-41f6-8198-6babbf30d65d</guid>
-      <pubDate>Sun, 08 Nov 2026 23:02:04 GMT</pubDate>
-      <category>SME</category>
-      <description>Cyprus labor market indicators show record-high employment and a significant drop in unemployment, alongside a steady rise in average monthly earnings through 2025 forecasts.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Agenda: Committee on Financial and Budgetary Affairs - Session 09/11/2026</title>
-      <link>https://businesshub.cy/article/313e48f4-943e-4f89-84c0-c58efab6dd5a</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/313e48f4-943e-4f89-84c0-c58efab6dd5a</guid>
-      <pubDate>Sun, 08 Nov 2026 08:00:31 GMT</pubDate>
-      <category>SME</category>
-      <description>The Cyprus House of Representatives has scheduled key committee sessions for early November 2026, focusing on finance, commerce, and labor.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>A ‘small business act’ for European SMEs</title>
-      <link>https://businesshub.cy/article/6da57dcd-d8f5-44a6-8524-3f7c05691698</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/6da57dcd-d8f5-44a6-8524-3f7c05691698</guid>
-      <pubDate>Sun, 08 Nov 2026 08:00:17 GMT</pubDate>
-      <category>SME</category>
-      <description>The EU Small Business Act (SBA) establishes a framework of 10 principles to reduce bureaucracy, improve financing, and facilitate market access for SMEs across member states.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>SME Relief Package - Communication from the Commission</title>
-      <link>https://businesshub.cy/article/c1cb8dea-87f0-4595-a321-0646f1d9914d</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/c1cb8dea-87f0-4595-a321-0646f1d9914d</guid>
-      <pubDate>Sun, 08 Nov 2026 07:03:14 GMT</pubDate>
-      <category>SME</category>
-      <description>The European Commission has launched a comprehensive SME Relief Package to provide financial support and regulatory simplification for small and medium-sized enterprises across the EU.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Turnover Index of Retail Trade Except of Motor Vehicles - Annual Change +10,4% in Value and +7,7% in Volume - Sep 2026</title>
-      <link>https://businesshub.cy/article/d7efd0d7-aad3-4e10-a675-8c2e568c1b88</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d7efd0d7-aad3-4e10-a675-8c2e568c1b88</guid>
-      <pubDate>Sun, 08 Nov 2026 06:17:35 GMT</pubDate>
-      <category>SME</category>
-      <description>Cyprus retail trade saw significant growth in September 2026, with value increasing by 10.4% and volume by 7.7% compared to the previous year.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Where is GDP the highest?</title>
-      <link>https://businesshub.cy/article/74152360-fbc0-466b-8d37-3c71c5a5dddb</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/74152360-fbc0-466b-8d37-3c71c5a5dddb</guid>
-      <pubDate>Sun, 08 Nov 2026 05:01:40 GMT</pubDate>
-      <category>SME</category>
-      <description>Eurostat data reveals Cyprus achieved significant regional GDP growth in 2021, aligning with a broad European economic recovery following the pandemic-induced downturn.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Loans for public and private sectors</title>
-      <link>https://businesshub.cy/article/b11fea63-fab1-41f6-bd8c-87a38122dedb</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b11fea63-fab1-41f6-bd8c-87a38122dedb</guid>
-      <pubDate>Sun, 08 Nov 2026 05:00:32 GMT</pubDate>
-      <category>SME</category>
-      <description>The European Investment Bank (EIB) provides diverse financing solutions for Cyprus&apos;s public and private sectors, ranging from micro-loans to large-scale infrastructure financing exceeding €25 million.</description>
-      <media:content url="https://www.eib.org/photos/rs/c82352dd-d0d8-4b5d-a2e0-0252b4dc8d7c/largeprvw/image.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/photos/rs/c82352dd-d0d8-4b5d-a2e0-0252b4dc8d7c/largeprvw/image.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Housing and Social Infrastructure</title>
-      <link>https://businesshub.cy/article/cc66f33c-cd11-4cf4-9d8b-27d28a518715</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/cc66f33c-cd11-4cf4-9d8b-27d28a518715</guid>
-      <pubDate>Sun, 08 Nov 2026 01:01:35 GMT</pubDate>
-      <category>SME</category>
-      <description>The EU and EIB Group have launched a joint initiative to provide financing and expertise for energy-efficient, affordable housing across member states.</description>
-      <media:content url="https://www.eib.org/en/projects/topics/sustainable-cities-regions/urban-development/affordable-and-sustainable-housing/../images/housing.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/en/projects/topics/sustainable-cities-regions/urban-development/affordable-and-sustainable-housing/../images/housing.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Climate and environment</title>
-      <link>https://businesshub.cy/article/b4d61114-4bd0-4db0-9e5d-da3de8e1130f</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b4d61114-4bd0-4db0-9e5d-da3de8e1130f</guid>
-      <pubDate>Sun, 08 Nov 2026 01:01:19 GMT</pubDate>
-      <category>SME</category>
-      <description>The EIB Group launches Climate Bank Roadmap 2.0 to accelerate green investment, focusing on simplification, competitiveness, and adaptation through 2030.</description>
-      <media:content url="https://www.eib.org/en/projects/topics/climate-action/index/../images/climate-action.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.eib.org/en/projects/topics/climate-action/index/../images/climate-action.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Discussion on the 2025 State Budget</title>
-      <link>https://businesshub.cy/article/540fbfb2-94eb-469e-8c1c-aca0c557b452</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/540fbfb2-94eb-469e-8c1c-aca0c557b452</guid>
-      <pubDate>Sun, 08 Nov 2026 00:00:29 GMT</pubDate>
-      <category>SME</category>
-      <description>The Cyprus House of Representatives has scheduled the initial Committee review of the 2025 State Budget for November 2024.</description>
-      <media:content url="https://www.parliament.cy/images/media/redirectfile/20241029_OlomeleiaProipologismos.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="https://www.parliament.cy/images/media/redirectfile/20241029_OlomeleiaProipologismos.jpg" type="image/jpeg" length="0" />
-    </item>
-    <item>
-      <title>Parliamentary committee reports</title>
-      <link>https://businesshub.cy/article/6a551cf0-dbd1-447e-9b6c-33c21a8a073a</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/6a551cf0-dbd1-447e-9b6c-33c21a8a073a</guid>
-      <pubDate>Sat, 07 Nov 2026 19:02:53 GMT</pubDate>
-      <category>SME</category>
-      <description>The Cyprus House of Representatives has published its schedule and reports for the 13th Parliamentary Term, highlighting upcoming sessions on finance, energy, and labor.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Weekly schedule of parliamentary committees</title>
-      <link>https://businesshub.cy/article/9d16d30c-ed06-4e16-8f21-1a60e4adc819</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/9d16d30c-ed06-4e16-8f21-1a60e4adc819</guid>
-      <pubDate>Sat, 07 Nov 2026 19:02:04 GMT</pubDate>
-      <category>SME</category>
-      <description>The Cyprus House of Representatives has scheduled key committee sessions for November 2026 to discuss finance, energy, trade, and labor regulations.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Plenary agenda</title>
-      <link>https://businesshub.cy/article/8fe31a83-3fb1-451e-8ee3-16a25678a6f2</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/8fe31a83-3fb1-451e-8ee3-16a25678a6f2</guid>
-      <pubDate>Sat, 07 Nov 2026 19:01:23 GMT</pubDate>
-      <category>SME</category>
-      <description>The Cyprus House of Representatives has scheduled key committee meetings and a plenary session for early November 2026 to address financial, energy, and labor legislation.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
-    </item>
-    <item>
-      <title>Euro area unemployment at 6.3%</title>
-      <link>https://businesshub.cy/article/7283c84f-2fb4-4f64-aaad-7a4f94074b96</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/7283c84f-2fb4-4f64-aaad-7a4f94074b96</guid>
-      <pubDate>Sat, 07 Nov 2026 17:02:08 GMT</pubDate>
-      <category>SME</category>
-      <description>Eurozone unemployment reached a historic low of 6.3% in September 2024, highlighting a persistent labor shortage across the currency union.</description>
-      <media:content url="https://ec.europa.eu/eurostat/documents/2995521/17634355/3-31102024-CP-EN.pdf/image/thumbnail?t=1698742564567" medium="image" type="image/jpeg" />
-      <enclosure url="https://ec.europa.eu/eurostat/documents/2995521/17634355/3-31102024-CP-EN.pdf/image/thumbnail?t=1698742564567" type="image/jpeg" length="0" />
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
   </channel>
 </rss>

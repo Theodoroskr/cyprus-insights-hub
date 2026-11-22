@@ -2,6 +2,7 @@
 // served from the site's own domain (/rss.xml and /rss/<hub>.xml).
 
 import { SITE_URL, escapeXml } from "./sitemap";
+import { isInternationalStory } from "./storyOrigin";
 
 /** How many of the newest stories each feed carries. */
 export const RSS_ITEM_LIMIT = 50;
@@ -166,4 +167,27 @@ export function buildRssFeed(meta: FeedMeta, items: RssItem[], base = SITE_URL, 
     "</rss>",
     "",
   ].join("\n");
+}
+
+/** Edition feeds: Cyprus = Cyprus stories, International = neither Cyprus nor Greece. Greece has its own feed (greeceFeeds.ts). */
+export const EDITION_FEEDS = [
+  { key: "cyprus", label: "Cyprus", pagePath: "/news?scope=cyprus" },
+  { key: "international", label: "International", pagePath: "/intl" },
+] as const;
+export type EditionFeedKey = (typeof EDITION_FEEDS)[number]["key"];
+export const RSS_FEED_LINKS = [
+  { label: "Cyprus", path: "/rss/cyprus.xml" },
+  { label: "Greece", path: "/rss/greece.xml" },
+  { label: "International", path: "/rss/international.xml" },
+] as const;
+
+const GREECE_RE = /\b(greece|greek|hellenic|athens|thessaloniki|piraeus)\b|(ελλάδ|ελλην|αθήν)/i;
+type ScopeRow = NewsRow & { tags?: string[] | null; edition?: string[] | null };
+
+export function inEditionFeed(row: ScopeRow, feed: EditionFeedKey): boolean {
+  const intl = isInternationalStory(row);
+  if (feed === "cyprus") return !intl;
+  if (!intl) return false;
+  if ((row.edition ?? []).includes("gr")) return false;
+  return !GREECE_RE.test([row.title, row.summary, row.what_happened].filter(Boolean).join(" "));
 }

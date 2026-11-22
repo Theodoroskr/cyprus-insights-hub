@@ -6,6 +6,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import {
   RSS_HUBS,
+  EDITION_FEEDS,
+  inEditionFeed,
   RSS_ITEM_LIMIT,
   buildRssFeed,
   newsToItem,
@@ -92,6 +94,19 @@ async function main() {
       ),
     );
   });
+
+  // Cyprus and International edition feeds.
+  const pool = await get<NewsRow & { tags: string[] | null; edition: string[] | null }>(
+    "cna_articles",
+    `${NEWS_COLS},tags,edition&status=eq.published&edition=cs.{cy}&published_at=not.is.null&order=published_at.desc&limit=400`,
+  );
+  for (const f of EDITION_FEEDS) {
+    const items = selectItems(pool.filter((r) => inEditionFeed(r, f.key)).map(newsToItem));
+    writeFileSync(
+      resolve(hubDir, `${f.key}.xml`),
+      buildRssFeed({ title: `BHub Network — ${f.label}`, description: `Latest ${f.label} business stories from BHub Network.`, selfPath: `/rss/${f.key}.xml`, pagePath: f.pagePath }, items),
+    );
+  }
 
   // Greece edition feed, in Greek.
   const greece = await get<GreeceRow>(

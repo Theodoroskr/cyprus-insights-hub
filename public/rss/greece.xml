@@ -2,355 +2,515 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>BusinessHub.gr — Ελλάδα</title>
-    <link>https://businesshub.cy/greece</link>
+    <link>https://bhubnetwork.com/greece</link>
     <description>Επιχειρηματική ενημέρωση για την Ελλάδα: τράπεζες, εταιρικές ανακοινώσεις, χρηματοδοτήσεις και οικονομικά δεδομένα.</description>
     <language>el</language>
-    <lastBuildDate>Tue, 17 Nov 2026 14:03:19 GMT</lastBuildDate>
-    <atom:link href="https://businesshub.cy/rss/greece.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 21 Nov 2026 21:02:02 GMT</lastBuildDate>
+    <atom:link href="https://bhubnetwork.com/rss/greece.xml" rel="self" type="application/rss+xml" />
     <image>
-      <url>https://businesshub.cy/apple-touch-icon.png</url>
+      <url>https://bhubnetwork.com/apple-touch-icon.png</url>
       <title>BusinessHub.gr — Ελλάδα</title>
-      <link>https://businesshub.cy/greece</link>
+      <link>https://bhubnetwork.com/greece</link>
     </image>
     <item>
-      <title>Έγγραφο Πληροφοριών σύμφωνα με το άρθρο 1 παρ. 5 (η) του Κανονισμού (ΕΕ) 2017/1129</title>
-      <link>https://businesshub.cy/article/a750817b-12fc-48f0-9c70-9c3d2afe85e6/information-document-pursuant-to-article-1-par-5-h-of-regulation-eu-2017</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/a750817b-12fc-48f0-9c70-9c3d2afe85e6/information-document-pursuant-to-article-1-par-5-h-of-regulation-eu-2017</guid>
-      <pubDate>Tue, 17 Nov 2026 14:03:19 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank Α.Ε. ολοκληρώνει την κανονιστική καταχώριση για το Πρόγραμμα Δικαιωμάτων Προαίρεσης Αγοράς Μετοχών (Stock Options Plan) μετά τη συγχώνευση, διασφαλίζοντας τη συνέχεια των κινήτρων για τους εργαζομένους έως το 2026.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>AI, GovTech και HealthTech οι βασικές προτεραιότητες για την ανάδειξη της Ελλάδας σε περιφερειακό κόμβο ψηφιακής τεχνολογίας</title>
+      <link>https://bhubnetwork.com/article/156f27ac-4b92-4685-bf32-6b5ef25c3444/ai-govtech-and-healthtech-the-key-priorities-for-establishing-greece-as-a</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/156f27ac-4b92-4685-bf32-6b5ef25c3444/ai-govtech-and-healthtech-the-key-priorities-for-establishing-greece-as-a</guid>
+      <pubDate>Sat, 21 Nov 2026 21:02:02 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Ελλάδα στοχεύει στην Τεχνητή Νοημοσύνη (AI), το GovTech και το HealthTech για να εξελιχθεί σε περιφερειακό ψηφιακό κόμβο, προβλέποντας 1,35 δισ. ευρώ σε Άμεσες Ξένες Επενδύσεις (ΑΞΕ) και 21.000 νέες θέσεις εργασίας στον τομέα της τεχνολογίας έως το 2033.</description>
+      <media:content url="https://www.sepe.gr/images/457x280/jpg/files/media/1056x594/social_sepe_image2.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.sepe.gr/images/457x280/jpg/files/media/1056x594/social_sepe_image2.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Εισαγωγή προς διαπραγμάτευση νέων μετοχών προερχόμενων από αύξηση μετοχικού κεφαλαίου κατόπιν άσκησης δικαιωμάτων προαίρεσης (stock options)</title>
-      <link>https://businesshub.cy/article/ea26a7f1-0b81-4082-8d0f-8ef13b02e3e9/listing-for-trading-of-new-shares-derived-from-a-share-capital-increase</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/ea26a7f1-0b81-4082-8d0f-8ef13b02e3e9/listing-for-trading-of-new-shares-derived-from-a-share-capital-increase</guid>
-      <pubDate>Tue, 17 Nov 2026 14:03:13 GMT</pubDate>
+      <title>Η Πειραιώς ανακηρύχθηκε η Καλύτερη Τράπεζα Διαχείρισης Διαθεσίμων στην Ελλάδα στα Euromoney Transaction Banking Awards 2026</title>
+      <link>https://bhubnetwork.com/article/5b4c4768-243b-494e-a901-c3fdc005cb51/piraeus-named-greece-s-best-cash-management-bank-at-the-euromoney-transaction</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/5b4c4768-243b-494e-a901-c3fdc005cb51/piraeus-named-greece-s-best-cash-management-bank-at-the-euromoney-transaction</guid>
+      <pubDate>Sat, 21 Nov 2026 21:00:59 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank Α.Ε. εισάγει προς διαπραγμάτευση στο Χρηματιστήριο Αθηνών 140.300 νέες μετοχές, οι οποίες προέκυψαν από την αύξηση του μετοχικού της κεφαλαίου κατόπιν άσκησης δικαιωμάτων προαίρεσης (stock options) από 36 δικαιούχους, στο πλαίσιο του μακροπρόθεσμου προγράμματος κινήτρων της.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Η Τράπεζα Πειραιώς εξασφάλισε το βραβείο &quot;Greece’s Best Cash Management Bank 2026&quot; του Euromoney, αναδεικνύοντας την τεχνολογική της ηγετική θέση στις ψηφιακές λύσεις ρευστότητας και τραπεζικών συναλλαγών.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Ανακοίνωση ρυθμιζόμενης πληροφορίας σχετικά με το μετοχικό κεφάλαιο και τα δικαιώματα ψήφου της Τράπεζας [27.10.2026]</title>
-      <link>https://businesshub.cy/article/0c42d794-b724-49d2-afc4-027e41d3b3c1/announcement-of-regulated-information-regarding-the-bank-s-share-capital-and</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/0c42d794-b724-49d2-afc4-027e41d3b3c1/announcement-of-regulated-information-regarding-the-bank-s-share-capital-and</guid>
-      <pubDate>Tue, 17 Nov 2026 14:03:06 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank Α.Ε. προχώρησε σε ενημέρωση του μετοχικού της κεφαλαίου, το οποίο ανέρχεται πλέον σε €654,35 εκατομμύρια, μετά την άσκηση δικαιωμάτων προαίρεσης αγοράς μετοχών (stock options), με αποτέλεσμα ο συνολικός αριθμός των μετοχών να διαμορφώνεται σε 2.256.383.615.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Επιχειρηματική Αποστολή στην Λισαβόνα, 2-4 Μαρτίου 2027</title>
+      <link>https://bhubnetwork.com/article/f6b962b7-6722-4dc3-8bcb-50227e0f05da/business-mission-to-lisbon-2-4-march-2027</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/f6b962b7-6722-4dc3-8bcb-50227e0f05da/business-mission-to-lisbon-2-4-march-2027</guid>
+      <pubDate>Fri, 20 Nov 2026 23:01:36 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Ελληνικοί και πορτογαλικοί επιχειρηματικοί οργανισμοί διοργανώνουν μια επιχειρηματική αποστολή υψηλού επιπέδου στη Λισαβόνα τον Μάρτιο του 2027, με έμφαση σε συναντήσεις B2B στους τομείς της ενέργειας, της τεχνολογίας και των κατασκευών.</description>
+      <media:content url="https://www.sev.org.gr/wp-content/uploads/2026/11/epix-apostoli-lisavona1087x772-final-304x216.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.sev.org.gr/wp-content/uploads/2026/11/epix-apostoli-lisavona1087x772-final-304x216.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Ανακοίνωση – Αγορά Ιδίων Μετοχών (09.11.2026)</title>
-      <link>https://businesshub.cy/article/9600b2ad-795f-4655-8c1f-6b139951dcac/announcement-purchase-of-own-shares-09-11-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/9600b2ad-795f-4655-8c1f-6b139951dcac/announcement-purchase-of-own-shares-09-11-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 14:03:01 GMT</pubDate>
+      <title>Η Τράπεζα της Ελλάδος ξεκινά τη δημοσίευση τριμηνιαίων στοιχείων για το κόστος της καταναλωτικής πίστης</title>
+      <link>https://bhubnetwork.com/article/4db72526-9cfb-4e04-8d44-7c438398349f/the-bank-of-greece-begins-publishing-quarterly-data-on-the-cost-of-consumer</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/4db72526-9cfb-4e04-8d44-7c438398349f/the-bank-of-greece-begins-publishing-quarterly-data-on-the-cost-of-consumer</guid>
+      <pubDate>Fri, 20 Nov 2026 23:00:32 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank Α.Ε. προέβη στην αγορά 1,3 εκατομμυρίων ιδίων μετοχών, συνολικής αξίας €6,19 εκατομμυρίων, διαμορφώνοντας το συνολικό ποσοστό των ιδίων μετοχών που κατέχει στο 0,86%, στο πλαίσιο του τρέχοντος προγράμματος επαναγοράς μετοχών.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Η Τράπεζα της Ελλάδος ξεκινά την τριμηνιαία δημοσίευση δεδομένων ΣΕΠΠΕ για την καταναλωτική πίστη, ενισχύοντας την περιφερειακή διαφάνεια και θέτοντας ένα νέο σημείο αναφοράς για τον διασυνοριακό δανεισμό.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Ανακοίνωση – Αγορά Ιδίων Μετοχών (16.11.2026)</title>
-      <link>https://businesshub.cy/article/5dbde1dc-e4a7-4c22-b27c-0db9313a4cf6/announcement-purchase-of-own-shares-16-11-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/5dbde1dc-e4a7-4c22-b27c-0db9313a4cf6/announcement-purchase-of-own-shares-16-11-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:53 GMT</pubDate>
+      <title>Ισοζύγιο Πληρωμών: Σεπτέμβριος 2026</title>
+      <link>https://bhubnetwork.com/article/e28981c3-c17b-4170-bdc2-3e99a6c31d19/balance-of-payments-september-2026</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e28981c3-c17b-4170-bdc2-3e99a6c31d19/balance-of-payments-september-2026</guid>
+      <pubDate>Fri, 20 Nov 2026 22:03:15 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank Α.Ε. προέβη στην αγορά άνω των 3 εκατομμυρίων ιδίων μετοχών, συνολικής αξίας €14,56 εκατομμυρίων, επιτυγχάνοντας το ορόσημο του 1% σε ίδιες μετοχές, στο πλαίσιο του εν εξελίξει προγράμματος επαναγοράς μετοχών της.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Το έλλειμμα του ισοζυγίου τρεχουσών συναλλαγών για τον Σεπτέμβριο του 2026 διευρύνθηκε στα €520,4 εκατομμύρια, ωθούμενο από την αύξηση των εισαγωγών αγαθών, παρά το αυξανόμενο πλεόνασμα υπηρεσιών και τις βελτιωμένες ταξιδιωτικές εισπράξεις.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Η Alpha Bank Α.Ε. ανακοινώνει την ολοκλήρωση της εξαγοράς της Altius Insurance Ltd.</title>
-      <link>https://businesshub.cy/article/41767a70-9c5c-4672-b25a-3e1876eb78a4/alpha-bank-s-a-announces-the-completion-of-the-acquisition-of-altius-insurance</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/41767a70-9c5c-4672-b25a-3e1876eb78a4/alpha-bank-s-a-announces-the-completion-of-the-acquisition-of-altius-insurance</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:44 GMT</pubDate>
+      <title>ΣΥΜΠΛΗΡΩΜΑΤΙΚΗ ΑΝΑΚΟΙΝΩΣΗ - Διανομή μη υποχρεωτικών αποθεματικών</title>
+      <link>https://bhubnetwork.com/article/2215044a-4ac8-4a6f-a2bf-92c7d04878ef/additional-announcement-distribution-of-non-mandatory-reserves</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/2215044a-4ac8-4a6f-a2bf-92c7d04878ef/additional-announcement-distribution-of-non-mandatory-reserves</guid>
+      <pubDate>Fri, 20 Nov 2026 21:03:24 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank Α.Ε. ολοκλήρωσε την εξαγορά του 100% της Altius Insurance, σηματοδοτώντας την πρώτη φάση για τη δημιουργία ενός ασφαλιστικού ομίλου που θα συγκαταλέγεται στους τρεις κορυφαίους της Κύπρου.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Η Eurobank οριστικοποιεί το προμέρισμά της στα €0,05991 ανά μετοχή, μετά από προσαρμογή για τις ίδιες μετοχές, με τη διανομή να έχει προγραμματιστεί για τα τέλη του 2024.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Ενημέρωση του Οικονομικού Ημερολογίου 2026</title>
-      <link>https://businesshub.cy/article/99ae7ccc-f192-4d73-9ec7-a22beb7544b5/update-of-the-2026-financial-calendar</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/99ae7ccc-f192-4d73-9ec7-a22beb7544b5/update-of-the-2026-financial-calendar</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:39 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank Α.Ε. επαναπρογραμματίζει τη δημοσίευση των οικονομικών αποτελεσμάτων για το τρίτο τρίμηνο του 2026 στις 30 Οκτωβρίου 2026, μεταφέροντας την ημερομηνία νωρίτερα από την αρχική στις 5 Νοεμβρίου.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Αναβαθμίσεις Ξενοδοχείων, Διεθνή Brands και Επώνυμες Κατοικίες στην Επενδυτική Ατζέντα του R&amp;R 2026</title>
+      <link>https://bhubnetwork.com/article/fac9007d-cb19-4362-8a27-b4d6646e0ba3/hotel-upgrades-international-brands-and-branded-residences-on-the-investment</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/fac9007d-cb19-4362-8a27-b4d6646e0ba3/hotel-upgrades-international-brands-and-branded-residences-on-the-investment</guid>
+      <pubDate>Fri, 20 Nov 2026 16:02:09 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Η Ελλάδα εντείνει την εστίασή της στην αναβάθμιση πολυτελών ξενοδοχείων, την επέκταση διεθνών εμπορικών σημάτων (brands) και τις επώνυμες κατοικίες (branded residences), σηματοδοτώντας μια περιφερειακή τάση που ανταγωνίζεται άμεσα το μοντέλο τουριστικών επενδύσεων της Κύπρου.</description>
+      <media:content url="https://enterprisegreece.gr/wp-content/uploads/2026/11/Pic-1-5.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://enterprisegreece.gr/wp-content/uploads/2026/11/Pic-1-5.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Η ανακοίνωση των αποτελεσμάτων Εννεαμήνου 2026 προγραμματίστηκε για τις 30 Οκτωβρίου 2026</title>
-      <link>https://businesshub.cy/article/82f6fa58-8fe4-4741-b74c-fcbdac729e25/nine-month-2026-results-announcement-scheduled-for-october-30-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/82f6fa58-8fe4-4741-b74c-fcbdac729e25/nine-month-2026-results-announcement-scheduled-for-october-30-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:34 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Ο Όμιλος Alpha Bank θα ανακοινώσει τα χρηματοοικονομικά αποτελέσματα εννεαμήνου του 2026 στις 30 Οκτωβρίου 2026, ενώ θα ακολουθήσει τηλεδιάσκεψη με επενδυτές.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Ισχυρή ελληνική παρουσία στην EquipHotel</title>
+      <link>https://bhubnetwork.com/article/d75d2121-0a10-45c1-a672-edeb90903bf9/strong-greek-presence-at-equiphotel</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/d75d2121-0a10-45c1-a672-edeb90903bf9/strong-greek-presence-at-equiphotel</guid>
+      <pubDate>Fri, 20 Nov 2026 16:01:57 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Οι Έλληνες προμηθευτές στον κλάδο της φιλοξενίας επέδειξαν καινοτομία υψηλής αξίας στην έκθεση EquipHotel Paris 2026, σηματοδοτώντας νέες ευκαιρίες συνεργασίας για περιφερειακές ξενοδοχειακές αλυσίδες και παρόχους τεχνολογικών λύσεων.</description>
+      <media:content url="https://enterprisegreece.gr/wp-content/uploads/2026/11/EQUIPHOTEL-PARIS_collage.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://enterprisegreece.gr/wp-content/uploads/2026/11/EQUIPHOTEL-PARIS_collage.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Η Νομισματική Συλλογή της Alpha Bank επισκέπτεται την Κύπρο για πρώτη φορά</title>
-      <link>https://businesshub.cy/article/1371a048-3196-4de1-8bcf-c23be8197456/the-alpha-bank-numismatic-collection-visits-cyprus-for-the-first-time</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/1371a048-3196-4de1-8bcf-c23be8197456/the-alpha-bank-numismatic-collection-visits-cyprus-for-the-first-time</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:29 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank και το Λεβέντειο Δημοτικό Μουσείο Λευκωσίας εγκαινιάζουν μια σημαντική νομισματική έκθεση, παρουσιάζοντας τη νομισματική ιστορία της Κύπρου και την επιρροή της στην Ανατολική Μεσόγειο.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>«Greece in Orbit»: Συμμετοχή-ρεκόρ της Ελλάδας στη Space Tech Expo Europe 2026 και πρώτη κοινή παρουσία με την Κύπρο</title>
+      <link>https://bhubnetwork.com/article/9d861bbb-d073-4e35-8147-42aa394b45d6/greece-in-orbit-record-greek-participation-in-space-tech-expo-europe-2026-and</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/9d861bbb-d073-4e35-8147-42aa394b45d6/greece-in-orbit-record-greek-participation-in-space-tech-expo-europe-2026-and</guid>
+      <pubDate>Fri, 20 Nov 2026 16:01:47 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Η Ελλάδα και η Κύπρος δημιούργησαν μια ενιαία παρουσία υπό τον τίτλο «Greece in Orbit» στη Space Tech Expo Europe 2026, σημειώνοντας συμμετοχή-ρεκόρ για το ελληνικό διαστημικό οικοσύστημα.</description>
+      <media:content url="https://enterprisegreece.gr/wp-content/uploads/2026/11/Pic-1-6.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://enterprisegreece.gr/wp-content/uploads/2026/11/Pic-1-6.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Λ. Παπαγαρυφάλλου στο Banktech Conference 2026: Η κλίμακα, οι νέες δυνατότητες και οι στρατηγικές συνεργασίες θα καθορίσουν την επιτυχία στον τραπεζικό κλάδο την επόμενη δεκαετία</title>
-      <link>https://businesshub.cy/article/14676099-f921-4328-a9cf-0fe42890ceae/l-papagaryfallou-at-the-banktech-conference-2026-scale-new-capabilities-and</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/14676099-f921-4328-a9cf-0fe42890ceae/l-papagaryfallou-at-the-banktech-conference-2026-scale-new-capabilities-and</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:23 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Ο Αναπληρωτής Διευθύνων Σύμβουλος της Alpha Bank τονίζει ότι η κλίμακα, η προσφορά διαφοροποιημένων υπηρεσιών και οι στρατηγικές συνεργασίες αποτελούν καθοριστικούς παράγοντες για την τραπεζική ανταγωνιστικότητα στη Νοτιοανατολική Ευρώπη και την Κύπρο.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Δώδεκα ελληνικές εταιρείες και οργανισμοί διεκδικούν ρόλο στην ανασυγκρότηση της Ουκρανίας</title>
+      <link>https://bhubnetwork.com/article/b72e50a2-e39f-4ba1-88b7-27f101d18347/twelve-greek-companies-and-organizations-seek-a-role-in-the-reconstruction-of</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/b72e50a2-e39f-4ba1-88b7-27f101d18347/twelve-greek-companies-and-organizations-seek-a-role-in-the-reconstruction-of</guid>
+      <pubDate>Fri, 20 Nov 2026 16:01:34 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Δώδεκα μεγάλες ελληνικές εταιρείες, που δραστηριοποιούνται στους τομείς της ενέργειας, των κατασκευών και της τεχνολογίας, συμμετείχαν στην έκθεση ReBuild Ukraine 2026 με στόχο να εξασφαλίσουν ρόλο στις προσπάθειες ανασυγκρότησης της χώρας, ο προϋπολογισμός των οποίων ανέρχεται σε πολλά…</description>
+      <media:content url="https://enterprisegreece.gr/wp-content/uploads/2026/11/Pic-1-.jpeg" medium="image" type="image/jpeg" />
+      <enclosure url="https://enterprisegreece.gr/wp-content/uploads/2026/11/Pic-1-.jpeg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Η Alpha Bank αποκαλύπτει τη νέα της ταυτότητα που αντικατοπτρίζει τον μετασχηματισμό της</title>
-      <link>https://businesshub.cy/article/d78efd6c-35a7-454a-81db-4e38a8e04e0d/alpha-bank-unveils-a-new-identity-reflecting-its-transformation</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d78efd6c-35a7-454a-81db-4e38a8e04e0d/alpha-bank-unveils-a-new-identity-reflecting-its-transformation</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:17 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Alpha Bank παρουσίασε μια ολοκληρωμένη ανανέωση της εταιρικής της ταυτότητας (rebranding) και έναν στρατηγικό μετασχηματισμό με επίκεντρο τις συμβουλευτικές υπηρεσίες, τα εκσυγχρονισμένα καταστήματα και τις βελτιωμένες παροχές προς τους εργαζομένους, με στόχο την καλύτερη εξυπηρέτηση των…</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Η Ελλάδα στην CIIE 2026: 35 εταιρείες, 180 συναντήσεις B2B και νέες ευκαιρίες στην κινεζική αγορά</title>
+      <link>https://bhubnetwork.com/article/f235405b-2b5e-46c8-9b59-8f4f38b16d05/greece-at-ciie-2026-35-companies-180-b2b-meetings-and-new-opportunities-in-the</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/f235405b-2b5e-46c8-9b59-8f4f38b16d05/greece-at-ciie-2026-35-companies-180-b2b-meetings-and-new-opportunities-in-the</guid>
+      <pubDate>Fri, 20 Nov 2026 16:01:22 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Η Ελλάδα ενισχύει την εμπορική της παρουσία στην Κίνα μέσω μιας επιχειρηματικής αποστολής 35 εταιρειών στην CIIE 2026, διευκολύνοντας 180 συναντήσεις B2B και σηματοδοτώντας ανάπτυξη στους τομείς των τροφίμων, της τεχνολογίας και της ναυτιλίας.</description>
+      <media:content url="https://enterprisegreece.gr/wp-content/uploads/2026/11/images-1.jpeg" medium="image" type="image/jpeg" />
+      <enclosure url="https://enterprisegreece.gr/wp-content/uploads/2026/11/images-1.jpeg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Η Alpha Bank εδραιώνει τη στρατηγική της παρουσία στην Κύπρο</title>
-      <link>https://businesshub.cy/article/e54a2ba3-5d2f-4bda-9ec5-379e1360e836/alpha-bank-is-consolidating-its-strategic-presence-in-cyprus</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e54a2ba3-5d2f-4bda-9ec5-379e1360e836/alpha-bank-is-consolidating-its-strategic-presence-in-cyprus</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:10 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Ο Όμιλος Alpha Bank ενισχύει την παρουσία του στην Κύπρο μέσω μιας νέας εταιρικής ταυτότητας, στρατηγικών συνεργασιών και ενός διευρυμένου οικοσυστήματος τραπεζικών και ασφαλιστικών υπηρεσιών.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Intracom Telecom – GeoLinks: Επέκταση Συνεργασίας για την Ανάπτυξη Δικτύων mmWave FWA σε Αδειοδοτημένο Φάσμα στις ΗΠΑ</title>
+      <link>https://bhubnetwork.com/article/c59ca517-d5f4-4eb3-b56d-de3ad93090e9/intracom-telecom-geolinks-partnership-expansion-for-the-development-of-mmwave</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/c59ca517-d5f4-4eb3-b56d-de3ad93090e9/intracom-telecom-geolinks-partnership-expansion-for-the-development-of-mmwave</guid>
+      <pubDate>Fri, 20 Nov 2026 01:00:57 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Intracom Telecom επεκτείνει τη συνεργασία της με την GeoLinks για την ανάπτυξη δικτύων FWA (Σταθερής Ασύρματης Πρόσβασης) mmWave σε όλες τις ΗΠΑ, χρησιμοποιώντας το αδειοδοτημένο φάσμα των 29/31 GHz και λογισμικό αυτοματοποιημένης διαχείρισης.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Αποτελέσματα Γ&apos; Τριμήνου 2026</title>
-      <link>https://businesshub.cy/article/e24bb108-837a-459b-b76c-3f12a0a45dd0/q3-2026-results</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/e24bb108-837a-459b-b76c-3f12a0a45dd0/q3-2026-results</guid>
-      <pubDate>Tue, 17 Nov 2026 14:02:05 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Ο Όμιλος Eurobank ανακοίνωσε ισχυρά αποτελέσματα για το τρίτο τρίμηνο του 2026, με κέρδη ύψους 268,9 εκατ. ευρώ και απόδοση ενσώματων ιδίων κεφαλαίων (RoTBV) 15,5%, ως αποτέλεσμα της πιστωτικής επέκτασης και της ανόδου στον τομέα διαχείρισης περιουσιακών στοιχείων.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Το «Mastercard Day» επιστρέφει, μετατρέποντας την Πέμπτη σε ημέρα επιβράβευσης για τις αγορές καυσίμων</title>
+      <link>https://bhubnetwork.com/article/09b9a272-423c-4f27-953e-ea8a4e7d1d89/mastercard-day-returns-turning-thursday-into-a-rewards-day-for-fuel-purchases</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/09b9a272-423c-4f27-953e-ea8a4e7d1d89/mastercard-day-returns-turning-thursday-into-a-rewards-day-for-fuel-purchases</guid>
+      <pubDate>Fri, 20 Nov 2026 01:00:43 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Mastercard επαναφέρει το «Mastercard Day» σε Ελλάδα, Κύπρο και Μάλτα, προσφέροντας επιστροφή χρημάτων (cashback) ύψους 10€ για αγορές καυσίμων αξίας 50€ και άνω κάθε Πέμπτη έως το τέλος του έτους.</description>
+      <media:content url="https://www.sepe.gr/images/457x280/jpg/files/members/mastercard.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.sepe.gr/images/457x280/jpg/files/members/mastercard.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Ι. Κιουρουκόγλου: «Η ελληνική οικονομία παρουσιάζει ισχυρή επενδυτική δυναμική, τροφοδοτούμενη από στρατηγικές συνεργασίες και τη χρηματοδότηση μεγάλων έργων»</title>
-      <link>https://businesshub.cy/article/d7496fec-cf45-4c6b-8c2d-60332be2c118/i-kiouroukoglou-the-greek-economy-is-showing-strong-investment-momentum-driven</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d7496fec-cf45-4c6b-8c2d-60332be2c118/i-kiouroukoglou-the-greek-economy-is-showing-strong-investment-momentum-driven</guid>
-      <pubDate>Tue, 17 Nov 2026 14:01:55 GMT</pubDate>
+      <title>Β. Ψάλτης: Ο ελληνικός τουρισμός πρέπει να περάσει στο επόμενο στάδιο της ανάπτυξής του</title>
+      <link>https://bhubnetwork.com/article/aabb8c8c-cbcc-4989-9cdf-7c384023f29d/v-psaltis-greek-tourism-must-transition-to-the-next-stage-of-its-growth</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/aabb8c8c-cbcc-4989-9cdf-7c384023f29d/v-psaltis-greek-tourism-must-transition-to-the-next-stage-of-its-growth</guid>
+      <pubDate>Thu, 19 Nov 2026 22:01:58 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η ηγεσία της Alpha Bank υπογραμμίζει την επενδυτική δυναμική της Ελλάδας και τις ευκαιρίες διεθνούς επέκτασης μέσω της συνεργασίας με τη UniCredit, δίνοντας έμφαση στην ενέργεια, τις υποδομές και τη διασυνοριακή ανάπτυξη.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Ο Διευθύνων Σύμβουλος της Alpha Bank, Βασίλειος Ψάλτης, ζητά τη μετάβαση από το μοντέλο του μαζικού τουρισμού σε ένα μοντέλο που θα βασίζεται στην ποιότητα και τη λειτουργία καθ&apos; όλη τη διάρκεια του έτους, με έμφαση στην αναβάθμιση των υποδομών και την τοπική αυθεντικότητα.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Alpha Accelerated – Η Alpha Bank παρουσιάζει τη στρατηγική της για την περίοδο 2026-2030</title>
-      <link>https://businesshub.cy/article/d2e4d524-5ca5-4638-9f44-60560ea20ee5/alpha-accelerated-alpha-bank-launches-its-strategy-for-2026-2030</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d2e4d524-5ca5-4638-9f44-60560ea20ee5/alpha-accelerated-alpha-bank-launches-its-strategy-for-2026-2030</guid>
-      <pubDate>Tue, 17 Nov 2026 14:01:49 GMT</pubDate>
+      <title>«Πάντα υπέρ σας»: Ένα στεγαστικό δάνειο με σταθερή δόση για μια ζωή, για νέους έως 35 ετών</title>
+      <link>https://bhubnetwork.com/article/dc09897c-bd49-47ad-b72b-2ba41a68a683/always-in-your-favor-a-mortgage-loan-with-a-fixed-instalment-for-life-for-young</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/dc09897c-bd49-47ad-b72b-2ba41a68a683/always-in-your-favor-a-mortgage-loan-with-a-fixed-instalment-for-life-for-young</guid>
+      <pubDate>Thu, 19 Nov 2026 22:01:53 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η στρατηγική της Alpha Bank «Alpha Accelerated» για την περίοδο 2026-2030 στοχεύει σε καθαρά κέρδη ύψους 1,4 δισ. ευρώ, απόδοση ενσώματων ιδίων κεφαλαίων (RoTE) 16% και 4 δισ. ευρώ σε διανομές προς τους μετόχους, αξιοποιώντας τη συνεργασία της με τη UniCredit.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Η Alpha Bank λανσάρει ένα εξειδικευμένο στεγαστικό δάνειο για νέους έως 35 ετών, το οποίο διαθέτει σταθερή μηνιαία δόση για ολόκληρη τη διάρκεια του δανείου, παρά τη χρήση κυμαινόμενου επιτοκίου.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>ΑΝΑΚΟΙΝΩΣΗ - ΑΓΟΡΑ ΙΔΙΩΝ ΜΕΤΟΧΩΝ (19.10.2026)</title>
-      <link>https://businesshub.cy/article/74fd01d9-85e5-414f-b962-14ebe015a64c/announcement-purchase-of-own-shares-19-10-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/74fd01d9-85e5-414f-b962-14ebe015a64c/announcement-purchase-of-own-shares-19-10-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 14:01:26 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank επαναγόρασε πάνω από 1,95 εκατομμύρια ίδιες μετοχές έναντι 8,65 εκατομμυρίων ευρώ τον Οκτώβριο του 2026, αυξάνοντας το σύνολο των ιδίων μετοχών που κατέχει σε 33,6 εκατομμύρια μετοχές.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Η Κωτσόβολος κάνει check-in στην XENIA με το ξενοδοχείο του αύριο</title>
+      <link>https://bhubnetwork.com/article/452b003d-e04e-471c-9179-dc87a3e2dad5/kotsovolos-checks-in-to-xenia-with-the-hotel-of-tomorrow</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/452b003d-e04e-471c-9179-dc87a3e2dad5/kotsovolos-checks-in-to-xenia-with-the-hotel-of-tomorrow</guid>
+      <pubDate>Thu, 19 Nov 2026 13:01:15 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Κωτσόβολος παρουσιάζει τις λύσεις «Smart Hotel Room» της K2B στην έκθεση XENIA 2026, εστιάζοντας στην επιχειρησιακή αποτελεσματικότητα και την αναβαθμισμένη εμπειρία των επισκεπτών μέσω ολοκληρωμένων τεχνολογιών.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>ΑΝΑΚΟΙΝΩΣΗ - ΑΓΟΡΑ ΙΔΙΩΝ ΜΕΤΟΧΩΝ (26.10.2026)</title>
-      <link>https://businesshub.cy/article/2ca8da06-2565-4f12-a8cd-a0ffbc8be998/announcement-purchase-of-own-shares-26-10-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/2ca8da06-2565-4f12-a8cd-a0ffbc8be998/announcement-purchase-of-own-shares-26-10-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 14:01:14 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank Α.Ε. προχώρησε σε επαναγορά 1,9 εκατομμυρίων ιδίων μετοχών, συνολικής αξίας άνω των 8,1 εκατ. ευρώ, στο πλαίσιο του τρέχοντος προγράμματος επαναγοράς μετοχών, ενισχύοντας την κεφαλαιακή της διάρθρωση.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Η Πλαίσιο στην Xenia 2026 Ολοκληρωμένες λύσεις τεχνολογίας και εξοπλισμού για κάθε κατάλυμα</title>
+      <link>https://bhubnetwork.com/article/9808afec-3a58-4812-a9c2-5bde99397347/plaisio-at-xenia-2026-integrated-technology-and-equipment-solutions-for-every</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/9808afec-3a58-4812-a9c2-5bde99397347/plaisio-at-xenia-2026-integrated-technology-and-equipment-solutions-for-every</guid>
+      <pubDate>Thu, 19 Nov 2026 13:00:58 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Το Πλαίσιο θα παρουσιάσει ολοκληρωμένες λύσεις τεχνολογίας και εξοπλισμού φιλοξενίας στην έκθεση Xenia 2026, στοχεύοντας σε B2B συνεργασίες και στον εκσυγχρονισμό τουριστικών ακινήτων.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Η Eurobank επενδύει στο μέλλον της ηγεσίας μέσω της συνεργασίας της με το INSEAD</title>
-      <link>https://businesshub.cy/article/f95b510b-f051-422e-8b8f-9070b98de8f9/eurobank-invests-in-the-future-of-leadership-through-its-partnership-with-insead</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/f95b510b-f051-422e-8b8f-9070b98de8f9/eurobank-invests-in-the-future-of-leadership-through-its-partnership-with-insead</guid>
-      <pubDate>Tue, 17 Nov 2026 14:01:01 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank συνεργάζεται με το INSEAD για την εκπαίδευση περισσότερων από 100 στελεχών από την Ελλάδα, την Κύπρο και τη Βουλγαρία σε θέματα ηγεσίας, καινοτομίας και τραπεζικού μετασχηματισμού βάσει της Τεχνητής Νοημοσύνης (AI).</description>
-      <media:content url="http://www.eurobank.gr/-/media/eurobank/omilos/poioi-eimaste/etairiki-diakubernisi/navigational/omilos-poioi-eimaste-etairiki-diakubernisi.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="http://www.eurobank.gr/-/media/eurobank/omilos/poioi-eimaste/etairiki-diakubernisi/navigational/omilos-poioi-eimaste-etairiki-diakubernisi.jpg" type="image/jpeg" length="0" />
+      <title>Αντίστροφη μέτρηση για το digital economy forum 2026: “Building Intelligence”</title>
+      <link>https://bhubnetwork.com/article/36acf323-dce1-47e7-b841-723dbf97038f/countdown-to-digital-economy-forum-2026-building-intelligence</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/36acf323-dce1-47e7-b841-723dbf97038f/countdown-to-digital-economy-forum-2026-building-intelligence</guid>
+      <pubDate>Thu, 19 Nov 2026 13:00:45 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Το Digital Economy Forum 2026 του ΣΕΠΕ στην Αθήνα θα εξετάσει την ανάδειξη της Ελλάδας ως ψηφιακού κόμβου, εστιάζοντας στην Τεχνητή Νοημοσύνη, τον μετασχηματισμό και την περιφερειακή τεχνολογική συνέργεια.</description>
+      <media:content url="https://www.sepe.gr/images/457x280/jpg/files/articleimages/def26-site.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.sepe.gr/images/457x280/jpg/files/articleimages/def26-site.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>Οικονομικά Αποτελέσματα Τρίτου Τριμήνου 2026</title>
-      <link>https://businesshub.cy/article/64eae8a9-9350-4418-81a5-2312ab7442d0/third-quarter-2026-financial-results</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/64eae8a9-9350-4418-81a5-2312ab7442d0/third-quarter-2026-financial-results</guid>
-      <pubDate>Tue, 17 Nov 2026 14:00:51 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank Α.Ε. δημοσίευσε τα οικονομικά της αποτελέσματα για το τρίτο τρίμηνο του 2026, παρέχοντας ουσιαστικά δεδομένα στους μετόχους και τους ενδιαφερόμενους φορείς για την αξιολόγηση των επιδόσεων της τράπεζας και της περιφερειακής στρατηγικής της κατεύθυνσης.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Η Nova επιβεβαιώνει τη δέσμευσή της στη Βιώσιμη Ανάπτυξη και συγκαταλέγεται στις “The Most Sustainable Companies in Greece 2026”</title>
+      <link>https://bhubnetwork.com/article/0802eacd-aef2-40a0-b43f-c443d394f168/nova-confirms-its-commitment-to-sustainable-development-and-is-ranked-among-the</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/0802eacd-aef2-40a0-b43f-c443d394f168/nova-confirms-its-commitment-to-sustainable-development-and-is-ranked-among-the</guid>
+      <pubDate>Thu, 19 Nov 2026 12:03:13 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Nova αναγνωρίστηκε ως μία από τις πιο βιώσιμες εταιρείες στην Ελλάδα και έλαβε το Χάλκινο Μετάλλιο από την EcoVadis, υπογραμμίζοντας τον αυξανόμενο δεσμό μεταξύ των τηλεπικοινωνιών και των προτύπων ESG (Περιβάλλον, Κοινωνία, Εταιρική Διακυβέρνηση).</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Ανακοίνωση - Η Eurobank ανακοινώνει την ολοκλήρωση της εξαγοράς της Eurolife Life Insurance</title>
-      <link>https://businesshub.cy/article/2c9e83b4-282d-4862-94f3-d4573829c680/announcement-eurobank-announces-completion-of-the-acquisition-of-eurolife-life</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/2c9e83b4-282d-4862-94f3-d4573829c680/announcement-eurobank-announces-completion-of-the-acquisition-of-eurolife-life</guid>
-      <pubDate>Tue, 17 Nov 2026 14:00:41 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank απέκτησε το 100% της Eurolife Life στην Ελλάδα και προχωρά στην πώληση ποσοστού 45% της κυπριακής θυγατρικής της στον κλάδο των γενικών ασφαλειών στη Fairfax.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Η ALFACARE εμπιστεύτηκε την πλατφόρμα SHOPRANOS eCommerce της ENTERSOFTONE για τη δημιουργία του B2B eShop της</title>
+      <link>https://bhubnetwork.com/article/266f54a9-c45c-43d8-bcb6-252c00f85907/alfacare-trusted-the-shopranos-ecommerce-platform-by-entersoftone-for-the</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/266f54a9-c45c-43d8-bcb6-252c00f85907/alfacare-trusted-the-shopranos-ecommerce-platform-by-entersoftone-for-the</guid>
+      <pubDate>Thu, 19 Nov 2026 12:02:57 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η ALFACARE εγκαινίασε ένα νέο B2B eShop, αξιοποιώντας την πλατφόρμα SHOPRANOS της ENTERSOFT, με σκοπό την αυτοματοποίηση των λειτουργιών χονδρικής και τη διασύνδεση με το σύστημα ERP.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Επικαιροποιημένο Οικονομικό Ημερολόγιο για το έτος 2026</title>
-      <link>https://businesshub.cy/article/20bbd7d3-ebff-4990-9f17-79db9d24632d/updated-financial-calendar-for-the-year-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/20bbd7d3-ebff-4990-9f17-79db9d24632d/updated-financial-calendar-for-the-year-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 14:00:30 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank Α.Ε. δημοσίευσε το επικαιροποιημένο οικονομικό ημερολόγιο για το έτος 2026, προσδιορίζοντας τις βασικές ημερομηνίες ανακοίνωσης αποτελεσμάτων και τα αναθεωρημένα χρονοδιαγράμματα για την καταβολή προσωρινού μερίσματος τον Νοέμβριο.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Νέο κατάστημα Public στους Αμπελόκηπους</title>
+      <link>https://bhubnetwork.com/article/dc722a87-0d82-4e8b-89bf-c6aec3bdabb0/new-public-store-in-ampelokipoi</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/dc722a87-0d82-4e8b-89bf-c6aec3bdabb0/new-public-store-in-ampelokipoi</guid>
+      <pubDate>Thu, 19 Nov 2026 12:02:44 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Το Public Group επεκτείνει τη φυσική του παρουσία στο λιανεμπόριο με ένα νέο concept store 1.317 τ.μ. στους Αμπελόκηπους, ενσωματώνοντας υπηρεσίες επισκευής τεχνολογίας, βιβλιοπωλεία και ζώνες βιωματικής ψυχαγωγίας.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>ΑΓΟΡΑ ΙΔΙΩΝ ΜΕΤΟΧΩΝ (02.11.2026)</title>
-      <link>https://businesshub.cy/article/8a723dd5-0da8-444c-9b19-14d6662a32a2/purchase-of-own-shares-02-11-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/8a723dd5-0da8-444c-9b19-14d6662a32a2/purchase-of-own-shares-02-11-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 14:00:18 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank επαναγόρασε 1,55 εκατομμύρια μετοχές έναντι 6,74 εκατομμυρίων ευρώ το διάστημα μεταξύ 26 και 30 Οκτωβρίου 2026, στο πλαίσιο του συνεχιζόμενου προγράμματος επαναγοράς ιδίων μετοχών.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Η EPSILONNET αναδεικνύει τη νέα εποχή των Agentic AI-powered λύσεων στο GenAI Summit 5.</title>
+      <link>https://bhubnetwork.com/article/f7528583-5973-4a3a-95a6-0e91f71c10b5/epsilonnet-highlights-the-new-era-of-agentic-ai-powered-solutions-at-genai</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/f7528583-5973-4a3a-95a6-0e91f71c10b5/epsilonnet-highlights-the-new-era-of-agentic-ai-powered-solutions-at-genai</guid>
+      <pubDate>Thu, 19 Nov 2026 12:02:28 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Ο Όμιλος EPSILON NET παρουσίασε τη στρατηγική του για το Agentic AI στο GenAI Summit 5, εστιάζοντας στην ενσωμάτωση «Πρακτόρων Τεχνητής Νοημοσύνης» (AI Agents) σε ολόκληρο το οικοσύστημα λογισμικού ERP και επιχειρηματικών εφαρμογών του.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>ΑΝΑΚΟΙΝΩΣΗ - ΑΓΟΡΑ ΙΔΙΩΝ ΜΕΤΟΧΩΝ (09.11.2026)</title>
-      <link>https://businesshub.cy/article/9b52cdf2-86cf-4194-b5c2-28840d605086/announcement-purchase-of-own-shares-09-11-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/9b52cdf2-86cf-4194-b5c2-28840d605086/announcement-purchase-of-own-shares-09-11-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 13:03:13 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank S.A. προέβη σε επαναγορά 463.334 ιδίων μετοχών, συνολικής αξίας περίπου €2,08 εκατομμυρίων, στο πλαίσιο του τρέχοντος προγράμματος επαναγοράς ιδίων μετοχών της.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Η nvisionist στο επίκεντρο του ευρωπαϊκού DefenseTech – Ισχυρό ενδιαφέρον για τις ελληνικές τεχνολογίες AI στο Παρίσι</title>
+      <link>https://bhubnetwork.com/article/70ceb034-6027-4b69-90ef-d6b5d24ba850/nvisionist-at-the-centre-of-european-defensetech-strong-interest-in-greek-ai</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/70ceb034-6027-4b69-90ef-d6b5d24ba850/nvisionist-at-the-centre-of-european-defensetech-strong-interest-in-greek-ai</guid>
+      <pubDate>Thu, 19 Nov 2026 12:02:12 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η ελληνική εταιρεία DeepTech, nvisionist, επεκτείνεται στον ευρωπαϊκό κλάδο DefenseTech, αξιοποιώντας την τεχνογνωσία της στην Τεχνητή Νοημοσύνη και τις τεχνολογίες διπλής χρήσης για τη διασφάλιση διεθνών συνεργασιών σε σημαντικές εκδηλώσεις του κλάδου.</description>
+      <media:content url="https://www.sepe.gr/images/457x280/jpg/files/members/nvisionist.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://www.sepe.gr/images/457x280/jpg/files/members/nvisionist.jpg" type="image/jpeg" length="0" />
     </item>
     <item>
-      <title>ΑΝΑΚΟΙΝΩΣΗ - ΑΓΟΡΑ ΙΔΙΩΝ ΜΕΤΟΧΩΝ (16.11.2026)</title>
-      <link>https://businesshub.cy/article/d7f0427c-7335-4170-abfa-942bf85cc8eb/announcement-purchase-of-own-shares-16-11-2026</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/d7f0427c-7335-4170-abfa-942bf85cc8eb/announcement-purchase-of-own-shares-16-11-2026</guid>
-      <pubDate>Tue, 17 Nov 2026 13:02:59 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Eurobank προέβη σε επαναγορά 113.724 ιδίων μετοχών κατά το διάστημα από 9 έως 13 Νοεμβρίου 2026, στο πλαίσιο του εν εξελίξει προγράμματος επαναγοράς μετοχών για τη βελτιστοποίηση της κεφαλαιακής της διάρθρωσης.</description>
-      <media:content url="http://www.eurobank.gr/-/media/eurobank/heros/hero-product-new.jpg" medium="image" type="image/jpeg" />
-      <enclosure url="http://www.eurobank.gr/-/media/eurobank/heros/hero-product-new.jpg" type="image/jpeg" length="0" />
+      <title>Σοβαρή απειλή σε συστήματα που χρησιμοποιούν Java – Συστάσεις ΕΑΚ για άμεση εφαρμογή ενημερώσεων ασφαλείας</title>
+      <link>https://bhubnetwork.com/article/a80ab8c8-da52-4706-bd9f-35825a36010d/serious-threat-to-systems-using-java-nca-recommendations-for-immediate</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a80ab8c8-da52-4706-bd9f-35825a36010d/serious-threat-to-systems-using-java-nca-recommendations-for-immediate</guid>
+      <pubDate>Thu, 19 Nov 2026 02:01:25 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Εθνική Αρχή Κυβερνοασφάλειας (NCA) προειδοποιεί για το «Java4Shell» (CVE-2026-114938), μια ευπάθεια Java υψηλής σοβαρότητας που επιτρέπει την απομακρυσμένη εκτέλεση κώδικα σε κρίσιμες επιχειρηματικές εφαρμογές.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Ημερομηνία &amp; Ώρα Ανακοίνωσης Αποτελεσμάτων 2ου Τριμήνου 2026</title>
-      <link>https://businesshub.cy/article/f47f923d-8725-41ad-bbee-5376701b27de/announcement-date-and-time-of-2q26-results</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/f47f923d-8725-41ad-bbee-5376701b27de/announcement-date-and-time-of-2q26-results</guid>
-      <pubDate>Tue, 17 Nov 2026 13:02:39 GMT</pubDate>
+      <title>Καθαρές δανειακές ανάγκες της κεντρικής διοίκησης σε ταμειακή βάση: Ιανουάριος-Οκτώβριος 2026</title>
+      <link>https://bhubnetwork.com/article/a0302afe-11a2-4b51-905f-6eea5c206b31/central-government-net-borrowing-requirement-on-a-cash-basis-january-october</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a0302afe-11a2-4b51-905f-6eea5c206b31/central-government-net-borrowing-requirement-on-a-cash-basis-january-october</guid>
+      <pubDate>Thu, 19 Nov 2026 02:00:48 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος προγραμματίζει την ανακοίνωση και τη συζήτηση των οικονομικών αποτελεσμάτων για το δεύτερο τρίμηνο του 2026 στις 30 Ιουλίου 2026.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Το ταμειακό ισοζύγιο της κεντρικής διοίκησης της Ελλάδας παρουσίασε έλλειμμα 1,18 δισεκατομμυρίων ευρώ κατά τους πρώτους δέκα μήνες του 2026, λόγω της απότομης αύξησης των δαπανών.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Οικονομικά Αποτελέσματα 2ου Τριμήνου 2026</title>
-      <link>https://businesshub.cy/article/59c8b602-a5f3-4208-b029-9ed5588a8278/2q26-financial-results</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/59c8b602-a5f3-4208-b029-9ed5588a8278/2q26-financial-results</guid>
-      <pubDate>Tue, 17 Nov 2026 13:02:27 GMT</pubDate>
+      <title>Διανομή μη υποχρεωτικών αποθεματικών</title>
+      <link>https://bhubnetwork.com/article/423b2dd6-cff2-49f1-9e0c-57c284697d0d/distribution-of-non-mandatory-reserves</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/423b2dd6-cff2-49f1-9e0c-57c284697d0d/distribution-of-non-mandatory-reserves</guid>
+      <pubDate>Wed, 18 Nov 2026 23:01:28 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος ανακοίνωσε ισχυρά οικονομικά αποτελέσματα για το δεύτερο τρίμηνο του 2026 (2Q26), με δείκτη απόδοσης ενσώματων ιδίων κεφαλαίων (RoTE) στο 15,5%. Τα αποτελέσματα ενισχύθηκαν από τις εταιρικές χορηγήσεις στους τομείς της ενέργειας και της ναυτιλίας, καθώς και από την…</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Το Διοικητικό Συμβούλιο της Eurobank εγκρίνει τη διανομή προσωρινού μερίσματος ύψους 214 εκατομμυρίων ευρώ από μη υποχρεωτικά αποθεματικά, με την πληρωμή να έχει προγραμματιστεί για τα τέλη Νοεμβρίου του 2026.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Η Εθνική Τράπεζα της Ελλάδος ανακοινώνει την υπογραφή προκαταρκτικής συμφωνίας με τον Όμιλο Dromeus Capital Group (“Dromeus”) για μια μακροπρόθεσμη στρατηγική συνεργασία στα Επαγγελματικά Ακίνητα (“CRE”) και την εξαγορά χαρτοφυλακίου CRE</title>
-      <link>https://businesshub.cy/article/35d8ed7e-2ba5-423e-989d-38b40be71bb0/national-bank-of-greece-announces-the-signing-of-a-preliminary-agreement-with</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/35d8ed7e-2ba5-423e-989d-38b40be71bb0/national-bank-of-greece-announces-the-signing-of-a-preliminary-agreement-with</guid>
-      <pubDate>Tue, 17 Nov 2026 13:02:13 GMT</pubDate>
+      <title>Η Eurobank και οι μέτοχοι πλειοψηφίας της First Investment Bank (Fibank) συμφώνησαν για την εξαγορά της Fibank...</title>
+      <link>https://bhubnetwork.com/article/abdb5d4e-693e-4c69-8d42-b86237428944/eurobank-and-the-majority-shareholders-of-first-investment-bank-fibank-have</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/abdb5d4e-693e-4c69-8d42-b86237428944/eurobank-and-the-majority-shareholders-of-first-investment-bank-fibank-have</guid>
+      <pubDate>Wed, 18 Nov 2026 23:01:17 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος συνάπτει στρατηγική συνεργασία στον τομέα των Επαγγελματικών Ακινήτων με τον Όμιλο Dromeus Capital Group, η οποία περιλαμβάνει την εξαγορά χαρτοφυλακίου ύψους 0,4 δισεκατομμυρίων ευρώ.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Η Eurobank προχωρά στην εξαγορά πλειοψηφικού μεριδίου 65% της βουλγαρικής Fibank έναντι 1,0 δισ. ευρώ, δημιουργώντας έναν τραπεζικό κολοσσό στη Νοτιοανατολική Ευρώπη με ηγετική θέση στην αγορά της Ελλάδας, της Βουλγαρίας και της Κύπρου.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>ΕΤΕπ και Εθνική Τράπεζα της Ελλάδος ενώνουν τις δυνάμεις τους για την ενίσχυση της χρηματοδότησης επιχειρήσεων στον τομέα της ασφάλειας και της άμυνας</title>
-      <link>https://businesshub.cy/article/02c316b3-4699-4d24-bede-bb617eb891ee/eib-and-national-bank-of-greece-join-forces-to-boost-financing-for-security-and</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/02c316b3-4699-4d24-bede-bb617eb891ee/eib-and-national-bank-of-greece-join-forces-to-boost-financing-for-security-and</guid>
-      <pubDate>Tue, 17 Nov 2026 13:02:01 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η ΕΤΕπ και η Εθνική Τράπεζα της Ελλάδος εγκαινίασαν μια χρηματοδοτική πρωτοβουλία ύψους 250 εκατ. ευρώ που απευθύνεται σε Μικρομεσαίες Επιχειρήσεις (ΜμΕ) και επιχειρήσεις Μεσαίας Κεφαλαιοποίησης (Mid-Caps), δίνοντας προτεραιότητα σε επενδύσεις στους τομείς της ασφάλειας και της άμυνας.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>ΑΠΟΤΕΛΕΣΜΑΤΑ ΑΞΙΟΛΟΓΗΣΗΣ ΑΙΤΗΣΕΩΝ ΥΠΟΨΗΦΙΩΝ, 16.12.2025</title>
+      <link>https://bhubnetwork.com/article/73fa89b6-4a9b-4e84-9f75-98807147148f/candidate-application-evaluation-results-16-12-2025</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/73fa89b6-4a9b-4e84-9f75-98807147148f/candidate-application-evaluation-results-16-12-2025</guid>
+      <pubDate>Wed, 18 Nov 2026 16:01:17 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Το ΙΝΣΕΤΕ ανακοινώνει τους επιλεγέντες συγγραφείς για την ανάπτυξη νέων εκπαιδευτικών εγχειριδίων για την ειδικότητα «Μουσική-Τραγούδι» στο πλαίσιο των Ανώτερων Σχολών Επαγγελματικής Κατάρτισης.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Εθνική Τράπεζα - Skroutz: Ηγετική θέση στην τραπεζική καινοτομία με τη συμπλήρωση ενός έτους της Skroutz Plus Mastercard</title>
-      <link>https://businesshub.cy/article/a4ee066d-966c-4907-b354-69921b1659f4/national-bank-of-greece-skroutz-leading-position-in-banking-innovation-with-the</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/a4ee066d-966c-4907-b354-69921b1659f4/national-bank-of-greece-skroutz-leading-position-in-banking-innovation-with-the</guid>
-      <pubDate>Tue, 17 Nov 2026 13:01:47 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος και η Skroutz ανακοίνωσαν επιτυχημένα αποτελέσματα για το πρώτο έτος κυκλοφορίας της συν-branded (co-branded) ψηφιακής πιστωτικής τους κάρτας, υπογραμμίζοντας την ανάπτυξη των ενσωματωμένων χρηματοοικονομικών υπηρεσιών (embedded finance) στην περιοχή.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>ΜΑΤΑΙΩΣΗ ΗΛΕΚΤΡΟΝΙΚΟΥ ΑΝΟΙΚΤΟΥ ΔΙΑΓΩΝΙΣΜΟΥ 1/2026, 27.08.2026</title>
+      <link>https://bhubnetwork.com/article/c8681792-061f-4269-b53c-c033bfbfeb49/cancellation-of-electronic-open-tender-1-2026-27-08-2026</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/c8681792-061f-4269-b53c-c033bfbfeb49/cancellation-of-electronic-open-tender-1-2026-27-08-2026</guid>
+      <pubDate>Wed, 18 Nov 2026 16:01:04 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Το ΙΝΣΕΤΕ ακύρωσε και ανέβαλε τον μεγάλο διαγωνισμό του για την κατάρτιση σε ψηφιακές δεξιότητες στον τομέα του τουρισμού, επικαλούμενο την ανάγκη για μια επικαιροποιημένη πρόσκληση υποβολής προσφορών.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Η Εθνική Τράπεζα της Ελλάδος υπογράφει οριστικές συμφωνίες για τη στρατηγική τραπεζοασφαλιστική συνεργασία και τη μειοψηφική επένδυση στην Allianz Ευρωπαϊκή Πίστη</title>
-      <link>https://businesshub.cy/article/3755564e-1c44-4407-a873-028edb9ca479/national-bank-of-greece-signs-definitive-agreements-on-the-strategic</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/3755564e-1c44-4407-a873-028edb9ca479/national-bank-of-greece-signs-definitive-agreements-on-the-strategic</guid>
-      <pubDate>Tue, 17 Nov 2026 13:01:31 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος (ΕΤΕ) υπέγραψε οριστικές συμφωνίες για μια μακροπρόθεσμη στρατηγική συνεργασία τραπεζοασφαλειών (bancassurance) και για μια μειοψηφική επένδυση στην Allianz Ευρωπαϊκή Πίστη.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>ΔΕΛΤΙΟ ΤΥΠΟΥ | 14.07.2026 – ΙΝΣΕΤΕ: Αυστραλία, Καναδάς, ΗΠΑ οι ισχυρότερες μακρινές τουριστικές αγορές για την Ελλάδα – Η νέα ευκαιρία σε Κίνα και Ινδία</title>
+      <link>https://bhubnetwork.com/article/8d7d11fc-cc7a-470f-8179-ec9dafa4dedc/press-release-14-07-2026-insete-australia-canada-and-usa-the-strongest-long</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/8d7d11fc-cc7a-470f-8179-ec9dafa4dedc/press-release-14-07-2026-insete-australia-canada-and-usa-the-strongest-long</guid>
+      <pubDate>Wed, 18 Nov 2026 16:00:49 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Έκθεση του ΙΝΣΕΤΕ προσδιορίζει την Αυστραλία, τον Καναδά και τις ΗΠΑ ως τις ισχυρότερες αγορές μακρινών αποστάσεων για την Ελλάδα, με σημαντικές ανεκμετάλλευτες προοπτικές να αναδύονται στην Ινδία και την Κίνα για το 2026.</description>
+      <media:content url="https://insete.gr/wp-content/uploads/2026/07/GTAD-Greek.png" medium="image" type="image/png" />
+      <enclosure url="https://insete.gr/wp-content/uploads/2026/07/GTAD-Greek.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Άσκηση δικαιώματος προαίρεσης αγοράς αναφορικά με Μη Εξασφαλισμένα Ομόλογα MREL Σταθερού Επιτοκίου με Δυνατότητα Επανακαθορισμού, ύψους €500.000.000</title>
-      <link>https://businesshub.cy/article/5d8abf5f-db22-44e6-8c2d-2ee490959caa/exercise-of-call-option-with-respect-to-500-000-000-fixed-rate-resettable</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/5d8abf5f-db22-44e6-8c2d-2ee490959caa/exercise-of-call-option-with-respect-to-500-000-000-fixed-rate-resettable</guid>
-      <pubDate>Tue, 17 Nov 2026 13:01:19 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος ασκεί δικαίωμα προαίρεσης αγοράς (call option) για την αποπληρωμή ανεξόφλητων ομολόγων επιλέξιμων για MREL, ύψους 284,8 εκατ. ευρώ, πριν από τη λήξη τους το 2027.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <title>Σπύρος Θεοδωρόπουλος στο Business Stories: Το νέο άνοιγμα της ΙΟΝ στην Ινδία, οι επενδύσεις και τα μαθήματα μιας ζωής</title>
+      <link>https://bhubnetwork.com/article/a6deec2c-286b-4d74-9bad-d431fae549e1/spyros-theodoropoulos-in-business-stories-ion-s-new-opening-in-india</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/a6deec2c-286b-4d74-9bad-d431fae549e1/spyros-theodoropoulos-in-business-stories-ion-s-new-opening-in-india</guid>
+      <pubDate>Wed, 18 Nov 2026 14:00:55 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Ο Πρόεδρος του ΣΕΒ, Σπύρος Θεοδωρόπουλος, περιγράφει τα σχέδια διεθνούς επέκτασης της ΙΟΝ, συμπεριλαμβανομένης της εισόδου στην αγορά της Ινδίας και της δημιουργίας νέου εργοστασίου στη Στυλίδα, ενώ παράλληλα αναφέρεται στις οικονομικές προκλήσεις.</description>
+      <media:content url="https://www.sev.org.gr/wp-content/uploads/2026/10/2026-10-19_SpThe_NewMoney-304x216.png" medium="image" type="image/png" />
+      <enclosure url="https://www.sev.org.gr/wp-content/uploads/2026/10/2026-10-19_SpThe_NewMoney-304x216.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Ημερομηνία &amp; Ώρα Ανακοίνωσης Αποτελεσμάτων 3ου Τριμήνου 2026</title>
-      <link>https://businesshub.cy/article/022c7e16-8959-4ae9-abcc-5e2ffcf0c328/announcement-date-and-time-of-3q26-results</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/022c7e16-8959-4ae9-abcc-5e2ffcf0c328/announcement-date-and-time-of-3q26-results</guid>
-      <pubDate>Tue, 17 Nov 2026 13:01:05 GMT</pubDate>
+      <title>Γνωστοποίηση σημαντικών μεταβολών σε δικαιώματα ψήφου βάσει του Ν.3556/2007, όπως ισχύει (Ορθή Επανάληψη) - Paulson &amp; Co.</title>
+      <link>https://bhubnetwork.com/article/ff4d97f3-aa5b-4c09-ad8a-4b3cce0e729e/notification-of-important-changes-concerning-voting-rights-under-l-3556-2007-as</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/ff4d97f3-aa5b-4c09-ad8a-4b3cce0e729e/notification-of-important-changes-concerning-voting-rights-under-l-3556-2007-as</guid>
+      <pubDate>Wed, 18 Nov 2026 13:00:58 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος (ΕΤΕ) θα ανακοινώσει τα χρηματοοικονομικά αποτελέσματα για το τρίτο τρίμηνο του 2026 (3Q26) και θα πραγματοποιήσει τηλεδιάσκεψη (conference call) στις 4 Νοεμβρίου 2026.</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Η Paulson &amp; Co. μείωσε σημαντικά το ποσοστό συμμετοχής της στην Τράπεζα Πειραιώς από 14,18% σε 8,43%, υποχωρώντας κάτω από το ρυθμιστικό όριο του 10%.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Οικονομικά Αποτελέσματα Γ&apos; Τριμήνου 2026</title>
-      <link>https://businesshub.cy/article/b76c817e-2836-4c6a-a66c-865856e4a052/3q26-financial-results</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/b76c817e-2836-4c6a-a66c-865856e4a052/3q26-financial-results</guid>
-      <pubDate>Tue, 17 Nov 2026 13:00:53 GMT</pubDate>
+      <title>METKA Όμιλος Εταιρειών Α.Ε. – Ενημερωτικό Δελτίο</title>
+      <link>https://bhubnetwork.com/article/123cb53d-1571-4b7f-b40c-fb47a7b44bbf/metka-group-of-companies-s-a-prospectus</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/123cb53d-1571-4b7f-b40c-fb47a7b44bbf/metka-group-of-companies-s-a-prospectus</guid>
+      <pubDate>Wed, 18 Nov 2026 13:00:44 GMT</pubDate>
       <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος ανακοίνωσε ισχυρά οικονομικά αποτελέσματα για το τρίτο τρίμηνο του 2026, με δείκτη απόδοσης ενσώματων ιδίων κεφαλαίων (RoTE) 15,7%, υποστηριζόμενο από καθαρό περιθώριο επιτοκίου (NIM) 288 μονάδων βάσης και σημαντική επέκταση των εταιρικών πιστώσεων στους τομείς της…</description>
-      <media:content url="https://businesshub.cy/images/og-businesshub.png" medium="image" type="image/png" />
-      <enclosure url="https://businesshub.cy/images/og-businesshub.png" type="image/png" length="0" />
+      <description>Η METKA Όμιλος Εταιρειών Α.Ε. εξέδωσε επίσημο ενημερωτικό δελτίο για την επικείμενη δημόσια προσφορά της, σηματοδοτώντας μια σημαντική κίνηση στις κεφαλαιαγορές για τον κολοσσό των βιομηχανικών έργων και υποδομών.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
     <item>
-      <title>Η Εθνική Τράπεζα της Ελλάδος και το Ευρωπαϊκό Ταμείο Επενδύσεων ενισχύουν τη συνεργασία τους στο πλαίσιο του InvestEU</title>
-      <link>https://businesshub.cy/article/15730f04-3f99-4b79-9d3a-7a8de4bd7253/national-bank-of-greece-and-the-european-investment-fund-strengthen-their</link>
-      <guid isPermaLink="true">https://businesshub.cy/article/15730f04-3f99-4b79-9d3a-7a8de4bd7253/national-bank-of-greece-and-the-european-investment-fund-strengthen-their</guid>
-      <pubDate>Tue, 17 Nov 2026 13:00:38 GMT</pubDate>
-      <category>Τράπεζες &amp; Χρηματοοικονομικά</category>
-      <description>Η Εθνική Τράπεζα της Ελλάδος και το Ευρωπαϊκό Ταμείο Επενδύσεων (ΕΤΕ) επέκτειναν τη συμφωνία εγγύησης InvestEU, με στόχο να παρέχουν σε ελληνικές και περιφερειακές Μικρομεσαίες Επιχειρήσεις (ΜΜΕ) ενισχυμένη πρόσβαση σε χρηματοδότηση με χαμηλά επιτόκια και μειωμένες απαιτήσεις εξασφαλίσεων.</description>
-      <media:content url="https://www.nbg.gr/-/jssmedia/Images/group/grafeio-typou/eikones-grafeio-typou-anakoinwseis/800x540grafeio-typou-eikonidio.png" medium="image" type="image/png" />
-      <enclosure url="https://www.nbg.gr/-/jssmedia/Images/group/grafeio-typou/eikones-grafeio-typou-anakoinwseis/800x540grafeio-typou-eikonidio.png" type="image/png" length="0" />
+      <title>Νίκος Παπαθανάσης: Τα χρήματα του ΕΣΠΑ δεν μένουν στα χαρτιά. Φτάνουν στις επιχειρήσεις, σε κάθε γωνιά της χώρας</title>
+      <link>https://bhubnetwork.com/article/8a7f6f46-b78c-4473-9d75-bf0a39dd750e/nikos-papathanasis-nsrf-funds-do-not-remain-on-paper-they-reach-businesses-in</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/8a7f6f46-b78c-4473-9d75-bf0a39dd750e/nikos-papathanasis-nsrf-funds-do-not-remain-on-paper-they-reach-businesses-in</guid>
+      <pubDate>Tue, 17 Nov 2026 16:02:46 GMT</pubDate>
+      <category>Χρηματοδοτήσεις &amp; Διαγωνισμοί</category>
+      <description>Η Ελλάδα ανακοίνωσε νέα χρηματοδότηση ύψους 220 εκατομμυρίων ευρώ μέσω ΕΣΠΑ, με επίκεντρο τις στρατηγικές τεχνολογίες, τις Μικρομεσαίες Επιχειρήσεις (ΜΜΕ) και την αμυντική βιομηχανία, σηματοδοτώντας περιφερειακές ευκαιρίες για συνεργασίες σε τεχνολογίες διπλής χρήσης.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Νίκος Παπαθανάσης: Σημαντική επιτυχία η Αξιολόγηση Πυλώνων (Pillar Assessment) για την Ελληνική Αναπτυξιακή Τράπεζα</title>
+      <link>https://bhubnetwork.com/article/82575c80-8a32-42ea-9e6f-37a9fee58f3d/nikos-papathanasis-pillar-assessment-a-significant-success-for-the-hellenic</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/82575c80-8a32-42ea-9e6f-37a9fee58f3d/nikos-papathanasis-pillar-assessment-a-significant-success-for-the-hellenic</guid>
+      <pubDate>Tue, 17 Nov 2026 16:02:10 GMT</pubDate>
+      <category>Χρηματοδοτήσεις &amp; Διαγωνισμοί</category>
+      <description>Η Ελληνική Αναπτυξιακή Τράπεζα (HDB) έλαβε την πιστοποίηση Pillar Assessment από την Ευρωπαϊκή Επιτροπή, γεγονός που της επιτρέπει να διαχειρίζεται απευθείας κοινοτικούς πόρους και εγγυήσεις για την ανάπτυξη της ελληνικής και περιφερειακής επιχειρηματικότητας.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Νέα αναβάθμιση για το Samsung Health: το Sleep Coaching γίνεται απλό και προσαρμόζει εβδομαδιαία την καθοδήγηση στις ανάγκες του χρήστη</title>
+      <link>https://bhubnetwork.com/article/415ccc50-72c2-4b4a-8c9f-4b89bbd5cd02/new-upgrade-for-samsung-health-sleep-coaching-becomes-simple-and-adapts</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/415ccc50-72c2-4b4a-8c9f-4b89bbd5cd02/new-upgrade-for-samsung-health-sleep-coaching-becomes-simple-and-adapts</guid>
+      <pubDate>Tue, 17 Nov 2026 16:01:47 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Το Samsung Health αναβαθμίζει τη λειτουργία Sleep Coaching, απαιτώντας πλέον λιγότερα δεδομένα και παρέχοντας πιο εξατομικευμένη, εβδομαδιαία προσαρμοστική καθοδήγηση για τους χρήστες wearable συσκευών.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Η Intelli ενισχύει το διεθνές χαρτοφυλάκιο πιστοποιήσεων και προτύπων ασφάλειας, ποιότητας και κανονιστικής συμμόρφωσης</title>
+      <link>https://bhubnetwork.com/article/6b8442bc-e67c-4442-b5ee-7775e676ddc5/intelli-strengthens-international-portfolio-of-certifications-and-security</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/6b8442bc-e67c-4442-b5ee-7775e676ddc5/intelli-strengthens-international-portfolio-of-certifications-and-security</guid>
+      <pubDate>Tue, 17 Nov 2026 16:01:24 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Intelli ενισχύει το ID, Trust &amp; Compliance Hub της, εξασφαλίζοντας μια ολοκληρωμένη σειρά πιστοποιήσεων ISO και συμμόρφωση με το EUDI Wallet για τις λύσεις ψηφιακού μετασχηματισμού της.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Deloitte “Future of Infrastructure Survey 2026”: Οι υποδομές περνούν στην εποχή των διασυνδεδεμένων συστημάτων</title>
+      <link>https://bhubnetwork.com/article/ec0bed02-f186-4a05-aa2f-f006275ddc26/deloitte-future-of-infrastructure-survey-2026-infrastructure-moves-into-the-era</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/ec0bed02-f186-4a05-aa2f-f006275ddc26/deloitte-future-of-infrastructure-survey-2026-infrastructure-moves-into-the-era</guid>
+      <pubDate>Tue, 17 Nov 2026 16:01:04 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η έρευνα της Deloitte για το 2026 υπογραμμίζει μια παγκόσμια στροφή προς τις διασυνδεδεμένες φυσικές και ψηφιακές υποδομές, η οποία απαιτεί νέες προσεγγίσεις στη χρηματοδότηση και τη διαχείριση κινδύνων.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Η Revival Consulting Services S.A. στην παρουσίαση της νέας φάσης υλοποίησης του InvestEU</title>
+      <link>https://bhubnetwork.com/article/e9570e1b-1236-4d68-ad73-37fce1cce4e1/revival-consulting-services-s-a-at-the-presentation-of-the-new-implementation</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/e9570e1b-1236-4d68-ad73-37fce1cce4e1/revival-consulting-services-s-a-at-the-presentation-of-the-new-implementation</guid>
+      <pubDate>Tue, 17 Nov 2026 16:00:41 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Revival Consulting Services συμμετείχε στην εκδήλωση έναρξης του προγράμματος InvestEU για ένα πρόγραμμα χρηματοδότησης Μικρομεσαίων Επιχειρήσεων (ΜΜΕ) ύψους 400 εκατομμυρίων ευρώ, υπό τη διαχείριση του Ευρωπαϊκού Ταμείου Επενδύσεων.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>H Netcompany επενδύει στην DCAI, την εταιρεία που διαχειρίζεται τον υπερυπολογιστή Gefion</title>
+      <link>https://bhubnetwork.com/article/4c050242-e704-4010-a0f5-ff3de9b9ad57/netcompany-invests-in-dcai-the-company-managing-the-gefion-supercomputer</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/4c050242-e704-4010-a0f5-ff3de9b9ad57/netcompany-invests-in-dcai-the-company-managing-the-gefion-supercomputer</guid>
+      <pubDate>Tue, 17 Nov 2026 16:00:27 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Netcompany επενδύει 325 εκατομμύρια κορώνες Δανίας (DKK) στο έργο του υπερυπολογιστή Gefion, με σκοπό την επέκταση των κυρίαρχων υποδομών Τεχνητής Νοημοσύνης (AI) για τις ευρωπαϊκές επιχειρήσεις και τους δημόσιους τομείς.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Διπλή διάκριση για την Pylones Hellas στα Tech Channel Partner Awards 2026</title>
+      <link>https://bhubnetwork.com/article/11153db6-26fe-450d-b459-ef72ea78f95f/double-distinction-for-pylones-hellas-at-the-tech-channel-partner-awards-2026</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/11153db6-26fe-450d-b459-ef72ea78f95f/double-distinction-for-pylones-hellas-at-the-tech-channel-partner-awards-2026</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:47 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Pylones Hellas, μέλος του κυπριακού Ομίλου P.M. Tseriotis, απέσπασε Gold και Silver βραβεία στα Tech Channel Partner Awards 2026 για τις διαχειριζόμενες υπηρεσίες (managed services) της και την ηγετική της θέση στην αγορά.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Η Κρήτη στο Επίκεντρο της Διεθνούς Επιχειρηματικότητας: Ολοκληρώθηκε η 22η Ετήσια Συνάντηση του INSME</title>
+      <link>https://bhubnetwork.com/article/cc51b5ae-9505-47e1-9713-575149c4ee55/crete-in-the-spotlight-of-international-entrepreneurship-the-22nd-insme-annual</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/cc51b5ae-9505-47e1-9713-575149c4ee55/crete-in-the-spotlight-of-international-entrepreneurship-the-22nd-insme-annual</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:37 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Η 22η Ετήσια Συνάντηση του INSME στην Κρήτη συγκέντρωσε διεθνείς εμπειρογνώμονες με σκοπό την ενίσχυση της ανταγωνιστικότητας των Μικρομεσαίων Επιχειρήσεων (ΜΜΕ) μέσω της Τεχνητής Νοημοσύνης, της πράσινης μετάβασης και των διεθνών συνεργασιών.</description>
+      <media:content url="https://enterprisegreece.gr/wp-content/uploads/2026/10/Pic-3-scaled.jpeg" medium="image" type="image/jpeg" />
+      <enclosure url="https://enterprisegreece.gr/wp-content/uploads/2026/10/Pic-3-scaled.jpeg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Νίκος Παπαθανάσης: Νέα δάνεια 330 εκατ. ευρώ για τις μικρομεσαίες επιχειρήσεις μέσω του ΤΕΠΙΧ ΙΙΙ</title>
+      <link>https://bhubnetwork.com/article/02f26304-26b5-421e-91fa-e576efc48f3a/nikos-papathanasis-330-million-in-new-loans-for-small-and-medium-sized</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/02f26304-26b5-421e-91fa-e576efc48f3a/nikos-papathanasis-330-million-in-new-loans-for-small-and-medium-sized</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:34 GMT</pubDate>
+      <category>Χρηματοδοτήσεις &amp; Διαγωνισμοί</category>
+      <description>Η ελληνική κυβέρνηση διοχετεύει 330 εκατομμύρια ευρώ στο ταμείο ΤΕΠΙΧ III για την παροχή επιδοτούμενων δανείων και εγγυήσεων σε μικρομεσαίες επιχειρήσεις.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Κωτσόβολος: Περισσότερες ευκαιρίες για τον πελάτη στη φετινή Black Friday</title>
+      <link>https://bhubnetwork.com/article/93cbf183-97d2-4d92-97b4-1ec165d751ca/kotsovolos-more-opportunities-for-the-customer-this-black-friday</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/93cbf183-97d2-4d92-97b4-1ec165d751ca/kotsovolos-more-opportunities-for-the-customer-this-black-friday</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:31 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Ο Κωτσόβολος εισάγει εργαλεία διαπραγμάτευσης τιμών μέσω AI και ευέλικτες επιλογές πληρωμής για τη Black Friday, συμπεριλαμβανομένων εξειδικευμένων προσφορών B2B για επαγγελματίες στην Κύπρο.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Newsletter, Οκτώβριος 2026</title>
+      <link>https://bhubnetwork.com/article/2313c977-5e1a-443c-b7a9-1db2e7d79435/newsletter-october-2026</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/2313c977-5e1a-443c-b7a9-1db2e7d79435/newsletter-october-2026</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:26 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Επιχειρηματικό ενημερωτικό δελτίο του ΣΕΒ (Σύνδεσμος Επιχειρήσεων και Βιομηχανιών) με ημερομηνία Οκτώβριος 2026, το οποίο προορίζεται για κυκλοφορία μεταξύ των ελληνικών και κυπριακών επιχειρηματικών δικτύων.</description>
+      <media:content url="https://www.sev.org.gr/wp-content/uploads/2021/04/group-18.png" medium="image" type="image/png" />
+      <enclosure url="https://www.sev.org.gr/wp-content/uploads/2021/04/group-18.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Μια «Γεύση Ελλάδας» στη Beautyworld Middle East 2026</title>
+      <link>https://bhubnetwork.com/article/4e5da948-8397-4bfe-990e-7f48bdb14104/a-taste-of-greece-at-beautyworld-middle-east-2026</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/4e5da948-8397-4bfe-990e-7f48bdb14104/a-taste-of-greece-at-beautyworld-middle-east-2026</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:26 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Οι ελληνικές εταιρείες καλλυντικών ανέφεραν ισχυρή επιχειρηματική ανταπόκριση (B2B) στη Beautyworld Middle East 2026, υπογραμμίζοντας την ταχεία εξαγωγική ανάπτυξη του κλάδου και το διευρυνόμενο αποτύπωμά του στην αγορά των Ηνωμένων Αραβικών Εμιράτων.</description>
+      <media:content url="https://enterprisegreece.gr/wp-content/uploads/2026/10/Beautyworld-Middle-East-2026.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://enterprisegreece.gr/wp-content/uploads/2026/10/Beautyworld-Middle-East-2026.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Πρόσκληση συμμετοχής σε ερωτηματολόγιο για την αξιολόγηση της λειτουργίας του Ευρωπαϊκού Κέντρου Αρμοδιότητας για την Κυβερνοασφάλεια (ECCC)</title>
+      <link>https://bhubnetwork.com/article/9678263d-e1ff-49d3-bbc8-9b6ca963e77b/invitation-to-participate-in-a-questionnaire-for-the-evaluation-of-the</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/9678263d-e1ff-49d3-bbc8-9b6ca963e77b/invitation-to-participate-in-a-questionnaire-for-the-evaluation-of-the</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:26 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η Ευρωπαϊκή Επιτροπή ζητά σχόλια από τους ενδιαφερόμενους φορείς στον τομέα της κυβερνοασφάλειας σχετικά με την απόδοση του ECCC (Ευρωπαϊκό Κέντρο Ικανοτήτων Κυβερνοασφάλειας), προκειμένου να διαμορφώσει τη μελλοντική χρηματοδότηση και διακυβέρνηση της ΕΕ για την κυβερνοασφάλεια.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Ταμείο Αγροτικής Επιχειρηματικότητας – Ξεκινά σήμερα η διαδικασία για το πρώτο χρηματοδοτικό εργαλείο –Πρόσκληση προς τις τράπεζες για δάνεια €250 εκατ.</title>
+      <link>https://bhubnetwork.com/article/dcb3ea36-4a40-4c40-a075-591db1ced741/rural-entrepreneurship-fund-process-begins-today-for-the-first-financial</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/dcb3ea36-4a40-4c40-a075-591db1ced741/rural-entrepreneurship-fund-process-begins-today-for-the-first-financial</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:17 GMT</pubDate>
+      <category>Χρηματοδοτήσεις &amp; Διαγωνισμοί</category>
+      <description>Η Ελλάδα εγκαινιάζει πρόγραμμα δανειοδότησης ύψους 250 εκατ. ευρώ μέσω του Ταμείου Αγροτικής Επιχειρηματικότητας, προσφέροντας επιδοτήσεις επιτοκίου και εγγυήσεις για τον αγροδιατροφικό τομέα έως το 2029.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
+    </item>
+    <item>
+      <title>Ελλάδα–ΗΑΕ: Νέες προοπτικές για επενδύσεις και επιχειρηματικές συνεργασίες στο 4ο Στρατηγικό Επιχειρηματικό Φόρουμ</title>
+      <link>https://bhubnetwork.com/article/3e4a3644-e123-4932-a4cd-1fb08f55fee0/greece-uae-new-prospects-for-investment-and-business-partnerships-at-the-4th</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/3e4a3644-e123-4932-a4cd-1fb08f55fee0/greece-uae-new-prospects-for-investment-and-business-partnerships-at-the-4th</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:15 GMT</pubDate>
+      <category>Επιχειρήσεις</category>
+      <description>Το 4ο Στρατηγικό Επιχειρηματικό Φόρουμ Ελλάδας-ΗΑΕ διερεύνησε συνεργασίες υψηλού επιπέδου στους τομείς της επισιτιστικής ασφάλειας, των logistics, της τεχνητής νοημοσύνης και των ψηφιακών υποδομών, οδηγώντας σε νέες διμερείς συμφωνίες.</description>
+      <media:content url="https://enterprisegreece.gr/wp-content/uploads/2026/11/pic1-e1793613575707.jpg" medium="image" type="image/jpeg" />
+      <enclosure url="https://enterprisegreece.gr/wp-content/uploads/2026/11/pic1-e1793613575707.jpg" type="image/jpeg" length="0" />
+    </item>
+    <item>
+      <title>Η easyGroup του Sir Στέλιου Χατζηιωάννου συνεργάζεται με την ελληνική DOTSOFT για την ανάπτυξη των easyParking και easyBin</title>
+      <link>https://bhubnetwork.com/article/7f77881d-8b6b-4da3-9970-f566444ac155/sir-stelios-haji-ioannou-s-easygroup-partners-with-greek-dotsoft-for-the</link>
+      <guid isPermaLink="true">https://bhubnetwork.com/article/7f77881d-8b6b-4da3-9970-f566444ac155/sir-stelios-haji-ioannou-s-easygroup-partners-with-greek-dotsoft-for-the</guid>
+      <pubDate>Tue, 17 Nov 2026 15:41:13 GMT</pubDate>
+      <category>FinTech &amp; Συμμόρφωση</category>
+      <description>Η easyGroup του Sir Στέλιου Χατζηιωάννου συνεργάστηκε με την DOTSOFT Α.Ε. για την έναρξη λειτουργίας των ψηφιακών πλατφορμών διαχείρισης easyParking και easyBin στην Κύπρο, την Ελλάδα, τη Βουλγαρία και τη Ρουμανία.</description>
+      <media:content url="https://bhubnetwork.com/images/og-businesshub.png" medium="image" type="image/png" />
+      <enclosure url="https://bhubnetwork.com/images/og-businesshub.png" type="image/png" length="0" />
     </item>
   </channel>
 </rss>

@@ -1,4 +1,5 @@
 import { WHOISWHO_PUBLIC } from "@/lib/featureFlags";
+import { RSS_FEED_LINKS } from "@/lib/rss";
 import { useWhoIsWhoVisible } from "@/hooks/useIsAdmin";
 import { Link } from "react-router-dom";
 import { RssFeedLinks } from "@/components/RssFeedLinks";
@@ -152,6 +153,12 @@ export function Footer() {
           <p>© {new Date().getFullYear()} BusinessHub.cy Group. All rights reserved. | <Link to="/privacy" className="hover:text-secondary transition-colors">Privacy Policy</Link> | <Link to="/terms" className="hover:text-secondary transition-colors">Terms of Service</Link> | <Link to="/cookies" className="hover:text-secondary transition-colors">Cookie Policy</Link></p>
           <p className="mt-2">
             Part of <NetworkHomeLink className="font-brand font-bold hover:text-secondary transition-colors" />
+          </p>
+          <p className="mt-2">
+            RSS feeds:{" "}
+            {RSS_FEED_LINKS.map((f, i) => (
+              <span key={f.path}>{i > 0 && " · "}<a href={f.path} className="hover:text-secondary transition-colors">{f.label}</a></span>
+            ))}
           </p>
           <p className="mt-2 inline-flex items-center gap-1">
             Made with <span aria-label="love" className="text-secondary">♥</span> by{" "}
