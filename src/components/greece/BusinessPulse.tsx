@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { databrowserUrl } from "@/lib/eurostatView";
 import { formatValue, isStale, latestWithYoy, periodLabel, seriesFor, tradeBalance, type Lang, type PulseObs } from "@/lib/greecePulse";
 import { flagLabel, useStatSeries } from "@/hooks/useStatSeries";
-import { grHref } from "@/lib/edition";
+import { grLangHref } from "@/lib/edition";
 
 type Bi = { en: string; el: string };
 type PulseCard =
@@ -108,6 +108,6 @@ export function BusinessPulse({ lang }: { lang: Lang }) {
       ? "Πηγές: Eurostat (CC BY 4.0), ΕΛΣΤΑΤ μέσω Eurostat, Τράπεζα της Ελλάδος (Έρευνα Συνόρων, CC BY 4.0) και ανοικτά δεδομένα ΓΕΜΗ. Ελέγχονται καθημερινά· οι αναθεωρήσεις παλαιότερων τιμών ελέγχονται πριν αλλάξουν εδώ. Περίοδοι που δεν έχουν δημοσιευτεί δεν εμφανίζονται ποτέ ως μηδέν."
       : "Sources: Eurostat (CC BY 4.0), ELSTAT via Eurostat, Bank of Greece (Border Survey, CC BY 4.0) and GEMI open data. Checked daily; revisions to past figures are reviewed before they change here. Periods not yet published are never shown as zero."}
       {last && <> {el ? "Τελευταία επιτυχής ενημέρωση" : "Last successful refresh"} {new Date(last).toLocaleString(el ? "el-GR" : "en-GB", { dateStyle: "medium", timeStyle: "short" })}.</>}
-      {" "}<Link to={grHref("/greece/opportunities")} className="underline">{el ? "Δημόσιοι διαγωνισμοί →" : "Public tenders →"}</Link></p>
+      {" "}<Link to={grLangHref("/greece/opportunities", el ? "el" : "en")} className="underline">{el ? "Δημόσιοι διαγωνισμοί →" : "Public tenders →"}</Link></p>
   </div>;
 }

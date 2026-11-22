@@ -7,7 +7,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { AdSlot } from "@/components/banners/AdSlot";
 import { articlePath } from "@/lib/articleUrl";
 import { Fragment, useEffect, useState } from "react";
-import { BANKING_FILTERS, GR_PAGES, GR_SECTIONS, grHref, langFromSearch } from "@/lib/edition";
+import { BANKING_FILTERS, GR_PAGES, GR_SECTIONS, grHref, grLangHref, langFromSearch } from "@/lib/edition";
 import { GREECE_NAV_SLUGS } from "@/config/siteSections";
 import { BusinessPulse } from "@/components/greece/BusinessPulse";
 import { Opportunities } from "@/components/greece/Opportunities";
@@ -55,11 +55,11 @@ function StoryList({ items, lang, compact }: { items: Story[]; lang: Lang; compa
   if (!rows.length) return <Empty lang={lang} />;
   return <ul className="divide-y divide-border">{rows.map((s, i) => (
     <li key={s.id} className="py-3 flex gap-3">
-      <Link to={grHref(articlePath(s.id, s.title))} className="shrink-0"><img src={listImage(rows, i)} alt="" loading="lazy" data-vertical={s.vertical ?? undefined} data-seed={s.id} className="w-24 h-16 sm:w-28 sm:h-[72px] object-cover rounded bg-muted" /></Link>
+      <Link to={grLangHref(articlePath(s.id, s.title), lang)} className="shrink-0"><img src={listImage(rows, i)} alt="" loading="lazy" data-vertical={s.vertical ?? undefined} data-seed={s.id} className="w-24 h-16 sm:w-28 sm:h-[72px] object-cover rounded bg-muted" /></Link>
       <div className="min-w-0">
       {!s.gr_section && <span lang={lang} className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">{isInternationalStory(s) ? (lang === "el" ? "Διεθνή" : "International") : (lang === "el" ? "Κύπρος" : "Cyprus")}</span>}
       {s.tags?.includes("Press release") && <span lang={lang} className="block text-[11px] font-semibold uppercase tracking-wider text-secondary mb-0.5">{lang === "el" ? "Δελτίο Τύπου" : "Press release"}</span>}
-      <Link to={grHref(articlePath(s.id, s.title))} lang={lang} className={`font-serif font-semibold hover:underline break-words line-clamp-3 ${compact ? "text-base leading-snug" : "text-lg"}`}>{pick(lang, s.title_el, s.title)}</Link>
+      <Link to={grLangHref(articlePath(s.id, s.title), lang)} lang={lang} className={`font-serif font-semibold hover:underline break-words line-clamp-3 ${compact ? "text-base leading-snug" : "text-lg"}`}>{pick(lang, s.title_el, s.title)}</Link>
       {!compact && pick(lang, s.summary_el, s.summary) && <p lang={lang} className="text-sm text-muted-foreground mt-1 line-clamp-2">{pick(lang, s.summary_el, s.summary)}</p>}
       {s.cross_border_note && <p className="text-xs mt-1 text-secondary-foreground">↔ {s.cross_border_note}</p>}
       </div>
@@ -85,7 +85,7 @@ function StoryGrid({ items, lang }: { items: Story[]; lang: Lang }) {
       <span>{formatDistanceToNow(new Date(d), { addSuffix: true, ...loc })}</span>
     </div>);
   const [lead, ...rest] = rows;
-  const href = (s: Story) => grHref(articlePath(s.id, s.title));
+  const href = (s: Story) => grLangHref(articlePath(s.id, s.title), lang);
   return <div lang={lang}>
     <Link to={href(lead)} className="group block mb-10">
       <div className="grid md:grid-cols-2 gap-6 border border-border rounded-xl overflow-hidden bg-card hover:shadow-xl transition-all">
@@ -129,13 +129,13 @@ function Shell({ lang, setLang, title, children, path }: { lang: Lang; setLang: 
       <TopNavigation onSearch={() => {}} lang={lang} />
       <div className="border-b border-border bg-muted/40">
         <div className="container mx-auto px-4 py-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
-          <Link to={grHref("/greece")} className="font-brand font-extrabold uppercase tracking-wider">BusinessHub <span className="text-brand-sky">Ελλάδα</span></Link>
+          <Link to={grLangHref("/greece", lang)} className="font-brand font-extrabold uppercase tracking-wider">BusinessHub <span className="text-brand-sky">Ελλάδα</span></Link>
           {/* On wide screens the header carries the main Greece links; this row keeps them for phones and tablets. */}
           <nav className="flex flex-wrap gap-x-3 gap-y-1">{GR_SECTIONS.map((s) => (
-            <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className={`text-muted-foreground hover:text-foreground ${GREECE_NAV_SLUGS.includes(s.slug) ? "lg:hidden" : ""}`}>{lang === "el" ? s.el : s.en}</Link>))}
+            <Link key={s.slug} to={grLangHref(`/greece/${s.slug}`, lang)} className={`text-muted-foreground hover:text-foreground ${GREECE_NAV_SLUGS.includes(s.slug) ? "lg:hidden" : ""}`}>{lang === "el" ? s.el : s.en}</Link>))}
             {GR_PAGES.map((s) => (
-            <Link key={s.slug} to={grHref(`/greece/${s.slug}`)} className={`font-medium text-foreground hover:underline ${GREECE_NAV_SLUGS.includes(s.slug) ? "lg:hidden" : ""}`}>{lang === "el" ? s.el : s.en}</Link>))}
-            <Link to="/compare/greece-cyprus" className="font-medium text-foreground hover:underline">{lang === "el" ? "Σύγκριση με την Κύπρο" : "Compare with Cyprus"}</Link>
+            <Link key={s.slug} to={grLangHref(`/greece/${s.slug}`, lang)} className={`font-medium text-foreground hover:underline ${GREECE_NAV_SLUGS.includes(s.slug) ? "lg:hidden" : ""}`}>{lang === "el" ? s.el : s.en}</Link>))}
+            <Link to={lang === "en" ? "/compare/greece-cyprus?lang=en" : "/compare/greece-cyprus"} className="font-medium text-foreground hover:underline">{lang === "el" ? "Σύγκριση με την Κύπρο" : "Compare with Cyprus"}</Link>
           </nav>
           <div className="ml-auto flex items-center gap-2">
             <button onClick={() => setLang("el")} className={lang === "el" ? "font-bold" : "text-muted-foreground"}>EL</button>
@@ -166,7 +166,7 @@ function useOthers() {
 }
 /** Small picture card used under the home lead story. */
 function MiniCard({ s, rows, i, lang }: { s: Story; rows: Story[]; i: number; lang: Lang }) {
-  return <Link to={grHref(articlePath(s.id, s.title))} lang={lang} className="group block">
+  return <Link to={grLangHref(articlePath(s.id, s.title), lang)} lang={lang} className="group block">
     <div className="aspect-[16/9] overflow-hidden rounded bg-muted">
       <img src={listImage(rows, i)} alt="" loading="lazy" data-vertical={s.vertical ?? undefined} data-seed={s.id} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
     </div>
@@ -206,7 +206,7 @@ function Home({ lang }: { lang: Lang }) {
     <p className="text-muted-foreground mt-2">{lang === "el" ? "Εταιρικές ανακοινώσεις, τράπεζες, επενδύσεις, χρηματοδοτήσεις και οικονομικά δεδομένα." : "Company announcements, banking, investment, funding and economic data."}</p>
     <div className="grid lg:grid-cols-3 gap-8 mt-6">
       <section className="lg:col-span-2 min-w-0">
-        {lead ? <Link to={grHref(articlePath(lead.id, lead.title))} lang={lang} className="group block">
+        {lead ? <Link to={grLangHref(articlePath(lead.id, lead.title), lang)} lang={lang} className="group block">
           <div className="aspect-video overflow-hidden rounded bg-muted">
             <img src={listImage(data, 0)} alt="" data-vertical={lead.vertical ?? undefined} data-seed={lead.id} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           </div>
@@ -226,7 +226,7 @@ function Home({ lang }: { lang: Lang }) {
     {shown.length > 0 && <div className="grid md:grid-cols-2 gap-x-8 gap-y-10 mt-10">
       {shown.map(({ slug, rows }) => {
         const sec = GR_SECTIONS.find((s) => s.slug === slug)!;
-        return <section key={slug} className="min-w-0">{heading(lang === "el" ? sec.el : sec.en, grHref(`/greece/${slug}`))}<StoryList items={rows} lang={lang} /></section>;
+        return <section key={slug} className="min-w-0">{heading(lang === "el" ? sec.el : sec.en, grLangHref(`/greece/${slug}`, lang))}<StoryList items={rows} lang={lang} /></section>;
       })}
     </div>}
     <div className="mt-10"><AdSlot size="leaderboard" slotId="greece-footer" label={adLabel(lang)} /></div>
@@ -258,7 +258,7 @@ function Section({ slug, lang }: { slug: string; lang: Lang }) {
         <Button size="sm" variant={chip(!tag)} onClick={() => setParams({})}>{lang === "el" ? "Όλα" : "All"}</Button>
         {BANKING_FILTERS.map((f) => <Button key={f.tag} size="sm" variant={chip(tag === f.tag)} onClick={() => setParams({ filter: f.tag })}>{lang === "el" ? f.el : f.tag}</Button>)}
       </div>
-      <div className="flex flex-wrap gap-3 mt-4 text-sm">{orgs.map((o) => <Link key={o.slug} to={grHref(`/greece/org/${o.slug}`)} className="underline">{pick(lang, o.name_el, o.name_en)}</Link>)}</div>
+      <div className="flex flex-wrap gap-3 mt-4 text-sm">{orgs.map((o) => <Link key={o.slug} to={grLangHref(`/greece/org/${o.slug}`, lang)} className="underline">{pick(lang, o.name_el, o.name_en)}</Link>)}</div>
     </>}
     {slug === "announcements" && <div className="flex flex-wrap gap-2 mt-5">
       <Button size="sm" variant={chip(tab === "listed")} onClick={() => setParams({})}>{lang === "el" ? "Ανακοινώσεις εισηγμένων εταιρειών" : "Listed Company Disclosures"}</Button>

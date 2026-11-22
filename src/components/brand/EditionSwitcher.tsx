@@ -8,7 +8,7 @@ import { currentHost, editionLinks, useNetworkEdition } from "@/lib/networkEditi
  */
 export function EditionSwitcher({ lang = "en", className, onPick, tone = "light" }: { lang?: "en" | "el"; className?: string; onPick?: () => void; tone?: "light" | "dark" }) {
   const current = useNetworkEdition();
-  const links = editionLinks(lang, currentHost());
+  const links = editionLinks(lang, currentHost(), undefined, current);
   const dark = tone === "dark";
   return (
     <nav

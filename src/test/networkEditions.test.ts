@@ -18,7 +18,7 @@ describe("edition switcher", () => {
   it("once bhubnetwork.com carries International, it is the International address everywhere", () => {
     expect(editionLinks("en", "cy", true)[0]).toMatchObject({ href: "https://bhubnetwork.com/", external: true });
     const onIntl = editionLinks("en", "intl", true);
-    expect(onIntl.map((x) => x.href)).toEqual(["/", "https://businesshub.cy/", "https://businesshub.cy/greece"]);
+    expect(onIntl.map((x) => x.href)).toEqual(["/", "https://businesshub.cy/", "https://businesshub.cy/greece?lang=en"]);
   });
   it("highlights the edition of the page", () => {
     expect(currentNetworkEdition("gr", "/greece/banking")).toBe("gr");
@@ -38,7 +38,7 @@ describe("top links per edition", () => {
   it("each International link opens its own section page", () =>
     expect(editionNav("intl", "en", "cy").map((i) => i.href)).toEqual(["/intl/markets", "/intl/companies", "/intl/fintech", "/intl/compliance", "/intl/funding", "/intl/data"]));
   it("International Markets lists all markets plus the Cyprus and Greece editions", () =>
-    expect(editionNav("intl", "en", "cy")[0].children?.map((c) => c.href)).toEqual(["/intl/markets", "/", "/greece", "/compare/greece-cyprus"]));
+    expect(editionNav("intl", "en", "cy")[0].children?.map((c) => c.href)).toEqual(["/intl/markets", "/", "/greece?lang=en", "/compare/greece-cyprus"]));
   it("Greece links open Greece pages, in Greek on Greek pages", () => {
     const nav = editionNav("gr", "el", "cy");
     expect(nav[0].label).toBe("Επιχειρήσεις");

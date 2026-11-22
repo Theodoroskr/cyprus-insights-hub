@@ -207,7 +207,8 @@ export default function ArticlePage() {
 
   // On the Greece edition the reader's EL/EN choice (shared with the Greece pages) carries over.
   const greekSite = onGrHost() || !(article.edition ?? ["cy"]).includes("cy");
-  const saved = greekSite ? (localStorage.getItem("gr-lang") as StoryLang | null) : null;
+  const urlLang = new URLSearchParams(location.search).get("lang");
+  const saved = greekSite ? ((urlLang === "en" || urlLang === "el" ? urlLang : localStorage.getItem("gr-lang")) as StoryLang | null) : null;
   const lang = storyLanguage(article, langChoice ?? saved, greekSite);
   const date = article.published_at
     ? new Date(article.published_at).toLocaleDateString(lang === "el" ? "el-GR" : "en-GB", { day: "numeric", month: "long", year: "numeric" })

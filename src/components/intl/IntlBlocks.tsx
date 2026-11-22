@@ -85,7 +85,7 @@ export function MarketEditions({ more }: { more?: More } = {}) {
   const cards = [
     { key: "cy" as const, home: cyprusHome(host), text: "Cyprus business news, 61,000+ registered companies with regulator licences, and official economy, property and trade data.",
       links: [{ to: "/directory", label: "Company directory" }, { to: "/economy", label: "Economy" }, { to: "/funding", label: "Funding" }] },
-    { key: "gr" as const, home: greeceHome(host), text: "Greek business news in Greek and English: banks, company announcements, funding, public tenders and official economic data.",
+    { key: "gr" as const, home: greeceHome(host, true), text: "Greek business news in Greek and English: banks, company announcements, funding, public tenders and official economic data.",
       links: [{ to: grEnHref("/greece/business-pulse"), label: "Business Pulse" }, { to: grEnHref("/greece/opportunities"), label: "Tenders" }, { to: grEnHref("/greece/banking"), label: "Banking" }] },
   ];
   return <section aria-labelledby="markets" className="mt-12">

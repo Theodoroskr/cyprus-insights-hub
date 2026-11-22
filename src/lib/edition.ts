@@ -70,6 +70,11 @@ export function grEnHref(appPath: string, gr: boolean = onGrHost()): string {
   return `${href}${href.includes("?") ? "&" : "?"}lang=en`;
 }
 
+/** A Greece-edition link that keeps the reading language: English adds `?lang=en`, Greek stays plain. */
+export function grLangHref(appPath: string, lang: "en" | "el", gr: boolean = onGrHost()): string {
+  return lang === "en" ? grEnHref(appPath, gr) : grHref(appPath, gr);
+}
+
 /** `?lang=en|el` on a Greece page, or null when the address does not choose a language. */
 export function langFromSearch(search: string): "en" | "el" | null {
   const v = new URLSearchParams(search).get("lang");

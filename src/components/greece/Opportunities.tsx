@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FOCUS_LABELS, KIMDIS_SEARCH_URL, foldGreek, kimdisTerm, matchesSearch, noticeText, type FocusCategory, type ProcurementKind, type SearchFilters } from "../../../supabase/functions/_shared/kimdis";
-import { grHref } from "@/lib/edition";
+import { grLangHref } from "@/lib/edition";
 import type { Lang } from "@/lib/greecePulse";
 
 type Notice = {
@@ -199,6 +199,6 @@ export function Opportunities({ lang }: { lang: Lang }) {
     {!isLoading && !data?.rows.length && <p className="border border-dashed border-border p-6 text-sm text-muted-foreground">{el ? "Δεν βρέθηκαν αποτελέσματα για αυτά τα φίλτρα." : "No notices match these filters."}</p>}
     {(data?.count ?? 0) > limit && <Button variant="outline" className="mt-4" onClick={() => setLimit(limit + PAGE)}>{el ? "Περισσότερα" : "Show more"}</Button>}
     <p className="text-xs text-muted-foreground mt-8 max-w-4xl">{el ? "Πηγή: ΚΗΜΔΗΣ Open Data API. Ελέγξτε πάντα το επίσημο έγγραφο πριν υποβάλετε προσφορά." : "Source: KIMDIS Open Data API. Titles, authority names and categories are machine-translated from the official Greek; the Greek notice is the legal text. Always check the official notice before bidding."}{" "}
-      <a href={KIMDIS_SEARCH_URL} target="_blank" rel="noopener noreferrer" className="underline">{el ? "Αναζήτηση στο ΚΗΜΔΗΣ" : "Official KIMDIS search"}</a> · <Link to={grHref("/greece/business-pulse")} className="underline">{el ? "Οικονομικοί Δείκτες Ελλάδας" : "Greece Business Pulse"}</Link></p>
+      <a href={KIMDIS_SEARCH_URL} target="_blank" rel="noopener noreferrer" className="underline">{el ? "Αναζήτηση στο ΚΗΜΔΗΣ" : "Official KIMDIS search"}</a> · <Link to={grLangHref("/greece/business-pulse", el ? "el" : "en")} className="underline">{el ? "Οικονομικοί Δείκτες Ελλάδας" : "Greece Business Pulse"}</Link></p>
   </div>;
 }

@@ -37,17 +37,20 @@ export function cyprusHome(host: HostKind): { href: string; external: boolean } 
 }
 
 /** Home of the Greece edition as written on the given host. */
-export function greeceHome(host: HostKind): { href: string; external: boolean } {
-  if (host === "gr") return { href: "/", external: false };
-  if (host === "intl") return { href: greeceUrl("/greece"), external: true };
-  return { href: grHref("/greece", false), external: false };
+export function greeceHome(host: HostKind, english = false): { href: string; external: boolean } {
+  const q = english ? "?lang=en" : "";
+  if (host === "gr") return { href: `/${q}`, external: false };
+  if (host === "intl") return { href: `${greeceUrl("/greece")}${q}`, external: true };
+  return { href: `${grHref("/greece", false)}${q}`, external: false };
 }
 
 /** Switcher links for the current host: each edition opens on the address that serves it. */
-export function editionLinks(lang: "en" | "el", host: HostKind, live: boolean = INTL_DOMAIN_LIVE): EditionLink[] {
+export function editionLinks(lang: "en" | "el", host: HostKind, live: boolean = INTL_DOMAIN_LIVE, from?: NetworkEdition): EditionLink[] {
+  // From the International edition (English only) the Greece edition opens in English.
+  const english = from === "intl" || (from === undefined && host === "intl");
   return NETWORK_EDITIONS.map((e) => {
     const label = lang === "el" ? e.el : e.en;
-    const to = e.key === "intl" ? intlHome(host, live) : e.key === "cy" ? cyprusHome(host) : greeceHome(host);
+    const to = e.key === "intl" ? intlHome(host, live) : e.key === "cy" ? cyprusHome(host) : greeceHome(host, english);
     return { key: e.key, label, ...to };
   });
 }

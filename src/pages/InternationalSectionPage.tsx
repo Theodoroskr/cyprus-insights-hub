@@ -121,7 +121,7 @@ function MarketsView() {
   const brief = useMemo(() => briefStories(rows, 8), [rows]);
   const cols: { m: Market; more: { to: string; label: string } }[] = [
     { m: "intl", more: { to: "/news?scope=international", label: "More" } },
-    { m: "gr", more: { to: greeceHome(host).href, label: "Greece edition" } },
+    { m: "gr", more: { to: greeceHome(host, true).href, label: "Greece edition" } },
     { m: "cy", more: { to: "/news?scope=cyprus", label: "More" } },
   ];
   return <>

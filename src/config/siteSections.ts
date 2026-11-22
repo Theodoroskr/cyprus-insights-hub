@@ -1,5 +1,6 @@
 import { grHref } from "@/lib/edition";
 import { intlSectionPath, type IntlSectionSlug } from "@/lib/internationalSections";
+import { grLangHref } from "@/lib/edition";
 import { cyprusHome, greeceHome, type HostKind, type NetworkEdition } from "@/lib/networkEditions";
 /** The BusinessHub top menu: ten main links, with every section listed behind the Menu button. */
 
@@ -75,7 +76,7 @@ export function intlNav(host: HostKind): NavItem[] {
     { label: "Markets", href: at("markets"), children: [
       { label: "All markets", href: at("markets") },
       { label: "Cyprus edition", href: cyprusHome(host).href },
-      { label: "Greece edition", href: greeceHome(host).href },
+      { label: "Greece edition", href: greeceHome(host, true).href },
       { label: "Greece–Cyprus comparison", href: "/compare/greece-cyprus" },
     ] },
     { label: "Companies & Investment", href: at("companies") },
@@ -90,12 +91,12 @@ export function intlNav(host: HostKind): NavItem[] {
 export function greeceNav(lang: "en" | "el"): NavItem[] {
   const L = (el: string, en: string) => (lang === "el" ? el : en);
   return [
-    { label: L("Επιχειρήσεις", "Business"), href: grHref("/greece/business") },
-    { label: L("Επενδύσεις", "Investment"), href: `${grHref("/greece/announcements")}?tab=deals` },
-    { label: L("Τράπεζες", "Banking"), href: grHref("/greece/banking") },
-    { label: "Fintech", href: grHref("/greece/fintech") },
-    { label: L("Χρηματοδοτήσεις", "Funding"), href: grHref("/greece/funding") },
-    { label: L("Οικονομικά Στοιχεία", "Data"), href: grHref("/greece/business-pulse") },
+    { label: L("Επιχειρήσεις", "Business"), href: grLangHref("/greece/business", lang) },
+    { label: L("Επενδύσεις", "Investment"), href: grLangHref("/greece/announcements", lang).replace(/(\?|$)/, (m) => (m ? "?tab=deals&" : "?tab=deals")) },
+    { label: L("Τράπεζες", "Banking"), href: grLangHref("/greece/banking", lang) },
+    { label: "Fintech", href: grLangHref("/greece/fintech", lang) },
+    { label: L("Χρηματοδοτήσεις", "Funding"), href: grLangHref("/greece/funding", lang) },
+    { label: L("Οικονομικά Στοιχεία", "Data"), href: grLangHref("/greece/business-pulse", lang) },
   ];
 }
 
