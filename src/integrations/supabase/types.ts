@@ -4797,6 +4797,42 @@ export type Database = {
         }
         Relationships: []
       }
+      social_data_posts: {
+        Row: {
+          created_at: string
+          error: string | null
+          fingerprint: string
+          id: string
+          message: string | null
+          platform: string
+          post_id: string | null
+          status: string
+          topic: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          fingerprint: string
+          id?: string
+          message?: string | null
+          platform: string
+          post_id?: string | null
+          status?: string
+          topic: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          fingerprint?: string
+          id?: string
+          message?: string | null
+          platform?: string
+          post_id?: string | null
+          status?: string
+          topic?: string
+        }
+        Relationships: []
+      }
       sponsored_content: {
         Row: {
           active: boolean

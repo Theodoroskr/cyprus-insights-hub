@@ -36,6 +36,7 @@ import { IntegrityPanel } from "@/components/admin/IntegrityPanel";
 import { MastercardAdminPanel } from "@/components/admin/MastercardAdminPanel";
 import { FacebookAutopostPanel } from "@/components/admin/FacebookAutopostPanel";
 import { LinkedInAutopostPanel } from "@/components/admin/LinkedInAutopostPanel";
+import { DataPostsCard } from "@/components/admin/DataPostsCard";
 import { AnnouncementsPanel } from "@/components/admin/AnnouncementsPanel";
 import { CompliancePanel } from "@/components/admin/CompliancePanel";
 import { TourismPanel } from "@/components/admin/TourismPanel";
@@ -717,7 +718,10 @@ const EditorialDashboard = () => {
         ) : activePanel === "venues" ? (
           <VenuesPanel />
         ) : activePanel === "facebook" ? (
-          <FacebookAutopostPanel />
+          <>
+            <FacebookAutopostPanel />
+            <DataPostsCard />
+          </>
         ) : activePanel === "linkedin" ? (
           <LinkedInAutopostPanel />
         ) : (

@@ -1,0 +1,4 @@
+# post-data-highlight
+- Managed schedule at 08:00 and 09:00 UTC; posts only in the 11:00 Cyprus-time run (`POST_HOUR`); builds one post from the latest published official figures (rules in `_shared/dataPosts.ts`) and sends it to every social account whose autopost setting is on, via `_shared/socialPublish.ts`. Why: one data post a day, the same on every account.
+- Topic order: a topic with a new release first, else the topic posted longest ago, never the same topic two days running; annual topics (CPI) only when their edition is new. One `social_data_posts` row per account; a day that already ran is skipped, and an admin retry reuses that day's topic for accounts still missing. Why: no repeats, no double posts.
+- Data posts are not counted against the story daily limits. Why: they are a separate format.

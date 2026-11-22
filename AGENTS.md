@@ -40,3 +40,4 @@
 - Corruption & Public Integrity (`/research/corruption-perceptions/:market`): rules in `supabase/functions/ingest-integrity/AGENTS.md`.
 - Site address: canonicals, sitemaps, robots, feeds, share links and JSON-LD use `SITE_HOST` (`src/lib/edition.ts`, = the primary domain; edge functions keep their own copy in `_shared/indexNow.ts`/`_shared/facebookPosting.ts`/`render-company`). Why: Google must be told the address the site actually serves, not one that redirects.
 - Company official documents (certificates, profiles, credit reports) are offered only as outbound Companies House Cyprus links built by `src/lib/companiesHouseCyprus.ts`; no in-house KYB request form. Why: one paid provider, one link rule.
+- Daily data post: `post-data-highlight` sends one official-figures post a day to each social account with autopost on; rules in `supabase/functions/post-data-highlight/AGENTS.md`. Why: data posts stay separate from story limits and never repeat.
