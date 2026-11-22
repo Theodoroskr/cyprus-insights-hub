@@ -12,6 +12,7 @@ import { FinLitNav } from "@/components/finlit/FinLitNav";
 import { AcademyCrumbs, LangSwitch } from "@/components/academy/AcademyChrome";
 import { LessonStats } from "@/components/academy/LessonStats";
 import { LEVEL_LABEL, T, pick, useAcademyLang, type Lesson, type Programme } from "@/lib/academy";
+import { SITE_URL } from "@/lib/seo";
 
 export default function AcademyPage() {
   const [lang, setLang] = useAcademyLang();
@@ -38,7 +39,7 @@ export default function AcademyPage() {
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Financial Literacy", href: "/financial-literacy" }, { name: "Academy", href: "/financial-literacy/academy" }]}
         jsonLd={{ "@context": "https://schema.org", "@type": "ItemList", name: "Financial Literacy Academy", alternateName: "Ακαδημία Χρηματοοικονομικού Αλφαβητισμού",
           itemListElement: programmes.map((p, i) => ({ "@type": "ListItem", position: i + 1, item: { "@type": "Course", name: p.title_en, description: p.summary_en, inLanguage: ["en", "el"], isAccessibleForFree: true,
-            url: `https://businesshub.cy/financial-literacy/academy/${p.slug}`, provider: { "@type": "Organization", name: "BusinessHub.cy", url: "https://businesshub.cy" } } })) }} />
+            url: `${SITE_URL}/financial-literacy/academy/${p.slug}`, provider: { "@type": "Organization", name: "BusinessHub.cy", url: SITE_URL } } })) }} />
       <main className="container mx-auto px-4 py-8 space-y-10">
         <div className="flex flex-wrap items-center justify-between gap-3"><AcademyCrumbs lang={lang} items={[]} /><LangSwitch lang={lang} setLang={setLang} /></div>
         <header className="rounded-xl border bg-gradient-to-br from-primary/10 via-background to-background p-6 md:p-10 space-y-3">

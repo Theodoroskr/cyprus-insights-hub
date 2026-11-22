@@ -40,7 +40,8 @@ export function cyprusHome(host: HostKind): { href: string; external: boolean } 
 export function greeceHome(host: HostKind, english = false): { href: string; external: boolean } {
   const q = english ? "?lang=en" : "";
   if (host === "gr") return { href: `/${q}`, external: false };
-  if (host === "intl") return { href: `${greeceUrl("/greece")}${q}`, external: true };
+  // "intl" only exists once bhubnetwork.com carries International, so Greece then lives on businesshub.cy.
+  if (host === "intl") return { href: `${greeceUrl("/greece", undefined, CY_HOST)}${q}`, external: true };
   return { href: `${grHref("/greece", false)}${q}`, external: false };
 }
 

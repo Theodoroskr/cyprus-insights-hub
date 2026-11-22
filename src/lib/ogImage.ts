@@ -1,3 +1,4 @@
+import { SITE_HOST } from "./edition";
 /**
  * Branded social-share (og:image / twitter:image) fallbacks per hub.
  * Used when a page or article has no image of its own, so shares on
@@ -7,7 +8,7 @@
  * published domain (crawlers require absolute https URLs).
  */
 
-const BASE_URL = "https://businesshub.cy";
+const BASE_URL = SITE_HOST;
 
 const OG_IMAGES: Record<string, string> = {
   general: `${BASE_URL}/images/og-businesshub.png`,

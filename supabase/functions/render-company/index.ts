@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
-const BASE_URL = "https://businesshub.cy";
+const BASE_URL = "https://bhubnetwork.com";
 
 function escapeHtml(s: string): string {
   return s

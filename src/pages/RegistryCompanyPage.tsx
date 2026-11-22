@@ -14,6 +14,7 @@ import { CompanyIntelligence } from "@/components/intel/CompanyIntelligence";
 import { CompanyAnnouncements } from "@/components/announcements/CompanyAnnouncements";
 
 import { toast } from "sonner";
+import { SITE_URL } from "@/lib/seo";
 
 const CITY_LABELS: Record<string, string> = {
   nicosia: "Nicosia", limassol: "Limassol", larnaca: "Larnaca",
@@ -137,7 +138,7 @@ export default function RegistryCompanyPage() {
           "@context": "https://schema.org",
           "@type": "Organization",
           name: company.company_name,
-          url: `https://businesshub.cy/directory/company/${company.slug || companyId}`,
+          url: `${SITE_URL}/directory/company/${company.slug || companyId}`,
           ...(company.address && { address: {
             "@type": "PostalAddress",
             streetAddress: company.address,

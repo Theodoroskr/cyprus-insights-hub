@@ -2,8 +2,9 @@
 // time so search robots (which read the HTML before the site's code runs) see a distinct
 // page with a self-referencing canonical, not a copy of the homepage.
 import { escapeAttr, plainText } from "./storyPreview";
+import { SITE_HOST } from "./edition";
 
-const SITE = "https://businesshub.cy";
+const SITE = SITE_HOST;
 
 export interface PageHead { path: string; title: string; description: string; image?: string; type?: string }
 

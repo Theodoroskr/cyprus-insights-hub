@@ -16,6 +16,11 @@ export const CY_HOST = "https://businesshub.cy";
  */
 export const INTL_DOMAIN_LIVE = false;
 export const INTL_HOST = "https://bhubnetwork.com";
+/**
+ * The address the whole site is published at, used for canonicals, sitemaps, feeds and share links.
+ * bhubnetwork.com while it is the primary domain (businesshub.cy forwards there); businesshub.cy once INTL_DOMAIN_LIVE.
+ */
+export const SITE_HOST = INTL_DOMAIN_LIVE ? CY_HOST : INTL_HOST;
 /** The International edition's own address on every host (the home of bhubnetwork.com once live). */
 export const INTL_PATH = "/intl";
 
@@ -115,9 +120,9 @@ export function hostRedirect(hostname: string, pathname: string, search = "", li
   return h === "businesshub.cy" ? null : `${CY_HOST}${pathname}${search}`;
 }
 
-/** Public address of a Greece edition page or a Greece-only story: businesshub.gr once live, else businesshub.cy. */
-export function greeceUrl(appPath: string, live: boolean = GR_DOMAIN_LIVE): string {
-  return live ? `${GR_HOST}${grHref(appPath, true)}` : `${CY_HOST}${appPath}`;
+/** Public address of a Greece edition page or a Greece-only story: businesshub.gr once live, else the site's own address. */
+export function greeceUrl(appPath: string, live: boolean = GR_DOMAIN_LIVE, base: string = SITE_HOST): string {
+  return live ? `${GR_HOST}${grHref(appPath, true)}` : `${base}${appPath}`;
 }
 
 export function editionFromLocation(hostname: string, pathname: string): Edition {

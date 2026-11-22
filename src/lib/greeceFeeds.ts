@@ -1,7 +1,7 @@
 // Pure builders for the Greece edition's own sitemap, Google News sitemap and Greek RSS feed
 // (written by scripts/generate-sitemap.ts and scripts/generate-rss.ts). Addresses are on
 // businesshub.gr once GR_DOMAIN_LIVE is on, and on businesshub.cy/greece until then.
-import { COMPARE_PATH, CY_HOST, GR_DOMAIN_LIVE, GR_HOST, GR_PAGES, GR_SECTIONS, grHref } from "./edition";
+import { COMPARE_PATH, GR_DOMAIN_LIVE, GR_HOST, GR_PAGES, GR_SECTIONS, SITE_HOST, grHref } from "./edition";
 import { articlePath } from "./articleUrl";
 import { buildNewsSitemap, buildUrlset, dateOnly, recentNews, type SitemapEntry } from "./sitemap";
 import { buildRssFeed, plainSummary, selectItems, type RssItem } from "./rss";
@@ -22,7 +22,7 @@ export const GREECE_NEWS_SITEMAP_PATH = "/news-sitemap-gr.xml";
 export const GREECE_RSS_PATH = "/rss/greece.xml";
 
 export function greeceBase(live = GR_DOMAIN_LIVE): string {
-  return live ? GR_HOST : CY_HOST;
+  return live ? GR_HOST : SITE_HOST;
 }
 
 /** An app path ("/greece/banking", "/article/…") as written on the Greece edition's host. */

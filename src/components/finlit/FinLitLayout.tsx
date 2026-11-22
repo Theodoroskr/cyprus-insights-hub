@@ -9,6 +9,7 @@ import { FinLitNav, MODULE_ICONS } from "@/components/finlit/FinLitNav";
 import { moduleByKey } from "@/lib/finlitModules";
 import { FL_BORDER_L, FL_BORDER_SOFT, FL_HOVER_BG, FL_HOVER_BORDER, FL_SOFT, FL_TEXT, FL_TINT, moduleAccent } from "@/lib/finlitPalette";
 import { useAcademyLang, type Lang } from "@/lib/academy";
+import { SITE_URL } from "@/lib/seo";
 
 type Props = { moduleKey: string; title: string; description: string; intro: string; related?: string[]; children: (lang: Lang) => React.ReactNode };
 
@@ -24,7 +25,7 @@ export function FinLitLayout({ moduleKey, title, description, intro, related = [
       <div aria-hidden className="h-1.5 bg-gradient-to-r from-finlit-1 via-finlit-3 to-finlit-2" />
       <TopNavigation onSearch={() => {}} />
       <SEOHead title={t(title)} description={t(description)} path={m.path} breadcrumbs={crumbs}
-        jsonLd={{ "@context": "https://schema.org", "@type": "WebPage", name: m.en, alternateName: m.el, inLanguage: ["en", "el"], url: `https://businesshub.cy${m.path}` }} />
+        jsonLd={{ "@context": "https://schema.org", "@type": "WebPage", name: m.en, alternateName: m.el, inLanguage: ["en", "el"], url: `${SITE_URL}${m.path}` }} />
       <FinLitNav lang={lang} />
       <div className="container mx-auto px-4 py-8 space-y-10">
         <header className={`space-y-3 rounded-2xl border ${FL_BORDER_SOFT[a]} ${FL_TINT[a]} border-l-4 ${FL_BORDER_L[a]} px-5 py-5`}>

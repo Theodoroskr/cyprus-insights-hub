@@ -4,24 +4,24 @@ import { canonicalUrl, metaDescription, readStaticPreview, routeMeta, SITE_DESCR
 describe("canonicalUrl", () => {
   it("points a story page at its own address, not the homepage", () => {
     expect(canonicalUrl("/article/a7c5494b-b65f-460e-99ad-3f8e288b18f2")).toBe(
-      "https://businesshub.cy/article/a7c5494b-b65f-460e-99ad-3f8e288b18f2",
+      "https://bhubnetwork.com/article/a7c5494b-b65f-460e-99ad-3f8e288b18f2",
     );
   });
 
   it("points a company page at its own address", () => {
     expect(canonicalUrl("/directory/company/bank-of-cyprus")).toBe(
-      "https://businesshub.cy/directory/company/bank-of-cyprus",
+      "https://bhubnetwork.com/directory/company/bank-of-cyprus",
     );
   });
 
   it("gives one address per page regardless of trailing slash or query string", () => {
     expect(canonicalUrl("/news/some-story/?utm_source=facebook")).toBe(
-      "https://businesshub.cy/news/some-story",
+      "https://bhubnetwork.com/news/some-story",
     );
   });
 
   it("keeps the homepage as the bare domain with a slash", () => {
-    expect(canonicalUrl("/")).toBe("https://businesshub.cy/");
+    expect(canonicalUrl("/")).toBe("https://bhubnetwork.com/");
   });
 });
 
@@ -86,5 +86,14 @@ describe("metaDescription", () => {
   it("uses the fallback when there is no text", () => {
     expect(metaDescription("  ", "fallback")).toBe("fallback");
     expect(metaDescription(null, "fallback")).toBe("fallback");
+  });
+});
+
+describe("primary domain", () => {
+  it("names bhubnetwork.com as the site address while it is the primary domain", async () => {
+    const { SITE_HOST } = await import("@/lib/edition");
+    const { SITE_URL: SITEMAP_URL } = await import("@/lib/sitemap");
+    expect(SITE_HOST).toBe("https://bhubnetwork.com");
+    expect(SITEMAP_URL).toBe("https://bhubnetwork.com");
   });
 });

@@ -2,20 +2,20 @@ import { describe, expect, it } from "vitest";
 import { buildSitemapIndex, buildUrlset, chunk, STATIC_ENTRIES } from "./sitemap";
 
 describe("sitemap", () => {
-  it("points every sitemap file at businesshub.cy", () => {
+  it("points every sitemap file at bhubnetwork.com", () => {
     const xml = buildSitemapIndex(["/sitemaps/static.xml", "/sitemaps/companies-1.xml"]);
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     expect(locs).toEqual([
-      "https://businesshub.cy/sitemaps/static.xml",
-      "https://businesshub.cy/sitemaps/companies-1.xml",
+      "https://bhubnetwork.com/sitemaps/static.xml",
+      "https://bhubnetwork.com/sitemaps/companies-1.xml",
     ]);
   });
 
-  it("points every page URL at businesshub.cy", () => {
+  it("points every page URL at bhubnetwork.com", () => {
     const xml = buildUrlset(STATIC_ENTRIES);
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     expect(locs.length).toBe(STATIC_ENTRIES.length);
-    expect(locs.every((l) => l.startsWith("https://businesshub.cy/"))).toBe(true);
+    expect(locs.every((l) => l.startsWith("https://bhubnetwork.com/"))).toBe(true);
   });
 
   it("keeps Who's Who out of the sitemap", () => {

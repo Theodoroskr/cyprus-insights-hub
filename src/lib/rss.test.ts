@@ -13,14 +13,14 @@ const news = (id: string, published_at: string | null, extra: Partial<Parameters
 });
 
 describe("rss", () => {
-  it("links every story to businesshub.cy", () => {
+  it("links every story to bhubnetwork.com", () => {
     const xml = buildRssFeed(
       { title: "T", description: "D", selfPath: "/rss.xml" },
       selectItems([newsToItem(news("a1", "2026-11-09T10:00:00Z"))]),
     );
     const links = [...xml.matchAll(/<link>([^<]+)<\/link>/g)].map((m) => m[1]);
-    expect(links).toContain("https://businesshub.cy/article/a1");
-    expect(links.every((l) => l.startsWith("https://businesshub.cy/"))).toBe(true);
+    expect(links).toContain("https://bhubnetwork.com/article/a1");
+    expect(links.every((l) => l.startsWith("https://bhubnetwork.com/"))).toBe(true);
   });
 
   it("puts the newest story first and keeps at most 50", () => {

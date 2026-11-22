@@ -15,6 +15,7 @@ import { FinLitNav } from "@/components/finlit/FinLitNav";
 import { AcademyCrumbs, LangSwitch } from "@/components/academy/AcademyChrome";
 import { LessonStats } from "@/components/academy/LessonStats";
 import { T, hasGreek, pick, useAcademyLang, type Lesson, type Programme } from "@/lib/academy";
+import { SITE_URL } from "@/lib/seo";
 
 const CALCS: CalculatorKey[] = ["budget", "goal", "compound", "loan", "inflation", "emergency"];
 
@@ -43,7 +44,7 @@ export default function LessonPage() {
       {p && l && <SEOHead title={`${l.title_en} — ${p.title_en} | Financial Literacy Academy`} description={`${l.summary_en} ${l.title_el}.`}
         path={`/financial-literacy/academy/${p.slug}/${l.slug}`}
         jsonLd={{ "@context": "https://schema.org", "@type": "LearningResource", name: l.title_en, alternateName: l.title_el, description: l.summary_en, inLanguage: ["en", "el"], isAccessibleForFree: true,
-          timeRequired: `PT${l.minutes}M`, learningResourceType: "Lesson", isPartOf: { "@type": "Course", name: p.title_en, url: `https://businesshub.cy/financial-literacy/academy/${p.slug}` },
+          timeRequired: `PT${l.minutes}M`, learningResourceType: "Lesson", isPartOf: { "@type": "Course", name: p.title_en, url: `${SITE_URL}/financial-literacy/academy/${p.slug}` },
           provider: { "@type": "Organization", name: "BusinessHub.cy" } }} />}
       <main className="container mx-auto px-4 py-8 max-w-3xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">

@@ -45,7 +45,7 @@ describe("domain redirects", () => {
   it("Greece canonicals switch to businesshub.gr when live", () => {
     expect(greeceCanonical("/greece/banking", "", true)).toBe("https://businesshub.gr/banking");
     expect(greeceUrl("/article/x/y", true)).toBe("https://businesshub.gr/article/x/y");
-    expect(greeceUrl("/greece", false)).toBe("https://businesshub.cy/greece");
+    expect(greeceUrl("/greece", false)).toBe("https://bhubnetwork.com/greece");
   });
 });
 
@@ -58,8 +58,8 @@ describe("Greece sitemap and feed", () => {
     expect(xml).toContain("<loc>https://businesshub.gr/article/11111111-1111-1111-1111-111111111111/eurobank-buyback</loc>");
     expect(xml).toContain("<lastmod>2026-11-17</lastmod>");
   });
-  it("uses businesshub.cy/greece addresses until the domain is live", () => {
-    expect(greeceSitemap([], [], false)).toContain("<loc>https://businesshub.cy/greece</loc>");
+  it("uses the primary domain's /greece addresses until the .gr domain is live", () => {
+    expect(greeceSitemap([], [], false)).toContain("<loc>https://bhubnetwork.com/greece</loc>");
   });
   it("RSS feed is in Greek with Greek headlines", () => {
     const xml = greeceRss([row()], true, new Date("2026-11-17T12:00:00Z"));

@@ -1,7 +1,8 @@
 // Builds per-story HTML (copy of built index.html with that story's head tags) so
 // link-preview robots (Facebook, WhatsApp, LinkedIn) see the story's own title/photo.
 import { articlePath } from "./articleUrl";
-const SITE = "https://businesshub.cy";
+import { SITE_HOST } from "./edition";
+const SITE = SITE_HOST;
 
 export interface PreviewStory {
   id: string;

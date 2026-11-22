@@ -6,12 +6,12 @@ const item = { title: "A", path: "/article/1", description: "x", publishedAt: "2
 
 describe("rss images", () => {
   it("gives a story without a photo its hub picture", () => {
-    const xml = buildRssFeed(meta, [{ ...item, category: "Compliance", imageUrl: null }], "https://businesshub.cy");
-    expect(xml).toContain('media:content url="https://businesshub.cy/images/og-compliancehub.png"');
-    expect(xml).toContain('<enclosure url="https://businesshub.cy/images/og-compliancehub.png"');
+    const xml = buildRssFeed(meta, [{ ...item, category: "Compliance", imageUrl: null }], "https://bhubnetwork.com");
+    expect(xml).toContain('media:content url="https://bhubnetwork.com/images/og-compliancehub.png"');
+    expect(xml).toContain('<enclosure url="https://bhubnetwork.com/images/og-compliancehub.png"');
   });
   it("keeps a story's own photo", () => {
-    const xml = buildRssFeed(meta, [{ ...item, imageUrl: "https://x.cy/p.jpg" }], "https://businesshub.cy");
+    const xml = buildRssFeed(meta, [{ ...item, imageUrl: "https://x.cy/p.jpg" }], "https://bhubnetwork.com");
     expect(xml).toContain('<enclosure url="https://x.cy/p.jpg" type="image/jpeg"');
   });
 });

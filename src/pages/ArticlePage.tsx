@@ -3,7 +3,7 @@ import { articleImage, FALLBACK_IMAGE } from "@/lib/fallbackImage";
 import { SOCIAL_SAME_AS } from "@/config/social";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
-import { canonicalUrl } from "@/lib/seo";
+import { SITE_URL, canonicalUrl } from "@/lib/seo";
 import { previewImage } from "@/lib/storyPreview";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -266,18 +266,18 @@ export default function ArticlePage() {
           inLanguage: isEl ? "el" : "en",
           datePublished: article.published_at || undefined,
           dateModified: article.updated_at || article.published_at || undefined,
-          image: heroSrc.startsWith("http") ? [heroSrc] : [`https://businesshub.cy${heroSrc}`],
+          image: heroSrc.startsWith("http") ? [heroSrc] : [`${SITE_URL}${heroSrc}`],
           articleSection: verticalLabel[article.vertical] || article.vertical,
           keywords: article.tags?.join(", ") || undefined,
           abstract: tx.why_it_matters || undefined,
-          mainEntityOfPage: `https://businesshub.cy${articlePath(article.id, article.title)}`,
+          mainEntityOfPage: canonicalUrl(articlePath(article.id, article.title)),
           isBasedOn: article.source_url || undefined,
-          author: { "@type": "Organization", name: "BusinessHub.cy", url: "https://businesshub.cy/" },
+          author: { "@type": "Organization", name: "BusinessHub.cy", url: `${SITE_URL}/` },
           publisher: {
             "@type": "Organization",
             name: "BusinessHub.cy",
-            url: "https://businesshub.cy/",
-            logo: { "@type": "ImageObject", url: "https://businesshub.cy/apple-touch-icon.png" },
+            url: `${SITE_URL}/`,
+            logo: { "@type": "ImageObject", url: `${SITE_URL}/apple-touch-icon.png` },
             sameAs: SOCIAL_SAME_AS,
           },
         }}

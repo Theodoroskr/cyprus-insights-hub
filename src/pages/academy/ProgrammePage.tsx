@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { FinLitNav } from "@/components/finlit/FinLitNav";
 import { AcademyCrumbs, LangSwitch } from "@/components/academy/AcademyChrome";
 import { LEVEL_LABEL, T, pick, useAcademyLang, type Lesson, type Programme } from "@/lib/academy";
+import { SITE_URL } from "@/lib/seo";
 
 export default function ProgrammePage() {
   const { programme: slug } = useParams();
@@ -35,7 +36,7 @@ export default function ProgrammePage() {
       {p && <SEOHead title={`${p.title_en} — Free Course | Financial Literacy Academy`} description={`${p.summary_en} ${p.title_el}.`}
         path={`/financial-literacy/academy/${p.slug}`}
         jsonLd={{ "@context": "https://schema.org", "@type": "Course", name: p.title_en, alternateName: p.title_el, description: p.summary_en, inLanguage: ["en", "el"], isAccessibleForFree: true,
-          educationalLevel: p.level, provider: { "@type": "Organization", name: "BusinessHub.cy", url: "https://businesshub.cy" },
+          educationalLevel: p.level, provider: { "@type": "Organization", name: "BusinessHub.cy", url: SITE_URL },
           hasCourseInstance: { "@type": "CourseInstance", courseMode: "online", courseWorkload: `PT${(q.data?.lessons ?? []).reduce((a, l) => a + l.minutes, 0)}M` } }} />}
       <main className="container mx-auto px-4 py-8 space-y-8 max-w-4xl">
         <div className="flex flex-wrap items-center justify-between gap-3"><AcademyCrumbs lang={lang} items={p ? [{ label: pick(p, "title", lang) }] : []} /><LangSwitch lang={lang} setLang={setLang} /></div>

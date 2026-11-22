@@ -18,7 +18,7 @@ User-agent: *
 Allow: /
 Disallow: /demo/
 
-Sitemap: https://businesshub.cy/sitemap.xml
-Sitemap: https://businesshub.cy/news-sitemap.xml
-Sitemap: https://businesshub.cy/sitemap-gr.xml
-Sitemap: https://businesshub.cy/news-sitemap-gr.xml
+Sitemap: https://bhubnetwork.com/sitemap.xml
+Sitemap: https://bhubnetwork.com/news-sitemap.xml
+Sitemap: https://bhubnetwork.com/sitemap-gr.xml
+Sitemap: https://bhubnetwork.com/news-sitemap-gr.xml

@@ -1,7 +1,9 @@
 // Pure helpers used by scripts/generate-sitemap.ts to build the sitemap files
 // served from the site's own domain.
 
-export const SITE_URL = "https://businesshub.cy";
+import { SITE_HOST } from "./edition";
+
+export const SITE_URL = SITE_HOST;
 
 /** Max URLs per child sitemap (the protocol allows 50,000). */
 export const COMPANIES_PER_SITEMAP = 20000;

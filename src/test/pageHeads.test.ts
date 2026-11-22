@@ -11,7 +11,7 @@ describe("publish-time page heads", () => {
   });
   it("points each page's canonical at itself, not the homepage", () => {
     const html = buildPageHtml(TPL, sectionHead("/funding")!);
-    expect(html).toContain('rel="canonical" href="https://businesshub.cy/funding"');
+    expect(html).toContain('rel="canonical" href="https://bhubnetwork.com/funding"');
     expect(html).not.toContain("Cyprus Business Intelligence Platform");
     expect(html.match(/name="description"/g)).toHaveLength(1);
   });

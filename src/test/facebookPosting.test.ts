@@ -53,7 +53,7 @@ describe("story selection", () => {
     const picked = pickArticles([{ ...art("1", "2026-11-14T10:00:00Z", "energy", "eu:y"), image_url: img }], new Set(), 1, [], today);
     expect(picked).toHaveLength(0);
   });
-  it("links to the article on businesshub.cy", () => expect(articleLink("abc")).toBe("https://businesshub.cy/article/abc"));
+  it("links to the article on bhubnetwork.com", () => expect(articleLink("abc")).toBe("https://bhubnetwork.com/article/abc"));
 });
 
 describe("post picture", () => {
@@ -76,7 +76,7 @@ describe("post picture", () => {
     for (const s of ["general", "fintech", "compliance", "regtech", "sme"]) expect(SOCIAL_IMAGE_LIBRARY[s].length).toBeGreaterThanOrEqual(4);
   });
   it("caption ends with a link to the article", () =>
-    expect(buildPhotoCaption(art("xyz", "2026-11-09T05:00:00Z"))).toMatch(/Read more: https:\/\/businesshub\.cy\/article\/xyz$/));
+    expect(buildPhotoCaption(art("xyz", "2026-11-09T05:00:00Z"))).toMatch(/Read more: https:\/\/bhubnetwork\.com\/article\/xyz$/));
 });
 
 import { isSameHeadline } from "../../supabase/functions/_shared/facebookPosting";

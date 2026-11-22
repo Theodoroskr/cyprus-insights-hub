@@ -37,3 +37,4 @@
 - ComplianceHub: only editor-published `compliance_items`/`fatf_releases` are public; pipeline rules in `supabase/functions/ingest-compliance/AGENTS.md`. Why: every claim verified and sourced.
 - Funding & Subsidies: rules in `supabase/functions/ingest-funding/AGENTS.md`.
 - Corruption & Public Integrity (`/research/corruption-perceptions/:market`): rules in `supabase/functions/ingest-integrity/AGENTS.md`.
+- Site address: canonicals, sitemaps, robots, feeds, share links and JSON-LD use `SITE_HOST` (`src/lib/edition.ts`, = the primary domain; edge functions keep their own copy in `_shared/indexNow.ts`/`_shared/facebookPosting.ts`/`render-company`). Why: Google must be told the address the site actually serves, not one that redirects.

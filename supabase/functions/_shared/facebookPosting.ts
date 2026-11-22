@@ -1,7 +1,7 @@
 // Pure helpers for automatic Facebook Page posting (used by post-to-facebook and tests).
 import { isGenericImage } from "./genericImage.ts";
 
-export const SITE_URL = "https://businesshub.cy";
+export const SITE_URL = "https://bhubnetwork.com"; // the primary domain; businesshub.cy forwards here
 /** Last Cyprus-time hour in which the hourly job posts. */
 export const LAST_POST_HOUR = 21;
 /** Hard cap per hourly run, so a late start never dumps the whole day's allowance at once. */

@@ -5,22 +5,22 @@ import { resolve } from "path";
 
 describe("IndexNow", () => {
   it("builds story addresses on the site's own domain", () => {
-    expect(pageUrl({ kind: "article", idOrSlug: "a7c5494b" })).toBe("https://businesshub.cy/article/a7c5494b");
-    expect(pageUrl({ kind: "news", idOrSlug: "cysec-crypto-guidelines-2025" })).toBe("https://businesshub.cy/news/cysec-crypto-guidelines-2025");
+    expect(pageUrl({ kind: "article", idOrSlug: "a7c5494b" })).toBe("https://bhubnetwork.com/article/a7c5494b");
+    expect(pageUrl({ kind: "news", idOrSlug: "cysec-crypto-guidelines-2025" })).toBe("https://bhubnetwork.com/news/cysec-crypto-guidelines-2025");
   });
 
   it("never submits the same page twice", () => {
-    const already = new Set(["https://businesshub.cy/article/1"]);
-    const urls = ["https://businesshub.cy/article/1", "https://businesshub.cy/article/2", "https://businesshub.cy/article/2"];
-    expect(urlsToSubmit(urls, already)).toEqual(["https://businesshub.cy/article/2"]);
+    const already = new Set(["https://bhubnetwork.com/article/1"]);
+    const urls = ["https://bhubnetwork.com/article/1", "https://bhubnetwork.com/article/2", "https://bhubnetwork.com/article/2"];
+    expect(urlsToSubmit(urls, already)).toEqual(["https://bhubnetwork.com/article/2"]);
   });
 
-  it("only submits addresses on businesshub.cy", () => {
+  it("only submits addresses on bhubnetwork.com", () => {
     expect(urlsToSubmit(["https://example.com/x"], new Set())).toEqual([]);
   });
 
   it("caps a run's batch", () => {
-    const urls = Array.from({ length: 10 }, (_, i) => `https://businesshub.cy/article/${i}`);
+    const urls = Array.from({ length: 10 }, (_, i) => `https://bhubnetwork.com/article/${i}`);
     expect(urlsToSubmit(urls, new Set(), 3)).toHaveLength(3);
   });
 
@@ -32,7 +32,7 @@ describe("IndexNow", () => {
   });
 
   it("serves the key file the payload points to", () => {
-    const payload = buildIndexNowPayload(["https://businesshub.cy/article/1"]);
+    const payload = buildIndexNowPayload(["https://bhubnetwork.com/article/1"]);
     expect(payload.keyLocation).toBe(KEY_LOCATION);
     const file = readFileSync(resolve(__dirname, `../../public/${payload.key}.txt`), "utf8").trim();
     expect(file).toBe(payload.key);

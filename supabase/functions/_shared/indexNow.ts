@@ -4,7 +4,7 @@
  * Google does not use IndexNow; it finds new stories through the sitemap and site links.
  * The key is public by design and must also be served at KEY_LOCATION on the site.
  */
-export const SITE_HOST = "businesshub.cy";
+export const SITE_HOST = "bhubnetwork.com"; // the primary domain; businesshub.cy forwards here
 export const SITE_ORIGIN = `https://${SITE_HOST}`;
 export const INDEXNOW_KEY = "9c4ebd5f970033eecf01b2ee3b75e90e";
 export const KEY_LOCATION = `${SITE_ORIGIN}/${INDEXNOW_KEY}.txt`;

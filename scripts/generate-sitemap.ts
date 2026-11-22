@@ -7,6 +7,7 @@ import { resolve } from "path";
 import { GREECE_NEWS_SITEMAP_PATH, GREECE_SITEMAP_PATH, greeceBase, greeceNewsSitemap, greeceSitemap, robotsWithSitemaps, type GreeceRow } from "../src/lib/greeceFeeds";
 import {
   COMPANIES_PER_SITEMAP,
+  SITE_URL,
   STATIC_ENTRIES,
   buildSitemapIndex,
   buildUrlset,
@@ -162,8 +163,8 @@ async function main() {
   writeFileSync(resolve(`public${GREECE_NEWS_SITEMAP_PATH}`), greeceNewsSitemap(greeceRows));
   const robotsFile = resolve("public/robots.txt");
   writeFileSync(robotsFile, robotsWithSitemaps(readFileSync(robotsFile, "utf8"), [
-    "https://businesshub.cy/sitemap.xml",
-    "https://businesshub.cy/news-sitemap.xml",
+    `${SITE_URL}/sitemap.xml`,
+    `${SITE_URL}/news-sitemap.xml`,
     `${greeceBase()}${GREECE_SITEMAP_PATH}`,
     `${greeceBase()}${GREECE_NEWS_SITEMAP_PATH}`,
   ]));
