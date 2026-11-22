@@ -135,7 +135,7 @@ export default function CorruptionPerceptionsPage() {
   return (
     <div className="min-h-screen bg-background" lang={lang}>
       <SEOHead title={h1 || "Corruption Perceptions Index"} description={t.about} />
-      <TopNavigation />
+      <TopNavigation onSearch={() => {}} />
       <main className="container mx-auto max-w-6xl px-4 py-8 space-y-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <nav aria-label="Market" className="inline-flex rounded-md border p-1">
