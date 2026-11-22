@@ -38,7 +38,8 @@ export function installImageFallback() {
       if (!(img instanceof HTMLImageElement)) return;
       if (img.dataset.noFallback !== undefined) return;
       if (img.closest("[data-banner-slot]")) return;
-      if (/rounded-full|object-contain/.test(img.className)) return;
+      // Whole class names only: "[&.img-contain]:object-contain" on story photos must not count as a logo
+      if (/(^|\s)(rounded-full|object-contain)(\s|$)/.test(img.className)) return;
       if (ALL.has(img.getAttribute("src") || "")) return;
       img.srcset = "";
       img.src = fallbackFor(img.dataset.vertical, img.dataset.seed || img.alt || img.src);

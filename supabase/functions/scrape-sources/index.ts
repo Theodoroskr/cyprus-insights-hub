@@ -5,7 +5,7 @@ import { removeStrayGreek } from "../_shared/strayGreek.ts";
 import { grEditionFields } from "../_shared/greeceEdition.ts";
 import { isGreeceRelated } from "../_shared/greeceRelated.ts";
 import { cleanArticleMarkdown } from "./cleanArticleMarkdown.ts";
-import { articlePageProblem, canonicalArticleUrl, describesMissingPage, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
+import { articlePageProblem, canonicalArticleUrl, notAStoryPage, describesMissingPage, listingPageProblem, prepareListingMarkdown } from "./listingPage.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 import { routeSourceItem, resolveSourcePath } from "../_shared/announcements.ts";
@@ -473,6 +473,7 @@ Deno.serve(async (req) => {
             const { data: dupHash } = await supabase
               .from("cna_articles").select("id").eq("content_hash", contentHash).maybeSingle();
             if (dupHash) { sourceResult.duplicates = (sourceResult.duplicates || 0) + 1; continue; }
+            if (notAStoryPage(article.url, article.title, cleanArticleMarkdown(fullBody))) { console.warn(`  Rejected non-story page: ${article.url}`); sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
             if (articlePageProblem(fullBody, deepStatus)) { console.warn(`  Rejected error page: ${article.url}`); sourceResult.rejected = (sourceResult.rejected || 0) + 1; continue; }
 
             let originalLanguage = "en";

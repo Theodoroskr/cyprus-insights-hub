@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { canonicalArticleUrl, listingPageProblem, prepareListingMarkdown } from "../../supabase/functions/scrape-sources/listingPage";
+import { canonicalArticleUrl, listingPageProblem, notAStoryPage, prepareListingMarkdown } from "../../supabase/functions/scrape-sources/listingPage";
 
 const realListing = "# News\n\n" + Array.from({ length: 10 }, (_, i) => `- [Announcement number ${i} about tax](https://example.cy/news/${i})`).join("\n");
 
@@ -135,5 +135,30 @@ describe("scrape-sources article loop", () => {
     expect(declared).toBeLessThan(blockOpen);
     expect(indentOf(declared)).toBe(indentOf(blockOpen));
     expect(used).toBeGreaterThan(blockOpen);
+  });
+});
+
+describe("notAStoryPage", () => {
+  it("rejects topic, section and index pages", () => {
+    expect(notAStoryPage("https://www.oecd.org/en/topics/gender-equality.html", "Gender equality")).not.toBeNull();
+    expect(notAStoryPage("https://www.esma.europa.eu/esmas-activities/risk-analysis", "Risk Analysis and Monitoring")).not.toBeNull();
+    expect(notAStoryPage("https://www.ecb.europa.eu/pub/annual/html/index.en.html", "Annual Report")).not.toBeNull();
+    expect(notAStoryPage("https://www.parliament.cy/en/live-streaming", "Live streaming 16/04/2026 11.00")).not.toBeNull();
+  });
+  it("rejects picture files and holding pages", () => {
+    expect(notAStoryPage("https://www.gov.cy/media/2026/09/photo-384x256.jpg", "Statement by the")).not.toBeNull();
+    expect(notAStoryPage("https://www.eba.europa.eu/some-page", "Maintenance in Progress")).not.toBeNull();
+  });
+  it("rejects a photo gallery only when it has no written report", () => {
+    const url = "https://www.gov.cy/en/photo-galleries/charity-event-on-road-safety/";
+    expect(notAStoryPage(url, "Charity event on road safety", "![photo](a.jpg)")).not.toBeNull();
+    expect(notAStoryPage(url, "Charity event on road safety", "word ".repeat(80))).toBeNull();
+  });
+  it("accepts a single item on a /news address with an id in the link", () => {
+    expect(notAStoryPage("https://www.bankofgreece.gr/en/news-and-media/press-office/news-list/news?announcement=ca57", "New e-Appointment service")).toBeNull();
+    expect(notAStoryPage("https://www.research.org.cy/en/news/", "News (English Section)")).not.toBeNull();
+  });
+  it("accepts ordinary story links", () => {
+    expect(notAStoryPage("https://www.mastercard.com/news/press/2026/may/inter-miami-cf-names-mastercard/", "Inter Miami CF names Mastercard as Exclusive Payment Services Partner")).toBeNull();
   });
 });

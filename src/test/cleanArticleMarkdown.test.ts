@@ -79,3 +79,32 @@ describe("source listings", () => {
     expect(out).toBe(story);
   });
 });
+
+describe("cleanArticleMarkdown – website code and promo boxes", () => {
+  const story = "Inter Miami CF today announced a partnership with Mastercard, naming the global technology company as the Exclusive Payment Services Partner of the Club and Nu Stadium.";
+  const scraped = [
+    `<div class="algolia-analytics" data-promoted="\${hit?.\\_rankingInfo?.promoted}"><a class="hit-card" href="\${hit.path}" > \${hit.title} </a></div> <p class='no-results-header'>No Results Found.</p><p class='no-results-body'>Please try again with a different search query.</p>`,
+    "What are you looking for?",
+    "Featured Content",
+    "[**Turn everyday transactions into lasting loyalty** \\\\",
+    "Traditional account management is no longer enough. Learn what consumers are looking for in their post-purchase experience in our new research with Datos Insights.](https://www.mastercard.com/x.html) May 15, 2026 \\| Miami, FL",
+    "## Inter Miami CF names Mastercard as Exclusive Payment Services Partner",
+    story,
+    "Fans can expect exclusive activations, as reported in [the club's own announcementopens in a new tab](https://example.com/a), and more rewards for cardholders at the stadium.",
+  ].join("\n\n");
+
+  it("drops search-widget code and starts at the real story", () => {
+    const out = cleanArticleMarkdown(scraped);
+    expect(out.startsWith(story)).toBe(true);
+    expect(out).not.toMatch(/algolia|\$\{|No Results Found|Datos Insights/);
+  });
+
+  it("removes the 'opens in a new tab' words glued onto links", () => {
+    expect(cleanArticleMarkdown(scraped)).toContain("[the club's own announcement](https://example.com/a)");
+  });
+
+  it("keeps the words inside simple formatting tags", () => {
+    const html = "<p>The Central Bank said lending to households rose by <b>4.2%</b> in October, the fastest pace since 2019, according to its monthly statistics.</p>";
+    expect(cleanArticleMarkdown(html)).toBe("The Central Bank said lending to households rose by **4.2%** in October, the fastest pace since 2019, according to its monthly statistics.");
+  });
+});

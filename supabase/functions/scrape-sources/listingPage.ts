@@ -104,6 +104,43 @@ function dropMenus(lines: string[]): string[] {
   return out;
 }
 
+/** Links that lead to a section, topic, gallery, live-stream or image instead of a single story. */
+const NOT_STORY_URL = [
+  /\/topics?\//i,
+  /\/esmas-activities\//i,
+  /\/index\.[a-z]{2}\.html$/i,
+  /\/live-streaming\/?$/i,
+  /\.(jpe?g|png|gif|webp|svg)(\?.*)?$/i,
+  /\/(home|homepage)\/?$/i,
+  /#!?\/?$/,
+];
+/** A bare news/press listing address; with a query string (?id=, ?announcement=) it points at one item. */
+const LISTING_URL = /\/(news|press|announcements)\/?$/i;
+/** Photo galleries count as stories only when they come with a written report. */
+const GALLERY_URL = /\/photo-galler(y|ies)\//i;
+/** Headlines that name a website section or holding page rather than a story. */
+const NOT_STORY_TITLE =
+  /^(featured story|maintenance in progress|scheduled portal maintenance|photo gallery|\d{1,2} \w+ \d{4} photo gallery|daily news|archive( \(.*\))?|news( \(.*\))?|live streaming\b.*|plenary agenda|weekly schedule of parliamentary committees|parliamentary committee reports|parliamentary diplomacy|latest monetary policy press conference|statement by the)$/i;
+
+function wordCount(text: string | null | undefined): number {
+  return (text || "").replace(/!\[[^\]]*\]\([^)]*\)/g, " ").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").split(/\s+/).filter((w) => /[\p{L}\d]/u.test(w)).length;
+}
+
+/** Why a collected link is not a single story (section/topic page, gallery, image), or null. */
+export function notAStoryPage(url: string | null | undefined, title: string | null | undefined, storyText?: string | null): string | null {
+  const u = (url || "").trim();
+  if (u) {
+    let path = u;
+    let query = "";
+    try { const parsed = new URL(u); path = parsed.pathname + (parsed.hash || ""); query = parsed.search; } catch { /* keep raw */ }
+    // A query string (?id=, ?announcement=) points at one item, even on a /news path
+    if (NOT_STORY_URL.some((re) => re.test(path)) || (!query && LISTING_URL.test(path))) return "Link is a section page or file, not a story";
+    if (GALLERY_URL.test(path) && wordCount(storyText) < 60) return "Photo gallery without a written report";
+  }
+  if (NOT_STORY_TITLE.test((title || "").trim())) return "Headline names a website section, not a story";
+  return null;
+}
+
 const ARTICLE_ERROR_LINE = /^\s*#+\s*(?:404|410|not found|page not found|server error)\b|sorry,? (?:this|the) page (?:does not exist|could not be found|is not available)|the page you (?:are|were) looking for (?:could not be found|does not exist|is no longer)|404 - file or directory not found|error 404|404 not found/im;
 
 /**
