@@ -347,3 +347,73 @@ export function canAutoPublish(
   if (item.status !== "review" || item.is_test || item.reviewed_at || item.change_pending) return false;
   return !!item.title_en?.trim() && !!item.summary_en?.trim();
 }
+
+// ---------------- EU Publications Office (Cellar SPARQL) ----------------
+export const CELLAR_SPARQL = "https://publications.europa.eu/webapi/rdf/sparql";
+
+/** Official Cellar query for English-titled EU legal acts (CELEX sector 3) on restrictive measures dated on/after `since` (YYYY-MM-DD). */
+export function cellarRestrictiveQuery(since: string, limit = 200): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(since)) throw new Error("since must be YYYY-MM-DD");
+  return `PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>
+SELECT DISTINCT ?celex ?title ?date WHERE {
+  ?work cdm:resource_legal_id_celex ?celex ; cdm:work_date_document ?date .
+  FILTER(?date >= "${since}"^^xsd:date)
+  FILTER(STRSTARTS(STR(?celex), "3"))
+  ?expr cdm:expression_belongs_to_work ?work ;
+        cdm:expression_uses_language <http://publications.europa.eu/resource/authority/language/ENG> ;
+        cdm:expression_title ?title .
+  FILTER(CONTAINS(LCASE(STR(?title)), "restrictive measures"))
+} ORDER BY DESC(?date) LIMIT ${Math.max(1, Math.min(500, Math.floor(limit)))}`;
+}
+
+/** SPARQL JSON results → one row per CELEX number (first title kept). */
+export function parseCellarResults(body: unknown): { celex: string; title: string; date: string | null }[] {
+  // deno-lint-ignore no-explicit-any
+  const rows = (body as any)?.results?.bindings;
+  if (!Array.isArray(rows)) return [];
+  const seen = new Map<string, { celex: string; title: string; date: string | null }>();
+  for (const r of rows) {
+    const celex = String(r?.celex?.value ?? "").trim();
+    const title = clean(String(r?.title?.value ?? ""));
+    if (!/^3\d{4}[A-Z]{1,2}\d{3,5}(?:R\(\d{2}\))?$/.test(celex) || !title || seen.has(celex)) continue;
+    seen.set(celex, { celex, title, date: parseDateLoose(String(r?.date?.value ?? "")) });
+  }
+  return [...seen.values()];
+}
+
+// ---------------- MOKAS (Cyprus FIU) ----------------
+/** Greek accents dropped so "ΣΕΜΙΝΑΡΙΟ" and "σεμινάριο" match the same rule. */
+const plainGreek = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const MOKAS_SKIP = /seminar|webinar|forum|programme for|conference|training|σεμιναρ|συνεδρι/i;
+export const isMokasRelevant = (title: string) => !!title && !MOKAS_SKIP.test(plainGreek(title));
+
+/** MOKAS notifications list (Lotus Notes view): date line + "All/<UNID>" link per notice. */
+export function parseMokasNotices(html: string, base = "https://www.law.gov.cy"): { id: string; url: string; title: string; date: string | null }[] {
+  const out: { id: string; url: string; title: string; date: string | null }[] = [];
+  const seen = new Set<string>();
+  const re = /<font[^>]*class="dateformat"[^>]*>\s*([\d/.]+)\s*<\/font>[\s\S]{0,200}?<a[^>]*href="([^"]*\/All\/([0-9A-F]{32})\?OpenDocument)"[^>]*>([\s\S]*?)<\/a>/gi;
+  for (const m of html.matchAll(re)) {
+    const id = m[3].toUpperCase();
+    const title = clean(m[4]);
+    if (!title || seen.has(id)) continue;
+    seen.add(id);
+    out.push({ id, url: `${base}/law/mokas/mokas.nsf/All/${id}?OpenDocument`, title, date: parseDateLoose(m[1]) });
+  }
+  return out;
+}
+
+// ---------------- Cyprus Bar Association (WordPress API) ----------------
+/** AML/CFT announcements, AML circulars, ASP, compliance officer, guidelines, sanctions circulars + announcements. */
+export const CYBAR_CATEGORIES = [40, 30, 32, 33, 29, 35, 37];
+const CYBAR_SKIP = /σεμιναρι|συμμετοχη|συνεδρι|διαλεξ|εκδηλωσ|webinar|seminar|conference/i;
+export const isCybarRelevant = (title: string) => !!title && !CYBAR_SKIP.test(plainGreek(title));
+/** "ΕΓΚΥΚΛΙΟΣ 19/2026 – …" → "19/2026" (the same circular is posted under several categories). */
+export function cybarCircularNo(title: string): string | null {
+  return plainGreek(title).match(/ΕΓΚΥΚΛΙΟΣ\s*(?:ΑΡ\.?\s*)?(\d{1,3}\/\d{4})/i)?.[1] ?? null;
+}
+
+/** One record per circular number, else per headline + day (case and accents ignored). */
+export function cybarDedupeKey(title: string, date: string): string {
+  const circ = cybarCircularNo(title);
+  return circ ? `circular:${circ}` : `${date}|${plainGreek(title).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim()}`;
+}

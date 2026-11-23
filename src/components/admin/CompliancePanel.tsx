@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { DEADLINE_LABELS, diffFatf, DOC_TYPE_LABELS, FATF_LABELS, MEASURE_LABELS, SECTOR_LABELS, TOPIC_LABELS, type FatfListing } from "@/lib/compliance";
+import { DEADLINE_LABELS, diffFatf, DOC_TYPE_LABELS, planBatchReview, FATF_LABELS, MEASURE_LABELS, SECTOR_LABELS, TOPIC_LABELS, type FatfListing } from "@/lib/compliance";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const db = supabase as any;
@@ -247,13 +247,36 @@ function ItemsTab({ openId, setOpenId }: { openId: string | null; setOpenId: (v:
   const items = useQuery({
     queryKey: ["cmp-items", status, section],
     queryFn: async () => {
-      let query = db.from("compliance_items").select("id, status, authority, official_title, title_en, publication_date, deadline_date, sections, change_pending, summary_en, document_type, is_test, auto_published").order("publication_date", { ascending: false, nullsFirst: false }).limit(400);
+      let query = db.from("compliance_items").select("id, status, authority, official_title, title_en, title_el, publication_date, deadline_date, sections, change_pending, summary_en, summary_el, document_type, is_test, auto_published").order("publication_date", { ascending: false, nullsFirst: false }).limit(400);
       if (status === "changed") query = query.eq("change_pending", true); else if (status === "auto") query = query.eq("status", "published").eq("auto_published", true); else if (status !== "all") query = query.eq("status", status);
       if (section !== "all") query = query.contains("sections", [section]);
       return ((await query).data ?? []) as Row[];
     },
   });
   const shown = (items.data ?? []).filter((i) => !q || `${i.official_title} ${i.title_en ?? ""} ${i.authority}`.toLowerCase().includes(q.toLowerCase()));
+  const [picked, setPicked] = useState<Set<string>>(new Set());
+  const [batchBusy, setBatchBusy] = useState(false);
+  useEffect(() => { setPicked(new Set()); }, [status, section]);
+  const pickedRows = shown.filter((i) => picked.has(i.id));
+  const allPicked = shown.length > 0 && pickedRows.length === shown.length;
+  const toggle = (id: string) => setPicked((p) => { const n = new Set(p); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  const batch = async (next: "published" | "rejected") => {
+    const plan = planBatchReview(pickedRows as Parameters<typeof planBatchReview>[0], next);
+    if (!plan.ids.length) return toast.error(next === "published" ? "None of the selected records has a section, title and summary yet" : "Nothing to reject");
+    const verb = next === "published" ? "Publish" : "Reject";
+    if (!window.confirm(`${verb} ${plan.ids.length} record${plan.ids.length === 1 ? "" : "s"} as reviewed by you?${plan.skipped ? ` ${plan.skipped} without a section, title or summary will be left as they are.` : ""}`)) return;
+    setBatchBusy(true);
+    const { data: u } = await supabase.auth.getUser();
+    let failed = 0;
+    for (let i = 0; i < plan.ids.length; i += 100) {
+      const { error } = await db.from("compliance_items").update({ status: next, reviewed_at: new Date().toISOString(), reviewed_by: u.user?.id ?? null, auto_published: false }).in("id", plan.ids.slice(i, i + 100));
+      if (error) { failed++; toast.error(error.message); }
+    }
+    setBatchBusy(false);
+    if (!failed) toast.success(`${next === "published" ? "Published" : "Rejected"} ${plan.ids.length}${plan.skipped ? ` · ${plan.skipped} left for editing` : ""}`);
+    setPicked(new Set());
+    qc.invalidateQueries({ queryKey: ["cmp-items"] });
+  };
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap gap-2">
@@ -264,11 +287,21 @@ function ItemsTab({ openId, setOpenId }: { openId: string | null; setOpenId: (v:
         <Input className="w-64" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
         <span className="text-xs text-muted-foreground self-center">{shown.length} records</span>
       </div>
+      {shown.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 text-xs border border-border bg-muted/30 px-3 py-2">
+          <label className="inline-flex items-center gap-1.5"><input type="checkbox" aria-label="Select all shown records" checked={allPicked} onChange={() => setPicked(allPicked ? new Set() : new Set(shown.map((i) => i.id)))} />Select all shown</label>
+          <span className="text-muted-foreground">{pickedRows.length} selected</span>
+          <Button size="sm" className="h-7 gap-1 ml-auto" disabled={!pickedRows.length || batchBusy} onClick={() => batch("published")}><Check className="h-3.5 w-3.5" />Publish selected</Button>
+          <Button size="sm" variant="outline" className="h-7 gap-1 text-destructive" disabled={!pickedRows.length || batchBusy} onClick={() => batch("rejected")}><X className="h-3.5 w-3.5" />Reject selected</Button>
+        </div>
+      )}
       <div className="divide-y divide-border border border-border">
         {shown.map((i) => (
           <div key={i.id}>
             {openId === i.id ? <ItemEditor id={i.id} onClose={() => setOpenId(null)} onSaved={() => qc.invalidateQueries({ queryKey: ["cmp-items"] })} /> : (
-              <button className="w-full text-left p-3 hover:bg-muted/40 flex gap-3 items-start" onClick={() => setOpenId(i.id)}>
+              <div className="flex items-start hover:bg-muted/40">
+              <input type="checkbox" className="mt-4 ml-3 shrink-0" aria-label={`Select ${i.title_en ?? i.official_title}`} checked={picked.has(i.id)} onChange={() => toggle(i.id)} />
+              <button className="flex-1 min-w-0 text-left p-3 flex gap-3 items-start" onClick={() => setOpenId(i.id)}>
                 <span className="text-xs w-24 shrink-0 text-muted-foreground">{i.publication_date ?? "—"}</span>
                 <span className="min-w-0 flex-1">
                   <span className="text-[10px] uppercase tracking-wider font-semibold text-secondary">{i.authority} · {DOC_TYPE_LABELS[i.document_type]?.en}</span>
@@ -281,6 +314,7 @@ function ItemsTab({ openId, setOpenId }: { openId: string | null; setOpenId: (v:
                     {i.is_test && <Badge variant="secondary" className="text-[9px]">test</Badge>}</span>
                 </span>
               </button>
+              </div>
             )}
           </div>
         ))}
@@ -446,7 +480,7 @@ export function CompliancePanel() {
         ))}
         <Button size="sm" variant="ghost" className="ml-auto gap-1" disabled={running} onClick={runAll}><RefreshCw className={`h-3.5 w-3.5 ${running ? "animate-spin" : ""}`} />Check due sources now</Button>
       </div>
-      <p className="text-xs text-muted-foreground">New records and source changes wait here for an editor. Sources with auto-publish on (CySEC circulars, Central Bank announcements) publish new records by themselves once the summary is drafted; they show "not yet reviewed" on ComplianceHub, without the "what changed" and "action" notes, until an editor saves them. An editor's unpublish or reject is never overridden.</p>
+      <p className="text-xs text-muted-foreground">New records and source changes wait here for an editor. Sources with auto-publish on (CySEC circulars, Central Bank announcements, AMLA news and consultations) publish new records by themselves once the summary is drafted; they show "not yet reviewed" on ComplianceHub, without the "what changed" and "action" notes, until an editor saves them. An editor's unpublish or reject is never overridden. Tick records to publish or reject several at once.</p>
       {tab === "items" ? <ItemsTab openId={openId} setOpenId={setOpenId} /> : tab === "sources" ? <SourcesTab /> : tab === "fatf" ? <FatfTab /> : <ManualTab onCreated={(id) => { setOpenId(id); setTab("items"); }} />}
     </div>
   );

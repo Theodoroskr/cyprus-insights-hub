@@ -85,3 +85,11 @@
 
 ## Back office (Nov 22)
 - [x] Add / edit scraping sources in Editorial → Sources (reuse-permission check, drafts by default)
+
+## ComplianceHub follow-up (Nov 23)
+- [x] EU Official Journal: blocked search pages replaced by the EU Publications Office database
+- [x] AMLA news + consultations publish automatically ("not yet reviewed")
+- [x] Cyprus Bar Association AML/sanctions notices collected daily (review)
+- [x] Select-and-publish / reject buttons in Review & records
+- [ ] MOKAS: reader ready, waits for law.gov.cy to fix its expired security certificate
+- [ ] Sanctions backlog (NSIU 87, Council of the EU 34): waiting for owner's choice

@@ -210,13 +210,16 @@ async function saveEurLexAct(sb: Sb, src: Row, st: Stats, rawTitle: string, date
 
 async function collectEurLex(sb: Sb, src: Row, st: Stats) {
   for (const url of src.endpoint_urls ?? []) {
-    if (/search\.html/.test(url)) {
-      // official quick search (newest first) — catches restrictive-measures acts the daily feed window may miss
-      const res = await fetchText(url);
-      if (!res.ok) { st.errors.push(`search: ${res.error}`); continue; }
-      const rows = C.parseEurLexSearch(res.text);
-      if (!rows.length) { st.errors.push("search: no results recognised"); continue; }
-      for (const r of rows) await saveEurLexAct(sb, src, st, `CELEX:${r.celex}: ${r.title}`, r.ojDate);
+    if (/search\.html/.test(url)) continue; // EUR-Lex search pages sit behind a bot challenge; the Cellar query below replaces them
+    if (url.startsWith(C.CELLAR_SPARQL)) {
+      // Publications Office's official Cellar database: every restrictive-measures act, even ones outside the daily feed window
+      const since = sinceDays(src, 120, 45);
+      const q = `${C.CELLAR_SPARQL}?query=${encodeURIComponent(C.cellarRestrictiveQuery(since))}`;
+      const res = await fetchText(q, "application/sparql-results+json");
+      if (!res.ok) { st.errors.push(`cellar: ${res.error}`); continue; }
+      let rows: ReturnType<typeof C.parseCellarResults> = [];
+      try { rows = C.parseCellarResults(JSON.parse(res.text)); } catch { st.errors.push("cellar: unreadable response"); continue; }
+      for (const r of rows) await saveEurLexAct(sb, src, st, `CELEX:${r.celex}: ${r.title}`, r.date);
       continue;
     }
     const res = await fetchText(url, "application/rss+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -260,6 +263,71 @@ async function collectAmlaConsultations(sb: Sb, src: Row, st: Stats) {
       related_acts: relatedActs(r.title), hash_basis: `${r.title}|${r.deadlineText ?? ""}`,
     }, st);
   }
+}
+
+/** Lotus Notes site of MOKAS; when its certificate lapses the page is read through the crawler instead (records still wait for review). */
+async function crawlHtml(url: string): Promise<{ ok: boolean; text: string; error?: string }> {
+  const key = Deno.env.get("FIRECRAWL_API_KEY");
+  if (!key) return { ok: false, text: "", error: "crawler not configured" };
+  try {
+    const res = await fetch("https://api.firecrawl.dev/v1/scrape", {
+      method: "POST", headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ url, formats: ["rawHtml"], skipTlsVerification: true, timeout: 45000 }), signal: AbortSignal.timeout(55000),
+    });
+    const data = await res.json().catch(() => ({}));
+    const html = data?.data?.rawHtml ?? "";
+    return html ? { ok: true, text: html } : { ok: false, text: "", error: `crawler ${res.status}: ${String(data?.error ?? "empty page").slice(0, 200)}` };
+  } catch (e) { return { ok: false, text: "", error: e instanceof Error ? e.message : String(e) }; }
+}
+
+async function collectMokas(sb: Sb, src: Row, st: Stats) {
+  const since = sinceDays(src, 365, 90);
+  const url = src.endpoint_urls?.[0] ?? src.homepage_url;
+  let page = await fetchText(url);
+  if (!page.ok) {
+    const viaCrawler = await crawlHtml(url);
+    if (!viaCrawler.ok) { st.errors.push(`${page.error ?? "fetch failed"}; ${viaCrawler.error}`); return; }
+    page = { ok: true, status: 200, text: viaCrawler.text, error: null };
+  }
+  const rows = C.parseMokasNotices(page.text);
+  if (!rows.length) { st.errors.push("No notifications recognised — page layout may have changed"); return; }
+  for (const r of rows) {
+    if (!r.date || r.date < since || !C.isMokasRelevant(r.title)) continue;
+    const topics = uniq(["aml_cft", ...C.topicsFromText(r.title)]);
+    await upsertCandidate(sb, src, {
+      authority: "MOKAS", jurisdiction: "CY", official_id: `unid:${r.id}`, canonical_url: r.url, official_title: r.title, publication_date: r.date,
+      document_type: C.docTypeFromTitle(r.title), sections: topics.includes("sanctions") ? ["updates", "cy_sanctions"] : ["updates"], topics, sectors: [],
+      source_language: C.isGreek(r.title) ? "el" : "en", related_acts: relatedActs(r.title), hash_basis: `${r.title}|${r.date}`,
+    }, st);
+  }
+}
+
+async function collectCybar(sb: Sb, src: Row, st: Stats) {
+  const since = sinceDays(src, 180, 45);
+  const url = `https://www.cyprusbarassociation.org/wp-json/wp/v2/posts?per_page=100&categories=${C.CYBAR_CATEGORIES.join(",")}&_fields=id,date,modified,link,title`;
+  const res = await fetchText(url, "application/json");
+  if (!res.ok) { st.errors.push(`posts: ${res.error}`); return; }
+  let rows: Row[] = [];
+  try { rows = JSON.parse(res.text); } catch { st.errors.push("posts: unreadable response"); return; }
+  if (!Array.isArray(rows) || !rows.length) { st.errors.push("posts: no entries returned"); return; }
+  const byId = new Map<string, Candidate>();
+  for (const r of rows) {
+    const title = C.clean(r.title?.rendered ?? "");
+    const modified = String(r.modified ?? r.date ?? "").slice(0, 10);
+    if (!title || !C.isCybarRelevant(title) || modified < since) continue;
+    const circ = C.cybarCircularNo(title);
+    const id = circ ? `circular:${circ}` : `post:${r.id}`;
+    // the same circular or announcement is re-posted under several categories (new post ID each time)
+    const key = C.cybarDedupeKey(title, String(r.date).slice(0, 10));
+    if (byId.has(key)) continue;
+    const topics = uniq(["aml_cft", ...C.topicsFromText(title)]);
+    byId.set(key, {
+      authority: "Cyprus Bar Association", jurisdiction: "CY", official_id: id, canonical_url: r.link, official_title: title,
+      publication_date: String(r.date).slice(0, 10), document_type: circ ? "circular" : C.docTypeFromTitle(title), sections: topics.includes("sanctions") ? ["updates", "cy_sanctions"] : ["updates"],
+      topics, sectors: ["lawyers"], source_language: C.isGreek(title) ? "el" : "en", related_acts: relatedActs(title), hash_basis: `${title}|${r.modified}`,
+    });
+  }
+  for (const c of byId.values()) await upsertCandidate(sb, src, c, st);
 }
 
 async function checkEcResources(_sb: Sb, src: Row, st: Stats) {
@@ -313,6 +381,7 @@ async function collectFatf(sb: Sb, src: Row, st: Stats, force: boolean) {
 const COLLECTORS: Record<string, (sb: Sb, src: Row, st: Stats, force: boolean) => Promise<void>> = {
   "cysec-circulars": collectCysec, "cbc-announcements": collectCbc, "nsiu": collectNsiu, "eurlex-oj": collectEurLex,
   "amla-news": collectAmlaNews, "amla-consultations": collectAmlaConsultations, "ec-sanctions-resources": checkEcResources, "fatf-lists": collectFatf,
+  "mokas": collectMokas, "cybar": collectCybar,
 };
 
 const due = (s: Row, force: boolean) => force || !s.last_attempt_at || Date.now() - Date.parse(s.last_attempt_at) > (s.check_interval_hours ?? 24) * 3600000 - 20 * 60000;

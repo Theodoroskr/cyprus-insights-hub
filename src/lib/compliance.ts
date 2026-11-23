@@ -149,3 +149,19 @@ export function filterItems(items: ComplianceItem[], f: ItemFilters): Compliance
 
 export const formatDate = (d: string | null | undefined, lang: Lang) => d ? new Date(`${d}T12:00:00Z`).toLocaleDateString(lang === "el" ? "el-GR" : "en-GB", { day: "numeric", month: "short", year: "numeric" }) : "";
 export const JURISDICTION_LABELS: Record<string, L> = { CY: { en: "Cyprus", el: "Κύπρος" }, EU: { en: "European Union", el: "Ευρωπαϊκή Ένωση" }, INT: { en: "International", el: "Διεθνές" } };
+
+/**
+ * Editor batch action on selected review records. Publishing needs the same fields as publishing one record
+ * (a section, a title and a summary in either language) and no unresolved source change; test rows are never published.
+ */
+export function planBatchReview(
+  rows: { id: string; status: string; sections?: string[] | null; title_en?: string | null; title_el?: string | null; summary_en?: string | null; summary_el?: string | null; change_pending?: boolean | null; is_test?: boolean | null }[],
+  next: "published" | "rejected",
+): { ids: string[]; skipped: number } {
+  const ok = rows.filter((r) => {
+    if (r.status === next || r.status === "merged") return false;
+    if (next === "rejected") return true;
+    return !r.is_test && !r.change_pending && !!r.sections?.length && !!(r.title_en?.trim() || r.title_el?.trim()) && !!(r.summary_en?.trim() || r.summary_el?.trim());
+  });
+  return { ids: ok.map((r) => r.id), skipped: rows.length - ok.length };
+}
