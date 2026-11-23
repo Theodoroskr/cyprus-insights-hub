@@ -281,7 +281,7 @@ function ItemsTab({ openId, setOpenId }: { openId: string | null; setOpenId: (v:
     <div className="space-y-3">
       <div className="flex flex-wrap gap-2">
         <select className={sel} value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="review">Awaiting review</option><option value="changed">Source changed</option><option value="published">Published</option><option value="auto">Published automatically, not yet reviewed</option><option value="rejected">Rejected</option><option value="merged">Linked into another</option><option value="all">All</option>
+          <option value="review">Awaiting review</option><option value="changed">Source changed</option><option value="published">Published</option><option value="auto">Published automatically, not yet reviewed</option><option value="rejected">Rejected</option><option value="archived">Archived (older than 12 months)</option><option value="merged">Linked into another</option><option value="all">All</option>
         </select>
         <select className={sel} value={section} onChange={(e) => setSection(e.target.value)}><option value="all">All sections</option>{SECTIONS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select>
         <Input className="w-64" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
