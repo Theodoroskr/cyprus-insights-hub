@@ -91,10 +91,10 @@ export function pickStoryPackage(pool: HomeStory[], links: PackageLink[], shown:
     }
   }
 
-  // A topic package must draw on more than one publisher, so one source's batch is never a "package".
+  // Every package (company or topic) must draw on more than one publisher, so one source's batch is never a "package".
   const publishers = (g: Group) => new Set([...g.ids].map((id) => newsSource(candidates.get(id)!))).size;
   const ranked = [...groups.values()]
-    .filter((g) => g.ids.size >= PACKAGE_MIN && (g.kind === "company" || publishers(g) >= 2))
+    .filter((g) => g.ids.size >= PACKAGE_MIN && publishers(g) >= 2)
     .map((g) => ({ g, stories: [...g.ids].map((id) => candidates.get(id)!).sort(newestFirst) }))
     .sort((a, b) =>
       b.stories.length - a.stories.length ||

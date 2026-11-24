@@ -106,3 +106,13 @@ describe("top menu", () => {
     expect(menu).not.toContain("/whoiswho");
   });
 });
+
+import { pickStoryPackage as pick2 } from "@/lib/homepageStories";
+describe("company package publishers", () => {
+  it("never builds a company package from a single publisher", () => {
+    const now = Date.now();
+    const pool = [0, 1, 2, 3].map((i) => ({ id: `d${i}`, title: `t${i}`, vertical: "sme", tags: [], published_at: new Date(now - i * 60000).toISOString(), source_id: `delphi-alliance:x${i}` }));
+    const links = pool.map((s) => ({ article_id: s.id, entity_id: "c1", entity_label: "DELPHI ALLIANCE LTD", href: "/directory/company/delphi" }));
+    expect(pick2(pool, links, new Set())).toBeNull();
+  });
+});
