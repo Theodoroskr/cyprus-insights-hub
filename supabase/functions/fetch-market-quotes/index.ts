@@ -1,4 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { authenticateCronRequest } from "../_shared/cron-auth.ts";
+import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -93,6 +95,10 @@ Deno.serve(async (req) => {
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    if (authenticateCronRequest(req) !== null) {
+      const caller = await requireTrustedCaller(req, supabase);
+      if (!caller.ok) return deniedResponse(caller, corsHeaders);
+    }
 
     const updates: Array<{ symbol: string; value: number; change_pct: number; source: string }> = [];
     const perSymbolErrors = new Map<string, string>();

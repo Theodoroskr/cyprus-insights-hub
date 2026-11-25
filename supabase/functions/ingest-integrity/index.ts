@@ -1,6 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
+import { safeFetch, isPublicHttpsUrl } from "../_shared/publicUrl.ts";
 import { nicosiaHour } from "../_shared/ecb.ts";
 import { parseCpiSheet } from "../_shared/cpiWorkbook.ts";
 import { INTEGRITY_SOURCES, extractLinks, contentFingerprint, nextCpiUrl, claimStatus, classifyFailure, healthChanged, isWorking, type SourceStatus } from "../_shared/integritySources.ts";
@@ -130,14 +131,14 @@ Deno.serve(async (req) => {
   const { data: healthRows } = await sb.from("integrity_source_health").select("*");
   const health = new Map((healthRows ?? []).map((r: any) => [r.slug, r]));
   const only = typeof body.slug === "string" ? body.slug : null;
-  const fetchUrl = typeof body.test_fail_url === "string" ? body.test_fail_url : null; // simulate a failing source
+  const fetchUrl: string | null = null; // caller-supplied test addresses are no longer accepted
 
   // 1. New CPI edition?
   if (!only || only === "ti-cpi") {
     try {
       const { data: latest } = await sb.from("cpi_editions").select("edition_year").eq("status", "published").order("edition_year", { ascending: false }).limit(1).maybeSingle();
       const url = fetchUrl ?? nextCpiUrl(latest?.edition_year ?? 2025);
-      const r = await fetch(url, { headers: UA, redirect: "follow" });
+      const r = await safeFetch(url, { headers: UA });
       const fresh = r.ok && new URL(r.url).pathname.includes(String((latest?.edition_year ?? 2025) + 1));
       if (!r.ok && (fetchUrl || r.status !== 404)) throw new Error(`HTTP ${r.status}`); // 404 = next edition not out yet
       results.push({ source: "ti-cpi", ok: true, found: fresh ? 1 : 0, status: "ok", http: r.status });
@@ -158,9 +159,10 @@ Deno.serve(async (req) => {
     const h = health.get(s.slug);
     if (h?.manual_only && !only) { results.push({ source: s.slug, ok: true, status: h.last_status, found: 0, error: "manual check" }); continue; }
     const url = typeof body.url === "string" && only === s.slug ? body.url : (h?.url_override ?? s.url);
+    if (!isPublicHttpsUrl(url)) { results.push({ source: s.slug, ok: false, error: "Address must be a public https:// link", status: "error" as SourceStatus }); continue; }
     let http: number | undefined;
     try {
-      const r = await fetch(url, { headers: UA, redirect: "follow", signal: AbortSignal.timeout(20000) });
+      const r = await safeFetch(url, { headers: UA, signal: AbortSignal.timeout(20000) });
       http = r.status;
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const links = extractLinks(await r.text(), r.url, s.keywords);

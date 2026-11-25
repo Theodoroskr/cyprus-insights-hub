@@ -1,3 +1,4 @@
+import { safeFetch, isPublicHttpsUrl } from "../_shared/publicUrl.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 import { requireTrustedCaller, deniedResponse } from "../_shared/requireTrustedCaller.ts";
@@ -19,7 +20,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 async function fetchText(url: string): Promise<string> {
   try {
-    const r = await fetch(url, { headers: { "User-Agent": UA, "Accept-Language": "en,el" }, signal: AbortSignal.timeout(25000) });
+    const r = await safeFetch(url, { headers: { "User-Agent": UA, "Accept-Language": "en,el" }, signal: AbortSignal.timeout(25000) });
     if (r.ok) return await r.text();
     if (r.status !== 403 && r.status !== 429) throw new Error(`HTTP ${r.status}`);
   } catch (e) {
@@ -288,21 +289,9 @@ Deno.serve(async (req) => {
   if (body.pages) EU_PAGES = Math.min(10, Math.max(1, Number(body.pages)));
   if (body.page_size) EU_PAGE = Math.min(100, Math.max(1, Number(body.page_size)));
 
-  if (action === "probe") {
-    const urls: string[] = (body.urls ?? []).slice(0, 25);
-    const out = await Promise.all(urls.map(async (u) => {
-      try {
-        const r = await fetch(u, { method: body.method ?? "GET", headers: { "User-Agent": UA }, signal: AbortSignal.timeout(20000) });
-        const t = await r.text();
-        return { url: u, status: r.status, bytes: t.length, title: t.match(/<title[^>]*>([^<]{0,120})/i)?.[1]?.trim() ?? null };
-      } catch (e) { return { url: u, error: (e as Error).message }; }
-    }));
-    return json(out);
-  }
-
   if (action === "submit_url") {
     const url = String(body.url ?? "");
-    if (!/^https:\/\/[^\s]+$/.test(url) || url.length > 600) return json({ error: "Paste the official https:// link of the call" }, 400);
+    if (!isPublicHttpsUrl(url) || url.length > 600) return json({ error: "Paste the official https:// link of the call" }, 400);
     const host = new URL(url).hostname;
     const { data: sources } = await sb.from("funding_sources").select("*");
     const src = (sources ?? []).find((s: Any) => { try { return new URL(s.url).hostname === host; } catch { return false; } }) ?? null;

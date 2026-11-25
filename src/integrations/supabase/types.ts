@@ -470,6 +470,27 @@ export type Database = {
         }
         Relationships: []
       }
+      banner_track_events: {
+        Row: {
+          banner_id: string
+          hour_bucket: string
+          kind: string
+          viewer_hash: string
+        }
+        Insert: {
+          banner_id: string
+          hour_bucket: string
+          kind: string
+          viewer_hash: string
+        }
+        Update: {
+          banner_id?: string
+          hour_bucket?: string
+          kind?: string
+          viewer_hash?: string
+        }
+        Relationships: []
+      }
       cna_articles: {
         Row: {
           body_el: string | null
