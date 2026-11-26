@@ -13,6 +13,26 @@ const corsHeaders = {
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 const UA = { "User-Agent": "Mozilla/5.0 (compatible; BusinessHubBot/1.0; +https://businesshub.cy)" };
 
+// Backup reader for official sites that block plain requests (403) or have broken TLS certificates.
+async function firecrawlHtml(url: string): Promise<{ ok: boolean; html: string; status?: number; finalUrl: string; error?: string }> {
+  const key = Deno.env.get("FIRECRAWL_API_KEY");
+  if (!key) return { ok: false, html: "", finalUrl: url, error: "backup reader not configured" };
+  try {
+    const res = await fetch("https://api.firecrawl.dev/v1/scrape", {
+      method: "POST", headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ url, formats: ["rawHtml"], onlyMainContent: false, waitFor: 2000, timeout: 45000 }),
+      signal: AbortSignal.timeout(55000),
+    });
+    const d = await res.json().catch(() => ({}));
+    const status = d.data?.metadata?.statusCode;
+    const html = d.data?.rawHtml ?? "";
+    const finalUrl = d.data?.metadata?.url ?? d.data?.metadata?.sourceURL ?? url;
+    if (!res.ok || d.success === false) return { ok: false, html: "", status, finalUrl, error: `backup reader ${res.status}` };
+    return { ok: !!html && (!status || status < 400), html, status, finalUrl };
+  } catch (e) { return { ok: false, html: "", finalUrl: url, error: e instanceof Error ? e.message : String(e) }; }
+}
+const blockedOrTls = (http: number | undefined, e: unknown) => http === 403 || http === 401 || http === 429 || /certificate|ssl|tls|handshake|secure connection/i.test(String(e));
+
 const HEAD = {
   cy: ["What happened", "Why it matters", "What to do or watch"],
   intl: ["What happened", "Why it matters", "What to do or watch"],
@@ -138,9 +158,15 @@ Deno.serve(async (req) => {
     try {
       const { data: latest } = await sb.from("cpi_editions").select("edition_year").eq("status", "published").order("edition_year", { ascending: false }).limit(1).maybeSingle();
       const url = fetchUrl ?? nextCpiUrl(latest?.edition_year ?? 2025);
-      const r = await safeFetch(url, { headers: UA });
+      let r: { ok: boolean; status: number; url: string };
+      try { const d = await safeFetch(url, { headers: UA }); r = { ok: d.ok, status: d.status, url: d.url }; } catch (e) { r = { ok: false, status: 0, url }; if (!blockedOrTls(undefined, e)) throw e; }
+      if (!r.ok && r.status !== 404) { // blocked: ask the backup reader
+        const b = await firecrawlHtml(url);
+        if (b.status) r = { ok: b.ok, status: b.status, url: b.finalUrl };
+        else if (!b.ok) throw new Error(r.status ? `HTTP ${r.status}` : b.error);
+      }
       const fresh = r.ok && new URL(r.url).pathname.includes(String((latest?.edition_year ?? 2025) + 1));
-      if (!r.ok && (fetchUrl || r.status !== 404)) throw new Error(`HTTP ${r.status}`); // 404 = next edition not out yet
+      if (!r.ok && r.status !== 404) throw new Error(`HTTP ${r.status}`); // 404 = next edition not out yet
       results.push({ source: "ti-cpi", ok: true, found: fresh ? 1 : 0, status: "ok", http: r.status });
       if (fresh && !isTest) {
         await sb.from("integrity_source_updates").upsert({
@@ -162,10 +188,19 @@ Deno.serve(async (req) => {
     if (!isPublicHttpsUrl(url)) { results.push({ source: s.slug, ok: false, error: "Address must be a public https:// link", status: "error" as SourceStatus }); continue; }
     let http: number | undefined;
     try {
-      const r = await safeFetch(url, { headers: UA, signal: AbortSignal.timeout(20000) });
-      http = r.status;
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const links = extractLinks(await r.text(), r.url, s.keywords);
+      let html = "", base = url;
+      try {
+        const r = await safeFetch(url, { headers: UA, signal: AbortSignal.timeout(20000) });
+        http = r.status;
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        html = await r.text(); base = r.url;
+      } catch (e) {
+        if (!blockedOrTls(http, e)) throw e;
+        const b = await firecrawlHtml(url);
+        if (!b.ok) { if (b.status) http = b.status; throw e; }
+        html = b.html; base = b.finalUrl; http = b.status ?? 200;
+      }
+      const links = extractLinks(html, base, s.keywords);
       let added = 0;
       if (!isTest) for (const l of links) {
         const { data } = await sb.from("integrity_source_updates").upsert({
