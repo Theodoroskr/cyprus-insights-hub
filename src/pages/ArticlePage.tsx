@@ -16,6 +16,7 @@ import { articlePath } from "@/lib/articleUrl";
 import { RelatedFunding } from "@/components/funding/RelatedFunding";
 import { StoryBriefingSignup } from "@/components/StoryBriefingSignup";
 import { pickReadNext } from "@/lib/readNext";
+import { FeaturedCompaniesShare } from "@/components/article/FeaturedCompaniesShare";
 import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Facebook, Mail, Flame, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -405,6 +406,7 @@ export default function ArticlePage() {
                   </Button>
                 </a>
               )}
+              <FeaturedCompaniesShare articleId={article.id} storyUrl={ownUrl} title={headline} greek={isEl} />
               {related.length > 0 && (
                 <section aria-labelledby="read-next" className="mb-10 rounded-xl border border-border bg-card p-5">
                   <h2 id="read-next" className="section-label mb-4">{isEl ? "Διαβάστε επίσης" : "Read next"}</h2>

@@ -5,7 +5,7 @@ import { useBlendedNews } from "@/hooks/useBlendedNews";
 import { partitionHomepage, type PackageLink } from "@/lib/homepageStories";
 
 /** Approved company links for the stories in the pool, with each company's profile page. */
-async function fetchPackageLinks(articleIds: string[]): Promise<PackageLink[]> {
+export async function fetchPackageLinks(articleIds: string[]): Promise<PackageLink[]> {
   if (articleIds.length === 0) return [];
   const { data: links } = await supabase
     .from("news_entity_links")
