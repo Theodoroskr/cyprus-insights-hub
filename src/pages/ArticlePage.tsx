@@ -15,6 +15,7 @@ import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { articlePath } from "@/lib/articleUrl";
 import { RelatedFunding } from "@/components/funding/RelatedFunding";
 import { StoryBriefingSignup } from "@/components/StoryBriefingSignup";
+import { pickReadNext } from "@/lib/readNext";
 import { ArrowLeft, Calendar, Zap, Target, Lightbulb, ExternalLink, Bookmark, Twitter, Linkedin, Facebook, Mail, Flame, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -137,14 +138,14 @@ export default function ArticlePage() {
           // Fetch related
           supabase
             .from("cna_articles")
-            .select("id, title, what_happened, image_url, vertical, published_at, summary")
+            .select("id, title, what_happened, image_url, vertical, published_at, summary, tags, source_id")
             .eq("status", "published").contains("edition", ["cy"])
             .eq("vertical", data.vertical)
             .neq("id", data.id)
             .order("published_at", { ascending: false })
-            .limit(4)
+            .limit(24)
             .then(({ data: rel }) => {
-              if (!stale && rel) setRelated(rel as Article[]);
+              if (!stale && rel) setRelated(pickReadNext(data as any, rel as any[], 8) as Article[]);
             });
         }
         setLoading(false);
@@ -404,6 +405,24 @@ export default function ArticlePage() {
                   </Button>
                 </a>
               )}
+              {related.length > 0 && (
+                <section aria-labelledby="read-next" className="mb-10 rounded-xl border border-border bg-card p-5">
+                  <h2 id="read-next" className="section-label mb-4">{isEl ? "Διαβάστε επίσης" : "Read next"}</h2>
+                  <Link to={articlePath(related[0].id, related[0].title)} className="group flex gap-4 mb-4">
+                    <img src={listImage(related, 0)} alt="" className="w-28 h-20 sm:w-40 sm:h-24 rounded-md object-cover shrink-0" />
+                    <span className="font-serif font-bold text-lg leading-snug group-hover:text-secondary transition-colors line-clamp-3">{related[0].title || related[0].what_happened}</span>
+                  </Link>
+                  <ul className="divide-y divide-border border-t border-border">
+                    {related.slice(1, 4).map((r) => (
+                      <li key={r.id}>
+                        <Link to={articlePath(r.id, r.title)} className="block py-3 font-serif text-base leading-snug hover:text-secondary transition-colors">
+                          {r.title || r.what_happened}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
               <StoryBriefingSignup greek={isEl} />
             </article>
 
@@ -456,11 +475,11 @@ export default function ArticlePage() {
           {id && <RelatedFunding articleId={id} />}
 
           {/* Related articles */}
-          {related.length > 0 && (
+          {related.length > 4 && (
             <div className="mt-12 pt-8 border-t border-border">
               <h3 className="section-label mb-6">{isEl ? "Σχετικά άρθρα" : "Related Intelligence"}</h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {related.map((r, ri) => (
+                {related.slice(4).map((r, i) => { const ri = i + 4; return (
                   <Link key={r.id} to={articlePath(r.id, r.title)} className="group">
                     <div className="rounded-lg overflow-hidden border border-border bg-card hover:shadow-md transition-shadow h-full">
                       {(
@@ -474,7 +493,7 @@ export default function ArticlePage() {
                       </div>
                     </div>
                   </Link>
-                ))}
+                ); })}
               </div>
             </div>
           )}
