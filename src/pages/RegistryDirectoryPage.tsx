@@ -240,7 +240,7 @@ export default function RegistryDirectoryPage() {
           <p className="text-white/70 max-w-xl mx-auto mb-8">
             Search the most comprehensive database of registered companies in Cyprus.
           </p>
-          <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
+          <form id="directory-search" onSubmit={handleSearch} className="max-w-2xl mx-auto scroll-mt-24">
             <div className="relative">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input

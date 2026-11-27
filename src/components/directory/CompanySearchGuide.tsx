@@ -87,6 +87,19 @@ export function CompanySearchGuide({ totalCompanies }: { totalCompanies: number 
         ))}
       </div>
 
+      <div className="rounded-xl border border-border bg-muted/40 p-5 mb-12 max-w-4xl">
+        <h2 className="text-xl font-serif font-bold text-foreground mb-2">What this directory covers, and its limits</h2>
+        <ul className="list-disc pl-5 space-y-1.5 text-sm text-foreground/85 leading-relaxed">
+          <li>Company names, registration numbers, status and dates come from the Registrar of Companies' published open data; activity codes come from the CYSTAT Business Register.</li>
+          <li>Licence badges come only from the official CySEC and Central Bank of Cyprus registers, and are checked again on each import.</li>
+          <li>Records can lag the official register by days or weeks, so a recent name or status change may not show yet.</li>
+          <li>We do not show directors, shareholders or beneficial owners. For those, and for certificates, use the Registrar's official file or the document links on each company page.</li>
+        </ul>
+        <a href="#directory-search" className="inline-flex items-center gap-1.5 mt-4 text-sm text-secondary font-medium hover:underline">
+          <Search className="h-4 w-4" /> Search the directory now
+        </a>
+      </div>
+
       <h2 className="text-xl md:text-2xl font-serif font-bold text-foreground mb-4 flex items-center gap-2">
         <HelpCircle className="h-5 w-5 text-secondary" /> Common questions
       </h2>

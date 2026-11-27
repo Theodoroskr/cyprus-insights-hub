@@ -1,322 +1,372 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://businesshub.cy/</loc>
+    <loc>https://bhubnetwork.com/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/directory</loc>
+    <loc>https://bhubnetwork.com/directory</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/directory/cysec-licensed-firms</loc>
+    <loc>https://bhubnetwork.com/directory/cysec-licensed-firms</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/news</loc>
+    <loc>https://bhubnetwork.com/news</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/fintech</loc>
+    <loc>https://bhubnetwork.com/fintech</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/compliance</loc>
+    <loc>https://bhubnetwork.com/compliance</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/energy</loc>
+    <loc>https://bhubnetwork.com/energy</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/energy/news</loc>
+    <loc>https://bhubnetwork.com/energy/news</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/explore</loc>
+    <loc>https://bhubnetwork.com/explore</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/explore/nicosia-countryside</loc>
+    <loc>https://bhubnetwork.com/explore/nicosia-countryside</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/explore/conference-venues</loc>
+    <loc>https://bhubnetwork.com/explore/conference-venues</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/explore/news</loc>
+    <loc>https://bhubnetwork.com/explore/news</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/compliance/regulatory-updates</loc>
+    <loc>https://bhubnetwork.com/compliance/regulatory-updates</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/compliance/sanctions</loc>
+    <loc>https://bhubnetwork.com/compliance/sanctions</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/compliance/deadlines</loc>
+    <loc>https://bhubnetwork.com/compliance/deadlines</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/compliance/guidance</loc>
+    <loc>https://bhubnetwork.com/compliance/guidance</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/regtech</loc>
+    <loc>https://bhubnetwork.com/regtech</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/sme</loc>
+    <loc>https://bhubnetwork.com/sme</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/interviews</loc>
+    <loc>https://bhubnetwork.com/interviews</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/trade</loc>
+    <loc>https://bhubnetwork.com/trade</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/real-estate</loc>
+    <loc>https://bhubnetwork.com/real-estate</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/tourism</loc>
+    <loc>https://bhubnetwork.com/research/corruption-perceptions/cyprus</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/research/corruption-perceptions/greece</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/research/corruption-perceptions/global</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/tourism</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/economy</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/rankings</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/funding</loc>
+    <loc>https://bhubnetwork.com/intl</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/company-announcements</loc>
+    <loc>https://bhubnetwork.com/intl/markets</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/financial-literacy</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://bhubnetwork.com/intl/companies</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/financial-literacy/academy</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://bhubnetwork.com/intl/fintech</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/financial-literacy/observatory</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://bhubnetwork.com/intl/compliance</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/financial-literacy/household</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://bhubnetwork.com/intl/funding</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/financial-literacy/cost-of-living</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/financial-literacy/credit</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/financial-literacy/calculators</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/financial-literacy/research</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/financial-literacy/campaigns</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/financial-literacy/methodology</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/intelligence/mastercard</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/intelligence/mastercard/spendingpulse</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/open-data</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/real-estate/nicosia</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/real-estate/limassol</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/real-estate/larnaca</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/real-estate/paphos</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/real-estate/famagusta</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/directory/city/nicosia</loc>
+    <loc>https://bhubnetwork.com/intl/data</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/directory/city/limassol</loc>
+    <loc>https://bhubnetwork.com/economy</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/directory/city/larnaca</loc>
-    <changefreq>weekly</changefreq>
+    <loc>https://bhubnetwork.com/rankings</loc>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/directory/city/paphos</loc>
-    <changefreq>weekly</changefreq>
+    <loc>https://bhubnetwork.com/funding</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/company-announcements</loc>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/directory/city/famagusta</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://businesshub.cy/resources</loc>
+    <loc>https://bhubnetwork.com/financial-literacy</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/privacy</loc>
+    <loc>https://bhubnetwork.com/financial-literacy/academy</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/financial-literacy/observatory</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/financial-literacy/household</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/financial-literacy/cost-of-living</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/financial-literacy/credit</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/financial-literacy/calculators</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/financial-literacy/research</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/financial-literacy/campaigns</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/financial-literacy/methodology</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/intelligence/mastercard</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/intelligence/mastercard/spendingpulse</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/open-data</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/real-estate/nicosia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/real-estate/limassol</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/real-estate/larnaca</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/real-estate/paphos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/real-estate/famagusta</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/directory/city/nicosia</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/directory/city/limassol</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/directory/city/larnaca</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/directory/city/paphos</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/directory/city/famagusta</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/resources</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/terms</loc>
+    <loc>https://bhubnetwork.com/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/cookies</loc>
+    <loc>https://bhubnetwork.com/cookies</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/cyprus-business-legal-glossary</loc>
+    <loc>https://bhubnetwork.com/resources/cyprus-business-legal-glossary</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/cyprus-vat-registration</loc>
+    <loc>https://bhubnetwork.com/resources/cyprus-vat-registration</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/dora-implementation-guide</loc>
+    <loc>https://bhubnetwork.com/resources/dora-implementation-guide</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/eu-funding-cyprus-startups</loc>
+    <loc>https://bhubnetwork.com/resources/eu-funding-cyprus-startups</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/eu-regulation-acronyms</loc>
+    <loc>https://bhubnetwork.com/resources/eu-regulation-acronyms</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/fintech-cyprus-2025</loc>
+    <loc>https://bhubnetwork.com/resources/fintech-cyprus-2025</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/fintech-glossary</loc>
+    <loc>https://bhubnetwork.com/resources/fintech-glossary</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/gdpr-compliance-sme-checklist</loc>
+    <loc>https://bhubnetwork.com/resources/gdpr-compliance-sme-checklist</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/mica-compliance-roadmap</loc>
+    <loc>https://bhubnetwork.com/resources/mica-compliance-roadmap</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/register-company-cyprus</loc>
+    <loc>https://bhubnetwork.com/resources/register-company-cyprus</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/resources/trade-report-q1-2026</loc>
+    <loc>https://bhubnetwork.com/resources/trade-report-q1-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

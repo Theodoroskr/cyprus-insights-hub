@@ -1,265 +1,1402 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://businesshub.cy/greece</loc>
+    <loc>https://bhubnetwork.com/greece</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/business</loc>
+    <loc>https://bhubnetwork.com/greece/business</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/banking</loc>
+    <loc>https://bhubnetwork.com/greece/banking</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/announcements</loc>
+    <loc>https://bhubnetwork.com/greece/announcements</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/funding</loc>
+    <loc>https://bhubnetwork.com/greece/funding</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/indicators</loc>
+    <loc>https://bhubnetwork.com/greece/indicators</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/fintech</loc>
+    <loc>https://bhubnetwork.com/greece/fintech</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/greece-cyprus</loc>
+    <loc>https://bhubnetwork.com/greece/greece-cyprus</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/org/alpha-bank</loc>
+    <loc>https://bhubnetwork.com/greece/business-pulse</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/greece/opportunities</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/compare/greece-cyprus</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/greece/org/alpha-bank</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/org/eurobank</loc>
+    <loc>https://bhubnetwork.com/greece/org/eurobank</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/org/national-bank-of-greece</loc>
+    <loc>https://bhubnetwork.com/greece/org/national-bank-of-greece</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/greece/org/piraeus-bank</loc>
+    <loc>https://bhubnetwork.com/greece/org/piraeus-bank</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/a750817b-12fc-48f0-9c70-9c3d2afe85e6/information-document-pursuant-to-article-1-par-5-h-of-regulation-eu-2017</loc>
+    <loc>https://bhubnetwork.com/article/3ecb21c3-8ee2-416a-b764-858cefcbe242/participation-of-epsilonnet-in-the-digital-economy-forum-2026</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/5437af82-075f-477a-adb7-157309f72dec/diadikasia-participates-in-the-borderai-project-strengthening-its-position-in</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/34913030-ebc6-4801-93e3-a4304a6d670c/vulnerability-in-microsoft-azure-api-management-nca-recommends-immediate</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a695a264-0de1-43f0-8d67-b344ce78ae3a/revision-of-decision-for-experts</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/c454a30b-fab3-4eb1-999c-76b38964aa4a/deletion-decision-due-to-completion-of-8-years-revised-17-02-2025</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b1588c90-7d7e-4292-b1f7-170b5de8e8d3/announcement-of-an-electronic-open-tender</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/0f675267-0c99-4c68-91b7-4bca0de45233/deletion-decision-12-02-2026</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/dd73ff3b-2abd-4edb-a1d6-4e9640d68c07/36th-decision-for-rejection-in-elevate-greece-registry</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/94ec6705-ba82-4da4-98ec-14240a63beb3/47th-decision-for-inclusion-in-elevate-greece-registry-gsri</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/79a5c4d4-7058-4f01-9d2c-4a2deac1ead8/decision-for-open-data</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/3648b846-cd78-4e4c-87e4-e5140512976f/anaptyxi-magazine-october-2026</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/7f3e2ab0-aca1-47cf-804e-d9c79b068e49/support-material-for-the-submission-of-proposals-for-the-action-in-company</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/512720d8-87e2-42aa-a272-7c0e14c805f8/scope-forecasts-major-reduction-of-greek-debt-to-109-of-gdp-in-2031</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d1372973-e42f-4e85-8c65-7b572557fedc/bog-1-857-billion-decrease-in-private-sector-deposits-in-october</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/ae26e4e7-0b27-441b-9532-7eafebf9c81f/mef-iapr-rent-refund-credited-to-the-accounts-of-932-652-beneficiaries</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/e7f3b792-0279-475d-90a4-1358b3dd2586/kyr-mitsotakis-we-cannot-discuss-a-strong-europe-with-a-weak-budget</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/84e91f24-40ec-4b13-abd3-1f8bcf1d55dc/euronext-athens-market-insights-2025</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/55c06efd-633d-4ea7-a8e1-f58697b65c0a/commencement-of-trading-of-lamda-development-s-new-corporate-bond</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/585f9909-ed50-4c12-91c0-9ddeb44bb878/attica-department-stores-lists-on-euronext</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/df14fb09-bc16-4a38-836f-783dc2ae967a/seanergy-maritime-holdings-corp-raises-100-million-through-a-corporate-bond</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9c211e13-5cc0-4b5c-a7a1-5250c291740a/commencement-of-trading-of-elvalhalcor-s-new-shares</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9098a864-a0c6-4548-a1fd-a1db2a37b0b7/commencement-of-trading-of-aktor-s-new-shares</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f50c3bbd-f30e-46e3-bbd8-9b0ac814c5d7/star-bulk-carriers-corp-lists-on-euronext</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d47f0cab-7ee4-44f4-91e9-b01d02de407c/verallis-s-a-lists-on-euronext</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/7b9165d9-55a7-4733-be0d-13012829825d/capital-maritime-finance-corp-lists-on-euronext</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/4c9a662d-4380-47a4-99f3-a7a54170565b/ascertainment-of-the-fulfilment-of-the-requirements-and-approval-of-the-listing</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/0738b981-3e79-4080-b7e8-8d57824e154e/metka-group-lists-on-euronext</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9b434a30-78da-4e0c-9368-601e7953c6ad/stock-markets-steering-committee-of-euronext-athens</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/cae74eca-9e4d-44e0-962a-c3e44777f995/great-success-for-the-2nd-free-educational-webinar-organised-by-the-chalkidiki</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/8c772f9a-2572-4720-ac43-b5466d818d6d/substantial-participation-of-the-chamber-of-arcadia-in-the-een-annual-conference</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9414a704-4602-446b-8c23-e73b21f00ea8/chamber-of-drama-participation-of-the-chamber-in-an-international-capacity</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/7910816d-d841-414c-8509-992243282f2c/the-heraklion-chamber-of-commerce-and-industry-at-the-antipodes-festival-in</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/4307e79a-8013-40dc-af1e-276167a3f440/keee-on-the-new-competitiveness-fund-for-young-entrepreneurs-president-of-keee</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/2d9518dd-2015-4e55-b127-bcede120e1f1/giannis-voutsinas-president-of-keee-at-the-xviii-mediterranean-women</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/80db2c2b-0b95-48a5-8f79-cbd153cc3056/toposophy-artificial-intelligence-is-changing-the-promotion-of-tourism</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/78a695e7-60b4-412b-a0e7-ea95c01e0781/resight-super-deductions-for-energy-investments</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/3537748c-c790-4c3e-873a-6846ea47db24/artion-conferences-and-events-wapp-congress-2026-in-budva</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/78064979-61c5-4969-b012-c250d137bdc7/metron-sustainable-tourism-powered-by-sete</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/10286497-6a0e-4d8c-82a9-18cf88652d0e/34th-ordinary-general-assembly-of-sete</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/36aedc78-8716-4158-bf45-ca0061c08040/sete-s-priorities-for-the-coming-period</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/ae6bdc3a-9409-4aff-9940-62599ac20359/sete-digital-workshops-cybersecurity-in-tourism</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/260b70cf-9b98-4d3b-b8e7-06dad94a92bf/emeric-meteorological-data-of-average-humidity-in-crete</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/184d9d05-50a4-4f89-a64e-307a92ae65e6/press-release-of-the-ministry-of-digital-governance</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/85594578-fd8d-4a85-81fb-298d1e10cf4b/tell-us-your-opinion-about-data-gov-gr</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/ab8b157e-175f-428d-8575-0c92224afa74/statistics-on-insurance-corporations-q3-2026</loc>
+    <lastmod>2026-11-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b3edbd35-0a7f-4c98-ad0e-fdef47d32360/bank-credit-and-deposits-october-2026</loc>
+    <lastmod>2026-11-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/fc646986-5937-46dc-a961-4a8035d8aad7/qnr-group-continues-to-dynamically-strengthen-its-management-team-with-the</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/38cc97e0-430a-4d90-917a-d9e23c6f0f3f/deloitte-holiday-retail-survey-2026-4-increase-in-holiday-spending-with</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/2673f6e2-35d5-4516-b073-98db6a2a093f/ppc-group-acquisition-of-energy-company-enegan-dynamic-entry-into-the-italian</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/8d0286f0-2765-45df-8ae7-e155b5ced7ba/profile-centevonet-platform-for-individual-pension-accounts-now-live-in-norway</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/ab8b13ee-5bce-4716-a2ac-52004f59da6b/qnr-group-gold-sponsor-at-digital-economy-forum-2026-defense-tech-technological</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/48b6461a-7209-4cbb-950d-e1ae18543354/digital-economy-forum-2026-building-intelligence-concluded-with-speeches-by</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a7a22d41-535a-4169-ab89-79f107d2c4fc/dotsoft-undertakes-new-smart-city-project-for-the-open-mall-of-the-municipality</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a88b0860-38d9-4b7f-9052-fad2f2c204f9/announcement-of-interim-dividend-distribution-updated-information</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/3ad67198-0dc4-4395-b6cd-29f2e66538c9/d-tsitsiragos-greece-has-the-opportunity-to-become-a-connectivity-hub-between</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/1f56d258-06c4-411b-9010-f82897fc1cb2/risk-of-unauthorised-access-to-vmware-systems-nca-recommendations-for-urgent</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/0b00d6fc-cd30-4903-b4e5-0f28682d82db/developments-in-the-balance-of-travel-services-september-2026</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/c1e8f245-98b0-4736-ba11-e2c939eb24ec/four-international-milestones-for-the-greek-technology-ecosystem</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/c56c3699-61e6-4a04-9055-a2ba57d7216e/digital-economy-forum-2026-building-intelligence-opened-fireside-chat-with-ms</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/20c767d7-361a-4a10-8a07-932f7f6bb921/utilising-agentic-ai-to-increase-productivity-the-transformation-of-key</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/5327d549-a672-4e13-9d09-63968e2dc7db/deloitte-study-greece-as-a-digital-technology-hub-can-double-the-country-s</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/dd4c688f-3518-4b37-b85b-b9307b0d41df/announcement-purchase-of-own-shares-20-10-2026</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/3944f45d-50bb-485c-9358-2a4b3634cdde/announcement-purchase-of-own-shares-26-10-2026</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/5b6a2ee5-eac2-485a-b6b1-f41fabf7465b/announcement-purchase-of-own-shares-23-11-2026</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/944615d4-0060-43f3-b5f0-1d35904bd142/announcement-purchase-of-own-shares</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/156f27ac-4b92-4685-bf32-6b5ef25c3444/ai-govtech-and-healthtech-the-key-priorities-for-establishing-greece-as-a</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/5b4c4768-243b-494e-a901-c3fdc005cb51/piraeus-named-greece-s-best-cash-management-bank-at-the-euromoney-transaction</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f6b962b7-6722-4dc3-8bcb-50227e0f05da/business-mission-to-lisbon-2-4-march-2027</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/4db72526-9cfb-4e04-8d44-7c438398349f/the-bank-of-greece-begins-publishing-quarterly-data-on-the-cost-of-consumer</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/e28981c3-c17b-4170-bdc2-3e99a6c31d19/balance-of-payments-september-2026</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/2215044a-4ac8-4a6f-a2bf-92c7d04878ef/additional-announcement-distribution-of-non-mandatory-reserves</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/fac9007d-cb19-4362-8a27-b4d6646e0ba3/hotel-upgrades-international-brands-and-branded-residences-on-the-investment</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d75d2121-0a10-45c1-a672-edeb90903bf9/strong-greek-presence-at-equiphotel</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9d861bbb-d073-4e35-8147-42aa394b45d6/greece-in-orbit-record-greek-participation-in-space-tech-expo-europe-2026-and</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b72e50a2-e39f-4ba1-88b7-27f101d18347/twelve-greek-companies-and-organizations-seek-a-role-in-the-reconstruction-of</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f235405b-2b5e-46c8-9b59-8f4f38b16d05/greece-at-ciie-2026-35-companies-180-b2b-meetings-and-new-opportunities-in-the</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/c59ca517-d5f4-4eb3-b56d-de3ad93090e9/intracom-telecom-geolinks-partnership-expansion-for-the-development-of-mmwave</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/09b9a272-423c-4f27-953e-ea8a4e7d1d89/mastercard-day-returns-turning-thursday-into-a-rewards-day-for-fuel-purchases</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/aabb8c8c-cbcc-4989-9cdf-7c384023f29d/v-psaltis-greek-tourism-must-transition-to-the-next-stage-of-its-growth</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/dc09897c-bd49-47ad-b72b-2ba41a68a683/always-in-your-favor-a-mortgage-loan-with-a-fixed-instalment-for-life-for-young</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/452b003d-e04e-471c-9179-dc87a3e2dad5/kotsovolos-checks-in-to-xenia-with-the-hotel-of-tomorrow</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9808afec-3a58-4812-a9c2-5bde99397347/plaisio-at-xenia-2026-integrated-technology-and-equipment-solutions-for-every</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/36acf323-dce1-47e7-b841-723dbf97038f/countdown-to-digital-economy-forum-2026-building-intelligence</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/0802eacd-aef2-40a0-b43f-c443d394f168/nova-confirms-its-commitment-to-sustainable-development-and-is-ranked-among-the</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/266f54a9-c45c-43d8-bcb6-252c00f85907/alfacare-trusted-the-shopranos-ecommerce-platform-by-entersoftone-for-the</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/dc722a87-0d82-4e8b-89bf-c6aec3bdabb0/new-public-store-in-ampelokipoi</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f7528583-5973-4a3a-95a6-0e91f71c10b5/epsilonnet-highlights-the-new-era-of-agentic-ai-powered-solutions-at-genai</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/70ceb034-6027-4b69-90ef-d6b5d24ba850/nvisionist-at-the-centre-of-european-defensetech-strong-interest-in-greek-ai</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a80ab8c8-da52-4706-bd9f-35825a36010d/serious-threat-to-systems-using-java-nca-recommendations-for-immediate</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a0302afe-11a2-4b51-905f-6eea5c206b31/central-government-net-borrowing-requirement-on-a-cash-basis-january-october</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/423b2dd6-cff2-49f1-9e0c-57c284697d0d/distribution-of-non-mandatory-reserves</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/abdb5d4e-693e-4c69-8d42-b86237428944/eurobank-and-the-majority-shareholders-of-first-investment-bank-fibank-have</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/73fa89b6-4a9b-4e84-9f75-98807147148f/candidate-application-evaluation-results-16-12-2025</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/c8681792-061f-4269-b53c-c033bfbfeb49/cancellation-of-electronic-open-tender-1-2026-27-08-2026</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/8d7d11fc-cc7a-470f-8179-ec9dafa4dedc/press-release-14-07-2026-insete-australia-canada-and-usa-the-strongest-long</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a6deec2c-286b-4d74-9bad-d431fae549e1/spyros-theodoropoulos-in-business-stories-ion-s-new-opening-in-india</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/ff4d97f3-aa5b-4c09-ad8a-4b3cce0e729e/notification-of-important-changes-concerning-voting-rights-under-l-3556-2007-as</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/123cb53d-1571-4b7f-b40c-fb47a7b44bbf/metka-group-of-companies-s-a-prospectus</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/8a7f6f46-b78c-4473-9d75-bf0a39dd750e/nikos-papathanasis-nsrf-funds-do-not-remain-on-paper-they-reach-businesses-in</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/ea26a7f1-0b81-4082-8d0f-8ef13b02e3e9/listing-for-trading-of-new-shares-derived-from-a-share-capital-increase</loc>
+    <loc>https://bhubnetwork.com/article/82575c80-8a32-42ea-9e6f-37a9fee58f3d/nikos-papathanasis-pillar-assessment-a-significant-success-for-the-hellenic</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/0c42d794-b724-49d2-afc4-027e41d3b3c1/announcement-of-regulated-information-regarding-the-bank-s-share-capital-and</loc>
+    <loc>https://bhubnetwork.com/article/415ccc50-72c2-4b4a-8c9f-4b89bbd5cd02/new-upgrade-for-samsung-health-sleep-coaching-becomes-simple-and-adapts</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/9600b2ad-795f-4655-8c1f-6b139951dcac/announcement-purchase-of-own-shares-09-11-2026</loc>
+    <loc>https://bhubnetwork.com/article/6b8442bc-e67c-4442-b5ee-7775e676ddc5/intelli-strengthens-international-portfolio-of-certifications-and-security</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/5dbde1dc-e4a7-4c22-b27c-0db9313a4cf6/announcement-purchase-of-own-shares-16-11-2026</loc>
+    <loc>https://bhubnetwork.com/article/ec0bed02-f186-4a05-aa2f-f006275ddc26/deloitte-future-of-infrastructure-survey-2026-infrastructure-moves-into-the-era</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/41767a70-9c5c-4672-b25a-3e1876eb78a4/alpha-bank-s-a-announces-the-completion-of-the-acquisition-of-altius-insurance</loc>
+    <loc>https://bhubnetwork.com/article/e9570e1b-1236-4d68-ad73-37fce1cce4e1/revival-consulting-services-s-a-at-the-presentation-of-the-new-implementation</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/99ae7ccc-f192-4d73-9ec7-a22beb7544b5/update-of-the-2026-financial-calendar</loc>
+    <loc>https://bhubnetwork.com/article/4c050242-e704-4010-a0f5-ff3de9b9ad57/netcompany-invests-in-dcai-the-company-managing-the-gefion-supercomputer</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/82f6fa58-8fe4-4741-b74c-fcbdac729e25/nine-month-2026-results-announcement-scheduled-for-october-30-2026</loc>
+    <loc>https://bhubnetwork.com/article/11153db6-26fe-450d-b459-ef72ea78f95f/double-distinction-for-pylones-hellas-at-the-tech-channel-partner-awards-2026</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/1371a048-3196-4de1-8bcf-c23be8197456/the-alpha-bank-numismatic-collection-visits-cyprus-for-the-first-time</loc>
+    <loc>https://bhubnetwork.com/article/cc51b5ae-9505-47e1-9713-575149c4ee55/crete-in-the-spotlight-of-international-entrepreneurship-the-22nd-insme-annual</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/14676099-f921-4328-a9cf-0fe42890ceae/l-papagaryfallou-at-the-banktech-conference-2026-scale-new-capabilities-and</loc>
+    <loc>https://bhubnetwork.com/article/02f26304-26b5-421e-91fa-e576efc48f3a/nikos-papathanasis-330-million-in-new-loans-for-small-and-medium-sized</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/d78efd6c-35a7-454a-81db-4e38a8e04e0d/alpha-bank-unveils-a-new-identity-reflecting-its-transformation</loc>
+    <loc>https://bhubnetwork.com/article/93cbf183-97d2-4d92-97b4-1ec165d751ca/kotsovolos-more-opportunities-for-the-customer-this-black-friday</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/e54a2ba3-5d2f-4bda-9ec5-379e1360e836/alpha-bank-is-consolidating-its-strategic-presence-in-cyprus</loc>
+    <loc>https://bhubnetwork.com/article/2313c977-5e1a-443c-b7a9-1db2e7d79435/newsletter-october-2026</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/e24bb108-837a-459b-b76c-3f12a0a45dd0/q3-2026-results</loc>
+    <loc>https://bhubnetwork.com/article/4e5da948-8397-4bfe-990e-7f48bdb14104/a-taste-of-greece-at-beautyworld-middle-east-2026</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/d7496fec-cf45-4c6b-8c2d-60332be2c118/i-kiouroukoglou-the-greek-economy-is-showing-strong-investment-momentum-driven</loc>
+    <loc>https://bhubnetwork.com/article/9678263d-e1ff-49d3-bbc8-9b6ca963e77b/invitation-to-participate-in-a-questionnaire-for-the-evaluation-of-the</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/d2e4d524-5ca5-4638-9f44-60560ea20ee5/alpha-accelerated-alpha-bank-launches-its-strategy-for-2026-2030</loc>
+    <loc>https://bhubnetwork.com/article/dcb3ea36-4a40-4c40-a075-591db1ced741/rural-entrepreneurship-fund-process-begins-today-for-the-first-financial</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/74fd01d9-85e5-414f-b962-14ebe015a64c/announcement-purchase-of-own-shares-19-10-2026</loc>
+    <loc>https://bhubnetwork.com/article/3e4a3644-e123-4932-a4cd-1fb08f55fee0/greece-uae-new-prospects-for-investment-and-business-partnerships-at-the-4th</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/2ca8da06-2565-4f12-a8cd-a0ffbc8be998/announcement-purchase-of-own-shares-26-10-2026</loc>
+    <loc>https://bhubnetwork.com/article/7f77881d-8b6b-4da3-9970-f566444ac155/sir-stelios-haji-ioannou-s-easygroup-partners-with-greek-dotsoft-for-the</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/f95b510b-f051-422e-8b8f-9070b98de8f9/eurobank-invests-in-the-future-of-leadership-through-its-partnership-with-insead</loc>
+    <loc>https://bhubnetwork.com/article/29d2e0cc-df06-4046-a3d4-05bd3bd3a4be/urgent-announcement-aggressive-activity-against-siemens-s7-plc-controllers</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/64eae8a9-9350-4418-81a5-2312ab7442d0/third-quarter-2026-financial-results</loc>
+    <loc>https://bhubnetwork.com/article/a1d98e22-6386-4b79-bd37-c7787128a693/bank-lending-survey-bls-q3-2026</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/2c9e83b4-282d-4862-94f3-d4573829c680/announcement-eurobank-announces-completion-of-the-acquisition-of-eurolife-life</loc>
+    <loc>https://bhubnetwork.com/article/bc9c0a09-8a3e-4fb5-846f-e624daaa27a0/enterprise-greece-is-an-official-partner-of-the-rics-built-environment-european</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/20bbd7d3-ebff-4990-9f17-79db9d24632d/updated-financial-calendar-for-the-year-2026</loc>
+    <loc>https://bhubnetwork.com/article/d37a0e1a-1316-49f4-a1bf-1ae712c5a38a/algosystems-participates-as-a-platinum-sponsor-in-cisco-connect-2026-greece</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/8a723dd5-0da8-444c-9b19-14d6662a32a2/purchase-of-own-shares-02-11-2026</loc>
+    <loc>https://bhubnetwork.com/article/c3b1752f-11db-4ead-8fa2-ed278f68f6ee/successful-completion-of-spiti-mou-ii-over-14-100-fellow-citizens-found</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/9b52cdf2-86cf-4194-b5c2-28840d605086/announcement-purchase-of-own-shares-09-11-2026</loc>
+    <loc>https://bhubnetwork.com/article/a43072b8-3dd8-4b0a-984d-42015e71fc2d/new-eccc-call-96-million-for-projects-to-strengthen-cybersecurity-in-europe</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/d7f0427c-7335-4170-abfa-942bf85cc8eb/announcement-purchase-of-own-shares-16-11-2026</loc>
+    <loc>https://bhubnetwork.com/article/37846fab-d623-4d1f-9b1b-9afbb9b85716/modern-greek-agri-food-sector-takes-centre-stage-at-sial-paris-2026</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/f47f923d-8725-41ad-bbee-5376701b27de/announcement-date-and-time-of-2q26-results</loc>
+    <loc>https://bhubnetwork.com/article/26c4f15e-65ad-41d1-8b68-38ae9869f77a/bank-credit-and-deposits-september-2026</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/59c8b602-a5f3-4208-b029-9ed5588a8278/2q26-financial-results</loc>
+    <loc>https://bhubnetwork.com/article/e28fc2f9-d2af-48dd-b68c-4f7651c0626c/newsletter-october-2026</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/35d8ed7e-2ba5-423e-989d-38b40be71bb0/national-bank-of-greece-announces-the-signing-of-a-preliminary-agreement-with</loc>
+    <loc>https://bhubnetwork.com/article/15d69480-bfee-43f9-bde7-926e1914e1c0/nvisionist-ai-native-excellence-and-dual-use-innovation-at-the-defence-tech</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/02c316b3-4699-4d24-bede-bb617eb891ee/eib-and-national-bank-of-greece-join-forces-to-boost-financing-for-security-and</loc>
+    <loc>https://bhubnetwork.com/article/ad92d90e-9544-4870-b220-77a536219772/broad-call-for-active-action-in-cybersecurity-from-the-nca-at-the-90th-tif-nca</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/a4ee066d-966c-4907-b354-69921b1659f4/national-bank-of-greece-skroutz-leading-position-in-banking-innovation-with-the</loc>
+    <loc>https://bhubnetwork.com/article/f86e9fa7-ee44-4a05-a13e-8416f03295eb/publication-of-the-tiber-gr-national-implementation-document</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/3755564e-1c44-4407-a873-028edb9ca479/national-bank-of-greece-signs-definitive-agreements-on-the-strategic</loc>
+    <loc>https://bhubnetwork.com/article/c84db8d9-d01d-49d4-895e-2d6ccaf0166f/publication-monthly-agricultural-product-price-bulletin</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/5d8abf5f-db22-44e6-8c2d-2ee490959caa/exercise-of-call-option-with-respect-to-500-000-000-fixed-rate-resettable</loc>
+    <loc>https://bhubnetwork.com/article/01226b29-b405-42a6-9d70-ab254bdb94f2/replacement-of-the-announcement-on-services-producer-price-indices</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/022c7e16-8959-4ae9-abcc-5e2ffcf0c328/announcement-date-and-time-of-3q26-results</loc>
+    <loc>https://bhubnetwork.com/article/44a73771-1fc6-44d6-b636-56d7b71b3ebd/dynamic-presence-of-the-hellenic-development-bank-at-the-90th-tif-financing</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/b76c817e-2836-4c6a-a66c-865856e4a052/3q26-financial-results</loc>
+    <loc>https://bhubnetwork.com/article/7e51b0ed-8cb0-468b-87ae-6d3246d24cb5/sev-signed-the-sectoral-collective-labour-agreement-for-the-cement-industry-for</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://businesshub.cy/article/15730f04-3f99-4b79-9d3a-7a8de4bd7253/national-bank-of-greece-and-the-european-investment-fund-strengthen-their</loc>
+    <loc>https://bhubnetwork.com/article/50409a3b-7ddc-4f08-b655-37a7642631a8/first-ever-unified-national-pavilion-at-enlit-europe-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/5e99cbf0-e41a-44e3-b7b4-9f1149178403/discontinuation-of-the-survey-on-cultural-activities-of-the-ministry-of-culture</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/c86bafea-745f-450c-af3d-f0da6ae61071/publication-carbon-calculator-for-card-transactions</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d6cee188-c051-4e45-9e7e-11e1da338267/interest-rates-on-bank-deposits-and-loans-september-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/db5f2ab7-9163-4f5f-8e22-750598db0dcf/greek-technology-spreads-its-wings-at-gitex-global-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/e768e703-3348-4fa0-a0ca-7abaac8b4b83/invitation-to-free-and-certified-online-cybersecurity-courses-through-the</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/39b36257-781d-49f8-9b7b-820e52485eda/greek-pavilion-at-enlit-2026-innovation-and-the-future-of-energy-networks-take</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/e0ea001c-24d6-48c1-a3c2-722ea57aae28/innovative-greeks-talks-ep-38-dakis-joannou-entrepreneur-collector</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/40acac79-a24e-4327-b7a9-0a0d78b6d90f/publication-emergency-support-measures-for-those-affected-by-the-wildfires</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/879e0bb8-678b-44fc-919d-2c80294464fa/announcement-of-postponement-of-the-electronic-publication-the-greek-economy</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/6db20df7-f487-4a7d-bc1b-4aa59c7e9d2b/hellenic-development-bank-and-joist-join-forces-for-the-innovation-and-growth</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/032d62b4-492e-4234-b7ce-65afdd4b3f67/energy-sector-licencing-procedures-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/1d0b76c7-9d13-487a-a37a-caad8b6eb6a3/the-role-of-ncc-el-is-upgraded-mr-ioannis-panolias-assumes-the-duties-of-vice</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a34aa75c-70d8-439b-b15b-ba79e0e7f60f/dias-brings-iris-everywhere-now-available-across-all-physical-and-online-stores</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/37026e47-5af1-451c-a623-3a767a76bb44/publication-agricultural-products</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b9f0b6ee-7edc-4de4-9519-617eb1e241dc/announcement-of-the-start-of-the-10th-panhellenic-statistics-competition-by</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/6b147426-c11c-4922-a9e3-7070d0238aaf/online-discussion-between-students-from-the-konrad-adenauer-foundation-and-sev</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f1e2e5c3-26a1-4686-95d9-0c5e306e07fc/new-e-appointment-service-for-transactions-with-the-bank-of-greece</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/1d31a7f3-81ac-4569-b02c-d090fed246d1/candidate-application-evaluation-results-speciality-14-music-singing</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b11feb34-1071-4255-ab19-76911f03dc2c/dias-iris-everywhere-greece-becomes-the-first-country-in-europe-with-universal</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/363c1fd8-492f-4237-8fed-7f5a7863a669/black-friday-2026-at-public-the-offers-speak-to-you</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9f745006-b9e7-419e-811a-7a2207edd5bc/hellenic-development-bank-every-1-of-committed-resources-produces-3-58-of-gdp</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/cf53106d-55fb-4aa1-87f4-2081069572d6/high-severity-vulnerabilities-in-php-escalated-update-and-protection</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/213f2c91-bc19-4ce4-9630-4b07bab0feaa/procurement-pw-2026-515-call-for-competition</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a24521b7-054f-41dc-b3a4-e571d30fda96/fiscal-data-of-greece-were-published-without-reservations-for-the-33rd</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/67ac413d-2d7f-41d4-b5fd-cee10b59b356/the-ai-act-in-practice-informative-event-and-new-practical-guide-for-businesses</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/0477204f-32d7-4c03-8e55-276c7a0038ee/dias-payment-system-2025-review-dias-accelerates-the-economy</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/1190be81-62fc-416f-95f6-117a422bf219/cancellation-of-open-electronic-tender-1-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b8f61d36-8cbf-402a-aad3-f9033c36357b/the-ask-maps-feature-is-coming-to-europe</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f5d4069a-2ab2-4c43-b4e7-71a1fcc6a74f/replacement-of-tables-of-turnover-index-in-industry</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/95c7bd6a-6084-46b1-8277-ad6a5151fae3/dias-named-digital-banking-technology-provider-of-the-year-for-the-second</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f3e4a130-d7db-4ac5-95cf-b0d90f29009c/proposal-to-the-council-of-ministers-on-the-appointment-of-deputy-governor-in</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/3db7fb5c-9bd0-409c-828c-a968a0414b17/visa-and-the-national-cybersecurity-authority-join-forces-for-secure-shopping</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d15ec0c6-a1d9-4ee5-9b0b-bf5ad479cdd8/hellenic-development-bank-assumes-the-first-presidency-of-nefi</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/da8524fd-8749-45ee-b655-66766fd5a951/sev-proposals-for-an-eu-ets-that-supports-decarbonisation-and-industrial</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/5d9a0bc4-756a-4db2-8d1a-1cf3d9360865/13th-cycle-of-executive-seminars-new-skills-for-the-development-of-tourism</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/1c24f5c3-a0f7-4a81-ac43-050e401d5ce1/pylones-hellas-announces-the-results-of-the-seventh-annual-survey-the-state-of</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/813bbaac-b19f-41b3-a2d8-855f5d926837/iris-payments-connects-greece-with-europe-through-europa-european-payments</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/718eda0a-1c8f-4b86-ad76-c6728c66d07e/ranking-and-exclusion-tables-of-the-proclamation-for-filling-directorate</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/89ef598a-386f-466f-884e-0c00d387f9c0/piraeus-group-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/ff458d5e-9920-42be-9f41-57c7553ca6b7/welcome-speech-by-yannis-stournaras-governor-of-the-bank-of-the-greece-at-the</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/6de2d4e9-6771-4f17-9abf-0ead2097b9fb/greece-and-saudi-arabia-strengthen-their-cooperation-in-the-field-of</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/7ead4b0f-9945-4dec-a138-8234ff46f72d/from-national-success-to-european-connectivity-dias-expands-instant-payments</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/ba59dbe2-4196-446a-a92d-8497a4148362/international-recognition-of-the-greek-economic-experience-yannis-stournaras-at</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/dfc9af57-d54f-4ce8-b2f2-46132c1313ba/greek-tourism-from-strong-performance-to-creating-greater-value</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/fccafa77-5f83-4c14-9ebf-ac215e8e9957/sev-pay-equality-requires-clear-rules-and-practical-support-for-businesses</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/99648b05-6c67-49c7-88f0-863bfc2fbe4b/deloitte-c-suite-sustainability-survey-2026-greek-businesses-are-investing-in</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/43c785f9-572d-420f-a7df-f671ab9d74aa/greek-national-pavilion-at-enlit-2026-international-electricity</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/e22f978d-b0a9-4580-b1a5-6c4fd0ab56a2/hellenic-development-bank-and-envolve-entrepreneurship-join-forces-to</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b8997dde-828f-4b89-9252-4342b93e4f72/dias-7-out-of-10-instant-payments-in-greece-executed-via-iris-payments-in-2025</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/4b16e57c-343c-43be-b106-6c3e509bd9cf/speech-and-presentation-by-the-bank-of-greece-governor-yannis-stournaras-at-the</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b9e5fcba-58a0-4483-a5c4-5198de5dbcbf/sme-cyber-hygiene-manual-17-steps-for-the-digital-shielding-of-small-and-medium</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/0b909cec-d3b3-4aae-9184-6cdf6a93aceb/announcement-for-the-renaming-of-bankruptcy-statistics-2025</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/204f3dd9-7aa6-4c6c-9a85-4933107ddeb0/seven-greek-enterprises-join-enterprise-greece-at-the-international</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/411e10b1-fd92-49aa-a0a1-9927af996e04/announcement-notification-of-important-changes-concerning-voting-rights-john-a</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/3eb5d695-ce0d-4671-8ce3-45d332c58cc0/iris-payments-7-lucky-winners-every-month-to-receive-1-300-in-supermarket</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a750817b-12fc-48f0-9c70-9c3d2afe85e6/information-document-pursuant-to-article-1-par-5-h-of-regulation-eu-2017</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/ea26a7f1-0b81-4082-8d0f-8ef13b02e3e9/listing-for-trading-of-new-shares-derived-from-a-share-capital-increase</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/0c42d794-b724-49d2-afc4-027e41d3b3c1/announcement-of-regulated-information-regarding-the-bank-s-share-capital-and</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9600b2ad-795f-4655-8c1f-6b139951dcac/announcement-purchase-of-own-shares-09-11-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/5dbde1dc-e4a7-4c22-b27c-0db9313a4cf6/announcement-purchase-of-own-shares-16-11-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/41767a70-9c5c-4672-b25a-3e1876eb78a4/alpha-bank-s-a-announces-the-completion-of-the-acquisition-of-altius-insurance</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/99ae7ccc-f192-4d73-9ec7-a22beb7544b5/update-of-the-2026-financial-calendar</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/82f6fa58-8fe4-4741-b74c-fcbdac729e25/nine-month-2026-results-announcement-scheduled-for-october-30-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/1371a048-3196-4de1-8bcf-c23be8197456/the-alpha-bank-numismatic-collection-visits-cyprus-for-the-first-time</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/14676099-f921-4328-a9cf-0fe42890ceae/l-papagaryfallou-at-the-banktech-conference-2026-scale-new-capabilities-and</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d78efd6c-35a7-454a-81db-4e38a8e04e0d/alpha-bank-unveils-a-new-identity-reflecting-its-transformation</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/e54a2ba3-5d2f-4bda-9ec5-379e1360e836/alpha-bank-is-consolidating-its-strategic-presence-in-cyprus</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/e24bb108-837a-459b-b76c-3f12a0a45dd0/q3-2026-results</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d7496fec-cf45-4c6b-8c2d-60332be2c118/i-kiouroukoglou-the-greek-economy-is-showing-strong-investment-momentum-driven</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d2e4d524-5ca5-4638-9f44-60560ea20ee5/alpha-accelerated-alpha-bank-launches-its-strategy-for-2026-2030</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/74fd01d9-85e5-414f-b962-14ebe015a64c/announcement-purchase-of-own-shares-19-10-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/2ca8da06-2565-4f12-a8cd-a0ffbc8be998/announcement-purchase-of-own-shares-26-10-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f95b510b-f051-422e-8b8f-9070b98de8f9/eurobank-invests-in-the-future-of-leadership-through-its-partnership-with-insead</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/64eae8a9-9350-4418-81a5-2312ab7442d0/third-quarter-2026-financial-results</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/2c9e83b4-282d-4862-94f3-d4573829c680/announcement-eurobank-announces-completion-of-the-acquisition-of-eurolife-life</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/20bbd7d3-ebff-4990-9f17-79db9d24632d/updated-financial-calendar-for-the-year-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/8a723dd5-0da8-444c-9b19-14d6662a32a2/purchase-of-own-shares-02-11-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/9b52cdf2-86cf-4194-b5c2-28840d605086/announcement-purchase-of-own-shares-09-11-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/d7f0427c-7335-4170-abfa-942bf85cc8eb/announcement-purchase-of-own-shares-16-11-2026</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/f47f923d-8725-41ad-bbee-5376701b27de/announcement-date-and-time-of-2q26-results</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/59c8b602-a5f3-4208-b029-9ed5588a8278/2q26-financial-results</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/35d8ed7e-2ba5-423e-989d-38b40be71bb0/national-bank-of-greece-announces-the-signing-of-a-preliminary-agreement-with</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/02c316b3-4699-4d24-bede-bb617eb891ee/eib-and-national-bank-of-greece-join-forces-to-boost-financing-for-security-and</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/a4ee066d-966c-4907-b354-69921b1659f4/national-bank-of-greece-skroutz-leading-position-in-banking-innovation-with-the</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/3755564e-1c44-4407-a873-028edb9ca479/national-bank-of-greece-signs-definitive-agreements-on-the-strategic</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/5d8abf5f-db22-44e6-8c2d-2ee490959caa/exercise-of-call-option-with-respect-to-500-000-000-fixed-rate-resettable</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/022c7e16-8959-4ae9-abcc-5e2ffcf0c328/announcement-date-and-time-of-3q26-results</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/b76c817e-2836-4c6a-a66c-865856e4a052/3q26-financial-results</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bhubnetwork.com/article/15730f04-3f99-4b79-9d3a-7a8de4bd7253/national-bank-of-greece-and-the-european-investment-fund-strengthen-their</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
